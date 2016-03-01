@@ -392,40 +392,7 @@ This is used to handle the case where a previous brake command was not revoked b
 >TriggerSBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</StateMachine><EnterAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Enter action"
- Guid="baab8185-f07d-4a04-8ae1-e03968fe1ad9"
->
-<Comment>Select the supervision status when Ceiling speed monitoring is initiated.</Comment>
-<SubRules></SubRules>
-</Rule></EnterAction>
-<LeaveAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Leave action"
- Guid="be891b66-d350-4b19-8d9e-d7c4bccc7fa8"
->
-<Comment>Indicates to the JRU that the monitoring changed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Leave action"
- Guid="7baa5fae-1499-4044-8fa2-897c5be15e82"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="71a5fde1-598a-4fbc-adc1-ac8823fd6473"
->JRU.JRU1.SpeedAndDistanceSupervisionTypeChanged &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></LeaveAction>
-</State><State
+</StateMachine></State><State
  X="560"
  Y="330"
  Width="100"
@@ -771,45 +738,7 @@ OR TargetSpeedMonitoring.SupervisionStatus.r3( target)
 >TargetSpeedMonitoring.PreviousDisplayedTarget &lt;-  Display.MRDT()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</StateMachine><EnterAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Enter action"
- Guid="188bcc4f-1b2d-4ab0-a253-b360c5bf3add"
->
-<ReqRef
- Id="e0714dd3-9891-467d-9584-cfde98bcc4fc"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6946be91-eaa6-4ef7-b519-9e931ed637c0"
->
-</ReqRef><Comment>Select the supervision status when Target speed monitoring is initiated.</Comment>
-<SubRules></SubRules>
-</Rule></EnterAction>
-<LeaveAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Leave action"
- Guid="5f94ad4a-4721-4108-aab2-27b5758953e8"
->
-<Comment>Indicates to the JRU that the monitoring changed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Leave action"
- Guid="c381aa52-44c1-4339-a2e9-e16690e9e08f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="99cfef32-2db0-4b56-bf19-0e91ceb84880"
->JRU.JRU1.SpeedAndDistanceSupervisionTypeChanged &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></LeaveAction>
-</State><State
+</StateMachine></State><State
  X="560"
  Y="70"
  Width="100"
@@ -879,70 +808,7 @@ This is used to handle the case where a previous brake command was not revoked b
 >SpeedAndDistanceMonitoring.TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</StateMachine><EnterAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Enter action"
- Guid="9fc4baf1-6184-4e92-8a28-3aed9784acea"
->
-<ReqRef
- Id="452e7369-8988-4a04-9d16-d7e769201a71"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0ee1a16d-3d29-4375-b728-6b51d3c9d54a"
->
-</ReqRef><ReqRef
- Id="dce4a4ca-1d9d-4bec-bbd0-b82a791c93bb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e4694e3e-6a91-41bd-85be-32156beb3420"
->
-</ReqRef><ReqRef
- Id="cc58f785-b8ad-4070-9b9a-b6ec8e0f6e2a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6021a7a0-a964-4a77-bf4e-a6fa9c7b114b"
->
-</ReqRef><ReqRef
- Id="b1282fd5-cab1-48c7-bdf8-26de1ac6a0f5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c92469b2-fc26-4fe4-986f-5cc5d2673547"
->
-</ReqRef><ReqRef
- Id="896f9fb5-9ef6-459b-b93e-c681a1ec59d4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8d655bde-2884-4acd-9110-410bd58ce492"
->
-</ReqRef><ReqRef
- Id="f71170cc-f625-404a-93f9-5cb4b527f0d1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="632c978b-4dc5-4df1-a1ce-15003f705620"
->
-</ReqRef><Comment>Select the supervision status when Release speed monitoring is initiated.</Comment>
-<SubRules></SubRules>
-</Rule></EnterAction>
-<LeaveAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Leave action"
- Guid="91880f7e-475c-4cfc-bb01-f24f66ae0fb7"
->
-<Comment>Indicates to the JRU that the monitoring changed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Leave action"
- Guid="8715927c-480d-4a7e-be83-e4669b9d13b8"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="c33a8f0b-d6b4-468c-a30e-601b26499fae"
->JRU.JRU1.SpeedAndDistanceSupervisionTypeChanged &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></LeaveAction>
-</State><State
+</StateMachine></State><State
  X="70"
  Y="70"
  Width="100"
@@ -956,30 +822,7 @@ This is used to handle the case where a previous brake command was not revoked b
  Implemented="TRUE"
  Guid="98ea433a-587b-40e7-8a72-c66ae4c4b16d"
 >
-</StateMachine><LeaveAction>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Leave action"
- Guid="6ca89d14-fa3d-45c8-8759-a3a6068101ec"
->
-<Comment>Indicates to the JRU that the monitoring changed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Leave action"
- Guid="ca431c11-db0d-4153-bff3-01d864a4e922"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="82058584-29de-45da-b2ee-c7b67ac12c96"
->JRU.JRU1.SpeedAndDistanceSupervisionTypeChanged &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></LeaveAction>
-</State></States>
+</StateMachine></State></States>
 </StateMachine></StateMachines>
 <Functions>
 <Function

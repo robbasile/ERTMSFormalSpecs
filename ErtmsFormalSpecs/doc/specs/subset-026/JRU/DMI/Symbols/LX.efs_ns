@@ -1,0 +1,51 @@
+<NameSpace
+ X="290"
+ Y="130"
+ Width="100"
+ Height="50"
+ Name="LX"
+ Guid="04a1fc70-9da7-4137-9ba8-f2c72b648c26"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LX01Activated"
+ Guid="5d58df7e-73de-435f-a1e8-700b86dbc3b4"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e4dc08c-406e-4908-aa2c-20934f4a632a"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="05c15cee-526a-4948-bfe9-ba715b01121f"
+>
+</ReqRef><Comment>Indicates if the symbol LX01 (corresponding to LX not protected) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="3b7fdacf-accb-4149-983c-a6e416c84f71"
+>
+<PreConditions>
+<PreCondition
+ Guid="98ec8acd-717a-465d-90c9-2f7246634b26"
+>DMI.MasterDMI().Out_LXStatusNotProtected.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="340cad2e-0c25-46a2-a812-874c9be29e3a"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

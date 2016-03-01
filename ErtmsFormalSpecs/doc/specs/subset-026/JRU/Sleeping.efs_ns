@@ -1,0 +1,222 @@
+<NameSpace
+ X="140"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="Sleeping"
+ Guid="0b47b6c1-9be4-4217-bbd6-a8223345221f"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.SLEEPING_INPUT.Message"
+ Default=""
+ X="30"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="b2f03835-9334-43b8-a0c0-d81e11e6d32b"
+>
+<ReqRef
+ Id="6f2bb22b-a705-4170-8cc3-7a555b3e22ff"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1cba9d79-9224-4f88-8655-3c9915c26b8e"
+>
+</ReqRef><ReqRef
+ Id="a5f0656f-ef95-445b-8b44-65bb3f7d4960"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="53a9dd83-5872-4d36-a66b-c567e3aaa7a1"
+>
+</ReqRef><ReqRef
+ Id="78be0579-c844-4e19-86b2-33b5020846e4"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5d28b5fb-74d4-4fbe-987d-2dc82d4225d6"
+>
+</ReqRef><Comment>Creates the JRU SLEEPING_INPUT message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9279cbc1-cd35-4966-ab2a-80bdf57ecbe1"
+>
+<Expression>Messages.JRU.MESSAGE.SLEEPING_INPUT.Message {
+    HEADER =&gt; JRU.Header.CreateHeader(30),
+M_SLEEPING =&gt; GetStatus()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="f4a9d3dd-a17a-4f6c-b7e6-0fd0ab6e4188"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8be8f80b-fe34-4d2f-9c6c-aca8c868337c"
+>
+</ReqRef><ReqRef
+ Id="9a6a7946-fcd0-4097-be45-9a8168506afd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1a2e3f38-0f86-4139-afa8-b0614a5be3fc"
+>
+</ReqRef><Comment>Indicates whether the JRU SLEEPING_INPUT should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="3458c62d-5caf-465c-a2c9-5553475fbb30"
+>
+<PreConditions>
+<PreCondition
+ Guid="11739a91-3f58-40d3-bc70-80c04e35e747"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Changed"
+ Guid="30ba8e6b-4514-4746-a8a6-f49623762033"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_SLEEPING"
+ Default=""
+ X="140"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="e4f72bfe-3911-416a-85d4-b4b94fba75a2"
+>
+<ReqRef
+ Id="78be0579-c844-4e19-86b2-33b5020846e4"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="59845138-0832-4eb1-9628-9fa8b5037a42"
+>
+</ReqRef><ReqRef
+ Id="9a6a7946-fcd0-4097-be45-9a8168506afd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b9002aef-8032-4a54-ac59-7f09491b8386"
+>
+</ReqRef><Comment>Retrieves the SLEEPING status from the JRU</Comment>
+<Cases>
+<Case
+ Name="SleepingNotRequested"
+ Guid="17501642-2399-4bb2-8cc1-5f76c3057053"
+>
+<PreConditions>
+<PreCondition
+ Guid="d12c12c5-3231-4e41-9f95-daf0caa55278"
+>TIU.SleepingRequested</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SLEEPING.Sleeping_not_requested</Expression>
+</Case><Case
+ Name="Requested"
+ Guid="fd2b4c2c-9d05-413a-ae30-24842300fe3b"
+>
+<Expression>Messages.JRU.M_SLEEPING.Sleeping_requested</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="30"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="cc8042e7-7796-4e31-9706-6750e0971f6a"
+>
+<ReqRef
+ Id="9a6a7946-fcd0-4097-be45-9a8168506afd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3a8cbf37-13e5-4434-a05a-9ed7a99b6e54"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="47d444ee-0d45-45aa-bc6e-73199377e2e9"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="d48647fe-eddd-4115-b119-00b934d7384d"
+>
+<PreConditions>
+<PreCondition
+ Guid="273e3f53-30b9-4db6-98d5-46079e783538"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7f939d03-1a77-40d5-9b15-97a077ce65db"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_SLEEPING"
+ DefaultValue="Messages.JRU.M_SLEEPING.Sleeping_not_requested"
+ VariableMode="Internal"
+ X="30"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="bed69ed9-e91e-4bca-980c-d74d818efc92"
+>
+<ReqRef
+ Id="9a6a7946-fcd0-4097-be45-9a8168506afd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6f521ea3-570b-4f94-97e6-e95a4c6e38e3"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="140"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="d667ad58-c665-4125-90e1-03ddcac298b9"
+>
+<ReqRef
+ Id="9a6a7946-fcd0-4097-be45-9a8168506afd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3a678808-1322-4c3c-adff-22bdbe227b66"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="01726484-328f-45ae-869b-7b02a503abd9"
+>
+<PreConditions>
+<PreCondition
+ Guid="14c06a7a-0e86-41bb-99ca-b3f59a528f8c"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c5538f10-14f4-4492-a17c-12d2029aab6e"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

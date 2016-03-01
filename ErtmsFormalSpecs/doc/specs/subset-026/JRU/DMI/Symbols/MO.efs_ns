@@ -1,0 +1,877 @@
+<NameSpace
+ X="400"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="MO"
+ Guid="2f8671a9-01bd-4dc2-86da-2f45d034e778"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO01Activated"
+ Guid="5305a401-05e3-4013-8643-0d2ab56ea2f9"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b23d2ef4-80a6-4af3-aa0f-61a8e19e8c47"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b12ca9b1-6ba8-4b91-a13b-688c27725b69"
+>
+</ReqRef><Comment>Indicates if the symbol MO01 (corresponding to Shunting mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="1bbde342-3f52-4037-a0e5-21578ddd0ca3"
+>
+<PreConditions>
+<PreCondition
+ Guid="fdef80eb-a88f-4f9f-b232-05661fa912d5"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="52a93b9b-d0ca-4b8f-a0d7-e515a8a3ac6a"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.SH</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="04de7f4f-3a1d-48dc-92b7-d48119c37c4a"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO02Activated"
+ Guid="eaa1b330-005a-4910-9c8c-dbb2626162da"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="946d99a7-a3fe-4514-b805-88e0f2846d31"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="520a43a9-234b-4429-be44-1d58eabb1fd4"
+>
+</ReqRef><Comment>Indicates if the symbol MO02 (corresponding to acknowledgement for Shunting) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="9bf3e85b-14ae-480b-8f61-0977ccd41e2d"
+>
+<PreConditions>
+<PreCondition
+ Guid="fb507f52-5333-4e23-a301-acd6bf0f2242"
+>DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ead17d71-82c5-4f3f-8146-a957bc801f38"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO03Activated"
+ Guid="9d021faa-a57e-4f1c-86c8-eede97aa2a91"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4942047-0378-41a5-9604-db9fdab254d8"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7980db05-00a1-4b15-bad0-4f3f61c6b901"
+>
+</ReqRef><Comment>Indicates if the symbol MO03 (corresponding to Override EOA is active) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="2a90fe74-f93c-47af-bdd7-7e128e25c71c"
+>
+<PreConditions>
+<PreCondition
+ Guid="51a716c8-c02e-4103-9f91-50e4921b42b9"
+>DMI.MasterDMI().Out_OverrideStatus.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="b64cd1ad-bdea-4776-bddc-3f961218a257"
+>DMI.MasterDMI().Out_OverrideStatus.OverrideStatus == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="af2b2943-b5a5-40e3-a3ba-5e02dfb49667"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO04Activated"
+ Guid="8199539a-efe6-476e-9dc7-3af2737d45e7"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="addd4a59-481d-4c0e-a878-a2095b1240e9"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7dcb7881-82cf-4683-b400-32009cc23f9c"
+>
+</ReqRef><Comment>Indicates if the symbol MO04 (corresponding to Trip mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="1526624b-e377-4acb-9248-a05a25413d56"
+>
+<PreConditions>
+<PreCondition
+ Guid="35e61f30-22ae-4e57-81e2-a0bf34d7c795"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="8e879d8d-004a-4d2b-9c64-55dfa7135814"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.TR</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="23a05488-66f2-4ca2-bef1-2e2353f6efe1"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO05Activated"
+ Guid="211dd166-d2df-4f24-a076-9db0cccacfec"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a8cc33b1-a474-4514-80cd-9163098ef1d6"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9277ab42-cddf-4d19-9fc3-5663e851ab66"
+>
+</ReqRef><Comment>Indicates if the symbol MO05 (corresponding to acknowledgement for Trip) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="75958a98-1832-48a9-862a-95647dceb8d1"
+>
+<PreConditions>
+<PreCondition
+ Guid="e3362342-8db8-43f7-a814-e5f78cbe6641"
+>DMI.MasterDMI().In_AcknOfTrainTrip.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="10164bb6-226b-466b-9cc1-14773742e6b6"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO06Activated"
+ Guid="3116b559-9626-41eb-90e9-e06527f196e2"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5b902b3-30e3-4604-9f67-77bc807a1b24"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="38573f02-d0f9-4a6e-817e-1a3bf4b437ac"
+>
+</ReqRef><Comment>Indicates if the symbol MO06 (corresponding to Post Trip mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="91264e12-ab05-4f50-a22f-c33d5728f913"
+>
+<PreConditions>
+<PreCondition
+ Guid="a69bfdfe-ac34-4c26-9d3b-e17569c44e10"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="30d73b50-fe56-4a20-bf51-4ce4515b0a75"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.PT</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8666e8be-14ae-4799-ac12-33d8677b6f41"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO07Activated"
+ Guid="8f0f0391-db23-4e7b-854c-d28d0321d510"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fb21f769-103e-4775-99fa-b85066eb335b"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="62390211-c0dd-4cab-8d97-e42aea5024c4"
+>
+</ReqRef><Comment>Indicates if the symbol MO07 (corresponding to On Sight mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="11f36200-d02e-47f4-96af-202e690a6dab"
+>
+<PreConditions>
+<PreCondition
+ Guid="932fbcdd-6d84-4b4a-88ca-2ca09b0291ba"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="96737ab0-eba4-42d9-b401-b1398b5a0e9c"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.OS</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e7cf130b-d7af-4eb4-b15c-ac9518463684"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO08Activated"
+ Guid="ca8540e4-392e-48b5-87e2-815ce8a63309"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0fc1d931-5fbd-40c9-a8f2-5b6a51b5eb6d"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a1b674c9-71d1-438b-a304-b7b7297d18a8"
+>
+</ReqRef><Comment>Indicates if the symbol MO08 (corresponding to acknowledgement for On Sight) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="c2af6c7f-aafb-4236-80ee-48f062f16001"
+>
+<PreConditions>
+<PreCondition
+ Guid="5162095c-1fc4-4197-bb97-2022017ac7d5"
+>DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="59861a01-1ff7-4b19-846a-fc0ce9cd1576"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO09Activated"
+ Guid="dbfaac45-4693-435a-8ee9-76b7b2b34ede"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="841d40f2-0129-40b1-b933-da65436d64b1"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ac3a1bae-067b-49d5-97ae-277e7104ed5c"
+>
+</ReqRef><Comment>Indicates if the symbol MO09 (corresponding to Staff Responsible mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="5b38a430-559f-4d01-86ca-6257538e7354"
+>
+<PreConditions>
+<PreCondition
+ Guid="48f1d600-05a3-4989-a521-2cea40fcb7c4"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="a12a3392-1bcd-44fe-96b3-5b608801e5c9"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.SR</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e5398c4e-2a5e-4667-800c-16be09b168d8"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO10Activated"
+ Guid="82843f9b-e5e5-48ec-bee9-d691736cdf27"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5983d438-1b1b-4f0f-9d90-7b757f124cfd"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c054b2ab-71c2-4b45-8ca1-341819bb72e8"
+>
+</ReqRef><Comment>Indicates if the symbol MO10 (corresponding to acknowledgement for Staff Responsible) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="26dc027b-fa94-4a60-8b17-bbb161580999"
+>
+<PreConditions>
+<PreCondition
+ Guid="5e059412-9ae3-4489-a12b-aae8319dfa63"
+>DMI.MasterDMI().In_AcknOfSRMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Othrewise"
+ Guid="33514ad7-32f2-4de0-b098-c55819cfc4cf"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO11Activated"
+ Guid="30af0a98-03de-4960-8247-d3e75cbdc938"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="22990e74-298b-4825-b35b-272f1f0260f8"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c3abf193-5624-41d3-bbf8-42cd41a60ebf"
+>
+</ReqRef><Comment>Indicates if the symbol MO11 (corresponding to Full Supervision mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="8b13dd07-3c4c-4fcc-83c1-23c9579bedd2"
+>
+<PreConditions>
+<PreCondition
+ Guid="614a7c56-20cf-4f51-8617-370404d245e6"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="abcb45ac-c84a-464a-8a3a-1a5e6d1a37d9"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.FS</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d6871a3f-b498-456e-a593-410b92da9361"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO12Activated"
+ Guid="629c52b0-c0b9-4561-9a1e-f74d0a2663f5"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="45338b6e-329d-4bfc-b225-77da024d63a6"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b5429b43-a6de-4b23-8a20-70f46241fe2a"
+>
+</ReqRef><Comment>Indicates if the symbol MO12 (corresponding to Non Leading mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="4adeabf1-6d89-48a6-87cf-d72d2cc5eb0e"
+>
+<PreConditions>
+<PreCondition
+ Guid="aa19c70d-546d-45d2-94d2-75bd3d81f8ed"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="72519e50-24d9-48d8-a99f-e9b5b41b756b"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.NL</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b91b5ce8-aa8f-446f-8fed-e46c1b080d82"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO13Activated"
+ Guid="cc5787d9-02f4-43b8-b0b8-f0d4e5dafa13"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b90e0df4-a68c-47ba-9f2c-3194c2c1ae8a"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="56ad4aae-fb4c-4bc6-97a4-da63176fdc47"
+>
+</ReqRef><Comment>Indicates if the symbol MO13 (corresponding to Stand By mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="dd193d36-1157-412b-bff1-3f97f02b21ef"
+>
+<PreConditions>
+<PreCondition
+ Guid="d1c791f3-75ad-4c12-8046-ca1f8d5e039d"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="fa5b1cfe-ef4e-4057-8210-3d3bfc918ef8"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.SB</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="179a098c-bbf2-484e-8103-1888c75b8cc8"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO14Activated"
+ Guid="e4be2ffc-8306-4bfa-b92b-d132666b8eda"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="32363b59-7de5-4a43-8383-e619f205979e"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="04871020-e181-4c24-b2d8-fc61a6c8f7dd"
+>
+</ReqRef><Comment>Indicates if the symbol MO14 (corresponding to Reversing mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="292546b9-ad6f-41bc-b8c4-103d2a98dd6d"
+>
+<PreConditions>
+<PreCondition
+ Guid="bc94f1e5-5b7c-4b0e-bd63-3736558ecc87"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="1cb60642-7aa0-41ab-abf5-d4a1dba67656"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.RV</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="1b77ba6f-22a0-4c2e-8725-11cbabecd69d"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO15Activated"
+ Guid="23077321-a1c4-42bb-b58c-01dab5bc67ac"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1aaa916-832f-4501-9594-af78971b5c47"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c556fccf-16e2-4a13-a8e2-d065024bda35"
+>
+</ReqRef><Comment>Indicates if the symbol MO15 (corresponding to acknowledgement for Reversing) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="184875d9-5fe5-459c-a013-73e6e6250eb2"
+>
+<PreConditions>
+<PreCondition
+ Guid="41084600-48d2-46df-8e97-87ed0fc9b066"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ca0a8017-5bf8-446a-971b-d976043bbfb7"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO16Activated"
+ Guid="7fe8afd4-fcba-424e-8d90-d62721ff8bf9"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="de6f9117-2742-496b-80e9-babbea528890"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ea489df9-a3a5-4410-bff1-8ff370c7cd6d"
+>
+</ReqRef><Comment>Indicates if the symbol MO16 (corresponding to Unfitted mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="55d28ab4-73ff-4649-8d25-966ed5f98e02"
+>
+<PreConditions>
+<PreCondition
+ Guid="8d8657da-d64c-40a6-a628-f07b1ca96cc4"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="e58cca10-d107-4fef-89d6-d3006b5928a2"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.UN</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8bbb5f38-d81f-4531-a167-9fa84ea1edf2"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO17Activated"
+ Guid="888bee65-7d7f-43ea-88ec-95d71c439ba7"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0550942-9d6b-44ea-b4ba-a6d7af261d85"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e38fd50b-a415-4075-a882-0063fb800b0c"
+>
+</ReqRef><Comment>Indicates if the symbol MO17 (corresponding to acknowledgement for Unfitted) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="06130394-1ed4-4d43-8680-a9ac37ecfef2"
+>
+<PreConditions>
+<PreCondition
+ Guid="a06c4a4a-5e09-46f5-9634-5e4716808b8d"
+>DMI.MasterDMI().In_AcknOfUNMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d903ec6e-e692-4d7a-aff8-b577fe1ab78d"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO18Activated"
+ Guid="8ccf1a08-3a68-4547-b81f-f09f4a1052a9"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0fa3c8b8-6d54-477e-967f-4fc4516f269b"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0a048208-274b-49e4-b372-10461cb2f349"
+>
+</ReqRef><Comment>Indicates if the symbol MO18 (corresponding to System Failure mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="a0e9d657-a166-47ea-b41b-b39aaa36a5a7"
+>
+<PreConditions>
+<PreCondition
+ Guid="1b234800-c56f-472d-8d52-f389ca344ac3"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="a7130bb7-69f1-4af3-9a03-cc7a5ea6de93"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.SF</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5ae36bde-c178-40f2-ae6d-cc2df9f8371a"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO19Activated"
+ Guid="d3ead2c5-f28d-41d0-a0de-ad9a50abcc10"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="07a40582-ee56-448d-93d9-c2da7de85043"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c39bdd90-fde6-439a-b923-17a816fa60ea"
+>
+</ReqRef><Comment>Indicates if the symbol MO19 (corresponding to National System mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="00570dda-a7ba-4df3-ac79-1e51908235df"
+>
+<PreConditions>
+<PreCondition
+ Guid="9d22b19b-89e3-4fb4-b558-df579c5a6413"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="caf4d1f4-8fd8-4495-a5db-590ab836ac0d"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.SN</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="342ed1e2-7ecd-4e79-b04b-b3e36a1f2fab"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO20Activated"
+ Guid="25c634d3-242d-4b4b-9881-fbe327321aec"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a0a69b09-db2c-4e1a-8a9b-a24c5683fd0e"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="20c7c02f-6973-418b-b433-72a640780d8a"
+>
+</ReqRef><Comment>Indicates if the symbol MO20 (corresponding to acknowledgement for National System) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="cd7183fd-6c7c-4679-a270-c96b8ef7552a"
+>
+<PreConditions>
+<PreCondition
+ Guid="ef38aff0-5468-4606-bcb2-ccc03af3660a"
+>DMI.MasterDMI().In_AcknOfSNMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8e3ce5a0-887a-4508-91c5-44717e2da848"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO21Activated"
+ Guid="c9a08268-7a09-4777-abb6-6385c5f9ff20"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f5ccb234-5b9e-4abd-8be2-340ec4ee7c95"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8ce14a4a-6ed8-46c0-8eec-709bc0cf5917"
+>
+</ReqRef><Comment>Indicates if the symbol MO21 (corresponding to Limited Supervision mode) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="23fd76cf-71af-48f4-9432-3d5dcd129bec"
+>
+<PreConditions>
+<PreCondition
+ Guid="068bac5e-6f73-4198-98a3-94c9ac84876c"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="3f63e725-341d-45f3-b945-296bb2c87063"
+>DMI.MasterDMI().Out_ErtmsEtcsMode.Mode == ModeEnum.LS</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="85aaefcb-c6df-46cc-83b4-d1de6b9c7664"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MO22Activated"
+ Guid="0f3483cc-d0d0-42c9-b85a-a600cf97f359"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2780be8-ffaf-4f8e-8267-a24270b8e572"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5e2d750d-dc3d-4816-b933-551b71d032f6"
+>
+</ReqRef><Comment>Indicates if the symbol MO22 (corresponding to acknowledgement for Limited Supervision) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="fbf14f9a-f252-4513-9a4e-abe19b11c8d1"
+>
+<PreConditions>
+<PreCondition
+ Guid="6c8a1f19-5d74-4943-952b-feb4e8cde704"
+>DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c5b97b25-88f3-460f-8942-9fffd4630f5d"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

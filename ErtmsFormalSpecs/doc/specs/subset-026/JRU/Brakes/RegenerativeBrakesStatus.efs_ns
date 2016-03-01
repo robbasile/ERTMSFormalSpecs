@@ -1,0 +1,212 @@
+<NameSpace
+ X="210"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="RegenerativeBrakesStatus"
+ Guid="d84e0e6e-9e19-4efb-8006-57446ea1af63"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.REGENERATIVE_BRAKE_STATUS.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="9e3e3701-81f5-4b06-8f6d-5f64390d6328"
+>
+<ReqRef
+ Id="cc8b6072-8727-4c6b-98d3-e4f416c8efcc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2f24c89d-4d16-48a6-ad08-46c674660f30"
+>
+</ReqRef><ReqRef
+ Id="b6d08d04-d824-4a22-8f42-9ae1576ee296"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ce861d7f-4fcb-4cf3-81c2-c71defd06249"
+>
+</ReqRef><Comment>Creates the REGENERATIVE_BRAKE_STATUS Message of the JRU</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c5ab1c8b-e1b9-4b1a-bd8d-57e1d767fa24"
+>
+<Expression>Messages.JRU.MESSAGE.REGENERATIVE_BRAKE_STATUS.Message{
+    HEADER =&gt; JRU.Header.CreateHeader(33),
+    M_RB_STATUS =&gt; GetStatus()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_RB_STATUS"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="b802e62d-1f7c-4434-8e56-ae456c0a96e5"
+>
+<ReqRef
+ Id="de020c80-db0c-45db-855e-ae27cffc7437"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3f07757f-58cc-43cc-b2c5-4d569319914f"
+>
+</ReqRef><Comment>Retrieved the REGENERATIVE_BRAKE status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Active"
+ Guid="b9179eb4-8f5e-4e3f-828b-49c142149569"
+>
+<PreConditions>
+<PreCondition
+ Guid="46aa8461-c646-41a6-8f03-5997a7f2e9ab"
+>TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_RB_STATUS.Active</Expression>
+</Case><Case
+ Name="NotActive"
+ Guid="11c613a3-adc6-42a5-a33f-b5ecc0936760"
+>
+<Expression>Messages.JRU.M_RB_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="7c497b9d-e45b-4ab4-967b-a0badb0ff8f4"
+>
+<ReqRef
+ Id="5373d260-e440-4af0-a97e-0195115ecf5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="538074ba-d307-4d54-8526-89965b347f1c"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="15706269-9bee-4441-bf1d-edb539cc3daf"
+>
+</ReqRef><Comment>Indicates whether the REGENERATIVE_BRAKE_STATUS JRU Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="a79b4ab9-75a0-4d9e-b4f4-950da81fa1a0"
+>
+<PreConditions>
+<PreCondition
+ Guid="6bdfde5b-f0b8-4326-a535-44e469344d50"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="StatusChanged"
+ Guid="126a24bd-89e5-45b6-a838-a9cd7ae57865"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="e9f0ca6d-d390-4678-93f9-d09aa2a34062"
+>
+<ReqRef
+ Id="5373d260-e440-4af0-a97e-0195115ecf5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="23b7b951-9e86-4632-a4cd-ffce628859cf"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="a02ebfe8-26d0-47bf-b713-c8824846f394"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="a6734075-689e-4c7b-9a06-9f2904d93fa4"
+>
+<PreConditions>
+<PreCondition
+ Guid="3869622f-11da-4ed3-bea6-efde0e431a75"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="219aed81-3634-4b1e-a5cd-d40b78d7b861"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_RB_STATUS"
+ DefaultValue="Messages.JRU.M_RB_STATUS.Not_active"
+ VariableMode="Internal"
+ X="20"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="68afc227-0d65-4ca6-bae1-4ce735705f45"
+>
+<ReqRef
+ Id="5373d260-e440-4af0-a97e-0195115ecf5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d7f7bb1c-abed-4954-9137-f0ae2def01fd"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="4cc0772b-8dc6-4fb1-80f8-ce84449a097f"
+>
+<ReqRef
+ Id="5373d260-e440-4af0-a97e-0195115ecf5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f5276b27-d8ba-4a80-8e32-3d4203130b70"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="a90d7224-fd03-4cf1-a4f5-22a34a05f36d"
+>
+<PreConditions>
+<PreCondition
+ Guid="610e7ed4-e3ab-4158-ba95-c1058f158a2d"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="13541919-2c6c-467d-8b52-9987a1ded15c"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

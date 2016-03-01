@@ -1,0 +1,862 @@
+<NameSpace
+ X="50"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="DriverAction"
+ Guid="13d8e759-89b4-456c-a802-cdebdebdd792"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.DRIVER_S_ACTIONS.Message"
+ Default=""
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="2f192c9b-5d15-43f6-aa87-db07b23dea7a"
+>
+<ReqRef
+ Id="0fcf9f57-8c5b-4beb-88e2-c8f43ec6f8bd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a928b8eb-5515-4669-98db-1115e5a04326"
+>
+</ReqRef><ReqRef
+ Id="d82c6cc4-21a5-45da-a6c6-68ef205c3623"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ea6e78a2-d9a7-4202-978d-572d2e0bef2a"
+>
+</ReqRef><ReqRef
+ Id="17d1d25c-06cf-4f97-b5ab-31e6ed708170"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ed2269fe-e054-4b24-8d05-8832eab5b296"
+>
+</ReqRef><Comment>Creates the DRIVERS_ACTIONS JRU message</Comment>
+<Parameters>
+<Parameter
+ Type="JRUStruct"
+ Name="aJRU"
+ Guid="5cb7bd58-b91a-4647-9308-d2dee83e62ae"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3bc367d4-24c2-448c-a6c2-e0d472bd412b"
+>
+<Expression>Messages.JRU.MESSAGE.DRIVER_S_ACTIONS.Message {
+     HEADER =&gt; Header.CreateHeader(11),
+     M_DRIVERACTIONS =&gt; GetDriverAction() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_DRIVERACTIONS"
+ Default=""
+ X="150"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetDriverAction"
+ Guid="181b9701-440c-425d-a95e-95b21676002f"
+>
+<ReqRef
+ Id="adba163d-bf9a-438f-a3b8-ea22437b14ef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b4da698d-e711-48df-a0fc-d056b49d6341"
+>
+</ReqRef><ReqRef
+ Id="17d1d25c-06cf-4f97-b5ab-31e6ed708170"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d70a7f5b-37bc-4cd0-8cfd-b161e2459b4e"
+>
+</ReqRef><Comment>Encodes driver&apos;s action in format defined by M_DRIVERACTIONS. If no corresponding action is defined in M_DRIVERACTIONS, the value Spare is returned.</Comment>
+<Cases>
+<Case
+ Name="AcknForPostTripDistanceExceeded"
+ Guid="85a2ff52-95f2-4c57-a6ab-80af3000c86b"
+>
+<PreConditions>
+<PreCondition
+ Guid="9b14a350-8581-49bd-9277-600d5bb18696"
+>DMI.MasterDMI().In_AcknForPostTripDistanceExceeded.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="AcknForReverseMovementProtection"
+ Guid="8942b53a-d1e5-40fc-b24f-e84bb70b72eb"
+>
+<PreConditions>
+<PreCondition
+ Guid="ca55cbe7-47f6-4e16-8dcd-9ce064cd0849"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="AcknForReversingDistanceExceeded"
+ Guid="f9268d0a-6a24-4eca-be01-d810635641b9"
+>
+<PreConditions>
+<PreCondition
+ Guid="2573a755-b889-4fd9-93a3-9e7c09d04cb2"
+>DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="AcknForRollAwayProtection"
+ Guid="2d0aa3a1-a76c-47f5-a171-6620867745bf"
+>
+<PreConditions>
+<PreCondition
+ Guid="b233c216-38c7-45c8-aca0-18d353ec23a2"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="AcknForStandstillSupervision"
+ Guid="62ed7a51-bae8-48c2-9644-4c4b1f080820"
+>
+<PreConditions>
+<PreCondition
+ Guid="b621640c-15c3-457d-ac05-24e73bbf31a9"
+>DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="AcknOfFixedTextInformation"
+ Guid="a4631d2f-bf99-4a40-a592-63d9f25cf3de"
+>
+<PreConditions>
+<PreCondition
+ Guid="08b9bbbc-1848-4662-8035-a8102ce36a84"
+>DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_Fixed_Text_Messages</Expression>
+</Case><Case
+ Name="AcknOfLevelTransitionToL0"
+ Guid="b2d77914-26f5-4b11-aae5-ed720e41f367"
+>
+<PreConditions>
+<PreCondition
+ Guid="e4ac315f-ce10-46e1-93e4-9748279e763b"
+>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="7a6d699d-657c-47ca-ac89-78e61b7deeb2"
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L0</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_0</Expression>
+</Case><Case
+ Name="AcknOfLevelTransitionToL1"
+ Guid="bd4ebea2-b101-4c4a-8cb7-5177298ada8d"
+>
+<PreConditions>
+<PreCondition
+ Guid="509e8a0e-f4a5-402e-83f9-ea9c07065f48"
+>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="d2086493-dec0-431e-b39e-7557cb33f909"
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L1</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_1</Expression>
+</Case><Case
+ Name="AcknOfLevelTransitionToL2"
+ Guid="a8c4ebe4-a8b2-42ab-aeb3-a60f71e1fafa"
+>
+<PreConditions>
+<PreCondition
+ Guid="ca172e6f-6a19-4623-a725-e0983350107a"
+>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="4195f1a7-2ad2-4ea3-8e42-ebff740220da"
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L2</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_2</Expression>
+</Case><Case
+ Name="AcknOfLevelTransitionToL3"
+ Guid="781776ca-939d-4afe-85df-d6318d74dbc3"
+>
+<PreConditions>
+<PreCondition
+ Guid="bdf13ce4-2f26-49fd-9fb1-41c868a1b152"
+>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="1251ac27-2603-4e3f-be24-e59c68f68ffd"
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.L3</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_3</Expression>
+</Case><Case
+ Name="AcknOfLevelTransitionToLNTC"
+ Guid="32f50c6e-ef27-43b8-9f43-a2ee127cdeba"
+>
+<PreConditions>
+<PreCondition
+ Guid="40cbe79a-033a-4547-a1a0-f2f3f7985332"
+>DMI.MasterDMI().In_AcknOfLevelTransition.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="23925601-273b-47a2-a38a-1e1298824326"
+>DMI.MasterDMI().In_AcknOfLevelTransition.Level.Value == LevelEnum.LNTC</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_level_NTC</Expression>
+</Case><Case
+ Name="AcknOfLSMode"
+ Guid="2abe9af7-8986-4e46-ace4-ea2aa5759b0d"
+>
+<PreConditions>
+<PreCondition
+ Guid="ec10f3ae-3af7-44a7-b34c-329f7a3a4366"
+>DMI.MasterDMI().In_AcknOfLSMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_limited_supervision</Expression>
+</Case><Case
+ Name="AcknOfOSMode"
+ Guid="c2686558-0f05-4a23-bf3b-7c68643b4ff6"
+>
+<PreConditions>
+<PreCondition
+ Guid="15c89ca4-caa4-40e4-82a3-2242cb5b9364"
+>DMI.MasterDMI().In_AcknOfOSMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_on_sight</Expression>
+</Case><Case
+ Name="AcknOfPlainTextInformation"
+ Guid="0359eb0b-38be-41e8-9244-5ec4f7a7bbbf"
+>
+<PreConditions>
+<PreCondition
+ Guid="b0fa9676-3cd9-465d-8455-055030c683fd"
+>DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_Plain_Text_Messages</Expression>
+</Case><Case
+ Name="AcknOfRVMode"
+ Guid="70a91811-b0ae-4651-93d6-20e49c99554f"
+>
+<PreConditions>
+<PreCondition
+ Guid="bf36735f-ec2d-4ad2-8fc2-91667286c41d"
+>DMI.MasterDMI().In_AcknOfRVMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_reversing</Expression>
+</Case><Case
+ Name="AcknOfSHMode"
+ Guid="c05d3749-3f3c-4016-8b7f-6012dbeb8dfe"
+>
+<PreConditions>
+<PreCondition
+ Guid="98268fde-d0f1-4eff-8a6b-578c05b4fc66"
+>DMI.MasterDMI().In_AcknOfSHMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_shunting</Expression>
+</Case><Case
+ Name="AcknOfSNMode"
+ Guid="7c95033d-9e43-4041-9ace-1135e9185deb"
+>
+<PreConditions>
+<PreCondition
+ Guid="ae31cdda-feed-4507-b276-a1b22a0cd11a"
+>DMI.MasterDMI().In_AcknOfSNMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_SN_mode</Expression>
+</Case><Case
+ Name="AcknOfSRMode"
+ Guid="917aeff5-8571-4bca-9a28-cb07f0b9e679"
+>
+<PreConditions>
+<PreCondition
+ Guid="7a3aab70-b691-466d-87d7-d95cbd2ce9d7"
+>DMI.MasterDMI().In_AcknOfSRMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_staff_responsible</Expression>
+</Case><Case
+ Name="AcknOfTrainDataChangeFromOtherSource"
+ Guid="4d91c4dc-b6ea-4274-9af5-2170106672a4"
+>
+<PreConditions>
+<PreCondition
+ Guid="94f1ee9b-6b83-4d9c-be57-5ad04d2da4c0"
+>DMI.MasterDMI().In_AcknOfTrainDataChangeFromOtherSource.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="AcknOfTrainTrip"
+ Guid="6533f04f-7054-4e4b-a6d4-e3adfec284a4"
+>
+<PreConditions>
+<PreCondition
+ Guid="d0e73b87-7f66-49f1-bb20-2f3dfd481ca2"
+>DMI.MasterDMI().In_AcknOfTrainTrip.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_trip</Expression>
+</Case><Case
+ Name="AcknOfUNMode"
+ Guid="d833b12f-77d9-41cf-a021-e389dff835c1"
+>
+<PreConditions>
+<PreCondition
+ Guid="22e61257-3311-487f-8f99-f7bd5defcada"
+>DMI.MasterDMI().In_AcknOfUNMode.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Ack_of_unfitted</Expression>
+</Case><Case
+ Name="ContinueShuntingOnDeskClosureRequest"
+ Guid="fa16fbd8-5099-41c5-b9ce-3fae858af6a5"
+>
+<PreConditions>
+<PreCondition
+ Guid="43cf84e5-bf19-462e-9c49-b4f5978fab58"
+>DMI.MasterDMI().In_ContinueShuntingOnDeskClosureRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.__Continue_shuntting_on_desk_closure__selectedC</Expression>
+</Case><Case
+ Name="DriverId"
+ Guid="359b5dc9-06b4-4a71-981a-48e5d7b2bb4e"
+>
+<PreConditions>
+<PreCondition
+ Guid="c523e73a-2918-43d9-86b4-590349635985"
+>DMI.MasterDMI().In_DriverId.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="DriverIdEntryRequest"
+ Guid="1c3e1576-875b-4cb8-aa5e-01e9096a5bfb"
+>
+<PreConditions>
+<PreCondition
+ Guid="e1eb3e67-aea2-4423-9b58-f2d9c8ec924d"
+>DMI.MasterDMI().In_DriverIdEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="ErtmsEtcsLevel0"
+ Guid="e097d5e3-3f6c-4dad-b423-d8c410d6875c"
+>
+<PreConditions>
+<PreCondition
+ Guid="0192a6c6-7f9a-47b7-84f2-cafac173bc35"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="ee44435f-ccf9-4210-adfd-dd094f118b13"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L0</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Level_0_selected</Expression>
+</Case><Case
+ Name="ErtmsEtcsLevel1"
+ Guid="d2bba83c-5312-4bfe-b0ed-d07aef678276"
+>
+<PreConditions>
+<PreCondition
+ Guid="522efc47-aad1-468e-9211-4b28b4089448"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="49900b07-6840-4060-8cb5-44f5dbb017f0"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L1</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Level_1_selected</Expression>
+</Case><Case
+ Name="ErtmsEtcsLevel2"
+ Guid="e19ccf98-bf3a-4e92-a868-063811046612"
+>
+<PreConditions>
+<PreCondition
+ Guid="492285ee-f401-4e55-a5e2-0ee34e30331d"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="df66b5e4-9219-4be0-af14-17f491392fc0"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L2</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Level_2_selected</Expression>
+</Case><Case
+ Name="ErtmsEtcsLevel3"
+ Guid="2b0ad72f-dd00-47df-8feb-7412426a2b6d"
+>
+<PreConditions>
+<PreCondition
+ Guid="ae2d0c74-80a3-4def-95fd-c867633254b9"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="1faf338e-6335-4158-b587-19e9fd031190"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.L3</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Level_3_selected</Expression>
+</Case><Case
+ Name="ErtmsEtcsLevelNTC"
+ Guid="1f518b40-245a-4642-bad1-3eec22a2e517"
+>
+<PreConditions>
+<PreCondition
+ Guid="40466f46-3994-442e-b3d7-a8da5ecef9f7"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="ee20a7a7-6c95-4127-a98e-0f53f79a6e53"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.Level.Value == LevelEnum.LNTC</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Level_NTC_selected</Expression>
+</Case><Case
+ Name="ErtmsEtcsLevelEntryRequest"
+ Guid="a9948b03-9359-421d-ae67-9427afce772c"
+>
+<PreConditions>
+<PreCondition
+ Guid="8ed29a2c-d214-4c54-9778-dee713cc6e41"
+>DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="ExitOfShuntingRequest"
+ Guid="fc1ee7f1-40bf-4fdd-91a0-8c6d5ba8f472"
+>
+<PreConditions>
+<PreCondition
+ Guid="5bc7eca1-96f7-4b97-aba6-cfc98acd1360"
+>DMI.MasterDMI().In_ExitOfShuntingRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Exit_of_shunting_selected</Expression>
+</Case><Case
+ Name="Isolation"
+ Guid="f6176a73-06e5-4ab0-b307-fb7e5bc73dd3"
+>
+<PreConditions>
+<PreCondition
+ Guid="1dc55da8-62be-497c-843a-72faa7bc66ca"
+>DMI.MasterDMI().In_Isolation.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Isolation_selected</Expression>
+</Case><Case
+ Name="NonLeadingRequest"
+ Guid="51d0d5a1-3e21-4174-9c14-a49d2833c2e2"
+>
+<PreConditions>
+<PreCondition
+ Guid="341acb3c-34bc-418f-85df-464d4ed26c86"
+>DMI.MasterDMI().In_NonLeadingRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Non_leading_selected</Expression>
+</Case><Case
+ Name="OverrideRequest"
+ Guid="fadc1982-a4f2-40c5-aa34-193a48d12a72"
+>
+<PreConditions>
+<PreCondition
+ Guid="69a7da19-c365-410a-bc06-f3ff4c81c13f"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Override_EOA_selected</Expression>
+</Case><Case
+ Name="RBCContactInformation"
+ Guid="86e4c8c6-b88b-4401-b428-11bd18fd5cf4"
+>
+<PreConditions>
+<PreCondition
+ Guid="39b63a92-1907-4d9e-9371-27fa6e5bc087"
+>DMI.MasterDMI().In_RBCContactInformation.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="SelectionOfLanguage"
+ Guid="ab6332ab-b80a-452a-b76a-ec9272b66473"
+>
+<PreConditions>
+<PreCondition
+ Guid="b538e351-aaa1-4929-948c-4877ff67004b"
+>DMI.MasterDMI().In_SelectionOfLanguage.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Change_of_language</Expression>
+</Case><Case
+ Name="Request to show geographical position"
+ Guid="92f19531-7c51-4fe4-a868-8d181e0108b4"
+>
+<PreConditions>
+<PreCondition
+ Guid="51d477d5-b40b-4098-b10e-bf549634cbe3"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestedByDriver == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Request_to_show_geographical_position</Expression>
+</Case><Case
+ Name="Request to hide geographical position"
+ Guid="969137d3-dc22-4cdf-982c-df573bfca7b9"
+>
+<PreConditions>
+<PreCondition
+ Guid="03f8562e-3aa8-403d-966f-83e7bc6f8cee"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestedByDriver == False</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Request_to_hide_geographical_information</Expression>
+</Case><Case
+ Name="ShuntingRequest"
+ Guid="6f6f8f80-1bec-4b80-9bbf-950276b5dc18"
+>
+<PreConditions>
+<PreCondition
+ Guid="ef3fe4cd-6a07-4420-90ed-6a3f2b1e71c3"
+>DMI.MasterDMI().In_ShuntingRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Shunting_selected</Expression>
+</Case><Case
+ Name="SRModeSpeedLimitAndDistance"
+ Guid="beb3bfa3-a65a-4cc7-bb36-d77781fb64d2"
+>
+<PreConditions>
+<PreCondition
+ Guid="b8288eac-1d5d-47b0-b2fd-f170b8591112"
+>DMI.MasterDMI().In_SRModeSpeedLimitAndDistance.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="Start"
+ Guid="b64206d8-12d9-42fb-b6ff-949292e8223f"
+>
+<PreConditions>
+<PreCondition
+ Guid="1ec31373-2a60-46ac-aded-e9238760b26d"
+>DMI.MasterDMI().In_Start.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Start_selected</Expression>
+</Case><Case
+ Name="TrackAdhesionFactor"
+ Guid="dab1c2f3-9a17-41b0-af68-04ed25559ec5"
+>
+<PreConditions>
+<PreCondition
+ Guid="c3ce7bc4-55ec-40f2-8715-02873429456f"
+>DMI.MasterDMI().In_TrackAdhesionFactor.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="TrackAheadFree"
+ Guid="cc4451c6-122c-4bd1-aa69-16c3000ef275"
+>
+<PreConditions>
+<PreCondition
+ Guid="6330b6b0-6ad5-4060-bc5c-406f2c64e344"
+>DMI.MasterDMI().In_TrackAheadFree.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Confirm_track_ahead_free</Expression>
+</Case><Case
+ Name="TrainData"
+ Guid="fa7c23d1-043a-4f11-98a0-751d66525b1b"
+>
+<PreConditions>
+<PreCondition
+ Guid="9e8fac9e-3a7d-4036-b890-59a700efb31d"
+>DMI.MasterDMI().In_TrainData.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Validation_of_the_train_data</Expression>
+</Case><Case
+ Name="TrainDataEntryRequest"
+ Guid="986e74c0-e18e-4862-8fae-b865603fbd86"
+>
+<PreConditions>
+<PreCondition
+ Guid="b75cda85-a8bf-429a-b64e-391df7b3af46"
+>DMI.MasterDMI().In_TrainDataEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Train_data_Entry_requested</Expression>
+</Case><Case
+ Name="TrainIntegrity"
+ Guid="a5683d50-736e-4e98-a789-642802b4566c"
+>
+<PreConditions>
+<PreCondition
+ Guid="097ab212-1611-4047-a4c6-b8af2e9d1231"
+>DMI.MasterDMI().In_TrainIntegrityConfirmation.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Train_integrity_confirmation</Expression>
+</Case><Case
+ Name="TrainRunningNumber"
+ Guid="00bc8636-b11e-4434-a2df-8879923997d5"
+>
+<PreConditions>
+<PreCondition
+ Guid="70777a23-abf5-4c47-a007-fd05f305f2e4"
+>DMI.MasterDMI().In_TrainRunningNumber.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="TrainRunningNumberEntryRequest"
+ Guid="905b27e5-1eb0-4e96-964c-7fff66f565eb"
+>
+<PreConditions>
+<PreCondition
+ Guid="0bd31010-617c-445d-b27a-5e04eeaf4a4e"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="VirtualBaliseCover"
+ Guid="9c186e6b-028a-4ed3-917e-5a284422d828"
+>
+<PreConditions>
+<PreCondition
+ Guid="5b4d5b81-1c4c-4a60-ac55-eb2784e3fbfa"
+>DMI.MasterDMI().In_VirtualBaliseCover.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="VirtualBaliseCoverEntryRequest"
+ Guid="b9080e13-58d6-4bb7-9337-a5722497b27e"
+>
+<PreConditions>
+<PreCondition
+ Guid="a0d20c3c-5c04-4193-969c-ef719fedfe74"
+>DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e39c0f21-de77-470a-afa9-9e234e245cc3"
+>
+<Expression>Messages.JRU.M_DRIVERACTIONS.Spare_31</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="9af26689-4b99-45ef-89cb-04fa6c901e78"
+>
+<ReqRef
+ Id="63c4543b-5430-4f3e-a524-ce48d640aead"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="534c860a-233d-47cc-849f-29f4f8b80526"
+>
+</ReqRef><ReqRef
+ Id="dfcc8430-5256-4624-9c6a-7c5884b42bdb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d925630d-c82a-4de9-90d6-af244759e8d5"
+>
+</ReqRef><ReqRef
+ Id="166e123f-f57c-4045-af2e-915a4c4e849b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e90ff540-7021-4874-b0f5-0ba84d51c0ca"
+>
+</ReqRef><ReqRef
+ Id="cc8be0e3-4edb-46d4-a4e4-a00714d90fc4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e69cbb6-cdc5-4ad9-be82-4a35ad203aab"
+>
+</ReqRef><ReqRef
+ Id="4efd390e-2e07-4c18-88e9-b389b64cd144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5d87f5e-4240-4fc5-8b3b-587b41690891"
+>
+</ReqRef><ReqRef
+ Id="dc327dea-a3eb-4081-ac8b-06d8c12f1ea7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ed312f1-1ae1-4f2e-b1af-8ba0189a6f9b"
+>
+</ReqRef><ReqRef
+ Id="aca297a1-7d62-42ac-ab7e-6c8c590c5637"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="017c8114-322a-4841-b177-e99df84593a3"
+>
+</ReqRef><ReqRef
+ Id="b097af96-5a86-448c-a47a-c1f0866d272b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="446f7631-a88c-4d09-963a-8391b0759b4a"
+>
+</ReqRef><ReqRef
+ Id="57ceb9c6-48ae-4809-8630-70941e264ded"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d1ee0fb-250c-4733-9e75-1977701e6243"
+>
+</ReqRef><ReqRef
+ Id="2799a8e9-fa29-467e-8323-c5845b7416dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a84114f7-e47a-453b-b68f-fd3997318c44"
+>
+</ReqRef><ReqRef
+ Id="c49c8e4d-2c96-4314-a79e-904b090becb1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4b1d025-cdf8-41f8-8aff-d3caaf663b87"
+>
+</ReqRef><ReqRef
+ Id="2dd0cb88-9abd-4a28-9cf2-6cb53656287f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6807bb19-dcfc-47d4-81f3-47caffcd91d8"
+>
+</ReqRef><ReqRef
+ Id="c5fa7369-35e6-43ac-a64b-f7a48afc50da"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="699a5fcd-360b-40c1-a268-a02267a4fa55"
+>
+</ReqRef><ReqRef
+ Id="7625fa65-c451-4b57-83e0-fa8f4ebf7336"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c0b0c58-b132-4961-9191-83fd7e0261ba"
+>
+</ReqRef><ReqRef
+ Id="0f95b99b-d98f-4189-b6f9-d0a3699f36a7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0ae17579-fd24-47d7-b6f2-6d408f560bd4"
+>
+</ReqRef><ReqRef
+ Id="641a1733-782b-41d1-8db8-443710ef091a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bcf9aeee-36ea-414a-bb1d-7aa86c6afec2"
+>
+</ReqRef><ReqRef
+ Id="bb2f7a44-df6e-4902-a634-5c2e49678710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="242d29d0-443b-4da9-b0f9-3a46b0aa8ecf"
+>
+</ReqRef><ReqRef
+ Id="5dc7196e-3533-4c27-99ef-6bb45c62aaaf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e07acfc3-ede8-417a-96c6-587e715f4aeb"
+>
+</ReqRef><ReqRef
+ Id="bb550af5-d30a-44f7-a6d0-e396e895d87c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c4f5818c-5ae5-48ff-81c0-042cc1773a09"
+>
+</ReqRef><ReqRef
+ Id="bca41785-82f0-407d-9873-a1feaf619619"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20782966-3dc5-4665-8604-d61c63c0407b"
+>
+</ReqRef><ReqRef
+ Id="b3e1c3fa-135d-4573-9b99-1ce66b471a4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1421a696-3712-48c8-952c-1012a61036db"
+>
+</ReqRef><ReqRef
+ Id="a8974387-814c-4e26-a7a4-5001e32c4554"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e03312e-f9e1-48aa-bd52-77901b9ec3be"
+>
+</ReqRef><ReqRef
+ Id="99735e12-128e-4cc9-8fa2-368230a0e2df"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="38873eb7-4ada-4565-91e4-5dc0b03bf8d8"
+>
+</ReqRef><ReqRef
+ Id="421ee868-5461-4591-b27c-3e641637cc98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="73855640-e94e-4f36-80e4-ee8965540576"
+>
+</ReqRef><ReqRef
+ Id="b6c67586-24a9-45f1-8716-2ebbbf63edc2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c640a732-1c26-4ca7-8124-a4a6738ea141"
+>
+</ReqRef><ReqRef
+ Id="e6a8a09c-e6ba-4a3c-b777-6acb88ac835b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78bcefb2-9bb1-4ea5-ba3c-38e22b09224d"
+>
+</ReqRef><ReqRef
+ Id="2ed9a3a8-ad0b-4699-b42d-1c5e17be22af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="495385d9-af50-4991-b995-a8cc2813c928"
+>
+</ReqRef><ReqRef
+ Id="b6b52185-52d6-42da-9273-5c484d092e08"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8f2d9668-2350-4300-8ff0-3ad545923fe5"
+>
+</ReqRef><ReqRef
+ Id="d76d9d7e-5ca9-42ac-9562-effe483642f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="95d77a94-890d-48b7-89cc-6e446172d6bb"
+>
+</ReqRef><ReqRef
+ Id="16331b43-cfa0-4f60-88dd-55bf3bd6e93e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d7f028a2-a9d3-4c93-934e-4c7917d27d6a"
+>
+</ReqRef><ReqRef
+ Id="25a833cc-7385-4baf-a092-22c94d1cafe5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e85022d-56d3-47c8-977b-4571cb6b42b2"
+>
+</ReqRef><ReqRef
+ Id="7ae1bf11-7b11-466d-abd7-fcec9dee2465"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="38d01e84-c94d-4b10-91b4-d913a7865e41"
+>
+</ReqRef><ReqRef
+ Id="5f1173da-1cfe-4f41-aa4f-5c394c12e77f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d538e783-1ce3-4f95-933f-b9c88f994dd7"
+>
+</ReqRef><ReqRef
+ Id="0cf0e5ee-5c2a-42b6-8389-ca77ab74368b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d23192df-2ae6-496c-9aa2-115a2067994a"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="463cf58e-4c58-4b75-a42a-dc28a6b1ae09"
+>
+</ReqRef><ReqRef
+ Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="da976ad6-3006-4792-87a4-96e9578103bf"
+>
+</ReqRef><Comment>Indicates whether the DRIVER_ACTION message should be reported in the JRU</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="61417ebf-eded-4cdd-8055-fd1808a1ee75"
+>
+<PreConditions>
+<PreCondition
+ Guid="2a8c0484-86f1-42af-8747-03cffd13dc15"
+>GetDriverAction() != LastReportedAction</PreCondition><PreCondition
+ Guid="7981f991-3822-43a4-b70c-8762c22b14ab"
+>GetDriverAction() != Messages.JRU.M_DRIVERACTIONS.Spare_31</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="486308e2-0376-4392-9897-02dffc883b39"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="ad407989-5728-43a8-820d-41a27ba7caa5"
+>
+<ReqRef
+ Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6e2dc834-7680-4abe-b071-5f2a53531781"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="f8e05903-7147-4845-ace8-bcd7984fd7f9"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="b5a6d79c-d1e1-4153-827f-0cdd749f859e"
+>
+<PreConditions>
+<PreCondition
+ Guid="5fe2d0dc-19a2-438f-999d-7a7ae7970364"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="13d03aa1-3a0b-48b1-a317-9a836617e581"
+>LastReportedAction &lt;- GetDriverAction()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_DRIVERACTIONS"
+ DefaultValue="Messages.JRU.M_DRIVERACTIONS.Spare_31"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastReportedAction"
+ Guid="9bc69c4b-46e7-42af-bb4f-b90c4d04e2e8"
+>
+<ReqRef
+ Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f5b9791c-5cc8-4487-930f-1b818a61d881"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="5fa11f96-45e0-47f4-8e5d-778a7567cb85"
+>
+<ReqRef
+ Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8b7e703f-273b-4b8b-be0b-37f9dfde8a35"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="c56e0797-cf58-4bb9-aab6-e8a5d327d66d"
+>
+<PreConditions>
+<PreCondition
+ Guid="bc8d011e-b02b-45f5-a3c2-62498be54a19"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="56576eb0-0f24-469b-9063-a4ead64a69dd"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

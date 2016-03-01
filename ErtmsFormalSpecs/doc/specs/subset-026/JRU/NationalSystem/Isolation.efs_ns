@@ -1,0 +1,228 @@
+<NameSpace
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="Isolation"
+ Guid="eecf14ff-5434-4cb2-ac2e-3472d54b551f"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.NATIONAL_SYSTEM_ISOLATION.Message"
+ Default=""
+ X="30"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="96f42b96-d2b5-40db-a263-e5659f29be56"
+>
+<ReqRef
+ Id="18e07467-cc7f-49fe-af88-92a28c9906ad"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="29860930-2520-4fe6-9f70-3d55e5dac320"
+>
+</ReqRef><ReqRef
+ Id="b8b17a24-261e-4580-88ef-9b0d3e557a00"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2821156d-f967-4afd-b8bf-6a62aac56584"
+>
+</ReqRef><ReqRef
+ Id="828c326c-8ed8-45cd-84f9-ebb663801513"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="058a42f7-d59d-4db4-b523-9b0134d3f3c3"
+>
+</ReqRef><ReqRef
+ Id="3dd8bd11-719b-48a0-bdfe-bb3c14032355"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8f84a653-8655-4a95-8b72-a68e6dd27990"
+>
+</ReqRef><Comment>Creates the NATIONAL_SYSTEM_ISOLATION JRU message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="bd5017a6-d68a-47a9-952f-1a874e58b004"
+>
+<Expression>Messages.JRU.MESSAGE.NATIONAL_SYSTEM_ISOLATION.Message {
+     HEADER =&gt; JRU.Header.CreateHeader(42),
+     NID_NTC =&gt; GetNID_NTC(Kernel.Level.Value.NTC),
+     M_NATIONAL_SYSTEM_ISOLATION =&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="479f1045-62e3-41c1-81f1-394b9603c7a9"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1922f5c1-f7b2-4a14-912a-0a3c47b7d4ec"
+>
+</ReqRef><ReqRef
+ Id="06030586-dcc2-49e6-bf66-b0650c069a4d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1a75023d-f8ef-4c79-8999-aaceb7f9b40e"
+>
+</ReqRef><Comment>Indicates whether the NATIONAL SYSTEM ISOLATION message should be sent</Comment>
+<Cases>
+<Case
+ Name="Start up"
+ Guid="dc27b74d-61e7-4a9c-bc02-6413947cc95b"
+>
+<PreConditions>
+<PreCondition
+ Guid="98e26837-2477-4d3b-84a2-476d655ce1ee"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Isolation status changed"
+ Guid="6d11fdb0-e5cf-4f61-8cf7-a878633f9f83"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION"
+ Default=""
+ X="140"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="e00537b9-9835-4711-88af-af18a95a77f8"
+>
+<ReqRef
+ Id="3dd8bd11-719b-48a0-bdfe-bb3c14032355"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e1281781-3ade-4fb4-b92e-16ab186ff2fe"
+>
+</ReqRef><ReqRef
+ Id="06030586-dcc2-49e6-bf66-b0650c069a4d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b1b5d60d-48a4-4a8e-8a3b-edfa40a0550c"
+>
+</ReqRef><Comment>Provides the NTC ISOLATION STATUS from the TIU</Comment>
+<Cases>
+<Case
+ Name="NTC Isolated"
+ Guid="8cf382ac-7e9a-4d58-a637-6ba001798d8b"
+>
+<PreConditions>
+<PreCondition
+ Guid="6a05eaa0-a0da-4e71-a032-9647b412e674"
+>TIU.NTCIsolated</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION.NTC_isolated</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7f811e02-898d-4871-a01e-4c55878012c7"
+>
+<Expression>Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION.NTC_not_isolated</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="30"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="aa3374f5-1bd8-444c-b0ff-4c1b66b7bb3b"
+>
+<ReqRef
+ Id="06030586-dcc2-49e6-bf66-b0650c069a4d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="38f2cad4-56b8-4bfa-99df-9c2194e64ee9"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="3f41cfff-1e6d-4c7c-9368-cc93c98be531"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="30d12851-784f-4524-aece-0d1880e50384"
+>
+<PreConditions>
+<PreCondition
+ Guid="78c7c0a0-fc01-4b68-965a-98b5cbed4811"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bf719d04-fe89-4aed-8f79-78e9842032e9"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION"
+ DefaultValue="Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION.NTC_not_isolated"
+ VariableMode="Internal"
+ X="30"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="bdf685cf-6b8e-4d62-81bb-ea63ce97b258"
+>
+<ReqRef
+ Id="06030586-dcc2-49e6-bf66-b0650c069a4d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="189187b0-0325-4df6-844b-15a4596a67c4"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="140"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="add039a5-2bfc-4dc8-ab97-8f4816542366"
+>
+<ReqRef
+ Id="06030586-dcc2-49e6-bf66-b0650c069a4d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fd420b1b-bac4-48be-94e9-2b8ecba4f985"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="4cea5968-c641-4270-96cc-5fbf8b4285d6"
+>
+<PreConditions>
+<PreCondition
+ Guid="5fec5163-57c4-4228-8481-23f51bda82a9"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c7171dc3-aa2d-4ad1-96d9-bcfe08db11f8"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

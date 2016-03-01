@@ -1,0 +1,217 @@
+<NameSpace
+ X="30"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="PassiveShunting"
+ Guid="2d1ac3d5-8947-4b85-a110-3f8beba15906"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.PASSIVE_SHUNTTING_INPUT.Message"
+ Default=""
+ X="40"
+ Y="40"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="ccaa00c6-9c14-49c2-8442-59c81d065b97"
+>
+<ReqRef
+ Id="c300dc73-4bcb-45ee-a1f9-184c2ce7b933"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d07c9b21-0646-40ae-80cb-d3085dd9c0d1"
+>
+</ReqRef><ReqRef
+ Id="f50cebcf-07f7-4657-b2a5-7e9592275206"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ecee8b17-dc8d-49d4-b046-c13e0e7c674f"
+>
+</ReqRef><ReqRef
+ Id="25d08e04-94ca-4697-8ad8-7e741b13661f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="076e8573-f832-4525-8b9b-80578df87009"
+>
+</ReqRef><Comment>Creates the PASSIVE_SHUNTING_INPUT JRU message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="af757dbe-9125-4ef1-af48-08d2cb15d82e"
+>
+<Expression>Messages.JRU.MESSAGE.PASSIVE_SHUNTTING_INPUT.Message{
+     HEADER =&gt; Header.CreateHeader(31),
+     M_PASSIVE_SHUNTTING =&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="cbe54796-4c07-4ecf-9d0d-1664c383a321"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7dc11d82-e7e3-424a-857a-2e9c0ae45e76"
+>
+</ReqRef><ReqRef
+ Id="f23150cb-df63-4352-837f-3c563876913f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="19325bda-5133-4a3b-91b5-99797af50ccd"
+>
+</ReqRef><Comment>Indicates whether the JRU PASSIVE_SHUNTING_INPUT message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="8d820009-2d6d-4ceb-97c2-0ea6ac0d5320"
+>
+<PreConditions>
+<PreCondition
+ Guid="1ba7755d-8a48-4e6f-92ec-da399cac0943"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="PassiveShuntingStateChanged"
+ Guid="c241d548-b835-46e6-b8b9-b98351938a7d"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_PASSIVE_SHUNTTING"
+ Default=""
+ X="150"
+ Y="40"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="91006dd2-8776-4901-888a-5c328d19e0db"
+>
+<ReqRef
+ Id="25d08e04-94ca-4697-8ad8-7e741b13661f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="66420ab8-a820-43e8-bbd5-b05c3ee0fd24"
+>
+</ReqRef><Comment>Provides the PASSIVE_SHUNTING value from the TIU</Comment>
+<Cases>
+<Case
+ Name="Permited"
+ Guid="0ba92dd6-23f4-4471-b24c-effe69f9f7bb"
+>
+<PreConditions>
+<PreCondition
+ Guid="921e1682-de25-45fe-a6de-3484816f3806"
+>TIU.PassiveShuntingPermitted</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_PASSIVE_SHUNTTING.Passive_shuntting_permitted</Expression>
+</Case><Case
+ Name="NotPermited"
+ Guid="6fbff761-9eac-4c6b-88d2-eec84171db30"
+>
+<Expression>Messages.JRU.M_PASSIVE_SHUNTTING.Passive_shuntting_not_permitted</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="538eb61b-ec8d-410a-88f4-c43745796331"
+>
+<ReqRef
+ Id="f23150cb-df63-4352-837f-3c563876913f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5cf5f0ec-cd44-4f0b-af44-6a2439987d6a"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="ad5fa0af-30ad-432b-be81-c0447600a76a"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="d3bf06f7-01ff-4232-9e19-64658f42168b"
+>
+<PreConditions>
+<PreCondition
+ Guid="de8b3078-4c1c-4877-8d27-a372940f8050"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="44799735-167d-489e-b14f-662fad67301c"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_PASSIVE_SHUNTTING"
+ DefaultValue="Messages.JRU.M_PASSIVE_SHUNTTING.Passive_shuntting_not_permitted"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="25219aee-0cd2-42e8-857f-a5de7da5306a"
+>
+<ReqRef
+ Id="f23150cb-df63-4352-837f-3c563876913f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="99bb0c68-cc17-491c-b29d-e9f737b9ba12"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="60cbe469-c435-42d1-bf41-deabc6e51be3"
+>
+<ReqRef
+ Id="f23150cb-df63-4352-837f-3c563876913f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="16739da1-9b0f-450d-be64-650e24dcb400"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="e447018e-cae3-4e01-b047-e7306df6d1fa"
+>
+<PreConditions>
+<PreCondition
+ Guid="5c116955-b579-4549-96b3-1d11a7cbad9b"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="088bf365-bcae-4abd-a73d-fd4c40c6bbac"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

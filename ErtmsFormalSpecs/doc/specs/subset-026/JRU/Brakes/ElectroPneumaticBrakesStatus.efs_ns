@@ -1,0 +1,217 @@
+<NameSpace
+ X="320"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="ElectroPneumaticBrakesStatus"
+ Guid="89b2f095-8870-4047-bba7-46ee75e95519"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.ELECTRO_PNEUMATIC_BRAKE_STATUS.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="c70cf61f-6dae-4292-bf4e-bf18be61e3bb"
+>
+<ReqRef
+ Id="93254149-6489-4e55-bb64-7f75408d3be8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0bf47fc8-74da-4236-98d8-511d5f31cfde"
+>
+</ReqRef><ReqRef
+ Id="5fdb3970-d469-4ae9-a8e8-d4689e467f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="28731ecc-5895-40ca-8e16-def189104bf1"
+>
+</ReqRef><ReqRef
+ Id="31f32d56-9e3c-4fd0-b226-ea769b746033"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4cc28b80-7344-426d-b846-db97ec4e3584"
+>
+</ReqRef><Comment>Creates the JRU ELECTRO_PNEUMATIC_BRAKE_STATUS Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="5c1aa9bd-e61a-41c4-baec-140ebedd5ac7"
+>
+<Expression>Messages.JRU.MESSAGE.ELECTRO_PNEUMATIC_BRAKE_STATUS.Message{
+     HEADER =&gt; Header.CreateHeader(36),
+     M_EP_STATUS=&gt; GetStatus()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_EP_STATUS"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="bb328e14-7924-42df-a399-9813c13048f0"
+>
+<ReqRef
+ Id="31f32d56-9e3c-4fd0-b226-ea769b746033"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b1017790-4a73-4506-b567-21ed009f7c35"
+>
+</ReqRef><Comment>Retrieves the EP_BRAKE status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Active"
+ Guid="295509d4-3e26-4270-ad0a-0705d6b26799"
+>
+<PreConditions>
+<PreCondition
+ Guid="b90f2d4b-f9db-4686-b86a-8faf9c360b13"
+>TIU.SpecialBrakeStatus.EPBrakeIsActive == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_EP_STATUS.Active</Expression>
+</Case><Case
+ Name="NotActive"
+ Guid="b9fa4b5f-6e75-4111-b22b-5907bdc4a0fe"
+>
+<Expression>Messages.JRU.M_EP_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="7560b854-b250-4d0c-acc0-cf0d8ee7c187"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ed52ee92-8168-4e12-a14e-d3108ebdf0ee"
+>
+</ReqRef><ReqRef
+ Id="f21d7322-8da5-41b5-a334-69dd9493e2c7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f6f5477b-fb95-4928-9f20-a4c9ab548278"
+>
+</ReqRef><Comment>Indicates whether ELECTRO_PNEUMATIC_BRAKE status JRU Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="33c09de9-a9c1-4e7e-81da-998140d26b1c"
+>
+<PreConditions>
+<PreCondition
+ Guid="4ed54b86-a784-4089-b567-d5ee49bbb65c"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="StatusChanged"
+ Guid="561bcd92-db60-45af-b6ae-94f6697f984b"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="db130c55-0df5-4e26-9425-716072fd37e7"
+>
+<ReqRef
+ Id="f21d7322-8da5-41b5-a334-69dd9493e2c7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f7885159-4aff-4043-9772-1254f4fa01c1"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="d8f02610-18ad-4d49-84dd-95d111e3521d"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="b99158ab-ef65-4ece-9624-68c1aab725c9"
+>
+<PreConditions>
+<PreCondition
+ Guid="664067b1-d9a6-432a-860b-60475e43c6e5"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a1e007d4-142b-46dd-abd8-b3cb3e56fab2"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_EP_STATUS"
+ DefaultValue="Messages.JRU.M_EP_STATUS.Not_active"
+ VariableMode="Internal"
+ X="20"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="d0928a0f-b197-4582-a0f4-87c45847e10b"
+>
+<ReqRef
+ Id="f21d7322-8da5-41b5-a334-69dd9493e2c7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ecaabc56-4b0b-499a-9936-32a6a129468d"
+>
+</ReqRef><Comment>The last registered status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="6dae3b34-a2d1-45c5-aae3-14e57935eae4"
+>
+<ReqRef
+ Id="f21d7322-8da5-41b5-a334-69dd9493e2c7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="932fafcb-418c-4370-ac9d-667bf5c94086"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="89d82426-e1b5-42d4-a255-a5849138f9b8"
+>
+<PreConditions>
+<PreCondition
+ Guid="ee817f62-e72a-44bc-9088-1a3c11ccc531"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="20f76d5c-e579-4b40-988d-d7f34c527718"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

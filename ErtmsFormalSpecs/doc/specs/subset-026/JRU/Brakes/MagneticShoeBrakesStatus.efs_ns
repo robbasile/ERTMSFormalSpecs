@@ -1,0 +1,222 @@
+<NameSpace
+ X="210"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="MagneticShoeBrakesStatus"
+ Guid="1b26a0bb-48a4-47a0-924a-f576c025ec8e"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.MAGNETIC_SHOE_BRAKE_STATUS.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="1ca6ee0e-823c-48e2-80b1-9784fd7c505f"
+>
+<ReqRef
+ Id="a55faf1c-5e2a-4b5a-ad4c-8745c9ca8eb9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8becf814-c418-4732-bd47-e6ae3481569e"
+>
+</ReqRef><ReqRef
+ Id="27861d88-4426-497a-a549-8c55f43b0b75"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0751c727-1ca1-4753-9cb3-032694ee2218"
+>
+</ReqRef><ReqRef
+ Id="4a9ce77d-31fb-4220-a7ff-e6e79157ca6f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c885acba-61b2-47d4-aa4d-51635777eef8"
+>
+</ReqRef><Comment>Creates the MAGNETIC_SHOE_BRAKE_STATUS JRU Message.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="15784d21-2bca-4ebf-94d9-15bb2793cc03"
+>
+<Expression>Messages.JRU.MESSAGE.MAGNETIC_SHOE_BRAKE_STATUS.Message{
+     HEADER =&gt; JRU.Header.CreateHeader(34),
+     M_MSB_STATUS =&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_MSB_STATUS"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="a0961f10-3bd3-4847-a92b-9f70ea868237"
+>
+<ReqRef
+ Id="4a9ce77d-31fb-4220-a7ff-e6e79157ca6f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1632459b-6935-4200-96ff-53265f21ac49"
+>
+</ReqRef><ReqRef
+ Id="90197942-cb84-4bb5-880d-1ea5d2dc15cf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="19f88e3e-6be8-4a51-8280-707645925ef4"
+>
+</ReqRef><Comment>Retrieves the magnetic shoes brake status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Active"
+ Guid="72c2eab9-d2e4-4039-99f7-58de6697e090"
+>
+<PreConditions>
+<PreCondition
+ Guid="69a15502-6222-48d1-9f37-0b101add08f6"
+>TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_MSB_STATUS.Active</Expression>
+</Case><Case
+ Name="NotActive"
+ Guid="646bbc3a-063a-4efa-87cc-78f38197174e"
+>
+<Expression>Messages.JRU.M_MSB_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="8b8957b5-e016-44a3-987c-83d1826cd71a"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="52ae52b7-8358-4b99-adf8-8abd453d57a0"
+>
+</ReqRef><ReqRef
+ Id="90197942-cb84-4bb5-880d-1ea5d2dc15cf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="93863ff6-6492-4c64-8d4b-4190a73c65ae"
+>
+</ReqRef><Comment>Indicates whether the MAGNETIC_SHOES_BRAKE status JRU Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="23d1ccb7-cdea-4f00-a98a-d7690fa72a84"
+>
+<PreConditions>
+<PreCondition
+ Guid="d13ac046-27bb-45a3-9d5d-b2da7484e1c1"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="StatusChanged"
+ Guid="c172e0e9-bdf3-488b-9561-a599bc49e73a"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="e8677c26-74aa-49e9-9e69-ede29d5a1fe8"
+>
+<ReqRef
+ Id="90197942-cb84-4bb5-880d-1ea5d2dc15cf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e2a9deaf-8fb9-4275-a44c-b195ca6cdfeb"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="26d04661-a0d9-4a9e-a83a-cd076931a239"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="bbee2dd4-a054-4393-be6d-2de475e48b3f"
+>
+<PreConditions>
+<PreCondition
+ Guid="217ebcde-79c0-4a06-acf5-e5d7530032fc"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a1a7a7f7-0811-4f2e-accd-5221d89fbd20"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_MSB_STATUS"
+ DefaultValue="Messages.JRU.M_MSB_STATUS.Not_active"
+ VariableMode="Internal"
+ X="20"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="df2859d2-e580-4f34-aae8-02cd5d17f0f6"
+>
+<ReqRef
+ Id="90197942-cb84-4bb5-880d-1ea5d2dc15cf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3b2cde93-881c-4b8a-aeab-254a4ba008a5"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="07ab1f30-3d22-44a4-bad2-ad1328596cb3"
+>
+<ReqRef
+ Id="90197942-cb84-4bb5-880d-1ea5d2dc15cf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="31604a5a-bdd5-4df5-a621-18800c43308f"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="e3a5eb8e-2834-41e3-95c3-72c6a80b8e3e"
+>
+<PreConditions>
+<PreCondition
+ Guid="5fc0385e-259e-48f0-be47-112980362a93"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2cff2ec5-03f1-4bf3-a0d3-2ffeb32ae664"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

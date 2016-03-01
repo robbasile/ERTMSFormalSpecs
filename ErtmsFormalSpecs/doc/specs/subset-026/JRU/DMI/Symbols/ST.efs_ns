@@ -1,0 +1,245 @@
+<NameSpace
+ X="400"
+ Y="70"
+ Width="100"
+ Height="50"
+ Name="ST"
+ Guid="29544104-6fad-46c0-99af-88d8c3caf951"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ST01Activated"
+ Guid="ae8eb9b0-f02e-45dc-8874-b70ee8534df7"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c3c14e1d-0f9f-4087-ad29-dcc12e8e75a1"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cc2758b5-2b1b-4aea-b8dd-a6685dabbd8f"
+>
+</ReqRef><Comment>Indicates if the symbol ST01 (corresponding to brake indication) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="9087a44f-f051-41bb-851a-80a1f358788a"
+>
+<PreConditions>
+<PreCondition
+ Guid="6377fb06-35ae-406d-b382-a2f2280a836d"
+>DMI.MasterDMI().Out_BrakeIndication.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="4aef5c7b-8eb1-41b9-8db5-f26f35601ab5"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ST02Activated"
+ Guid="f6a09053-8899-44cb-8f0f-e9657a8575f0"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b152d881-a2e7-4c26-b2f3-19da6b2c9dc8"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a1b58e7e-92ae-4993-aef9-a1238a56f08e"
+>
+</ReqRef><Comment>Indicates if the symbol ST02 (corresponding to adhesion factor &quot;slippery rail&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="e9b39c5b-9cf1-43d3-a5cf-6d3cce9faa14"
+>
+<PreConditions>
+<PreCondition
+ Guid="fd35946d-50c8-4afd-8c7b-d80f6ae40a04"
+>DMI.MasterDMI().Out_AdhesionFactorSlipperyRail.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="02d8d206-7bca-46a9-a882-653026e53f48"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ST03Activated"
+ Guid="df7787d6-d729-433b-b19c-d638c9b9df26"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42413714-d74d-47d2-bb1c-d2a91aa31bf6"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6551a2ae-4a86-4a2a-bde2-78a705f9f822"
+>
+</ReqRef><Comment>Indicates if the symbol ST03 (corresponding to safe radio connection &quot;Connection Up&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="e10010b2-aa62-481e-8ab9-9df38351d0c2"
+>
+<PreConditions>
+<PreCondition
+ Guid="1622bff6-83e4-47ef-ac1b-3375b48b1c20"
+>DMI.MasterDMI().Out_SafeRadioConnectionIndication.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="ed3fa588-340a-450b-89bb-50b4324e2cef"
+>DMI.MasterDMI().Out_SafeRadioConnectionIndication.ConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="66352299-d010-4b09-b954-9ab797a04f38"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ST04Activated"
+ Guid="3792a1e5-9ec6-474b-b4f5-341468670df6"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c207ff5e-a4ba-41b7-841b-512b6ca96f66"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f8ded5ec-fc49-4b06-9272-226af6d0454a"
+>
+</ReqRef><Comment>Indicates if the symbol ST04 (corresponding to safe radio connection &quot;Connection Lost/Set-Up failed&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="5ecc6ecf-891e-468c-98d5-909d0a43f132"
+>
+<PreConditions>
+<PreCondition
+ Guid="292493b4-0f43-437e-b96a-9a3815671fb4"
+>DMI.MasterDMI().Out_SafeRadioConnectionIndication.OutputInformation.DisplayRequested</PreCondition><PreCondition
+ Guid="c6975485-4ff2-45b2-b619-0b441bd6bdb7"
+>DMI.MasterDMI().Out_SafeRadioConnectionIndication.ConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ab143517-b83b-4cf2-9c44-e89bfe0db0a6"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ST05Activated"
+ Guid="30721195-284d-485c-827e-b74847dc60f9"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="47f1001c-bde2-46ec-9c97-6481688c83bb"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5d178526-73ae-409f-9e97-8b9a00adec32"
+>
+</ReqRef><Comment>Indicates if the symbol ST05 (corresponding to Hour glass) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="e760012b-4f2b-4d71-ae9a-64688eddefa6"
+>
+<PreConditions>
+<PreCondition
+ Guid="7cc942d3-7e23-4344-9fc2-43bcb444bc40"
+>False</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="62bf4e18-4df1-486c-a66f-0b617dab4260"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ST06Activated"
+ Guid="45d4be3e-ac50-4f51-adbd-30c6e6672f0c"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2acabe87-2520-4fbf-acca-4c0c90b35a44"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3864d8fb-ea9b-45a7-925d-83870bf67aaa"
+>
+</ReqRef><Comment>Indicates if the symbol ST06 (corresponding to Reversing allowed) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="6a7566c9-bbe6-4e6c-9bce-e78ba68b79d3"
+>
+<PreConditions>
+<PreCondition
+ Guid="6d251dba-f46e-4ec7-9904-aa981fbc0511"
+>DMI.MasterDMI().Out_ReversingAllowed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="99c3ab4c-3487-4903-a347-fa0869841f71"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,183 @@
+<NameSpace
+ X="30"
+ Y="320"
+ Width="100"
+ Height="50"
+ Name="VirtualBaliseCover"
+ Guid="b21972d7-5ead-4bc9-bbd0-6cc190f2dc32"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="Added"
+ Guid="bb496e75-dfb9-4b9d-8b5d-d47890d23961"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="Removed"
+ Guid="49a1207a-5e8c-405c-b781-2439e350b9c5"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.T_VBC"
+ Default=""
+ X="290"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="TimeVBC"
+ Guid="21dd0957-b915-4607-9b25-c236357bff4f"
+>
+<ReqRef
+ Id="114edcbc-7d24-41b0-88fe-89c4ceb8ae45"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="39821921-2382-418b-8578-9aacc9f77273"
+>
+</ReqRef><Comment>Provides the number of days of validity for a Virtual Balise Cover</Comment>
+<Parameters>
+<Parameter
+ Type="Default.DateAndTimeStruct"
+ Name="time"
+ Guid="4ee39fe6-b523-4674-aa7a-a7c45303bd15"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="cbc9552a-cb28-4d63-83b4-d222567cb3c4"
+>
+<Expression>time.Day</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="8c3e7c9c-1c75-4469-929c-ffa9a2798923"
+>
+<ReqRef
+ Id="519182f7-fb99-4546-87d8-da7a2edd6c99"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c82f9959-3810-46e5-ac99-742655515509"
+>
+</ReqRef><ReqRef
+ Id="9d9290ed-830e-4e22-9056-7b1d9cdd0b86"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="dad60868-6c0a-45d4-a945-8e60ddb49d40"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="A virtual balise cover has been added by the driver"
+ Guid="731c09f7-91ec-429a-9252-02f40bde259a"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="A virtual balise cover has been added by the driver"
+ Guid="b9685aed-e460-4eca-acf2-a0bee97a9118"
+>
+<PreConditions>
+<PreCondition
+ Guid="7e5faf89-9e48-4062-ac89-b2e1a43e84af"
+>Available ( Added.GetCover() )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b2420b1d-8db9-4fb9-97c4-a776cba38fb6"
+>INSERT Added.GetCover() IN LastCovers </Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="A virtual balise cover has been removed by the driver"
+ Guid="a9ecd1cd-ce9d-4131-9570-2bb3e7ab9409"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="A virtual balise cover has been removed by the driver"
+ Guid="f4c75082-aa8f-46e4-bb91-6d3a585a2515"
+>
+<PreConditions>
+<PreCondition
+ Guid="42a5c69d-1ce3-4481-8b18-4b42343d0e05"
+>Available ( Removed.GetCover() )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c91f7d23-cf35-4b3d-9b22-8617573741a8"
+>REMOVE ALL X.Marker == Removed.GetCover().Marker IN LastCovers </Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Kernel.VirtualBaliseCover.VBCCol"
+ DefaultValue="[]"
+ VariableMode="Internal"
+ X="20"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastCovers"
+ Guid="b2f5f417-1da4-4efd-9295-dd80b8e7d908"
+>
+<ReqRef
+ Id="9d9290ed-830e-4e22-9056-7b1d9cdd0b86"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a191aed0-b757-4d6f-9c13-7592b7cd7e92"
+>
+</ReqRef><ReqRef
+ Id="519182f7-fb99-4546-87d8-da7a2edd6c99"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e04e6463-c3da-4f59-ac61-0c2c13d64b12"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="a7681392-1e56-4e3b-b127-55446b300ae1"
+>
+<ReqRef
+ Id="9d9290ed-830e-4e22-9056-7b1d9cdd0b86"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="618c1f18-f1d6-4583-88ef-ee724e4acb7f"
+>
+</ReqRef><ReqRef
+ Id="519182f7-fb99-4546-87d8-da7a2edd6c99"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b88a35c9-845e-44cb-aa60-f38a0a0e4810"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="dbb35b34-a9ab-479f-96b2-8f471304f643"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ab89f87d-e23d-4154-9bd8-0a22583ec20c"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

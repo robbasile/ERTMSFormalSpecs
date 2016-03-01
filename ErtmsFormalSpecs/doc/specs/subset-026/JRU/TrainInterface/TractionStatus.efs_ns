@@ -1,0 +1,222 @@
+<NameSpace
+ X="350"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="TractionStatus"
+ Guid="99830495-86cd-48f5-a56b-0e08823b0cdc"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="8db5797c-a0ea-46ef-82f6-53a034950db4"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4a2a58da-b2ad-40c7-aa34-dd8afc99ce34"
+>
+</ReqRef><ReqRef
+ Id="1d116569-0a84-49db-b43b-fc79a8237b40"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="439044d6-6402-40cd-b55c-adb84c77beff"
+>
+</ReqRef><Comment>Indicates whether the TRACTION_STATUS JRU Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="5d6a8db1-aff9-456a-8d68-0552f368edf3"
+>
+<PreConditions>
+<PreCondition
+ Guid="e72c8da4-9736-4f15-9369-50f70bb41644"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="TractionStatusChanged"
+ Guid="46cbc9e8-ba67-494d-a335-39d9414ec957"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRACTION_STATUS.Message"
+ Default=""
+ X="30"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="9f0cd0e0-cbb2-4ca1-a01c-849ea837d233"
+>
+<ReqRef
+ Id="8244b69a-230d-41b4-b7bb-0890ff2ccc7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4593963c-e1bf-4c61-82f6-e77d07d34e2f"
+>
+</ReqRef><ReqRef
+ Id="0e50796d-ed4d-4c9d-a0c4-f0fdd76ce124"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e7d11cf4-cbd7-4734-99f5-5d94ae3b3dcf"
+>
+</ReqRef><ReqRef
+ Id="2fa2f9ae-31ff-4ea3-af52-c0dffbbdbef1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="017c46ea-cb65-497a-863c-5617036a893e"
+>
+</ReqRef><Comment>Function used to create the JRU Message TRACTION_STATE</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ba0bc24a-02cb-4b0a-9eee-657a3748d2f4"
+>
+<Expression>Messages.JRU.MESSAGE.TRACTION_STATUS.Message {
+    HEADER =&gt; JRU.Header.CreateHeader(40),
+M_TRACTION_STATUS=&gt;GetStatus()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_TRACTION_STATUS"
+ Default=""
+ X="140"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="63d93c89-3831-458e-919d-106b76f33941"
+>
+<ReqRef
+ Id="2fa2f9ae-31ff-4ea3-af52-c0dffbbdbef1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="da3e7763-63a3-49f6-8bc7-c97f64bd9e79"
+>
+</ReqRef><ReqRef
+ Id="1d116569-0a84-49db-b43b-fc79a8237b40"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="37a4c2d0-ae60-4b5a-a3e5-9039e9303486"
+>
+</ReqRef><Comment>Provides the M_TRACTION_STATUS from the TIU</Comment>
+<Cases>
+<Case
+ Name="On"
+ Guid="201e881e-3b3c-492c-97bf-33b3c48a45ac"
+>
+<PreConditions>
+<PreCondition
+ Guid="077e9f0c-c1f3-468c-9d3c-c1e98193cd03"
+>TIU.TractionIsOn </PreCondition></PreConditions>
+<Expression>Messages.JRU.M_TRACTION_STATUS.On</Expression>
+</Case><Case
+ Name="Off"
+ Guid="2c045ce2-e758-4427-951b-3a4a1a6e7aab"
+>
+<Expression>Messages.JRU.M_TRACTION_STATUS.Off</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="ae170567-d1a5-429f-ad4d-4893aecc549d"
+>
+<ReqRef
+ Id="1d116569-0a84-49db-b43b-fc79a8237b40"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="53a43eaf-f455-4ebd-9e29-e8d849f7744c"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="161548a0-01cf-49d1-a9d9-59f4506cd88f"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="8a207db2-346b-4bf1-baf8-6be4e356a5d1"
+>
+<PreConditions>
+<PreCondition
+ Guid="bda89a08-2220-44a4-816b-ef459add53a2"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="020aec33-248b-4ddf-8823-e401c9c9e48e"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_TRACTION_STATUS"
+ DefaultValue="Messages.JRU.M_TRACTION_STATUS.Off"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="e4bf2ff7-fbee-4290-9408-b5ca962ce1cb"
+>
+<ReqRef
+ Id="1d116569-0a84-49db-b43b-fc79a8237b40"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5c654afb-0730-4b07-bb98-c369e3bbe458"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="9dfd001f-6fde-4cc8-86b0-dc94324bdae1"
+>
+<ReqRef
+ Id="1d116569-0a84-49db-b43b-fc79a8237b40"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fe8ed1a9-9be6-4072-a205-7a34029b7414"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="0349cecf-39d8-4594-8a56-7698349c6f8a"
+>
+<PreConditions>
+<PreCondition
+ Guid="79c1d87d-e842-45fa-91bf-8becd706190d"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c980cf32-0748-4bc3-9c79-bc9dd973d3e9"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

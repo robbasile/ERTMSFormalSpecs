@@ -1,0 +1,211 @@
+<NameSpace
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="CabStatus"
+ Guid="cef5189c-d479-43d0-bbe1-34592e4a6c19"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="bd5a7101-101b-4236-93d4-08fa993777af"
+>
+<ReqRef
+ Id="8c425848-9e3f-47e1-b085-05409ddc4922"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7b36daa5-a976-4219-8b2c-9099540d9589"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="97de8fe4-57f1-4004-bd65-bbf169a0b833"
+>
+</ReqRef><Comment>Indicates whether the JRU CAB_STATUS Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="af9f5f1a-11a8-4ab7-a381-968cc8f00c9e"
+>
+<PreConditions>
+<PreCondition
+ Guid="baeb5c55-560e-42e1-9839-a845bf3ec653"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Cabs status has changed"
+ Guid="54073494-a6de-4a5a-bae0-e48894e4dff8"
+>
+<Expression>LastCabAActive != GetCabAActive() OR LastCabBActive != GetCabBActive()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.CAB_STATUS.Message"
+ Default=""
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="6d8db90d-bd08-46be-a60d-39853472f958"
+>
+<ReqRef
+ Id="7275722c-79c3-4be4-aa59-792d2628c3ac"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="14086c1d-8a79-4ed9-a641-ade47af1d6f7"
+>
+</ReqRef><ReqRef
+ Id="4f390dd5-f5ce-4d60-8ed1-fde51a48b37d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="878d41ce-6e26-4262-b173-1213a3bff5b2"
+>
+</ReqRef><ReqRef
+ Id="07639a9d-c6ea-4946-b1c8-3fffb617f1bb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4f54af07-297d-4eee-b2e3-cbf306ff4080"
+>
+</ReqRef><ReqRef
+ Id="09df2c37-ada9-4078-a318-636e1ef17601"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="60c5bf94-ffb7-4af3-8185-bf90bd97ffb1"
+>
+</ReqRef><ReqRef
+ Id="f9a025a0-5d6b-4d68-946b-f3f5c736adc2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="870678d9-2a4c-4873-8a88-4f99c73f3dbb"
+>
+</ReqRef><ReqRef
+ Id="ca6de985-daf9-4798-87b8-e36f3b143ed7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a6f29128-1b4b-4225-b88b-7740b875b082"
+>
+</ReqRef><ReqRef
+ Id="45287456-663d-411a-82b3-093ef23e2fd9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="90518c85-eebe-4862-882c-ab33a4ec7010"
+>
+</ReqRef><Comment>Creates the CAB_STATUS JRU message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3280e33f-ec81-4ba9-8464-58df507dee07"
+>
+<Expression>Messages.JRU.MESSAGE.CAB_STATUS.Message {
+     HEADER =&gt; Header.CreateHeader(38),
+     M_CAB_A_STATUS =&gt; GetCabAStatus(),
+     Q_CAB_B =&gt; TrainInterface.CabStatus.SecondCabIsPresent(),
+     M_CAB_B_STATUS =&gt; GetCabBStatus()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.Q_CAB_B"
+ Default=""
+ X="260"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SecondCabIsPresent"
+ Guid="d601fc2a-debc-4465-b83d-844a21df6859"
+>
+<ReqRef
+ Id="ca6de985-daf9-4798-87b8-e36f3b143ed7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4c18ba81-7db1-4617-adaa-0ec6b64d4b90"
+>
+</ReqRef><Comment>Determines if there is a second Cab connected to the ERTMS/ETCS System</Comment>
+<Cases>
+<Case
+ Name="ThereIsSecondCab"
+ Guid="6a05d015-021d-4fad-8846-458dc53c5836"
+>
+<PreConditions>
+<PreCondition
+ Guid="41ba2efc-5b9d-4610-87af-7fbb7b1e6c63"
+>Available( TIU.CabB )</PreCondition></PreConditions>
+<Expression>Messages.JRU.Q_CAB_B.Yes</Expression>
+</Case><Case
+ Name="SecondCabIsNotPresent"
+ Guid="54213d09-e8e9-464e-8566-cb063b71ee61"
+>
+<Expression>Messages.JRU.Q_CAB_B.No</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_CAB_A_STATUS"
+ Default=""
+ X="150"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetCabAStatus"
+ Guid="e8d8931f-0f5c-462a-adfc-e10277523b9c"
+>
+<ReqRef
+ Id="f9a025a0-5d6b-4d68-946b-f3f5c736adc2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c6d28cf9-90c2-44d0-a46c-5f21f3fb9185"
+>
+</ReqRef><Comment>Function which will convert the input value into JRU M_CAB_A_STATUS</Comment>
+<Cases>
+<Case
+ Name="IsActive"
+ Guid="2437f156-18f3-488d-b937-3d4c56613215"
+>
+<PreConditions>
+<PreCondition
+ Guid="5a376e46-689d-4304-9c50-bf707cab94a4"
+>GetCabAActive()</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_CAB_A_STATUS.Active</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="380bf9ec-3a61-453b-bc04-83142ae0562c"
+>
+<Expression>Messages.JRU.M_CAB_A_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_CAB_A_STATUS"
+ Default=""
+ X="260"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetCabBStatus"
+ Guid="3b2f61a5-f6d2-4dc2-9d46-4fda55042cf8"
+>
+<ReqRef
+ Id="45287456-663d-411a-82b3-093ef23e2fd9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fbc385b9-8cc5-4dee-bfc4-66984d8d1eec"
+>
+</ReqRef><Comment>Function which will convert the input value into JRU M_CAB_B_STATUS</Comment>
+<Cases>
+<Case
+ Name="IsActive"
+ Guid="18dd4a19-f852-4372-84d7-c55b8d1986f2"
+>
+<PreConditions>
+<PreCondition
+ Guid="9073efc4-9fb1-4956-a234-b6908f284a54"
+>GetCabBActive()</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_CAB_B_STATUS.Active</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="875a1c04-d684-4646-ac29-d740fb6c9712"
+>
+<Expression>Messages.JRU.M_CAB_B_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

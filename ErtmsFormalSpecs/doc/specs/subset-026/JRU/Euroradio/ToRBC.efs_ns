@@ -1,0 +1,88 @@
+<NameSpace
+ X="50"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="ToRBC"
+ Guid="35f027fc-4b06-46ff-8b99-28d50e81297e"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.TO_RBC.Message"
+ Default=""
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="5ffc2eed-e108-4034-8acb-07bb423b991f"
+>
+<ReqRef
+ Id="aba7a9a3-253d-451a-8cf5-df368cc1c6d5"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="380dd166-a169-4b62-838e-49a75588ef9c"
+>
+</ReqRef><ReqRef
+ Id="8786f310-b395-4335-99e7-e975a39f7002"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9c9049bc-4a0a-447f-a5b3-eb88a39e6d6e"
+>
+</ReqRef><ReqRef
+ Id="dd25f031-3a5c-4443-980a-6020ceeeef1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9a280ccd-f743-4415-a50d-3aef8d2396f7"
+>
+</ReqRef><ReqRef
+ Id="49c4ee3f-f7b9-4a71-852c-e816da574639"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cb31bd1e-0521-42fe-b27a-15e0c24d4959"
+>
+</ReqRef><Comment>Creates a MESSAGE_TO_RBC JRU Messages</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="dc7b29ff-22bb-4331-bdb9-6931f0abed22"
+>
+<Expression>LET connection =&gt; EURORADIO.CurrentRBCConnection() 
+IN 
+  Messages.JRU.MESSAGE.TO_RBC.Message {
+     HEADER =&gt; Header.CreateHeader(10),
+     NID_C =&gt; connection.ContactData.Id.Country,
+     NID_RBC =&gt; connection.ContactData.Id.Id,
+     TELEGRAM =&gt; connection.MessageOut 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="38b712dc-b8aa-4b95-8d2b-20801254cffe"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2b5ee775-122d-4650-93b4-f49b3e21c2bb"
+>
+</ReqRef><ReqRef
+ Id="2ffe0674-1645-4793-9d44-f0cc0a540f2e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5c113d43-aa02-441a-9066-efb15fefcbab"
+>
+</ReqRef><Comment>Indicates whether a MESSAGE_TO_RBC should be sent to the JRU</Comment>
+<Cases>
+<Case
+ Name="NewTelegramToRbc"
+ Guid="2836142f-ddc7-4a6b-b7bd-7bdb5092583d"
+>
+<Expression>Available (  EURORADIO.CurrentRBCConnection() .MessageOut )</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

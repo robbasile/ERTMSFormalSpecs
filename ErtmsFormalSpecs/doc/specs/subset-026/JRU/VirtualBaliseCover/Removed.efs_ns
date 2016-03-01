@@ -1,0 +1,100 @@
+<NameSpace
+ X="130"
+ Y="30"
+ Width="100"
+ Height="50"
+ Name="Removed"
+ Guid="27b7aa41-d64f-4b20-975a-5b56a98f6adc"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER.Message"
+ Default=""
+ X="40"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="588c291b-040f-460c-bd3e-c3fccd5eae83"
+>
+<ReqRef
+ Id="d859be5b-236a-48f2-8ded-f5dae33c2380"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cf57b478-1b1f-489a-9b3f-bc675fa1b6d8"
+>
+</ReqRef><ReqRef
+ Id="97ccbdac-a9ac-4262-bcac-caa89781d4ed"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ed0e347c-a989-499b-81ae-fd7db0db9efb"
+>
+</ReqRef><ReqRef
+ Id="752ced46-4ae3-49cd-9476-4e049abe9685"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a6f6c5de-e2d6-4874-8026-cce2508eb9ca"
+>
+</ReqRef><Comment>Will fill the necessary fields to generate the VIRTUAL_BALISE_COVER_REMOVED_BY_THE_DRIVER message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9761233e-1347-49a9-92c2-ce9b169fcdcb"
+>
+<Expression>Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER.Message{
+    HEADER =&gt; JRU.Header.CreateHeader(29),
+    NID_VBCMK =&gt;  GetCover().Marker.Marker,
+    NID_C =&gt; GetCover().Marker.Area
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Kernel.VirtualBaliseCover.VBCStruct"
+ Default=""
+ X="150"
+ Y="30"
+ Width="100"
+ Height="50"
+ Name="GetCover"
+ Guid="4a4c45a3-5246-440c-bd76-b5274467d813"
+>
+<ReqRef
+ Id="519182f7-fb99-4546-87d8-da7a2edd6c99"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="82218b4e-d8eb-4eed-8cc8-8676af4c2e1b"
+>
+</ReqRef><Comment>Provides the virtual balise cover that has been removed</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="af75ba09-d26d-441c-977d-df64cd0bff79"
+>
+<Expression>FIRST Prev IN LastCovers |     
+  FORALL Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs | Prev.Marker != Cover.Marker 
+</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="7a223060-f70f-4bc9-9003-b70b59466bc4"
+>
+<ReqRef
+ Id="519182f7-fb99-4546-87d8-da7a2edd6c99"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5ef4effd-21a7-46f1-85ae-a41f446fe81a"
+>
+</ReqRef><Comment>Determines if it is necessary to send a VIRTUAL BALISE COVER REMOVED BY DRIVER message.</Comment>
+<Cases>
+<Case
+ Name="Driver added a VBC"
+ Guid="8a785d31-e233-40d1-a316-78d18ef77b1e"
+>
+<Expression>Available( GetCover() )</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

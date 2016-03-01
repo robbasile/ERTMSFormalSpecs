@@ -1,0 +1,204 @@
+<NameSpace
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="ServiceBrakesStatus"
+ Guid="06a6799a-0f38-4a9d-a7c3-eefb3ae2b6ad"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.SERVICE_BRAKE_COMMAND_STATE.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="28e96520-02a7-4e65-a648-e4bf6beca53d"
+>
+<ReqRef
+ Id="a8f59a9b-a318-44ce-8106-9abe073a59bf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e94599be-a438-4382-b03b-03fe8ee17344"
+>
+</ReqRef><ReqRef
+ Id="cb3458d8-a8bd-47d7-b410-3cd6789a56cd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="19d077c8-d886-4261-a00c-65d951ce05f4"
+>
+</ReqRef><Comment>Creates the SB_COMMAND_STATE JRU Messages</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="bced488d-2c77-4ef6-9121-c54c5b1eca07"
+>
+<Expression>Messages.JRU.MESSAGE.SERVICE_BRAKE_COMMAND_STATE.Message{
+     HEADER =&gt; Header.CreateHeader( 4 ),
+     M_BRAKE_COMMAND_STATE=&gt;GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_BRAKE_COMMAND_STATE"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetStatus"
+ Guid="bcdc94d9-fb0b-422b-80f3-ed90e775aefb"
+>
+<ReqRef
+ Id="cb3458d8-a8bd-47d7-b410-3cd6789a56cd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e4c22620-a59d-4b86-95be-478f42744323"
+>
+</ReqRef><Comment>Retrieves the SB_COMMAND status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Applied"
+ Guid="1dbb26cd-86b5-4755-8fe8-922a7ef1a2cb"
+>
+<PreConditions>
+<PreCondition
+ Guid="2e282d4e-3550-4590-95ae-a1523f5b3953"
+>TIU.Brakes.ServiceBrakes.Commanded()</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_BRAKE_COMMAND_STATE.Commanded</Expression>
+</Case><Case
+ Name="NotApplied"
+ Guid="8660e02a-2ace-45fa-9cbf-3b668afaed8f"
+>
+<Expression>Messages.JRU.M_BRAKE_COMMAND_STATE.Not_commanded</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="19ea6022-b75d-452c-9a0e-a06736cf8fcc"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2a815504-fd02-46d4-b626-ebcfac33902e"
+>
+</ReqRef><ReqRef
+ Id="089434c4-9c48-438a-9c6e-1dc3af77e9db"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2d2e3e74-5e6b-4bc9-8aa5-b026977e5ac6"
+>
+</ReqRef><Comment>Indicates whether the SB_BRAKE_STATUS should be reported in the JRU</Comment>
+<Cases>
+<Case
+ Name="ServiceBrakeHasBeenApplied"
+ Guid="354e3a1d-84d2-4e2a-8198-fb61a798b563"
+>
+<Expression>LastStatus !=  GetStatus()</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="4e597af2-ec27-48d1-bb23-9f4a98a2a7fd"
+>
+<ReqRef
+ Id="089434c4-9c48-438a-9c6e-1dc3af77e9db"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="579e1086-9f8d-4d0b-a801-a13ae66cc9de"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="df838c63-ea07-4f5a-a65d-a7ff887ea3be"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="55602208-8bd8-41b5-a795-ba08ebf6400e"
+>
+<PreConditions>
+<PreCondition
+ Guid="da5470b8-c104-4c93-ab32-72c2f889bfe9"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d762199d-0486-4394-87e0-5a172bc37b65"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_BRAKE_COMMAND_STATE"
+ DefaultValue="Messages.JRU.M_BRAKE_COMMAND_STATE.Not_commanded"
+ VariableMode="Internal"
+ X="20"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="205a2e92-d8f4-4ed0-9a43-2eccca7288b1"
+>
+<ReqRef
+ Id="089434c4-9c48-438a-9c6e-1dc3af77e9db"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fc3a85b6-1532-490c-97b2-0a323d148adb"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="51e984ee-c3d6-452f-b189-c8155de111c4"
+>
+<ReqRef
+ Id="089434c4-9c48-438a-9c6e-1dc3af77e9db"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c2d0d1a9-03f3-4aee-8288-b4ccd1831dc7"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="e30abae2-6ebd-4b87-8d1c-ca612c71981a"
+>
+<PreConditions>
+<PreCondition
+ Guid="5bbcd677-f4ca-4e50-bc47-db73bc571736"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e8791c55-fb56-4168-b209-cc8c6415e6e7"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

@@ -1,0 +1,255 @@
+<NameSpace
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="Type"
+ Guid="58c7f5fe-4171-4768-bf2d-18ae58ce472c"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.TYPE_OF_TRAIN_DATA_ENTRY.Message"
+ Default=""
+ X="40"
+ Y="40"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="c138db8f-548a-408d-8cc1-d2caf521bd9d"
+>
+<ReqRef
+ Id="5642b7ac-8532-4e16-a3e9-a766287904d9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="699f5b5d-ba6c-4a93-88a8-73f8213ae103"
+>
+</ReqRef><ReqRef
+ Id="77a5f708-63c9-4af6-994d-46f834c8acde"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="30799d2a-7542-4e5d-9035-c7127e550e4b"
+>
+</ReqRef><ReqRef
+ Id="c0493d5f-364b-43e7-b271-75b71b32b33a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="acdd30ae-fb7c-4749-8a21-4ccca4e199e7"
+>
+</ReqRef><Comment>Function used to generate the TRAIN_DATA_ENTRY_TYPE JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c404ac6c-b622-4439-b683-2b68e2912fa3"
+>
+<Expression>Messages.JRU.MESSAGE.TYPE_OF_TRAIN_DATA_ENTRY.Message
+{
+HEADER =&gt; Header.CreateHeader(41),
+M_TRAIN_DATA_ENTRY=&gt;GetType()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="2976de70-0e85-48b3-a380-2fd0df4d5600"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="802a7307-4aac-4f12-a9bd-7f14e93971fc"
+>
+</ReqRef><ReqRef
+ Id="1a99e0b8-25e4-40b9-804a-adc887b38588"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ec20e567-0f71-4035-a445-bb6832930b5e"
+>
+</ReqRef><Comment>Function used to determine if it is necessary to send a TRAIN_DATA_ENTRY_TYPE JRU Message</Comment>
+<Cases>
+<Case
+ Name="AtStartUp when a Cab is active"
+ Guid="9f4c565a-4e30-46b8-8dd4-f5a91678d2f9"
+>
+<PreConditions>
+<PreCondition
+ Guid="dc972b7d-2309-4686-a426-5c0bb3f37dd2"
+>IsStartUp()</PreCondition><PreCondition
+ Guid="ca653028-09ec-47fc-bcd8-7dfa74cb927f"
+>GetCabAActive() OR GetCabBActive() </PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Cab A becomes active"
+ Guid="6987562d-47d5-4c97-801f-1dd10a43c267"
+>
+<PreConditions>
+<PreCondition
+ Guid="52f57aed-f0fe-4617-b334-07d70cfafb68"
+>NOT LastCabAActive</PreCondition><PreCondition
+ Guid="7a1d0ff1-8c57-47b5-8b28-e46db666c76b"
+>GetCabAActive()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Cab B becomes active"
+ Guid="470bf55b-3d18-498d-8c1d-f53c77d91f28"
+>
+<PreConditions>
+<PreCondition
+ Guid="a699ae90-a1f4-4fd3-b0c3-ec6d1ba66493"
+>NOT LastCabBActive</PreCondition><PreCondition
+ Guid="0ae07c14-de56-4cd7-b53a-ac88ef19eeaf"
+>GetCabBActive()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="TrainDataEntryChanges"
+ Guid="97617122-7ca5-4824-9990-bfe6d175148e"
+>
+<Expression>LastType != GetType()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_TRAIN_DATA_ENTRY"
+ Default=""
+ X="170"
+ Y="40"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetType"
+ Guid="473f4d4f-8e0a-4bbb-bfc8-4f0077cb76fe"
+>
+<ReqRef
+ Id="c0493d5f-364b-43e7-b271-75b71b32b33a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2f8616fa-e94a-42ce-9d6d-a2b4cec6812f"
+>
+</ReqRef><Comment>Function which will translate the incoming TIU value into an understandable JRU value</Comment>
+<Cases>
+<Case
+ Name="Fixed"
+ Guid="bf7ef3b3-9065-45fc-b5ad-4798639b18e9"
+>
+<PreConditions>
+<PreCondition
+ Guid="4cfff850-8d42-42d2-b0a7-c22f6de5a072"
+>TIU.TrainDataEntry == TIU.TrainDataEntryEnum.Fixed</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_TRAIN_DATA_ENTRY.Fixed</Expression>
+</Case><Case
+ Name="Flexible"
+ Guid="89155933-f3d8-4914-bf02-b72bbe767d1e"
+>
+<PreConditions>
+<PreCondition
+ Guid="0ca1d51e-5a15-4d6f-a337-fc8e149b8937"
+>TIU.TrainDataEntry == TIU.TrainDataEntryEnum.Flexible</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_TRAIN_DATA_ENTRY.Flexible</Expression>
+</Case><Case
+ Name="Switchable"
+ Guid="281f326f-37d9-4bd3-bea7-9452c72fa82c"
+>
+<PreConditions>
+<PreCondition
+ Guid="0d0ac47b-43aa-4b35-ab91-f94ad4cb0005"
+>TIU.TrainDataEntry == TIU.TrainDataEntryEnum.Switchable</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_TRAIN_DATA_ENTRY.Switchable</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="f095c3b2-cb50-4d04-b76e-6a18d81dbc5d"
+>
+<ReqRef
+ Id="1a99e0b8-25e4-40b9-804a-adc887b38588"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5569a792-0aed-441d-9896-98b83459731a"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="22cedaad-f52b-48eb-9c93-4df4e15f2f20"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="155df36a-f5a5-4b18-9ebb-4ecd864407aa"
+>
+<PreConditions>
+<PreCondition
+ Guid="be3c430c-d32c-41a1-a8f8-a3c0b46d81cf"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="adcf6987-b1f7-403c-afc6-c4cd250cb130"
+>LastType &lt;- GetType()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_TRAIN_DATA_ENTRY"
+ DefaultValue="Messages.JRU.M_TRAIN_DATA_ENTRY.Spare"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastType"
+ Guid="956a0e72-cd73-425c-a3b3-3fb87642e81e"
+>
+<ReqRef
+ Id="1a99e0b8-25e4-40b9-804a-adc887b38588"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c416433f-1c77-49d7-b726-2c28dd0ea484"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="e70fb76a-653e-403e-8c7b-8594ab1e2c2f"
+>
+<ReqRef
+ Id="1a99e0b8-25e4-40b9-804a-adc887b38588"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0cb6577c-9880-4fc0-acc7-d34963af172c"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="a675bf53-3512-42bd-90db-f438f5e44569"
+>
+<PreConditions>
+<PreCondition
+ Guid="a0fa0490-2e81-489c-873a-d8c066a75943"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fc0097e7-6879-4dca-b947-5c6cc763c1b5"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

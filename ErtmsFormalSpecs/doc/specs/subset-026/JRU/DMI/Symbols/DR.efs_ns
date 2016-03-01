@@ -1,0 +1,217 @@
+<NameSpace
+ X="290"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="DR"
+ Guid="51704d1a-befc-4f29-9120-a8f766870bc0"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DR01Activated"
+ Guid="e325ca78-1909-4751-9a55-d8dd51a3a4b8"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="530a0f09-fffd-4c70-bc45-9058f53e2f63"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="13702af3-4dab-4ece-9d13-7f8e767d472c"
+>
+</ReqRef><Comment>Indicates if the symbol DR01 (corresponding to toggling functin for speed/distance information) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="29457cb2-f3f9-488c-b9af-5c694403262e"
+>
+<PreConditions>
+<PreCondition
+ Guid="ad85987a-2b82-494b-aa0d-4fdc734dc630"
+>False</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3a184c9c-f753-4c35-9639-fe5341009d5c"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DR02Activated"
+ Guid="cb344483-4d69-4789-9961-7d515d5adb71"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d12a72b-a1b4-4b84-a55a-51396173cec2"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="584d1f18-367c-4657-8090-a8897e14f9ff"
+>
+</ReqRef><Comment>Indicates if the symbol DR02 (corresponding to ttrack ahead free) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="6681ea8d-e6f3-4463-8643-b933e94c3a8e"
+>
+<PreConditions>
+<PreCondition
+ Guid="065b4c7e-0bf7-4ed7-8139-2bca69f49cb2"
+>DMI.MasterDMI().Out_TrackAheadFreeRequest.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="4c2bbe6c-8e24-4387-a3ed-4745ae16b6a6"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DR03Activated"
+ Guid="7fea219b-968c-4bfa-93ac-7dddddc5aca6"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a8e226d3-28cf-4833-872d-b2d5f45b2187"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="31799748-426c-4aa1-a8ec-ca4cb6f8a988"
+>
+</ReqRef><Comment>Indicates if the symbol DR03 (corresponding to geographical position) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="c28d6eea-582b-4f8c-90b4-0adf0a86b410"
+>
+<PreConditions>
+<PreCondition
+ Guid="32ccc610-3fbb-47be-a3ca-73ec2b163e65"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestIsAllowed</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ed7e94ae-3350-4d5c-a221-3a240fbed951"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DR04Activated"
+ Guid="89667ecc-f5c2-483b-9e10-e1ebf261144c"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="323796f9-dee0-475f-8eb2-f89413e1ff54"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1b7c0148-0883-4de7-9538-04656a3abd79"
+>
+</ReqRef><Comment>Indicates if the symbol DR04 (corresponding to acknowledgement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="7213a43f-5b4e-4995-ab22-b10312d07b1f"
+>
+<PreConditions>
+<PreCondition
+ Guid="456f2ca0-6d1e-4522-ae31-39aadc4dfaed"
+>DMI.MasterDMI().In_AcknForPostTripDistanceExceeded.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknForStandstillSupervision.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknOfFixedTextInformation.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknOfPlainTextInformation.InputInformation.RequestStatus == RequestEnum.Request
+  OR
+DMI.MasterDMI().In_AcknOfTrainDataChangeFromOtherSource.InputInformation.RequestStatus == RequestEnum.Request</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3a866d16-0c7f-480b-9697-fed16a98d5e1"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DR05Activated"
+ Guid="1e6df6a9-5b1c-4611-8701-cea155230f0b"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="28d1224f-5748-4bb2-99c3-cc46c80bf148"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6cad39cb-6158-4e1e-957d-538f23933653"
+>
+</ReqRef><Comment>Indicates if the symbol DR05 (corresponding to toggling function for tunnel stopping area) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="394f4a2f-0b1c-4354-a91e-8149d90f8c7e"
+>
+<PreConditions>
+<PreCondition
+ Guid="67aad0f2-e786-42e8-82e0-cae4d6dba563"
+>False</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ae77f2e3-195b-44d3-b059-8591e7b8d176"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

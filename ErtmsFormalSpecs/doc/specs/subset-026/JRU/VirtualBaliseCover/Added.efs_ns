@@ -1,0 +1,106 @@
+<NameSpace
+ X="20"
+ Y="30"
+ Width="100"
+ Height="50"
+ Name="Added"
+ Guid="d9fd447e-a0db-468f-a980-03cf12f3ad15"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_SET_BY_DRIVER.Message"
+ Default=""
+ X="40"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="a009fa28-6ce4-46f9-aae6-605d92dea59d"
+>
+<ReqRef
+ Id="29bf3662-a0ca-450a-8c70-1d447bcd3e7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d84f603b-237c-4ceb-b664-6f91a61385ae"
+>
+</ReqRef><ReqRef
+ Id="d1c48944-e94f-42f8-aaf8-1410de316e3f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d6683151-cd08-4bfc-ab7a-59d96a9bfa00"
+>
+</ReqRef><ReqRef
+ Id="e79e41c3-47e2-4f33-a829-b64006d3e98b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2de737b7-cfb3-40ff-b59d-1275e553fd60"
+>
+</ReqRef><ReqRef
+ Id="114edcbc-7d24-41b0-88fe-89c4ceb8ae45"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ca36348a-1549-49be-afc9-f372a83d9d97"
+>
+</ReqRef><Comment>Will fill the necessary fields to generate the VIRTUAL_BALISE_COVER_SET_BY_THE_DRIVER message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a02b997a-cde3-44b8-9c4e-70fed622571c"
+>
+<Expression>Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_SET_BY_DRIVER.Message{
+    HEADER =&gt; JRU.Header.CreateHeader(28),
+    NID_VBCMK =&gt;  GetCover().Marker.Marker,
+    NID_C =&gt; GetCover().Marker.Area,
+    T_VBC =&gt; TimeVBC(GetCover().ValidUntil)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="4cc67eae-65ee-4f8b-b362-5e5c33f9a23b"
+>
+<ReqRef
+ Id="9d9290ed-830e-4e22-9056-7b1d9cdd0b86"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a15a61e1-be4d-4116-b9de-b61efc107b87"
+>
+</ReqRef><Comment>Determines if it is necessary to send a VIRTUAL BALISE COVER SET BY DRIVER message.</Comment>
+<Cases>
+<Case
+ Name="Driver added a VBC"
+ Guid="ddc44c55-92a1-4677-831c-8fbbe0f89029"
+>
+<Expression>Available( GetCover() )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Kernel.VirtualBaliseCover.VBCStruct"
+ Default=""
+ X="150"
+ Y="30"
+ Width="100"
+ Height="50"
+ Name="GetCover"
+ Guid="37e22b38-bf43-4e32-8dc1-29153a4ddf6b"
+>
+<ReqRef
+ Id="9d9290ed-830e-4e22-9056-7b1d9cdd0b86"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="855e5f6d-bdf3-4023-a0ea-c115d7ce0f5a"
+>
+</ReqRef><Comment>Provides the virtual balise cover that has been added</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="97604c10-c867-48ea-9fac-e2e56b52d610"
+>
+<Expression>FIRST Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs |    
+  FORALL Prev IN LastCovers | Prev.Marker != Cover.Marker 
+</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

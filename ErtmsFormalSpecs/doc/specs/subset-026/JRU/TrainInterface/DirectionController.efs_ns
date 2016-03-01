@@ -1,0 +1,246 @@
+<NameSpace
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="DirectionController"
+ Guid="02566c19-e53c-4665-b4f7-43b5f3fa7fb3"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message"
+ Default=""
+ X="40"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="70f6f535-43ba-4741-8bd0-1c123a55cfd5"
+>
+<ReqRef
+ Id="d9784eba-d7cd-4aaa-8499-40da415462f9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9ccc0e0e-9fe2-4371-b963-bccd376f99ea"
+>
+</ReqRef><ReqRef
+ Id="134b7021-e80c-44ab-a9a5-c009d73f1451"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9dd17cda-99e9-42e3-b589-6e0f6e1886f9"
+>
+</ReqRef><ReqRef
+ Id="ade5813e-3f65-4f0b-acdc-d51816305acc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="eb884030-e50b-4215-ae88-8f877a21c0f0"
+>
+</ReqRef><Comment>This will generate the DIRECTION_CONTROLLER_POSITION JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="13ec1433-cedb-4b73-9d80-cbbc4c0c5bec"
+>
+<Expression>Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message {
+     HEADER =&gt; JRU.Header.CreateHeader(39),
+     M_DIRECTION_CONTROLLER =&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="6fef108c-733c-4e33-8d63-457637f02344"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cd7e5146-0727-4c4b-8e9b-17953fa888e2"
+>
+</ReqRef><ReqRef
+ Id="1d66e852-98d7-42e9-ac5a-f63774661b64"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c5e2a209-ff83-462d-9e4f-62caa4f57d77"
+>
+</ReqRef><Comment>Function which will determine if it is necessary to send a new TRAIN_DIRECTION_CONTROLLER JRU Message</Comment>
+<Cases>
+<Case
+ Name="At start up"
+ Guid="f70d31d3-9db0-4ab4-a05b-a376d6f88f29"
+>
+<PreConditions>
+<PreCondition
+ Guid="5081dd0f-f298-4320-bc0c-aad845612e89"
+>IsStartUp()</PreCondition><PreCondition
+ Guid="40f6427d-ce92-47db-b81b-6257a0a3792d"
+>GetCabAActive() OR GetCabBActive() </PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Cab B becomes active"
+ Guid="cbd75003-e0b6-4c6c-b2d9-99d0277be91c"
+>
+<PreConditions>
+<PreCondition
+ Guid="5e3d3aef-bc4c-44a8-b6df-45b2b99a02d6"
+>LastCabAActive != GetCabAActive() OR LastCabBActive != GetCabBActive()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Direction controller state changes"
+ Guid="6473f7e6-42a9-435b-a4f0-d08712251f13"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_DIRECTION_CONTROLLER"
+ Default=""
+ X="150"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="0361589d-bcd0-4f10-86de-c3944a2c757b"
+>
+<ReqRef
+ Id="ade5813e-3f65-4f0b-acdc-d51816305acc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3a0481c8-1e15-4eae-a676-a19b8a5f7edb"
+>
+</ReqRef><ReqRef
+ Id="1d66e852-98d7-42e9-ac5a-f63774661b64"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1049ca7e-97f9-4385-9e12-43263440ba36"
+>
+</ReqRef><Comment>Provides the M_DIRECTION_TRAIN_CONTROLLER from the TIU</Comment>
+<Cases>
+<Case
+ Name="Forward"
+ Guid="a0fafa1e-9008-4a06-a7f8-0f89acbbbe7d"
+>
+<PreConditions>
+<PreCondition
+ Guid="97a1d10b-65e6-48f3-80e3-b0fb5c4ac601"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DIRECTION_CONTROLLER.Forward</Expression>
+</Case><Case
+ Name="Backward"
+ Guid="b6b3b314-86de-45db-a1d9-8553bd49c61c"
+>
+<PreConditions>
+<PreCondition
+ Guid="789d5f4c-d5f4-4ae7-b6c7-e9dd74add480"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DIRECTION_CONTROLLER.Backward</Expression>
+</Case><Case
+ Name="Neutral"
+ Guid="ada01280-7716-4ffe-8688-713687278b95"
+>
+<PreConditions>
+<PreCondition
+ Guid="00bf8f85-0aab-4500-bdab-40fbefb9cccb"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_DIRECTION_CONTROLLER.Neutral</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="dd750013-b8eb-417c-a9e8-c30680e71fa9"
+>
+<ReqRef
+ Id="1d66e852-98d7-42e9-ac5a-f63774661b64"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f219c5a6-7579-4f9a-b099-0cbe6634bce2"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="7cf7f2a7-fd89-4b18-8582-d29e1a3aa693"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="cabf713a-ba5c-4fda-a03e-08b5aa24462d"
+>
+<PreConditions>
+<PreCondition
+ Guid="469b1b80-648d-4c4a-8dd9-dd8b9728a9b6"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ae26e8ff-38a7-48ac-b260-da37aef7aebe"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_DIRECTION_CONTROLLER"
+ DefaultValue="Messages.JRU.M_DIRECTION_CONTROLLER.Spare"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="f6286bc7-c848-48c2-b0d1-d6fbc658afae"
+>
+<ReqRef
+ Id="1d66e852-98d7-42e9-ac5a-f63774661b64"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2a8da4be-9238-4832-97bd-625930d06a9b"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="6d478cca-ae2e-4b1f-aff2-51cfd6c26d2a"
+>
+<ReqRef
+ Id="1d66e852-98d7-42e9-ac5a-f63774661b64"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="19e64a07-003b-4b3b-9f63-39e65bfa4515"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="f10aa155-6e5a-4289-9f0a-ddd507322252"
+>
+<PreConditions>
+<PreCondition
+ Guid="97109df1-8c2e-4fb4-be82-512ba63edd7c"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7fb586d0-9443-42e9-9ae1-a25348ac3210"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

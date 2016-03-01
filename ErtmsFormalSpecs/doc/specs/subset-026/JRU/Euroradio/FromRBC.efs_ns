@@ -1,0 +1,89 @@
+<NameSpace
+ X="50"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="FromRBC"
+ Guid="5d6f6870-5c33-49ef-8ef6-0aa7c3dd5614"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.FROM_RBC.Message"
+ Default=""
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="51063217-69fa-48a3-bafe-94e6d388ec0e"
+>
+<ReqRef
+ Id="b2e509d5-17fa-4916-bf5b-0ac33d558433"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="aea4ed7f-db23-4cd7-896e-8c0335202cbf"
+>
+</ReqRef><ReqRef
+ Id="9d5d8171-a5e8-4367-a51c-37ccac733f89"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="df174bfd-c332-4d49-aa69-2e2ea34393c6"
+>
+</ReqRef><ReqRef
+ Id="a238c5c4-f952-4a85-9211-55e2b0927ab3"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="52be6cc6-cd84-4415-b5f1-914034159a2d"
+>
+</ReqRef><ReqRef
+ Id="2791cd77-b956-44b6-ae10-ebf0764e8192"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c16ddd13-a6fc-45f5-ac43-9f51b4a1e373"
+>
+</ReqRef><Comment>Creates the MESSAGE_FROM_RBC JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="df393e31-c0fe-461b-92eb-4660fb622dd2"
+>
+<Expression>LET connection =&gt; EURORADIO.CurrentRBCConnection() 
+IN 
+  Messages.JRU.MESSAGE.FROM_RBC.Message{
+     HEADER =&gt; Header.CreateHeader(9),
+     NID_C =&gt; connection.ContactData.Id.Country,
+     NID_RBC =&gt; connection.ContactData.Id.Id,
+     TELEGRAM =&gt; EURORADIO.UpdatedReceivedMessage(connection) 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="112cf923-4d83-4e00-a970-89c06e5bb18c"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6680743b-4ca4-4526-8334-1a43a5afef1e"
+>
+</ReqRef><ReqRef
+ Id="a71ad63d-ce07-4898-a796-68cabe1767bc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="10d67c7a-bc08-436b-bb28-69bd82e2b642"
+>
+</ReqRef><Comment>Indicates whether an EURORADIO JRU message should be sent</Comment>
+<Cases>
+<Case
+ Name="NewMessageFromRbc"
+ Guid="111025cc-1188-4e45-9ce5-45c1886af469"
+>
+<Expression>Available ( EURORADIO.UpdatedMessageIn(EURORADIO.CurrentRBCConnection() ) )
+</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

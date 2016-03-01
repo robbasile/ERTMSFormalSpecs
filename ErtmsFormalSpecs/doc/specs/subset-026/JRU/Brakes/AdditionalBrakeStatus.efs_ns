@@ -1,0 +1,222 @@
+<NameSpace
+ X="490"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="AdditionalBrakeStatus"
+ Guid="0d82b484-9360-4d9e-a9fa-399b5e4d8510"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.ADDITIONAL_BRAKE_STATUS.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="32b20a28-fea2-43fc-9cbb-2ee81c28d7d2"
+>
+<ReqRef
+ Id="1376ba80-d0c0-4a52-9124-6468c01c9932"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="bd754eaa-3118-44e7-a38d-cbd13a150c0e"
+>
+</ReqRef><ReqRef
+ Id="b1979da8-e9d7-4c61-b931-3934d0c7dd45"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4a1adc4f-e83d-48af-b170-dde2f8b3a7e3"
+>
+</ReqRef><ReqRef
+ Id="7947c4dd-de78-4fde-b208-f53d2dc562ce"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c43d9f9f-fd15-4dc9-80b1-a7668a1f826d"
+>
+</ReqRef><Comment>Create a JRU ADDITIONAL_BRAKE_STATUS Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="950b687a-c814-4017-87a3-99cdff6be66e"
+>
+<Expression>Messages.JRU.MESSAGE.ADDITIONAL_BRAKE_STATUS.Message {
+     HEADER =&gt; Header.CreateHeader(37),
+     M_AB_STATUS=&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_AB_STATUS"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="4c48aa7d-b7c0-4243-ab30-a28b70547d23"
+>
+<ReqRef
+ Id="7947c4dd-de78-4fde-b208-f53d2dc562ce"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="bee35810-483f-4f0d-bcd1-31237dc700c4"
+>
+</ReqRef><ReqRef
+ Id="0c351b25-94d2-4d44-86a4-3fe7611f6582"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fe8b2f82-ce3a-4a68-aa71-b27bf02ca439"
+>
+</ReqRef><Comment>Retrieves the ADDITIONAL_BRAKE status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Active"
+ Guid="b9e58ca2-d3ba-4ba2-9fbc-73da94e138bf"
+>
+<PreConditions>
+<PreCondition
+ Guid="5e73738a-48d8-4180-81ba-0e5bbdc62008"
+>TIU.AdditionalBrakesActive == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_AB_STATUS.Active</Expression>
+</Case><Case
+ Name="NotActive"
+ Guid="be3693e3-8e6a-4a04-9141-d9d0be6df247"
+>
+<Expression>Messages.JRU.M_AB_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="21b48e05-4a16-4717-93c4-d325e8b3ee87"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="153a7bea-d2f6-464d-bda9-cb0016060f0e"
+>
+</ReqRef><ReqRef
+ Id="0c351b25-94d2-4d44-86a4-3fe7611f6582"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7bf81646-70e7-444d-a932-c72bf9e6da64"
+>
+</ReqRef><Comment>Indicates whether the ADDITIONAL_BRAKE_STATUS JRU Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="bb365db2-6488-4b44-82d3-82cab0a43d5c"
+>
+<PreConditions>
+<PreCondition
+ Guid="06455190-de4a-4041-8d07-90dae6a105c6"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="StatusChanged"
+ Guid="1b16b19d-2ba5-46ee-8fb8-e05d717faa88"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="f726fa2a-81aa-4ee7-b51a-b064ca3d9cfa"
+>
+<ReqRef
+ Id="0c351b25-94d2-4d44-86a4-3fe7611f6582"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e8c0001d-59da-4974-9afb-9cf2484d013a"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="812fafb0-ee21-4fdb-ad4d-f1bc866ef692"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="b8f4444d-b394-4340-ba4c-fd44d6b66bf1"
+>
+<PreConditions>
+<PreCondition
+ Guid="fbc28aaf-787d-4160-a18c-65c15ba14bc7"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f4ff7c36-2deb-4510-a620-eafb68b3f787"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_AB_STATUS"
+ DefaultValue="Messages.JRU.M_AB_STATUS.Not_active"
+ VariableMode="Internal"
+ X="20"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="1899b90d-9885-4cdd-9dde-84118bb357d6"
+>
+<ReqRef
+ Id="0c351b25-94d2-4d44-86a4-3fe7611f6582"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="84742cb8-c492-44e4-ae6a-9d0fb6af8b43"
+>
+</ReqRef><Comment>The last registered status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="26301d62-ca41-4051-a947-6cbf6d0cf54f"
+>
+<ReqRef
+ Id="0c351b25-94d2-4d44-86a4-3fe7611f6582"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="28d65dbb-6127-4f10-9990-2e81d6721bcb"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="e1a86d01-a454-4f59-994f-a721983a007d"
+>
+<PreConditions>
+<PreCondition
+ Guid="094055d5-b4a8-4241-8eaa-4c16941d9244"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b185a336-3a0b-4f07-8164-885973e899cf"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

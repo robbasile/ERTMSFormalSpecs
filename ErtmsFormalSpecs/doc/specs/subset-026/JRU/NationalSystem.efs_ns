@@ -1,0 +1,66 @@
+<NameSpace
+ X="360"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="NationalSystem"
+ Guid="9032ad26-dd61-487b-b414-fbc623ef9cbd"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="Isolation"
+ Guid="353819de-c7a5-4c5d-875d-e56a0aa800df"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="LevelChangeToNTC"
+ Guid="872125e6-3da3-4570-8642-1604e66f1832"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.NID_NTC"
+ Default=""
+ X="40"
+ Y="120"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetNID_NTC"
+ Guid="6b348997-2882-4945-9a7c-0d6814ddc511"
+>
+<ReqRef
+ Id="1eb3f175-3ec2-4f52-97e8-d179c6d714de"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="393f82be-271b-4095-b092-72d5654260a2"
+>
+</ReqRef><ReqRef
+ Id="b8b17a24-261e-4580-88ef-9b0d3e557a00"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e83dcf90-ce27-422c-b378-41057de9dd32"
+>
+</ReqRef><Comment>Converts and NID_NTC into its corresponding value for JRU messages</Comment>
+<Parameters>
+<Parameter
+ Type="NID_NTC"
+ Name="KernelNidNtc"
+ Guid="db7f3371-5cb1-4dc0-b5ad-a80b866ff962"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Applicable"
+ Guid="4a7cd6a3-b392-4e90-b513-402f4c54d9a1"
+>
+<PreConditions>
+<PreCondition
+ Guid="1bb2cf33-1d6c-4c74-85c6-b47085324c2d"
+>KernelNidNtc != NID_NTC.NOT_APPLICABLE</PreCondition></PreConditions>
+<Expression>KernelNidNtc</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="eabebc50-231e-4635-82fc-e653655d50be"
+>
+<Expression>0</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,223 @@
+<NameSpace
+ X="470"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="NonLeading"
+ Guid="d11f0e2b-f96b-4afe-b055-27196d493800"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.NON_LEADING_INPUT.Message"
+ Default=""
+ X="40"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="77df6a5f-0790-4fe8-85b0-105f05c8696e"
+>
+<ReqRef
+ Id="0361c793-fdc8-4da1-9229-09357d6117c9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c23addb2-3c08-435c-9a7f-246e3714abe3"
+>
+</ReqRef><ReqRef
+ Id="a5e5ce67-e067-46ac-b826-70aa11eb0e7d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5bd2d712-0bb7-48be-8901-c4ca96efc1f0"
+>
+</ReqRef><ReqRef
+ Id="ff93b26b-ebdc-4f1e-846d-f4991f753b7e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3cc976da-7056-4d81-8d89-330b7fb1641d"
+>
+</ReqRef><Comment>Will fill all the necessary fields to create a NON_LEADIN_INPUT Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="7c2598e7-6b00-46c6-8092-af8e57ed8040"
+>
+<Expression>Messages.JRU.MESSAGE.NON_LEADING_INPUT.Message{
+     HEADER =&gt; Header.CreateHeader(32),
+     M_NON_LEADING =&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="1b515c81-b5ec-492c-89a0-8c317a8cccf2"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="81eac0b0-0afc-4664-8ba9-da0e4a66a92c"
+>
+</ReqRef><ReqRef
+ Id="d4f186d7-bcb1-4feb-8415-a26d1d8d85f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="61e21e7a-8e61-40d5-ae2a-59fecb5bc344"
+>
+</ReqRef><Comment>This function will determine if it is necessary to send a new JRU NON_LEADING_INPUT Message</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="0f7f85f0-61ca-438d-81f1-a5c04ddfd3b6"
+>
+<PreConditions>
+<PreCondition
+ Guid="03504fd6-1bcc-492f-a45b-c31a752b43ed"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="StatusChanged"
+ Guid="c1430aa3-4664-4f5c-bcbd-a642540b696d"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_NON_LEADING"
+ Default=""
+ X="150"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetStatus"
+ Guid="dab452e6-2b30-4891-974c-8698b28b0e77"
+>
+<ReqRef
+ Id="ff93b26b-ebdc-4f1e-846d-f4991f753b7e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c335ac53-e6d5-4ede-a918-fb784a02dcd9"
+>
+</ReqRef><ReqRef
+ Id="d4f186d7-bcb1-4feb-8415-a26d1d8d85f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="67886d2c-8f3e-467e-b088-73717a6d67ff"
+>
+</ReqRef><Comment>Retrives the NON_LEADING status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Permitted"
+ Guid="2f2d4864-c444-4d1a-a08c-dd62e8f572e7"
+>
+<PreConditions>
+<PreCondition
+ Guid="170a2f00-80ef-4815-bb69-4ed0b74714b0"
+>TIU.NonLeadingPermitted</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_NON_LEADING.Non_leading_permitted</Expression>
+</Case><Case
+ Name="NotPermitted"
+ Guid="7cd40303-5e99-4a68-bd58-f06eae1035f4"
+>
+<Expression>Messages.JRU.M_NON_LEADING.Non_leading_not_permitted</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="338fe9ec-8b36-49f9-a847-59087682475d"
+>
+<ReqRef
+ Id="d4f186d7-bcb1-4feb-8415-a26d1d8d85f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="59199d39-82a8-4d70-8c26-69b9eef28832"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="80192e16-21fd-46cb-bebe-5ae3e905a64c"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="0df03173-8a42-4db4-8055-7c30f7745ffd"
+>
+<PreConditions>
+<PreCondition
+ Guid="5e7cf4e8-d4a0-4291-a38e-78083da05171"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="755ce293-22af-459e-8c25-e383e8f08d86"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_NON_LEADING"
+ DefaultValue="Messages.JRU.M_NON_LEADING.Non_leading_not_permitted"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="d99ee28e-bb8f-41db-81b7-5ea134b9eeb5"
+>
+<ReqRef
+ Id="d4f186d7-bcb1-4feb-8415-a26d1d8d85f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4529ec1d-5d65-42cb-9953-5d3412cdd743"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="72f4fa82-20a7-4f93-81d1-07bf161b8395"
+>
+<ReqRef
+ Id="d4f186d7-bcb1-4feb-8415-a26d1d8d85f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ed34e411-53bf-4dd2-8104-ce4d80c23a57"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="c0afa53e-8bc6-44c4-b07c-11684d71c83c"
+>
+<PreConditions>
+<PreCondition
+ Guid="da663eb2-9f09-4a42-b6ad-2cee1fe59cb7"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d7435657-83cc-415f-86db-78e823855513"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

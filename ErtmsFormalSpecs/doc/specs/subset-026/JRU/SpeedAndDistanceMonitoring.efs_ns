@@ -1,0 +1,787 @@
+<NameSpace
+ X="250"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="SpeedAndDistanceMonitoring"
+ Guid="a04ba874-32f1-4da7-b889-b936fc448b90"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.SPEED_AND_DISTANCE_MONITORING_INFORMATION.Message"
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="3de869ca-c99b-4435-8863-78e3b1bbdfd0"
+>
+<ReqRef
+ Id="8491a296-8069-4da8-bc6f-4c239e5d91bd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fdd06f7b-606e-45e2-be67-aaaeebecda2f"
+>
+</ReqRef><ReqRef
+ Id="a1620ce5-1b59-4c83-9eea-97f750d3dd5f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="475bf838-5b44-4aaf-b01d-751f255f45f1"
+>
+</ReqRef><ReqRef
+ Id="1f8fcc93-5fb1-4284-a329-e5892b4387f6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="99620a36-d704-48b9-949d-ffdd8d0316bf"
+>
+</ReqRef><ReqRef
+ Id="1d93cbb9-5eed-473f-b4c7-9a34d8d45aa1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3304b4bd-e1c1-4312-90e1-ebd4004d5f2f"
+>
+</ReqRef><ReqRef
+ Id="96aa1b95-24c4-40ae-b9cb-cad345c62c0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="26adc26f-35f2-4acf-bd43-b30d10620d6a"
+>
+</ReqRef><ReqRef
+ Id="0820619a-17f4-4f88-b9a0-6ff0a111a01e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="24536c28-7387-444a-8b64-995dabfbe470"
+>
+</ReqRef><ReqRef
+ Id="2c436fad-5350-443c-b5d0-d3fb240fb972"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5cb4ef61-8d31-47fb-947e-761acba3f51d"
+>
+</ReqRef><ReqRef
+ Id="03168781-6fa4-4496-8cb4-eb8643c268d1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e9f4c546-e1b2-444d-b133-47c8c62c175c"
+>
+</ReqRef><ReqRef
+ Id="d78b5d9b-a778-4992-922f-a1bfa907c33a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3e6032b2-a5c0-4b75-930e-f914934720a9"
+>
+</ReqRef><ReqRef
+ Id="e0d596d2-c164-4d5b-bc28-5a2988c7db8e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6349ce44-ee1e-47e3-a813-700e7edd0627"
+>
+</ReqRef><ReqRef
+ Id="752a7f7c-3b26-4deb-b950-a92c5a32fa72"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c7bd4581-fe4c-47d5-80b2-6f5948879442"
+>
+</ReqRef><ReqRef
+ Id="ecba5d6f-0d27-4108-b60c-672a1db4e53c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="643b569c-cb95-4cc2-99a5-ad6ec4ced486"
+>
+</ReqRef><ReqRef
+ Id="6b567e14-e137-4612-a782-45e646e87d7c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b10b762c-fda3-448b-bcde-d068109ce048"
+>
+</ReqRef><ReqRef
+ Id="177494e0-d2f0-4448-8b06-b8d4b9d4c16c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9bcb5371-0933-4b2e-9454-1525c61a4b17"
+>
+</ReqRef><ReqRef
+ Id="7e5aaa18-69c4-471f-8580-c19a54d18408"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5f760805-27dd-4475-b368-aec1d446c4f6"
+>
+</ReqRef><Comment>Creates the SPEED_AND_DISTANCE_MONITORING_INFORMATION JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="393b633c-2c88-4500-8f99-25bf3690af5e"
+>
+<Expression>Messages.JRU.MESSAGE.SPEED_AND_DISTANCE_MONITORING_INFORMATION.Message
+{
+    HEADER =&gt; JRU.Header.CreateHeader(20),
+    M_SDMTYPE =&gt; GetMonitoringType(),
+    M_SDMSUPSTAT =&gt; GetSupervisionStatus(),
+    V_PERM =&gt; GetPermittedSpeed(),
+    V_SBI =&gt; GetSBISpeed(),
+    V_TARGET =&gt; GetTargetSpeed(),
+    D_TARGET =&gt; GetTargetDistance(),
+    V_RELEASE =&gt;GetReleaseSpeed()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="af3fd38d-e5cd-49ff-b9ff-3f05502b63a4"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9f3c8d22-230b-4a5f-876b-d359f6bed9c2"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8fad9fb2-9c85-4604-a50f-27eca49c5caa"
+>
+</ReqRef><Comment>Indicates whether a new JRU SPEED_AND_DISTANCE_MONITORING message should be sent</Comment>
+<Cases>
+<Case
+ Name="Train speed is not supervised"
+ Guid="cf3ed2ff-72a6-4688-bbf1-7817e23712db"
+>
+<PreConditions>
+<PreCondition
+ Guid="cf7bc0f9-44ef-4ed0-8243-19b3e15e0791"
+>NOT MonitoringSpeedAndDistance()</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Monitoring status changed"
+ Guid="67eb6523-2d63-4f30-a601-a58145e999cb"
+>
+<PreConditions>
+<PreCondition
+ Guid="a02fa71e-ac1b-4220-abfc-a6e37e90514d"
+>LastMonitoringType != GetMonitoringType()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Supervision status changed"
+ Guid="238cfa91-6c7a-4a49-82e7-41a60f3c04d3"
+>
+<PreConditions>
+<PreCondition
+ Guid="3ae2559e-29cc-4a70-9b6a-56703d25c603"
+>LastSupervisionStatus != GetSupervisionStatus()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Permitted speed changed"
+ Guid="ca347fb9-c634-4db5-9542-dd65f9c8a34f"
+>
+<PreConditions>
+<PreCondition
+ Guid="fe7e1641-2b10-4ee3-90d2-5347a93d99a8"
+>LastPermittedSpeed != GetPermittedSpeed()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Release speed changed"
+ Guid="4fedeecf-1440-46e9-a327-59aa24b099b5"
+>
+<PreConditions>
+<PreCondition
+ Guid="3ddd7358-7d74-472e-b390-58d31389e17c"
+>LastReleaseSpeed != GetReleaseSpeed()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="SBI speed has changed"
+ Guid="5346a428-a540-498d-a025-48dea44c0809"
+>
+<PreConditions>
+<PreCondition
+ Guid="76b499c9-1f05-4af5-9dfb-d388088494a0"
+>LastSBISpeed != GetSBISpeed()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Target has changed"
+ Guid="1f06f341-bcda-4bb8-a621-920216ef2db2"
+>
+<PreConditions>
+<PreCondition
+ Guid="4fb5f380-6cb1-436f-ba6f-2de471ea9771"
+>LastTargetDistance != GetTargetDistance() OR
+LastTargetSpeed != GetTargetSpeed()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="fbf036fc-3299-428d-8c57-98ca35ddacf1"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_SDMSUPSTAT"
+ Default=""
+ X="140"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetSupervisionStatus"
+ Guid="1424736f-c12b-4f05-9dd1-adc393b40b9c"
+>
+<ReqRef
+ Id="e0d596d2-c164-4d5b-bc28-5a2988c7db8e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d1222c3b-431d-4876-92ee-c24f0cd09c69"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c23d1bc0-a398-48a7-b0ef-69cd232e568b"
+>
+</ReqRef><Comment>Provides the displayed supervision status</Comment>
+<Cases>
+<Case
+ Name="NormalStatus"
+ Guid="a7e2039a-a33b-4611-aab6-c3e6252b1712"
+>
+<PreConditions>
+<PreCondition
+ Guid="07ac1eae-7593-4e1e-a3da-e63d16ac8bcc"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus == Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Normal</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMSUPSTAT.Normal_status</Expression>
+</Case><Case
+ Name="InticationsStatus"
+ Guid="877d9a0c-7f3f-4744-97a8-062f0fab5260"
+>
+<PreConditions>
+<PreCondition
+ Guid="21f25c2e-9685-471a-97bb-041773f1f6be"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus == Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Indication</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMSUPSTAT.Indication_status</Expression>
+</Case><Case
+ Name="OverspeedStatus"
+ Guid="2db33b8c-1975-41d6-9d8a-bc52f19ea0e1"
+>
+<PreConditions>
+<PreCondition
+ Guid="cdd52112-b870-4727-b72d-2133ff2c2508"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus == Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Overspeed</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMSUPSTAT.Overspeed_status</Expression>
+</Case><Case
+ Name="WarningStatus"
+ Guid="ac38a66d-0739-4f1c-9e93-9e4eb779b3ee"
+>
+<PreConditions>
+<PreCondition
+ Guid="a57fe756-6732-4947-b79e-1c37a9943b9c"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus == Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Warning</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMSUPSTAT.Warning_status</Expression>
+</Case><Case
+ Name="InterventionStatus"
+ Guid="9a608aae-75ee-46c2-9b84-3634fbe058bf"
+>
+<PreConditions>
+<PreCondition
+ Guid="c8eec333-ca81-4140-b160-66111e8e215d"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.SupervisionStatus == Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum.Intervention</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMSUPSTAT.Intervention_status</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_SDMTYPE"
+ Default=""
+ X="30"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetMonitoringType"
+ Guid="84f56d8c-c0ab-4eff-95bc-a1bd2d61d834"
+>
+<ReqRef
+ Id="d78b5d9b-a778-4992-922f-a1bfa907c33a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2335327a-2ce1-4e17-93b6-0f78f9cb7064"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3599cb5c-e73f-4cdf-a5c3-6b9b591a8c04"
+>
+</ReqRef><Comment>Provides the MONITORING TYPE</Comment>
+<Cases>
+<Case
+ Name="CSM"
+ Guid="a60d076f-ce4a-4a1e-a276-1e3e7fc211b6"
+>
+<PreConditions>
+<PreCondition
+ Guid="1a616611-6e7d-4a54-ab2e-cc083381415a"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring== Kernel.SpeedAndDistanceMonitoring.MonitoringType.CSM</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMTYPE.Ceiling_speed_monitoring__CSM</Expression>
+</Case><Case
+ Name="TSM"
+ Guid="899f8e83-aa20-4940-8aa4-764a20da33ac"
+>
+<PreConditions>
+<PreCondition
+ Guid="915ead74-5b53-434c-8c19-72d423b31cf2"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring== Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMTYPE.Target_speed_monitoring__TSM</Expression>
+</Case><Case
+ Name="RSM"
+ Guid="0ed0da22-2f50-4689-96fc-5ff3c2ebf8cc"
+>
+<PreConditions>
+<PreCondition
+ Guid="79088302-a61b-4499-9717-0db5a3e9ca11"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring== Kernel.SpeedAndDistanceMonitoring.MonitoringType.RSM</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMTYPE.Release_speed_monitoring_RSM</Expression>
+</Case><Case
+ Name="PIM"
+ Guid="06dabf03-731f-4ff7-a9c9-cbddddbaa6e3"
+>
+<PreConditions>
+<PreCondition
+ Guid="24ee9346-7dbf-4d54-8948-85cc25e492d6"
+>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring== Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_SDMTYPE.Pre_indication_monitoring__PIM</Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Distance"
+ Default=""
+ X="580"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetTargetDistance"
+ Guid="f9369bdb-34ba-4e46-8f68-36363206254b"
+>
+<ReqRef
+ Id="177494e0-d2f0-4448-8b06-b8d4b9d4c16c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cd24eb50-5c21-4a48-9737-82ad6221f295"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ba1dc182-8fee-4b0d-8b1b-a34733ea4da2"
+>
+</ReqRef><Comment>Provides the distance to the MRDT for the speed and distance monitoring message. If the current mode does not have target supervsion (SH, UN), this will return Unknown.</Comment>
+<Cases>
+<Case
+ Name="Distance not displayed"
+ Guid="7bb44242-841a-4f86-a73d-733bdd5f958e"
+>
+<PreConditions>
+<PreCondition
+ Guid="cc8b85ce-4ddf-4f38-911a-0ef8fcc67a37"
+>NOT DMI.MasterDMI().Out_TargetDistance.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>MessageTypes.Distance.Unknown</Expression>
+</Case><Case
+ Name="Displayed distance"
+ Guid="73c215ef-33a1-4814-9e8a-c013d83bd220"
+>
+<Expression>MessageTypes.UnScaleDistance(
+     distance =&gt; DMI.MasterDMI().Out_TargetDistance.Distance,
+     scale =&gt; Messages.JRU.Q_SCALE._1_m_scaleC 
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Speed"
+ Default=""
+ X="360"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetSBISpeed"
+ Guid="adf6d8ce-2d4d-4d0f-b0e6-023bf7d8a808"
+>
+<ReqRef
+ Id="ecba5d6f-0d27-4108-b60c-672a1db4e53c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a9946551-39cb-4fed-aa42-d75308684515"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f54da14e-18df-49fa-b486-0e5b69b1a4f3"
+>
+</ReqRef><Comment>Provides the displayed SBI speed</Comment>
+<Cases>
+<Case
+ Name="Not displayed"
+ Guid="c9347be5-7070-4cfe-8966-1906e7ea8795"
+>
+<PreConditions>
+<PreCondition
+ Guid="4ab4ca3b-0ead-4684-9bf6-d6bcc8c7b896"
+>NOT DMI.MasterDMI().Out_SBI.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>MessageTypes.Speed.NA</Expression>
+</Case><Case
+ Name="Displayed value"
+ Guid="83a0ade9-0f18-49f9-890c-305f872b1896"
+>
+<Expression>MessageTypes.UnResolveSpeed(DMI.MasterDMI().Out_SBI.Speed, 5.0)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Speed"
+ Default=""
+ X="470"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetTargetSpeed"
+ Guid="48f9bce4-fcd1-4d24-b4f1-5afaf34e7620"
+>
+<ReqRef
+ Id="6b567e14-e137-4612-a782-45e646e87d7c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="49a44197-a3ce-4866-a2cc-d328bd61aff3"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="114f1740-1cb0-4ad7-a178-8ae4098b9404"
+>
+</ReqRef><Comment>Provides the target speed for the speed and distance monitoring message. If the current mode does not have target supervsion (SH, UN), this will return NA.</Comment>
+<Cases>
+<Case
+ Name="No target supervision"
+ Guid="8322a104-d99f-4fd9-8824-6e937b1577fc"
+>
+<PreConditions>
+<PreCondition
+ Guid="b7c9d9a5-604c-4025-af08-b4a80b70ef5f"
+>NOT DMI.MasterDMI().Out_TargetSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>MessageTypes.Speed.NA</Expression>
+</Case><Case
+ Name="Value"
+ Guid="5c2e883d-936c-40e3-b972-8210c054a91c"
+>
+<Expression>MessageTypes.UnResolveSpeed( DMI.MasterDMI().Out_TargetSpeed.Speed, 5.0)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Speed"
+ Default=""
+ X="250"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetPermittedSpeed"
+ Guid="7fc86c25-9b61-4dbc-81b4-46639849547b"
+>
+<ReqRef
+ Id="ecba5d6f-0d27-4108-b60c-672a1db4e53c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5f15549b-e0f9-4f6d-89e4-3e5f6b2d16ca"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2f69e168-6cc8-4648-9809-2d9f92db336a"
+>
+</ReqRef><Comment>Provides the displayed PERMITTED Speed . </Comment>
+<Cases>
+<Case
+ Name="Not displayed"
+ Guid="2ff28cef-7719-4ce9-af1b-c8fc2c26c7ae"
+>
+<PreConditions>
+<PreCondition
+ Guid="bc3ca1ee-f4c0-484b-9317-9f384c54b11f"
+>NOT DMI.MasterDMI().Out_PermittedSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>MessageTypes.Speed.NA</Expression>
+</Case><Case
+ Name="Displayed value"
+ Guid="182d0a26-3b58-4c3f-a71f-56089335b491"
+>
+<Expression>MessageTypes.UnResolveSpeed(DMI.MasterDMI().Out_PermittedSpeed.Speed, 5.0)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Speed"
+ Default=""
+ X="690"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetReleaseSpeed"
+ Guid="611a7b50-3b3e-449f-8ddc-c1b41e395fc5"
+>
+<ReqRef
+ Id="ecba5d6f-0d27-4108-b60c-672a1db4e53c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a12f46bb-bc50-44bc-a2b4-f8ffed3d887e"
+>
+</ReqRef><ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3c5e5a11-0cbe-4e07-952d-812e3374b60a"
+>
+</ReqRef><Comment>Provides the displayed RELEASE Speed . </Comment>
+<Cases>
+<Case
+ Name="Not displayed"
+ Guid="4d53b69e-154b-445b-8b5e-8c9c90e53848"
+>
+<PreConditions>
+<PreCondition
+ Guid="4868050f-0cac-4b79-acdc-693e4756c46e"
+>NOT DMI.MasterDMI().Out_ReleaseSpeed.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>MessageTypes.Speed.NA</Expression>
+</Case><Case
+ Name="Displayed value"
+ Guid="85bd58e1-971f-42ae-a8e6-c7e035735e3d"
+>
+<Expression>MessageTypes.UnResolveSpeed(DMI.MasterDMI().Out_ReleaseSpeed.Speed, 5.0)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MonitoringSpeedAndDistance"
+ Guid="79432d58-5add-433d-bd6b-f0fe58abf010"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1156af10-dd7e-4556-be72-8c0d954b550b"
+>
+</ReqRef><Comment>Indicates that the speed and distance monitoring are used</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="74bcc10a-c862-4b31-95fc-d0ca48bf109e"
+>
+<Expression>DMI.MasterDMI().Out_SpeedAndDistanceMonitoringSupervisionStatus.Monitoring in 
+[
+  Kernel.SpeedAndDistanceMonitoring.MonitoringType.CSM,
+  Kernel.SpeedAndDistanceMonitoring.MonitoringType.PIM,
+  Kernel.SpeedAndDistanceMonitoring.MonitoringType.TSM,
+  Kernel.SpeedAndDistanceMonitoring.MonitoringType.RSM
+]
+</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="30"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="d6a13c6a-b965-4337-8098-3beeaffcce6a"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a542f944-775c-470d-a4d1-9ec23bcca22c"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="a9b89ba5-e10b-473d-b49b-573d44432ce1"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="3e395226-d759-4c21-988a-9ddda27aecc4"
+>
+<PreConditions>
+<PreCondition
+ Guid="56738ddf-d39d-4bc0-82da-784ee861dc1e"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9053387c-1fa7-4d79-9636-517b1a1f4999"
+>LastMonitoringType &lt;- GetMonitoringType()</Action><Action
+ Guid="c5d6e42b-8821-46e9-8b05-3333c2b1e8d5"
+>LastPermittedSpeed &lt;- GetPermittedSpeed()</Action><Action
+ Guid="2d31be53-e15e-4e7a-9fa7-85ac09e0b76b"
+>LastReleaseSpeed &lt;- GetReleaseSpeed()  </Action><Action
+ Guid="a3b5a3c0-7fdb-4a7e-a39c-cf44afe4a053"
+>LastSBISpeed &lt;- GetSBISpeed()  </Action><Action
+ Guid="d34986ac-8fa0-4571-a65f-f8801cfb2a6c"
+>LastSupervisionStatus &lt;- GetSupervisionStatus()</Action><Action
+ Guid="e01c7d7a-353b-429d-ae44-a1e69f064def"
+>LastTargetDistance &lt;- GetTargetDistance()</Action><Action
+ Guid="c98979e6-1201-4294-8f63-23801369b244"
+>LastTargetSpeed &lt;- GetTargetSpeed()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="MessageTypes.Distance"
+ DefaultValue="MessageTypes.Distance.Unknown"
+ VariableMode="Internal"
+ X="580"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastTargetDistance"
+ Guid="72b7273b-1454-4447-be5a-4a878c082a3b"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7097a3ee-f8be-48cd-bdef-1ac3442f475c"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="MessageTypes.Speed"
+ DefaultValue="MessageTypes.Speed.NA"
+ VariableMode="Internal"
+ X="470"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastTargetSpeed"
+ Guid="e77d3154-cf40-4717-b654-2734828a3d26"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c062b84d-91a0-42c8-a8ac-6e3dc067909e"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="MessageTypes.Speed"
+ DefaultValue="MessageTypes.Speed.NA"
+ VariableMode="Internal"
+ X="360"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastSBISpeed"
+ Guid="6954fa93-2cbf-4fd4-ba6d-d1cdf311c5c3"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4efe4244-6644-4776-9167-cb8afaa6fcb2"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="MessageTypes.Speed"
+ DefaultValue="MessageTypes.Speed.NA"
+ VariableMode="Internal"
+ X="250"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastPermittedSpeed"
+ Guid="972e1b64-50e5-4fd6-b8c5-bad5ae645566"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="af7ba321-3a5e-4a5e-9333-f85b3e8c5a3e"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="Messages.JRU.M_SDMSUPSTAT"
+ DefaultValue="Messages.JRU.M_SDMSUPSTAT.Normal_status"
+ VariableMode="Internal"
+ X="140"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastSupervisionStatus"
+ Guid="0facc97a-f1a8-4ea5-9956-0e2da61034d5"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="53cd54ef-cb5e-4aea-a2a3-4193bccf0987"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="Messages.JRU.M_SDMTYPE"
+ DefaultValue="Messages.JRU.M_SDMTYPE.Ceiling_speed_monitoring__CSM"
+ VariableMode="Internal"
+ X="30"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastMonitoringType"
+ Guid="2cdfd6ec-a165-4208-a183-9628a08a69aa"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e0868414-ca80-4079-b8c9-560bfe98fb54"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="MessageTypes.Speed"
+ DefaultValue="MessageTypes.Speed.NA"
+ VariableMode="Internal"
+ X="690"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastReleaseSpeed"
+ Guid="ea66623f-a11e-4b4b-a33d-33b7e3e576c1"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="86497378-892a-4b78-96e0-80fffa4fd8ca"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="140"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="844dd7a9-880f-43f0-b661-d1889ef82209"
+>
+<ReqRef
+ Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1ddf06ce-206c-4469-bfee-2851ac36c95f"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="ce91e1dd-2070-47dc-8acd-8dd50bf473d7"
+>
+<PreConditions>
+<PreCondition
+ Guid="867b620c-77b8-4363-b60a-4a9f213c1644"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1915d746-9e90-44e5-aebc-cc24d3ae5264"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

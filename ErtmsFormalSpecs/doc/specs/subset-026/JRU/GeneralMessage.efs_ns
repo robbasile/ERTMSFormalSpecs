@@ -1,0 +1,324 @@
+<NameSpace
+ X="30"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="GeneralMessage"
+ Guid="0d8efa1d-b7dc-4542-b3f6-a88f5d900421"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="18992937-700e-4c32-8c61-b76ff205298f"
+>
+<ReqRef
+ Id="8ba554ab-a23c-4af3-9bb9-f5e8aca2f2a1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="53568dd1-221e-46f5-9a59-6ac8fcbb200d"
+>
+</ReqRef><ReqRef
+ Id="5f971e6a-5934-4114-8fda-716cd45d86d8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="dc64cdaf-adc1-464f-8472-cc14d2c4e4fa"
+>
+</ReqRef><Comment>It will fill a Genera Message in JRU</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="3caa4d49-f819-44e2-b791-3d3758bd06db"
+>
+<Expression>Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message{
+    HEADER =&gt; Header.CreateHeader(1)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="ef1a800b-b23e-497d-91c6-1239c55b99c2"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d59822ed-7227-4223-8e8b-aa96c8461310"
+>
+</ReqRef><ReqRef
+ Id="84bf492b-1e66-4c4d-94d6-59903b6b0efc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cb1dce8a-e1e1-48b4-b2d9-7f9146d8bb9d"
+>
+</ReqRef><ReqRef
+ Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f95173ad-0309-4df7-bab8-19445995f531"
+>
+</ReqRef><ReqRef
+ Id="7f57b812-cf8f-4798-ad1d-c4325c5f3cb2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6b4e4a24-c248-412b-92b9-f55e6ed4fbb4"
+>
+</ReqRef><ReqRef
+ Id="69f8e98d-1f04-42cd-bf44-eb4421190f26"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7f1e2dc0-7473-4397-9a3f-6349e1763c9c"
+>
+</ReqRef><Comment>Function which will determine if a new GENERAL_MESSAGE has to be sent</Comment>
+<Cases>
+<Case
+ Name="Level changed"
+ Guid="b3b2d82a-33c9-4dfd-878a-e6c414e887d8"
+>
+<PreConditions>
+<PreCondition
+ Guid="97cf0f43-074b-4da5-a333-89a78ac9f1d7"
+>LastLevel != GetLevel()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Mode changed"
+ Guid="2d48ebc5-06ef-4358-95c3-aa34df8145bb"
+>
+<PreConditions>
+<PreCondition
+ Guid="35fba5aa-1f45-4c50-8341-b85d972a9696"
+>LastMode != GetMode()</PreCondition><PreCondition
+ Guid="3d0e1b86-818a-4af6-a2b2-69ea24a1afab"
+>Kernel.Mode != ModeEnum.NP</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="System version changed"
+ Guid="e920a6d8-f121-4c5f-9060-f30d651c7e2c"
+>
+<PreConditions>
+<PreCondition
+ Guid="fcebd2bf-18bf-4451-866c-b24f30f1abcb"
+>LastSystemVersion != GetSystemVersion()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Periodically"
+ Guid="7c064584-d5bd-43ed-a38a-497629b3323f"
+>
+<PreConditions>
+<PreCondition
+ Guid="d733034f-758b-4454-b904-699cb32f46da"
+>TimerElapsed()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="88bf7b09-e63f-4952-ba90-a0f8a1ff783a"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.M_VERSION"
+ Default=""
+ X="20"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetSystemVersion"
+ Guid="01974340-11ee-49e1-83ba-ca4f7e3f3092"
+>
+<ReqRef
+ Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cff59306-3d52-4cd4-9231-5c383a4c6baf"
+>
+</ReqRef><Comment>Provides the System Version</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="5461b79a-9ab6-4044-9cda-a9360c881ebe"
+>
+<Expression>VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="130"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetCurrentTime"
+ Guid="cda5f287-6b11-4dea-b674-bfab93f0afe7"
+>
+<ReqRef
+ Id="84bf492b-1e66-4c4d-94d6-59903b6b0efc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fa6e66c2-682d-4607-b698-c1924b31f152"
+>
+</ReqRef><Comment>Provides the current time to determine whether a GENERAL JRU Message should be sent periodically (elapsed timer)</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="b301eb6a-e5a2-4959-98dc-d35c98b846f5"
+>
+<Expression>Kernel.DateAndTime.CurrentTime</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TimerElapsed"
+ Guid="1e09ea07-b18b-4bcf-9743-4383b2b585bc"
+>
+<ReqRef
+ Id="84bf492b-1e66-4c4d-94d6-59903b6b0efc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="59c2cd3f-0b95-4d5a-83eb-aaba6e84fc28"
+>
+</ReqRef><Comment>Indicates whether the timer is elapsed</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="65ebb875-dfb8-48fe-98be-f5b2866f35e3"
+>
+<Expression>LastTime &lt; GetCurrentTime() - 5.0</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="390"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="286a5cbd-acb8-4a20-845b-bab7ba849e8c"
+>
+<ReqRef
+ Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="40ba5f3a-2e85-44ab-adf4-0b8b63234618"
+>
+</ReqRef><ReqRef
+ Id="84bf492b-1e66-4c4d-94d6-59903b6b0efc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0db78b95-e3d0-4b77-b721-de661cab8192"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="36306f9f-dc06-4512-9102-990ba72b3fba"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="5e5bb469-5dde-4fb1-95e2-dc14a064a307"
+>
+<PreConditions>
+<PreCondition
+ Guid="24d098a4-e704-4b98-b228-bf15302d5e86"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bc79ce4f-989f-4d26-b544-ea9efc87f207"
+>LastSystemVersion &lt;- GetSystemVersion()</Action><Action
+ Guid="166d7793-b039-4fae-847d-762938ebc808"
+>LastTime &lt;- GetCurrentTime()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.M_VERSION"
+ DefaultValue="0"
+ VariableMode="Internal"
+ X="20"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastSystemVersion"
+ Guid="3f54dbe9-310c-49e8-b0b5-16ddb5b66fd1"
+>
+<ReqRef
+ Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7ed3a2ae-e830-49da-bf99-b395fb7d39d9"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="0.0"
+ VariableMode="Internal"
+ X="130"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastTime"
+ Guid="2fcf24a2-aa91-4650-af93-422f1dffa6f2"
+>
+<ReqRef
+ Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8ea6fd07-7ac3-442f-ac83-09d04d3520fa"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="390"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="9fb3f243-0889-48dd-b74a-8e3b357c246e"
+>
+<ReqRef
+ Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d7cbfc61-f5bb-480c-bbcb-2d9875e76b8f"
+>
+</ReqRef><ReqRef
+ Id="84bf492b-1e66-4c4d-94d6-59903b6b0efc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fafa911d-4cc2-45a9-9670-21a8de6abf81"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="c9f22353-42f7-4c80-83e3-5fb8137745be"
+>
+<PreConditions>
+<PreCondition
+ Guid="45837125-9dbb-44fa-9285-8c9f19e16302"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="43ccc5db-6e65-44d4-8218-f2b580f58e50"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

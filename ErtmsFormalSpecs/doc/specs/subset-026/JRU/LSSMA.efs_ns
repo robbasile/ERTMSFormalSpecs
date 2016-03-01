@@ -1,0 +1,219 @@
+<NameSpace
+ X="250"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="LSSMA"
+ Guid="fb67a810-baf6-43b5-b981-9517ef869cff"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message"
+ Default=""
+ X="30"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="b3464f89-a502-44f2-a4ab-d7d1ed6ef6aa"
+>
+<ReqRef
+ Id="bad34835-a314-4279-921d-feb5a63e4e1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ef9b6b36-4a22-40be-b92e-8ad064c7f357"
+>
+</ReqRef><ReqRef
+ Id="d4986e46-4c9c-4344-b064-8f1a90328e5d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6cfc99fe-9251-4ad0-86b3-625fb5e485a3"
+>
+</ReqRef><ReqRef
+ Id="d53c2adc-db0b-4b03-93c4-f529f38091c6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="982e3bd2-e500-4412-b89c-6f3ad81f274f"
+>
+</ReqRef><Comment>Creates the LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8cffc233-c56e-4f01-be7a-72a58c7344af"
+>
+<Expression>Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message{
+HEADER =&gt; Header.CreateHeader(44),
+V_LSSMA =&gt; GetLSSMA()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="45237307-1674-402a-9d71-b76b9c6f2f75"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6d96db0e-c591-4c17-8caa-6a8cf919d579"
+>
+</ReqRef><ReqRef
+ Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="18b81eca-4e07-424f-a333-4284f03bd0fa"
+>
+</ReqRef><Comment>Indicates whether the LOWEST SUPERVISED SPEED WITHIN THE MOVEMENT AUTHORITY message should be sent</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="dfe28a09-b486-4f73-9df6-026be75f2781"
+>
+<Expression>LastLSSMA != GetLSSMA() </Expression>
+</Case></Cases>
+</Function><Function
+ Type="MessageTypes.Speed"
+ Default=""
+ X="150"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetLSSMA"
+ Guid="0cc84f23-c3c6-45c4-b99a-4a9e83dc35d7"
+>
+<ReqRef
+ Id="d53c2adc-db0b-4b03-93c4-f529f38091c6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2649b1f0-ee87-43b1-bc42-da1db42ac3f8"
+>
+</ReqRef><ReqRef
+ Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2e19f022-a082-44bb-a86c-fbb671ceb50d"
+>
+</ReqRef><Comment>If the LSSMA is not displayed, returns BaseTypes.Speed.NA.
+Otherwise returns the LSSMA.</Comment>
+<Cases>
+<Case
+ Name="LSSMA displayed"
+ Guid="82b8473b-400a-41ea-b3e1-e230c0bd5c55"
+>
+<PreConditions>
+<PreCondition
+ Guid="95348f97-454c-4d75-a014-f499e0bd8a91"
+>Kernel.Mode in [ModeEnum.LS]</PreCondition><PreCondition
+ Guid="934118f1-1e18-4cbb-9d39-789d84e7186b"
+>Kernel.Modes.LimitedSupervision.DisplayLSSMA()</PreCondition></PreConditions>
+<Expression>MessageTypes.UnResolveSpeed(
+    speed=&gt;Kernel.Modes.LimitedSupervision.LSSMA(),
+    resolution=&gt;5.0
+)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="35a3c444-6f48-49d6-9d71-042b006d278e"
+>
+<Expression>MessageTypes.Speed.NA</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="30"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="4a417401-6514-48bf-8729-56ce18f92374"
+>
+<ReqRef
+ Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4f60bac1-c411-4fdc-bbc1-a61b36463b13"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="770dbcf5-4b46-421b-ac7e-526dd193f70c"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="ae4206ff-d2c1-4130-b2c4-2df56c80f5a2"
+>
+<PreConditions>
+<PreCondition
+ Guid="0af1c7c3-8ae8-4a9e-9985-129ac6c6e47f"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5bbad276-c265-4a48-8dd1-64365533b3ed"
+>LastLSSMA &lt;- GetLSSMA()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="MessageTypes.Speed"
+ DefaultValue="MessageTypes.Speed.NA"
+ VariableMode="Internal"
+ X="30"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastLSSMA"
+ Guid="08f9848b-72ee-44a2-a280-d857b88468db"
+>
+<ReqRef
+ Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f312ad20-382f-4f9d-851d-e7d82c34ec4d"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="140"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="c53966cd-41fa-4e18-931a-d6aab8f9494a"
+>
+<ReqRef
+ Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9e59e11e-e593-4117-a702-ad60475c54b1"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="9b66d030-06a5-4b54-93a4-c94a75d6202f"
+>
+<PreConditions>
+<PreCondition
+ Guid="4ce313b8-78fb-482e-bc37-c9ee33cced5a"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e285fc2b-7b26-423c-ac6b-18ec7d2bdffa"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

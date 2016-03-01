@@ -1,0 +1,310 @@
+<NameSpace
+ X="50"
+ Y="130"
+ Width="100"
+ Height="50"
+ Name="Symbols"
+ Guid="4577627d-97c1-4347-9989-f470a7eb5ef4"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="LE"
+ Guid="ed197eb4-cdd0-415d-90c3-18bba93b9259"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="DR"
+ Guid="3364ee77-bf96-492c-af5c-07da02fbdae1"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="LX"
+ Guid="73bc60d6-7729-422a-9ab5-e8a8ff003a2b"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="MO"
+ Guid="70618be2-5a8b-4c1e-97ff-e1f63484419c"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ST"
+ Guid="9d6ad8f0-c1cb-4dfe-b85e-c4f52a0606ca"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="TC"
+ Guid="007c4610-de29-4f69-9d72-16eb1eac26ec"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.DMI_SYMB_STATUS.Message"
+ Default=""
+ X="40"
+ Y="40"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="95307c51-dead-4626-8851-3f17c070de39"
+>
+<ReqRef
+ Id="ab27f58b-6aaf-4a89-addc-8ba7947449d2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="130d3f5c-8732-47a5-8156-94f2c262e6eb"
+>
+</ReqRef><ReqRef
+ Id="44c3230d-cbf7-40f5-9717-9bc3001a24d8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ad95d842-a6ee-4212-9571-78f2ec23df67"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b965052b-831b-4d52-80f6-d5c61bc73fbb"
+>
+</ReqRef><Comment>Creates the message containing all the DMI symbols currently displayed.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ea253938-e458-4f2e-a96b-33cbf5258224"
+>
+<Expression>Messages.JRU.MESSAGE.DMI_SYMB_STATUS.Message {
+     HEADER =&gt; JRU.Header.CreateHeader(21),
+     DMI_SYMBOL_STATUS =&gt; GetSymbolStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="390feed8-f3a6-4312-b8f1-ef0135355102"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="674d9e67-762b-4e70-8491-b723e368404b"
+>
+</ReqRef><ReqRef
+ Id="e89b6661-751c-4a92-abcb-bd2ff6a5ea1e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="00034310-9ca1-443c-b164-b374d76af48a"
+>
+</ReqRef><Comment>Indicates if a new DMI_SYMBOL JRU Message has to be sent (if any of the DMI symbols has appeared or disappeared).</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a63d0040-4a3f-4924-bcf5-ae58e0be31f3"
+>
+<Expression>LastDisplayedSymbols != GetSymbolStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.DMI_SYMBOL_STATUS.Message"
+ Default=""
+ X="180"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetSymbolStatus"
+ Guid="10059017-79c6-4c13-b811-2d149213188d"
+>
+<ReqRef
+ Id="e89b6661-751c-4a92-abcb-bd2ff6a5ea1e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="06b421b1-a3e5-4cea-8da0-fcc727a29e32"
+>
+</ReqRef><Comment>Provides the symbol statuses for the active DMI</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="7bc59f5a-eba9-484c-84c2-bdd59134d141"
+>
+<Expression>Messages.JRU.MESSAGE.DMI_SYMBOL_STATUS.Message {
+     DMI_SYMB_STATUS_LE01 =&gt; LE.LE01Activated(),
+     DMI_SYMB_STATUS_LE02 =&gt; LE.LE02Activated(),
+     DMI_SYMB_STATUS_LE03 =&gt; LE.LE03Activated(),
+     DMI_SYMB_STATUS_LE04 =&gt; LE.LE04Activated(),
+     DMI_SYMB_STATUS_LE05 =&gt; LE.LE05Activated(),
+     DMI_SYMB_STATUS_LE06 =&gt; LE.LE06Activated(),
+     DMI_SYMB_STATUS_LE07 =&gt; LE.LE07Activated(),
+     DMI_SYMB_STATUS_LE08 =&gt; LE.LE08Activated(),
+     DMI_SYMB_STATUS_LE09 =&gt; LE.LE09Activated(),
+     DMI_SYMB_STATUS_LE10 =&gt; LE.LE10Activated(),
+     DMI_SYMB_STATUS_LE11 =&gt; LE.LE11Activated(),
+     DMI_SYMB_STATUS_LE12 =&gt; LE.LE12Activated(),
+     DMI_SYMB_STATUS_LE13 =&gt; LE.LE13Activated(),
+     DMI_SYMB_STATUS_LE14 =&gt; LE.LE14Activated(),
+     DMI_SYMB_STATUS_LE15 =&gt; LE.LE15Activated(),
+     DMI_SYMB_STATUS_MO01 =&gt; MO.MO01Activated(),
+     DMI_SYMB_STATUS_MO02 =&gt; MO.MO02Activated(),
+     DMI_SYMB_STATUS_MO03 =&gt; MO.MO03Activated(),
+     DMI_SYMB_STATUS_MO04 =&gt; MO.MO04Activated(),
+     DMI_SYMB_STATUS_MO05 =&gt; MO.MO05Activated(),
+     DMI_SYMB_STATUS_MO06 =&gt; MO.MO06Activated(),
+     DMI_SYMB_STATUS_MO07 =&gt; MO.MO07Activated(),
+     DMI_SYMB_STATUS_MO08 =&gt; MO.MO08Activated(),
+     DMI_SYMB_STATUS_MO09 =&gt; MO.MO09Activated(),
+     DMI_SYMB_STATUS_MO10 =&gt; MO.MO10Activated(),
+     DMI_SYMB_STATUS_MO11 =&gt; MO.MO11Activated(),
+     DMI_SYMB_STATUS_MO12 =&gt; MO.MO12Activated(),
+     DMI_SYMB_STATUS_MO13 =&gt; MO.MO13Activated(),
+     DMI_SYMB_STATUS_MO14 =&gt; MO.MO14Activated(),
+     DMI_SYMB_STATUS_MO15 =&gt; MO.MO15Activated(),
+     DMI_SYMB_STATUS_MO16 =&gt; MO.MO16Activated(),
+     DMI_SYMB_STATUS_MO17 =&gt; MO.MO17Activated(),
+     DMI_SYMB_STATUS_MO18 =&gt; MO.MO18Activated(),
+     DMI_SYMB_STATUS_MO19 =&gt; MO.MO19Activated(),
+     DMI_SYMB_STATUS_MO20 =&gt; MO.MO20Activated(),
+     DMI_SYMB_STATUS_MO21 =&gt; MO.MO21Activated(),
+     DMI_SYMB_STATUS_MO22 =&gt; MO.MO22Activated(),
+     DMI_SYMB_STATUS_ST01 =&gt; ST.ST01Activated(),
+     DMI_SYMB_STATUS_ST02 =&gt; ST.ST02Activated(),
+     DMI_SYMB_STATUS_ST03 =&gt; ST.ST03Activated(),
+     DMI_SYMB_STATUS_ST04 =&gt; ST.ST04Activated(),
+     DMI_SYMB_STATUS_ST05 =&gt; ST.ST05Activated(),
+     DMI_SYMB_STATUS_ST06 =&gt; ST.ST06Activated(),
+     DMI_SYMB_STATUS_TC01 =&gt; TC.TC01Activated(),
+     DMI_SYMB_STATUS_TC02 =&gt; TC.TC02Activated(),
+     DMI_SYMB_STATUS_TC03 =&gt; TC.TC03Activated(),
+     DMI_SYMB_STATUS_TC04 =&gt; TC.TC04Activated(),
+     DMI_SYMB_STATUS_TC05 =&gt; TC.TC05Activated(),
+     DMI_SYMB_STATUS_TC06 =&gt; TC.TC06Activated(),
+     DMI_SYMB_STATUS_TC07 =&gt; TC.TC07Activated(),
+     DMI_SYMB_STATUS_TC08 =&gt; TC.TC08Activated(),
+     DMI_SYMB_STATUS_TC09 =&gt; TC.TC09Activated(),
+     DMI_SYMB_STATUS_TC10 =&gt; TC.TC10Activated(),
+     DMI_SYMB_STATUS_TC11 =&gt; TC.TC11Activated(),
+     DMI_SYMB_STATUS_TC12 =&gt; TC.TC12Activated(),
+     DMI_SYMB_STATUS_TC13 =&gt; JRU.DMI.Symbols.TC.TC13Activated(),
+     DMI_SYMB_STATUS_TC14 =&gt; JRU.DMI.Symbols.TC.TC14Activated(),
+     DMI_SYMB_STATUS_TC15 =&gt; JRU.DMI.Symbols.TC.TC15Activated(),
+     DMI_SYMB_STATUS_TC16 =&gt; JRU.DMI.Symbols.TC.TC16Activated(),
+     DMI_SYMB_STATUS_TC17 =&gt; JRU.DMI.Symbols.TC.TC17Activated(),
+     DMI_SYMB_STATUS_TC18 =&gt; JRU.DMI.Symbols.TC.TC18Activated(),
+     DMI_SYMB_STATUS_TC19 =&gt; JRU.DMI.Symbols.TC.TC19Activated(),
+     DMI_SYMB_STATUS_TC20 =&gt; JRU.DMI.Symbols.TC.TC20Activated(),
+     DMI_SYMB_STATUS_TC21 =&gt; JRU.DMI.Symbols.TC.TC21Activated(),
+     DMI_SYMB_STATUS_TC22 =&gt; JRU.DMI.Symbols.TC.TC22Activated(),
+     DMI_SYMB_STATUS_TC23 =&gt; JRU.DMI.Symbols.TC.TC23Activated(),
+     DMI_SYMB_STATUS_TC24 =&gt; JRU.DMI.Symbols.TC.TC24Activated(),
+     DMI_SYMB_STATUS_TC25 =&gt; JRU.DMI.Symbols.TC.TC25Activated(),
+     DMI_SYMB_STATUS_TC26 =&gt; JRU.DMI.Symbols.TC.TC26Activated(),
+     DMI_SYMB_STATUS_TC27 =&gt; JRU.DMI.Symbols.TC.TC27Activated(),
+     DMI_SYMB_STATUS_TC28 =&gt; JRU.DMI.Symbols.TC.TC28Activated(),
+     DMI_SYMB_STATUS_TC29 =&gt; JRU.DMI.Symbols.TC.TC29Activated(),
+     DMI_SYMB_STATUS_TC30 =&gt; JRU.DMI.Symbols.TC.TC30Activated(),
+     DMI_SYMB_STATUS_TC31 =&gt; JRU.DMI.Symbols.TC.TC31Activated(),
+     DMI_SYMB_STATUS_TC32 =&gt; JRU.DMI.Symbols.TC.TC32Activated(),
+     DMI_SYMB_STATUS_TC33 =&gt; JRU.DMI.Symbols.TC.TC33Activated(),
+     DMI_SYMB_STATUS_TC34 =&gt; JRU.DMI.Symbols.TC.TC34Activated(),
+     DMI_SYMB_STATUS_TC35 =&gt; JRU.DMI.Symbols.TC.TC35Activated(),
+     DMI_SYMB_STATUS_TC36 =&gt; JRU.DMI.Symbols.TC.TC36Activated(),
+     DMI_SYMB_STATUS_TC37 =&gt; JRU.DMI.Symbols.TC.TC37Activated(),
+     DMI_SYMB_STATUS_DR01 =&gt; JRU.DMI.Symbols.DR.DR01Activated(),
+     DMI_SYMB_STATUS_DR02 =&gt; JRU.DMI.Symbols.DR.DR02Activated(),
+     DMI_SYMB_STATUS_DR03 =&gt; JRU.DMI.Symbols.DR.DR03Activated(),
+     DMI_SYMB_STATUS_DR04 =&gt; JRU.DMI.Symbols.DR.DR04Activated(),
+     DMI_SYMB_STATUS_DR05 =&gt; JRU.DMI.Symbols.DR.DR05Activated(),
+     DMI_SYMB_STATUS_LX01 =&gt; JRU.DMI.Symbols.LX.LX01Activated() 
+} </Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="beb0a277-dcde-4480-8387-af9ad9c5e1ae"
+>
+<ReqRef
+ Id="e89b6661-751c-4a92-abcb-bd2ff6a5ea1e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2254270c-b36d-4412-b0ec-4e397a86de74"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="1900df4a-876a-417a-869f-ca3d81e5545f"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="07ac4d00-16fa-409f-a7e2-18dd6970b523"
+>
+<PreConditions>
+<PreCondition
+ Guid="7a79384b-e2da-4d3f-81d8-54814688d895"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ac99530f-595b-48ff-850b-139c063de193"
+>LastDisplayedSymbols &lt;- GetSymbolStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.MESSAGE.DMI_SYMBOL_STATUS.Message"
+ DefaultValue="Messages.JRU.MESSAGE.DMI_SYMBOL_STATUS.Message {}"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastDisplayedSymbols"
+ Guid="4439c839-5975-4e51-8158-1760163e9816"
+>
+<ReqRef
+ Id="e89b6661-751c-4a92-abcb-bd2ff6a5ea1e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9b31e4f4-9028-4606-9c64-d2b87fb6cc4b"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="b8b23047-4c45-4aa4-b512-20d025778ed9"
+>
+<ReqRef
+ Id="e89b6661-751c-4a92-abcb-bd2ff6a5ea1e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f6140c68-082c-4f82-bcc7-fb2905d5c379"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="72ff489f-1104-4177-96c5-418f16be35cc"
+>
+<PreConditions>
+<PreCondition
+ Guid="807de7f4-a8b5-40cc-8c08-ae9c1382e24a"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d4323ff4-8b78-4ce2-9b0b-27d03b02de4e"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

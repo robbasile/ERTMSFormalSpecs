@@ -1,0 +1,214 @@
+<NameSpace
+ X="240"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="TractionCutoff"
+ Guid="84bc60bf-429d-48ee-b0d1-2f02668259ab"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.TRACTION_CUT_OFF_COMMAND_STATE.Message"
+ Default=""
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="73b3d65d-8ae1-416b-95e7-797235f19724"
+>
+<ReqRef
+ Id="f5593895-c838-43ca-949d-48a837517e3d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b8151875-9952-40cc-9df4-4028297ba64f"
+>
+</ReqRef><ReqRef
+ Id="74ba5666-a77d-4fce-ae4a-0f422a6f9491"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4a2130a0-7292-4a85-804d-c1e1f1935569"
+>
+</ReqRef><ReqRef
+ Id="3a14cad3-b86a-48ac-9b03-fc152ddaee7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c9b9795e-ce5a-4c57-97d8-0f6ed1734153"
+>
+</ReqRef><Comment>Creates the TRACTION_CUT_OFF_COMMAND_STATUS JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ab78b2ab-74e8-4681-8860-eea2cab0d878"
+>
+<Expression>Messages.JRU.MESSAGE.TRACTION_CUT_OFF_COMMAND_STATE.Message
+{
+    HEADER =&gt; JRU.Header.CreateHeader(43),    
+    M_TCO_COMMAND_STATE =&gt; GetStatus()
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="cdcedaf3-e36b-403c-b6b6-96f74545da0e"
+>
+<ReqRef
+ Id="3822ea70-c0cb-4073-966b-5bee1bef3f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9ab08185-c71b-46b1-9ec9-8ac0617835cb"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9c6b9999-b57e-42b2-8868-343206d7465c"
+>
+</ReqRef><Comment>Indicates whether the TRACTION_CUTOFF message should be sent</Comment>
+<Cases>
+<Case
+ Name="Changed"
+ Guid="e29e8a6e-7c2e-4b2c-a29b-baaf34de033c"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_TCO_COMMAND_STATE"
+ Default=""
+ X="150"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="e5e92408-817a-4237-a525-69f3ef616a99"
+>
+<ReqRef
+ Id="3a14cad3-b86a-48ac-9b03-fc152ddaee7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="af80958f-14e9-4594-8dce-705328b9f6da"
+>
+</ReqRef><ReqRef
+ Id="3822ea70-c0cb-4073-966b-5bee1bef3f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5cd992b1-9817-4303-acc3-abf41bfcf466"
+>
+</ReqRef><Comment>Retrieves the TRACTION_CUTOFF from the TIU</Comment>
+<Cases>
+<Case
+ Name="Commanded"
+ Guid="99a54275-346c-469e-bc04-fc9ead1dec0e"
+>
+<PreConditions>
+<PreCondition
+ Guid="b9e48122-ad67-401c-9558-98f31f735ede"
+>TIU.CutOffTraction</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_TCO_COMMAND_STATE.Commanded</Expression>
+</Case><Case
+ Name="NotCommanded"
+ Guid="68fe8473-6ebe-4b9e-b84b-5f17be10a0bb"
+>
+<Expression>Messages.JRU.M_TCO_COMMAND_STATE.Not_commanded</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="83e2a588-b4b6-4021-8a83-174d1fdb4d11"
+>
+<ReqRef
+ Id="3822ea70-c0cb-4073-966b-5bee1bef3f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6f26372f-2956-46e1-a2f4-4a12817975d8"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="c0294d89-a99b-4fd8-a09e-7ca9987b86c1"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="bc87b950-79a0-4fe4-99ba-8bfccae568f8"
+>
+<PreConditions>
+<PreCondition
+ Guid="d0b1f151-0b92-4b46-b368-5156b7ff2c3a"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fd938d59-bfa5-4b4b-8378-1c9167798a68"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_TCO_COMMAND_STATE"
+ DefaultValue="Messages.JRU.M_TCO_COMMAND_STATE.Not_commanded"
+ VariableMode="Internal"
+ X="40"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="1b72a8bf-a4a7-495e-9fcd-e365a2d0b894"
+>
+<ReqRef
+ Id="3822ea70-c0cb-4073-966b-5bee1bef3f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="07fa239b-8642-4150-ad1a-ffe147b4614b"
+>
+</ReqRef><Comment>The last reported status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="150"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="29461989-3f8d-4f37-ac4d-034f701ff4d2"
+>
+<ReqRef
+ Id="3822ea70-c0cb-4073-966b-5bee1bef3f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="db0a45eb-4fbf-4967-a5f9-f2645825d8da"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="13441fc4-83d7-4e8e-980a-763f6e9badf7"
+>
+<PreConditions>
+<PreCondition
+ Guid="bed2193a-f1c8-40c1-900a-17c3d22e291c"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b22e9310-7ab4-4bcf-b323-a944fe82a044"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

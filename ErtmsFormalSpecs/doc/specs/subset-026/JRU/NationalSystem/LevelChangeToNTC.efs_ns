@@ -1,0 +1,85 @@
+<NameSpace
+ X="150"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="LevelChangeToNTC"
+ Guid="b6f8d934-541f-4f11-b420-d7c6d7f88bbc"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.NTC_SELECTED.Message"
+ Default=""
+ X="30"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="6ca1db08-faa1-41d4-bf94-1ff5dc17c119"
+>
+<ReqRef
+ Id="bb9c8dd1-462d-4fc9-94dc-a4d02d2f1420"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2221feb5-7235-4c01-abff-7594c0b170ce"
+>
+</ReqRef><ReqRef
+ Id="1eb3f175-3ec2-4f52-97e8-d179c6d714de"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b681e774-0410-4b13-b8c0-31352aee3c27"
+>
+</ReqRef><Comment>Creates the NTC_SELECTED_LEVEL JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="baa1072d-893e-4c80-9530-6495fa43dad1"
+>
+<Expression>Messages.JRU.MESSAGE.NTC_SELECTED.Message {
+     HEADER =&gt; Header.CreateHeader(26),
+     NID_NTC =&gt; GetNID_NTC(Kernel.Level.Value.NTC) 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="11c4b467-5f74-48ad-b793-b1b6f577e245"
+>
+<ReqRef
+ Id="7f57b812-cf8f-4798-ad1d-c4325c5f3cb2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d6a22711-7815-4fdc-aa6a-119e2f197a06"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f633fa8d-c525-472a-8ca6-1cbd08d41963"
+>
+</ReqRef><Comment>Indicates whether the NTC SELECTED message should be sent</Comment>
+<Cases>
+<Case
+ Name="Level changed to NTC"
+ Guid="ea94c4e2-6073-40bd-95d9-5aed423dcb96"
+>
+<PreConditions>
+<PreCondition
+ Guid="c9823aab-f0af-493b-ae70-d00e01cf8970"
+>GetLevel() != LastLevel</PreCondition><PreCondition
+ Guid="64cb68d4-3117-4f4b-b57e-476aad161de8"
+>GetLevel().Value == LevelEnum.LNTC</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="2a1dedf8-4131-4e94-8bee-e2849495e1d1"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,79 @@
+<NameSpace
+ X="140"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="Balise"
+ Guid="649cebe7-f492-4120-af71-cdca8efc6065"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.TELEGRAM_FROM_BALISE.Message"
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="752aebcd-1a1d-41c5-b68d-9080b2aab245"
+>
+<ReqRef
+ Id="4ab81fb1-24cc-45db-8eae-dc76d5cec96f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="802c6a17-3b69-4218-adf2-5ab6eca4bbda"
+>
+</ReqRef><ReqRef
+ Id="3879a47b-14de-4665-bd8e-48684c7716d8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3b1df671-3a84-4d86-b6ac-dcf0887a604b"
+>
+</ReqRef><ReqRef
+ Id="d5f77b0d-de50-41bd-8a16-2a2d0f8d98d9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="13a68b93-a9d3-4331-80c9-a2eb38a27079"
+>
+</ReqRef><Comment>Creates the TELEGRAM_RECEIVED_FROM_BALISE JRU Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a3826fed-2d49-428d-92e7-53bbe25ccc30"
+>
+<Expression>Messages.JRU.MESSAGE.TELEGRAM_FROM_BALISE.Message{
+    HEADER =&gt; Header.CreateHeader(6),
+TELEGRAM=&gt; BTM.UpdatedReceivedMessage(BTM.Message)
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="0fea15cc-3567-478e-9175-1c3ff3c8fe3b"
+>
+<ReqRef
+ Id="2775cdfc-7d3f-4adc-b431-79d473f86272"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5834c1be-f58c-4a4c-b2bc-f0a3fbacc8f8"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7058f626-ff10-4fd7-a200-532b2496d36b"
+>
+</ReqRef><Comment>Indicates that a BALISE message has been received and should be reported in the JRU</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="dd859344-d323-4634-bd14-f32e438d4a4a"
+>
+<Expression>Available ( BTM.UpdatedReceivedMessage(BTM.Message) )</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

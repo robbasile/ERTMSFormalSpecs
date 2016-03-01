@@ -1,0 +1,1573 @@
+<NameSpace
+ X="400"
+ Y="130"
+ Width="100"
+ Height="50"
+ Name="TC"
+ Guid="37014415-0623-498b-a3cb-b10ff1c18119"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC01Activated"
+ Guid="19d003e5-9538-4559-9ebe-f56fd9cd5022"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="deb617f7-e448-4feb-ab1e-aa1a96b1dc6a"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="115d7318-b009-41d1-bcdb-76538309e7c1"
+>
+</ReqRef><Comment>Indicates if the symbol TC01 (corresponding to pantograph lowered) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="2aee7fd0-139d-40c3-a89d-8ae3779228fb"
+>
+<PreConditions>
+<PreCondition
+ Guid="f02761a7-ae77-4c52-8ec0-c1033460001a"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.LowerPantograph AND 
+    NOT Condition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="fac265ae-b512-4a96-9528-f9b727dc4754"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC02Activated"
+ Guid="d50298ba-966f-403d-b048-9cd221a21fea"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3dbbb17b-6493-4aa7-b946-6ecf17fd161e"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="46435eb1-0698-4927-ba5f-1fa808d129b4"
+>
+</ReqRef><Comment>Indicates if the symbol TC02 (corresponding to lower pantograph) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="75b0dcfa-cc69-4331-b83c-bb0a0b63e438"
+>
+<PreConditions>
+<PreCondition
+ Guid="06358052-bb75-4a85-a292-eee6c087e657"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.LowerPantograph AND 
+    Condition.IsAnnouncement AND 
+    Condition.Automatic AND 
+    Condition.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ae7eedad-de89-4bf0-bc71-69f6ca21dc6b"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC03Activated"
+ Guid="903bc3d4-8de8-47eb-91d3-5e5a4cd4b82f"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa6eecaf-93fb-4ec1-a202-ff44a7258872"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="38a1ad5a-d189-4724-a591-451e2cf5d976"
+>
+</ReqRef><Comment>Indicates if the symbol TC0 (corresponding to lower pantograph acknowledgement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="45349b40-ad3c-4f92-9d64-5b2dc301c920"
+>
+<PreConditions>
+<PreCondition
+ Guid="27a1c2c4-776f-4ed1-969b-04dc227e7b42"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.LowerPantograph AND 
+    Condition.IsAnnouncement AND 
+    NOT Condition.Automatic AND 
+    Condition.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="36f3d664-2596-40cb-9a4d-d0ce6d34633d"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC04Activated"
+ Guid="961c6fbc-eb72-45ad-82a3-6c50173e3f01"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad653739-d589-4f4e-8e11-c65a382bc8be"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6290e9de-b901-4fea-a9b5-4739cf15e38c"
+>
+</ReqRef><Comment>Indicates if the symbol TC04 (corresponding to raise pantograph) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="766bd37a-eec2-4d80-907e-95148c472c00"
+>
+<PreConditions>
+<PreCondition
+ Guid="7bf069cd-ca1c-4d98-85bd-860359364666"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.LowerPantograph AND 
+    Condition.IsAnnouncement AND 
+    Condition.Automatic AND 
+    Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3635bc53-a477-49dc-a0c7-9f30d25835d2"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC05Activated"
+ Guid="72097efe-3400-4dde-b96a-694f5157507f"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="baf072cd-16f3-4eaf-97aa-4f059e4edef9"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2c1ec2e6-5a96-4c94-ad6e-75b60ef24b09"
+>
+</ReqRef><Comment>Indicates if the symbol TC05 (raise pantograph acknowledgement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="85398cf4-6dbc-4b59-be1b-ddb744bcfe0f"
+>
+<PreConditions>
+<PreCondition
+ Guid="d5eeb4a4-1b41-4beb-b27f-88d9a678bcb7"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.LowerPantograph AND 
+    Condition.IsAnnouncement AND 
+    NOT Condition.Automatic AND 
+    Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7541e60c-44a6-4d4d-aea4-4458d4b9af35"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC06Activated"
+ Guid="8a391c9e-826a-4105-8ad9-fff4e9ebed63"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3adc0245-fa88-4483-9747-d90f04a0c80d"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a7032e91-b51b-44f9-8920-4de3bf778dcb"
+>
+</ReqRef><Comment>Indicates if the symbol TC06 (corresponding to neutral section and neutral section announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="85c19e83-156b-4f54-8492-2f948668dc86"
+>
+<PreConditions>
+<PreCondition
+ Guid="dfbd6a56-b8a4-498c-b0ac-e2d33fce7898"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TurnOffMainSwitch AND (
+    ( Condition.IsAnnouncement AND 
+      Condition.Automatic AND 
+      Condition.Length != BaseTypes.Length.NA )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f7665a83-4c6a-462f-a300-340fb36ebe42"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC07Activated"
+ Guid="84bad594-1c2d-4a5c-857f-a4419146f9f5"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e44903ab-519d-4771-9219-8dd2b0659aa9"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2e38c790-3e0f-4f42-92bf-017a39c5378a"
+>
+</ReqRef><Comment>Indicates if the symbol TC07 (corresponding to acknowledgement of neutral section announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="655e91bb-a3bb-41b3-a3c5-e1e93e47975d"
+>
+<PreConditions>
+<PreCondition
+ Guid="a0335476-7903-4f5b-90a5-2c02d7874607"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TurnOffMainSwitch AND 
+    Condition.IsAnnouncement AND 
+    NOT Condition.Automatic AND 
+    Condition.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c749ebc8-7b77-4a9a-96db-c4773fa6c115"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC08Activated"
+ Guid="2e168a07-44cd-48d8-9849-13bff0102593"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9927affa-96d3-41c8-9021-3e8a5d2f9bc2"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="75d809d1-abfb-458a-a705-84947f02378a"
+>
+</ReqRef><Comment>Indicates if the symbol TC08 (corresponding to end of neutral section) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="221779fa-6a2a-49cd-8828-19a1f31d3bb7"
+>
+<PreConditions>
+<PreCondition
+ Guid="5fc8e4e2-2812-425e-ab94-3a7bac0a903b"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TurnOffMainSwitch AND 
+    Condition.IsAnnouncement AND 
+    Condition.Automatic AND 
+    Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="faa130b1-6e4b-4e66-9038-13cfdbca92ce"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC09Activated"
+ Guid="46234dae-262d-4913-8527-da556a4b3a7b"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72b7af43-0d9b-438c-bc5c-d686ae304501"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="196b665f-405f-41ae-a1f0-fe9659dbdb99"
+>
+</ReqRef><Comment>Indicates if the symbol TC09 (corresponding to end of neutral section acknowledgement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="cee0acf9-32fa-4332-954b-194967fc117e"
+>
+<PreConditions>
+<PreCondition
+ Guid="ecff098c-b0f7-474b-8327-335c6491f87e"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TurnOffMainSwitch AND 
+    Condition.IsAnnouncement AND 
+    NOT Condition.Automatic AND 
+    Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6313c33b-9cb3-43ba-9281-8ef7e01f61a3"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC10Activated"
+ Guid="255f23b6-5e39-4883-af86-0dbb04c33ba9"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e5e42b9-332e-4089-9d1b-b73a76e275d0"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8f912b49-fe32-409b-912a-63028a027df4"
+>
+</ReqRef><Comment>Indicates if the symbol TC10 (corresponding to non stopping area) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="89f34ad7-1da8-4ba3-b9ad-36c2eadb5880"
+>
+<PreConditions>
+<PreCondition
+ Guid="3c40d813-0b0e-41ae-ae2e-45cf6e60d7ed"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.NonStoppingArea AND 
+    NOT Condition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c81d7465-f295-49ac-84ca-4f538fbce065"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC11Activated"
+ Guid="df236151-f162-4dd3-a91a-4919d85ba9c4"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29e3c8e5-0e05-4511-983f-82fce8429215"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b8e0cecf-62c8-41a8-baac-8bbee056ca68"
+>
+</ReqRef><Comment>Indicates if the symbol TC11 (corresponding to acknowledgement of non stopping area announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="c2d3615b-2232-4d48-bb21-79ef85024f09"
+>
+<PreConditions>
+<PreCondition
+ Guid="60cf3eb2-164c-42e6-988a-552b7ea95dec"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.NonStoppingArea AND 
+    Condition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="874ac575-1574-4106-bb2a-4aeb7a0fcab3"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC12Activated"
+ Guid="5a60e378-bf1e-429f-8786-58472c157446"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7492e10a-817c-4889-bfb4-b4bd1dfe4a5a"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="13d2976d-7c93-4f2d-9ef9-7805c4d7a77d"
+>
+</ReqRef><Comment>Indicates if the symbol TC12 (corresponding to radio hole) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="220d857d-fe5b-41c3-bbec-449361915801"
+>
+<PreConditions>
+<PreCondition
+ Guid="4569b797-e9d7-4ece-8978-dd27c4fa3ca2"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.RadioHole</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="81e6af4f-42b5-4aee-b5e5-ff4ad5078784"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC13Activated"
+ Guid="4e48e238-0021-4e87-b256-3cb13052b7a8"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f1919aa-22f4-46c0-9692-bc572b38c58b"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5f742117-fb9b-4d52-b535-a858c59f57cc"
+>
+</ReqRef><Comment>Indicates if the symbol TC13 (corresponding to inhibition of magnetic shoe brake and inhibition of magnetic shoe brake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="2df25e5c-9404-40d7-8025-246f3a72027d"
+>
+<PreConditions>
+<PreCondition
+ Guid="c9b83e53-58fa-420c-9e24-871889f767a0"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.MagneticShoeBrake AND (
+    ( Condition.IsAnnouncement AND 
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f2a393be-87c1-458e-b854-98fd93206f1f"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC14Activated"
+ Guid="59c150fb-2a18-490f-ad8d-a20d9c6bd608"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d9257644-8f57-49a3-b236-592728641bd6"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="739c06d2-c225-43e2-b954-f69f4e210ccb"
+>
+</ReqRef><Comment>Indicates if the symbol TC14 (corresponding to acknowledgement of inhibition of magnetic shoe brake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="d72811cb-bb42-40c7-88a5-d0bc2465d3e4"
+>
+<PreConditions>
+<PreCondition
+ Guid="1db61658-3810-4f66-acc7-e11b0ac498ed"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.MagneticShoeBrake AND 
+    Condition.IsAnnouncement AND 
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ae84b6a0-5c3a-4783-b933-27b3f4872024"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC15Activated"
+ Guid="e61b4efb-71b0-4c5b-8854-d6d7cc30e36a"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="84deee42-de70-42ce-998b-448ef5436a3e"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="dd7aa0cd-2901-488d-ba9c-8343afae5259"
+>
+</ReqRef><Comment>Indicates if the symbol TC15 (corresponding to inhibition of eddy current brake and inhibition of eddy current brake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="701f18f7-2d6c-4680-8492-185c756b6a00"
+>
+<PreConditions>
+<PreCondition
+ Guid="c89aaf11-36a3-4897-aa3a-0b75f6d6510a"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    ( Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.EddyCurrentBrakeForEB
+    OR
+      Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.EddyCurrentBrakeForSB )
+ AND
+    (
+    ( Condition.IsAnnouncement AND 
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="9cfbc422-5ba1-4a67-98b2-e14a290b40fb"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC16Activated"
+ Guid="2b51956f-e018-46a5-96ae-e9c144601e45"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="69ce5edf-077e-4b24-87e3-afc3fde05d90"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7c81fa1e-6812-4484-a9f6-9904052f4c8e"
+>
+</ReqRef><Comment>Indicates if the symbol TC16 (corresponding to acknowledgement of inhibition of eddy current brake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="0856174c-7bd1-461d-862b-43c57b253a84"
+>
+<PreConditions>
+<PreCondition
+ Guid="701c3818-0090-414b-a8d0-c7725b8f8b10"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    ( Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.EddyCurrentBrakeForEB
+    OR
+      Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.EddyCurrentBrakeForSB )
+ AND
+    ( Condition.IsAnnouncement AND 
+      NOT Condition.Automatic )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c3693c9e-121d-43aa-833e-e1affe2f1964"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC17Activated"
+ Guid="0b129cdc-0c3f-42eb-a348-5ff97c5243e1"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42d896ab-b405-4885-9add-6377feb0c7b0"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="118a8a94-11bd-46a8-b568-b29c0c138fb1"
+>
+</ReqRef><Comment>Indicates if the symbol TC17 (corresponding to inhibition of regenerative brake and ihnibition of regenerative brake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="c2c6d719-a66d-44cf-bade-3b7e18125dc8"
+>
+<PreConditions>
+<PreCondition
+ Guid="d42f2adb-5815-4e77-9a7e-38eed22cfb84"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.RegenerativeBrake AND (
+    ( Condition.IsAnnouncement AND 
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b315d34d-ecf5-47e2-b16c-e93f40b968e4"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC18Activated"
+ Guid="fb8c7a10-dc60-4f06-9ec7-fcf1f17ad2eb"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad64de0d-d5b7-44a8-b00e-f0ebdaf43bc4"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="76ebb5eb-d0df-42f8-8fb4-0acf538c1295"
+>
+</ReqRef><Comment>Indicates if the symbol TC18 (corresponding to acknowledgement of inhibition of regenerative brake) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="e9d9392b-6cde-4cb0-8335-f85729402889"
+>
+<PreConditions>
+<PreCondition
+ Guid="f1bd8821-2238-4040-bbc0-d66a3fb6980f"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions |
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.RegenerativeBrake AND 
+    Condition.IsAnnouncement AND 
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7708cd42-3dd9-4939-a3d8-aaf5db3711b0"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC19Activated"
+ Guid="03732526-e0ad-4241-8486-7d5a8dbf08d7"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ea0ded4e-1c25-49e8-9f14-6d58929632c2"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3c12f930-800e-499c-9098-d4d12067c8da"
+>
+</ReqRef><Comment>Indicates if the symbol TC19 (corresponding to air conditioning intake closed and close air conditioning intake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="9484ae9a-dbbf-471d-a933-976f4739e120"
+>
+<PreConditions>
+<PreCondition
+ Guid="4c7074d4-f6e1-448d-b04d-2a8f8ed07243"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.AirTightness AND (
+    ( NOT Condition.IsAnnouncement )
+    OR
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic AND
+      Condition.Length != BaseTypes.Length.NA )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c3b93caa-290e-41d5-b738-5e52f367a60d"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC20Activated"
+ Guid="2b8badfc-a03e-4315-8294-34243b1afa9d"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4db9e407-eaef-4c4d-b1c9-ba6d60860733"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cdacff89-9321-4618-9f71-90253bc694f1"
+>
+</ReqRef><Comment>Indicates if the symbol TC20 (corresponding to open air conditioning intake) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="e04d88d4-03f5-4b5d-9186-037aef6c68e5"
+>
+<PreConditions>
+<PreCondition
+ Guid="0a8cc6f9-8ba8-4b96-9f11-ba0cd2d28e9c"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.AirTightness AND
+    Condition.IsAnnouncement AND
+    Condition.Automatic AND
+    Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d4d99ca0-653c-40c4-9b08-421e95a2ac95"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC21Activated"
+ Guid="6d491ed9-19f1-4ac2-b0fe-1c4293bc3c1b"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a3f498ee-1138-431b-8972-fa03cecd2479"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="88f7a174-9875-464b-afd6-91bc553798e0"
+>
+</ReqRef><Comment>Indicates if the symbol TC21 (corresponding to acknowledgement of close air conditioning intake announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="f5b27a43-c763-460e-949d-d76dd4c4d22d"
+>
+<PreConditions>
+<PreCondition
+ Guid="057a3adc-4f63-4ca9-8a84-ca0b115f7cd3"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.AirTightness AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic AND
+    Condition.Length != BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6b09982f-d842-4c83-bb18-58146f05e078"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC22Activated"
+ Guid="f2abc61c-b686-40e0-aeaa-19d74e14d58b"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f8f9eb9-9007-4fd1-ba5a-2d5df96b19c9"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="67317116-859b-477f-8e40-f29cf00a4ffb"
+>
+</ReqRef><Comment>Indicates if the symbol TC22 (corresponding to open air conditioning intake) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="a41635d9-23a7-46e1-8538-24b5bae97c67"
+>
+<PreConditions>
+<PreCondition
+ Guid="0b510eb0-3a89-4edb-8212-93e51f7d824c"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithoutSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.AirTightness AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic AND
+    Condition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="822dab90-76da-4c0a-85c5-8060c8e474a5"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC23Activated"
+ Guid="ed4e5cfe-8757-4be8-a41f-a603563786ba"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7acbac06-d25b-49b4-8d73-44f133c69426"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="142e5d71-83a4-43fb-9895-e664bddbb0da"
+>
+</ReqRef><Comment>Indicates if the symbol TC23 (corresponding to new traction system and change of traction system announcement &quot;the line is not fitted with any traction system&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="77f9b656-d87f-4c71-8f93-714a0fd0311f"
+>
+<PreConditions>
+<PreCondition
+ Guid="c28f0e05-45eb-4124-ad59-e32b24b865c0"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__none AND (
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="dae5fe03-89fb-406e-8ada-8cbf7e13bfff"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC24Activated"
+ Guid="a7b98d26-9dd2-44e4-acca-7b672b8f657f"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3eb3df08-dd35-4ded-a2c0-df6ec31633f6"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="66b9a11e-99df-41a5-9e2a-8556e1edbbf7"
+>
+</ReqRef><Comment>Indicates if the symbol TC24 (corresponding to acknowledgement of change of traction system announcement &quot;the line is not fitted with any traction system&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="80873571-3e51-44d5-9928-1b88cacf920d"
+>
+<PreConditions>
+<PreCondition
+ Guid="054f759a-30b4-4140-8679-851a1875b74e"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__none AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d21ff482-6558-4109-ae36-ae4ea503658d"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC25Activated"
+ Guid="f82362a8-91b5-45d5-9f55-85caf1b439a4"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="545c2183-b330-439c-b723-1c0623fc83d1"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="36449a77-7356-4db6-bced-0691ce67a2d8"
+>
+</ReqRef><Comment>Indicates if the symbol TC25 (corresponding to new traction system and change of traction system announcement &quot;AC 25 kV 50 Hz&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="8780b9f5-37bf-4c68-93a1-c8e077e36936"
+>
+<PreConditions>
+<PreCondition
+ Guid="0f7342f2-54de-4e84-9c35-414b0e125dfc"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__AC25kV AND (
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="96ec3912-2c85-4b11-b925-1ceec62f7bab"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC26Activated"
+ Guid="9b0dfe53-6a40-46bb-8e1c-e8bf995419e1"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a75e112e-5742-4fa1-a2ea-445530979920"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="855044ff-6050-4f8d-b6bb-e6c5a58fa5ef"
+>
+</ReqRef><Comment>Indicates if the symbol TC26 (corresponding to announcement of change of traction system announcement &quot;AC 25 kV 50 Hz&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="797f88d9-561d-4835-9979-fa06c9411885"
+>
+<PreConditions>
+<PreCondition
+ Guid="af21710f-cbbe-48a3-884c-0770c6bde0f9"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__AC25kV AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b1741b90-b200-4604-b796-07f61dfe85ec"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC27Activated"
+ Guid="4682f0b1-f7c3-45d4-a0d7-c5d94f95ecfd"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="346dbe0c-daa6-4c9c-b07e-821070d7d9ad"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="27c82a13-b9c7-46b9-a428-737b41f3580d"
+>
+</ReqRef><Comment>Indicates if the symbol TC27 (corresponding to new traction system and change of traction system announcement &quot;AC 15 kV 16.7 Hz&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="563699ee-c9bc-4223-8cac-6dd47498990d"
+>
+<PreConditions>
+<PreCondition
+ Guid="e9f7e958-dc58-43aa-a332-5d0e2e6f40ea"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__AC15kV AND (
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f7735fdd-266e-4d52-8e0d-3d181c88df2e"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC28Activated"
+ Guid="a44f66c1-be9e-421d-ace8-0e0c916796e0"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55769ac5-708c-4b5f-a198-c3c9ee24596f"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9734d109-1941-48c4-93b8-b9fc91bac6f3"
+>
+</ReqRef><Comment>Indicates if the symbol TC28 (corresponding to acknowledgement of change of traction system announcement &quot;AC 15 kV 16.7 Hz&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="8ded3397-da4b-4435-b45a-d6536dce14bf"
+>
+<PreConditions>
+<PreCondition
+ Guid="49a22ebf-5cb4-4dd5-82a1-1576a4868b6f"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__AC15kV AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="564012b5-c0eb-45a0-948b-8167c44ad185"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC29Activated"
+ Guid="aef20556-0dce-41e3-85a5-a9c605334e46"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd4116f0-5aff-486c-8410-c88d03b78f5f"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4a0899a2-aba8-4354-93fb-e603893b063b"
+>
+</ReqRef><Comment>Indicates if the symbol TC29 (corresponding to new traction system and change of traction system announcement &quot;DC 3 kV&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="bfd755c3-4e87-4848-ad10-a3aea37ae355"
+>
+<PreConditions>
+<PreCondition
+ Guid="5ab85c63-4984-4391-8887-0263e99713c3"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__DC3kV AND (
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="8cf2be15-c43f-4c01-9f52-78a8c1eec4d9"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC30Activated"
+ Guid="d88b3a7e-c9ed-4d45-8298-c56bab36a3f2"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f2f63ad8-c5da-415c-9e11-67b484efb29c"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7e98fc7c-399f-4732-82c6-8fa74f764f5a"
+>
+</ReqRef><Comment>Indicates if the symbol TC30 (corresponding to acknowledgement of change of traction system announcement &quot;DC 3 kV&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="bf84fed8-5392-4738-8d3c-ea1db4b5d436"
+>
+<PreConditions>
+<PreCondition
+ Guid="f0610222-3763-4a88-9adb-3a86cda5b1e0"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__DC3kV AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="08a81d3c-fad8-4189-8f91-a580cb03bef9"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC31Activated"
+ Guid="7da31df2-6d75-4792-abe8-12901c899189"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0322f0a5-f84a-45fe-b60e-e08a6fbbcc8c"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="eaedadd3-5968-428a-b0d4-415ee3c932d6"
+>
+</ReqRef><Comment>Indicates if the symbol TC31 (corresponding to new traction system and change of traction system announcement &quot;DC 1.5 kV&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="6a82f40a-d25d-4424-95c4-96118e09ab77"
+>
+<PreConditions>
+<PreCondition
+ Guid="61143b5e-7229-447e-8644-8e61db6c2489"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__DC1_5kV AND (
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="84f651a0-b360-4c4c-a0f6-3f5518b37aee"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC32Activated"
+ Guid="f726af98-feeb-4fe5-96e0-47a672a6a519"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7fc34e0d-75cd-4cdf-a7c0-97518aaa52ea"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="bb989962-9a7a-44fd-b83b-55c2a005280c"
+>
+</ReqRef><Comment>Indicates if the symbol TC32 (corresponding to acknowledgement of change of traction system announcement &quot;DC 1.5 kV&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="b801dbf5-a3d0-4514-bb1e-f14d996b3aea"
+>
+<PreConditions>
+<PreCondition
+ Guid="5fd815ba-ed12-4b5d-8f2a-cc68207ce1c7"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__DC1_5kV AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3fddb3de-6ea7-4c1c-af3e-4265ea642be7"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="230"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC33Activated"
+ Guid="331e0fe4-a963-42fc-a38d-968e6986a391"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29ffb37e-20f0-4403-a15c-ef787ab5aee9"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e1a07c50-3659-4a75-8efe-4bc7894f1469"
+>
+</ReqRef><Comment>Indicates if the symbol TC33 (corresponding to new traction system and change of traction system announcement &quot;DC 600/750 V&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="45b4eb55-5916-42d3-ba3c-4afa0680de1a"
+>
+<PreConditions>
+<PreCondition
+ Guid="7e6806db-f3f5-45a6-8966-56b43a8faed8"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__DC600_750V AND (
+    ( Condition.IsAnnouncement AND
+      Condition.Automatic )
+    OR
+    ( NOT Condition.IsAnnouncement )
+    )</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="047cfe40-4f30-4851-acf3-23f2b05720a5"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="340"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC34Activated"
+ Guid="39bd0b0c-7f9d-45af-ba5c-4b7a852b8c9a"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b892fbb6-4af1-4d59-8e5e-67d3651d6c2a"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="42860d0e-65e5-42b8-a55e-15736e94d1ff"
+>
+</ReqRef><Comment>Indicates if the symbol TC34 (corresponding to acknowledgement of change of traction system announcement &quot;DC 600/750 V&quot;) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="6fe33cc9-8936-4c58-9661-b5f1cc94c523"
+>
+<PreConditions>
+<PreCondition
+ Guid="5c938a0b-783e-43ec-ab67-aca130bcf86f"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TractionSystem__DC600_750V AND
+    Condition.IsAnnouncement AND
+    NOT Condition.Automatic</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e9529b89-1108-4c5c-be79-a5516269ad02"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="450"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC35Activated"
+ Guid="a5979aa2-91e9-4ad7-8301-d78c095f03d2"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a8ed5ed2-ec0f-40f7-b632-6f553d7cc8a6"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="92d02108-7541-41d0-bc14-c15505da83fe"
+>
+</ReqRef><Comment>Indicates if the symbol TC35 (corresponding to announcement of sound horn) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="325f4ddf-4b8d-40bd-8f79-023545ed7686"
+>
+<PreConditions>
+<PreCondition
+ Guid="594846c5-5a53-45bc-b181-4d44862fda0c"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="791fee75-6d6c-4a8b-a39a-df2974bd79d0"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="10"
+ Y="430"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC36Activated"
+ Guid="749cc71e-52ad-474f-9824-937a1ce7808c"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e5a0620-d4ac-4a90-a1a1-f89b1acdbc1d"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d73e28f4-19dd-4b03-8334-238068ce6120"
+>
+</ReqRef><Comment>Indicates if the symbol TC36 (corresponding to tunnel stopping area) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="cdd974d8-7d7c-44c1-a824-d7fcf8d0b1f0"
+>
+<PreConditions>
+<PreCondition
+ Guid="5c18520c-3c4d-42f6-afa9-4ae7622de87d"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TunnelStoppingArea AND
+    NOT Condition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="03a58cb7-2a95-4a3f-a5d1-f5d528e55e9a"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.DMI_SYMB_STATUS"
+ Default=""
+ X="120"
+ Y="430"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TC37Activated"
+ Guid="2b90d9eb-cbcc-45c1-9db3-f6e09affbb63"
+>
+<ReqRef
+ Id="8704b1d9-4c80-4e31-8cc7-cd9a1df1b7c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc58d001-3e46-4368-9b00-af65d1c0c86f"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="26a74bf7-7e12-443f-a80a-d9a5bd87aaa9"
+>
+</ReqRef><Comment>Indicates if the symbol TC37 (corresponding to acknowledgement of tunnel stopping area announcement) is displayed on the DMI.</Comment>
+<Cases>
+<Case
+ Name="Activated"
+ Guid="6355a906-ec4d-4d9c-b1d7-94f3bfb32a5d"
+>
+<PreConditions>
+<PreCondition
+ Guid="82818800-9638-4dfc-8c0e-3715d152ce74"
+>THERE_IS Condition IN DMI.MasterDMI().Out_TrackConditionsWithSoundHorn.ActiveConditions | 
+    Condition.Type == Kernel.TrackDescription.TrackConditions.Display.TCTypeEnum.TunnelStoppingArea AND
+    Condition.IsAnnouncement</PreCondition></PreConditions>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.displayed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e20c6e78-701c-44e7-bab5-e974cc5be435"
+>
+<Expression>Messages.JRU.DMI_SYMB_STATUS.not_displayed</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

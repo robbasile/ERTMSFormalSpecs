@@ -1,0 +1,223 @@
+<NameSpace
+ X="320"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="EddyCurrentBrakesStatus"
+ Guid="0e638d93-1996-4ae1-8a93-c1e7ab8444c4"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.MESSAGE.EDDY_CURRENT_BRAKE_STATUS.Message"
+ Default=""
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateMessage"
+ Guid="612376ab-0adf-4747-a112-0e60bbcde774"
+>
+<ReqRef
+ Id="6b6aed3a-e263-4d03-ba9e-ac96c0f5e38a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b4f01f34-cc0c-4606-86e4-8078899102a2"
+>
+</ReqRef><ReqRef
+ Id="f3236d76-bef2-48c1-b04b-3fc6e159a593"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a531cf31-d01c-4b57-b98a-243c5cd98a47"
+>
+</ReqRef><ReqRef
+ Id="8b09420a-4f06-43d3-aada-ea5751a960ec"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="90ead22a-5960-4159-b47c-26818d8dbe92"
+>
+</ReqRef><Comment>Creates the JRU EDDY_CURRENT_BRAKE_STATUS Message</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="5d2e3c8e-ad49-491d-b5f4-acca02f40a31"
+>
+<Expression>Messages.JRU.MESSAGE.EDDY_CURRENT_BRAKE_STATUS.Message{
+     HEADER =&gt; Header.CreateHeader(35),
+     M_ECB_STATUS =&gt; GetStatus() 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_ECB_STATUS"
+ Default=""
+ X="130"
+ Y="20"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="GetStatus"
+ Guid="1134cd91-a799-4960-b0b1-9fb09a816ac3"
+>
+<ReqRef
+ Id="8b09420a-4f06-43d3-aada-ea5751a960ec"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="50b2cc72-f10d-4fa1-ba86-a8e5221f91fc"
+>
+</ReqRef><ReqRef
+ Id="063fd9d9-a68d-4790-8e2a-259966b89827"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cb38f9d6-5797-4725-bbbb-6aeecb4928bf"
+>
+</ReqRef><Comment>Retrieves the EDDY_CURRENT_BRAKE status from the TIU</Comment>
+<Cases>
+<Case
+ Name="Active"
+ Guid="fa7e24d0-87a4-4141-bb12-ff42ff3336ca"
+>
+<PreConditions>
+<PreCondition
+ Guid="d3bd583b-dd88-4f52-b327-cec75a55713c"
+>TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive == True</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_ECB_STATUS.Active</Expression>
+</Case><Case
+ Name="NotActive"
+ Guid="63c317bc-c220-4445-bf3d-1f61fdfd2d06"
+>
+<Expression>Messages.JRU.M_ECB_STATUS.Not_active</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="109ff4ac-ece9-4811-b91b-073d91db3961"
+>
+<ReqRef
+ Id="063fd9d9-a68d-4790-8e2a-259966b89827"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5823cb96-b9f9-40bf-9b93-4470a7d1db55"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="de5bab66-2dda-48d3-8546-e9b5d67bb0ce"
+>
+</ReqRef><Comment>Indicates whether the EddyCurrentBrakeStatus JRU Message should be sent</Comment>
+<Cases>
+<Case
+ Name="AtStartUp"
+ Guid="07a26fe0-4444-47f2-8b8b-4de223f1ef66"
+>
+<PreConditions>
+<PreCondition
+ Guid="1cd22540-cdf9-48a7-8509-1e62ebfc3e86"
+>IsStartUp()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="StatusChanged"
+ Guid="61223d46-b4c5-40e2-a858-aad185c7f5e9"
+>
+<Expression>LastStatus != GetStatus()</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UpdateLastValues"
+ Guid="37795da8-0629-4d89-8527-4fccae4fe7f3"
+>
+<ReqRef
+ Id="063fd9d9-a68d-4790-8e2a-259966b89827"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3ef7e089-af49-407f-b921-6073a07cc970"
+>
+</ReqRef><Comment>Updates the registered values</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="7c796451-acc3-4594-91c1-b5d583635c63"
+>
+<Comment>Updates the registered values</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update registered values"
+ Guid="495d0289-ec9a-4393-8ccc-d2844c2ad441"
+>
+<PreConditions>
+<PreCondition
+ Guid="53e4b35a-c773-41a4-8606-4b61278448b7"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="df431234-60c5-40e2-8728-6256354cae55"
+>LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Messages.JRU.M_ECB_STATUS"
+ DefaultValue="Messages.JRU.M_ECB_STATUS.Not_active"
+ VariableMode="Internal"
+ X="20"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastStatus"
+ Guid="265af691-8fd7-4bba-9fab-1301d731bb34"
+>
+<ReqRef
+ Id="063fd9d9-a68d-4790-8e2a-259966b89827"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="456dc4de-a855-4d0e-9b26-96a7b0d6371b"
+>
+</ReqRef><Comment>The last registered status</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="330"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="cfb9cb9a-4484-4b00-b8b2-92c7740601bc"
+>
+<ReqRef
+ Id="063fd9d9-a68d-4790-8e2a-259966b89827"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6c56360d-de72-4274-a163-f97a86410e40"
+>
+</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="191adbf6-d40b-4f78-b343-7f242058e2b1"
+>
+<PreConditions>
+<PreCondition
+ Guid="306c4e66-7531-43ea-b2a4-090bd1796f2a"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7a842c2b-9948-4abf-883f-0425fe50f9ba"
+>UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

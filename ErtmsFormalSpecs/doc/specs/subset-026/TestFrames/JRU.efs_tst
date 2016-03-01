@@ -699,11 +699,11 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c154f097-e810-48fd-83eb-5d09d63f6596"
->JRU.JRU1.PreviousSystemVersion != VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)</Expectation><Expectation
+>JRU.GeneralMessage.LastSystemVersion != VersionManagement.MessageVersionFromSystemVersion(VersionManagement.OperatedSystemVersion)</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ae6e6aa4-69a1-48a0-882c-06189b466e0f"
->THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.SYSTEM_VERSION == JRU.TypeConvertors.ToJRUSystemVersion(
+>THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.SYSTEM_VERSION == JRU.Header.ToJRUSystemVersion(
     VersionManagement.MessageVersionFromSystemVersion( VersionManagement.OperatedSystemVersion)
 )</Expectation><Expectation
  Kind="Instantaneous"
@@ -786,7 +786,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
     aMode =&gt; ModeEnum.SR
 )</Action><Action
  Guid="1f8bfd0a-6848-4a98-8f09-f34ecad7fd37"
->JRU.JRU1.PreviousTime &lt;- 0.0</Action></Actions>
+>JRU.GeneralMessage.LastTime &lt;- 0.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -815,9 +815,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Continuous"
  DeadLine="4.4"
  Guid="99ee9222-a9a8-488c-9db2-03ef220465e0"
->JRU.SendMessagePeriodically(
-    jru=&gt; JRU.JRU1
-) == False</Expectation><Expectation
+>NOT JRU.GeneralMessage.TimerElapsed()</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="7eeb4c6f-1783-4659-afc4-30193df23401"
@@ -849,9 +847,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Instantaneous"
  DeadLine="0.1"
  Guid="98890196-f12a-4d9d-afb6-aaa34bb770d9"
->JRU.SendMessagePeriodically(
-    jru=&gt;JRU.JRU1
-) == True</Expectation></Expectations>
+>JRU.GeneralMessage.TimerElapsed()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -878,9 +874,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Continuous"
  DeadLine="4.4"
  Guid="79059aee-71f9-408b-8c7e-87692fce4ade"
->JRU.SendMessagePeriodically(
-    jru=&gt; JRU.JRU1
-) == False</Expectation></Expectations>
+>NOT JRU.GeneralMessage.TimerElapsed()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -904,9 +898,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Instantaneous"
  DeadLine="0.1"
  Guid="1d302f0e-4f52-46ba-9686-431b30b46c0c"
->JRU.SendMessagePeriodically(
-    jru=&gt;JRU.JRU1
-) == True</Expectation><Expectation
+>JRU.GeneralMessage.TimerElapsed()</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="0.1"
  Guid="23c0a9f2-e52c-4ebd-bdf8-22c33b2c83bd"
@@ -1565,9 +1557,7 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Instantaneous"
  DeadLine="1"
  Guid="a3a9ede6-ad9a-4821-b93e-b20fdbcff01b"
->JRU.SendEddyCurrentBrakeStatusMessage(
-    jru=&gt;JRU.JRU1
-)</Expectation></Expectations>
+>JRU.Brakes.EddyCurrentBrakesStatus.SendMessage()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1812,18 +1802,18 @@ Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
  Kind="Instantaneous"
  DeadLine="1"
  Guid="7833611d-39ca-4d6c-9cf8-0a5cfd37fab7"
->JRU.JRU1.PreviousKernelMode != Kernel.Mode</Expectation><Expectation
+>JRU.LastMode != Kernel.Mode</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6c7dc48a-0568-4238-aeb6-9b6c790886f0"
->THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.MODE == JRU.TypeConvertors.ToJRUMode(
-    ModeInkernel=&gt;Kernel.Mode
+>THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.MODE == JRU.Header.ToJRUMode(
+    mode=&gt;Kernel.Mode
 )</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="417e6087-bb5e-4888-a6cc-0fbe90fe6a7b"
->THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.MODE == JRU.TypeConvertors.ToJRUMode(
-    ModeInkernel=&gt;ModeEnum.FS
+>THERE_IS X IN JRU.JRU1.JRUMessages | X.GENERAL_MESSAGE.HEADER.MODE == JRU.Header.ToJRUMode(
+    mode=&gt;ModeEnum.FS
 )</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
