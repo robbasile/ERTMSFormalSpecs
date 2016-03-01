@@ -241,7 +241,7 @@ namespace DataDictionary.Interpreter.Statement
                             if (newListValue.Val.Count < newListValue.CollectionType.getMaxSize())
                             {
                                 ExplanationPart.CreateSubExplanation(explanation, "Inserting", value);
-                                newListValue.Val.Add(value);                                
+                                newListValue.Val.Add(value.RightSide(variable, true, true));                                
                             }
                             else
                             {

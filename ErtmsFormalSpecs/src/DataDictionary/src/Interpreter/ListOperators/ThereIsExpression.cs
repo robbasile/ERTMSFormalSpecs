@@ -58,7 +58,7 @@ namespace DataDictionary.Interpreter.ListOperators
         /// <returns></returns>
         protected internal override IValue GetValue(InterpretationContext context, ExplanationPart explain)
         {
-            IValue retVal = null;
+            IValue retVal = EfsSystem.Instance.BoolType.False;
 
             ListValue value = ListExpression.GetValue(context, explain) as ListValue;
             if (value != null)

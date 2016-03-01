@@ -329,6 +329,11 @@
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="78fe126c-7a78-49e8-b6de-c57af3a5230b"
 >
+</ReqRef><ReqRef
+ Id="1e4ca98b-fcef-4737-b4e3-38bfc4715927"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a32ac59d-2281-4328-b912-3fc209ec346e"
+>
 </ReqRef><Comment>When necessary it will call the corresponding function to create a new JRU Message</Comment>
 <Rules>
 <Rule
@@ -351,7 +356,9 @@
  Guid="08d9c251-b4ac-440a-9f0b-b5df551ead0b"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="376874e6-e8eb-4663-a8dd-a3decea9331a"
+>Kernel.ActiveFunctions.ProvideJuridicalData()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f4540f05-5b8a-413c-ae50-42c833e35804"
@@ -383,7 +390,26 @@
  Guid="0fab7fb4-d8d7-4326-8712-a18ff4eb78df"
 >TrainInterface.FillData()</Action><Action
  Guid="a1291d64-9ab6-43a2-bb62-e6c1d4191dee"
->VirtualBaliseCover.FillData()</Action><Action
+>VirtualBaliseCover.FillData()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="1c1571d1-e3fa-43e0-a6f3-02dcd61d70f4"
+>
+<Comment>Updates the values required to detect changes</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last values"
+ Guid="67299509-5c33-48a5-a1df-bb33c7499329"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
  Guid="2ef865a1-03e8-4c11-9cd0-00ea496f03d1"
 >UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
