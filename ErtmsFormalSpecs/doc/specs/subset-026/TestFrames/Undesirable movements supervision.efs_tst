@@ -47,8 +47,6 @@
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.FS
 )</Action><Action
- Guid="28bef3be-c802-44a6-9898-c5ac64cf2df8"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action><Action
  Guid="104ed018-c2e4-4170-9322-0c5b4ef00013"
 >Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
  Guid="53720474-c786-4f77-a0fe-71c162ef2a51"
@@ -81,7 +79,7 @@
 <Actions>
 <Action
  Guid="3641c9b8-2083-4da6-bb8e-61c631e596df"
->Odometry.NominalDistance &lt;- Odometry.NominalDistance - 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup </Action><Action
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
  Guid="7c5099a6-7664-4ce6-bea6-c8f97be482a6"
 >Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
  Guid="20370cef-006e-49b3-b29d-57d011caa603"
@@ -101,8 +99,7 @@
     [
         
     ]
-}
-</Action></Actions>
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -130,6 +127,7 @@
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="d31266c4-1fea-473c-a7be-52c2d56ca162"
 >
@@ -169,7 +167,7 @@
 <Actions>
 <Action
  Guid="68e06d97-40e8-4db3-8eb7-d9e21c42199d"
->Odometry.NominalDistance &lt;- Odometry.NominalDistance - 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup </Action><Action
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
  Guid="9094f542-724c-4398-a35a-d14d146d3a6a"
 >Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
  Guid="93cb3ecc-3e99-4ae8-97a0-5c268c10c69b"
@@ -641,6 +639,1043 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
  DeadLine="1"
  Guid="5706af90-6856-49bd-b4d2-cb5310b2c2b0"
 >DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Roll away protection"
+ Guid="be0f765a-3c45-457b-b5bd-57ded89cc227"
+>
+<TestCases>
+<TestCase
+ Name="Roll away protection sequence: reverse movement while TIU.Controller is forward"
+ Guid="a1dafb43-38af-4412-b95f-18b598c38641"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="8a573088-1805-4d97-bf9c-f952fa150df7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="ce25b7c8-bfb8-440e-a9da-8d1ea36d58b6"
+>
+<Actions>
+<Action
+ Guid="f9c33627-25c5-4660-ac62-4ed2bb64e11e"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
+ Guid="ec8fb30c-2482-469b-a956-b4feed7d8374"
+>Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
+ Guid="5c82b2f6-4972-4f1a-a773-b35966b69879"
+>TIU.DirectionControllerInformation &lt;- TIU.DirectionControllerEnum.Forward</Action><Action
+ Guid="364996a4-196e-46b2-9b19-031aabcb2163"
+>DMI.IN.Acknowledgements.Acknowledgements &lt;- []</Action><Action
+ Guid="d6d783a5-1080-4acd-9196-40ecd96ecbde"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="184ddb1e-4a0b-4f07-8cae-1d09724610b5"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Reverse movement detected"
+ Guid="f864c57d-0c99-47b2-837a-8e21763a81b6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="84302f28-dbc8-4238-a16b-a4bb0a1e5133"
+>
+<Actions>
+<Action
+ Guid="829d387f-8d13-4ad1-a45c-20233d3f161d"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="c77adcc6-2f63-4b41-8f8f-d6af0740b924"
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
+ Guid="720ac13e-2c08-497b-979c-0c5ee349a7b4"
+>Kernel.Mode &lt;- Default.ModeEnum.RV</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7f6158f3-ffce-4812-9a5d-c78140a60e88"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="58f423b4-509b-4a7a-9c8a-95efa2e882c0"
+>NOT Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="48e6b6c3-b5b2-4757-aa06-558d4b33e79a"
+>Kernel.UndesirableMovement.RollAwayMovementDetected(Kernel.UndesirableMovement.RollAwayMovementReferencePosition)</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Keep going in the right direction"
+ Guid="3493c9e9-c79d-4075-abaf-8c7c1e763110"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="0d6b3f59-71b2-4f67-8d3e-69c5255b4281"
+>
+<Actions>
+<Action
+ Guid="31a4f60b-d1cb-4d84-a5d0-bb10defbb742"
+>Odometry.NominalDistance &lt;- 110.0</Action><Action
+ Guid="8e9fd576-7b32-4dec-bb99-b27bf3e37e5f"
+>Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
+ Guid="2ff8a4d2-4f73-456f-bf85-c0959a219bf7"
+>Kernel.Mode &lt;- Default.ModeEnum.SR</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6bac8816-b684-41fe-beec-809bf8142fbd"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == Odometry.NominalDistance</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="07362b37-d7e6-41d8-811e-479d221f1837"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="28b6780a-1884-495f-ba4e-2786fdaa838f"
+>NOT Kernel.UndesirableMovement.RollAwayMovementDetected(Kernel.UndesirableMovement.RollAwayMovementReferencePosition)</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Reverse movement detected - Apply brakes"
+ Guid="f3275dd8-5247-4bac-b397-ac021b21fc5f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="5d0fc7f5-3974-41f4-aac8-46f80c5ddce3"
+>
+<Actions>
+<Action
+ Guid="d7976220-bfa1-489a-8efd-3522d8dcf0f0"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="b330710b-2697-43f3-a173-be9e70fd4f18"
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
+ Guid="6f7973e2-87dd-4475-8306-7fefe6fb71dd"
+>Kernel.Mode &lt;- Default.ModeEnum.RV</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="90c6c7dd-1a83-4d40-b375-717088fed4d6"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 110.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="887b5905-34d3-4045-858c-c044d9582bd9"
+>Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c211cc08-da08-467b-89cb-98268abbea14"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8d8d3b3b-bda5-444c-ade6-e742626f31f6"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1d5872a6-86c6-4f11-859b-251049784586"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Ask for acknowledgement when at standstill"
+ Guid="42bb60a9-9a50-4804-9b4b-d72dea9d5507"
+>
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="92442a16-e24d-4115-839d-570e31a994d1"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="49d1b4f6-8a2f-452f-9f87-90444dd8658e"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Movement"
+ Guid="e0d4d2db-7192-4f8b-9e67-5ecd9bf74a0a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="37a01e6e-4a64-49d3-908b-96bfd595fdb1"
+>FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="844403c2-bed5-484a-ac90-346232116e7f"
+>NOT Odometry.TrainIsAtStandstill()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a48e6420-5748-44a7-91a1-83812f95ee20"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Disabled </Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Standstill"
+ Guid="df85e304-cc05-490b-927f-cd2f83109805"
+>
+<Actions>
+<Action
+ Guid="bda15c1c-8830-4356-b8df-6c2981ef86a0"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b216fd3d-4112-47d1-8a4a-df061be1f1b4"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus != RequestEnum.Disabled OR THERE_IS X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type == DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - Release brake when acknowledgement is received"
+ Guid="eace7520-9690-423f-8d8f-ae3cb082451c"
+>
+<ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e89bef33-e1a0-4a0d-9e1e-ec1ac721aedc"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6635d236-634d-46e3-bbe9-772020858602"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No acknowledgement"
+ Guid="c72df5fb-f5cd-4c02-b291-5ede7df00f35"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9ac3a384-773f-4fd1-a9f8-3e6e4576f215"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7325f478-7fd5-4e4c-aa0c-a2fa80ca74e5"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 110.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement received"
+ Guid="bd9e92a3-0921-48b5-b531-74b3ef6bd877"
+>
+<Actions>
+<Action
+ Guid="de0cb55d-051c-4319-9558-cb0ae8a74241"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="260db96f-158e-4120-95e2-39a0312ddc81"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f05cb685-2db3-49d6-9824-b2d1c44e4c6d"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="800a213d-5351-41b2-aeac-e31168ac1a20"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition== Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Roll away protection sequence: forward movement while TIU.Controller is backward"
+ Guid="a6f2407a-26d1-4e54-9952-8399daa1a5c5"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="15d81561-ad2c-47e8-9071-d3ff8c2c54b5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="5f980414-bf11-4aa8-b3b3-f26210836d31"
+>
+<Actions>
+<Action
+ Guid="94f5ee29-2354-4d9e-8de9-8989f50a519a"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
+ Guid="0740bcce-081b-488a-80ff-ee080bcb8c69"
+>Odometry.EstimatedSpeed &lt;- -1.0</Action><Action
+ Guid="7c55fb43-583f-4b00-a552-ad255a13b738"
+>TIU.DirectionControllerInformation &lt;- TIU.DirectionControllerEnum.Backward</Action><Action
+ Guid="cf00849d-298d-4025-9bff-b2988bb5fa91"
+>DMI.IN.Acknowledgements.Acknowledgements &lt;- []</Action><Action
+ Guid="4a8745d2-c146-4333-b4f8-e15c08ac3d8e"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b001e685-a9ff-4d98-bfa4-3ed2648e3701"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Forward movement detected"
+ Guid="503d02d4-dd62-4e70-b49c-c957d8cb11dc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="943c18f6-be06-4f8c-bb3d-3f5ea9e4fa17"
+>
+<Actions>
+<Action
+ Guid="0315c278-b101-4bd7-8d88-aa5ea54a4696"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="be8fa253-0313-41e3-b148-6f3b5258723e"
+>Odometry.EstimatedSpeed &lt;-  1.0</Action><Action
+ Guid="90a46bbd-5587-46f8-be57-90ee5150bee9"
+>Kernel.Mode &lt;- Default.ModeEnum.SR</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b86ddcfe-6e07-4302-9717-6eca00475c8d"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8e1aa437-bb85-4332-a645-440f9694ee32"
+>NOT Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Keep going in the right direction"
+ Guid="e0086650-8fbb-468f-b170-05b481c97647"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="8b1ba9f4-253e-403d-826d-becdd74d42f7"
+>
+<Actions>
+<Action
+ Guid="63654952-40fc-4c9d-9870-df4774c3b74e"
+>Odometry.NominalDistance &lt;- 95.0</Action><Action
+ Guid="17b968d8-6d64-48a5-b0dd-6ddbd0249ee2"
+>Odometry.EstimatedSpeed &lt;- -1.0</Action><Action
+ Guid="6a44340d-3fc0-4dc5-9ac3-20af2068f9bc"
+>Kernel.Mode &lt;- Default.ModeEnum.RV</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="43e3ba82-35b3-413a-8ce1-595264097891"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == Odometry.NominalDistance</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3851f207-456c-4cec-a52b-baf3ae3b2b4e"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Forward movement detected - Apply brakes"
+ Guid="87c22afb-9bc5-4e3b-9766-50e04cab0ca3"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="9dd5e902-235a-4d2a-a831-78841664fbd4"
+>
+<Actions>
+<Action
+ Guid="81d042ce-d725-4a62-8adc-3c23c24be7cb"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="110b5695-356f-4659-8bdd-d031e7967c03"
+>Odometry.EstimatedSpeed &lt;-  1.0</Action><Action
+ Guid="7868be35-bd64-4b85-8075-617bb488609b"
+>Kernel.Mode &lt;- Default.ModeEnum.SR</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="40d71485-2ce8-42ed-9441-69fad048af53"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 95.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3d6df2c4-cc8c-4077-b3e1-c7aad19e2fe8"
+>Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="cf365415-e37a-4fd5-9939-8419a20a4531"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7be18eec-582b-4886-9849-fbe7a587416d"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="03211c3a-4fcb-45d4-ba27-c90d8bd3758e"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Ask for acknowledgement when at standstill"
+ Guid="fef856b0-e16d-4cb3-8489-04a4e953fd8b"
+>
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9573560-6d8c-4845-9f73-ba3be4e40843"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08019466-492e-4c9c-840b-34ac420cd7f4"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Movement"
+ Guid="f0d37877-e785-4d1e-a73f-82f792fca2b5"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f84b64ba-32a0-4eb9-a55a-513d6ac9b4d6"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Standstill"
+ Guid="e42e4f69-6209-46f3-842f-50000f18d271"
+>
+<Actions>
+<Action
+ Guid="5b528ea6-9694-43eb-82f1-2acb239451a4"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b061a0c9-e49e-406e-a289-d79483afbf0b"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus != RequestEnum.Disabled OR THERE_IS X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type == DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - Release brake when acknowledgement is received"
+ Guid="41bc60be-b301-42d8-8aa4-db3890454016"
+>
+<ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a0011c85-0f54-4689-bc96-dbc15fa0c424"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31df5407-846e-4e21-85cf-3cbe078d0dca"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No acknowledgement"
+ Guid="ffa05fc4-d524-4821-92db-a58546054a64"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="df7d15f0-98a9-4fb4-a0c6-b715c88c25c8"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a1392ef4-a63c-4a41-8088-52beaa462b63"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 95.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement received"
+ Guid="12c99101-fa33-4b99-bf52-0bf88b124af2"
+>
+<Actions>
+<Action
+ Guid="d8b29dfb-bf21-4fcf-b934-ae6f724d431d"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="85b97892-f467-4b81-aa2a-636c15413b5a"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="608d7d65-7ca1-48b8-a880-16b876aaad17"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2bfd3f43-adda-4af8-9a89-c041d08e8e2c"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition== Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Roll away protection sequence: movement while TIU.Controller is neutral"
+ Guid="7774bd62-e55e-4b1b-8f4d-7943209019bd"
+>
+<Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="08bf0610-c68c-4211-a059-0e9f58a15a6a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="04c154b5-d69f-4955-a305-be95976c9a2e"
+>
+<Actions>
+<Action
+ Guid="c0b7b106-5e35-4041-95ae-a73f047ec6c7"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
+ Guid="4d0e2e5a-0a91-4511-982e-e5351e506c50"
+>Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
+ Guid="c8502e13-4dfe-441f-bf7c-8a867637063f"
+>TIU.DirectionControllerInformation &lt;- TIU.DirectionControllerEnum.Neutral</Action><Action
+ Guid="761b13f8-ca5c-46df-a722-29d9424c660b"
+>DMI.IN.Acknowledgements.Acknowledgements &lt;- []</Action><Action
+ Guid="800a76ed-3eef-4807-a7b8-ae670c36e9f4"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ab15c9dd-e7d7-424f-9c41-a4079749ed4a"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Forward movement detected"
+ Guid="0e271b29-97dc-49f8-bb3f-a6a67a61b087"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="96982785-76c1-4fbe-88d1-9666d0c79e89"
+>
+<Actions>
+<Action
+ Guid="39f46562-a90f-478f-bf4b-504f5ecfebd9"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="a147c7da-4c58-4168-bb03-ed538e38ca50"
+>Odometry.EstimatedSpeed &lt;-  1.0</Action><Action
+ Guid="3a98b5c7-2a00-4fc4-b523-ae3fba8246aa"
+>Kernel.Mode &lt;- Default.ModeEnum.SR</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f2832944-3fdc-4152-a38a-06ffe04fec6c"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="db92e61c-3ca8-41a6-8f1e-2d022b90602e"
+>NOT Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Forward movement detected - Apply brakes"
+ Guid="4d0d9efc-fbf3-4b0f-8d21-4d104e9b7e5d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="e4c6deab-06dc-43a5-878d-69a7c0c920df"
+>
+<Actions>
+<Action
+ Guid="26d6505b-7035-4510-8199-e927311604f5"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance + 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="d1f61697-2dbb-45df-9455-5ff11d730501"
+>Odometry.EstimatedSpeed &lt;-  1.0</Action><Action
+ Guid="3d6df484-a814-4c3f-9684-708fd5d91320"
+>Kernel.Mode &lt;- Default.ModeEnum.SR</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ef1af56a-ba6f-4565-9f3f-bea96548139d"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="78bbc4c4-f568-462b-b67b-8ca6d1917e67"
+>Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8ac90db1-a742-430b-907f-a397bd66bf41"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="89247cb6-000b-43a3-b7d1-25cc0a80f95e"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a1292329-0ac9-4d5b-9662-19bcc8ed026c"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Ask for acknowledgement when at standstill"
+ Guid="c292517c-2b46-4769-bf18-a239ca0b0047"
+>
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="25ffb8f9-1fcc-435b-89fd-30364244bd62"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="babb008e-613a-4a47-bb9c-f6decb7ba4e8"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Movement"
+ Guid="260466e3-4e9d-4d0c-8178-bb6e0ec8f534"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="394ce75e-e6b3-43ae-b85e-4704ffa44706"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Standstill"
+ Guid="f59bb87e-c4e0-4b57-9bea-b0a612f2ea09"
+>
+<Actions>
+<Action
+ Guid="0233d483-02a7-4d18-bcc7-6e6fcc71abae"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8c5a369f-b1b8-4b98-a6bb-a8e4726f1ea2"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus != RequestEnum.Disabled OR THERE_IS X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type == DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Release brake when acknowledgement is received"
+ Guid="22d96ba7-0f7e-4c08-aa12-83cb53c104af"
+>
+<ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="853a92aa-ae91-4634-b72d-7b7820403120"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d7356e5-8555-4643-acef-e1161be9bf08"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No acknowledgement"
+ Guid="2865bd34-526a-4d47-af41-71a9602c867c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="42362d7f-19d3-41af-bfb2-332e88c6b350"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="4424ea41-0d6c-4d3c-a929-38f7e3a0d708"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement received"
+ Guid="eb12f060-6627-4251-b9ce-4f4fa1fdbdf8"
+>
+<Actions>
+<Action
+ Guid="af9df874-462b-4cc3-942c-7df4c4f0dcb4"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a239f978-62d5-44fa-94c3-b4cdbcfdf39e"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f62e0e20-6d3d-4238-9ebc-842b7dae1bfc"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c31f03ab-70de-401b-a80d-860bbda95132"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition== Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - Setup"
+ Guid="bfdf3813-f3b9-480b-8fea-6bcd04c9e95d"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="c0b5240e-d9d8-4190-a480-a51cc36e77c8"
+>
+<Actions>
+<Action
+ Guid="5d43b646-8407-4b9a-84a7-aa39f561b6c7"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action><Action
+ Guid="85eb14ce-5f0d-4908-bba4-ffa8c37b6f67"
+>Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
+ Guid="42fca2df-0752-44c3-8599-e71223a2729f"
+>DMI.IN.Acknowledgements.Acknowledgements &lt;- []</Action><Action
+ Guid="32625ede-0d09-45bf-8f8b-271b73e8cec5"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e75a5f36-aeef-4002-8527-995a45b4ae7a"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step7 - Reverse movement detected"
+ Guid="c4a2e246-4ae4-4b1c-b389-66638c26b7e4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="ee434eff-4bf2-41dd-85e2-e96619a7cbef"
+>
+<Actions>
+<Action
+ Guid="caec7e6b-bce7-4593-a613-82a1e40e82cd"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 0.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="bf9081a6-30fa-4135-a017-16f0a4d15082"
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
+ Guid="50d7ad9d-2384-495d-9775-98859655663c"
+>Kernel.Mode &lt;- Default.ModeEnum.RV</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="057e80d7-a316-48cf-a958-ba43d217ecbf"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ca99717a-6045-47cf-8882-076a5e52fef5"
+>NOT Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step8 - Reverse movement detected - Apply brakes"
+ Guid="25c5bd40-9170-4682-9bdc-c942beb02680"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="66c9cc7b-5227-4109-a260-67dcda71f6b7"
+>
+<Actions>
+<Action
+ Guid="dc34ab38-823c-44ca-8eb5-b1140b3e2fe0"
+>Odometry.NominalDistance &lt;- Odometry.NominalDistance - 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
+ Guid="4ee77815-fa0e-4164-914a-6e81018c2051"
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
+ Guid="eda9ab13-4b1d-4bef-a35c-903032fc218b"
+>Kernel.Mode &lt;- Default.ModeEnum.RV</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="152e4040-69b3-4a15-8dc8-6fa28112643b"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e98a1227-6be5-412d-856d-58255af1561b"
+>Kernel.UndesirableMovement.RollAwayDistanceExceeded()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e4e92ea3-d156-4c03-9e0d-0b19febcf1e5"
+>THERE_IS X IN 
+DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c8a0a3ee-0589-4938-a053-cbddeb48e51c"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d3a10d0c-3994-4690-a223-3cc3ad45ce09"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step9 - Ask for acknowledgement when at standstill"
+ Guid="378d0d72-7b25-47c2-897a-f19aeaef96b4"
+>
+<ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c70de76-6475-4666-be66-1c20273e0439"
+>
+</ReqRef><ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0352475-d5af-4ccd-91f2-36766d1eee66"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Movement"
+ Guid="f1e3a398-2efe-4597-ac65-dbe903788f12"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="bbd6d0e9-c933-49f3-a128-69a192996695"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Disabled AND FORALL X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type != DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Standstill"
+ Guid="ee82e1db-7b87-444b-b640-38147a89d3dd"
+>
+<Actions>
+<Action
+ Guid="c1358deb-7971-4f47-8d01-2a8888e9e770"
+>Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="acd44957-85a8-425c-850f-637613a8fa73"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus != RequestEnum.Disabled OR THERE_IS X IN DMI.IN.Acknowledgements.Acknowledgements | X.Type == DMI.IN.Acknowledgements.AckTypeEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step10 - Release brake when acknowledgement is received"
+ Guid="cce3004b-c7e6-48f2-a9a7-7291472c1f48"
+>
+<ReqRef
+ Id="ba7f8c98-781f-404a-b7b8-e679b92c5448"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcd6a469-e935-4e3b-a864-bfc195587484"
+>
+</ReqRef><ReqRef
+ Id="f4fbf115-c910-46e8-b6e7-bf1fb0f8a4b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5506f954-e34b-4f88-a8b6-cd84897784ec"
+>
+</ReqRef><SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="No acknowledgement"
+ Guid="1cb65d6f-49f6-4d40-94de-74b3ab4d0cb0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="415292a3-fc91-4dcd-b9c2-a51befaae18c"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="58ca9345-c4fa-4c8a-8709-213261f665bd"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition == 100.0</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Acknowledgement received"
+ Guid="fc97012e-580b-4492-8e0f-6c53f568feb3"
+>
+<Actions>
+<Action
+ Guid="89f5455c-2094-4993-9382-ca1e23123082"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a949ea5a-7b03-44e6-a333-fc23c9534bcb"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a5a80451-6eef-4720-a67c-317b8e8d8710"
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == False</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5697c1d6-7aca-4b11-8df3-5830fb164c79"
+>Kernel.UndesirableMovement.RollAwayMovementReferencePosition== Odometry.NominalDistance</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

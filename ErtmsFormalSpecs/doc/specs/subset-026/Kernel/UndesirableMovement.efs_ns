@@ -72,7 +72,7 @@
 <PreCondition
  Guid="97d9a3ea-c214-4b26-aa7b-693ecba1ffc5"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
-<Expression>MovementDetected()</Expression>
+<Expression>aReferenceDistance - Odometry.NominalDistance != 0.0</Expression>
 </Case><Case
  Name="Direction controller in forward"
  Guid="7cf9f355-4388-430f-a696-2f039b3e2d06"
@@ -385,9 +385,9 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 <PreCondition
  Guid="efe6c87e-30a4-4860-b0e1-541105a3d196"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Neutral</PreCondition></PreConditions>
-<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(RollAwayMovementReferencePosition)
+<Expression>(Odometry.NominalDistance - Kernel.UndesirableMovement.RollAwayMovementReferencePosition &gt;Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup)
   OR  
-Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
+(Kernel.UndesirableMovement.RollAwayMovementReferencePosition - Odometry.NominalDistance &gt;Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup)</Expression>
 </Case><Case
  Name="Direction controller in forward"
  Guid="125749c0-698b-44eb-b30b-e2cfe24344ea"
@@ -396,7 +396,7 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReference
 <PreCondition
  Guid="a8da17ac-472c-4f65-a3f5-2e4e00978249"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
-<Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
+<Expression>Kernel.UndesirableMovement.RollAwayMovementReferencePosition - Odometry.NominalDistance &gt;Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case><Case
  Name="Direction controller in backward"
  Guid="ef7049c3-4c8b-4922-a545-ad76b1a26d1d"
@@ -405,7 +405,8 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReference
 <PreCondition
  Guid="d264d10d-2834-40a9-8d4a-fa0acbf240b5"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
-<Expression>Kernel.UndesirableMovement.MovedForwardBeyondReference(RollAwayMovementReferencePosition)</Expression>
+<Expression>Odometry.NominalDistance - Kernel.UndesirableMovement.RollAwayMovementReferencePosition &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup
+</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
@@ -780,7 +781,7 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 >RollAwayMovementReferencePosition != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="8bddf8a3-0d95-411b-87af-28edd2e3585c"
+ Guid="38b4c99e-5131-4be3-b9ef-9e6d179aaa3e"
 >DMI.MasterDMI().In_AcknForRollAwayProtection.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule

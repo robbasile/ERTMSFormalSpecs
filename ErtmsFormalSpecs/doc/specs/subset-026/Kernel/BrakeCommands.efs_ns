@@ -1346,25 +1346,6 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Display reverse movement protection"
- Guid="7e1321a9-c000-41e6-90d8-4a0ad68e31b4"
->
-<ReqRef
- Id="356c897f-ec33-4240-8b7c-f795ee273d64"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1e0cc063-b97d-4cfd-9d3d-d571e9743250"
->
-</ReqRef><Comment>Display the acknowledgement request for braking due to reverse movement protection.</Comment>
-<PreConditions>
-<PreCondition
- Guid="fa3d6fc0-ac3f-47f2-a420-06594633ff03"
->aBrakeCommand.Reason == BrakeReasonEnum.ReverseMovementProtection</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9dca4b47-4686-4679-8955-3d1a182ec68d"
->DMI.MasterDMI().In_AcknForReverseMovementProtection.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
  Name="Display reversing distance exceeded"
  Guid="70e023bc-d3bb-4de6-99dd-d0d6a6c0fdc1"
 >
@@ -1377,25 +1358,6 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 <Action
  Guid="85e315ad-e24e-4ee5-8bb1-4a8cb2bd7c76"
 >DMI.MasterDMI().In_AcknForReversingDistanceExceeded.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Display roll away protection"
- Guid="882f55c2-cf68-478c-94f2-88e73b34c528"
->
-<ReqRef
- Id="8fae9656-3172-4724-ac7f-6cde69800d28"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4b0a0fa0-0d15-4487-be5a-8253bab71427"
->
-</ReqRef><Comment>Display the acknowledgement request for braking due to roll away protection.</Comment>
-<PreConditions>
-<PreCondition
- Guid="cc0e14e8-7335-4932-bbf0-7d6684638c2e"
->aBrakeCommand.Reason == BrakeReasonEnum.RollAwayProtection</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="78668021-27fe-4924-93e4-d3d07a9476c7"
->DMI.MasterDMI().In_AcknForRollAwayProtection.InitiateRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Name="Display time-out of ackn for SH mode"
  Guid="86b51931-dc36-4083-86cd-7e1e2c16b028"
