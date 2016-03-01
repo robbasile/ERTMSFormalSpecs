@@ -150,6 +150,21 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e25b02c7-2696-4956-9ebe-70ac9b774dc9"
 >
+</ReqRef><ReqRef
+ Id="917e038b-c314-4423-b3a6-c0131f148410"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57d66372-e102-4458-b57b-6955858b3715"
+>
+</ReqRef><ReqRef
+ Id="4f4a1783-3d82-4056-8a27-0f47ff27ce77"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1b346d9-b586-4e56-8cc4-eb180441bd6b"
+>
+</ReqRef><ReqRef
+ Id="74a30d76-76b6-4796-9af7-51fcc86fdda3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12e43f6e-2578-41d9-a0ac-c2c513535975"
+>
 </ReqRef><Comment>The level of the train before applying the level transition order.</Comment>
 </StructureElement><StructureElement
  TypeName="Boolean"
@@ -1377,87 +1392,6 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
 <Action
  Guid="6cd45745-93fd-462e-a9a2-fba632fb6219"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InitiateRequest( Level =&gt; Kernel.LevelTransition.LevelTransitionToProcess.TRLevel )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="240"
- Y="440"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Report train position"
- Guid="61e5d8bf-cac6-40e1-af1d-2a42bd262312"
->
-<ReqRef
- Id="6ba8948f-12e6-4276-a69a-8e9e1ee29135"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="058da72b-0b56-4c33-b6ae-84e6d1e5ece7"
->
-</ReqRef><ReqRef
- Id="a7605778-28fc-48d9-b6cd-2429b3e840e2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5c62b790-376b-4fc6-ae54-9e9a47a71479"
->
-</ReqRef><ReqRef
- Id="fef79c41-a6e7-4139-94de-a5a9b000932d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f099b7e7-d0c3-4a2a-9334-3c8b4e33a8e4"
->
-</ReqRef><ReqRef
- Id="47b91cc7-c8e6-4d25-94b9-7992b9456daa"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e01e4202-0ebf-4c92-af78-c619e3af12bf"
->
-</ReqRef><ReqRef
- Id="74a30d76-76b6-4796-9af7-51fcc86fdda3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1806dc19-da18-42f0-aa14-7783268c0192"
->
-</ReqRef><Comment>When the min safe rear end of the train passes a border from level 2/3, the on-board sends a position report to the RBC.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Train rear leaves level 2/3 area"
- Guid="b852ea5c-632f-4150-9d61-c815f69ef77a"
->
-<Comment>When the min safe rear end of the train passes the border leaving a level 2/3 section, send a position report.</Comment>
-<PreConditions>
-<PreCondition
- Guid="aa213c6b-c619-4e1c-87bc-a74f4d1b8bad"
->Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Min) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition><PreCondition
- Guid="841d9164-6f90-4cca-a388-fef4340c3077"
->Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
- Guid="f0dd9be7-1b5b-410c-ab51-e00ed28c2052"
->NOT Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent</PreCondition><PreCondition
- Guid="9d05460b-a991-459b-8c92-894b266afa9d"
->Kernel.Mode not in [ModeEnum.NL]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e52599ee-bda8-481c-8967-10f342082f2e"
->EURORADIO.PositionReport.PositionReportEventsTracker.LevelTransitionBorderPassed &lt;- True</Action><Action
- Guid="3851d849-c7b7-49c2-a554-2a47880a4c61"
->Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent &lt;- True</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Train enters level 2/3 from NTC"
- Guid="876b1f14-916b-4df5-b8b5-60944eb2dac0"
->
-<Comment>When the estimated front end passes the level transition border from NTC to a level 2/3 section, send a position report.</Comment>
-<PreConditions>
-<PreCondition
- Guid="f2015811-7deb-49d2-b3a2-9a82336529e6"
->Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [LevelEnum.LNTC]</PreCondition><PreCondition
- Guid="571a7181-1b87-401e-962a-92df42e17bc8"
->(FIRST Transition IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse(Transition.TRLevel) ).TRLevel.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
- Guid="5d86c07e-19a2-43cd-b727-6618f6a65fff"
->Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt;= Kernel.LevelTransition.LevelTransitionOrder.Location</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="80001d59-a4e1-4935-a8ca-2772d5ccab14"
->Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent &lt;- True</Action><Action
- Guid="99edecea-5f88-4332-b9be-57663c593046"
->EURORADIO.PositionReport.PositionReportEventsTracker.LevelTransitionBorderPassed &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

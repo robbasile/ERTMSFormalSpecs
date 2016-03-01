@@ -1146,7 +1146,84 @@
  Name="Constant"
  Guid="f83101a4-b906-4089-99c2-85d8cb794c48"
 >
-</StructureElement></Structure></Structures>
+</StructureElement></Structure><Structure
+ Default=""
+ X="520"
+ Y="200"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TrainIntegrityStruct"
+ Guid="2c7a8cb2-30a0-4c5a-8b3d-a28cffb11256"
+>
+<ReqRef
+ Id="2b2ed08d-1183-4018-b0cc-3b454b2f8c4d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="993d3271-b76c-4be6-b225-f4032bec7c06"
+>
+</ReqRef><Comment>Train integrity information.</Comment>
+<StructureElement
+ TypeName="Messages.Q_LENGTH"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Status"
+ Guid="35465ef2-aec0-42a1-9c6b-88d5ba56c3cd"
+>
+<ReqRef
+ Id="0d7b3630-948f-424b-9a71-0e04aa754bd1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11cfdd25-7f5a-436d-be30-f3e2d6a333ff"
+>
+</ReqRef><Comment>Status of the train integrity information.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MinSafeRearEnd"
+ Guid="50f4c16f-b2ee-4474-9fd1-20c3298667da"
+>
+<ReqRef
+ Id="84654558-6cb7-46d9-a984-7fb0aa823724"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a4fd9dc-dc85-49ed-a343-8cec5b304489"
+>
+</ReqRef><ReqRef
+ Id="a6aceb83-88fa-4212-8803-de63811665b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ded4b5d-581f-42e0-a2a0-b9e0075eccde"
+>
+</ReqRef><ReqRef
+ Id="3341d827-cad3-4381-a9e8-5bd7da75b27b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03393629-240b-43cd-97ac-0ad0bdb4e2a3"
+>
+</ReqRef><Comment>Safe train length.</Comment>
+</StructureElement><StructureElement
+ TypeName="DataStateEnum"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DataState"
+ Guid="af4e6367-ff10-431c-888f-6f90a6a73b00"
+>
+<ReqRef
+ Id="84654558-6cb7-46d9-a984-7fb0aa823724"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f74ad6a5-4c99-4ccd-8ad8-cbd97e659a24"
+>
+</ReqRef><Comment>Data state of the train integrity information.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="e19e43ae-a6df-4dc8-a6c4-7816b484e8d3"
+>
+</StructureRef></Interfaces>
+</Structure></Structures>
 <Collections>
 <Collection
  TypeName="TrainCategoryEnum"
@@ -1338,7 +1415,124 @@
 >
 <Expression>False</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SafeTrainLength"
+ Guid="c90476a1-56b1-46cc-b6ef-f38f36a27336"
+>
+<ReqRef
+ Id="3341d827-cad3-4381-a9e8-5bd7da75b27b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72511b85-267b-4679-a610-0048c4712e8d"
+>
+</ReqRef><ReqRef
+ Id="a6aceb83-88fa-4212-8803-de63811665b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="629381dc-4da9-4f0c-84d6-ffb73b436e47"
+>
+</ReqRef><Comment>Calculates the safe train length by subtracting the min safe rear end of the train (taken at the last time the train integrity was confirmed) from the estimated front end.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9742f9fc-6a8d-4815-87e3-a57aaa2e3435"
+>
+<Expression>BaseTypes.DistanceToLength( TrainPosition.FrontEndPosition(Default.DistanceIntervalEnum.Nom) - TrainIntegrity.MinSafeRearEnd )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="270"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RearEndIsSafe"
+ Guid="07f56d73-2dc2-46eb-b458-123f514e9055"
+>
+<ReqRef
+ Id="d61ea269-686c-486d-9852-1fd7e6f88c24"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da222675-8afc-4a03-a48f-e7ef191317d6"
+>
+</ReqRef><Comment>This function specifies if the rear front end of the train is safe or not. Based on train integrity information.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c60bb9d2-75cf-4268-a4b0-c950b60fed67"
+>
+<Expression>TrainIntegrity.Status in
+[
+  Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
+  Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device
+]</Expression>
+</Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="441"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConfirmTrainIntegrity"
+ Guid="667a727d-5b60-4709-af09-0d6d506d29c2"
+>
+<ReqRef
+ Id="2b2ed08d-1183-4018-b0cc-3b454b2f8c4d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ecda047-aafe-404a-81b3-62ef8f5baf4c"
+>
+</ReqRef><ReqRef
+ Id="0d7b3630-948f-424b-9a71-0e04aa754bd1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc2363bc-4011-4fb2-9e5b-980ee834c638"
+>
+</ReqRef><ReqRef
+ Id="84654558-6cb7-46d9-a984-7fb0aa823724"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="816dce59-b3b8-45dc-bac4-60b0293fd67b"
+>
+</ReqRef><Comment>Keeps the source of the train integrity confirmation and the min safe rear end of the train at the time of confirmation.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.Q_LENGTH"
+ Name="aConfirmationSource"
+ Guid="ceb9efe2-2006-4de8-952b-7d24b7c5ff57"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Record the train integrity confirmation"
+ Guid="a0370e91-6eab-409c-ba6e-b231a3fc3cf2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Record the train integrity confirmation"
+ Guid="6587a287-bd99-4986-adca-e1f7e524390b"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9aba27d9-1630-407b-a732-00d9163cdb95"
+>TrainIntegrity &lt;- Kernel.TrainData.TrainIntegrityStruct{
+    Status =&gt; aConfirmationSource,
+    MinSafeRearEnd =&gt; TrainPosition.RearEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min ),
+    DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 <Variables>
 <Variable
  Type="TrainDataStruct"
@@ -1363,5 +1557,32 @@
  Guid="ea2e2d64-a34f-4e25-8d8c-cc240648b1d3"
 >
 </ReqRef><Comment>Represents the train data that shall be acquired by the ERTMS/ETCS on-board equipment of a leading machine before starting a mission.</Comment>
+</Variable><Variable
+ Type="TrainIntegrityStruct"
+ VariableMode="Internal"
+ X="331"
+ Y="1"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TrainIntegrity"
+ Guid="5007ea1a-16e0-42e7-97a2-bb0d77315d47"
+>
+<ReqRef
+ Id="2b2ed08d-1183-4018-b0cc-3b454b2f8c4d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9f8225b-8239-4960-9e7f-4d09e97b2edd"
+>
+</ReqRef><ReqRef
+ Id="0d7b3630-948f-424b-9a71-0e04aa754bd1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cbbf4040-5855-4e63-b01f-9cce6f8cab58"
+>
+</ReqRef><ReqRef
+ Id="84654558-6cb7-46d9-a984-7fb0aa823724"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02e9aec9-c1ff-4d94-ae18-8cdc853d2a90"
+>
+</ReqRef><Comment>Keeps the train integrity information from the last time the train integrity was confirmed.</Comment>
 </Variable></Variables>
 </NameSpace>

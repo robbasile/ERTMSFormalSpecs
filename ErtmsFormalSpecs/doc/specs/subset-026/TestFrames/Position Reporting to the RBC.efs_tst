@@ -102,7 +102,9 @@
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;11.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="da9dda59-f72b-4f3b-8def-f2526e081a77"
+>Odometry.NominalDistance &lt;- 1100.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -192,11 +194,11 @@
  Guid="1a998e53-2f71-4cf3-95b9-967b6a302ef9"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="27362baa-d101-46f4-ae90-1c689c534af5"
->TIU.TrainIntegrity.DataState &lt;- DataStateEnum.Valid</Action><Action
+>Kernel.TrainData.TrainIntegrity.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="8c44c0e7-2bbd-42ae-a778-7330a4a2ac85"
->TIU.TrainIntegrity.SafeTrainLength &lt;- 114.0</Action><Action
+>Kernel.TrainData.TrainIntegrity.MinSafeRearEnd &lt;- 1356.0</Action><Action
  Guid="83979dcd-82f7-4812-a5ac-29443f04f8f1"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="bde98291-8992-4ea4-b5a1-f9edcd3b0db3"
 >BTM.LRBG &lt;- 
 BTM.BaliseGroupStruct {
@@ -296,11 +298,11 @@ BTM.BaliseGroupStruct {
  Guid="56927abd-a8cd-4a6b-9cee-630c128ab113"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="d70befad-4ee7-4168-9673-32e4c747222c"
->TIU.TrainIntegrity.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="83c184b0-42cf-4bc2-8ac3-fb1006dcf8cc"
->TIU.TrainIntegrity.SafeTrainLength &lt;- 117.0</Action><Action
- Guid="7322fbfe-fd56-420b-9a5e-e2ea550de1b4"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device</Action><Action
+>Kernel.TrainData.TrainIntegrity &lt;- Kernel.TrainData.TrainIntegrityStruct{
+Status =&gt; Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device,
+MinSafeRearEnd =&gt; 1356.0,
+DataState =&gt; DataStateEnum.Valid
+}</Action><Action
  Guid="88e295f7-a74d-49f1-bbb8-d0e779ce31f0"
 >BTM.LRBG &lt;- 
 BTM.BaliseGroupStruct {
@@ -349,7 +351,9 @@ BTM.BaliseGroupStruct {
  Guid="319f10bd-b194-4a12-8e2a-d7270b3a6cc9"
 >TIU.CabB.Desk1IsActive &lt;- True</Action><Action
  Guid="585f2fcc-d53d-4d5c-9e00-8370c998447f"
->TIU.CabA.Desk1IsActive &lt;- False</Action></Actions>
+>TIU.CabA.Desk1IsActive &lt;- False</Action><Action
+ Guid="244f07d5-794d-4678-a9e2-0e51a306d272"
+>Odometry.NominalDistance &lt;- 2600.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -363,7 +367,7 @@ BTM.BaliseGroupStruct {
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b765ae95-bab1-4258-bb93-61344230e674"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.D_LRBG == 2500 - 1050</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.D_LRBG == 2600 - 1050</Expectation><Expectation
  Kind="Instantaneous"
  Guid="12e4892b-d99e-412f-9ed8-d9948e067b59"
 >EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_DOUBTOVER == 12</Expectation><Expectation
@@ -390,7 +394,7 @@ BTM.BaliseGroupStruct {
 >EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device</Expectation><Expectation
  Kind="Instantaneous"
  Guid="167d8b38-73a7-48f8-a47e-b07a6a38501b"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_TRAININT == 117</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_TRAININT == 194</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b8505486-0026-4254-8aa4-c734e2b42556"
 >EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.NID_PRVLRBG == 1292</Expectation></Expectations>
@@ -493,7 +497,9 @@ BTM.BaliseGroupStruct {
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;11.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="23737ee7-87e2-48e4-9b1e-6e351fedffd2"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -732,7 +738,9 @@ BTM.BaliseGroupStruct {
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;17.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="c1ade0df-fc96-48c3-9ed5-616a42efd372"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -801,7 +809,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="323e9303-ae11-4fca-b521-3508170f4bb3"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="233cf61a-410d-4041-8334-35cd92e048de"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="068c5a8f-14fb-438c-b69a-a40daee0f409"
@@ -826,7 +834,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="a6ba2440-d2f6-4daa-b4a4-5ae0bf7360ec"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -840,7 +848,7 @@ BTM.BaliseGroupStruct {
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dc1e6f8b-5344-486d-a262-6993b8506f0d"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == TIU.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9b025144-8c48-4458-b1bd-aa67fa09e2cf"
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
@@ -864,7 +872,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="7b713c91-6f2f-410d-97ee-20d0908d0ff4"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="ccc18ffa-adb0-47e4-8438-8524305ea45e"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
@@ -887,12 +895,12 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="4aca8e0e-5f06-404b-897d-012ba2edb1b1"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="a9068572-0e40-4a8f-9ebc-000fef3f1c68"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == TIU.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dec4e408-db9e-48ac-9133-34b508331fa9"
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
@@ -1006,7 +1014,9 @@ BTM.BaliseGroupStruct {
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;2.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="e3385028-21f3-48a2-9b89-1de8d52ff7d2"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -1052,7 +1062,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="9303b9f8-0582-4c26-8031-e056b5a71b57"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
  Guid="ad73cc1f-5804-4204-a1a7-c4129d51dd93"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="aab3b2ec-5a40-43a6-80f9-bb37f4aebee3"
@@ -1077,9 +1087,11 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="159b517e-2ec2-4cd7-b74a-b3d8c1d1ca4f"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="d6067085-0b19-4851-a6a2-70c986b21042"
->TIU.TrainIntegrity.SafeTrainLength &lt;- 115.0</Action></Actions>
+>Kernel.TrainData.TrainIntegrity.MinSafeRearEnd &lt;- 115.0</Action><Action
+ Guid="3d0741e5-0324-44b2-b022-6744723f22bc"
+>Odometry.NominalDistance &lt;- 1310.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1093,7 +1105,7 @@ BTM.BaliseGroupStruct {
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4ef4a598-a0cc-4167-b673-3c5382281714"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == TIU.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="747e24fd-a1ba-4712-9bde-25f1e6e5cffb"
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
@@ -1120,7 +1132,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="73146a7e-9a98-4b10-b9d2-6612f0f05845"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
  Guid="d49c76a9-d278-44bb-8796-a2ea6570de9a"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
@@ -1143,14 +1155,14 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="9c1d5070-a148-4edd-b603-56a730bc828b"
->TIU.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="8279e97d-f262-4c35-a72f-3bf542945902"
->TIU.TrainIntegrity.SafeTrainLength &lt;- 117.0</Action></Actions>
+>Kernel.TrainData.TrainIntegrity.MinSafeRearEnd &lt;- 117.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="2ac4fcfe-562f-4abf-b463-ccd5a50dc5e3"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == TIU.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="455577fc-6f4f-44a2-a5ff-e6705ad3fd9d"
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
@@ -1165,7 +1177,7 @@ BTM.BaliseGroupStruct {
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="57d6d3ce-e593-4ee5-b157-20e53647298a"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS. L_TRAININT == 117</Expectation></Expectations>
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS. L_TRAININT == 113</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -1773,7 +1785,9 @@ BTM.BaliseGroupStruct {
   }
 }</Action><Action
  Guid="5521c114-5d1b-4a17-bd92-d5f6ff171bf3"
->EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action></Actions>
+>EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action><Action
+ Guid="ebc96cc0-d611-4023-9e6f-31aa7f87f5ec"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2012,11 +2026,11 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
  Guid="89cf6a16-ba7a-43c4-b415-ee9706f19e2f"
 >EURORADIO.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
  Guid="eea086c1-93a9-4ff0-abdb-0609aa071d77"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- 700.0</Action><Action
+>EURORADIO.PositionReport.LastPositionReport.Position &lt;- 1000.0</Action><Action
  Guid="5416704e-1557-46dd-b4ba-e468afb066d0"
 >EURORADIO.PositionReport.LastPositionReport.Time &lt;-1200.0</Action><Action
  Guid="24c8f07a-1b95-410c-aeb3-eaa52ce19ef0"
->Odometry.NominalDistance &lt;- 795.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 1095.0</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2037,7 +2051,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Actions>
 <Action
  Guid="461efad6-3d63-4a8e-ae1e-3a55d9f975b2"
->Odometry.NominalDistance &lt;- 800.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 1100.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -2054,7 +2068,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="35315ad2-8c51-4bda-907d-b203cf6d474b"
->EURORADIO.PositionReport.LastPositionReport.Position == 800.0</Expectation></Expectations>
+>EURORADIO.PositionReport.LastPositionReport.Position == 1100.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2083,11 +2097,11 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
  Guid="bcf2f8a1-91dd-4d2b-83fa-acf37602ffa8"
 >EURORADIO.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
  Guid="33afd080-174c-452a-b510-828bb4a91d80"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- 800.0</Action><Action
+>EURORADIO.PositionReport.LastPositionReport.Position &lt;- 1100.0</Action><Action
  Guid="97eb463c-583e-42bc-965d-fce8814872ba"
 >EURORADIO.PositionReport.LastPositionReport.Time &lt;-1300.0</Action><Action
  Guid="78489c79-0e53-4da7-9e24-a9a1f8f7de38"
->Odometry.NominalDistance &lt;- 895.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 1195.0</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2108,7 +2122,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Actions>
 <Action
  Guid="a7fa3479-1310-4f7b-b1be-3393338457e9"
->Odometry.NominalDistance &lt;- 900.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 1200.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -2125,7 +2139,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="cde3662a-0b5f-43a1-8d0d-f7ac99e2c3b0"
->EURORADIO.PositionReport.LastPositionReport.Position == 800.0</Expectation></Expectations>
+>EURORADIO.PositionReport.LastPositionReport.Position == 1100.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2267,7 +2281,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
  Guid="c3311d3a-ab31-46e5-a6c5-927a698dbe54"
 >EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.PositionReport.PositionReportSpecialMoment.Now</Action><Action
  Guid="3fe9e972-f30a-4b3f-86b9-d23d533f3500"
->Odometry.NominalDistance &lt;- 1000.0</Action><Action
+>Odometry.NominalDistance &lt;- 1300.0</Action><Action
  Guid="d35db19e-7bb0-4475-b830-6391e7fd9c07"
 >Kernel.DateAndTime.CurrentTime &lt;- 2000.0</Action></Actions>
 <Expectations>
@@ -2286,7 +2300,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="ccde5bc9-d9aa-45c9-88df-4f48396d3e04"
->EURORADIO.PositionReport.LastPositionReport.Position == 1000.0</Expectation><Expectation
+>EURORADIO.PositionReport.LastPositionReport.Position == 1300.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e72000ee-85eb-47df-b324-6d32dd9aae9d"
 >EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == EURORADIO.PositionReport.PositionReportSpecialMoment.DoNotSend</Expectation><Expectation
@@ -2477,7 +2491,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;11.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="d8ac56ae-4ee0-4628-bdc9-792bea681a65"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2601,7 +2617,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
   }
 }</Action><Action
  Guid="4e71c053-2fff-477f-89b5-2fbd3578ce2c"
->Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="fcc0504b-eb90-491b-8725-3d4e21147f97"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2725,7 +2743,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;1084.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="4942f72a-48bb-4528-bac9-82fddde5dcaf"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2849,7 +2869,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="1ae569a3-18be-4baa-8a57-a2567ea7304f"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection &lt;- OrientationEnum.Reverse</Action><Action
  Guid="b5707176-a6e9-4f1d-b14f-b5c2b9272c3c"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+>EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="98c11fe3-2e78-4746-be90-5c364fb97213"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2974,7 +2996,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;6.0
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="b1be60e5-bdfc-40a7-b794-9f7e0950c561"
+>Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase

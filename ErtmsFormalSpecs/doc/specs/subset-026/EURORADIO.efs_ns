@@ -2304,60 +2304,9 @@ NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(THIS))</PreCondition>
  Guid="2b31e04f-298e-4823-8659-e35d735d2e04"
 >EURORADIO.SafeRadioConnectionAvailable()</PreCondition></PreConditions>
 <Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Initialize position report"
- Guid="7958e2ce-e701-48cf-9a15-6bfa2e7774a9"
->
-<Comment>Create the position report that will transmit the error report.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Initialize position report"
- Guid="07c2bb1d-41c5-4f3d-8e5a-483b56e985ec"
->
-<PreConditions>
-</PreConditions>
-<Actions>
 <Action
  Guid="ed9fd0da-6277-4b0a-a9bb-c623f7028d89"
->SendPositionReport()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Add error packet"
- Guid="0f32316b-066d-479f-a711-b3a56eef1e95"
->
-<Comment>Insert the error report in the position report.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Add error packet"
- Guid="2c8d40a3-c5ca-4352-adaa-bbbe23e16494"
->
-<PreConditions>
-<PreCondition
- Guid="e2742dfc-99b4-4a3e-aacf-41d5f195ccf0"
->Available(MessageOut.SystemVersion2.TRAIN_POSITION_REPORT)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="fde6857a-8e77-4276-8985-1fb52d774b29"
->INSERT Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
-    ERROR_REPORTING =&gt; Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
-        NID_PACKET =&gt; 4,
-        L_PACKET =&gt; 0,
-        M_ERROR =&gt; Messages.M_ERROR.Radio__message_consistency_error__ref__3_16_3_1_1a_c
-    }
-}
- IN MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+>PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.PositionReport.InconsistentMessageTypeEnum.RBC</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

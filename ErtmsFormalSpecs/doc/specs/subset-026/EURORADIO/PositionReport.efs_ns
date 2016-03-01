@@ -57,6 +57,44 @@
  Guid="b553051e-abc4-4950-938d-c4edcbc815a6"
 >
 </EnumValue></Values>
+</Enum><Enum
+ Default="EURORADIO.PositionReport.InconsistentMessageTypeEnum.None"
+ X="551"
+ Y="61"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InconsistentMessageTypeEnum"
+ Guid="814c5ec8-d80d-4c51-9c3c-051a7a49414b"
+>
+<ReqRef
+ Id="9f9eccce-90aa-4339-8dff-74915b041b83"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d140bc56-3e11-4415-80f0-72bbe0938422"
+>
+</ReqRef><Comment>The enumeration of the different types of inconsistent messages that can be reported to the RBC.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="None"
+ Guid="62cd69a0-5767-4312-8b4b-99c264fac667"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="LinkedBalise"
+ Guid="7fa985d5-8862-423b-93c4-5293b157eb7c"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="UnlinkedBalise"
+ Guid="69f46a63-4c08-4926-a5c9-037897dde376"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="RBC"
+ Guid="410850dc-ce50-42dd-bc10-8de28a0f0257"
+>
+</EnumValue></Values>
 </Enum></Enumerations>
 <Structures>
 <Structure
@@ -161,19 +199,19 @@
 >
 </ReqRef><Comment>Contains the previous value of the LRBG in order to know if that value has changed.</Comment>
 </StructureElement><StructureElement
- TypeName="Boolean"
- Default="False"
+ TypeName="InconsistentMessageTypeEnum"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
- Name="LevelTransitionBorderPassed"
- Guid="7c5e0340-4043-4904-b425-e9c0566e30f3"
+ Name="InconsistentMessage"
+ Guid="0c913521-b522-4c37-9944-2f1359a84f80"
 >
 <ReqRef
- Id="917e038b-c314-4423-b3a6-c0131f148410"
+ Id="9f9eccce-90aa-4339-8dff-74915b041b83"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b435db83-8eae-4c1e-9166-fa7aa55d4674"
+ Guid="c0e405d9-2f9a-4e05-b42c-55bdba33b1ec"
 >
-</ReqRef><Comment>Indicates if the level transition border was passed during the current cycle.</Comment>
+</ReqRef><Comment>Contains the type of message consistency error that must be reported to the RBC.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="190"
@@ -500,6 +538,21 @@ EURORADIO.HasActiveSession()</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="17d9126f-817e-4715-8c87-5ac3999a52cf"
 >
+</ReqRef><ReqRef
+ Id="4f4a1783-3d82-4056-8a27-0f47ff27ce77"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="882db9a7-1226-42a3-834b-9c2b48738319"
+>
+</ReqRef><ReqRef
+ Id="917e038b-c314-4423-b3a6-c0131f148410"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6ab5366e-4602-4140-b3e1-194af8adf7a8"
+>
+</ReqRef><ReqRef
+ Id="74a30d76-76b6-4796-9af7-51fcc86fdda3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f64c3ddb-2330-42f3-8cf3-3319123e847e"
+>
 </ReqRef><Comment>Indicates if a position report has to be sent due to the level change.</Comment>
 <Cases>
 <Case
@@ -543,9 +596,9 @@ Kernel.ActiveFunctions.ReportPostion_LevelChangeDriver()</PreCondition></PreCond
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_LossOfTrainIntegrity()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
+EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainData.TrainIntegrity.Status
   AND
-TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
+Kernel.TrainData.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -563,11 +616,6 @@ TIU.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
  Id="51d5337f-1430-4900-a7a0-9fc794f74fdb"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="77b85189-1394-485f-b51b-729b18896fb8"
->
-</ReqRef><ReqRef
- Id="9f9eccce-90aa-4339-8dff-74915b041b83"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="37d5120a-c6b1-4174-b595-9b2ef6def822"
 >
 </ReqRef><ReqRef
  Id="1e84c5a2-c916-45da-94c9-cdf6585f39c9"
@@ -708,7 +756,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
  Name="Value"
  Guid="d39cbac2-cb23-4eef-a013-bccca1716554"
 >
-<Expression>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReportSpecialMoment.Now</Expression>
+<Expression>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReport.PositionReportSpecialMoment.Now</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -772,9 +820,9 @@ Odometry.TrainIsAtStandstill()</Expression>
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_DriverConfirmedIntegrity()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status
+EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainData.TrainIntegrity.Status
   AND 
-TIU.TrainIntegrity.Status in [
+Kernel.TrainData.TrainIntegrity.Status in [
   Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
   Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device
 ]</Expression>
@@ -806,7 +854,7 @@ TIU.TrainIntegrity.Status in [
  Name="Value"
  Guid="8e7cde14-f71d-4b3b-afd0-3d60e81ba553"
 >
-<Expression>SendReportDueToSpecialMomentNow() OR SendReportDueToSpecialMomentLRBGCompliantBG()</Expression>
+<Expression>PositionReport.SendReportDueToSpecialMomentNow() OR PositionReport.SendReportDueToSpecialMomentLRBGCompliantBG()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -865,17 +913,44 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  Guid="73e27a1b-0ae1-443d-9777-8fde6f13b382"
 >
 </ReqRef><ReqRef
- Id="917e038b-c314-4423-b3a6-c0131f148410"
+ Id="a7605778-28fc-48d9-b6cd-2429b3e840e2"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9c4ada28-6979-4b74-9807-1ce8af715b3d"
+ Guid="53de8ef1-b456-49cf-badf-cdd25434e4aa"
+>
+</ReqRef><ReqRef
+ Id="fef79c41-a6e7-4139-94de-a5a9b000932d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b4e7976-049a-491e-988c-2906f84ed7dd"
+>
+</ReqRef><ReqRef
+ Id="6ba8948f-12e6-4276-a69a-8e9e1ee29135"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="afa6812d-fabe-4d6a-b2ae-621fdba8847e"
 >
 </ReqRef><Comment>Indicates if a position report has to be sent due to the passage of level transition border with the min safe rear end.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Report train position due to rear passing a level 2/3 level transition border"
  Guid="3cdf6774-c76a-42dd-9aa8-76d918c9c115"
 >
-<Expression>EURORADIO.PositionReport.PositionReportEventsTracker.LevelTransitionBorderPassed == True</Expression>
+<PreConditions>
+<PreCondition
+ Guid="0ee00b1f-6137-4d5b-a3e0-5405d0cc6e9d"
+>Kernel.ActiveFunctions.ReportPosition_PassLevelTransition()</PreCondition></PreConditions>
+<Expression>Available(Kernel.LevelTransition.LevelTransitionOrder)
+  AND  
+Kernel.LevelTransition.LevelTransitionOrder.CurrentLevel.Value in [Default.LevelEnum.L2, Default.LevelEnum.L3]
+  AND  
+NOT Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent
+  AND  
+Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.RearEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min )
+  AND  
+(FIRST X IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse( Level=&gt; X.TRLevel )).TRLevel.Value in [Default.LevelEnum.L0, Default.LevelEnum.L1, Default.LevelEnum.LNTC]</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="98ba03b3-cf73-4ff8-b6d5-089b900a0c07"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1070,7 +1145,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreCondition
  Guid="35c794c0-5225-4e97-b992-64e1cc0f9013"
 >M_LOC == 0</PreCondition></PreConditions>
-<Expression>PositionReportSpecialMoment.Now</Expression>
+<Expression>PositionReport.PositionReportSpecialMoment.Now</Expression>
 </Case><Case
  Name="LRBG"
  Guid="94794676-4b38-47b1-bdc8-7d102b9b4ab7"
@@ -1079,7 +1154,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreCondition
  Guid="7a286dfe-aba0-4dbf-84ec-4a50e6e6f4ae"
 >M_LOC == 1</PreCondition></PreConditions>
-<Expression>PositionReportSpecialMoment.LRBG</Expression>
+<Expression>PositionReport.PositionReportSpecialMoment.LRBG</Expression>
 </Case><Case
  Name="DoNotSend"
  Guid="5f8d4ff4-9ae7-4625-b2fa-8bf772e3d0e7"
@@ -1088,66 +1163,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreCondition
  Guid="95161b86-ce17-4022-8323-28087be8111d"
 >M_LOC == 2</PreCondition></PreConditions>
-<Expression>PositionReportSpecialMoment.DoNotSend</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Length"
- Default=""
- X="340"
- Y="480"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="FillTrainIntegrityInformation"
- Guid="bb5fd216-49ab-4b0e-b1a3-4ef0c8e52bd3"
->
-<ReqRef
- Id="9f9eccce-90aa-4339-8dff-74915b041b83"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="503a4f50-50cc-4145-8c66-d512a53e6007"
->
-</ReqRef><ReqRef
- Id="1b5d3174-e90a-42a4-8da3-c7ade895d5d2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cab917c1-4d78-4a4e-963d-083c2087b407"
->
-</ReqRef><ReqRef
- Id="f20ec9e0-b487-46ab-8145-dcde0dbb9ea6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3a671f53-219a-47a0-9e6d-b97e0a032c03"
->
-</ReqRef><ReqRef
- Id="a6a124ce-7f2a-48de-8aa9-787f46d22b8c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7a6980e1-60a1-45d1-bef4-2c17208e8e51"
->
-</ReqRef><Comment>Provides the train integrity information to be sent in the position report packet.</Comment>
-<Cases>
-<Case
- Name="TrainIntegrityConfirmed"
- Guid="80908703-517b-405d-8f22-d1ad760f9266"
->
-<PreConditions>
-<PreCondition
- Guid="ce99678d-425b-4af1-9727-8bbb0efbfa96"
->TIU.TrainIntegrity.Status in [
-  Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
-  Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device
-]</PreCondition></PreConditions>
-<Expression>TIU.TrainIntegrity.SafeTrainLength</Expression>
-</Case><Case
- Name="TrainIntegrityNotConfirmed"
- Guid="fb2628eb-5e48-4888-961f-13a7650d95a8"
->
-<PreConditions>
-<PreCondition
- Guid="bffaea8c-ddb4-46cd-b54d-aa8a567f8c89"
->TIU.TrainIntegrity.Status not in [
-  Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
-  Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device
-]</PreCondition></PreConditions>
-<Expression>EMPTY</Expression>
+<Expression>PositionReport.PositionReportSpecialMoment.DoNotSend</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message"
@@ -1245,6 +1261,11 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e8e3eeb9-66b3-4ebb-afd2-6cbb2d9efd10"
 >
+</ReqRef><ReqRef
+ Id="3341d827-cad3-4381-a9e8-5bd7da75b27b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="450ba387-e7b7-40ad-b6a0-889b6543ba47"
+>
 </ReqRef><Comment>Creates a position report packet.</Comment>
 <Cases>
 <Case
@@ -1266,8 +1287,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1294,8 +1315,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1323,8 +1344,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTOVER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTUNDER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1346,8 +1367,8 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; TIU.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( EURORADIO.PositionReport.FillTrainIntegrityInformation(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1472,7 +1493,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
  Name="Value"
  Guid="9e926855-f14e-49a7-8354-bc1e6d3c0db5"
 >
-<Expression>NOT EURORADIO.IncomingMessageIsConsistent(UpdatedMessageIn(EURORADIO.CurrentRBCConnection()))</Expression>
+<Expression>PositionReport.PositionReportEventsTracker.InconsistentMessage in [InconsistentMessageTypeEnum.LinkedBalise, InconsistentMessageTypeEnum.UnlinkedBalise, InconsistentMessageTypeEnum.RBC]</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -1597,15 +1618,15 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 <PreConditions>
 <PreCondition
  Guid="b70a0104-423b-461f-9a0d-73445322b661"
->NOT Available( PositionReportParameters.Values )
+>NOT Available( PositionReport.PositionReportParameters.Values )
   OR  
-PositionReportParameters.Values.SpecialLocations == []</PreCondition></PreConditions>
+PositionReport.PositionReportParameters.Values.SpecialLocations == []</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="904d9d0b-0340-4bb4-ada9-ee993ccc743e"
 >
-<Expression>THERE_IS X IN PositionReportParameters.Values.SpecialLocations | SpecialLocationPassed(X)</Expression>
+<Expression>THERE_IS X IN PositionReport.PositionReportParameters.Values.SpecialLocations | PositionReport.SpecialLocationPassed(X)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -1683,7 +1704,7 @@ SUM SpecialLocations | Before(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="cb91cdc3-8115-45ee-a2ff-1e5336624fcd"
 >
-</ReqRef><Comment>Converts the train front end indication received in the message to an </Comment>
+</ReqRef><Comment>Converts the train front end indication received in the message to an</Comment>
 <Parameters>
 <Parameter
  Type="Messages.Q_LGTLOC"
@@ -1810,15 +1831,15 @@ SUM SpecialLocations | Before(
  Guid="bb7d9795-fec8-42f3-a619-fb767260a89d"
 >ValidateInformation(EURORADIO.PositionReport.PositionReportParameters)</Action><Action
  Guid="f3e0c810-5538-4ebf-b190-2e4fa7161c79"
->EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- ConvertT_CYCLOCToTime ( Packet.T_CYCLOC )</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- PositionReport.ConvertT_CYCLOCToTime ( Packet.T_CYCLOC )</Action><Action
  Guid="bbed578f-bec0-45d5-a457-6c3e192bcb6b"
->EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- ConvertD_CYCLOCToDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- PositionReport.ConvertD_CYCLOCToDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
  Guid="89290f52-e348-42cd-abb6-f2b2841c62fb"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- ERTMSSpecialMomentConverter(Packet.M_LOC)</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReport.ERTMSSpecialMomentConverter(Packet.M_LOC)</Action><Action
  Guid="3156f7b5-5a53-41f5-98c4-ad13723fc669"
->PositionReportParameters.Values.SpecialLocations
+>PositionReport.PositionReportParameters.Values.SpecialLocations
  &lt;- 
-MAP Packet.Sequence1 USING X IN PositionReportSpecialLocation{
+MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
         Distance =&gt; aDistanceFromRef + AbsoluteDistance(
             aSpecialLocation =&gt; X,
             SpecialLocations =&gt; Packet.Sequence1,
@@ -2801,11 +2822,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="e9d87099-edc8-4dea-bdd4-ab5fd6b85fae"
->EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != TIU.TrainIntegrity.Status</PreCondition></PreConditions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainData.TrainIntegrity.Status</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="03674022-99fb-4c9a-913c-c3686ac1025e"
->EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- TIU.TrainIntegrity.Status</Action></Actions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- Kernel.TrainData.TrainIntegrity.Status</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2851,11 +2872,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="01e9965d-e63e-492a-8fd6-d2abb46ca74d"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReportSpecialMoment.Now</PreCondition></PreConditions>
+>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReport.PositionReportSpecialMoment.Now</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ce1b2dac-1a95-4367-9e31-0328b192cae8"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReportSpecialMoment.DoNotSend</Action><Action
+>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReport.PositionReportSpecialMoment.DoNotSend</Action><Action
  Guid="465e9a0b-308d-4a86-a7e3-75ee18e0f703"
 >EURORADIO.PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="6541046c-0889-4cf3-9a50-e0778f68cb93"
@@ -2983,6 +3004,56 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <Action
  Guid="e19bb715-6e05-4bc2-a5dc-f0842d91b312"
 >EURORADIO.PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Message consistency error"
+ Guid="6201d339-6261-4f62-b724-d0a5f96bdaa1"
+>
+<Comment>Resets the event tracker for inconsistent messages received.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Message consistency error"
+ Guid="a2785c8e-f302-4ec9-b8ea-3fb27608485c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="adc40342-18f4-4df9-8097-2b5399136e18"
+>PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- InconsistentMessageTypeEnum.None</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level transition border"
+ Guid="bef3e5da-8b8c-4b0e-96c9-cbca4f5d4b3c"
+>
+<Comment>Keeps track of the fact the a position report was sent for passing the current level transition border from level 2/3 with the min safe rear end.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level transition border"
+ Guid="6102b727-3b48-4a7b-8bba-bdd309b747c1"
+>
+<PreConditions>
+<PreCondition
+ Guid="0a027266-6bd5-40ea-a8fd-448122fb34d3"
+>PositionReport.SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd()</PreCondition><PreCondition
+ Guid="3c31d773-a498-4ec6-8bba-79be2966b47b"
+>Available( CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c3e16fa7-8736-4446-a631-3c458cd9d1e0"
+>Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

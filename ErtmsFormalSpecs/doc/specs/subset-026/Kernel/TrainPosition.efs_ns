@@ -329,34 +329,6 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <Expression>Odometry.NominalDistance - BaseTypes.LengthToDistance(Kernel.TrainPosition.TrainLength()) - BaseTypes.LengthToDistance(Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) - ReferenceLocation()</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
- Default=""
- X="270"
- Y="80"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="RearFrontEndIsSafe"
- Guid="07f56d73-2dc2-46eb-b458-123f514e9055"
->
-<ReqRef
- Id="d61ea269-686c-486d-9852-1fd7e6f88c24"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="da222675-8afc-4a03-a48f-e7ef191317d6"
->
-</ReqRef><Comment>This function specifies if the rear front end of the train is safe or not. Based on train integrity information.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="c60bb9d2-75cf-4268-a4b0-c950b60fed67"
->
-<Expression>TIU.TrainIntegrity.Status in
-[
-  Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
-  Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device
-]</Expression>
-</Case></Cases>
-</Function><Function
  Type="BaseTypes.Distance"
  Cacheable="TRUE"
  Default=""

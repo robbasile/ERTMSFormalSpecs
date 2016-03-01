@@ -5974,27 +5974,6 @@ LinkingUsed</PreCondition></PreConditions>
 <Rule
  Priority="Processing"
  Implemented="TRUE"
- Name="Initialize position report"
- Guid="eb237159-2237-4fdb-989b-f6e2296cac0e"
->
-<Comment>First, initialize the position report that will contain the error report.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Initialize position report"
- Guid="59ad9973-7bce-4aca-b622-813ffc610397"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="cd4fe6d9-0eee-4641-b59c-89f956bf7b03"
->EURORADIO.CurrentRBCConnection().SendPositionReport()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
  Name="Add error report"
  Guid="56333c3f-2592-43a6-ac62-8d7284716de7"
 >
@@ -6016,14 +5995,7 @@ LinkingUsed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a799a8d5-87d6-44ca-89ee-51fdaf8c1bda"
->INSERT Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
-    ERROR_REPORTING =&gt; Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
-        NID_PACKET =&gt; 4,
-        L_PACKET =&gt; 0,
-        M_ERROR =&gt; Messages.M_ERROR.Linked_balise_group__message_consistency_error_ref__3_16_2_4_1_4
-    }
-}
- IN EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.PositionReport.InconsistentMessageTypeEnum.LinkedBalise</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Unlinked BG"
@@ -6039,14 +6011,7 @@ LinkingUsed</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="799a57f6-ac42-4626-a3a5-fd1e9fba2324"
->INSERT Messages.MESSAGE.TRAIN_TO_TRACK.TRAIN_POSITION_REPORT.SubStructure1{
-    ERROR_REPORTING =&gt; Messages.PACKET.TRAIN_TO_TRACK.ERROR_REPORTING.Message{
-        NID_PACKET =&gt; 4,
-        L_PACKET =&gt; 0,
-        M_ERROR =&gt; Messages.M_ERROR.Unlinked_balise_group__message_consistency_error__ref__3_16_2_5
-    }
-}
- IN EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.Sequence1</Action></Actions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.PositionReport.InconsistentMessageTypeEnum.UnlinkedBalise</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
