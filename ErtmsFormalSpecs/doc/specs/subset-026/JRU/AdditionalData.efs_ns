@@ -275,7 +275,7 @@ LastNID_Radio != GetNID_Radio()</Expression>
 <Procedures>
 <Procedure
  X="40"
- Y="400"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -417,7 +417,9 @@ LastNID_Radio != GetNID_Radio()</Expression>
          NID_RADIO =&gt; GetNID_Radio(),
          NID_OPERATIONAL =&gt; GetNID_Operational() 
     } 
-} IN Messages</Action></Actions>
+} IN Messages</Action><Action
+ Guid="527534cb-b7c4-4478-b35a-d8e4ea27be51"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -543,38 +545,4 @@ LastNID_Radio != GetNID_Radio()</Expression>
 >
 </ReqRef><Comment>The last registered NID_OPERATIONAL</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="160"
- Y="400"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="0900488d-2d94-41d3-b6a0-08249c314e3e"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="b7ebb366-8f13-4cd7-91dd-e5eed2f0423d"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="854f43b2-267f-43ae-8fb9-d02c370389fb"
->
-<PreConditions>
-<PreCondition
- Guid="6035b47a-f6a5-4a81-8999-93818ecf990c"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c04a801c-afc3-48a5-85aa-22969017a318"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>

@@ -189,7 +189,9 @@
          NID_NTC =&gt; GetNID_NTC(),
          M_NATIONAL_SYSTEM_ISOLATION =&gt; JRU.NationalSystem.Isolation.GetStatus() 
     } 
-}IN Messages</Action></Actions>
+}IN Messages</Action><Action
+ Guid="d564e213-65b8-49d2-906f-a629d9684e17"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -213,38 +215,4 @@
 >
 </ReqRef><Comment>The last reported status</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="150"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="add039a5-2bfc-4dc8-ab97-8f4816542366"
->
-<ReqRef
- Id="06030586-dcc2-49e6-bf66-b0650c069a4d"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="fd420b1b-bac4-48be-94e9-2b8ecba4f985"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="4cea5968-c641-4270-96cc-5fbf8b4285d6"
->
-<PreConditions>
-<PreCondition
- Guid="5fec5163-57c4-4228-8481-23f51bda82a9"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c7171dc3-aa2d-4ad1-96d9-bcfe08db11f8"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>

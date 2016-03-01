@@ -180,7 +180,9 @@ Otherwise returns the LSSMA.</Comment>
          HEADER =&gt; Header.CreateHeader(44),
          V_LSSMA =&gt; GetLSSMA() 
     } 
-} IN Messages</Action></Actions>
+} IN Messages</Action><Action
+ Guid="d27d4403-9598-450b-8955-dea919d488f7"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -204,38 +206,4 @@ Otherwise returns the LSSMA.</Comment>
 >
 </ReqRef><Comment>The last reported status</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="150"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="c53966cd-41fa-4e18-931a-d6aab8f9494a"
->
-<ReqRef
- Id="d4177d78-3ab4-48d5-b05f-c2bbd7327c9d"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="9e59e11e-e593-4117-a702-ad60475c54b1"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="9b66d030-06a5-4b54-93a4-c94a75d6202f"
->
-<PreConditions>
-<PreCondition
- Guid="4ce313b8-78fb-482e-bc37-c9ee33cced5a"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e285fc2b-7b26-423c-ac6b-18ec7d2bdffa"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>

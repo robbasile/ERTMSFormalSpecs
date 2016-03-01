@@ -633,7 +633,9 @@ LastTargetSpeed != GetTargetSpeed()</PreCondition></PreConditions>
          D_TARGET =&gt; GetTargetDistance(),
          V_RELEASE =&gt;GetReleaseSpeed() 
     } 
-}IN Messages</Action></Actions>
+}IN Messages</Action><Action
+ Guid="43eeae79-cc46-47fd-b93e-50914225697b"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -765,38 +767,4 @@ LastTargetSpeed != GetTargetSpeed()</PreCondition></PreConditions>
 >
 </ReqRef><Comment>The last reported status</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="140"
- Y="420"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="844dd7a9-880f-43f0-b661-d1889ef82209"
->
-<ReqRef
- Id="bdd0c87f-c020-42d5-8bca-0adcf401e0a7"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="1ddf06ce-206c-4469-bfee-2851ac36c95f"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="ce91e1dd-2070-47dc-8acd-8dd50bf473d7"
->
-<PreConditions>
-<PreCondition
- Guid="867b620c-77b8-4363-b60a-4a9f213c1644"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1915d746-9e90-44e5-aebc-cc24d3ae5264"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>

@@ -13,7 +13,7 @@
  Type="Boolean"
  Default=""
  X="40"
- Y="80"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -120,7 +120,7 @@
 </Rule></Rules>
 </Procedure><Procedure
  X="40"
- Y="70"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -174,7 +174,9 @@
          HEADER =&gt; JRU.Header.CreateHeader(43),
          M_TCO_COMMAND_STATE =&gt; GetStatus() 
     } 
-}IN Messages</Action></Actions>
+}IN Messages</Action><Action
+ Guid="f1eeb215-d12e-4daf-90d4-1f6607983a53"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -198,38 +200,4 @@
 >
 </ReqRef><Comment>The last reported status</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="150"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="29461989-3f8d-4f37-ac4d-034f701ff4d2"
->
-<ReqRef
- Id="3822ea70-c0cb-4073-966b-5bee1bef3f8a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="db0a45eb-4fbf-4967-a5f9-f2645825d8da"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="13441fc4-83d7-4e8e-980a-763f6e9badf7"
->
-<PreConditions>
-<PreCondition
- Guid="bed2193a-f1c8-40c1-900a-17c3d22e291c"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b22e9310-7ab4-4bcf-b323-a944fe82a044"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>

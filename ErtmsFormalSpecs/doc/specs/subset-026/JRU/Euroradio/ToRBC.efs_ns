@@ -33,10 +33,20 @@
 </ReqRef><Comment>Indicates whether a MESSAGE_TO_RBC should be sent to the JRU</Comment>
 <Cases>
 <Case
- Name="NewTelegramToRbc"
+ Name="A message is available"
  Guid="2836142f-ddc7-4a6b-b7bd-7bdb5092583d"
 >
-<Expression>Available (  EURORADIO.CurrentRBCConnection() .MessageOut )</Expression>
+<PreConditions>
+<PreCondition
+ Guid="9c02cc43-a540-4721-8b6a-cef7e39b98b6"
+>Available (  EURORADIO.CurrentRBCConnection() .MessageOut )</PreCondition></PreConditions>
+<Expression>Available (  EURORADIO.CurrentRBCConnection() .MessageOut.SystemVersion1 ) OR
+Available (  EURORADIO.CurrentRBCConnection() .MessageOut.SystemVersion2 )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="bbf3b85a-20c8-48d5-9487-cece71998843"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -101,7 +111,11 @@
          HEADER =&gt; Header.CreateHeader(10),
          NID_C =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Country,
          NID_RBC =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Id,
-         TELEGRAM =&gt; EURORADIO.CurrentRBCConnection().MessageOut 
+         TELEGRAM =&gt; Messages.EURORADIO.MessageOut.Message{
+             SystemVersion1 =&gt; EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion1,
+             SystemVersion2 =&gt; EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2,
+             BitField =&gt;EURORADIO.CurrentRBCConnection().MessageOut.BitField 
+        } 
     } 
 } IN Messages</Action></Actions>
 </RuleCondition></Conditions>

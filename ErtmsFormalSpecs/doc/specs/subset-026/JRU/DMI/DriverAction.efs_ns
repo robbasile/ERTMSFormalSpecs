@@ -377,24 +377,6 @@
 >DMI.MasterDMI().In_SelectionOfLanguage.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Change_of_language</Expression>
 </Case><Case
- Name="Request to show geographical position"
- Guid="92f19531-7c51-4fe4-a868-8d181e0108b4"
->
-<PreConditions>
-<PreCondition
- Guid="51d477d5-b40b-4098-b10e-bf549634cbe3"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestedByDriver == True</PreCondition></PreConditions>
-<Expression>Messages.JRU.M_DRIVERACTIONS.Request_to_show_geographical_position</Expression>
-</Case><Case
- Name="Request to hide geographical position"
- Guid="969137d3-dc22-4cdf-982c-df573bfca7b9"
->
-<PreConditions>
-<PreCondition
- Guid="03f8562e-3aa8-403d-966f-83e7bc6f8cee"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayRequestedByDriver == False</PreCondition></PreConditions>
-<Expression>Messages.JRU.M_DRIVERACTIONS.Request_to_hide_geographical_information</Expression>
-</Case><Case
  Name="ShuntingRequest"
  Guid="6f6f8f80-1bec-4b80-9bbf-950276b5dc18"
 >
@@ -816,7 +798,9 @@
          HEADER =&gt; Header.CreateHeader(11),
          M_DRIVERACTIONS =&gt; GetDriverAction() 
     } 
-} IN Messages</Action></Actions>
+} IN Messages</Action><Action
+ Guid="1e4f90d8-c57a-489b-bd6b-963c26081cf0"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -840,38 +824,4 @@
 >
 </ReqRef><Comment>The last reported status</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="150"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="5fa11f96-45e0-47f4-8e5d-778a7567cb85"
->
-<ReqRef
- Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="8b7e703f-273b-4b8b-be0b-37f9dfde8a35"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="c56e0797-cf58-4bb9-aab6-e8a5d327d66d"
->
-<PreConditions>
-<PreCondition
- Guid="bc8d011e-b02b-45f5-a3c2-62498be54a19"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="56576eb0-0f24-469b-9063-a4ead64a69dd"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>

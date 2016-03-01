@@ -262,7 +262,9 @@
      GENERAL_MESSAGE =&gt; Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message{
          HEADER =&gt; Header.CreateHeader(1) 
     } 
-} IN Messages</Action></Actions>
+} IN Messages</Action><Action
+ Guid="0e134779-1fce-4d71-b971-854b08491059"
+>UpdateLastValues()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -304,43 +306,4 @@
 >
 </ReqRef><Comment>The last reported status</Comment>
 </Variable></Variables>
-<Rules>
-<Rule
- Priority="CleanUp"
- X="150"
- Y="390"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="Update last values"
- Guid="9fb3f243-0889-48dd-b74a-8e3b357c246e"
->
-<ReqRef
- Id="7cfedb1f-05cb-40f2-8244-6b8ff358c13f"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="d7cbfc61-f5bb-480c-bbcb-2d9875e76b8f"
->
-</ReqRef><ReqRef
- Id="84bf492b-1e66-4c4d-94d6-59903b6b0efc"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="fafa911d-4cc2-45a9-9670-21a8de6abf81"
->
-</ReqRef><Comment>At the end of a cycle, update the values that have been registered in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update last values"
- Guid="c9f22353-42f7-4c80-83e3-5fb8137745be"
->
-<PreConditions>
-<PreCondition
- Guid="45837125-9dbb-44fa-9285-8c9f19e16302"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="43ccc5db-6e65-44d4-8218-f2b580f58e50"
->UpdateLastValues()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </NameSpace>
