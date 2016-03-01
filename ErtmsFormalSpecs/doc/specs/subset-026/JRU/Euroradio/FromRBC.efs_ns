@@ -1,5 +1,5 @@
 <NameSpace
- X="50"
+ X="40"
  Y="20"
  Width="100"
  Height="50"
@@ -10,56 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.FROM_RBC.Message"
- Default=""
- X="40"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="51063217-69fa-48a3-bafe-94e6d388ec0e"
->
-<ReqRef
- Id="b2e509d5-17fa-4916-bf5b-0ac33d558433"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="aea4ed7f-db23-4cd7-896e-8c0335202cbf"
->
-</ReqRef><ReqRef
- Id="9d5d8171-a5e8-4367-a51c-37ccac733f89"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="df174bfd-c332-4d49-aa69-2e2ea34393c6"
->
-</ReqRef><ReqRef
- Id="a238c5c4-f952-4a85-9211-55e2b0927ab3"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="52be6cc6-cd84-4415-b5f1-914034159a2d"
->
-</ReqRef><ReqRef
- Id="2791cd77-b956-44b6-ae10-ebf0764e8192"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="c16ddd13-a6fc-45f5-ac43-9f51b4a1e373"
->
-</ReqRef><Comment>Creates the MESSAGE_FROM_RBC JRU Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="df393e31-c0fe-461b-92eb-4660fb622dd2"
->
-<Expression>LET connection =&gt; EURORADIO.CurrentRBCConnection() 
-IN 
-  Messages.JRU.MESSAGE.FROM_RBC.Message{
-     HEADER =&gt; Header.CreateHeader(9),
-     NID_C =&gt; connection.ContactData.Id.Country,
-     NID_RBC =&gt; connection.ContactData.Id.Id,
-     TELEGRAM =&gt; EURORADIO.UpdatedReceivedMessage(connection) 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="80"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -82,8 +36,75 @@ IN
  Name="NewMessageFromRbc"
  Guid="111025cc-1188-4e45-9ce5-45c1886af469"
 >
-<Expression>Available ( EURORADIO.UpdatedMessageIn(EURORADIO.CurrentRBCConnection() ) )
-</Expression>
+<Expression>Available ( EURORADIO.UpdatedMessageIn(EURORADIO.CurrentRBCConnection() ) )</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="a6893aa4-c54e-410e-a46f-28a0d2a6081e"
+>
+<ReqRef
+ Id="b2e509d5-17fa-4916-bf5b-0ac33d558433"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="16f1bf4a-2096-4ae4-ba3b-b3925a0a95a9"
+>
+</ReqRef><ReqRef
+ Id="a238c5c4-f952-4a85-9211-55e2b0927ab3"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5262d53a-34be-44a5-ad87-7cf2ee62738b"
+>
+</ReqRef><ReqRef
+ Id="2791cd77-b956-44b6-ae10-ebf0764e8192"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3383898c-2cd7-4ce5-a754-6e6100bf1312"
+>
+</ReqRef><ReqRef
+ Id="9d5d8171-a5e8-4367-a51c-37ccac733f89"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c2df9397-063b-40a8-aba2-5480b21c1728"
+>
+</ReqRef><ReqRef
+ Id="0fa7965c-d9e6-452a-92fb-83e6e336171d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="21017d56-b691-486b-bd59-4a926141ec6c"
+>
+</ReqRef><Comment>Creates a new FROM_RBC message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send FROM_RBC message"
+ Guid="71d2fa4c-6a1c-4a62-bc02-65257c308a14"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send FROM_RBC message"
+ Guid="0ff48e94-0f37-4bef-b469-eeb36a8c13f3"
+>
+<PreConditions>
+<PreCondition
+ Guid="d26f9f16-8f91-41f7-a16f-6fb9716fb4c9"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e1f2ded8-4429-4898-a56e-f09f2d31508d"
+>INSERT Messages.JRU.MESSAGE.Message {
+     FROM_RBC =&gt; LET connection =&gt; EURORADIO.CurrentRBCConnection() IN Messages.JRU.MESSAGE.FROM_RBC.Message{
+         HEADER =&gt; Header.CreateHeader(9),
+         NID_C =&gt; connection.ContactData.Id.Country,
+         NID_RBC =&gt; connection.ContactData.Id.Id,
+         TELEGRAM =&gt; EURORADIO.UpdatedReceivedMessage(connection) 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

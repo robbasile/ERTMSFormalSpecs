@@ -10,41 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="18992937-700e-4c32-8c61-b76ff205298f"
->
-<ReqRef
- Id="8ba554ab-a23c-4af3-9bb9-f5e8aca2f2a1"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="53568dd1-221e-46f5-9a59-6ac8fcbb200d"
->
-</ReqRef><ReqRef
- Id="5f971e6a-5934-4114-8fda-716cd45d86d8"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="dc64cdaf-adc1-464f-8472-cc14d2c4e4fa"
->
-</ReqRef><Comment>It will fill a Genera Message in JRU</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="3caa4d49-f819-44e2-b791-3d3758bd06db"
->
-<Expression>Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message{
-    HEADER =&gt; Header.CreateHeader(1)
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -125,7 +94,7 @@
 </Function><Function
  Type="Messages.M_VERSION"
  Default=""
- X="20"
+ X="40"
  Y="210"
  Width="100"
  Height="50"
@@ -149,7 +118,7 @@
 </Function><Function
  Type="BaseTypes.Time"
  Default=""
- X="130"
+ X="150"
  Y="210"
  Width="100"
  Height="50"
@@ -173,8 +142,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -197,7 +166,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="390"
  Width="100"
  Height="50"
@@ -243,13 +212,66 @@
 >LastTime &lt;- GetCurrentTime()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="7399afea-d0dc-466b-9cea-69f7459127dd"
+>
+<ReqRef
+ Id="8ba554ab-a23c-4af3-9bb9-f5e8aca2f2a1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d8641549-0cbf-4da3-a5b2-e63692f111e0"
+>
+</ReqRef><ReqRef
+ Id="5f971e6a-5934-4114-8fda-716cd45d86d8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="67d0e85a-f4d0-4db8-85cf-fce59262b392"
+>
+</ReqRef><ReqRef
+ Id="e703c8b6-f6b2-42a5-899a-06e4b46c5640"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a539c941-7481-4852-8b22-8c8f1681b6e8"
+>
+</ReqRef><Comment>Creates a new GENERAL_MESSAGE message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send GENERAL_MESSAGE message"
+ Guid="f78f156f-0e6b-468b-a45d-04880309a455"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send GENERAL_MESSAGE message"
+ Guid="0d1c0d62-5dc3-4521-b6d6-b4420ed3cfc4"
+>
+<PreConditions>
+<PreCondition
+ Guid="613b4f7a-8e85-4cce-8060-4202c5c2ec83"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e1a28959-9b00-40f9-954f-2ed74b7e56d1"
+>INSERT Messages.JRU.MESSAGE.Message {
+     GENERAL_MESSAGE =&gt; Messages.JRU.MESSAGE.GENERAL_MESSAGE.Message{
+         HEADER =&gt; Header.CreateHeader(1) 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.M_VERSION"
  DefaultValue="0"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="270"
  Width="100"
  Height="50"
@@ -267,7 +289,7 @@
  Type="BaseTypes.Time"
  DefaultValue="0.0"
  VariableMode="Internal"
- X="130"
+ X="150"
  Y="270"
  Width="100"
  Height="50"
@@ -285,7 +307,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="390"
  Width="100"
  Height="50"

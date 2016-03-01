@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.MAGNETIC_SHOE_BRAKE_STATUS.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="1ca6ee0e-823c-48e2-80b1-9784fd7c505f"
->
-<ReqRef
- Id="a55faf1c-5e2a-4b5a-ad4c-8745c9ca8eb9"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="8becf814-c418-4732-bd47-e6ae3481569e"
->
-</ReqRef><ReqRef
- Id="27861d88-4426-497a-a549-8c55f43b0b75"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="0751c727-1ca1-4753-9cb3-032694ee2218"
->
-</ReqRef><ReqRef
- Id="4a9ce77d-31fb-4220-a7ff-e6e79157ca6f"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="c885acba-61b2-47d4-aa4d-51635777eef8"
->
-</ReqRef><Comment>Creates the MAGNETIC_SHOE_BRAKE_STATUS JRU Message.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="15784d21-2bca-4ebf-94d9-15bb2793cc03"
->
-<Expression>Messages.JRU.MESSAGE.MAGNETIC_SHOE_BRAKE_STATUS.Message{
-     HEADER =&gt; JRU.Header.CreateHeader(34),
-     M_MSB_STATUS =&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_MSB_STATUS"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -87,8 +50,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -125,7 +88,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -164,13 +127,72 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="ad85163c-f1c6-4974-b2f0-8060e72b9238"
+>
+<ReqRef
+ Id="a55faf1c-5e2a-4b5a-ad4c-8745c9ca8eb9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="076cfb0c-ea96-49b0-8be1-f10548565095"
+>
+</ReqRef><ReqRef
+ Id="27861d88-4426-497a-a549-8c55f43b0b75"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8aa44889-84bf-48c8-9aec-4a5bb5c4ab9b"
+>
+</ReqRef><ReqRef
+ Id="4a9ce77d-31fb-4220-a7ff-e6e79157ca6f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="25f9afbe-99a7-4624-8697-39863767e97a"
+>
+</ReqRef><ReqRef
+ Id="bc644a25-a699-4e43-979c-9d9c0112699c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="22476fb8-b184-47a3-b661-12a2016ab1b1"
+>
+</ReqRef><Comment>Creates a new MAGNETIC_SHOE_BRAKE_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send MAGNETIC_SHOE_BRAKE_STATUS message"
+ Guid="5d62ed98-d764-4b01-ae2d-ffc852efd957"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send MAGNETIC_SHOE_BRAKE_STATUS message"
+ Guid="fca12c92-b9fc-457e-a52d-7127f45b6c97"
+>
+<PreConditions>
+<PreCondition
+ Guid="910c5eb2-7fe0-47e6-a291-d9647b7ef4ec"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2dc75edb-8f36-4437-b452-cd6f9f53c53f"
+>INSERT Messages.JRU.MESSAGE.Message{
+     MAGNETIC_SHOE_BRAKE_STATUS =&gt; Messages.JRU.MESSAGE.MAGNETIC_SHOE_BRAKE_STATUS.Message{
+         HEADER =&gt; JRU.Header.CreateHeader(34),
+         M_MSB_STATUS =&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_MSB_STATUS"
  DefaultValue="Messages.JRU.M_MSB_STATUS.Not_active"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -188,7 +210,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

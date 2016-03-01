@@ -1,6 +1,6 @@
 <NameSpace
- X="130"
- Y="30"
+ X="40"
+ Y="80"
  Width="100"
  Height="50"
  Name="Removed"
@@ -10,48 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER.Message"
- Default=""
- X="40"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="588c291b-040f-460c-bd3e-c3fccd5eae83"
->
-<ReqRef
- Id="d859be5b-236a-48f2-8ded-f5dae33c2380"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="cf57b478-1b1f-489a-9b3f-bc675fa1b6d8"
->
-</ReqRef><ReqRef
- Id="97ccbdac-a9ac-4262-bcac-caa89781d4ed"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ed0e347c-a989-499b-81ae-fd7db0db9efb"
->
-</ReqRef><ReqRef
- Id="752ced46-4ae3-49cd-9476-4e049abe9685"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="a6f6c5de-e2d6-4874-8026-cce2508eb9ca"
->
-</ReqRef><Comment>Will fill the necessary fields to generate the VIRTUAL_BALISE_COVER_REMOVED_BY_THE_DRIVER message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="9761233e-1347-49a9-92c2-ce9b169fcdcb"
->
-<Expression>Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER.Message{
-    HEADER =&gt; JRU.Header.CreateHeader(29),
-    NID_VBCMK =&gt;  GetCover().Marker.Marker,
-    NID_C =&gt; GetCover().Marker.Area
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Kernel.VirtualBaliseCover.VBCStruct"
  Default=""
  X="150"
- Y="30"
+ Y="10"
  Width="100"
  Height="50"
  Name="GetCover"
@@ -69,14 +31,13 @@
  Guid="af75ba09-d26d-441c-977d-df64cd0bff79"
 >
 <Expression>FIRST Prev IN LastCovers |     
-  FORALL Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs | Prev.Marker != Cover.Marker 
-</Expression>
+  FORALL Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs | Prev.Marker != Cover.Marker</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="90"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -97,4 +58,66 @@
 <Expression>Available( GetCover() )</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="a735fa26-6d80-45b4-91a1-c0590b61149c"
+>
+<ReqRef
+ Id="d859be5b-236a-48f2-8ded-f5dae33c2380"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="13357d28-0659-4cda-bc1e-12519d495c2b"
+>
+</ReqRef><ReqRef
+ Id="97ccbdac-a9ac-4262-bcac-caa89781d4ed"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="31ee3221-2f6a-40ea-b661-493a26a6bc36"
+>
+</ReqRef><ReqRef
+ Id="752ced46-4ae3-49cd-9476-4e049abe9685"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="dc134f0b-a804-42ee-9ab6-e666a688f023"
+>
+</ReqRef><ReqRef
+ Id="a2e6cb35-1b3b-4f1b-bacd-2c48c3cbba00"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cfc52ff4-e458-467c-ac9f-2236cb3108fe"
+>
+</ReqRef><Comment>Creates a new VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER message"
+ Guid="e444c1d7-e850-4345-a2a6-707754c71dfd"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER message"
+ Guid="c2d864e4-e808-492e-8ee1-6929ec0e3135"
+>
+<PreConditions>
+<PreCondition
+ Guid="8586ea1b-5830-4ce6-94ac-ce012cca5bd7"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="078b1da3-2861-4e3a-9cf2-980f4b67c00f"
+>INSERT Messages.JRU.MESSAGE.Message {
+     VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER =&gt; Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER.Message{
+         HEADER =&gt; JRU.Header.CreateHeader(29),
+         NID_VBCMK =&gt; GetCover().Marker.Marker,
+         NID_C =&gt; GetCover().Marker.Area 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

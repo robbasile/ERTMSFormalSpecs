@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.PASSIVE_SHUNTTING_INPUT.Message"
- Default=""
- X="40"
- Y="40"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="ccaa00c6-9c14-49c2-8442-59c81d065b97"
->
-<ReqRef
- Id="c300dc73-4bcb-45ee-a1f9-184c2ce7b933"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="d07c9b21-0646-40ae-80cb-d3085dd9c0d1"
->
-</ReqRef><ReqRef
- Id="f50cebcf-07f7-4657-b2a5-7e9592275206"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ecee8b17-dc8d-49d4-b046-c13e0e7c674f"
->
-</ReqRef><ReqRef
- Id="25d08e04-94ca-4697-8ad8-7e741b13661f"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="076e8573-f832-4525-8b9b-80578df87009"
->
-</ReqRef><Comment>Creates the PASSIVE_SHUNTING_INPUT JRU message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="af757dbe-9125-4ef1-af48-08d2cb15d82e"
->
-<Expression>Messages.JRU.MESSAGE.PASSIVE_SHUNTTING_INPUT.Message{
-     HEADER =&gt; Header.CreateHeader(31),
-     M_PASSIVE_SHUNTTING =&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="100"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -88,7 +51,7 @@
  Type="Messages.JRU.M_PASSIVE_SHUNTTING"
  Default=""
  X="150"
- Y="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -157,6 +120,65 @@
 <Action
  Guid="44799735-167d-489e-b14f-662fad67301c"
 >LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="8e312420-63ba-445b-b57a-f122a93db16b"
+>
+<ReqRef
+ Id="c300dc73-4bcb-45ee-a1f9-184c2ce7b933"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="217ad7e3-a97c-4538-a412-439136fd66b6"
+>
+</ReqRef><ReqRef
+ Id="f50cebcf-07f7-4657-b2a5-7e9592275206"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="447774c4-21af-417b-a31e-4f2c9fbe8969"
+>
+</ReqRef><ReqRef
+ Id="25d08e04-94ca-4697-8ad8-7e741b13661f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="303385ae-6a97-42ce-9fa3-c658e8f170e0"
+>
+</ReqRef><ReqRef
+ Id="47837469-0336-4422-9df6-737a6a575b2b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fcad1322-8446-416e-b107-ba14ec629686"
+>
+</ReqRef><Comment>Creates a new PASSIVE_SHUNTTING_INPUT message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send PASSIVE_SHUNTTING_INPUT message"
+ Guid="aa77d225-1a66-4982-ae90-fb055cab2a9b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send PASSIVE_SHUNTTING_INPUT message"
+ Guid="3bc90710-6b96-4627-aac9-3e12cdf9eb19"
+>
+<PreConditions>
+<PreCondition
+ Guid="861f68e5-e854-4cce-92b3-1eb64f0a818e"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2be961b3-7347-4bd0-aab3-538f9068a0e0"
+>INSERT Messages.JRU.MESSAGE.Message{
+     PASSIVE_SHUNTTING_INPUT =&gt; Messages.JRU.MESSAGE.PASSIVE_SHUNTTING_INPUT.Message{
+         HEADER =&gt; Header.CreateHeader(31),
+         M_PASSIVE_SHUNTTING =&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

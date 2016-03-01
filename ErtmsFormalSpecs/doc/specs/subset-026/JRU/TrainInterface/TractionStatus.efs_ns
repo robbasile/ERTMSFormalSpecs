@@ -1,6 +1,6 @@
 <NameSpace
- X="350"
- Y="20"
+ X="150"
+ Y="80"
  Width="100"
  Height="50"
  Name="TractionStatus"
@@ -48,43 +48,6 @@
 <Expression>LastStatus != GetStatus()</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.JRU.MESSAGE.TRACTION_STATUS.Message"
- Default=""
- X="30"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="9f0cd0e0-cbb2-4ca1-a01c-849ea837d233"
->
-<ReqRef
- Id="8244b69a-230d-41b4-b7bb-0890ff2ccc7b"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="4593963c-e1bf-4c61-82f6-e77d07d34e2f"
->
-</ReqRef><ReqRef
- Id="0e50796d-ed4d-4c9d-a0c4-f0fdd76ce124"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="e7d11cf4-cbd7-4734-99f5-5d94ae3b3dcf"
->
-</ReqRef><ReqRef
- Id="2fa2f9ae-31ff-4ea3-af52-c0dffbbdbef1"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="017c46ea-cb65-497a-863c-5617036a893e"
->
-</ReqRef><Comment>Function used to create the JRU Message TRACTION_STATE</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="ba0bc24a-02cb-4b0a-9eee-657a3748d2f4"
->
-<Expression>Messages.JRU.MESSAGE.TRACTION_STATUS.Message {
-    HEADER =&gt; JRU.Header.CreateHeader(40),
-M_TRACTION_STATUS=&gt;GetStatus()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_TRACTION_STATUS"
  Default=""
  X="140"
@@ -114,7 +77,7 @@ M_TRACTION_STATUS=&gt;GetStatus()
 <PreConditions>
 <PreCondition
  Guid="077e9f0c-c1f3-468c-9d3c-c1e98193cd03"
->TIU.TractionIsOn </PreCondition></PreConditions>
+>TIU.TractionIsOn</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_TRACTION_STATUS.On</Expression>
 </Case><Case
  Name="Off"
@@ -162,6 +125,65 @@ M_TRACTION_STATUS=&gt;GetStatus()
 <Action
  Guid="020aec33-248b-4ddf-8823-e401c9c9e48e"
 >LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="82ad6e7a-f614-4048-97f5-fde9acdbc25d"
+>
+<ReqRef
+ Id="8244b69a-230d-41b4-b7bb-0890ff2ccc7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f8f8b284-14bd-44e6-9f69-2ba0937e48ab"
+>
+</ReqRef><ReqRef
+ Id="0e50796d-ed4d-4c9d-a0c4-f0fdd76ce124"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1422ae94-b8d3-48c1-bcca-0a804ed3f264"
+>
+</ReqRef><ReqRef
+ Id="2fa2f9ae-31ff-4ea3-af52-c0dffbbdbef1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="747b787f-5b6f-4f57-b6e5-9a4596fe339c"
+>
+</ReqRef><ReqRef
+ Id="62733358-3780-4cb6-ba99-4d4916118140"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="16e16b1d-23eb-4bec-a7e7-baa63e464ef4"
+>
+</ReqRef><Comment>Creates a new TRACTION_CUT_OFF_COMMAND_STATE message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send TRACTION_CUT_OFF_COMMAND_STATE message"
+ Guid="b7547300-0061-4818-9d4a-efedb89a8d95"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send TRACTION_CUT_OFF_COMMAND_STATE message"
+ Guid="7deae405-8a84-4e0b-9377-df1fed9638e9"
+>
+<PreConditions>
+<PreCondition
+ Guid="c30513e0-1f62-401c-8fa1-ce5ef34c42c0"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ead0d3e9-49e8-4ac8-b1f4-8227a58610ee"
+>INSERT Messages.JRU.MESSAGE.Message {
+     TRACTION_STATUS=&gt; Messages.JRU.MESSAGE.TRACTION_STATUS.Message {
+         HEADER =&gt; JRU.Header.CreateHeader(40),
+         M_TRACTION_STATUS=&gt;GetStatus() 
+    } 
+} IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

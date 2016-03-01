@@ -1,5 +1,5 @@
 <NameSpace
- X="20"
+ X="40"
  Y="20"
  Width="100"
  Height="50"
@@ -13,7 +13,7 @@
  Type="Boolean"
  Default=""
  X="40"
- Y="160"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -48,69 +48,10 @@
 <Expression>LastCabAActive != GetCabAActive() OR LastCabBActive != GetCabBActive()</Expression>
 </Case></Cases>
 </Function><Function
- Type="Messages.JRU.MESSAGE.CAB_STATUS.Message"
- Default=""
- X="40"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="6d8db90d-bd08-46be-a60d-39853472f958"
->
-<ReqRef
- Id="7275722c-79c3-4be4-aa59-792d2628c3ac"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="14086c1d-8a79-4ed9-a641-ade47af1d6f7"
->
-</ReqRef><ReqRef
- Id="4f390dd5-f5ce-4d60-8ed1-fde51a48b37d"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="878d41ce-6e26-4262-b173-1213a3bff5b2"
->
-</ReqRef><ReqRef
- Id="07639a9d-c6ea-4946-b1c8-3fffb617f1bb"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="4f54af07-297d-4eee-b2e3-cbf306ff4080"
->
-</ReqRef><ReqRef
- Id="09df2c37-ada9-4078-a318-636e1ef17601"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="60c5bf94-ffb7-4af3-8185-bf90bd97ffb1"
->
-</ReqRef><ReqRef
- Id="f9a025a0-5d6b-4d68-946b-f3f5c736adc2"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="870678d9-2a4c-4873-8a88-4f99c73f3dbb"
->
-</ReqRef><ReqRef
- Id="ca6de985-daf9-4798-87b8-e36f3b143ed7"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="a6f29128-1b4b-4225-b88b-7740b875b082"
->
-</ReqRef><ReqRef
- Id="45287456-663d-411a-82b3-093ef23e2fd9"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="90518c85-eebe-4862-882c-ab33a4ec7010"
->
-</ReqRef><Comment>Creates the CAB_STATUS JRU message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="3280e33f-ec81-4ba9-8464-58df507dee07"
->
-<Expression>Messages.JRU.MESSAGE.CAB_STATUS.Message {
-     HEADER =&gt; Header.CreateHeader(38),
-     M_CAB_A_STATUS =&gt; GetCabAStatus(),
-     Q_CAB_B =&gt; TrainInterface.CabStatus.SecondCabIsPresent(),
-     M_CAB_B_STATUS =&gt; GetCabBStatus()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.Q_CAB_B"
  Default=""
  X="260"
- Y="20"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -143,7 +84,7 @@
  Type="Messages.JRU.M_CAB_A_STATUS"
  Default=""
  X="150"
- Y="20"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -177,7 +118,7 @@
  Type="Messages.JRU.M_CAB_A_STATUS"
  Default=""
  X="260"
- Y="80"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -208,4 +149,87 @@
 <Expression>Messages.JRU.M_CAB_B_STATUS.Not_active</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="27e3455f-9605-48a7-b631-0fd686452d15"
+>
+<ReqRef
+ Id="7275722c-79c3-4be4-aa59-792d2628c3ac"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6ca38d15-bacd-4ecd-9136-c69c50f4356e"
+>
+</ReqRef><ReqRef
+ Id="4f390dd5-f5ce-4d60-8ed1-fde51a48b37d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6a1c7779-f9b0-4606-aa79-22d672cc1f16"
+>
+</ReqRef><ReqRef
+ Id="07639a9d-c6ea-4946-b1c8-3fffb617f1bb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="161ecdd2-c87e-4d37-9127-6d31c049e025"
+>
+</ReqRef><ReqRef
+ Id="09df2c37-ada9-4078-a318-636e1ef17601"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8c7cca14-bd55-4ca8-bc58-0e8e31ee0ae8"
+>
+</ReqRef><ReqRef
+ Id="f9a025a0-5d6b-4d68-946b-f3f5c736adc2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6735cd78-23f7-413f-a30d-d78f16a23de7"
+>
+</ReqRef><ReqRef
+ Id="ca6de985-daf9-4798-87b8-e36f3b143ed7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ae06c745-6d18-4b56-9638-1d8a7f5e6729"
+>
+</ReqRef><ReqRef
+ Id="45287456-663d-411a-82b3-093ef23e2fd9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3534bda0-e53b-4fda-a3ee-7c16358894ec"
+>
+</ReqRef><ReqRef
+ Id="51f3449f-8379-4046-bc2b-6d3a30d48f11"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d5460142-5b72-404a-bab3-3c65014cdf20"
+>
+</ReqRef><Comment>Creates a new CAB_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send CAB_STATUS message"
+ Guid="29460cf0-50a5-4a8d-816f-1f60f350cc13"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send CAB_STATUS message"
+ Guid="03aaa63c-a397-4775-b76a-58131cd9bca5"
+>
+<PreConditions>
+<PreCondition
+ Guid="6e4730d2-4201-4c0a-9af4-eead7903458f"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a4959ca1-cc65-4934-98c1-815596842a4a"
+>INSERT Messages.JRU.MESSAGE.Message {
+     CAB_STATUS =&gt; Messages.JRU.MESSAGE.CAB_STATUS.Message {
+         HEADER =&gt; Header.CreateHeader(38),
+         M_CAB_A_STATUS =&gt; GetCabAStatus(),
+         Q_CAB_B =&gt; TrainInterface.CabStatus.SecondCabIsPresent(),
+         M_CAB_B_STATUS =&gt; GetCabBStatus() 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

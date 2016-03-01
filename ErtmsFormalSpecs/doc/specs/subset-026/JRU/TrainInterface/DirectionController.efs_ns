@@ -1,6 +1,6 @@
 <NameSpace
- X="130"
- Y="20"
+ X="40"
+ Y="80"
  Width="100"
  Height="50"
  Name="DirectionController"
@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message"
- Default=""
- X="40"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="70f6f535-43ba-4741-8bd0-1c123a55cfd5"
->
-<ReqRef
- Id="d9784eba-d7cd-4aaa-8499-40da415462f9"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="9ccc0e0e-9fe2-4371-b963-bccd376f99ea"
->
-</ReqRef><ReqRef
- Id="134b7021-e80c-44ab-a9a5-c009d73f1451"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="9dd17cda-99e9-42e3-b589-6e0f6e1886f9"
->
-</ReqRef><ReqRef
- Id="ade5813e-3f65-4f0b-acdc-d51816305acc"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="eb884030-e50b-4215-ae88-8f877a21c0f0"
->
-</ReqRef><Comment>This will generate the DIRECTION_CONTROLLER_POSITION JRU Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="13ec1433-cedb-4b73-9d80-cbbc4c0c5bec"
->
-<Expression>Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message {
-     HEADER =&gt; JRU.Header.CreateHeader(39),
-     M_DIRECTION_CONTROLLER =&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="90"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -78,7 +41,7 @@
  Guid="5081dd0f-f298-4320-bc0c-aad845612e89"
 >IsStartUp()</PreCondition><PreCondition
  Guid="40f6427d-ce92-47db-b81b-6257a0a3792d"
->GetCabAActive() OR GetCabBActive() </PreCondition></PreConditions>
+>GetCabAActive() OR GetCabBActive()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Cab B becomes active"
@@ -99,7 +62,7 @@
  Type="Messages.JRU.M_DIRECTION_CONTROLLER"
  Default=""
  X="150"
- Y="30"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -186,6 +149,65 @@
 <Action
  Guid="ae26e8ff-38a7-48ac-b260-da37aef7aebe"
 >LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="6c5c1eae-c3f4-410a-8540-c36ed87f94b8"
+>
+<ReqRef
+ Id="d9784eba-d7cd-4aaa-8499-40da415462f9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a0c71f6f-e000-4491-9b7a-a5f2e45dc638"
+>
+</ReqRef><ReqRef
+ Id="134b7021-e80c-44ab-a9a5-c009d73f1451"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="bf619355-142d-44a4-bb95-eabb3418fc9e"
+>
+</ReqRef><ReqRef
+ Id="ade5813e-3f65-4f0b-acdc-d51816305acc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="38b07b82-57c2-4e3c-8625-818812512a24"
+>
+</ReqRef><ReqRef
+ Id="baa05df6-1823-4d3b-a401-71222c779904"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a8f4f9eb-da47-48e8-8b4c-9450f14085ec"
+>
+</ReqRef><Comment>Creates a new DIRECTION_CONTROLLER_POSITION message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send DIRECTION_CONTROLLER_POSITION message"
+ Guid="e489014f-71bb-45a6-b558-551773195b0a"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send DIRECTION_CONTROLLER_POSITION message"
+ Guid="ae4d0e92-99a4-4ef5-939d-488c08274183"
+>
+<PreConditions>
+<PreCondition
+ Guid="9df27973-e145-4a31-a0fe-dc28b3acbea2"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ae52b3fe-600f-45cd-8b77-27fb79b29818"
+>INSERT Messages.JRU.MESSAGE.Message {
+     DIRECTION_CONTROLLER_POSITION=&gt; Messages.JRU.MESSAGE.DIRECTION_CONTROLLER_POSITION.Message {
+         HEADER =&gt; JRU.Header.CreateHeader(39),
+         M_DIRECTION_CONTROLLER =&gt; GetStatus() 
+    } 
+} IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

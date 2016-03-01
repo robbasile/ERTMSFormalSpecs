@@ -1,5 +1,5 @@
 <NameSpace
- X="50"
+ X="40"
  Y="80"
  Width="100"
  Height="50"
@@ -10,56 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.TO_RBC.Message"
- Default=""
- X="40"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="5ffc2eed-e108-4034-8acb-07bb423b991f"
->
-<ReqRef
- Id="aba7a9a3-253d-451a-8cf5-df368cc1c6d5"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="380dd166-a169-4b62-838e-49a75588ef9c"
->
-</ReqRef><ReqRef
- Id="8786f310-b395-4335-99e7-e975a39f7002"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="9c9049bc-4a0a-447f-a5b3-eb88a39e6d6e"
->
-</ReqRef><ReqRef
- Id="dd25f031-3a5c-4443-980a-6020ceeeef1b"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="9a280ccd-f743-4415-a50d-3aef8d2396f7"
->
-</ReqRef><ReqRef
- Id="49c4ee3f-f7b9-4a71-852c-e816da574639"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="cb31bd1e-0521-42fe-b27a-15e0c24d4959"
->
-</ReqRef><Comment>Creates a MESSAGE_TO_RBC JRU Messages</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="dc7b29ff-22bb-4331-bdb9-6931f0abed22"
->
-<Expression>LET connection =&gt; EURORADIO.CurrentRBCConnection() 
-IN 
-  Messages.JRU.MESSAGE.TO_RBC.Message {
-     HEADER =&gt; Header.CreateHeader(10),
-     NID_C =&gt; connection.ContactData.Id.Country,
-     NID_RBC =&gt; connection.ContactData.Id.Id,
-     TELEGRAM =&gt; connection.MessageOut 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="80"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -85,4 +39,72 @@ IN
 <Expression>Available (  EURORADIO.CurrentRBCConnection() .MessageOut )</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="a185b59b-e80f-45d6-a94c-84af1e0f13fa"
+>
+<ReqRef
+ Id="aba7a9a3-253d-451a-8cf5-df368cc1c6d5"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2f0692c4-20c1-48f3-8c19-e60ebd622a7d"
+>
+</ReqRef><ReqRef
+ Id="8786f310-b395-4335-99e7-e975a39f7002"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9e3c411c-e655-4e5a-9161-26c3bb001e5c"
+>
+</ReqRef><ReqRef
+ Id="dd25f031-3a5c-4443-980a-6020ceeeef1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b3505202-d54e-4ad4-ae4a-8df201cfe46d"
+>
+</ReqRef><ReqRef
+ Id="49c4ee3f-f7b9-4a71-852c-e816da574639"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="39aaa44a-9047-4515-a7c9-2c95b72c6e71"
+>
+</ReqRef><ReqRef
+ Id="0c320b0b-218e-4a78-9fad-488fdb0e6902"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9f368eb3-73e7-4fce-a97c-a5801a5c1770"
+>
+</ReqRef><Comment>Creates a new TO_RBC message, if one of its components has changed.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send TO_RBC message"
+ Guid="eb97b397-0a25-4a2b-8619-eb2036ea3ce1"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send TO_RBC message"
+ Guid="7fd30dab-24c3-43a0-8756-0319e8545d8e"
+>
+<PreConditions>
+<PreCondition
+ Guid="627505bf-3df1-43c3-8892-7b0b1531aa71"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c81471e8-cd12-400a-bf06-950dc669a6ad"
+>INSERT Messages.JRU.MESSAGE.Message {
+     TO_RBC =&gt; Messages.JRU.MESSAGE.TO_RBC.Message {
+         HEADER =&gt; Header.CreateHeader(10),
+         NID_C =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Country,
+         NID_RBC =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Id,
+         TELEGRAM =&gt; EURORADIO.CurrentRBCConnection().MessageOut 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

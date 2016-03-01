@@ -1,6 +1,6 @@
 <NameSpace
- X="20"
- Y="30"
+ X="40"
+ Y="20"
  Width="100"
  Height="50"
  Name="Added"
@@ -10,54 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_SET_BY_DRIVER.Message"
- Default=""
- X="40"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="a009fa28-6ce4-46f9-aae6-605d92dea59d"
->
-<ReqRef
- Id="29bf3662-a0ca-450a-8c70-1d447bcd3e7b"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="d84f603b-237c-4ceb-b664-6f91a61385ae"
->
-</ReqRef><ReqRef
- Id="d1c48944-e94f-42f8-aaf8-1410de316e3f"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="d6683151-cd08-4bfc-ab7a-59d96a9bfa00"
->
-</ReqRef><ReqRef
- Id="e79e41c3-47e2-4f33-a829-b64006d3e98b"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2de737b7-cfb3-40ff-b59d-1275e553fd60"
->
-</ReqRef><ReqRef
- Id="114edcbc-7d24-41b0-88fe-89c4ceb8ae45"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ca36348a-1549-49be-afc9-f372a83d9d97"
->
-</ReqRef><Comment>Will fill the necessary fields to generate the VIRTUAL_BALISE_COVER_SET_BY_THE_DRIVER message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="a02b997a-cde3-44b8-9c4e-70fed622571c"
->
-<Expression>Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_SET_BY_DRIVER.Message{
-    HEADER =&gt; JRU.Header.CreateHeader(28),
-    NID_VBCMK =&gt;  GetCover().Marker.Marker,
-    NID_C =&gt; GetCover().Marker.Area,
-    T_VBC =&gt; TimeVBC(GetCover().ValidUntil)
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="90"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -81,7 +37,7 @@
  Type="Kernel.VirtualBaliseCover.VBCStruct"
  Default=""
  X="150"
- Y="30"
+ Y="10"
  Width="100"
  Height="50"
  Name="GetCover"
@@ -99,8 +55,75 @@
  Guid="97604c10-c867-48ea-9fac-e2e56b52d610"
 >
 <Expression>FIRST Cover IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs |    
-  FORALL Prev IN LastCovers | Prev.Marker != Cover.Marker 
-</Expression>
+  FORALL Prev IN LastCovers | Prev.Marker != Cover.Marker</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="7599b1cc-eb3a-4d90-ac56-dcdd30cea26f"
+>
+<ReqRef
+ Id="29bf3662-a0ca-450a-8c70-1d447bcd3e7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="609d5bcb-13f4-4fcb-a714-0f4b8a896a8d"
+>
+</ReqRef><ReqRef
+ Id="d1c48944-e94f-42f8-aaf8-1410de316e3f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="027ed417-2470-4325-bd22-88bd3d31f2c8"
+>
+</ReqRef><ReqRef
+ Id="e79e41c3-47e2-4f33-a829-b64006d3e98b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="02039d61-3e66-432c-bb9b-7c4ee69847f1"
+>
+</ReqRef><ReqRef
+ Id="114edcbc-7d24-41b0-88fe-89c4ceb8ae45"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="18aef486-7565-4ebf-b87c-4c29e86cadff"
+>
+</ReqRef><ReqRef
+ Id="73f48619-37ca-496b-914a-d7250a79bc0f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b48c446f-0a40-4493-8f15-009176ec788b"
+>
+</ReqRef><Comment>Creates a new VIRTUAL_BALISE_COVER_SET_BY_DRIVER message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send VIRTUAL_BALISE_COVER_SET_BY_DRIVER message"
+ Guid="ed020ea1-9a35-4298-bd72-fb4e01ed5106"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send VIRTUAL_BALISE_COVER_SET_BY_DRIVER message"
+ Guid="ce4f2729-e771-4985-b3f1-967ec08c7635"
+>
+<PreConditions>
+<PreCondition
+ Guid="0765ba2d-6b05-4870-af72-d03823d79384"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b9544bb9-4ce6-4cd6-8438-f34fda1d0d36"
+>INSERT Messages.JRU.MESSAGE.Message {
+     VIRTUAL_BALISE_COVER_SET_BY_DRIVER =&gt; Messages.JRU.MESSAGE.VIRTUAL_BALISE_COVER_SET_BY_DRIVER.Message{
+         HEADER =&gt; JRU.Header.CreateHeader(28),
+         NID_VBCMK =&gt; GetCover().Marker.Marker,
+         NID_C =&gt; GetCover().Marker.Area,
+         T_VBC =&gt; TimeVBC(GetCover().ValidUntil) 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

@@ -1,6 +1,6 @@
 <NameSpace
- X="50"
- Y="130"
+ X="260"
+ Y="20"
  Width="100"
  Height="50"
  Name="Symbols"
@@ -34,47 +34,10 @@
 </NameSpaceRef></NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.DMI_SYMB_STATUS.Message"
- Default=""
- X="40"
- Y="40"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="95307c51-dead-4626-8851-3f17c070de39"
->
-<ReqRef
- Id="ab27f58b-6aaf-4a89-addc-8ba7947449d2"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="130d3f5c-8732-47a5-8156-94f2c262e6eb"
->
-</ReqRef><ReqRef
- Id="44c3230d-cbf7-40f5-9717-9bc3001a24d8"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ad95d842-a6ee-4212-9571-78f2ec23df67"
->
-</ReqRef><ReqRef
- Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="b965052b-831b-4d52-80f6-d5c61bc73fbb"
->
-</ReqRef><Comment>Creates the message containing all the DMI symbols currently displayed.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="ea253938-e458-4f2e-a96b-33cbf5258224"
->
-<Expression>Messages.JRU.MESSAGE.DMI_SYMB_STATUS.Message {
-     HEADER =&gt; JRU.Header.CreateHeader(21),
-     DMI_SYMBOL_STATUS =&gt; GetSymbolStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="100"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -102,8 +65,8 @@
 </Function><Function
  Type="Messages.JRU.MESSAGE.DMI_SYMBOL_STATUS.Message"
  Default=""
- X="180"
- Y="70"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -208,7 +171,7 @@
      DMI_SYMB_STATUS_DR04 =&gt; JRU.DMI.Symbols.DR.DR04Activated(),
      DMI_SYMB_STATUS_DR05 =&gt; JRU.DMI.Symbols.DR.DR05Activated(),
      DMI_SYMB_STATUS_LX01 =&gt; JRU.DMI.Symbols.LX.LX01Activated() 
-} </Expression>
+}</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -250,6 +213,65 @@
 <Action
  Guid="ac99530f-595b-48ff-850b-139c063de193"
 >LastDisplayedSymbols &lt;- GetSymbolStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="-200"
+ Y="450"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="b1d1e3ff-2817-4e00-bbff-079189fa6c9f"
+>
+<ReqRef
+ Id="ab27f58b-6aaf-4a89-addc-8ba7947449d2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9db3baee-3d13-4a1f-9bd9-3a5d154d42e6"
+>
+</ReqRef><ReqRef
+ Id="44c3230d-cbf7-40f5-9717-9bc3001a24d8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="21859f9a-fecb-468e-8c4e-256659221516"
+>
+</ReqRef><ReqRef
+ Id="ea927b78-50a4-4f02-a8a4-27ab74a61398"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="75d5787c-8c45-42d8-b697-504d4ac2a005"
+>
+</ReqRef><ReqRef
+ Id="5d7e131f-83a0-4fc1-bf3c-5b67a6141d3e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2749215b-6e83-4f63-932c-98f17b97f91e"
+>
+</ReqRef><Comment>Creates a new DMI_SYMB_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send DMI_SYMB_STATUS message"
+ Guid="a9f8ac1b-f5d8-40ff-8ca8-46d76cfa5482"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send DMI_SYMB_STATUS message"
+ Guid="8ec1795c-9773-45ee-8600-d82bf693d653"
+>
+<PreConditions>
+<PreCondition
+ Guid="1c347ced-c1db-4cb1-bd37-5dcb704242d3"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aec4d9f9-7bc8-437b-b865-c6951e49fdf0"
+>INSERT Messages.JRU.MESSAGE.Message {
+     DMI_SYMB_STATUS =&gt; Messages.JRU.MESSAGE.DMI_SYMB_STATUS.Message {
+         HEADER =&gt; JRU.Header.CreateHeader(21),
+         DMI_SYMBOL_STATUS =&gt; GetSymbolStatus() 
+    } 
+} IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

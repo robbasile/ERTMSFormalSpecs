@@ -10,42 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.SERVICE_BRAKE_COMMAND_STATE.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="28e96520-02a7-4e65-a648-e4bf6beca53d"
->
-<ReqRef
- Id="a8f59a9b-a318-44ce-8106-9abe073a59bf"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="e94599be-a438-4382-b03b-03fe8ee17344"
->
-</ReqRef><ReqRef
- Id="cb3458d8-a8bd-47d7-b410-3cd6789a56cd"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="19d077c8-d886-4261-a00c-65d951ce05f4"
->
-</ReqRef><Comment>Creates the SB_COMMAND_STATE JRU Messages</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="bced488d-2c77-4ef6-9121-c54c5b1eca07"
->
-<Expression>Messages.JRU.MESSAGE.SERVICE_BRAKE_COMMAND_STATE.Message{
-     HEADER =&gt; Header.CreateHeader( 4 ),
-     M_BRAKE_COMMAND_STATE=&gt;GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_BRAKE_COMMAND_STATE"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -78,8 +46,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -107,7 +75,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -146,13 +114,67 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="0143822c-2b70-4e3a-8958-7821b109ffdf"
+>
+<ReqRef
+ Id="a8f59a9b-a318-44ce-8106-9abe073a59bf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="55ce6fad-1938-424d-bc57-b7694126ed1a"
+>
+</ReqRef><ReqRef
+ Id="cb3458d8-a8bd-47d7-b410-3cd6789a56cd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="34eba910-242f-4f83-8e3f-d82a7a9c94a9"
+>
+</ReqRef><ReqRef
+ Id="a12a618a-7473-4e20-8fec-78804b7db646"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8969adcc-64cb-4c95-be38-9fbacb6743c2"
+>
+</ReqRef><Comment>Creates a new SERVICE_BRAKE_COMMAND_STATE message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send SERVICE_BRAKE_COMMAND_STATE message"
+ Guid="e8ba3004-d7be-479e-bfe2-77620cf88d71"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send SERVICE_BRAKE_COMMAND_STATE message"
+ Guid="8559297c-e52d-4c4b-9df1-4e831c674c3d"
+>
+<PreConditions>
+<PreCondition
+ Guid="067df3e1-9a67-4be8-9b59-3a6dc9601bd8"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0dca06bd-3e0a-4fc5-a988-d9e12c9fdc01"
+>INSERT Messages.JRU.MESSAGE.Message {
+     SERVICE_BRAKE_COMMAND_STATE =&gt; Messages.JRU.MESSAGE.SERVICE_BRAKE_COMMAND_STATE.Message{
+         HEADER =&gt; Header.CreateHeader(4),
+         M_BRAKE_COMMAND_STATE=&gt;GetStatus() 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_BRAKE_COMMAND_STATE"
  DefaultValue="Messages.JRU.M_BRAKE_COMMAND_STATE.Not_commanded"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -170,7 +192,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

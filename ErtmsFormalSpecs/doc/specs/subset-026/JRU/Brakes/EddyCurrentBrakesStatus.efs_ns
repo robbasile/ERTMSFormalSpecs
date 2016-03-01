@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.EDDY_CURRENT_BRAKE_STATUS.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="612376ab-0adf-4747-a112-0e60bbcde774"
->
-<ReqRef
- Id="6b6aed3a-e263-4d03-ba9e-ac96c0f5e38a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="b4f01f34-cc0c-4606-86e4-8078899102a2"
->
-</ReqRef><ReqRef
- Id="f3236d76-bef2-48c1-b04b-3fc6e159a593"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="a531cf31-d01c-4b57-b98a-243c5cd98a47"
->
-</ReqRef><ReqRef
- Id="8b09420a-4f06-43d3-aada-ea5751a960ec"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="90ead22a-5960-4159-b47c-26818d8dbe92"
->
-</ReqRef><Comment>Creates the JRU EDDY_CURRENT_BRAKE_STATUS Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="5d2e3c8e-ad49-491d-b5f4-acca02f40a31"
->
-<Expression>Messages.JRU.MESSAGE.EDDY_CURRENT_BRAKE_STATUS.Message{
-     HEADER =&gt; Header.CreateHeader(35),
-     M_ECB_STATUS =&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_ECB_STATUS"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -88,8 +51,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -126,7 +89,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -165,13 +128,72 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="511d6255-aae3-4dba-9a9e-1c780c74d24c"
+>
+<ReqRef
+ Id="6b6aed3a-e263-4d03-ba9e-ac96c0f5e38a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0b911208-6726-4b16-816e-95f51b4e3dfc"
+>
+</ReqRef><ReqRef
+ Id="f3236d76-bef2-48c1-b04b-3fc6e159a593"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="62a0dd7f-6281-4445-b956-89efae652b45"
+>
+</ReqRef><ReqRef
+ Id="8b09420a-4f06-43d3-aada-ea5751a960ec"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0594cbe3-044f-4d35-934b-e0a8391ac0da"
+>
+</ReqRef><ReqRef
+ Id="e7f35f31-a3cb-4614-b728-19f8a78755f8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="135491ca-efe2-4478-9715-20fa9e1260f3"
+>
+</ReqRef><Comment>Creates a new EDDY_CURRENT_BRAKE_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send EDDY_CURRENT_BRAKE_STATUS message"
+ Guid="d41af0da-1f25-435a-94fb-a5eda776f1dc"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send EDDY_CURRENT_BRAKE_STATUS message"
+ Guid="ef0970f5-6d62-4588-acd9-1906684e799e"
+>
+<PreConditions>
+<PreCondition
+ Guid="fbe0f731-919a-4eb7-ace3-db385a88b5cc"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7570d1d4-53d9-4f0d-94af-c99ff1bb8e00"
+>INSERT Messages.JRU.MESSAGE.Message{
+     EDDY_CURRENT_BRAKE_STATUS =&gt; Messages.JRU.MESSAGE.EDDY_CURRENT_BRAKE_STATUS.Message{
+         HEADER =&gt; Header.CreateHeader(35),
+         M_ECB_STATUS =&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_ECB_STATUS"
  DefaultValue="Messages.JRU.M_ECB_STATUS.Not_active"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -189,7 +211,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

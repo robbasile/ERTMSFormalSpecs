@@ -10,42 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.NTC_SELECTED.Message"
- Default=""
- X="30"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="6ca1db08-faa1-41d4-bf94-1ff5dc17c119"
->
-<ReqRef
- Id="bb9c8dd1-462d-4fc9-94dc-a4d02d2f1420"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2221feb5-7235-4c01-abff-7594c0b170ce"
->
-</ReqRef><ReqRef
- Id="1eb3f175-3ec2-4f52-97e8-d179c6d714de"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="b681e774-0410-4b13-b8c0-31352aee3c27"
->
-</ReqRef><Comment>Creates the NTC_SELECTED_LEVEL JRU Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="baa1072d-893e-4c80-9530-6495fa43dad1"
->
-<Expression>Messages.JRU.MESSAGE.NTC_SELECTED.Message {
-     HEADER =&gt; Header.CreateHeader(26),
-     NID_NTC =&gt; GetNID_NTC(Kernel.Level.Value.NTC) 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
- X="30"
- Y="90"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -82,4 +50,60 @@
 <Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="f7f7c4c4-1ab3-49d0-a026-62d26c10d93d"
+>
+<ReqRef
+ Id="bb9c8dd1-462d-4fc9-94dc-a4d02d2f1420"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="01ce76b3-3b26-41c8-8afe-d841121ab32a"
+>
+</ReqRef><ReqRef
+ Id="1eb3f175-3ec2-4f52-97e8-d179c6d714de"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6e6a0fc9-45ba-4e13-9dd5-5f10865a6918"
+>
+</ReqRef><ReqRef
+ Id="7d52b78c-8fb4-4f01-974a-66ecb34be2e7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="298df0bf-0c18-4c47-a448-48c173dde4db"
+>
+</ReqRef><Comment>Creates a new NTC_SELECTED message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send NTC_SELECTED message"
+ Guid="356670d1-bc81-447e-af01-f65af16218fe"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send NTC_SELECTED message"
+ Guid="2ff99f19-fdf7-4f21-ac7c-e618a75a079d"
+>
+<PreConditions>
+<PreCondition
+ Guid="c50ed63b-e0ac-419c-a7d3-bb3f6ce89ee9"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="334f673d-4ad2-4aa5-85b6-392e7eb80c73"
+>INSERT Messages.JRU.MESSAGE.Message {
+     NTC_SELECTED =&gt; Messages.JRU.MESSAGE.NTC_SELECTED.Message {
+         HEADER =&gt; Header.CreateHeader(26),
+         NID_NTC =&gt; GetNID_NTC() 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

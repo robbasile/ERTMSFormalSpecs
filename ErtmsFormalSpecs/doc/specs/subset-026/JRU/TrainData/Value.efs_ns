@@ -1,5 +1,5 @@
 <NameSpace
- X="30"
+ X="40"
  Y="20"
  Width="100"
  Height="50"
@@ -12,8 +12,8 @@
 <Function
  Type="Messages.JRU.MESSAGE.TRAIN_DATA.Message"
  Default=""
- X="30"
- Y="160"
+ X="40"
+ Y="140"
  Width="100"
  Height="50"
  Name="CreateMessage"
@@ -877,8 +877,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Boolean"
  Default=""
- X="30"
- Y="220"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -968,12 +968,57 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 >LastTrainData &lt;- Kernel.TrainData.TrainData.Value</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="e65bedac-50ac-4a5b-a776-77c71ab8a4e8"
+>
+<ReqRef
+ Id="8623ab63-7b21-4ea0-8ae5-1f6cbb90a9b5"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d5926cfb-2f20-4808-abd4-54bd3073f0dd"
+>
+</ReqRef><ReqRef
+ Id="3548e812-7c69-44d2-be6e-4d9d79170728"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e06cd1a0-d844-4113-8c4a-5aa921c4b863"
+>
+</ReqRef><Comment>Creates a new TRAIN_DATA  message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send TRAIN_DATA  message"
+ Guid="623926d9-669b-4777-8a4b-e064456be9ff"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send TRAIN_DATA message"
+ Guid="f7a4c837-9fbe-40b2-8c4b-3ccc45b10464"
+>
+<PreConditions>
+<PreCondition
+ Guid="2d3ce689-b21c-4562-8ea2-95d062f00d1e"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="deb494e9-6a56-46ac-805f-11f4df395bd4"
+>INSERT Messages.JRU.MESSAGE.Message {
+     TRAIN_DATA =&gt; CreateMessage() 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Kernel.TrainData.TrainDataValues"
- DefaultValue="Kernel.TrainData.TrainDataValues{}
-"
+ DefaultValue="Kernel.TrainData.TrainDataValues{}"
  VariableMode="Internal"
  X="60"
  Y="330"

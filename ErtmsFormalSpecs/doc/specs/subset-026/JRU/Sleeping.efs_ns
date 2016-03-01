@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.SLEEPING_INPUT.Message"
- Default=""
- X="30"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="b2f03835-9334-43b8-a0c0-d81e11e6d32b"
->
-<ReqRef
- Id="6f2bb22b-a705-4170-8cc3-7a555b3e22ff"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="1cba9d79-9224-4f88-8655-3c9915c26b8e"
->
-</ReqRef><ReqRef
- Id="a5f0656f-ef95-445b-8b44-65bb3f7d4960"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="53a9dd83-5872-4d36-a66b-c567e3aaa7a1"
->
-</ReqRef><ReqRef
- Id="78be0579-c844-4e19-86b2-33b5020846e4"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="5d28b5fb-74d4-4fbe-987d-2dc82d4225d6"
->
-</ReqRef><Comment>Creates the JRU SLEEPING_INPUT message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="9279cbc1-cd35-4966-ab2a-80bdf57ecbe1"
->
-<Expression>Messages.JRU.MESSAGE.SLEEPING_INPUT.Message {
-    HEADER =&gt; JRU.Header.CreateHeader(30),
-M_SLEEPING =&gt; GetStatus()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
- X="30"
- Y="90"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -87,8 +50,8 @@ M_SLEEPING =&gt; GetStatus()
 </Function><Function
  Type="Messages.JRU.M_SLEEPING"
  Default=""
- X="140"
- Y="30"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -125,7 +88,7 @@ M_SLEEPING =&gt; GetStatus()
 </Function></Functions>
 <Procedures>
 <Procedure
- X="30"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -164,13 +127,72 @@ M_SLEEPING =&gt; GetStatus()
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="1d9da50e-9c6a-4d63-9569-935db6bcfaa3"
+>
+<ReqRef
+ Id="6f2bb22b-a705-4170-8cc3-7a555b3e22ff"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6c469afc-bb58-4455-8fd2-a9056e1d5136"
+>
+</ReqRef><ReqRef
+ Id="a5f0656f-ef95-445b-8b44-65bb3f7d4960"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e8578839-e852-4702-b1dc-5d14e911f411"
+>
+</ReqRef><ReqRef
+ Id="78be0579-c844-4e19-86b2-33b5020846e4"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d0436fc0-03cf-45f5-96c5-4ebb2e73fcaa"
+>
+</ReqRef><ReqRef
+ Id="a19dec60-626e-4544-a65b-13b1160bf0b7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0aeb1560-6320-4f78-b322-9da5d1ae9270"
+>
+</ReqRef><Comment>Creates a new SLEEPING_INPUT message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send SLEEPING_INPUT message"
+ Guid="38d7227f-726f-4d0d-9be5-a5e16500d833"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send SLEEPING_INPUT message"
+ Guid="2df00c06-db0b-4fbb-9b37-a0a2454c9bfc"
+>
+<PreConditions>
+<PreCondition
+ Guid="23d26a49-23b1-4711-af6b-ddffb5d591f2"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="198134ee-e632-4e94-ba23-35f890f67cc9"
+>INSERT Messages.JRU.MESSAGE.Message{
+     SLEEPING_INPUT =&gt; Messages.JRU.MESSAGE.SLEEPING_INPUT.Message {
+         HEADER =&gt; JRU.Header.CreateHeader(30),
+         M_SLEEPING =&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_SLEEPING"
  DefaultValue="Messages.JRU.M_SLEEPING.Sleeping_not_requested"
  VariableMode="Internal"
- X="30"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -188,7 +210,7 @@ M_SLEEPING =&gt; GetStatus()
 <Rules>
 <Rule
  Priority="CleanUp"
- X="140"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

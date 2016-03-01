@@ -10,42 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.REGENERATIVE_BRAKE_STATUS.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="9e3e3701-81f5-4b06-8f6d-5f64390d6328"
->
-<ReqRef
- Id="cc8b6072-8727-4c6b-98d3-e4f416c8efcc"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2f24c89d-4d16-48a6-ad08-46c674660f30"
->
-</ReqRef><ReqRef
- Id="b6d08d04-d824-4a22-8f42-9ae1576ee296"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ce861d7f-4fcb-4cf3-81c2-c71defd06249"
->
-</ReqRef><Comment>Creates the REGENERATIVE_BRAKE_STATUS Message of the JRU</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="c5ab1c8b-e1b9-4b1a-bd8d-57e1d767fa24"
->
-<Expression>Messages.JRU.MESSAGE.REGENERATIVE_BRAKE_STATUS.Message{
-    HEADER =&gt; JRU.Header.CreateHeader(33),
-    M_RB_STATUS =&gt; GetStatus()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_RB_STATUS"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -77,8 +45,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -115,7 +83,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -154,13 +122,72 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="7a356695-0e0e-40d5-81d3-e2bfeaaa31e6"
+>
+<ReqRef
+ Id="cc8b6072-8727-4c6b-98d3-e4f416c8efcc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="905add45-b59b-47fb-b12b-8f2f2f99b81f"
+>
+</ReqRef><ReqRef
+ Id="b6d08d04-d824-4a22-8f42-9ae1576ee296"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="93f40bc1-fad8-4e32-bebd-796f54236905"
+>
+</ReqRef><ReqRef
+ Id="de020c80-db0c-45db-855e-ae27cffc7437"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ee10a116-42c3-4790-9101-76a6ee339b28"
+>
+</ReqRef><ReqRef
+ Id="1c12e165-9023-45d1-981c-be366fbec613"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0d41cf83-f1ef-4fb2-a86f-f44b11bf9772"
+>
+</ReqRef><Comment>Creates a new REGENERATIVE_BRAKE_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send REGENERATIVE_BRAKE_STATUS message"
+ Guid="bd22f507-8f9a-4d22-a293-effd5ca31aee"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send REGENERATIVE_BRAKE_STATUS message"
+ Guid="b4351f72-cf77-4a68-b336-5dec898eb9ea"
+>
+<PreConditions>
+<PreCondition
+ Guid="d9876a95-e003-4890-8408-e4890ebee783"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d1c32ea3-8ae2-4304-9abb-eaefe3134d0a"
+>INSERT Messages.JRU.MESSAGE.Message{
+     REGENERATIVE_BRAKE_STATUS =&gt; Messages.JRU.MESSAGE.REGENERATIVE_BRAKE_STATUS.Message{
+         HEADER =&gt; JRU.Header.CreateHeader(33),
+         M_RB_STATUS =&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_RB_STATUS"
  DefaultValue="Messages.JRU.M_RB_STATUS.Not_active"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -178,7 +205,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

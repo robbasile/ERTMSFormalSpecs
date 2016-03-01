@@ -21,7 +21,7 @@
  Type="Messages.JRU.NID_NTC"
  Default=""
  X="40"
- Y="120"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -39,13 +39,6 @@
  Guid="e83dcf90-ce27-422c-b378-41057de9dd32"
 >
 </ReqRef><Comment>Converts and NID_NTC into its corresponding value for JRU messages</Comment>
-<Parameters>
-<Parameter
- Type="NID_NTC"
- Name="KernelNidNtc"
- Guid="db7f3371-5cb1-4dc0-b5ad-a80b866ff962"
->
-</Parameter></Parameters>
 <Cases>
 <Case
  Name="Applicable"
@@ -54,8 +47,8 @@
 <PreConditions>
 <PreCondition
  Guid="1bb2cf33-1d6c-4c74-85c6-b47085324c2d"
->KernelNidNtc != NID_NTC.NOT_APPLICABLE</PreCondition></PreConditions>
-<Expression>KernelNidNtc</Expression>
+>Kernel.Level.Value.NTC != NID_NTC.NOT_APPLICABLE</PreCondition></PreConditions>
+<Expression>Kernel.Level.Value.NTC</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="eabebc50-231e-4635-82fc-e653655d50be"
@@ -63,4 +56,60 @@
 <Expression>0</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="f8c7aea2-1030-4785-9d6b-da92cb994929"
+>
+<ReqRef
+ Id="18e07467-cc7f-49fe-af88-92a28c9906ad"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e0921588-95bb-405e-a337-ab6ef98578b2"
+>
+</ReqRef><ReqRef
+ Id="bb9c8dd1-462d-4fc9-94dc-a4d02d2f1420"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c9f54c32-b985-4e94-881a-f574a52e2798"
+>
+</ReqRef><ReqRef
+ Id="7d52b78c-8fb4-4f01-974a-66ecb34be2e7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="37dba28e-86ed-424e-9f9b-7334e043f587"
+>
+</ReqRef><ReqRef
+ Id="38cad2be-d09c-43a1-9db5-be152ea6c56f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1205123f-5bee-40ce-8237-308b15212b1a"
+>
+</ReqRef><Comment>Creates the National System related messages, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send National Systems-related messages"
+ Guid="e212fcee-ce69-451d-920c-f08e89102e6c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send National Systems-related messages"
+ Guid="d8bc6217-da06-4ec7-848f-afa2d57c3b8c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="afede8d7-71fc-4c8c-944f-632b7e8cfc59"
+>Isolation.FillData()</Action><Action
+ Guid="41209cf8-39ba-4854-9b88-8838a3233734"
+>LevelChangeToNTC.FillData()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 </NameSpace>

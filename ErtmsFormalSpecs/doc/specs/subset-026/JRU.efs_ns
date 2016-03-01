@@ -73,917 +73,12 @@
  Guid="341d91a8-214a-4360-a3f7-d123d7ce1630"
 >
 </NameSpaceRef></NameSpaces>
-<Structures>
-<Structure
- Default=""
- X="220"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="JRUStruct"
- Guid="fcd8bc1d-4787-454f-a0d1-863a0d566326"
->
-<ReqRef
- Id="cfbb06c3-434e-480f-8535-31fba21d7ff1"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="a8542ca2-e4f8-494f-acc0-08e15c7e7ac1"
->
-</ReqRef><Comment>It will represent the JRU structure for all its elements</Comment>
-<Rules>
-<Rule
- Priority="CleanUp"
- Implemented="TRUE"
- Name="DeleteStoredMessages"
- Guid="8e013c77-ac47-468b-81fc-5ef21adc89b9"
->
-<Comment>Before the begining of a new cycle the list of messages should be deleted</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="DeleteStoredMessages"
- Guid="0b1ab671-c10b-4e7c-af8d-916036cf916e"
->
-<Comment>Before the begining of a new cycle the list of messages should be deleted</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="dbfb4ce6-6e75-4ec4-9570-7ba16fe4a050"
->JRUMessages &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-<Procedures>
-<Procedure
- Implemented="TRUE"
- Name="InitializeMessage"
- Guid="850cfa57-2727-4b9a-8ef7-5f5fa4f69fd7"
->
-<ReqRef
- Id="1153a012-f94c-4ada-9412-ac62859d8d71"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="64d40389-2926-4441-a39c-3e6c32c6f084"
->
-</ReqRef><ReqRef
- Id="197cdf74-a87b-417f-a977-6f74fd635cd0"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="5bd04496-84b3-45ab-b48c-e9fb8197de56"
->
-</ReqRef><Comment>When necessary it will call the corresponding function to create a new JRU Message</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send General JRU message"
- Guid="6e282cfd-251d-4c07-827f-785ba50a3d06"
->
-<Comment>It will generate the General JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send General JRU message"
- Guid="dc280e18-94ae-4bf3-9ad1-f51e3999d277"
->
-<Comment>This will insert the GENERAL_MESSAGE JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="d54d3701-4766-46c3-89b1-40dd29a1c3da"
->GeneralMessage.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a2e909fc-f437-4efb-9dfb-399829b60fce"
->INSERT Messages.JRU.MESSAGE.Message {
-GENERAL_MESSAGE =&gt; GeneralMessage.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Emergency Brake Command State message"
- Guid="a87e6e90-f964-4012-aea8-f4348ed7c5ae"
->
-<Comment>It will generate the EB Command JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Emergency Brake Command State message"
- Guid="3b64f0e4-6aad-496a-a89d-b88c550ff315"
->
-<Comment>This will insert the EB_COMMAND_STATE_MESSAGE JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="511e0ca3-3a28-4758-abc1-2b9c352f462d"
->Brakes.EmergencyBrakesStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7c9857ea-ccb4-413f-9701-363e864e468a"
->INSERT Messages.JRU.MESSAGE.Message {
-EMERGENCY_BRAKE_COMMAND_STATE =&gt; Brakes.EmergencyBrakesStatus.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Service Brake Command State message"
- Guid="3a1489a5-e6fb-4c2b-a77a-eec0255565b7"
->
-<Comment>It will generate the SB Command JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Service Brake Command State message"
- Guid="33e24480-68b9-4c5f-8733-154ffbe8f0d7"
->
-<Comment>This will insert the SB_COMMAND_STATE JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="b7e6ba46-a3bf-4841-b6c5-67ec043531c0"
->Brakes.ServiceBrakesStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5e253593-036b-4172-af6c-537b332e8bc6"
->INSERT Messages.JRU.MESSAGE.Message {
-SERVICE_BRAKE_COMMAND_STATE =&gt; Brakes.ServiceBrakesStatus.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Telegram from Balise message"
- Guid="5a91183c-11ab-4fe0-9f61-55ca98260898"
->
-<Comment>A JRU Message should be sent when a telegram from an EuroBalise has been recieved</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Telegram from Balise message"
- Guid="01260484-7d17-4a3c-9ca6-743f1308071d"
->
-<Comment>This will insert the TELEGRAM_FROM_BALISE JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="30005dec-9a3f-4f5d-94e6-65c3b4f1b049"
->Balise.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e8d247c7-1e71-428a-bf8d-240c42f3a3b6"
->INSERT Messages.JRU.MESSAGE.Message {
-  TELEGRAM_FROM_BALISE =&gt; Balise.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Message from RBC message"
- Guid="0db90093-23b4-4bc0-83a2-6024bde30a04"
->
-<Comment>This will create the FROM RBC JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Message from RBC message"
- Guid="aee740c1-e84a-4cdf-8084-8f1741b1884b"
->
-<Comment>This will insert the FROM_RBC JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="5ae64df4-66eb-4a2f-89dc-3f9a09fb9a81"
->Euroradio.FromRBC.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="bd0cd303-3d8b-4d90-a66d-3e88424cb4f1"
->INSERT Messages.JRU.MESSAGE.Message {
- FROM_RBC =&gt; Euroradio.FromRBC.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Message to RBC message"
- Guid="2100df88-e0b4-4eae-a0df-1c6fb07ce14e"
->
-<Comment>This will create the TO RBC JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Message to RBC message"
- Guid="8dab86bd-7f12-4eb2-90be-02ca8789574c"
->
-<Comment>This will insert the TO_RBC_TELEGRAM JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="10fe01aa-af34-48b4-aa33-1e179a03aef0"
->Euroradio.ToRBC.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="aeca0d65-1fde-41db-a827-19ebff8bf7d4"
->INSERT Messages.JRU.MESSAGE.Message {
-TO_RBC =&gt; Euroradio.ToRBC.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Drivers Actions message"
- Guid="2042dc30-2a73-495e-b17a-6cae21e66977"
->
-<Comment>Sends Drivers Actions message if the driver has acted on the DMI.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Drivers Actions message"
- Guid="028b2931-f378-4d18-873e-dbde829cfb19"
->
-<PreConditions>
-<PreCondition
- Guid="f02eecba-036a-4cca-b8c4-60599b02f0cc"
->DMI.DriverAction.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f5f5fe71-29ba-4927-b45c-fd8ea8e75cca"
->INSERT Messages.JRU.MESSAGE.Message
-{
-  DRIVER_S_ACTIONS =&gt; DMI.DriverAction.CreateMessage(THIS)
-}
-IN
-  JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Speed and Distance Monitoring Information message"
- Guid="08989d46-5b8e-4f7f-a17d-8dd00010346a"
->
-<Comment>This will create and fullfill all the necessary fields of the SpeedAndDistanceMonitoringInformationMessage</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Speed and Distance Monitoring Information message"
- Guid="b6703ea3-be74-45e3-8501-b189b22e560a"
->
-<Comment>This will create the SD Monitoring information message once the conditions have been satisfied</Comment>
-<PreConditions>
-<PreCondition
- Guid="b68fe90d-3f7f-4f71-be23-059f5f67cf38"
->SpeedAndDistanceMonitoring.SendMessage()</PreCondition><PreCondition
- Guid="bd5ee00b-aacc-49ba-9111-eb883e795db7"
->Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e0adc517-5b2f-4309-ab4b-821bd1fbaf57"
->INSERT Messages.JRU.MESSAGE.Message{
-SPEED_AND_DISTANCE_MONITORING_INFORMATION =&gt; SpeedAndDistanceMonitoring.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send DMI Symbol Status message"
- Guid="7298416e-4041-48c6-8be5-38f670cb9773"
->
-<Comment>Sends a new DMI Symbol Status message, if one of DMI symbols appears or disappears.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send DMI Symbol Status message"
- Guid="37c8b723-6afe-4f69-8f9b-d90c7cc82321"
->
-<PreConditions>
-<PreCondition
- Guid="0f591e23-902d-4181-945b-e3f6adf41fab"
->DMI.Symbols.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1c2b2d52-5507-4511-96f0-a88dc56c7347"
->INSERT Messages.JRU.MESSAGE.Message
-{
-    DMI_SYMB_STATUS =&gt;  DMI.Symbols.CreateMessage()
-}
-  IN
-JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send DMI System Status message"
- Guid="91e0d02f-f141-4eb5-a970-22ed2b986fba"
->
-<Comment>Sends DMI System Status message if one of the system status messages was displayed on the DMI.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send System Status message"
- Guid="6f098128-0160-4854-9f5b-cc16e7ad7687"
->
-<PreConditions>
-<PreCondition
- Guid="1cff9757-a2c2-4926-9dc1-caea439f72ea"
->DMI.SystemStatuses.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="150a90b0-b2c6-4fbb-b954-89ad9a224e09"
->INSERT Messages.JRU.MESSAGE.Message
-{
-  DMI_SYSTEM_STATUS_MESSAGE =&gt; DMI.SystemStatuses.CreateMessage()
-}
-IN
-  JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Additional Data message"
- Guid="5c262d55-d1ca-4d94-8eb3-33c1cb33d512"
->
-<Comment>Sends a new Additional Data message, if one of its components has changed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Additional Data message"
- Guid="455df8d1-ed9f-47d2-b215-f56bd2998675"
->
-<PreConditions>
-<PreCondition
- Guid="ba8f918a-a5e1-4c1a-996b-e692f5aa9f7c"
->AdditionalData.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="cf7de8a9-741d-4a0d-a4d0-96d6b9408045"
->INSERT Messages.JRU.MESSAGE.Message
-{
-    ADDITIONAL_DATA =&gt; AdditionalData.CreateMessage()
-}
-IN
-  JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send NTC Selected message"
- Guid="a7724310-6cd0-40c6-ab61-706120e7b4f4"
->
-<Comment>This will send the JRU MESSAGE NTC_SELECTED</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send NTC selected message"
- Guid="87753d10-2295-4e11-8946-89db7d0af51d"
->
-<Comment>This will insert the NTC_SELECTED JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="4b98b25b-e0e1-4b73-abce-efb77e9ef86e"
->NationalSystem.LevelChangeToNTC.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1f156b86-5ad4-4f71-b713-b90d2220acf4"
->INSERT Messages.JRU.MESSAGE.Message {
-NTC_SELECTED =&gt; NationalSystem.LevelChangeToNTC.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Sleeping Unit message"
- Guid="a1b1e054-9417-47de-9354-5c8bc934141f"
->
-<Comment>Generates and sends the JRU SleepingInput Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Sleeping Unit message"
- Guid="ab32c001-7d54-42c3-970f-b7615070d360"
->
-<Comment>When the conditions are the adecuated ones the SleepingInput Message will be generated and sent</Comment>
-<PreConditions>
-<PreCondition
- Guid="6149369f-d154-4348-a74b-b0f2bc89ff3b"
->Sleeping.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="60f0d76d-5d8f-496b-a4fc-c066e0b68dbb"
->INSERT Messages.JRU.MESSAGE.Message{
-SLEEPING_INPUT =&gt; Sleeping.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Passive Shunting message"
- Guid="4b99f78d-aac1-4776-ade2-08ed82ca9e75"
->
-<Comment>SendPassiveShuntingMessage</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Passive Shunting message"
- Guid="717b32e0-7c0b-4a76-abf0-bd4388b52af2"
->
-<Comment>If the conditions are satisfied the PASSIVE SHUNTING INPUT JRU message will be sent</Comment>
-<PreConditions>
-<PreCondition
- Guid="ff92ab88-965e-480d-a63d-a013b7dec716"
->PassiveShunting.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="aecb5575-a587-4e08-887d-f51a1876ed1a"
->INSERT Messages.JRU.MESSAGE.Message{
-PASSIVE_SHUNTTING_INPUT =&gt; PassiveShunting.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Non Leading Input message"
- Guid="62b0403f-2ca1-468f-9dec-5ceb4de8d880"
->
-<Comment>Send Non Leading Input Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Non Leading Input Message"
- Guid="6423b333-821d-4143-abb3-545427558b8f"
->
-<Comment>When the conditions will be satisfied it will generate the NON_LEADING_INPUT Message</Comment>
-<PreConditions>
-<PreCondition
- Guid="0e12a04b-0cf8-4163-a4f0-29aa1e503182"
->NonLeading.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="6c10e874-b820-40e9-b866-76c3ccf65dcf"
->INSERT Messages.JRU.MESSAGE.Message{
-NON_LEADING_INPUT =&gt; NonLeading.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Regenerative Brake Status message"
- Guid="d5e5d9d4-6410-44eb-82a3-589fe56ac2d3"
->
-<Comment>Will verify if the necessary conditions to send a JRU REGENERATIVE_BRAKES_STATUS are satisfied</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Regenerative Brake Status message"
- Guid="8ac1a508-d92f-4c1d-a724-1fea6b4418fb"
->
-<Comment>this will generate and fill the RegenerativeBrakesStatus Jru Message</Comment>
-<PreConditions>
-<PreCondition
- Guid="053ebf6f-8042-41ab-a9f6-a53e7919366d"
->Brakes.RegenerativeBrakesStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="844bc5aa-92db-4693-8c5e-3d2ee7a3c480"
->INSERT Messages.JRU.MESSAGE.Message{
-REGENERATIVE_BRAKE_STATUS =&gt; Brakes.RegenerativeBrakesStatus.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Magnetic Shoe Brake Status message"
- Guid="f0f6f718-448b-4846-ad9c-7885d266bd50"
->
-<Comment>This will verify if the contidions to create a JRU MagneticShoeBrakeStatus Message are satisfied</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Magnetic Shoe Brake Status message"
- Guid="d237eb7d-b815-4027-b1da-96fc0c985ba0"
->
-<Comment>This will create the MageneticShoeBrake Messge when the conditions will be satisfied</Comment>
-<PreConditions>
-<PreCondition
- Guid="f2b231a2-e8f0-44c5-af05-4961b21c827e"
->Brakes.MagneticShoeBrakesStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f1a52ee0-0a77-4bb8-86df-f584ed7fc2dd"
->INSERT Messages.JRU.MESSAGE.Message{
-MAGNETIC_SHOE_BRAKE_STATUS =&gt; Brakes.MagneticShoeBrakesStatus.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Eddy Current Brake Status Message"
- Guid="f066b745-4468-495d-9b63-c795396a58ea"
->
-<Comment>This will verify if the conditions are satisfied and will create the EDDY_CURRENT_BRAKE_STATUS Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Eddy Current Brake Status Message"
- Guid="ecb22aca-5df9-4496-b852-e24305a8b99d"
->
-<Comment>Once the conditions are satisfied the message will be created</Comment>
-<PreConditions>
-<PreCondition
- Guid="2bbe675e-f657-4946-beb1-9dfb35b59d33"
->Brakes.EddyCurrentBrakesStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="92d7691a-d1bf-471a-8835-30c3ec7d1a52"
->INSERT Messages.JRU.MESSAGE.Message{
-EDDY_CURRENT_BRAKE_STATUS =&gt; Brakes.EddyCurrentBrakesStatus.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Electro Pneumatic Brake Status message"
- Guid="588032c8-05a7-41a9-ad1f-7a177cc082f2"
->
-<Comment>This will verify if the conditions are satisfied and will create the EDDY_CURRENT_BRAKE_STATUS Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Electro Pneumatic Brake Status message"
- Guid="518f1b56-7c39-43e3-ad4b-9876ed1ab5e5"
->
-<Comment>Once the conditions are satisfied the message will be created</Comment>
-<PreConditions>
-<PreCondition
- Guid="db6515dc-f306-4242-96ee-bdd2c91b10b3"
->Brakes.ElectroPneumaticBrakesStatus.SendMessage ()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9d2308b5-c95a-4278-9929-d43ffd2fa509"
->INSERT Messages.JRU.MESSAGE.Message{
-ELECTRO_PNEUMATIC_BRAKE_STATUS =&gt; Brakes.ElectroPneumaticBrakesStatus.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Additional Brake Status message"
- Guid="24640b87-fad6-4b35-8f94-d326463d30cc"
->
-<Comment>This will verify if the conditions are satisfied and will create the EDDY_CURRENT_BRAKE_STATUS Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Additional Brake Status message"
- Guid="9e94070c-298d-453c-a77a-226f0159fc29"
->
-<Comment>Once the conditions are satisfied the message will be created</Comment>
-<PreConditions>
-<PreCondition
- Guid="598e145c-af44-42c6-93ea-b8305d8d0051"
->Brakes.AdditionalBrakeStatus.SendMessage ()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="fbdb564d-451c-4808-a07e-dad7af2ceff3"
->INSERT Messages.JRU.MESSAGE.Message{
-ADDITIONAL_BRAKE_STATUS =&gt; Brakes.AdditionalBrakeStatus.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Cab Status message"
- Guid="ca116b75-57ab-4f20-9c30-1fe3e22c78c9"
->
-<Comment>It will generate the CAB STATUS JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Cab Status message"
- Guid="cb44cdc9-eda7-46f2-8d6e-7ce66ebc7263"
->
-<Comment>This will insert the CAB_STATUS JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="7d3e988c-03a6-40fc-87ff-eef88ae4b560"
->TrainInterface.CabStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1e0810d8-3803-4205-b78d-db639f49c094"
->INSERT Messages.JRU.MESSAGE.Message {
-CAB_STATUS =&gt; TrainInterface.CabStatus.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Train Direction Controller Position message"
- Guid="cdc755d9-5f88-4532-9d75-a0b9a4e51470"
->
-<Comment>This will create the DIRECTION_CONTROLLER_STATUS JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Train Direction Controller Position message"
- Guid="25163e06-6441-4cf0-b45b-a286b5f59762"
->
-<Comment>This will insert the DIRECTION_CONTROLLER_STATUS JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="b9b57d4e-ca25-4110-a5ca-96b2ea9e0256"
->TrainInterface.DirectionController.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="735a84c2-e94c-467f-9d11-757a9d892b0c"
->INSERT Messages.JRU.MESSAGE.Message {
- DIRECTION_CONTROLLER_POSITION=&gt; TrainInterface.DirectionController.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Traction Status message"
- Guid="2b8999bb-7900-4885-a8a1-00e1e9351f92"
->
-<Comment>This will create the TRACTION_STATUS JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Traction Status message"
- Guid="7b732cc0-b0f7-4471-9815-20c9b1e8c7d5"
->
-<Comment>This will insert the TRACTION_STATUS JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="7507ddd7-d0ac-4aaf-a486-1c49b868ed83"
->TrainInterface.TractionStatus.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5c69cf29-bce1-4a15-94be-bfc6ffadfc0c"
->INSERT Messages.JRU.MESSAGE.Message {
- TRACTION_STATUS=&gt; TrainInterface.TractionStatus.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Type of Train Data message"
- Guid="e092fb3a-a973-47b7-a78f-78854b1da66b"
->
-<Comment>This will create a TrainDataEntry Message if the precondition is satified</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Type of Train Data message"
- Guid="40c5f4fd-32d4-459a-bb38-f4fe3cfcc760"
->
-<Comment>This will insert the TYPE_OF_TRAIN_DATA_ENTRY JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="8747a3bd-d791-40fa-8350-fc5417ba977a"
->TrainData.Type.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8ebcca6e-ab8e-426c-9a8c-69670da14009"
->INSERT Messages.JRU.MESSAGE.Message {
- TYPE_OF_TRAIN_DATA_ENTRY=&gt; TrainData.Type.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send National System Isolation message"
- Guid="9fa86020-a23f-4d0d-bdc3-440e0e82b696"
->
-<Comment>This will create the NTC_ISOLATION JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send National System Isolation message"
- Guid="3b04c55a-d5c8-4060-9ad4-78d12936a1d3"
->
-<Comment>This will insert the NATIONAL_SYSTEMS_ISOLATION JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="42fcfc24-5a2c-4268-b397-b52c5109b673"
->NationalSystem.Isolation.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="04b8fac6-2aaf-4551-8f5a-01d7436bab4e"
->INSERT Messages.JRU.MESSAGE.Message{
-NATIONAL_SYSTEM_ISOLATION =&gt; NationalSystem.Isolation.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Traction Cut Off Command State message"
- Guid="a5c37573-be95-4141-b3d3-a7fc49dfaafd"
->
-<Comment>This will create the TRACTION_CUT_OFF_STATUS_COMMAND JRU Message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Traction Cut Off Command State message"
- Guid="ec073c30-bf66-4b9f-947e-a9ab363169bf"
->
-<Comment>This will insert the TRACTION_STATUS JRU Message into the collection of messages</Comment>
-<PreConditions>
-<PreCondition
- Guid="e1a8eef2-d4b8-408a-8586-7f29dfa98c27"
->TrainInterface.TractionCutoff.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f94c4e15-4d0b-4047-ace8-767319cc5744"
->INSERT Messages.JRU.MESSAGE.Message{
-TRACTION_CUT_OFF_COMMAND_STATE =&gt; TrainInterface.TractionCutoff.CreateMessage()
-}IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Virtual Balise Cover Set By Driver message"
- Guid="c1a73e75-acbf-4d2d-8d3d-97b57cd3d509"
->
-<Comment>Sends a new Virtual Balise Cover Set By Driver message if the conditions to send it are satisfied.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Virtual Balise Cover Set By Driver message"
- Guid="1d010ffe-8966-4e71-bc7b-455457545083"
->
-<PreConditions>
-<PreCondition
- Guid="26c2d1e1-1591-4002-af57-c37ca3b51984"
->VirtualBaliseCover.Added.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0106c449-d756-4162-b6a1-629d4ec42579"
->INSERT Messages.JRU.MESSAGE.Message
-{
-  VIRTUAL_BALISE_COVER_SET_BY_DRIVER =&gt;
-    VirtualBaliseCover.Added.CreateMessage()
-}
-IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Virtual Balise Cover Removed By Driver message"
- Guid="785f644b-39de-4d2a-a252-75a4b944e01f"
->
-<Comment>Sends a new Virtual Balise Cover Set By Driver message if the conditions to send it are satisfied.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Virtual Balise Cover Set By Driver message"
- Guid="868c170e-5396-4b99-8b82-f9c59a17ed07"
->
-<PreConditions>
-<PreCondition
- Guid="d432b077-5c9c-4352-9063-2e9bb391ece6"
->VirtualBaliseCover.Removed.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0b7ad6b2-38c6-4552-a449-a03e76224716"
->INSERT Messages.JRU.MESSAGE.Message
-{
-  VIRTUAL_BALISE_COVER_REMOVED_BY_DRIVER =&gt;
-    VirtualBaliseCover.Removed.CreateMessage()
-}
-IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send LSSMA message"
- Guid="7381c0cf-5d0f-4077-a8d7-779a919c8795"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send LSSMA message"
- Guid="285bf6b7-7194-4983-acbb-f61078c29c30"
->
-<PreConditions>
-<PreCondition
- Guid="257b613f-a04f-4659-a746-2878ccce8fd9"
->LSSMA.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="d5b92a70-1a73-4405-8437-269eef8cfb2d"
->INSERT Messages.JRU.MESSAGE.Message
-{
-  LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY =&gt; LSSMA.CreateMessage()
-}
-IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Send Train Data"
- Guid="5ce0960b-b8cb-47e4-9f8b-2c9ebaeff39f"
->
-<Comment>Will contain the TrainData information in the JRU</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send Train Data message"
- Guid="c60a4065-a579-4c6a-ad04-bcf70d2438a9"
->
-<Comment>When the function that examines the changes of the TrainDataVerified variable returns true</Comment>
-<PreConditions>
-<PreCondition
- Guid="23bf0fc8-5a34-4e76-8a60-8a1ecf77bf2c"
->TrainData.Value.SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5b240b0f-c7fd-4561-a58e-c51fdfc7b5fe"
->INSERT Messages.JRU.MESSAGE.Message {
-TRAIN_DATA =&gt; TrainData.Value.CreateMessage()
-} IN JRUMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- Implemented="TRUE"
- Name="HandleMessagesOut"
- Guid="4af08c47-2a93-44e8-b46d-1aefdd295edd"
->
-<ReqRef
- Id="d2655cc5-21f7-4522-96f9-bdfb23f40c80"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="15920dfc-646c-4cdd-b7c8-62ba679f668f"
->
-</ReqRef><ReqRef
- Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="422d3c8c-98f4-4172-a6b1-6471a851f96b"
->
-</ReqRef><Comment>This procedure will manage all the necessary operations for sending, cleaning and updating all the related elements in sending a JRU Message</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="SendMessage"
- Guid="54bd0669-2609-4c57-9a66-9e513b28f7f0"
->
-<Comment>This will be in charge of creating the JRU Message and filling its elements</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="SendMessage"
- Guid="d17d6fe3-fddb-4a5b-895f-e6007f560bbf"
->
-<Comment>This will create, fill and send a JRU Message</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="95a5ddb2-ef62-4681-a427-9aa9b06202c7"
->InitializeMessage()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure></Procedures>
-<StructureElement
- TypeName="JRUMessagesCollection"
- Default=""
- Mode="InOut"
- Implemented="TRUE"
- Name="JRUMessages"
- Guid="aca59d19-3dcb-4c35-8d91-91589353e7e8"
->
-<Comment>This will contain all the possible JRU messages</Comment>
-</StructureElement></Structure></Structures>
 <Collections>
 <Collection
  TypeName="Messages.JRU.MESSAGE.Message"
  MaxSize="30"
  Default="[]"
- X="420"
+ X="360"
  Y="10"
  Width="100"
  Height="50"
@@ -991,106 +86,15 @@ TRAIN_DATA =&gt; TrainData.Value.CreateMessage()
  Name="JRUMessagesCollection"
  Guid="eb0177e5-5953-4de1-a99a-dd82f1fa7fd2"
 >
-<Comment>Collection which will contain all the sent Messages</Comment>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="050b25e8-65e2-486c-b6ac-68da3940c92a"
+>
+</ReqRef><Comment>Collection which will contain all the sent Messages</Comment>
 </Collection></Collections>
 <Functions>
 <Function
- Type="Boolean"
- Default=""
- X="30"
- Y="460"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SendNewMessage"
- Guid="0b310333-5920-48db-b09d-f00052cdad46"
->
-<ReqRef
- Id="1e4ca98b-fcef-4737-b4e3-38bfc4715927"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="755fe533-f7a0-4821-8a30-cbe8ad0e7caa"
->
-</ReqRef><Comment>Function which will determine if a NEW JRU Message has to be sent</Comment>
-<Parameters>
-<Parameter
- Type="JRUStruct"
- Name="jru"
- Guid="307e6f9a-ff0e-4cb8-a2dc-7b2db6e82560"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="SendMessage"
- Guid="367b9bad-5565-4488-957d-849ab291e91d"
->
-<PreConditions>
-<PreCondition
- Guid="e932afe8-ba36-4cdd-b2b8-0c4a04bebf4e"
->GeneralMessage.SendMessage()
-  OR
-TrainData.Value.SendMessage()
-  OR
-Brakes.EmergencyBrakesStatus.SendMessage()
-  OR
-Brakes.ServiceBrakesStatus.SendMessage()
-  OR
-Balise.SendMessage()
-  OR
-Euroradio.FromRBC.SendMessage()
-  OR
-Euroradio.ToRBC.SendMessage()
-  OR
-NationalSystem.LevelChangeToNTC.SendMessage()
-  OR
-SpeedAndDistanceMonitoring.SendMessage()
-  OR
-Sleeping.SendMessage()
-  OR
-PassiveShunting.SendMessage()
-  OR
-NonLeading.SendMessage()
-  OR
-Brakes.RegenerativeBrakesStatus.SendMessage()
-  OR
-Brakes.MagneticShoeBrakesStatus.SendMessage()
-  OR
-Brakes.EddyCurrentBrakesStatus.SendMessage()
-  OR
-Brakes.ElectroPneumaticBrakesStatus.SendMessage()
-  OR
-Brakes.AdditionalBrakeStatus.SendMessage()
-  OR
-TrainInterface.CabStatus.SendMessage()
-  OR
-TrainInterface.DirectionController.SendMessage()
-  OR
-TrainInterface.TractionStatus.SendMessage()
-  OR
-TrainData.Type.SendMessage()
-  OR
-NationalSystem.Isolation.SendMessage()
-  OR
-TrainInterface.TractionCutoff.SendMessage()
-  OR
-DMI.Symbols.SendMessage()
-  OR
-AdditionalData.SendMessage()
-  OR
-DMI.DriverAction.SendMessage()
-  OR
-DMI.SystemStatuses.SendMessage()
-  OR  
-LSSMA.SendMessage()</PreCondition><PreCondition
- Guid="07a9b9fc-3c5f-4545-acc0-68ead56b0325"
->Kernel.ActiveFunctions.ProvideJuridicalData()</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="e634de22-f610-47ee-99ef-4d5718be9a46"
->
-<Expression>False</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="30"
@@ -1150,8 +154,7 @@ LSSMA.SendMessage()</PreCondition><PreCondition
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="025927d3-a252-430c-92d3-bcb08cf2f167"
 >
-</ReqRef><Comment>Provides the OBU Level
-</Comment>
+</ReqRef><Comment>Provides the OBU Level</Comment>
 <Cases>
 <Case
  Name="Always"
@@ -1297,22 +300,95 @@ LSSMA.SendMessage()</PreCondition><PreCondition
 >LastCabBActive &lt;- GetCabBActive()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</Procedure></Procedures>
-<Variables>
-<Variable
- Type="JRUStruct"
- DefaultValue="JRUStruct{}"
- VariableMode="InOut"
+</Procedure><Procedure
  X="30"
  Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="JRU1"
- Guid="bbb2ea45-08d4-4c1b-a85c-10a854022eab"
+ Name="CreateMessages"
+ Guid="d56c7c71-7758-48f4-9403-21b5b6abde63"
 >
-<Comment>Represents an instance of a JRU structure</Comment>
-</Variable><Variable
+<ReqRef
+ Id="1153a012-f94c-4ada-9412-ac62859d8d71"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="da42cd31-fd8e-4f3d-8644-cd453bae7f31"
+>
+</ReqRef><ReqRef
+ Id="197cdf74-a87b-417f-a977-6f74fd635cd0"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="543c1554-bdf4-4b16-b866-0ae1587681de"
+>
+</ReqRef><ReqRef
+ Id="d2655cc5-21f7-4522-96f9-bdfb23f40c80"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85cc4749-c8ec-4700-8a6f-4dcc7bcef785"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="78fe126c-7a78-49e8-b6de-c57af3a5230b"
+>
+</ReqRef><Comment>When necessary it will call the corresponding function to create a new JRU Message</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Create messages"
+ Guid="1e2cb944-3c7b-4fe3-9f0e-39fc42fbae16"
+>
+<ReqRef
+ Id="d1066713-c8af-44ac-abb4-93bef7fbff31"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4ff10845-3a67-4cb7-9794-b3424b164099"
+>
+</ReqRef><Comment>Create all JRU messages</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Create messages"
+ Guid="08d9c251-b4ac-440a-9f0b-b5df551ead0b"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f4540f05-5b8a-413c-ae50-42c833e35804"
+>AdditionalData.FillData()</Action><Action
+ Guid="49dc8a2a-8a13-4e1f-9d5c-bcca2a83952d"
+>Balise.FillData()</Action><Action
+ Guid="dae13947-6355-482e-9adc-087347ebabc6"
+>Brakes.FillData()</Action><Action
+ Guid="c85a8672-dfb5-43ff-9ff0-33d660444556"
+>DMI.FillData()</Action><Action
+ Guid="d18e191e-9ca7-474c-81c6-45ac1d87d56d"
+>Euroradio.FillData()</Action><Action
+ Guid="4a276d0a-0317-4d56-bab2-b872b97d5ac4"
+>GeneralMessage.FillData()</Action><Action
+ Guid="ce23b2f4-369b-46e3-9a3d-df761f80ef37"
+>LSSMA.FillData()</Action><Action
+ Guid="c7795ff1-3b2f-494c-a476-458bda6f02a3"
+>NationalSystem.FillData()</Action><Action
+ Guid="ffff9b87-2b73-4a06-8ab7-2d36d162f985"
+>NonLeading.FillData()</Action><Action
+ Guid="c224d18b-84ab-4f67-bc8d-cc6860838cf2"
+>PassiveShunting.FillData()</Action><Action
+ Guid="0eb0dc55-6d8d-4085-a6f2-74fe2f282ac7"
+>Sleeping.FillData()</Action><Action
+ Guid="dfba3d5d-4f28-463a-a591-a0ca343b5944"
+>SpeedAndDistanceMonitoring.FillData()</Action><Action
+ Guid="3da306c4-5be9-4cb8-b7db-e9ae8caae517"
+>TrainData.FillData()</Action><Action
+ Guid="0fab7fb4-d8d7-4326-8712-a18ff4eb78df"
+>TrainInterface.FillData()</Action><Action
+ Guid="a1291d64-9ab6-43a2-bb62-e6c1d4191dee"
+>VirtualBaliseCover.FillData()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
  Type="ModeEnum"
  DefaultValue="ModeEnum.NP"
  VariableMode="Internal"
@@ -1405,6 +481,28 @@ Value =&gt; LevelEnum.Unknown
  Guid="e3e9a472-4024-4f10-a92f-f5ca31f1ef01"
 >
 </ReqRef><Comment>The last reported status</Comment>
+</Variable><Variable
+ Type="JRUMessagesCollection"
+ VariableMode="Outgoing"
+ X="180"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Messages"
+ Guid="6d84c01d-6133-40e4-8818-6573a4d31bdd"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="22f62718-63b1-4ab7-a539-2140b9332760"
+>
+</ReqRef><ReqRef
+ Id="d2655cc5-21f7-4522-96f9-bdfb23f40c80"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93d944bf-bb29-4160-9d0c-eeeee622ba04"
+>
+</ReqRef><Comment>The list of messages to be stored in the JRU</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -1452,6 +550,37 @@ Value =&gt; LevelEnum.Unknown
 <Action
  Guid="d2d54bd5-13eb-43b3-979d-7948fa9b2c9d"
 >UpdateLastValues()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="30"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Delete stored messages"
+ Guid="56de1c7b-cde1-4d6b-b73b-98da81bd3efa"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b14726d8-2f3c-4c57-9dce-9382eb1b5025"
+>
+</ReqRef><Comment>Before the begining of a new cycle the list of messages should be deleted</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="DeleteStoredMessages"
+ Guid="b1aac040-aade-4228-8029-1a59901be18f"
+>
+<Comment>Before the begining of a new cycle the list of messages should be deleted</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4ab0f93d-c66b-4849-bbd8-5fe5d1895bcc"
+>Messages &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

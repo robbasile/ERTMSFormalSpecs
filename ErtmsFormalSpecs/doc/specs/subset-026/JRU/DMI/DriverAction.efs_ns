@@ -1,6 +1,6 @@
 <NameSpace
- X="50"
- Y="10"
+ X="40"
+ Y="20"
  Width="100"
  Height="50"
  Name="DriverAction"
@@ -10,54 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.DRIVER_S_ACTIONS.Message"
- Default=""
- X="40"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="2f192c9b-5d15-43f6-aa87-db07b23dea7a"
->
-<ReqRef
- Id="0fcf9f57-8c5b-4beb-88e2-c8f43ec6f8bd"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="a928b8eb-5515-4669-98db-1115e5a04326"
->
-</ReqRef><ReqRef
- Id="d82c6cc4-21a5-45da-a6c6-68ef205c3623"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ea6e78a2-d9a7-4202-978d-572d2e0bef2a"
->
-</ReqRef><ReqRef
- Id="17d1d25c-06cf-4f97-b5ab-31e6ed708170"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ed2269fe-e054-4b24-8d05-8832eab5b296"
->
-</ReqRef><Comment>Creates the DRIVERS_ACTIONS JRU message</Comment>
-<Parameters>
-<Parameter
- Type="JRUStruct"
- Name="aJRU"
- Guid="5cb7bd58-b91a-4647-9308-d2dee83e62ae"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="3bc367d4-24c2-448c-a6c2-e0d472bd412b"
->
-<Expression>Messages.JRU.MESSAGE.DRIVER_S_ACTIONS.Message {
-     HEADER =&gt; Header.CreateHeader(11),
-     M_DRIVERACTIONS =&gt; GetDriverAction() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_DRIVERACTIONS"
  Default=""
  X="150"
- Y="20"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -556,7 +512,7 @@
  Type="Boolean"
  Default=""
  X="40"
- Y="80"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -802,6 +758,65 @@
 <Action
  Guid="13d03aa1-3a0b-48b1-a317-9a836617e581"
 >LastReportedAction &lt;- GetDriverAction()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="869d78e5-fd29-41db-83a3-35343027fb90"
+>
+<ReqRef
+ Id="0fcf9f57-8c5b-4beb-88e2-c8f43ec6f8bd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8c0ea939-57ba-44b9-9ff9-65214b48805c"
+>
+</ReqRef><ReqRef
+ Id="d82c6cc4-21a5-45da-a6c6-68ef205c3623"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1a8cdedc-0608-40a5-8c3c-e1f75752751b"
+>
+</ReqRef><ReqRef
+ Id="17d1d25c-06cf-4f97-b5ab-31e6ed708170"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5723e6ad-523b-475d-b12a-0b10513b41ae"
+>
+</ReqRef><ReqRef
+ Id="25160c5b-3bb8-434a-9861-1110353238a2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a5398c4e-3f2b-4ac6-b3ad-7a55aa224395"
+>
+</ReqRef><Comment>Creates a new DRIVER_S_ACTIONS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send DRIVER_S_ACTIONS message"
+ Guid="e605e4bd-7a44-47c8-9bf7-a77c369bf4c5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send DRIVER_S_ACTIONS message"
+ Guid="efe163b8-8ff9-4827-a12f-c3af56f71c13"
+>
+<PreConditions>
+<PreCondition
+ Guid="68cc6560-3641-4c2e-8cc7-44f2fda0f38a"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a4a99120-cece-4d05-82b0-e123c650677b"
+>INSERT Messages.JRU.MESSAGE.Message {
+     DRIVER_S_ACTIONS =&gt; Messages.JRU.MESSAGE.DRIVER_S_ACTIONS.Message {
+         HEADER =&gt; Header.CreateHeader(11),
+         M_DRIVERACTIONS =&gt; GetDriverAction() 
+    } 
+} IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

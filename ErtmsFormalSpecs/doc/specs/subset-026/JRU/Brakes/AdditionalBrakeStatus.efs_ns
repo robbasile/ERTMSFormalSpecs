@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.ADDITIONAL_BRAKE_STATUS.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="32b20a28-fea2-43fc-9cbb-2ee81c28d7d2"
->
-<ReqRef
- Id="1376ba80-d0c0-4a52-9124-6468c01c9932"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="bd754eaa-3118-44e7-a38d-cbd13a150c0e"
->
-</ReqRef><ReqRef
- Id="b1979da8-e9d7-4c61-b931-3934d0c7dd45"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="4a1adc4f-e83d-48af-b170-dde2f8b3a7e3"
->
-</ReqRef><ReqRef
- Id="7947c4dd-de78-4fde-b208-f53d2dc562ce"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="c43d9f9f-fd15-4dc9-80b1-a7668a1f826d"
->
-</ReqRef><Comment>Create a JRU ADDITIONAL_BRAKE_STATUS Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="950b687a-c814-4017-87a3-99cdff6be66e"
->
-<Expression>Messages.JRU.MESSAGE.ADDITIONAL_BRAKE_STATUS.Message {
-     HEADER =&gt; Header.CreateHeader(37),
-     M_AB_STATUS=&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_AB_STATUS"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -87,8 +50,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -125,7 +88,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -164,13 +127,72 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="e61c4e92-1de5-4b6b-b397-1376f3a86012"
+>
+<ReqRef
+ Id="1376ba80-d0c0-4a52-9124-6468c01c9932"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0a54913c-8384-4d9a-802e-0fb369e045af"
+>
+</ReqRef><ReqRef
+ Id="b1979da8-e9d7-4c61-b931-3934d0c7dd45"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6ef65140-363c-4905-b18f-4ef8e777738d"
+>
+</ReqRef><ReqRef
+ Id="7947c4dd-de78-4fde-b208-f53d2dc562ce"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="98f5959e-0604-4459-bf1d-1ad72fe51735"
+>
+</ReqRef><ReqRef
+ Id="416883a1-731d-4854-b710-bdacab4ee213"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8d528200-91c1-4d33-bff7-a0415d5e77a6"
+>
+</ReqRef><Comment>Creates a new ADDITIONAL_BRAKE_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send ADDITIONAL_BRAKE_STATUS message"
+ Guid="2ad6e035-b2b5-4093-b949-d00228103dc7"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send ADDITIONAL_BRAKE_STATUS message"
+ Guid="69899891-bf0d-4b38-8bfe-10b6d08a452c"
+>
+<PreConditions>
+<PreCondition
+ Guid="2f259760-932f-45c7-8f93-d193a04e896f"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e57e9ca4-76e1-40a9-b8a4-e366aa4a18f5"
+>INSERT Messages.JRU.MESSAGE.Message{
+     ADDITIONAL_BRAKE_STATUS =&gt; Messages.JRU.MESSAGE.ADDITIONAL_BRAKE_STATUS.Message {
+         HEADER =&gt; Header.CreateHeader(37),
+         M_AB_STATUS=&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_AB_STATUS"
  DefaultValue="Messages.JRU.M_AB_STATUS.Not_active"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -188,7 +210,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

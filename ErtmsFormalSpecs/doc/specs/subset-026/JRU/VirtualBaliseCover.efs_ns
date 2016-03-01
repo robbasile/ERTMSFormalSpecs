@@ -20,10 +20,11 @@
 <Function
  Type="Messages.JRU.T_VBC"
  Default=""
- X="290"
- Y="10"
+ X="260"
+ Y="160"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="TimeVBC"
  Guid="21dd0957-b915-4607-9b25-c236357bff4f"
 >
@@ -50,8 +51,8 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
- Y="270"
+ X="40"
+ Y="370"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -91,7 +92,7 @@
 <Actions>
 <Action
  Guid="b2420b1d-8db9-4fb9-97c4-a776cba38fb6"
->INSERT Added.GetCover() IN LastCovers </Action></Actions>
+>INSERT Added.GetCover() IN LastCovers</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -114,7 +115,61 @@
 <Actions>
 <Action
  Guid="c91f7d23-cf35-4b3d-9b22-8617573741a8"
->REMOVE ALL X.Marker == Removed.GetCover().Marker IN LastCovers </Action></Actions>
+>REMOVE ALL X.Marker == Removed.GetCover().Marker IN LastCovers</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="9ae8ab4d-3df8-4652-8cc7-be7e1930af52"
+>
+<ReqRef
+ Id="73f48619-37ca-496b-914a-d7250a79bc0f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="caba1714-1792-4f83-a42a-8cc2b803d956"
+>
+</ReqRef><ReqRef
+ Id="a2e6cb35-1b3b-4f1b-bacd-2c48c3cbba00"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="bbb14489-643d-49f9-9e97-5294865e02dc"
+>
+</ReqRef><ReqRef
+ Id="29bf3662-a0ca-450a-8c70-1d447bcd3e7b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b6ef91f8-6c5d-40b1-b1a0-0a9ef1665e6c"
+>
+</ReqRef><ReqRef
+ Id="d859be5b-236a-48f2-8ded-f5dae33c2380"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="68959f46-d369-428f-a53b-a2e3b07bdc50"
+>
+</ReqRef><Comment>Creates the Virtual Balise Cover related messages, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send Virtual Balise Cover-related messages"
+ Guid="05277229-db81-4f8f-954b-e4ff87e645e4"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send Virtual Balise Cover-related messages"
+ Guid="e35ba1d3-9c84-4e93-85a0-88c828a09007"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ebbad100-b28c-43f0-b6dd-845914fccdec"
+>Added.FillData()</Action><Action
+ Guid="9877dc18-9220-4a5c-b268-55758931961e"
+>Removed.FillData()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -123,8 +178,8 @@
  Type="Kernel.VirtualBaliseCover.VBCCol"
  DefaultValue="[]"
  VariableMode="Internal"
- X="20"
- Y="140"
+ X="40"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -146,8 +201,8 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
- Y="270"
+ X="150"
+ Y="370"
  Width="100"
  Height="50"
  Implemented="TRUE"

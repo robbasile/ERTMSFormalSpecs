@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.ELECTRO_PNEUMATIC_BRAKE_STATUS.Message"
- Default=""
- X="20"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="c70cf61f-6dae-4292-bf4e-bf18be61e3bb"
->
-<ReqRef
- Id="93254149-6489-4e55-bb64-7f75408d3be8"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="0bf47fc8-74da-4236-98d8-511d5f31cfde"
->
-</ReqRef><ReqRef
- Id="5fdb3970-d469-4ae9-a8e8-d4689e467f8a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="28731ecc-5895-40ca-8e16-def189104bf1"
->
-</ReqRef><ReqRef
- Id="31f32d56-9e3c-4fd0-b226-ea769b746033"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="4cc28b80-7344-426d-b846-db97ec4e3584"
->
-</ReqRef><Comment>Creates the JRU ELECTRO_PNEUMATIC_BRAKE_STATUS Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="5c1aa9bd-e61a-41c4-baec-140ebedd5ac7"
->
-<Expression>Messages.JRU.MESSAGE.ELECTRO_PNEUMATIC_BRAKE_STATUS.Message{
-     HEADER =&gt; Header.CreateHeader(36),
-     M_EP_STATUS=&gt; GetStatus()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.JRU.M_EP_STATUS"
  Default=""
- X="130"
- Y="20"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -82,8 +45,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="20"
- Y="80"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -120,7 +83,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="20"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -159,13 +122,72 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="9f218ca0-10c8-4a20-aca9-91c7e25aebfb"
+>
+<ReqRef
+ Id="93254149-6489-4e55-bb64-7f75408d3be8"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d9a1d78d-1788-4bdd-b7cf-7a8e70bba967"
+>
+</ReqRef><ReqRef
+ Id="5fdb3970-d469-4ae9-a8e8-d4689e467f8a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="deb2f9f1-3d64-42e7-94bb-2eaf349f4500"
+>
+</ReqRef><ReqRef
+ Id="31f32d56-9e3c-4fd0-b226-ea769b746033"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d62fc029-e236-4d7c-bbc4-2d0531576afd"
+>
+</ReqRef><ReqRef
+ Id="3053c3bf-f308-4a63-852d-74e5c2d96daf"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fc39a4e3-eed6-4d9c-a3ed-a3a126ce360f"
+>
+</ReqRef><Comment>Creates a new ELECTRO_PNEUMATIC_BRAKE_STATUS message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send ELECTRO_PNEUMATIC_BRAKE_STATUS message"
+ Guid="93b2ec71-7387-4d40-809c-4febc3eac2c1"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send ELECTRO_PNEUMATIC_BRAKE_STATUS message"
+ Guid="c58ea9c0-aae3-442f-bba5-d027ed389e6a"
+>
+<PreConditions>
+<PreCondition
+ Guid="e769acbc-9b8b-4297-a767-bf1e2195dbe1"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cb910ebc-1f98-4f2e-9dfd-ace681b4fec5"
+>INSERT Messages.JRU.MESSAGE.Message{
+     ELECTRO_PNEUMATIC_BRAKE_STATUS =&gt; Messages.JRU.MESSAGE.ELECTRO_PNEUMATIC_BRAKE_STATUS.Message{
+         HEADER =&gt; Header.CreateHeader(36),
+         M_EP_STATUS=&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_EP_STATUS"
  DefaultValue="Messages.JRU.M_EP_STATUS.Not_active"
  VariableMode="Internal"
- X="20"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -183,7 +205,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="130"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

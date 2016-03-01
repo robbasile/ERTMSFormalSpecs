@@ -10,143 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.ADDITIONAL_DATA.Message"
- Cacheable="TRUE"
- Default=""
- X="40"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="327199eb-5c60-458c-98b7-9adbb71f58a4"
->
-<ReqRef
- Id="15ca85fa-d695-4b98-8f58-a5acfc827e9f"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="da5246e5-a13b-4cfe-b741-4c9910b9d577"
->
-</ReqRef><ReqRef
- Id="aeedc7a3-9809-4224-8bfc-0399141e830d"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="6014e30b-41fb-407d-96a7-6de98aa8a366"
->
-</ReqRef><ReqRef
- Id="b65db09c-6d3d-4e1a-86bc-cac671baa18e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="a0f85dda-4fde-45f6-8d47-6c842957ffd3"
->
-</ReqRef><ReqRef
- Id="a4d8ac09-79cb-409b-b4e6-5590d0607314"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="18ac15f8-6ba6-42bd-a3e1-1a8fc11201d6"
->
-</ReqRef><ReqRef
- Id="03b39fa6-3db5-4671-83e1-af9c1b0d595a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ee23f115-4d1a-4243-b2ff-89b8b26e9307"
->
-</ReqRef><ReqRef
- Id="fc115a49-9859-4503-8be2-269c1fc52707"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="3602e9c2-9f9f-4d84-a33b-91fef3ecb839"
->
-</ReqRef><ReqRef
- Id="a5681a04-e84e-4158-b0e9-4b8fb14cc420"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="28dcd5b2-eecb-4581-b1c4-86bf422830f1"
->
-</ReqRef><ReqRef
- Id="ecc751d1-094b-4708-8489-b7943f2bec67"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="be75e3af-96c9-42b9-a822-ebb2d753b8be"
->
-</ReqRef><ReqRef
- Id="d1066713-c8af-44ac-abb4-93bef7fbff31"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ab6eaf2c-84aa-456b-b304-b7d02297927d"
->
-</ReqRef><Comment>Creates a new ADDITIONAL_DATA message.</Comment>
-<Cases>
-<Case
- Name="Always"
- Guid="b923de40-ca35-47af-aa65-debcbb0c9940"
->
-<Expression>Messages.JRU.MESSAGE.ADDITIONAL_DATA.Message
-{
-    HEADER =&gt; Header.CreateHeader(24),
-    M_ADHESION =&gt; GetAdhesion(),
-    NID_MN =&gt; GetNetworkId(),
-    Q_RBCENTRY =&gt; ToJRUContactRBCOption (GetContactOption()),
-    NID_C =&gt; GetNID_C(),
-    NID_RBC =&gt; GetNID_RBC(),
-    NID_RADIO =&gt; GetNID_Radio(),
-    NID_OPERATIONAL =&gt; GetNID_Operational()
-}</Expression>
-</Case></Cases>
-</Function><Function
- Type="Messages.JRU.Q_RBCENTRY"
- Default=""
- X="150"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="ToJRUContactRBCOption"
- Guid="3034e25f-5a4d-4431-9f5e-c37a3cac9501"
->
-<ReqRef
- Id="71491bfd-76b9-4af7-afd6-d8245ddca8a0"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2c232a54-f586-478c-bfb4-5ea31b254423"
->
-</ReqRef><Comment>Converts the RBC contact option stored onboard into the corresponding type to be sent to the JRU.</Comment>
-<Parameters>
-<Parameter
- Type="EURORADIO.ContactOptionEnum"
- Name="aContactOption"
- Guid="0e63a5d1-d5eb-4b7a-8bde-982e4d8f3c76"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Last known RBC"
- Guid="043c91c6-08ab-4b56-b33b-c24bcbee824d"
->
-<PreConditions>
-<PreCondition
- Guid="ee6e2512-53cf-4d33-b17a-0d8defd71341"
->aContactOption == EURORADIO.ContactOptionEnum.ContactLastKnownRBC</PreCondition></PreConditions>
-<Expression>Messages.JRU.Q_RBCENTRY.Contact_last_known_RBC</Expression>
-</Case><Case
- Name="RBC Id and Phone Number"
- Guid="15bb8ff1-195f-4522-b05c-e1bef9647f0d"
->
-<PreConditions>
-<PreCondition
- Guid="a32f99a9-6c49-4f9d-a746-a005751067c3"
->aContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
-<Expression>Messages.JRU.Q_RBCENTRY.Enter_RBC_data</Expression>
-</Case><Case
- Name="Onboard stored short number"
- Guid="2cdfd6a0-1360-4abe-8cae-69b5afce2517"
->
-<PreConditions>
-<PreCondition
- Guid="b74926ce-5e94-438d-8c03-3270c6e9a8d6"
->aContactOption == EURORADIO.ContactOptionEnum.UseOnBoardStoredShortNumber</PreCondition></PreConditions>
-<Expression>Messages.JRU.Q_RBCENTRY.Use_short_number</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="d8aa4286-c636-432c-bbc0-7cb4cef4c0b2"
->
-<Expression>Messages.JRU.Q_RBCENTRY.Spare</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="70"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -175,8 +42,7 @@ LastNID_Operational != GetNID_Operational() OR
 LastNetworkId != GetNetworkId() OR
 LastNID_C != GetNID_C() OR
 LastNID_RBC != GetNID_RBC() OR
-LastNID_Radio != GetNID_Radio()
-</Expression>
+LastNID_Radio != GetNID_Radio()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_ADHESION"
@@ -227,7 +93,7 @@ LastNID_Radio != GetNID_Radio()
 <Expression>EURORADIO.CurrentTerminal().NetworkId</Expression>
 </Case></Cases>
 </Function><Function
- Type="EURORADIO.ContactOptionEnum"
+ Type="Messages.JRU.Q_RBCENTRY"
  Default=""
  X="260"
  Y="200"
@@ -242,13 +108,45 @@ LastNID_Radio != GetNID_Radio()
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="62e72da4-b362-43b4-a57b-3c625bf9e00a"
 >
+</ReqRef><ReqRef
+ Id="71491bfd-76b9-4af7-afd6-d8245ddca8a0"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="77172d78-5abd-4a6f-a4a9-da2a7ed72f5b"
+>
 </ReqRef><Comment>Provides the contact option</Comment>
 <Cases>
 <Case
- Name="Always"
- Guid="4c6da320-f499-4526-96fb-aa0e1bf6c476"
+ Name="Last known RBC"
+ Guid="89746c50-7fd6-4342-a9ee-b19b85fa985a"
 >
-<Expression>EURORADIO.ContactOption</Expression>
+<PreConditions>
+<PreCondition
+ Guid="c8238fc9-56af-4cb9-9fbc-2c2cc4d6d654"
+>EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.ContactLastKnownRBC</PreCondition></PreConditions>
+<Expression>Messages.JRU.Q_RBCENTRY.Contact_last_known_RBC</Expression>
+</Case><Case
+ Name="RBC Id and Phone Number"
+ Guid="7876b228-f9ff-467b-a031-0a3390b0d58d"
+>
+<PreConditions>
+<PreCondition
+ Guid="2b7dc089-7d83-47c7-8cf6-f485209477d4"
+>EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
+<Expression>Messages.JRU.Q_RBCENTRY.Enter_RBC_data</Expression>
+</Case><Case
+ Name="Onboard stored short number"
+ Guid="7f6dc900-b6d5-435c-9368-5601070e62e2"
+>
+<PreConditions>
+<PreCondition
+ Guid="0c44676d-3c85-420b-8687-cad84d4d1fcd"
+>EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.UseOnBoardStoredShortNumber</PreCondition></PreConditions>
+<Expression>Messages.JRU.Q_RBCENTRY.Use_short_number</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="efe0cf63-fe10-442c-8220-f75d7526e245"
+>
+<Expression>Messages.JRU.Q_RBCENTRY.Spare</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.NID_C"
@@ -427,6 +325,101 @@ LastNID_Radio != GetNID_Radio()
 >LastNID_Operational &lt;- GetNID_Operational()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="cb71fb2c-268a-45e7-9264-463a12b28463"
+>
+<ReqRef
+ Id="15ca85fa-d695-4b98-8f58-a5acfc827e9f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d68dfd75-d39f-43bf-8b82-a00d51d5a709"
+>
+</ReqRef><ReqRef
+ Id="aeedc7a3-9809-4224-8bfc-0399141e830d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8a64da68-f078-4757-8dcd-805a6cd162b7"
+>
+</ReqRef><ReqRef
+ Id="b65db09c-6d3d-4e1a-86bc-cac671baa18e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="69685705-8bcf-4c5f-980d-d97f30b5a72e"
+>
+</ReqRef><ReqRef
+ Id="a4d8ac09-79cb-409b-b4e6-5590d0607314"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a548e899-3031-4665-ad45-a11261a679e7"
+>
+</ReqRef><ReqRef
+ Id="03b39fa6-3db5-4671-83e1-af9c1b0d595a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4faecd1f-49a5-4f78-849f-a0d4a1cc6014"
+>
+</ReqRef><ReqRef
+ Id="fc115a49-9859-4503-8be2-269c1fc52707"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2c3bb8f9-24d9-4579-8298-9129ac859231"
+>
+</ReqRef><ReqRef
+ Id="a5681a04-e84e-4158-b0e9-4b8fb14cc420"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="21839f8c-8aae-4321-a2e2-224ffb8ca1d9"
+>
+</ReqRef><ReqRef
+ Id="ecc751d1-094b-4708-8489-b7943f2bec67"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="07953581-da71-42c7-b6f4-ed46770cdc4d"
+>
+</ReqRef><ReqRef
+ Id="71491bfd-76b9-4af7-afd6-d8245ddca8a0"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8039f577-962d-4b03-8610-4e67a4ab1f82"
+>
+</ReqRef><ReqRef
+ Id="d1066713-c8af-44ac-abb4-93bef7fbff31"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8dab00d5-1f8c-4259-a57b-5bf562360bc6"
+>
+</ReqRef><Comment>Creates a new ADDITIONAL_DATA message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send ADDITIONAL_DATA message"
+ Guid="8b24db32-522b-4481-b7b9-58480b3645e4"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send ADDITIONAL_DATA message"
+ Guid="b2666437-bf6d-4a8f-9827-251c27e5dc50"
+>
+<PreConditions>
+<PreCondition
+ Guid="b184c1e6-3edc-4845-b318-78080bc4f0d7"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8e5ed8c0-603b-482c-b4f9-16bf49ff42a2"
+>INSERT Messages.JRU.MESSAGE.Message {
+     ADDITIONAL_DATA =&gt; Messages.JRU.MESSAGE.ADDITIONAL_DATA.Message {
+         HEADER =&gt; Header.CreateHeader(24),
+         M_ADHESION =&gt; GetAdhesion(),
+         NID_MN =&gt; GetNetworkId(),
+         Q_RBCENTRY =&gt; GetContactOption(),
+         NID_C =&gt; GetNID_C(),
+         NID_RBC =&gt; GetNID_RBC(),
+         NID_RADIO =&gt; GetNID_Radio(),
+         NID_OPERATIONAL =&gt; GetNID_Operational() 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -464,7 +457,8 @@ LastNID_Radio != GetNID_Radio()
 >
 </ReqRef><Comment>The last registered NETWORK_ID</Comment>
 </Variable><Variable
- Type="EURORADIO.ContactOptionEnum"
+ Type="Messages.JRU.Q_RBCENTRY"
+ DefaultValue="Messages.JRU.Q_RBCENTRY.Spare"
  VariableMode="Internal"
  X="260"
  Y="260"

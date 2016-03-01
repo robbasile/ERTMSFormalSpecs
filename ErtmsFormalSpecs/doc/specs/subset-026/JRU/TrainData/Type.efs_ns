@@ -1,5 +1,5 @@
 <NameSpace
- X="30"
+ X="40"
  Y="80"
  Width="100"
  Height="50"
@@ -10,48 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.TYPE_OF_TRAIN_DATA_ENTRY.Message"
- Default=""
- X="40"
- Y="40"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="c138db8f-548a-408d-8cc1-d2caf521bd9d"
->
-<ReqRef
- Id="5642b7ac-8532-4e16-a3e9-a766287904d9"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="699f5b5d-ba6c-4a93-88a8-73f8213ae103"
->
-</ReqRef><ReqRef
- Id="77a5f708-63c9-4af6-994d-46f834c8acde"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="30799d2a-7542-4e5d-9035-c7127e550e4b"
->
-</ReqRef><ReqRef
- Id="c0493d5f-364b-43e7-b271-75b71b32b33a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="acdd30ae-fb7c-4749-8a21-4ccca4e199e7"
->
-</ReqRef><Comment>Function used to generate the TRAIN_DATA_ENTRY_TYPE JRU Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="c404ac6c-b622-4439-b683-2b68e2912fa3"
->
-<Expression>Messages.JRU.MESSAGE.TYPE_OF_TRAIN_DATA_ENTRY.Message
-{
-HEADER =&gt; Header.CreateHeader(41),
-M_TRAIN_DATA_ENTRY=&gt;GetType()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="100"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -79,7 +41,7 @@ M_TRAIN_DATA_ENTRY=&gt;GetType()
  Guid="dc972b7d-2309-4686-a426-5c0bb3f37dd2"
 >IsStartUp()</PreCondition><PreCondition
  Guid="ca653028-09ec-47fc-bcd8-7dfa74cb927f"
->GetCabAActive() OR GetCabBActive() </PreCondition></PreConditions>
+>GetCabAActive() OR GetCabBActive()</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Cab A becomes active"
@@ -112,8 +74,8 @@ M_TRAIN_DATA_ENTRY=&gt;GetType()
 </Function><Function
  Type="Messages.JRU.M_TRAIN_DATA_ENTRY"
  Default=""
- X="170"
- Y="40"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -195,6 +157,65 @@ M_TRAIN_DATA_ENTRY=&gt;GetType()
 <Action
  Guid="adcf6987-b1f7-403c-afc6-c4cd250cb130"
 >LastType &lt;- GetType()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="34449325-e38c-49de-aa88-211f2ff296c8"
+>
+<ReqRef
+ Id="5642b7ac-8532-4e16-a3e9-a766287904d9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9d7b5e5d-7d9b-4e9e-8976-890f8a64949b"
+>
+</ReqRef><ReqRef
+ Id="77a5f708-63c9-4af6-994d-46f834c8acde"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="259077f8-9301-485c-94f5-db55f5e349ff"
+>
+</ReqRef><ReqRef
+ Id="c0493d5f-364b-43e7-b271-75b71b32b33a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e3c50634-bf58-4fb7-949c-9b9228ca0ac2"
+>
+</ReqRef><ReqRef
+ Id="3381fab6-7a7f-4493-9e67-33a433346d6b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="16abb1a5-b142-4581-b6d5-f37ea5d20321"
+>
+</ReqRef><Comment>Creates a new TYPE_OF_TRAIN_DATA_ENTRY message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send TYPE_OF_TRAIN_DATA_ENTRY message"
+ Guid="0c4e18c7-acf5-4395-9fb1-148e18659be0"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send TYPE_OF_TRAIN_DATA_ENTRY message"
+ Guid="ac41b97e-65be-4a40-80f5-1a41986461e2"
+>
+<PreConditions>
+<PreCondition
+ Guid="01479c65-b84d-4d77-b2e3-06e5330b9e73"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7889c500-a3f0-40e7-a70b-1b62c9d6c298"
+>INSERT Messages.JRU.MESSAGE.Message {
+     TYPE_OF_TRAIN_DATA_ENTRY=&gt; Messages.JRU.MESSAGE.TYPE_OF_TRAIN_DATA_ENTRY.Message {
+         HEADER =&gt; Header.CreateHeader(41),
+         M_TRAIN_DATA_ENTRY=&gt;GetType() 
+    } 
+} IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

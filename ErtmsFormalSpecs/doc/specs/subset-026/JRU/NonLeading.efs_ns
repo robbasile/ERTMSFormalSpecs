@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.NON_LEADING_INPUT.Message"
- Default=""
- X="40"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="77df6a5f-0790-4fe8-85b0-105f05c8696e"
->
-<ReqRef
- Id="0361c793-fdc8-4da1-9229-09357d6117c9"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="c23addb2-3c08-435c-9a7f-246e3714abe3"
->
-</ReqRef><ReqRef
- Id="a5e5ce67-e067-46ac-b826-70aa11eb0e7d"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="5bd2d712-0bb7-48be-8901-c4ca96efc1f0"
->
-</ReqRef><ReqRef
- Id="ff93b26b-ebdc-4f1e-846d-f4991f753b7e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="3cc976da-7056-4d81-8d89-330b7fb1641d"
->
-</ReqRef><Comment>Will fill all the necessary fields to create a NON_LEADIN_INPUT Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="7c2598e7-6b00-46c6-8092-af8e57ed8040"
->
-<Expression>Messages.JRU.MESSAGE.NON_LEADING_INPUT.Message{
-     HEADER =&gt; Header.CreateHeader(32),
-     M_NON_LEADING =&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="40"
- Y="90"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -88,7 +51,7 @@
  Type="Messages.JRU.M_NON_LEADING"
  Default=""
  X="150"
- Y="30"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -163,6 +126,60 @@
 <Action
  Guid="755ce293-22af-459e-8c25-e383e8f08d86"
 >LastStatus &lt;- GetStatus()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="349b636d-34c7-45d5-ae15-058af7b1d5bd"
+>
+<ReqRef
+ Id="0361c793-fdc8-4da1-9229-09357d6117c9"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d286b90a-0d1f-42b8-bac4-51b2898da4cc"
+>
+</ReqRef><ReqRef
+ Id="a5e5ce67-e067-46ac-b826-70aa11eb0e7d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="680b72a1-7c86-4175-86b8-f0464b91da2d"
+>
+</ReqRef><ReqRef
+ Id="ff93b26b-ebdc-4f1e-846d-f4991f753b7e"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fea35875-7150-4c79-8335-5e4ab5626218"
+>
+</ReqRef><Comment>Creates a new NON_LEADING_INPUT message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send NON_LEADING_INPUT message"
+ Guid="80a317f9-1b96-4b81-b742-c739695432d8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send NON_LEADING_INPUT message"
+ Guid="974648f3-c48a-41ce-b0b0-f751887205b0"
+>
+<PreConditions>
+<PreCondition
+ Guid="9fcd0187-e9d5-4916-9ca4-0338ea9a3b72"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bc2d49d6-93f0-4c4e-a4f2-1959e0c2c184"
+>INSERT Messages.JRU.MESSAGE.Message{
+     NON_LEADING_INPUT =&gt;Messages.JRU.MESSAGE.NON_LEADING_INPUT.Message{
+         HEADER =&gt; Header.CreateHeader(32),
+         M_NON_LEADING =&gt; GetStatus() 
+    } 
+}IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

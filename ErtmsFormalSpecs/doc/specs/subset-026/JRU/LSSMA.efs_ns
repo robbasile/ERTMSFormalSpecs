@@ -10,47 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message"
- Default=""
- X="30"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="b3464f89-a502-44f2-a4ab-d7d1ed6ef6aa"
->
-<ReqRef
- Id="bad34835-a314-4279-921d-feb5a63e4e1b"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="ef9b6b36-4a22-40be-b92e-8ad064c7f357"
->
-</ReqRef><ReqRef
- Id="d4986e46-4c9c-4344-b064-8f1a90328e5d"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="6cfc99fe-9251-4ad0-86b3-625fb5e485a3"
->
-</ReqRef><ReqRef
- Id="d53c2adc-db0b-4b03-93c4-f529f38091c6"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="982e3bd2-e500-4412-b89c-6f3ad81f274f"
->
-</ReqRef><Comment>Creates the LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY JRU Message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="8cffc233-c56e-4f01-be7a-72a58c7344af"
->
-<Expression>Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message{
-HEADER =&gt; Header.CreateHeader(44),
-V_LSSMA =&gt; GetLSSMA()
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
- X="30"
- Y="90"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -73,13 +36,13 @@ V_LSSMA =&gt; GetLSSMA()
  Name="Value"
  Guid="dfe28a09-b486-4f73-9df6-026be75f2781"
 >
-<Expression>LastLSSMA != GetLSSMA() </Expression>
+<Expression>LastLSSMA != GetLSSMA()</Expression>
 </Case></Cases>
 </Function><Function
  Type="MessageTypes.Speed"
  Default=""
  X="150"
- Y="30"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -122,7 +85,7 @@ Otherwise returns the LSSMA.</Comment>
 </Function></Functions>
 <Procedures>
 <Procedure
- X="30"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -161,13 +124,72 @@ Otherwise returns the LSSMA.</Comment>
 >LastLSSMA &lt;- GetLSSMA()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="16030141-c33a-4cf6-be8c-7f9b395f98aa"
+>
+<ReqRef
+ Id="bad34835-a314-4279-921d-feb5a63e4e1b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="687359a0-0d9c-4ad6-827c-852c7e95311e"
+>
+</ReqRef><ReqRef
+ Id="d4986e46-4c9c-4344-b064-8f1a90328e5d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1647e342-3d23-4a30-ac82-8a6433bf597b"
+>
+</ReqRef><ReqRef
+ Id="d53c2adc-db0b-4b03-93c4-f529f38091c6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2ca75b89-7094-4028-87b7-3e9e9c36734b"
+>
+</ReqRef><ReqRef
+ Id="a355f0e1-7455-4762-b462-b92a314c81cb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="21566066-4131-46eb-a6a8-12950b01eb50"
+>
+</ReqRef><Comment>Creates a new LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY message"
+ Guid="b177f2e8-4038-4bae-af80-4f6a0a988fee"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY message"
+ Guid="a2b75791-6153-408a-b59c-f32dcab86b41"
+>
+<PreConditions>
+<PreCondition
+ Guid="4f118547-c7c6-4290-817c-447349c8e464"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="eded8638-42e8-41c9-a950-fc522946280c"
+>INSERT Messages.JRU.MESSAGE.Message {
+     LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY =&gt; Messages.JRU.MESSAGE.LOWEST_SUPERVISED_SPEED_WITHIN_THE_MOVEMENT_AUTHORITY.Message{
+         HEADER =&gt; Header.CreateHeader(44),
+         V_LSSMA =&gt; GetLSSMA() 
+    } 
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="MessageTypes.Speed"
  DefaultValue="MessageTypes.Speed.NA"
  VariableMode="Internal"
- X="30"
+ X="40"
  Y="190"
  Width="100"
  Height="50"
@@ -185,7 +207,7 @@ Otherwise returns the LSSMA.</Comment>
 <Rules>
 <Rule
  Priority="CleanUp"
- X="140"
+ X="150"
  Y="330"
  Width="100"
  Height="50"

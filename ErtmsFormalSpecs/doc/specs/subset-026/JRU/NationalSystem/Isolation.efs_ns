@@ -10,53 +10,10 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="Messages.JRU.MESSAGE.NATIONAL_SYSTEM_ISOLATION.Message"
- Default=""
- X="30"
- Y="30"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CreateMessage"
- Guid="96f42b96-d2b5-40db-a263-e5659f29be56"
->
-<ReqRef
- Id="18e07467-cc7f-49fe-af88-92a28c9906ad"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="29860930-2520-4fe6-9f70-3d55e5dac320"
->
-</ReqRef><ReqRef
- Id="b8b17a24-261e-4580-88ef-9b0d3e557a00"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2821156d-f967-4afd-b8bf-6a62aac56584"
->
-</ReqRef><ReqRef
- Id="828c326c-8ed8-45cd-84f9-ebb663801513"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="058a42f7-d59d-4db4-b523-9b0134d3f3c3"
->
-</ReqRef><ReqRef
- Id="3dd8bd11-719b-48a0-bdfe-bb3c14032355"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="8f84a653-8655-4a95-8b72-a68e6dd27990"
->
-</ReqRef><Comment>Creates the NATIONAL_SYSTEM_ISOLATION JRU message</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="bd5017a6-d68a-47a9-952f-1a874e58b004"
->
-<Expression>Messages.JRU.MESSAGE.NATIONAL_SYSTEM_ISOLATION.Message {
-     HEADER =&gt; JRU.Header.CreateHeader(42),
-     NID_NTC =&gt; GetNID_NTC(Kernel.Level.Value.NTC),
-     M_NATIONAL_SYSTEM_ISOLATION =&gt; GetStatus() 
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
- X="30"
- Y="90"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -93,8 +50,8 @@
 </Function><Function
  Type="Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION"
  Default=""
- X="140"
- Y="30"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -131,7 +88,7 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="30"
+ X="40"
  Y="330"
  Width="100"
  Height="50"
@@ -170,14 +127,79 @@
 >LastStatus &lt;- GetStatus()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="53984989-437b-4a97-8ac3-1a9f7a0928b2"
+>
+<ReqRef
+ Id="18e07467-cc7f-49fe-af88-92a28c9906ad"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0d7fcd4a-a1fe-4f5f-8713-8eeaaa8cb26f"
+>
+</ReqRef><ReqRef
+ Id="b8b17a24-261e-4580-88ef-9b0d3e557a00"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e14e75d0-ae37-46b7-bdf3-581b1c80b2f4"
+>
+</ReqRef><ReqRef
+ Id="828c326c-8ed8-45cd-84f9-ebb663801513"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="30f43a6d-b55a-4853-822b-ba6ec71c2370"
+>
+</ReqRef><ReqRef
+ Id="3dd8bd11-719b-48a0-bdfe-bb3c14032355"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e4e0f56a-dd60-4735-b0de-f591a45c836e"
+>
+</ReqRef><ReqRef
+ Id="38cad2be-d09c-43a1-9db5-be152ea6c56f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f5f14ee1-bd27-4e7b-b7c1-e52afcf1f9bc"
+>
+</ReqRef><Comment>Creates a new NATIONAL_SYSTEM_ISOLATION message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Send NATIONAL_SYSTEM_ISOLATION message"
+ Guid="88b8f54e-ecdf-41a0-93bb-ca73718ed4ee"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send NATIONAL_SYSTEM_ISOLATION message"
+ Guid="755cd1bc-4267-4f95-93fa-847da944e7c4"
+>
+<PreConditions>
+<PreCondition
+ Guid="03720efe-88f3-4c99-864e-bb4bf3e83251"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="02499bb5-dd37-4b9c-b2a0-a16c8c4c9e22"
+>INSERT Messages.JRU.MESSAGE.Message{
+     NATIONAL_SYSTEM_ISOLATION =&gt; Messages.JRU.MESSAGE.NATIONAL_SYSTEM_ISOLATION.Message {
+         HEADER =&gt; Header.CreateHeader(42),
+         NID_NTC =&gt; GetNID_NTC(),
+         M_NATIONAL_SYSTEM_ISOLATION =&gt; JRU.NationalSystem.Isolation.GetStatus() 
+    } 
+}IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION"
  DefaultValue="Messages.JRU.M_NATIONAL_SYSTEM_ISOLATION.NTC_not_isolated"
  VariableMode="Internal"
- X="30"
- Y="190"
+ X="40"
+ Y="200"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -194,7 +216,7 @@
 <Rules>
 <Rule
  Priority="CleanUp"
- X="140"
+ X="150"
  Y="330"
  Width="100"
  Height="50"
