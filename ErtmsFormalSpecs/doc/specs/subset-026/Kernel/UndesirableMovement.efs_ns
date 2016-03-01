@@ -55,6 +55,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c275eec0-1da1-4600-b42f-97d8cb0201a4"
 >
+</ReqRef><ReqRef
+ Id="6f89de18-e407-4737-90cf-efd9d8a3b178"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ddf3019-77ea-4e37-9560-757e0b06d52d"
+>
 </ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the roll away protection have been fulfilled.</Comment>
 <Parameters>
 <Parameter
@@ -182,55 +187,6 @@
  Guid="cece71ce-efaa-45fe-b7c5-6e2603442a61"
 >
 <Expression>aReferenceDistance - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="10"
- Y="170"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="MovedInDirectionOfController"
- Guid="b995f157-308c-4f7b-a52d-7ac453733426"
->
-<ReqRef
- Id="6f89de18-e407-4737-90cf-efd9d8a3b178"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e86f2be4-36bf-4ae8-a6f7-1c8ef1569003"
->
-</ReqRef><Comment>Checks whether the train moved in the desired direction in the current cycle.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="aReferenceDistance"
- Guid="045b9728-ae53-4b22-8ff0-a4291f476d86"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Direction controller forward"
- Guid="6895ca0d-f8c4-4c89-9eeb-c96f43968caa"
->
-<PreConditions>
-<PreCondition
- Guid="4ee80c29-6495-4621-bc3e-2ac914f49bf1"
->TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance &gt; aReferenceDistance</Expression>
-</Case><Case
- Name="Direction controller backward"
- Guid="32b477d2-5bcf-401e-8744-1d69913fb32f"
->
-<PreConditions>
-<PreCondition
- Guid="80c39408-39f7-4b19-acc5-c82e89ee52ec"
->TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance &lt; aReferenceDistance</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="36046d41-eed1-4d81-879e-a9da6530bd93"
->
-<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -405,8 +361,7 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 <PreCondition
  Guid="d264d10d-2834-40a9-8d4a-fa0acbf240b5"
 >TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - Kernel.UndesirableMovement.RollAwayMovementReferencePosition &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup
-</Expression>
+<Expression>Odometry.NominalDistance - Kernel.UndesirableMovement.RollAwayMovementReferencePosition &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
@@ -539,9 +494,11 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="79b16cfb-cc72-4039-a21f-1186a0ceeca8"
 >Kernel.UndesirableMovement.ReverseMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Handling reverse movement situation"
  Guid="180bfd4c-7d48-4485-b6fd-d5f8c00fd340"
 >
+<Comment>Depending on whether the reversedistance has been exceeded or not, the service brake should be applied or not.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4f6c9237-5d9f-47b1-88be-b61516506a3c"
@@ -555,15 +512,19 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <SubRules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Applying brakes"
  Guid="5026f2b9-cfb2-4dcd-a4f1-d698aa16587e"
 >
+<Comment>Applies brakes.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Applying brakes"
  Guid="34b1c322-eb9a-4613-bae9-dd6d3ee76490"
 >
+<Comment>Applies brakes if the reverse distance has been exceeded.</Comment>
 <PreConditions>
 <PreCondition
  Guid="27d209eb-61e5-421a-abfa-45da1c3f6740"
@@ -573,9 +534,16 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="c534b70e-481b-4dc6-8782-d5a0e030ab01"
 >Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.ReverseMovementProtection)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Reset reference position after driver acknowledgement"
  Guid="7e5266ce-b56b-4b44-b580-e2097d50a5ad"
 >
+<ReqRef
+ Id="de3edf27-2461-48e2-9737-d2e812684d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="122769f5-4665-45bd-ba33-9470ea096469"
+>
+</ReqRef><Comment>After acknowledgement by the driver and release of the brakes, the reference position shall be set at present train position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="3708003e-027b-4ee8-bcb5-01b373a89b89"
@@ -821,15 +789,29 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Y="1"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="Roll away protection"
  Guid="7b0a5686-f01f-4452-ad73-92ce382f5a43"
 >
+<ReqRef
+ Id="6f89de18-e407-4737-90cf-efd9d8a3b178"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8894fbf5-3d3f-4ec9-91df-b73fc5e64ddb"
+>
+</ReqRef><ReqRef
+ Id="507e945d-af5e-4721-af02-3f87008198c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20417912-5373-4e8b-8432-70afeb1e5b76"
+>
+</ReqRef><Comment>Handles the roll away situations.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="No roll away movement detected"
  Guid="9b319d79-67d0-4c97-bf9e-33fb1af440ae"
 >
+<Comment>If no roll away, the reference position shall be set at the present train position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="00235ef9-59d2-4a62-b4ed-8bd0bcc3d769"
@@ -841,9 +823,16 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="244ec5bb-c453-4023-89e1-d56ab26c0f13"
 >Kernel.UndesirableMovement.RollAwayMovementReferencePosition &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Handling roll away movement situation"
  Guid="3b5d89ee-1cce-41e4-9f2e-f93046ef0bb1"
 >
+<ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f6dffc46-0407-472e-bed6-ada904d70385"
+>
+</ReqRef><Comment>Handles roll away situations.</Comment>
 <PreConditions>
 <PreCondition
  Guid="80a27b77-a7db-4048-a032-bf4aa4e1e85d"
@@ -857,15 +846,24 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
 <SubRules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Applying brakes"
  Guid="289981f5-2b4c-46e4-ba9f-c9204f5492d3"
 >
+<Comment>Applies brakes.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Applying brakes"
  Guid="916b925f-96f0-4833-85d7-775d84291cfc"
 >
+<ReqRef
+ Id="1058129e-e8d2-4dda-992f-3f44ebb4a754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7cf4a305-d233-4c82-8490-a16f9d8b9f7e"
+>
+</ReqRef><Comment>Applies brakes if the roll away distance has been exceeded.</Comment>
 <PreConditions>
 <PreCondition
  Guid="605d3828-c54e-489c-96f3-529653e12d05"
@@ -875,9 +873,16 @@ When the standstill supervision is inactive, it is set to the unknown distance.<
  Guid="b1243751-1d52-4bdf-a962-851687ab5c62"
 >Kernel.BrakeCommands.CommandServiceBrake(BrakeCommands.BrakeReasonEnum.RollAwayProtection)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Reset reference position after driver acknowledgement"
  Guid="205d5af0-20ba-46dd-b02a-e6faf8ce8c7e"
 >
+<ReqRef
+ Id="5b878cb7-bb66-41bb-96dc-6089f53c8f01"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c6b7d23f-43f8-4a1f-84ea-5c2e72b4ad9f"
+>
+</ReqRef><Comment>After acknowledgement by the driver and release of the brakes, the reference position shall be set at present train position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1b3f7f9f-2dee-4322-880e-c97c0baad847"
