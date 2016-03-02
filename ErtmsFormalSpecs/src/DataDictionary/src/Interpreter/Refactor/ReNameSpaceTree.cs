@@ -38,10 +38,25 @@ namespace DataDictionary.Interpreter.Refactor
                 {
                     ModelElement model = expression.Ref as ModelElement;
 
-                    if (model is Structure && expression is Call)
+                    if (model is Structure)
                     {
-                        // Because this is the return value instead of the target element
-                        model = null;
+
+                        if (expression is Call)
+                        {
+                            // Because this is the return value instead of the target element
+                            model = null;
+                        }
+                        else
+                        {
+                            UnaryExpression unaryExpression = expression as UnaryExpression;
+                            if (unaryExpression != null && 
+                                unaryExpression.Term != null && 
+                                unaryExpression.Term.Designator != null &&
+                                unaryExpression.Term.Designator.IsPredefined())
+                            {
+                                model = null;
+                            }   
+                        }
                     }
 
                     if (model != null)

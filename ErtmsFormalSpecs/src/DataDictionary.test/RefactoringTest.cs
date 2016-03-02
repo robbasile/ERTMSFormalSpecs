@@ -426,7 +426,8 @@ namespace DataDictionary.test
         }
 
         /// <summary>
-        ///     
+        ///     Test that the displayed value of a variable, whose type is refactored,
+        ///     is not invalidated by the refactoring.
         /// </summary>
         [Test]
         public void TestRefactorStructureNameAndVariableDefinition()
@@ -445,6 +446,50 @@ namespace DataDictionary.test
             Assert.AreEqual(structure.Name, "TestStruct");
             Assert.AreEqual(variable.TypeName, "TestStruct");
             Assert.AreEqual(variable.Default, "");
+        }
+
+        /// <summary>
+        ///     Test that moving a namespace does not cause elements inside it to be renamed
+        /// </summary>
+        [Test]
+        public void TestRelocateNameSpaceWithStructure()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "Test");
+            StructureElement structureElement = CreateStructureElement(structure, "El1", "Boolean");
+            Procedure procedure = CreateProcedure(structure, "ValidateEl1");
+            RuleCondition condition1 = CreateRuleAndCondition(procedure, "Set to True");
+            Action setTrue = CreateAction(condition1, "THIS.El1 <- True");
+
+            Variable variable = CreateVariable(nameSpace1, "V", "N1.Test");
+            
+            RefactorAndRelocate(nameSpace1);
+
+            Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "THIS.El1 <- True");
+        }
+
+        /// <summary>
+        ///     Test that renaming a namespace does not cause elements inside it to be renamed
+        /// </summary>
+        [Test]
+        public void TestRefactorNameSpaceWithStructure()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "Test");
+            StructureElement structureElement = CreateStructureElement(structure, "El1", "Boolean");
+            Procedure procedure = CreateProcedure(structure, "ValidateEl1");
+            RuleCondition condition1 = CreateRuleAndCondition(procedure, "Set to True");
+            Action setTrue = CreateAction(condition1, "THIS.El1 <- True");
+
+            Variable variable = CreateVariable(nameSpace1, "V", "N1.Test");
+
+            Refactor(nameSpace1, "NameSpace");
+
+            Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "THIS.El1 <- True");
         }
     }
 }
