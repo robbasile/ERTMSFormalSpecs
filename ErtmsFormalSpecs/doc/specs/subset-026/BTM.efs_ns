@@ -32,7 +32,7 @@
 >
 </ReqRef><Comment>Represents the information about the Last Relevant Balise Group.</Comment>
 <StructureElement
- TypeName="BTM.Position"
+ TypeName="PositionStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -94,7 +94,7 @@
  Pinned="TRUE"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Position"
+ Name="PositionStruct"
  Guid="8ca407f2-8e0f-4627-b56c-5584e999d989"
 >
 <Comment>Saves the information provided by the odometry at the moment where a balise group is passed. Used to compute the position, over and under reading amount relative to that balise group.</Comment>
@@ -186,7 +186,7 @@
 >
 <Comment>Keeps the location and time of passage over the location reference of a Balise group.</Comment>
 <StructureElement
- TypeName="BTM.Position"
+ TypeName="PositionStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -499,7 +499,7 @@ b) is just a placeholder for a missed balise.</Comment>
   INITIAL_VALUE EMPTY).BaliseGroup</Expression>
 </Case></Cases>
 </Function><Function
- Type="Position"
+ Type="PositionStruct"
  Default=""
  X="150"
  Y="20"
@@ -517,7 +517,7 @@ b) is just a placeholder for a missed balise.</Comment>
  Name="Always"
  Guid="d615b552-1523-4e37-9f1f-bfd4a9de8af3"
 >
-<Expression>BTM.Position
+<Expression>PositionStruct
 {
   OverReadingAmountOdo =&gt; Odometry.Accuracy.D_ora,
   Position =&gt; Odometry.NominalDistance - ActiveAntennaPosition,
@@ -6328,7 +6328,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>This variable holds information about the LRBG</Comment>
 </Variable><Variable
- Type="BTM.Position"
+ Type="PositionStruct"
  DefaultValue=""
  VariableMode="Internal"
  X="560"
@@ -6577,31 +6577,13 @@ Available(Message.SystemVersion2)</PreCondition></PreConditions>
 <PreCondition
  Guid="1815d0f4-a07e-4fde-b122-562327b7db22"
 ><Comment>This precondition is necessary since in some cases, e.g. during unauthorised reverse movement, balise messages may be refused.</Comment>
-CurrentBaliseGroup != []</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Name="Rule1"
- Guid="17bcfcf2-3688-4f18-a9c1-82cb23a61784"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="Clear current balises from current balise group"
- Guid="d3bd4ad8-f46c-4cb9-862b-bc71aed28bbc"
->
-<PreConditions>
-<PreCondition
- Guid="80faa721-59ed-4ef4-a364-af49f0e5d159"
->( COUNT X IN BTM.CurrentBaliseGroup ) == LastReceivedBalise().N_TOTAL + 1</PreCondition></PreConditions>
+CurrentBaliseGroup != []
+  AND  
+( COUNT X IN BTM.CurrentBaliseGroup ) == LastReceivedBalise().N_TOTAL + 1</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
 >BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
