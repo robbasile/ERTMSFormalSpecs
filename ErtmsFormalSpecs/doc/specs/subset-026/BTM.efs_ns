@@ -263,7 +263,7 @@ b) is just a placeholder for a missed balise.</Comment>
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- Name="BaliseGroupMessages"
+ Name="BaliseGroupMessagesCol"
  Guid="e78a099b-8642-4076-a591-f69bc658f42c"
 >
 <ReqRef
@@ -967,7 +967,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 <Parameters>
 <Parameter
  Type="DistanceIntervalEnum"
- Name="PointOfInterest"
+ Name="aPointOfInterest"
  Guid="b6c13f39-419b-454b-b453-09051b6ed9cd"
 >
 </Parameter></Parameters>
@@ -976,7 +976,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Name="Value"
  Guid="d62cbab2-876b-43a9-b9ef-9ab243cac385"
 >
-<Expression>Kernel.TrainPosition.FrontEndPosition ( PointOfInterest ) - BTM.ActiveAntennaPosition</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition ( aPointOfInterest ) - BTM.ActiveAntennaPosition</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1003,7 +1003,7 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </ReqRef><Comment>Returns true if the current balise group consists of only a single balise</Comment>
 <Parameters>
 <Parameter
- Type="BaliseGroupMessages"
+ Type="BaliseGroupMessagesCol"
  Name="BaliseGroup"
  Guid="f45d0aae-d504-4d9b-a0f9-0a6d112387a1"
 >
@@ -6388,7 +6388,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 >
 </ReqRef><Comment>Holds the balise groups that have been processed before.</Comment>
 </Variable><Variable
- Type="BaliseGroupMessages"
+ Type="BaliseGroupMessagesCol"
  DefaultValue="[]"
  VariableMode="Internal"
  X="820"

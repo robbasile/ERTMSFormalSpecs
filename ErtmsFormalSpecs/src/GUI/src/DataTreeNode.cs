@@ -32,6 +32,7 @@ using Chapter = DataDictionary.Specification.Chapter;
 using Dictionary = DataDictionary.Dictionary;
 using Frame = DataDictionary.Tests.Frame;
 using ModelElement = DataDictionary.ModelElement;
+using Parameter = DataDictionary.Parameter;
 using ReqRelated = DataDictionary.Generated.ReqRelated;
 using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
@@ -724,7 +725,11 @@ namespace GUI
             {
                 DataDictionary.Namable namable = (DataDictionary.Namable)obj;
                 string newName = "";
-                if (namable is DataDictionary.Types.Structure)
+                if (namable is Parameter)
+                {
+                    newName = EnsurePrefix(namable.Name, ParameterPrefix);
+                }
+                else if (namable is DataDictionary.Types.Structure)
                 {
                     DataDictionary.Types.Structure structure = (DataDictionary.Types.Structure)namable;
                     if (structure.IsAbstract)

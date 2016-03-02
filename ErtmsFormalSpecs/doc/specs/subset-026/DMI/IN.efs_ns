@@ -20,7 +20,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ErtmsEtcsLevel"
+ Name="ErtmsEtcsLevelStruct"
  Guid="2905aa2f-8619-453d-99d5-fbc5c17ce621"
 >
 <ReqRef
@@ -121,22 +121,22 @@
 <Parameters>
 <Parameter
  Type="LevelDataStruct"
- Name="Level"
+ Name="aLevel"
  Guid="0c2d6225-8fb1-4915-8f1c-716d41ef8e54"
 >
 </Parameter><Parameter
  Type="Boolean"
- Name="Enter"
+ Name="aEnter"
  Guid="f1e6e5ea-3f22-4580-b398-e58816b87790"
 >
 </Parameter><Parameter
  Type="Boolean"
- Name="ReValidate"
+ Name="aReValidate"
  Guid="8c30120f-4f34-4693-bb84-825087b2c539"
 >
 </Parameter><Parameter
  Type="Levels"
- Name="NTCLevels"
+ Name="aNTCLevels"
  Guid="6bac262c-8687-468e-a35d-a0d9954f82d8"
 >
 </Parameter></Parameters>
@@ -166,13 +166,13 @@
  Guid="078d16e4-7b15-40f7-be59-d84cc829bac1"
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="238c7b7d-ec0f-43da-9faa-1dcc83b22450"
->DriverAction.Enter &lt;- Enter</Action><Action
+>DriverAction.Enter &lt;- aEnter</Action><Action
  Guid="ca58d464-3738-42c5-a904-145687e1b58c"
->DriverAction.ReValidate &lt;- ReValidate</Action><Action
+>DriverAction.ReValidate &lt;- aReValidate</Action><Action
  Guid="eee0ff88-2014-46c3-b2db-534f41156c06"
->THIS.Level &lt;- Level</Action><Action
+>THIS.Level &lt;- aLevel</Action><Action
  Guid="18cc2b82-1c18-4013-a8b1-f1dcd346b36f"
->THIS.NTCLevels &lt;- NTCLevels</Action></Actions>
+>THIS.NTCLevels &lt;- aNTCLevels</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -298,7 +298,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SelectionOfLanguage"
+ Name="SelectionOfLanguageStruct"
  Guid="44d5441e-eed8-46c5-b18b-4670b9d20fcf"
 >
 <ReqRef
@@ -479,7 +479,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrackAdhesionFactor"
+ Name="TrackAdhesionFactorStruct"
  Guid="b65f2ff7-1205-4d0d-9823-fc14a282dc8e"
 >
 <ReqRef
@@ -659,7 +659,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainIntegrityConfirmation"
+ Name="TrainIntegrityConfirmationStruct"
  Guid="eb09ead6-4fdf-4c01-9794-c33fb5343c2b"
 >
 <ReqRef
@@ -833,7 +833,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Start"
+ Name="StartStruct"
  Guid="794b8805-c3d5-4b44-ae7a-81d995aaadd2"
 >
 <ReqRef
@@ -994,7 +994,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="OverrideRequest"
+ Name="OverrideRequestStruct"
  Guid="23d14dae-f4a8-42b4-9cd4-9209916e29e6"
 >
 <ReqRef
@@ -1193,7 +1193,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ShuntingRequest"
+ Name="ShuntingRequestStruct"
  Guid="4e97eefa-5c96-4f4f-aaaa-cba3957e3dc6"
 >
 <ReqRef
@@ -1355,7 +1355,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ContinueShuntingOnDeskClosureRequest"
+ Name="ContinueShuntingOnDeskClosureRequestStruct"
  Guid="04f75fdc-b15d-416d-9499-e5c2a0e385e4"
 >
 <ReqRef
@@ -1514,7 +1514,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ExitOfShuntingRequest"
+ Name="ExitOfShuntingRequestStruct"
  Guid="50dd994b-7aa1-4f5a-9138-ba7e43872c2f"
 >
 <ReqRef
@@ -1699,7 +1699,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="NonLeadingRequest"
+ Name="NonLeadingRequestStruct"
  Guid="e6079327-5ae8-4023-93c3-2521a0bd5ce2"
 >
 <ReqRef
@@ -1860,7 +1860,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfFixedTextInformation"
+ Name="AcknOfFixedTextInformationStruct"
  Guid="915fc410-d1ad-4237-9cad-eae9625f6e24"
 >
 <ReqRef
@@ -2043,7 +2043,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfLevelTransition"
+ Name="AcknOfLevelTransitionStruct"
  Guid="99ba68eb-95fc-4096-a422-a7eb37319d01"
 >
 <ReqRef
@@ -2209,7 +2209,7 @@
 <Parameters>
 <Parameter
  Type="LevelDataStruct"
- Name="Level"
+ Name="aLevel"
  Guid="a2575882-c585-47b2-b62d-129a8a319646"
 >
 </Parameter></Parameters>
@@ -2239,7 +2239,7 @@
   anAck =&gt; Acknowledgements.AcknowledgementStruct
   {
     Type =&gt; Acknowledgements.AckTypeEnum.LevelTransition,
-    Level =&gt; Level,
+    Level =&gt; aLevel,
     FixedTextMessage =&gt; EMPTY,
     PlainTextMessage =&gt; EMPTY
   }
@@ -2250,7 +2250,7 @@
 >Acknowledgements.AddAcknowledgement
 (
   anAcknowledgement =&gt; Acknowledgements.AckTypeEnum.LevelTransition,
-  aLevel =&gt; Level,
+  aLevel =&gt; aLevel,
   aFixedTextMessage =&gt; EMPTY,
   aPlainTextMessage =&gt; EMPTY
 )</Action></Actions>
@@ -2328,7 +2328,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfPlainTextInformation"
+ Name="AcknOfPlainTextInformationStruct"
  Guid="21159917-59f5-4c77-bb7f-bf75cc0c3b32"
 >
 <ReqRef
@@ -2511,7 +2511,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfTrainDataChangeFromOtherSource"
+ Name="AcknOfTrainDataChangeFromOtherSourceStruct"
  Guid="afb7f377-37df-41fc-864f-a2244b2f0589"
 >
 <ReqRef
@@ -2699,7 +2699,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrackAheadFree"
+ Name="TrackAheadFreeStruct"
  Guid="abd04413-b586-4010-9d95-33aca0fbb33b"
 >
 <ReqRef
@@ -2859,7 +2859,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SRModeSpeedLimitAndDistance"
+ Name="SRModeSpeedLimitAndDistanceStruct"
  Guid="b4f997bd-11d7-4d2f-ac90-cd24af112ec3"
 >
 <ReqRef
@@ -3081,7 +3081,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Isolation"
+ Name="IsolationStruct"
  Guid="694f7cd0-dc91-4c8b-ada6-e565ffcd1cac"
 >
 <ReqRef
@@ -3266,7 +3266,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainDataEntryRequest"
+ Name="TrainDataEntryRequestStruct"
  Guid="f2424588-2df6-4a27-96ca-e71ef5a79976"
 >
 <ReqRef
@@ -3436,7 +3436,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainRunningNumber"
+ Name="TrainRunningNumberStruct"
  Guid="dd9e976e-ba8b-43fb-bc89-b9f28df2b6da"
 >
 <ReqRef
@@ -3532,17 +3532,17 @@
 <Parameters>
 <Parameter
  Type="String"
- Name="Number"
+ Name="aNumber"
  Guid="28649dfe-b93a-41d1-af86-51ad80189f64"
 >
 </Parameter><Parameter
  Type="Boolean"
- Name="Enter"
+ Name="aEnter"
  Guid="ef2397d2-e527-4909-91d4-203f6b7df987"
 >
 </Parameter><Parameter
  Type="Boolean"
- Name="ReValidate"
+ Name="aReValidate"
  Guid="5cf8dabc-1b55-41c0-8d0a-b745efb20119"
 >
 </Parameter></Parameters>
@@ -3573,9 +3573,9 @@
  Guid="374441bd-62ab-45ca-ba88-092631e20ecb"
 >THIS.Number &lt;- Number</Action><Action
  Guid="a80e34e3-fdee-45ba-8cd0-831d6d367a2b"
->THIS.DriverAction.Enter &lt;- Enter</Action><Action
+>THIS.DriverAction.Enter &lt;- aEnter</Action><Action
  Guid="f9d0a6b8-5283-4641-a506-2d999db28c75"
->THIS.DriverAction.ReValidate &lt;- ReValidate</Action></Actions>
+>THIS.DriverAction.ReValidate &lt;- aReValidate</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3656,7 +3656,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfSNMode"
+ Name="AcknOfSNModeStruct"
  Guid="c9275d74-addc-46df-b047-7a1405324e24"
 >
 <ReqRef
@@ -3747,7 +3747,7 @@
 <Parameters>
 <Parameter
  Type="NID_NTC"
- Name="NationalSystemId"
+ Name="aNationalSystemId"
  Guid="d3360296-4a1a-47fe-ae79-3322dea62e65"
 >
 </Parameter></Parameters>
@@ -3853,7 +3853,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainData"
+ Name="TrainDataStruct"
  Guid="fc2c0e6d-9bdc-41b8-856c-dfc815ae5d41"
 >
 <ReqRef
@@ -4048,7 +4048,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="DriverId"
+ Name="DriverIdStruct"
  Guid="e2122d99-1228-49f7-934d-21fe04dd2984"
 >
 <ReqRef
@@ -4154,17 +4154,17 @@
 <Parameters>
 <Parameter
  Type="String"
- Name="Id"
+ Name="aId"
  Guid="e5462fbe-0e2d-4a37-a980-839c9295c3a3"
 >
 </Parameter><Parameter
  Type="Boolean"
- Name="Enter"
+ Name="aEnter"
  Guid="02298262-dc2b-48cd-bf72-d9b96554545f"
 >
 </Parameter><Parameter
  Type="Boolean"
- Name="ReValidate"
+ Name="aReValidate"
  Guid="695cdc92-8b74-4f61-b1e0-6407f41f48ce"
 >
 </Parameter></Parameters>
@@ -4195,9 +4195,9 @@
  Guid="54aa2047-de8d-4c37-94b8-d0f948509474"
 >THIS.Id &lt;- Id</Action><Action
  Guid="b51820fd-596f-4613-b3bb-09c8a7592a45"
->DriverAction.Enter &lt;- Enter</Action><Action
+>DriverAction.Enter &lt;- aEnter</Action><Action
  Guid="e133edd2-a054-4294-a381-253c94401775"
->DriverAction.ReValidate &lt;- ReValidate</Action></Actions>
+>DriverAction.ReValidate &lt;- aReValidate</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4278,7 +4278,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="RBCContactInformation"
+ Name="RBCContactInformationStruct"
  Guid="97b6838f-fafd-4990-b04a-718599dbf9de"
 >
 <ReqRef
@@ -4374,7 +4374,7 @@
 <Parameters>
 <Parameter
  Type="RBCContactActionsCol"
- Name="Actions"
+ Name="aActions"
  Guid="a000b112-bba9-48c3-9b52-df06dfab5f0c"
 >
 </Parameter><Parameter
@@ -4409,7 +4409,7 @@
  Guid="ae44b34e-6d5c-4179-8491-b22fa91eca38"
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="84058554-1ed6-4d3c-9e22-4d2af46e68b6"
->THIS.ProposedActions &lt;- Actions</Action><Action
+>THIS.ProposedActions &lt;- aActions</Action><Action
  Guid="0d8c73e2-a45e-43b8-9066-efb4cdcd7ddb"
 >THIS.AvailableNetworks &lt;- []</Action><Action
  Guid="e026f3a4-7204-4559-82f5-185a04c0de02"
@@ -4428,7 +4428,7 @@
 <Parameters>
 <Parameter
  Type="EURORADIO.AvailableNetworksCol"
- Name="Networks"
+ Name="aNetworks"
  Guid="232764cf-c5a5-469e-b627-ff46ad4cbf3a"
 >
 </Parameter></Parameters>
@@ -4460,7 +4460,7 @@
  Guid="f2e8df58-d658-41fa-b692-19b730231706"
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="fbb5b6d0-fa35-43a0-9e7f-3102cc6e93c2"
->THIS.AvailableNetworks &lt;- Networks</Action></Actions>
+>THIS.AvailableNetworks &lt;- aNetworks</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -4541,7 +4541,7 @@
 >
 </Parameter><Parameter
  Type="EURORADIO.AvailableNetworksCol"
- Name="AvailableNetworks"
+ Name="aAvailableNetworks"
  Guid="b8a93d20-62d7-40f4-b6d9-4cb3735923a5"
 >
 </Parameter></Parameters>
@@ -4657,7 +4657,7 @@
 <Parameters>
 <Parameter
  Type="RBCContactActionsCol"
- Name="Actions"
+ Name="aActions"
  Guid="0db44be5-2bba-44df-9ac8-8011dc380da6"
 >
 </Parameter><Parameter
@@ -4667,7 +4667,7 @@
 >
 </Parameter><Parameter
  Type="EURORADIO.AvailableNetworksCol"
- Name="AvailableNetworks"
+ Name="aAvailableNetworks"
  Guid="3ed47925-85b8-4ebc-9337-f31dcddd1e26"
 >
 </Parameter></Parameters>
@@ -4697,7 +4697,7 @@
  Guid="f715c858-07c1-404a-a434-ba3ac3866930"
 >THIS.InputInformation.InitiateRequest()</Action><Action
  Guid="1ae1159f-c8e4-42ac-83b4-60fdaf5cc099"
->THIS.ProposedActions &lt;- Actions</Action><Action
+>THIS.ProposedActions &lt;- aActions</Action><Action
  Guid="2ba7c4bb-25c1-46d5-a74c-2002324da432"
 >THIS.AvailableNetworks &lt;- AvailableNetworks</Action><Action
  Guid="70275c07-6e4d-4f18-973c-7fb7db96c3f5"
@@ -4715,12 +4715,14 @@
 <Rules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="CancelRequest"
  Guid="90a9d79f-a0e7-425d-872a-d1fe9aba92b6"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="CancelRequest"
  Guid="947ea15f-0d89-429b-9dbc-8bff94961205"
 >
@@ -4796,7 +4798,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="VirtualBaliseCover"
+ Name="VirtualBaliseCoverStruct"
  Guid="18b04a1e-3b82-470e-955f-82e0b60a3c5a"
 >
 <ReqRef
@@ -4863,7 +4865,7 @@
 <Parameters>
 <Parameter
  Type="Kernel.VirtualBaliseCover.VBCCol"
- Name="VirtualBaliseCovers"
+ Name="aVirtualBaliseCovers"
  Guid="bbfdb2d4-fd02-4e95-98f8-2d3cbad7a0f1"
 >
 </Parameter></Parameters>
@@ -5000,7 +5002,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfLSMode"
+ Name="AcknOfLSModeStruct"
  Guid="89fe9216-1ffd-42a6-9b68-d8f32407cc2a"
 >
 <ReqRef
@@ -5284,7 +5286,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfOSMode"
+ Name="AcknOfOSModeStruct"
  Guid="528ded6a-7b30-4c9c-be4a-2d9cae5a4567"
 >
 <ReqRef
@@ -5568,7 +5570,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfSHMode"
+ Name="AcknOfSHModeStruct"
  Guid="e2343fe1-cb18-4cae-9a80-c28b33ea9866"
 >
 <ReqRef
@@ -5852,7 +5854,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfSRMode"
+ Name="AcknOfSRModeStruct"
  Guid="0cc85a72-6a6b-4c08-9548-71734bbf232b"
 >
 <ReqRef
@@ -6030,7 +6032,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfUNMode"
+ Name="AcknOfUNModeStruct"
  Guid="35abc48a-7aec-4bd0-9d64-3ac947d01b39"
 >
 <ReqRef
@@ -6208,7 +6210,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfRVMode"
+ Name="AcknOfRVModeStruct"
  Guid="61c40ea8-002a-4173-95bc-369a7ed72afd"
 >
 <ReqRef
@@ -6386,7 +6388,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknOfTrainTrip"
+ Name="AcknOfTrainTripStruct"
  Guid="68711b51-1c9c-4b5a-bac2-cd267db1d69b"
 >
 <ReqRef
@@ -6564,7 +6566,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknForRollAwayProtection"
+ Name="AcknForRollAwayProtectionStruct"
  Guid="27e83a64-05dd-4253-bc78-d685c8913891"
 >
 <ReqRef
@@ -6742,7 +6744,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknForReverseMovementProtection"
+ Name="AcknForReverseMovementProtectionStruct"
  Guid="4a136b42-be07-4356-9067-26f599663a5c"
 >
 <ReqRef
@@ -6920,7 +6922,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknForStandstillSupervision"
+ Name="AcknForStandstillSupervisionStruct"
  Guid="b2b93e35-22d3-4718-826c-808a8d9179f1"
 >
 <ReqRef
@@ -7099,7 +7101,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknForPostTripDistanceExceeded"
+ Name="AcknForPostTripDistanceExceededStruct"
  Guid="b879d6ce-8e46-4745-94fb-49989b14daed"
 >
 <ReqRef
@@ -7278,7 +7280,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcknForReversingDistanceExceeded"
+ Name="AcknForReversingDistanceExceededStruct"
  Guid="c40422af-f80b-4d6e-88af-c60eb5ee6ff1"
 >
 <ReqRef
@@ -7457,7 +7459,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainRunningNumberEntryRequest"
+ Name="TrainRunningNumberEntryRequestStruct"
  Guid="9dc62aa0-e3fe-4443-b9b8-1ba2eda5b8ae"
 >
 <ReqRef
@@ -7616,7 +7618,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="VirtualBaliseCoverEntryRequest"
+ Name="VirtualBaliseCoverEntryRequestStruct"
  Guid="d62208cc-e56c-4d3c-aa96-3c4c95f0a263"
 >
 <ReqRef
@@ -7776,7 +7778,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="DriverIdEntryRequest"
+ Name="DriverIdEntryRequestStruct"
  Guid="08537a9d-6924-416b-8966-2fc15db84828"
 >
 <ReqRef
@@ -7935,7 +7937,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ErtmsEtcsLevelEntryRequest"
+ Name="ErtmsEtcsLevelEntryRequestStruct"
  Guid="e7576663-5f87-452c-9b52-bee0614af97f"
 >
 <ReqRef
@@ -8105,7 +8107,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SRModeSpeedLimitAndDistanceEntryRequest"
+ Name="SRModeSpeedLimitAndDistanceEntryRequestStruct"
  Guid="7c15a2f2-bf82-40ac-8208-25ca377ad078"
 >
 <ReqRef

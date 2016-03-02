@@ -709,12 +709,12 @@
 <Parameters>
 <Parameter
  Type="BaseTypes.Length"
- Name="Length"
+ Name="aLength"
  Guid="097815c3-cfa6-425d-ab38-d890087e4e4a"
 >
 </Parameter><Parameter
  Type="Messages.Q_FRONT"
- Name="TrainLengthDelay"
+ Name="aTrainLengthDelay"
  Guid="4978a1d0-1aa0-4e6d-b57b-9254489c4871"
 >
 </Parameter></Parameters>
@@ -726,13 +726,13 @@
 <PreConditions>
 <PreCondition
  Guid="6b703005-5e73-40d0-9244-69bcfd64d6e1"
->TrainLengthDelay == Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element</PreCondition></PreConditions>
-<Expression>Length + Kernel.TrainData.TrainData.Value.TrainLength</Expression>
+>aTrainLengthDelay == Messages.Q_FRONT.Train_length_delay_on_validity_end_point_of_profile_element</PreCondition></PreConditions>
+<Expression>aLength + Kernel.TrainData.TrainData.Value.TrainLength</Expression>
 </Case><Case
  Name="NoTrainLengthDelay"
  Guid="0dfc10c1-6c15-4e27-beb3-738ad1c6438f"
 >
-<Expression>Length</Expression>
+<Expression>aLength</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

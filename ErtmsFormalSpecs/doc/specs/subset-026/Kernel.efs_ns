@@ -1234,9 +1234,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="affe3d9b-7a1e-4f62-bd0a-f1ff3cb5effd"
 >DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
 (
-  Number =&gt; Kernel.TrainRunningNumber.Value, 
-  Enter =&gt; True, 
-  ReValidate =&gt; True
+  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; True
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1263,9 +1263,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="9a44c4a6-0ae2-44c8-862e-44ed64c312ec"
 >DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
 (
-  Number =&gt; &apos;&apos;, 
-  Enter =&gt; True, 
-  ReValidate =&gt; False
+  aNumber =&gt; &apos;&apos;, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; False
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -1360,9 +1360,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="0ff251f6-8beb-499b-9cdc-55577d26e81a"
 >DMI.MasterDMI().In_DriverId.InitiateRequest
 (
-  Id =&gt; Kernel.DriverId.Value, 
-  Enter =&gt; True, 
-  ReValidate =&gt; True
+  aId =&gt; Kernel.DriverId.Value, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; True
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -1389,9 +1389,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="b89bff0b-b2af-4d9c-96fc-22bbcf2647e0"
 >DMI.MasterDMI().In_DriverId.InitiateRequest
 (
-  Id =&gt; &apos;&apos;, 
-  Enter =&gt; True, 
-  ReValidate =&gt; False
+  aId =&gt; &apos;&apos;, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; False
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -1967,10 +1967,10 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="24019dfa-3cfc-4da4-a643-b1fc2e787e44"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
 (
-  Level =&gt; Kernel.Level.Value, 
-  Enter =&gt; True, 
-  ReValidate =&gt; True
-  NTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
+  aLevel =&gt; Kernel.Level.Value, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; True
+  aNTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2002,14 +2002,14 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="e3a60529-bb36-4ba8-9e25-407becd12d5c"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
 (
-  Level =&gt; LevelDataStruct
+  aLevel =&gt; LevelDataStruct
   {
     NTC =&gt; NID_NTC.NOT_APPLICABLE,
     Value =&gt; LevelEnum.Unknown
   },
-  Enter =&gt; True, 
-  ReValidate =&gt; False,
-  NTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
+  aEnter =&gt; True, 
+  aReValidate =&gt; False,
+  aNTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -2309,9 +2309,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S3.ProposeDriverActions</Action><Action
  Guid="41418547-9fa9-476e-b31b-ecc725e0e008"
 >DMI.MasterDMI().In_RBCContactInformation.PursueRBCContactRequest(
-    Actions =&gt; EURORADIO.GetDriverActionsForSoM(),
+    aActions =&gt; EURORADIO.GetDriverActionsForSoM(),
     anRBCContactInformation =&gt; EURORADIO.GetRBCContactInfoForSoM(),
-    AvailableNetworks =&gt; EURORADIO.AvailableNetworks.Networks
+    aAvailableNetworks =&gt; EURORADIO.AvailableNetworks.Networks
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -2547,7 +2547,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="295e1d05-4478-4870-97fd-1fa5d8fcf302"
 >DMI.MasterDMI().In_RBCContactInformation.InitiateRequest
 (
-    Actions =&gt; EURORADIO.GetDriverActionsForSoM(),
+    aActions =&gt; EURORADIO.GetDriverActionsForSoM(),
     anRBCContactInformation =&gt; EURORADIO.GetRBCContactInfoForSoM()
 )</Action></Actions>
 </RuleCondition></Conditions>
@@ -3343,9 +3343,9 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
  Guid="0ac8622f-25d6-4e3a-acd0-dc80b595016a"
 >DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
 (
-  Number =&gt; Kernel.TrainRunningNumber.Value, 
-  Enter =&gt; True, 
-  ReValidate =&gt; True
+  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; True
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -3373,9 +3373,9 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
  Guid="27775e3f-6a9f-41e7-bba5-77290d1190ec"
 >DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
 (
-  Number =&gt; &apos;&apos;, 
-  Enter =&gt; True, 
-  ReValidate =&gt; False
+  aNumber =&gt; &apos;&apos;, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; False
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -6109,9 +6109,9 @@ Request driver acknowledgement before starting the mission.</Comment>
  Guid="5ea06ddc-7a49-47d1-bc71-2d49bca52b14"
 >DMI.MasterDMI().In_DriverId.InitiateRequest
 (
-  Id =&gt; Kernel.DriverId.Value, 
-  Enter =&gt; True,
-  ReValidate =&gt; False
+  aId =&gt; Kernel.DriverId.Value, 
+  aEnter =&gt; True,
+  aReValidate =&gt; False
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -6206,9 +6206,9 @@ Request driver acknowledgement before starting the mission.</Comment>
 >DMI.MasterDMI().In_TrainRunningNumberEntryRequest.AcceptDriverResponse()</Action><Action
  Guid="96f1e7f3-a2c8-465d-a517-6b57b7261814"
 >DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest(
-  Number =&gt; Kernel.TrainRunningNumber.Value, 
-  Enter =&gt; True,
-  ReValidate =&gt; False
+  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
+  aEnter =&gt; True,
+  aReValidate =&gt; False
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -6302,10 +6302,10 @@ Request driver acknowledgement before starting the mission.</Comment>
  Guid="d14b80ef-581e-4c38-8b74-c8b07ec40db7"
 >DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
 (
-    Level =&gt; Kernel.Level.Value,
-    Enter =&gt; True,
-    ReValidate =&gt; False,
-    NTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
+    aLevel =&gt; Kernel.Level.Value,
+    aEnter =&gt; True,
+    aReValidate =&gt; False,
+    aNTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
 )</Action></Actions>
 <SubRules>
 <Rule
@@ -6455,7 +6455,7 @@ Request driver acknowledgement before starting the mission.</Comment>
  Guid="4ea4fd55-6b4e-4462-96a1-35cb756a9df5"
 >DMI.MasterDMI().In_VirtualBaliseCover.InitiateRequest
 (
-    VirtualBaliseCovers=&gt;Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs
+    aVirtualBaliseCovers=&gt;Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"

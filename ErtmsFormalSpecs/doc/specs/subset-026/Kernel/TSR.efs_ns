@@ -179,7 +179,7 @@
  Guid="b7a253b5-8d72-419d-b004-0e91ee5b211b"
 >aTSR.Location &lt;= Distance</PreCondition><PreCondition
  Guid="7945a00b-4cbe-4c32-a198-307485b22c6d"
->Distance &lt; aTSR.Location + BaseTypes.LengthToDistance ( Length =&gt; aTSR.Length )</PreCondition></PreConditions>
+>Distance &lt; aTSR.Location + BaseTypes.LengthToDistance ( aLength =&gt; aTSR.Length )</PreCondition></PreConditions>
 <Expression>aTSR.Speed</Expression>
 </Case><Case
  Name="Outside TSR"
@@ -458,8 +458,8 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     Id =&gt; Packet.NID_TSR,
     Length =&gt; MessageTypes.SpeedRestrictionLength
     (
-        Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_TSR, scale =&gt; Packet.Q_SCALE ),
-        TrainLengthDelay =&gt; Packet.Q_FRONT
+        aLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_TSR, scale =&gt; Packet.Q_SCALE ),
+        aTrainLengthDelay =&gt; Packet.Q_FRONT
     ),
     Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
     Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_TSR, resolution =&gt; 5.0 )
@@ -490,8 +490,8 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     Id =&gt; Packet.NID_TSR,
     Length =&gt; MessageTypes.SpeedRestrictionLength
     (
-        Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_TSR, scale =&gt; Packet.Q_SCALE ),
-        TrainLengthDelay =&gt; Packet.Q_FRONT
+        aLength =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_TSR, scale =&gt; Packet.Q_SCALE ),
+        aTrainLengthDelay =&gt; Packet.Q_FRONT
     ),
     Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance ( distance =&gt; Packet.D_TSR, scale =&gt; Packet.Q_SCALE ),
     Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_TSR, resolution =&gt; 5.0 )
