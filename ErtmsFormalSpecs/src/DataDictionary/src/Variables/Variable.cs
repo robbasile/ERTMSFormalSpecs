@@ -161,35 +161,7 @@ namespace DataDictionary.Variables
         {
             get
             {
-                string retVal = getDefaultValue();
-
-                if (string.IsNullOrEmpty(retVal) && Type != null)
-                {
-                    retVal = Type.getDefault();
-                }
-
-                if (string.IsNullOrEmpty(retVal))
-                {
-                    Structure structure = Type as Structure;
-                    if (structure != null)
-                    {
-                        retVal = structure.FullName + "{}";
-                    }
-                    else
-                    {
-                        Collection collection = Type as Collection;
-                        if (collection != null)
-                        {
-                            retVal = "[]";
-                        }
-                        else
-                        {
-                            retVal = "0";
-                        }
-                    }
-                }
-
-                return retVal;
+                return getDefaultValue();
             }
 
             set { setDefaultValue(value); }
@@ -346,6 +318,10 @@ namespace DataDictionary.Variables
                     {
                         // The variable does not define a default value, get the one from the type
                         retVal = Type.DefaultValue;
+                        if (retVal != null)
+                        {
+                            retVal = retVal.RightSide(this, true, true);
+                        }
                     }
                     else
                     {

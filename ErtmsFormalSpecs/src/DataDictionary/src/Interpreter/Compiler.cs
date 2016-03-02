@@ -761,7 +761,8 @@ namespace DataDictionary.Interpreter
                 else
                 {
                     // the system keeps track where the element is used
-                    List<Usage> usages = EfsSystem.Instance.FindReferences(element);
+                    List<Usage> usageList = EfsSystem.Instance.FindReferences(element);
+                    SortedSet<Usage> usages = new SortedSet<Usage>(usageList, new CompareUsages());
                     foreach (Usage usage in usages)
                     {
                         RefactorIExpressionable(element, usage.User as IExpressionable);
@@ -773,7 +774,7 @@ namespace DataDictionary.Interpreter
                         Structure structure = element.Enclosing as Structure;
                         if (structure != null && structure.IsAbstract)
                         {
-                            usages = EfsSystem.Instance.FindReferences(structure);
+                            usages = new SortedSet<Usage>(EfsSystem.Instance.FindReferences(structure));
                             foreach (Usage usage in usages)
                             {
                                 if (usage.Mode == Usage.ModeEnum.Interface)
@@ -795,6 +796,51 @@ namespace DataDictionary.Interpreter
                 }
             }
         }
+
+        private class CompareUsages : IComparer<Usage>
+        {
+            public int Compare(Usage first, Usage second)
+            {
+                int retVal = 0;
+
+                if (second.Referenced == first.Referenced)
+                {
+                    retVal = -1;
+                }
+
+                if (retVal == 0)
+                {
+                    if (second.Mode != null && first.Mode != null)
+                    {
+                        Usage.ModeEnum m1 = (Usage.ModeEnum)first.Mode;
+                        Usage.ModeEnum m2 = (Usage.ModeEnum)second.Mode;
+
+                        retVal = m1.CompareTo(m2);
+                    }
+                    else
+                    {
+                        if (first.Mode == null && second.Mode == null)
+                        {
+                            retVal = 0;
+                        }
+                        else
+                        {
+                            if (first.Mode == null)
+                            {
+                                retVal = -1;
+                            }
+                            else
+                            {
+                                retVal = 1;
+                            }
+                        }
+                    }
+                }
+
+                return retVal;
+            }
+        }
+
 
         private class RelocateVisitor : Generated.Visitor
         {

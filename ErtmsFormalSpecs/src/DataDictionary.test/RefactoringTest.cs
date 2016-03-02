@@ -425,5 +425,26 @@ namespace DataDictionary.test
             Assert.AreEqual(function.TypeName, "ModeEnum.M");
         }
 
+        /// <summary>
+        ///     
+        /// </summary>
+        [Test]
+        public void TestRefactorStructureNameAndVariableDefinition()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "Test");
+            Variable variable = CreateVariable(nameSpace1, "V", "N1.Test");
+            variable.setDefaultValue("");
+
+            Assert.AreEqual(variable.Type, structure);
+
+            Refactor(structure, "TestStruct");
+
+            Assert.AreEqual(structure.Name, "TestStruct");
+            Assert.AreEqual(variable.TypeName, "TestStruct");
+            Assert.AreEqual(variable.Default, "");
+        }
     }
 }
