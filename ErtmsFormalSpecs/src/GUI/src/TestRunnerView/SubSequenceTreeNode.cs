@@ -179,9 +179,11 @@ namespace GUI.TestRunnerView
             /// </summary>
             public override void ExecuteWork()
             {
-                FinderRepository.INSTANCE.ClearCache();
-                SubSequence.Translate(SubSequence.Dictionary.TranslationDictionary);
-
+                MarkingHistory.PerformMark(() =>
+                {
+                    FinderRepository.INSTANCE.ClearCache();
+                    SubSequence.Translate(SubSequence.Dictionary.TranslationDictionary);
+                });
                 RefreshModel.Execute();
             }
         }

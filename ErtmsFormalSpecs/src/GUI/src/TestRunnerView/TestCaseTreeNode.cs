@@ -129,9 +129,11 @@ namespace GUI.TestRunnerView
         /// <param name="args"></param>
         public void TranslateHandler(object sender, EventArgs args)
         {
-            FinderRepository.INSTANCE.ClearCache();
-            Item.Translate(Item.Dictionary.TranslationDictionary);
-
+            MarkingHistory.PerformMark(() =>
+            {
+                FinderRepository.INSTANCE.ClearCache();
+                Item.Translate(Item.Dictionary.TranslationDictionary);
+            });
             RefreshModel.Execute();
         }
 

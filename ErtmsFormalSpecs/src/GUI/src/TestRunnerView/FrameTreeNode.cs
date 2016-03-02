@@ -122,9 +122,11 @@ namespace GUI.TestRunnerView
             /// </summary>
             public override void ExecuteWork()
             {
-                FinderRepository.INSTANCE.ClearCache();
-                Frame.Translate(Frame.Dictionary.TranslationDictionary);
-
+                MarkingHistory.PerformMark(() =>
+                {
+                    FinderRepository.INSTANCE.ClearCache();
+                    Frame.Translate(Frame.Dictionary.TranslationDictionary);
+                });
                 RefreshModel.Execute();
             }
         }

@@ -1109,11 +1109,15 @@ namespace GUI
             Dictionary dictionary = GetActiveDictionary();
             if (dictionary != null)
             {
-                // Apply translation rule to get the spec issues from the translated steps
-                foreach (DataDictionary.Tests.Frame frame in dictionary.Tests)
+                MarkingHistory.PerformMark(() =>
                 {
-                    frame.Translate(dictionary.TranslationDictionary);
-                }
+
+                    // Apply translation rule to get the spec issues from the translated steps
+                    foreach (DataDictionary.Tests.Frame frame in dictionary.Tests)
+                    {
+                        frame.Translate(dictionary.TranslationDictionary);
+                    }
+                });
                 RefreshModel.Execute();
 
                 SpecIssuesReport aReport = new SpecIssuesReport(dictionary);
