@@ -1743,7 +1743,22 @@ DataState =&gt; DataStateEnum.Valid
  Name="Receive Unlinked BG"
  Guid="924fcde7-362a-44ba-b3a1-e946abb10dc8"
 >
-<Steps>
+<ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c92bfb2-4472-49f2-8089-0fa4fe5b5376"
+>
+</ReqRef><ReqRef
+ Id="f6495886-9165-4d0b-9a11-087ff8f09831"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aa97cafd-17f0-476c-9ae9-c14fabba4063"
+>
+</ReqRef><ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6775f3d9-abb2-4fb9-a135-75c3c2a80bb1"
+>
+</ReqRef><Steps>
 <Step
  IO="NA"
  LevelIN="NA"
@@ -1864,70 +1879,6 @@ BitField =&gt; &apos;&apos;
  DeadLine="1"
  Guid="8b2ed750-0c67-4ae8-92e8-cd9ecd4cb7c2"
 >Kernel.Mode == ModeEnum.FS</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
- Name="Receive new LRBG"
- Guid="cd4a2eb3-83a9-4d0f-9a06-1087e7272d80"
->
-<Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Receive Linked BG"
- Guid="26ab0b70-1728-46ca-ae89-a665ec90d27c"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="41a5ea7e-5d0d-4ad0-911b-80080052110d"
->
-<Actions>
-<Action
- Guid="b9a7278a-bbc2-45c0-82cf-8446186ab071"
->BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
-{
-  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
-  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-  N_PIG =&gt; 0, 
-  N_TOTAL =&gt; 1, 
-  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
-  M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
-  NID_C =&gt; 81, 
-  NID_BG =&gt; 1568, 
-  Q_LINK =&gt; Messages.Q_LINK.Linked, 
-  Sequence1 =&gt; []
-}</Action><Action
- Guid="603726b7-4f52-454f-b32d-ace20afbf418"
->Odometry.NominalDistance &lt;- Odometry.NominalDistance + 400.0</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="SubStep2"
- Guid="010b2c4b-5d0c-403c-997a-7f72b4f1a87d"
->
-<Actions>
-<Action
- Guid="399d6793-879f-4426-b591-c77e82b21137"
->BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
-{
-  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-  M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
-  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-  N_PIG =&gt; 1,
-  N_TOTAL =&gt; 1, 
-  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
-  M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
-  NID_C =&gt; 81, 
-  NID_BG =&gt; 1568, 
-  Q_LINK =&gt; Messages.Q_LINK.Linked, 
-  Sequence1 =&gt; []
-}</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
