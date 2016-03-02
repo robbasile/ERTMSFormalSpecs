@@ -267,11 +267,9 @@ namespace GUI.TestRunnerView
         /// <param name="args"></param>
         public void ShowTranslationHandler(object sender, EventArgs args)
         {
-            TranslationDictionary translationDictionary = Item.Dictionary.TranslationDictionary;
-
-            if (translationDictionary != null)
+            if (Item.getTranslationRequired())
             {
-                Translation translation = translationDictionary.findTranslation(Item.getDescription(), Item.Comment);
+                Translation translation = EfsSystem.Instance.FindTranslation(Item);
                 if (translation != null)
                 {
                     // Finds the translation window which corresponds to this translation
@@ -299,6 +297,10 @@ namespace GUI.TestRunnerView
                     EfsSystem.Instance.Context.SelectElement(translation, this, Context.SelectionCriteria.DoubleClick);
                 }
             }
+            else
+            {
+                MessageBox.Show(@"No translation required for this step");
+            }
         }
 
         /// <summary>
@@ -311,7 +313,7 @@ namespace GUI.TestRunnerView
             MarkingHistory.PerformMark(() =>
             {
                 FinderRepository.INSTANCE.ClearCache();
-                Item.Translate(Item.Dictionary.TranslationDictionary);
+                Item.Translate();
             });
 
             RefreshModel.Execute();

@@ -1115,7 +1115,7 @@ namespace GUI
                     // Apply translation rule to get the spec issues from the translated steps
                     foreach (DataDictionary.Tests.Frame frame in dictionary.Tests)
                     {
-                        frame.Translate(dictionary.TranslationDictionary);
+                        frame.Translate();
                     }
                 });
                 RefreshModel.Execute();

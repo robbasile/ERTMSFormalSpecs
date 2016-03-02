@@ -69,12 +69,11 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Translates the current step, according to the translation dictionary
         /// </summary>
-        /// <param name="translationDictionary"></param>
-        public void Translate(TranslationDictionary translationDictionary)
+        public void Translate()
         {
             foreach (Step step in Steps)
             {
-                step.Translate(translationDictionary);
+                step.Translate();
             }
         }
 

@@ -122,8 +122,7 @@ namespace GUI.TranslationRules
             {
                 DataDictionary.Tests.Step step = (DataDictionary.Tests.Step) obj;
 
-                if (Translation ==
-                    Translation.TranslationDictionary.findTranslation(step.getDescription(), step.Comment))
+                if (Translation == EfsSystem.Instance.FindTranslation(step))
                 {
                     step.AddInfo("Translation " + Translation.Name + " used");
                 }

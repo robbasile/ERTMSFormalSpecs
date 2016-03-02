@@ -13,11 +13,9 @@
 // -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 // --
 // ------------------------------------------------------------------------------
-
-
 using System.IO;
 
-namespace DataDictionary.src
+namespace DataDictionary
 {
     public class DeleteFilesHandler
     {
@@ -47,13 +45,19 @@ namespace DataDictionary.src
         /// </summary>
         public void DeleteFile ()
         {
-            if (IsDirectory)
+            try
             {
-                Directory.Delete (Path, true);
+                if (IsDirectory)
+                {
+                    Directory.Delete(Path, true);
+                }
+                else
+                {
+                    File.Delete(Path);
+                }
             }
-            else
+            catch (IOException)
             {
-                File.Delete (Path);
             }
         }
     }

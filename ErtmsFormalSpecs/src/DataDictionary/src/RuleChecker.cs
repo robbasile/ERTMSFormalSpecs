@@ -270,11 +270,10 @@ namespace DataDictionary
 
             if (step.getTranslationRequired())
             {
-                Translation translation = null;
-                TranslationDictionary translationDictionary = step.Dictionary.TranslationDictionary;
-                if (translationDictionary != null)
+                Translation translation = EfsSystem.Instance.FindTranslation(step);
+                if (translation == null)
                 {
-                    translation = translationDictionary.findTranslation(step.getDescription(), step.Comment);
+                    step.AddWarning("Cannot find translation for this step");
                 }
 
                 if (step.getDescription() != null)

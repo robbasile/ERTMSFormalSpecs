@@ -72,7 +72,7 @@ namespace EFSTester
                             {
                                 if (dictionary.TranslationDictionary != null)
                                 {
-                                    subSequence.Translate(dictionary.TranslationDictionary);
+                                    subSequence.Translate();
                                 }
                             }
                         }

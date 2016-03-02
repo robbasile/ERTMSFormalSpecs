@@ -141,12 +141,11 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Translates the frame according to the translation dictionary provided
         /// </summary>
-        /// <param name="translationDictionary"></param>
-        public void Translate(TranslationDictionary translationDictionary)
+        public void Translate()
         {
             foreach (SubSequence subSequence in SubSequences)
             {
-                subSequence.Translate(translationDictionary);
+                subSequence.Translate();
             }
         }
 

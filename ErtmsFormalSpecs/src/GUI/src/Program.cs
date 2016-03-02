@@ -98,7 +98,7 @@ namespace GUI
                 {
                     const bool allowErrors = false;
                     OpenFileOperation openFileOperation = new OpenFileOperation(fileName, EfsSystem.Instance, allowErrors, true);
-                    openFileOperation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Opening file", false);
+                    openFileOperation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Opening file " + fileName, false);
                     if (openFileOperation.Dictionary != null)
                     {
                         window.SetupWindows(openFileOperation.Dictionary, shouldPlace);

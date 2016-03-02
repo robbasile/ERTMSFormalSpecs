@@ -118,12 +118,11 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Translates the sub sequence, according to the tanslation dictionary provided
         /// </summary>
-        /// <param name="translationDictionary"></param>
-        public void Translate(TranslationDictionary translationDictionary)
+        public void Translate()
         {
             foreach (TestCase testCase in TestCases)
             {
-                testCase.Translate(translationDictionary);
+                testCase.Translate();
             }
         }
 

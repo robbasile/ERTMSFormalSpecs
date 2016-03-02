@@ -153,8 +153,7 @@ namespace DataDictionary.Tests
         ///     Translates the current step according to the translation dictionary
         ///     Removes all preconditions, actions and expectations
         /// </summary>
-        /// <param name="translationDictionary"></param>
-        public void Translate(TranslationDictionary translationDictionary)
+        public void Translate()
         {
             if (getTranslationRequired())
             {
@@ -162,12 +161,7 @@ namespace DataDictionary.Tests
                 {
                     SubSteps.Clear();
 
-                    Translation translation = null;
-                    if (translationDictionary != null)
-                    {
-                        translation = translationDictionary.findTranslation(getDescription(), Comment);
-                    }
-
+                    Translation translation = EFSSystem.FindTranslation(this);
                     if (translation != null)
                     {
                         translation.UpdateStep(this);

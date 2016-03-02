@@ -37,6 +37,7 @@ using NameSpace = DataDictionary.Types.NameSpace;
 using Paragraph = DataDictionary.Specification.Paragraph;
 using RequirementSet = DataDictionary.Specification.RequirementSet;
 using Rule = DataDictionary.Rules.Rule;
+using Step = DataDictionary.Tests.Step;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
 using Type = DataDictionary.Types.Type;
@@ -1656,6 +1657,41 @@ namespace DataDictionary
                     nameSpace.ClearFunctionCache();
                 }
             }
+        }
+
+        /// <summary>
+        /// Provides the translation for the given step
+        /// </summary>
+        /// <param name="step"></param>
+        /// <returns></returns>
+        public Tests.Translations.Translation FindTranslation(Step step)
+        {
+            return FindTranslation(step.getDescription(), step.Comment);
+        }
+
+        /// <summary>
+        /// Provides the translation for the given step
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
+        public Tests.Translations.Translation FindTranslation(string description, string comment)
+        {
+            Tests.Translations.Translation translation = null;
+
+            foreach (Dictionary dictionary in Dictionaries)
+            {
+                if (dictionary.TranslationDictionary != null)
+                {
+                    translation = dictionary.TranslationDictionary.findTranslation(description, comment);
+                    if (translation != null)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return translation;
         }
     }
 }
