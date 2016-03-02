@@ -541,22 +541,22 @@
 <Parameters>
 <Parameter
  Type="MessageTypes.Length"
- Name="L_ACKLEVELTR"
+ Name="aL_ACKLEVELTR"
  Guid="61d38eaa-05d3-4cae-8d6c-318c10a31f9c"
 >
 </Parameter><Parameter
  Type="Messages.M_LEVELTR"
- Name="M_LEVELTR"
+ Name="aM_LEVELTR"
  Guid="7376ff28-7b7d-44ea-ae56-06cd470b3e09"
 >
 </Parameter><Parameter
  Type="Messages.Q_SCALE"
- Name="Q_SCALE"
+ Name="aQ_SCALE"
  Guid="781237a3-2c52-40c8-b52b-fbc9efb59607"
 >
 </Parameter><Parameter
  Type="Messages.NID_NTC"
- Name="NID_NTC"
+ Name="aNID_NTC"
  Guid="c7045001-1398-4d36-9778-9b179f4265d2"
 >
 </Parameter></Parameters>
@@ -578,17 +578,17 @@
 <PreConditions>
 <PreCondition
  Guid="deffbc9b-7242-4693-960f-aef5e0d2a07c"
->Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) == LevelEnum.LNTC</PreCondition></PreConditions>
+>Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; aM_LEVELTR ) == LevelEnum.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5a5d8ed3-4dc4-4a07-8e01-dca8be3b0fed"
 >INSERT
 Kernel.LevelTransition.LevelTransitionStruct
 {
-    AcknLength=&gt;MessageTypes.QScaleLength ( length =&gt; L_ACKLEVELTR, scale =&gt; Q_SCALE ),
+    AcknLength=&gt;MessageTypes.QScaleLength ( length =&gt; aL_ACKLEVELTR, scale =&gt; aQ_SCALE ),
     TRLevel =&gt; LevelDataStruct {
-       Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ),
-       NTC =&gt; Default.NID_NTC(NID_NTC)
+       Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; aM_LEVELTR ),
+       NTC =&gt; Default.NID_NTC(aNID_NTC)
     }
 }
 IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions>
@@ -601,16 +601,16 @@ IN  Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength</Action></Actions
 <PreConditions>
 <PreCondition
  Guid="5f3b6b13-fbbb-49f3-9e3c-593ace6052e8"
->Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ) != LevelEnum.LNTC</PreCondition></PreConditions>
+>Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; aM_LEVELTR ) != LevelEnum.LNTC</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3896ef04-bbce-4b8e-bc64-36982d960e64"
 >INSERT
 Kernel.LevelTransition.LevelTransitionStruct
 {
-    AcknLength=&gt;MessageTypes.QScaleLength ( length =&gt; L_ACKLEVELTR, scale =&gt; Q_SCALE ),
+    AcknLength=&gt;MessageTypes.QScaleLength ( length =&gt; aL_ACKLEVELTR, scale =&gt; aQ_SCALE ),
     TRLevel =&gt; LevelDataStruct {
-       Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; M_LEVELTR ),
+       Value =&gt; Kernel.LevelTransition.ERTMSToEFSLevel ( LevelT =&gt; aM_LEVELTR ),
        NTC =&gt; Default.NID_NTC.NOT_APPLICABLE
     }
 }
@@ -794,10 +794,10 @@ Packet.D_LEVELTR == 32767</PreCondition></PreConditions>
 >APPLY 
 Kernel.LevelTransition.AddNewLTO 
 ( 
-   L_ACKLEVELTR =&gt; X.L_ACKLEVELTR,
-   M_LEVELTR =&gt; X.M_LEVELTR,
-   NID_NTC =&gt; Packet.NID_NTC,
-   Q_SCALE=&gt; Packet.Q_SCALE
+   aL_ACKLEVELTR =&gt; X.L_ACKLEVELTR,
+   aM_LEVELTR =&gt; X.M_LEVELTR,
+   aNID_NTC =&gt; Packet.NID_NTC,
+   aQ_SCALE=&gt; Packet.Q_SCALE
 )
 ON 
 Packet.Sequence1</Action></Actions>
@@ -932,10 +932,10 @@ Packet.Sequence1</Action></Actions>
 >APPLY 
 Kernel.LevelTransition.AddNewLTO 
 (  
-   M_LEVELTR =&gt; X.M_LEVELTR,
-   NID_NTC =&gt; Packet.NID_NTC,
-   Q_SCALE =&gt; Messages.Q_SCALE.Spare,
-   L_ACKLEVELTR =&gt; MessageTypes.Length.NA
+   aM_LEVELTR =&gt; X.M_LEVELTR,
+   aNID_NTC =&gt; Packet.NID_NTC,
+   aQ_SCALE =&gt; Messages.Q_SCALE.Spare,
+   aL_ACKLEVELTR =&gt; MessageTypes.Length.NA
 )
 ON 
 Packet.Sequence1</Action></Actions>

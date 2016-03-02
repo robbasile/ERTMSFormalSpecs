@@ -1250,7 +1250,7 @@ End =&gt; BaseTypes.Distance.Unknown
  Guid="d4ffb2e5-7b66-4e82-9b9a-46b3b68fd555"
 >Kernel.TrainData.TrainData.Value.TractionSystems &lt;- []</Action><Action
  Guid="e70111ef-791b-4140-b539-bf614ec2d7c7"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 14.0,
     Constant =&gt; 2.0
@@ -1340,7 +1340,7 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.TrainData.BrakingParameters.A_traction ( Odometry.EstimatedAcceleration, Kernel.TrackDescription.Gradient.A_gradient ( Odometry.NominalDistance ) ) == 1.2</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3c57883e-b3e7-4378-94f2-ddde4334df73"
->Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est=&gt;False) == 18.8</Expectation></Expectations>
+>Kernel.TrainData.BrakingParameters.T_traction_cut_off (aNoA_est=&gt;False) == 18.8</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1366,7 +1366,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Expectation
  Kind="Instantaneous"
  Guid="7e869450-72eb-41e9-9e86-6005f28f6bc1"
->Kernel.TrainData.BrakingParameters.T_traction_cut_off (NoA_est=&gt;False) == 19.34936</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.T_traction_cut_off (aNoA_est=&gt;False) == 19.34936</Expectation><Expectation
  Kind="Instantaneous"
  Guid="489c1a90-e5f1-4e19-98b4-a9a2eb24e158"
 >Kernel.TrainData.BrakingParameters.A_traction ( Odometry.EstimatedAcceleration, Kernel.TrackDescription.Gradient.A_gradient ( Odometry.NominalDistance ) ) == 1.23924</Expectation><Expectation
@@ -1467,7 +1467,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="704db2ab-4953-405c-ba6a-82e3011ef2a1"
->Kernel.TrainData.TrainData.Value.T_brake_emergency &lt;- Kernel.TrainData.BrakingParameters.T_brake_build_upSet
+>Kernel.TrainData.TrainData.Value.T_brake_emergency &lt;- Kernel.TrainData.BrakingParameters.T_brake_build_upSetStruct
 {
     EddyCurrent =&gt; 0.4,
     EddyCurrent_Magnetic =&gt; 0.78,
@@ -1486,7 +1486,7 @@ End =&gt; BaseTypes.Distance.Unknown
     Ep =&gt; 0.85
 }</Action><Action
  Guid="5321f1d3-6e89-42e1-ad93-6bf14b74ffac"
->Kernel.TrainData.TrainData.Value.T_brake_service &lt;- Kernel.TrainData.BrakingParameters.T_brake_build_upSet
+>Kernel.TrainData.TrainData.Value.T_brake_service &lt;- Kernel.TrainData.BrakingParameters.T_brake_build_upSetStruct
 {
     EddyCurrent =&gt; 1.16,
     EddyCurrent_Magnetic =&gt; 0.48,
@@ -1505,15 +1505,15 @@ End =&gt; BaseTypes.Distance.Unknown
     Ep =&gt; 0.46
 }</Action><Action
  Guid="c50ade10-e6d7-4a7b-8d0f-03e83d938c25"
->Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="1e363ec5-58ed-49c1-8769-f8f172368343"
->Kernel.TrainData.TrainData.Value.EpBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.EpBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="def40b43-0c73-47cf-9e6a-b10d86ca317d"
->Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</Action><Action
  Guid="e73dbf50-3d73-426a-9dcb-539936b14196"
->Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.NoInterface</Action><Action
+>Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.NoInterface</Action><Action
  Guid="f96c06ab-6281-4df6-b232-9459b306d61e"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="8402c298-b1d5-4d19-bff8-a55633e58466"
 >TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive &lt;- True</Action><Action
  Guid="87e09ddb-fb06-4d64-a444-d1eb0a0b0d69"
@@ -1556,7 +1556,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="4ab82db4-d6fe-4881-b28d-0569fa9458bd"
->Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.NoInterface</Action><Action
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.NoInterface</Action><Action
  Guid="5e9145fc-91bf-4b95-bcd0-d6ae57eda827"
 >TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action></Actions>
 <Expectations>
@@ -1593,7 +1593,7 @@ End =&gt; BaseTypes.Distance.Unknown
 <Actions>
 <Action
  Guid="431fc5cf-56c7-448b-b281-3a2af78258df"
->Kernel.TrainData.TrainData.Value.EpBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.SB</Action><Action
+>Kernel.TrainData.TrainData.Value.EpBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.SB</Action><Action
  Guid="bddb259a-eb85-4d2f-a9c2-c5b891e8b8e7"
 >TIU.SpecialBrakeStatus.EPBrakeIsActive &lt;- True</Action></Actions>
 <Expectations>

@@ -45,14 +45,14 @@ Minimum Sum of Variance, adding to the negative movement direction of the confid
 </Range></Ranges>
 <Enumerations>
 <Enum
- Default="Q_NOM_ODO.Nominal"
+ Default="Odometry.Q_NOM_ODOEnum.Nominal"
  X="420"
  Y="50"
  Width="100"
  Height="50"
  Pinned="TRUE"
  NeedsRequirement="FALSE"
- Name="Q_NOM_ODO"
+ Name="Q_NOM_ODOEnum"
  Guid="81dfc5ee-e6bc-429a-86fc-98d118b26076"
 >
 <Comment>Nominal odometer qualifier.
@@ -70,14 +70,14 @@ Indicate if the odometer configuration is nominal (all sensors available) or not
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="Q_SAFEDIR.NotAmbiguous"
+ Default="Odometry.Q_SAFEDIREnum.NotAmbiguous"
  X="220"
  Y="0"
  Width="100"
  Height="50"
  Pinned="TRUE"
  NeedsRequirement="FALSE"
- Name="Q_SAFEDIR"
+ Name="Q_SAFEDIREnum"
  Guid="8a9dbd91-ca6d-4265-bf01-a24e7181e7f7"
 >
 <Comment>Direction ambiguity.
@@ -95,14 +95,14 @@ Define if the direction information is ambiguous or not.</Comment>
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="Odometry.M_K_ETCS.ReservedForNonStaticalModel"
+ Default="Odometry.M_K_ETCSEnum.ReservedForNonStaticalModel"
  X="420"
  Y="120"
  Width="100"
  Height="50"
  Pinned="TRUE"
  NeedsRequirement="FALSE"
- Name="M_K_ETCS"
+ Name="M_K_ETCSEnum"
  Guid="58d90229-7cff-4502-932e-f3a5e3f9b751"
 >
 <Comment>Confidence level.
@@ -159,7 +159,7 @@ The confidence level (K) is defined as a level of probability that the true posi
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- Name="OdometerAccuracy"
+ Name="OdometerAccuracyStruct"
  Guid="5626dc8f-4ab8-4d91-b8c7-355b0a1df7ac"
 >
 <ReqRef
@@ -229,7 +229,7 @@ The confidence level (K) is defined as a level of probability that the true posi
  Pinned="TRUE"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="OdometerMulticastMessage"
+ Name="OdometerMulticastMessageStruct"
  Guid="9f0dce54-50b8-4203-8485-8ef43127557c"
 >
 <ReqRef
@@ -259,7 +259,7 @@ The confidence level (K) is defined as a level of probability that the true posi
 >
 <Comment>Packet length.</Comment>
 </StructureElement><StructureElement
- TypeName="Odometry.Q_SAFEDIR"
+ TypeName="Q_SAFEDIREnum"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
@@ -369,7 +369,7 @@ The confidence level (K) is defined as a level of probability that the true posi
 >
 <Comment>RES_ODO, resolution of distance (RES_ODO) measurement.</Comment>
 </StructureElement><StructureElement
- TypeName="Odometry.Q_NOM_ODO"
+ TypeName="Q_NOM_ODOEnum"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
@@ -379,7 +379,7 @@ The confidence level (K) is defined as a level of probability that the true posi
 >
 <Comment>Indicate if the odometer configuration is nominal or not.</Comment>
 </StructureElement><StructureElement
- TypeName="Odometry.M_K_ETCS"
+ TypeName="M_K_ETCSEnum"
  Default=""
  Mode="Incoming"
  Implemented="TRUE"
@@ -538,12 +538,12 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Parameters>
 <Parameter
  Type="BaseTypes.Time"
- Name="Time"
+ Name="aTime"
  Guid="a24b1e8e-acaf-4142-86d4-0d6d49e97ad6"
 >
 </Parameter><Parameter
  Type="BaseTypes.Speed"
- Name="Speed"
+ Name="aSpeed"
  Guid="8f3e5032-5baf-4ce5-be0f-115553a4630a"
 >
 </Parameter></Parameters>
@@ -555,14 +555,14 @@ The confidence level (K) is defined as a level of probability that the true posi
 <PreConditions>
 <PreCondition
  Guid="cb14fdd7-7558-4c05-9095-43e89d65bea3"
->Time == Odometry.PreviousTime</PreCondition></PreConditions>
+>aTime == Odometry.PreviousTime</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="7d017393-59e8-4165-a841-3b7a83a3ddd7"
 >
-<Expression>BaseTypes.Acceleration ( Speed
--  Odometry.PreviousSpeed ) / BaseTypes.Acceleration (  Time - Odometry.PreviousTime)</Expression>
+<Expression>BaseTypes.Acceleration ( aSpeed
+-  Odometry.PreviousSpeed ) / BaseTypes.Acceleration (  aTime - Odometry.PreviousTime)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -580,8 +580,8 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Comment>Stores the message provided by the odometry.</Comment>
 <Parameters>
 <Parameter
- Type="OdometerMulticastMessage"
- Name="Message"
+ Type="OdometerMulticastMessageStruct"
+ Name="aMessage"
  Guid="c80158b8-7024-4537-9f24-a47f191474b7"
 >
 </Parameter></Parameters>
@@ -606,31 +606,31 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Actions>
 <Action
  Guid="b92908d8-bb37-433f-bb12-af688ebed023"
->Odometry.CurrentTime &lt;- Message.T_ODO</Action><Action
+>Odometry.CurrentTime &lt;- aMessage.T_ODO</Action><Action
  Guid="ab9780a3-2b2c-4004-aaeb-2efb4c699d69"
->Odometry.NominalDistance &lt;- Message.D_NOM</Action><Action
+>Odometry.NominalDistance &lt;- aMessage.D_NOM</Action><Action
  Guid="a7bc8e19-3c2d-40e0-8fcd-019a376526a0"
->Odometry.Accuracy.D_ura &lt;- BaseTypes.DistanceToLength(Message.D_MAX - Message.D_NOM)</Action><Action
+>Odometry.Accuracy.D_ura &lt;- BaseTypes.DistanceToLength(aMessage.D_MAX - aMessage.D_NOM)</Action><Action
  Guid="77e6e519-84b4-4ee9-9090-7bfe385d539a"
->Odometry.Accuracy.D_ora &lt;- BaseTypes.DistanceToLength(Message.D_NOM - Message.D_MIN)</Action><Action
+>Odometry.Accuracy.D_ora &lt;- BaseTypes.DistanceToLength(aMessage.D_NOM - aMessage.D_MIN)</Action><Action
  Guid="63cfd51a-a706-4c38-bf84-6496ef309c84"
->Odometry.EstimatedSpeed &lt;- Message.V_NOM</Action><Action
+>Odometry.EstimatedSpeed &lt;- aMessage.V_NOM</Action><Action
  Guid="24d8010e-c271-4470-96c1-5303813aaafe"
 >Odometry.EstimatedAcceleration &lt;- Odometry.CalculateAcceleration(
-    Time =&gt; Message.T_ODO,
-    Speed =&gt; Message.V_NOM
+    aTime =&gt; aMessage.T_ODO,
+    aSpeed =&gt; aMessage.V_NOM
 )</Action><Action
  Guid="be1750f6-f121-4bb4-9192-25785d00bc32"
->Odometry.Accuracy.V_ora &lt;- Message.V_NOM - Message.V_MIN</Action><Action
+>Odometry.Accuracy.V_ora &lt;- aMessage.V_NOM - aMessage.V_MIN</Action><Action
  Guid="7a4376a7-9f06-403b-87a3-14f47c6b2890"
->Odometry.Accuracy.V_ura &lt;- Message.V_MAX - Message.V_NOM</Action></Actions>
+>Odometry.Accuracy.V_ura &lt;- aMessage.V_MAX - aMessage.V_NOM</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="OdometerAccuracy"
- DefaultValue="Odometry.OdometerAccuracy
+ Type="OdometerAccuracyStruct"
+ DefaultValue="OdometerAccuracyStruct
 {
     D_ura =&gt; 0.0,
     D_ora =&gt; 0.0,
@@ -670,7 +670,7 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
 >
 <Comment>The current time of the odometry.</Comment>
 </Variable><Variable
- Type="Odometry.OdometerMulticastMessage"
+ Type="OdometerMulticastMessageStruct"
  DefaultValue="EMPTY"
  VariableMode="InOut"
  X="220"

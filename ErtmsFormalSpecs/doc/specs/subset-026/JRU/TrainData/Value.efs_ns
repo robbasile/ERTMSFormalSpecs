@@ -258,7 +258,7 @@ HEADER =&gt; JRU.Header.CreateHeader(2),
  N_AXLE =&gt;  Kernel.TrainData.TrainData.Value.AxleNumber,
  M_AXLELOADCAT =&gt;  Kernel.TrainData.TrainData.Value.AxleLoadCategory, 
 L_TRAIN =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainData.TrainData.Value.TrainLength, scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
- T_TRACTION_CUT_OFF=&gt; DoubleToInteger(Kernel.TrainData.BrakingParameters.T_traction_cut_off(NoA_est =&gt; False) ),
+ T_TRACTION_CUT_OFF=&gt; DoubleToInteger(Kernel.TrainData.BrakingParameters.T_traction_cut_off(aNoA_est =&gt; False) ),
  M_BRAKE_POSITION =&gt; ToJRUMBrakePosition(Kernel.TrainData.TrainData.Value.BrakePosition),
  M_NOM_ROT_MASS =&gt; ToJRUNomRotMass( Kernel.TrainData.TrainData.Value.M_rotating_nom ),
  M_REGENERATIVEBRAKE =&gt; ToJRUMRegenerativeBrake( Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface ),
@@ -329,7 +329,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </ReqRef><Comment>Function which will convert the input value into JRU M_REGENERATIVEBRAKE</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus"
+ Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum"
  Name="MEpInKernel"
  Guid="f21256bb-b76f-4d05-97bb-db1ddcd99e81"
 >
@@ -342,7 +342,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="eba0fc43-5fbb-4c67-95c1-7fb646167594"
->MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</PreCondition></PreConditions>
+>MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_EB_and_SB</Expression>
 </Case><Case
  Name="EB"
@@ -351,7 +351,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="343c0c1c-7c94-42b5-9baf-3cb10b20455d"
->MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</PreCondition></PreConditions>
+>MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_EB</Expression>
 </Case><Case
  Name="SB"
@@ -360,7 +360,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="c18ba683-1e51-4fd4-84e0-c8a649dc71d1"
->MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.SB</PreCondition></PreConditions>
+>MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.SB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_SB</Expression>
 </Case><Case
  Name="NoInterface"
@@ -369,7 +369,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="62d49921-beb4-40dc-a007-aa6f306ad994"
->MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.NoInterface</PreCondition></PreConditions>
+>MEpInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.NoInterface</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.No_interface</Expression>
 </Case></Cases>
 </Function><Function
@@ -437,7 +437,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </ReqRef><Comment>Function which will convert the input value into JRU M_BRAKE_POSITION</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.TrainData.BrakingParameters.BrakePositions"
+ Type="Kernel.TrainData.BrakingParameters.BrakePositionsEnum"
  Name="BrakePositionInKernel"
  Guid="f98fdbee-c2d1-4aca-a1c9-d473449935fb"
 >
@@ -450,7 +450,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="ead3d26b-6f9e-4e21-8bfa-e0747ff98156"
->BrakePositionInKernel == Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</PreCondition></PreConditions>
+>BrakePositionInKernel == Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInG</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_BRAKE_POSITION.Freight_train_in_G</Expression>
 </Case><Case
  Name="Freight_train_in_P"
@@ -459,7 +459,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="8ea4f890-f68d-4cda-b114-b70970f1f3af"
->Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP == BrakePositionInKernel</PreCondition></PreConditions>
+>Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInP == BrakePositionInKernel</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_BRAKE_POSITION.Freight_train_in_P</Expression>
 </Case><Case
  Name="Passenger_train_in_P"
@@ -468,7 +468,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="963a2da0-45ae-4096-96fa-d211f5379a9e"
->Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP == BrakePositionInKernel</PreCondition></PreConditions>
+>Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP == BrakePositionInKernel</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_BRAKE_POSITION.Passenger_train_in_P</Expression>
 </Case></Cases>
 </Function><Function
@@ -491,7 +491,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </ReqRef><Comment>Function which will convert the input value into JRU M_EDDYCURRENTBRAKE</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus"
+ Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum"
  Name="MEddyCurrentBrakeInKernel"
  Guid="862df1cf-d190-4236-adf8-ba71432336cf"
 >
@@ -504,7 +504,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="c7ab8525-acdd-43a6-a387-532bacde5bd6"
->MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</PreCondition></PreConditions>
+>MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_EB_and_SB</Expression>
 </Case><Case
  Name="EB"
@@ -513,7 +513,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="03bd3d7e-4bda-4411-ba3d-664b32a6fe36"
->MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</PreCondition></PreConditions>
+>MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_EB</Expression>
 </Case><Case
  Name="SB"
@@ -522,7 +522,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="f10ab531-70b0-465a-969c-103884a026f4"
->MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.SB</PreCondition></PreConditions>
+>MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.SB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_SB</Expression>
 </Case><Case
  Name="NoInterface"
@@ -531,7 +531,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="4dbc93b9-6d18-42a2-83b7-54315e8e3686"
->MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.NoInterface</PreCondition></PreConditions>
+>MEddyCurrentBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.NoInterface</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.No_interface</Expression>
 </Case></Cases>
 </Function><Function
@@ -554,7 +554,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </ReqRef><Comment>Function which will convert the input value into JRU M_MAGNETICSHOEBRAKE</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus"
+ Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum"
  Name="MMagneticShoeBrakeInKernel"
  Guid="594e1618-483c-47fe-afb6-3a640c78b39a"
 >
@@ -567,7 +567,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="afbf495f-1207-4e95-9d8c-7f93c898e256"
->MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</PreCondition></PreConditions>
+>MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_EB_and_SB</Expression>
 </Case><Case
  Name="EB"
@@ -576,7 +576,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="f902e8d0-ebb2-48d0-9cd4-8b23fd526299"
->MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</PreCondition></PreConditions>
+>MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_EB</Expression>
 </Case><Case
  Name="SB"
@@ -585,7 +585,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="aefac506-8b66-48c5-829e-876c18a397b7"
->MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.SB</PreCondition></PreConditions>
+>MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.SB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_SB</Expression>
 </Case><Case
  Name="NoInterface"
@@ -594,7 +594,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="a325016d-606c-421d-8ad1-d6c289e5a5bd"
->MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.NoInterface</PreCondition></PreConditions>
+>MMagneticShoeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.NoInterface</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.No_interface</Expression>
 </Case></Cases>
 </Function><Function
@@ -617,7 +617,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </ReqRef><Comment>Function which will convert the input value into JRU M_REGENERATIVEBRAKE</Comment>
 <Parameters>
 <Parameter
- Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus"
+ Type="Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum"
  Name="MRegenerativeBrakeInKernel"
  Guid="523d964f-f881-4dab-b324-97112292a21a"
 >
@@ -630,7 +630,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="5e5187a9-9738-40ef-8c69-49fcced73fc5"
->MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</PreCondition></PreConditions>
+>MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_EB_and_SB</Expression>
 </Case><Case
  Name="EB"
@@ -639,7 +639,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="895f1c27-606b-464a-8127-97e2995f9464"
->MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</PreCondition></PreConditions>
+>MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_EB</Expression>
 </Case><Case
  Name="SB"
@@ -648,7 +648,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="554e1497-fabe-4246-9c79-b4834ad18371"
->MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.SB</PreCondition></PreConditions>
+>MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.SB</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.Interface_existis_and_affects_only_SB</Expression>
 </Case><Case
  Name="NoInterface"
@@ -657,7 +657,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <PreConditions>
 <PreCondition
  Guid="cb39315c-9f6d-48cb-87ef-a102e23ff3a1"
->MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.NoInterface</PreCondition></PreConditions>
+>MRegenerativeBrakeInKernel == Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.NoInterface</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_REGENERATIVEBRAKE.No_interface</Expression>
 </Case></Cases>
 </Function><Function
@@ -1019,8 +1019,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Procedure></Procedures>
 <Variables>
 <Variable
- Type="Kernel.TrainData.TrainDataValues"
- DefaultValue="Kernel.TrainData.TrainDataValues{}"
+ Type="Kernel.TrainData.TrainDataValuesStruct"
+ DefaultValue="Kernel.TrainData.TrainDataValuesStruct{}"
  VariableMode="Internal"
  X="40"
  Y="330"

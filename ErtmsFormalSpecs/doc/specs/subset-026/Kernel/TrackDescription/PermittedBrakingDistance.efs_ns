@@ -1120,8 +1120,8 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
  Guid="aadc4768-d9d0-4121-ad97-03daa65b322c"
 >TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
 <Expression>TrainData.BrakingParameters.Kdry_rst (
-    V =&gt; V,
-    M_NVEBCL =&gt; Kernel.NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
+    aV =&gt; V,
+    aM_NVEBCL =&gt; Kernel.NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
  * 
 (TrainData.BrakingParameters.Kwet_rst ( V ) + Kernel.NationalValues.CurrentNV().WeightingFactorForAvailableWheelRailAdhesion * ( 1.0 - TrainData.BrakingParameters.Kwet_rst ( V ) ) )
  * 
@@ -2274,8 +2274,8 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
 >
 </ReqRef><Comment>Contains the speed restrictions due to permitted braking distance.</Comment>
 </Variable><Variable
- Type="TrainData.BrakingParameters.EBModelSet"
- DefaultValue="TrainData.BrakingParameters.EBModelSet{}"
+ Type="TrainData.BrakingParameters.EBModelSetStruct"
+ DefaultValue="TrainData.BrakingParameters.EBModelSetStruct{}"
  VariableMode="Internal"
  X="340"
  Y="10"
@@ -2292,8 +2292,8 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
 >
 </ReqRef><Comment>Contains the previous value of emergency braking models.</Comment>
 </Variable><Variable
- Type="TrainData.BrakingParameters.SBModelSet"
- DefaultValue="TrainData.BrakingParameters.SBModelSet{}"
+ Type="TrainData.BrakingParameters.SBModelSetStruct"
+ DefaultValue="TrainData.BrakingParameters.SBModelSetStruct{}"
  VariableMode="Internal"
  X="450"
  Y="10"

@@ -566,12 +566,12 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 <PreCondition
  Guid="85b78555-4e3f-43d7-9c70-2d17711bc6e3"
 >TrainData.TrainData.Value.TractionCutOffInterfaceIsImplemented</PreCondition></PreConditions>
-<Expression>BaseTypes.MaxTime ( X1 =&gt; ( TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True) - ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning + Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_bs2ind() ) ), X2 =&gt; 0.0 )</Expression>
+<Expression>BaseTypes.MaxTime ( X1 =&gt; ( TrainData.BrakingParameters.T_traction_cut_off (aNoA_est =&gt; True) - ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_warning + Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.T_bs2ind() ) ), X2 =&gt; 0.0 )</Expression>
 </Case><Case
  Name="Traction cut-off is not implemented"
  Guid="784c8261-6034-48b5-8d85-f5e1de8b6a24"
 >
-<Expression>TrainData.BrakingParameters.T_traction_cut_off (NoA_est =&gt; True)</Expression>
+<Expression>TrainData.BrakingParameters.T_traction_cut_off (aNoA_est =&gt; True)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"

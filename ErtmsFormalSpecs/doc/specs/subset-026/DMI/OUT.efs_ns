@@ -16,7 +16,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ErtmsEtcsMode"
+ Name="ErtmsEtcsModeStruct"
  Guid="5fe5b09c-c978-432b-ba1f-8f04f43a2aec"
 >
 <ReqRef
@@ -120,7 +120,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="CurrentErtmsEtcsLevel"
+ Name="CurrentErtmsEtcsLevelStruct"
  Guid="1f785bd1-5626-4aa3-bb57-22e5ea59844a"
 >
 <ReqRef
@@ -155,7 +155,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Parameters>
 <Parameter
  Type="Kernel.LevelData"
- Name="currentLevel"
+ Name="acurrentLevel"
  Guid="ae68f8e3-bf8d-4156-b356-fa702da5ddf4"
 >
 </Parameter></Parameters>
@@ -179,7 +179,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
 >CurrentErtmsEtcsLevelMandatory()
   OR
 (
-  currentLevel.DataState == DataStateEnum.Valid
+  acurrentLevel.DataState == DataStateEnum.Valid
     AND  
   CurrentErtmsEtcsLevelAvailable()
 )</PreCondition></PreConditions>
@@ -188,7 +188,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="d144d142-c95f-4ff8-a029-01114e587e04"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="b2ac2421-6b0b-47f7-904d-e2e9824c1b34"
->THIS.Level &lt;- currentLevel.Value</Action></Actions>
+>THIS.Level &lt;- acurrentLevel.Value</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"
@@ -237,7 +237,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="DriverId"
+ Name="DriverIdStruct"
  Guid="0a10175a-ddb1-4ae4-8f31-017af5e934fc"
 >
 <ReqRef
@@ -344,7 +344,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="RBCContactInformation"
+ Name="RBCContactInformationStruct"
  Guid="b0a457a1-edd7-4ff4-87e1-7e5fc393d86a"
 >
 <ReqRef
@@ -467,7 +467,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainRunningNumber"
+ Name="TrainRunningNumberStruct"
  Guid="dea67349-665d-420b-8673-3a4eed590ecc"
 >
 <ReqRef
@@ -525,7 +525,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="c4378cbd-b3a0-4e2c-886d-76e2c9d95e06"
 >THIS.Number &lt;- aNumber</Action></Actions>
 </RuleCondition><RuleCondition
- Name="RuleCondition2"
+ Implemented="TRUE"
+ Name="Hide otherwise"
  Guid="fded86f2-fdca-4712-83cc-8d0a26d95692"
 >
 <PreConditions>
@@ -570,7 +571,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainSpeed"
+ Name="TrainSpeedStruct"
  Guid="9e6dd7bd-8c15-4322-8854-527e3a14ae75"
 >
 <ReqRef
@@ -625,6 +626,7 @@ TrainSpeedAvailable()</PreCondition></PreConditions>
  Guid="b6f9b4f4-c5aa-4307-b034-26a927aa00ad"
 >THIS.Speed &lt;- aSpeed</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="5a08907f-4a8c-4bcb-b6a0-20e5a44acd0f"
 >
@@ -669,7 +671,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="PermittedSpeed"
+ Name="PermittedSpeedStruct"
  Guid="0a0fccde-e87f-4256-9281-6d1c153a36ca"
 >
 <ReqRef
@@ -743,6 +745,7 @@ PermittedSpeedAvailable()</PreCondition><PreCondition
  Guid="6fb1e1c7-fa6f-4ad2-a0ef-ed9a33a428d5"
 >THIS.Speed &lt;- aSpeed</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="ca6114fa-96bc-47a7-b3d1-d2cb45fc23b8"
 >
@@ -789,7 +792,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TargetSpeed"
+ Name="TargetSpeedStruct"
  Guid="9d7e6702-1986-4f1a-ad25-9439d0d63896"
 >
 <ReqRef
@@ -891,7 +894,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ReleaseSpeed"
+ Name="ReleaseSpeedStruct"
  Guid="4def734f-c29a-4183-9cd5-e96e71d3d3fb"
 >
 <ReqRef
@@ -988,7 +991,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SpeedAndDistanceMonitoringSupervisionStatus"
+ Name="SpeedAndDistanceMonitoringSupervisionStatusStruct"
  Guid="97fdb574-3134-4e6d-b4b0-2ca27eae4124"
 >
 <ReqRef
@@ -1055,7 +1058,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="236fa9ed-87f9-4e95-834b-5d3040b03880"
 >THIS.SupervisionStatus &lt;- aSupervisionStatus</Action></Actions>
 </RuleCondition><RuleCondition
- Name="RuleCondition2"
+ Implemented="TRUE"
+ Name="Hide otherwise"
  Guid="af408447-c180-41d8-92b5-1366ffaf2f9e"
 >
 <PreConditions>
@@ -1107,7 +1111,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TripReason"
+ Name="TripReasonStruct"
  Guid="609aada7-fc5a-4f91-8ece-024759bc237d"
 >
 <ReqRef
@@ -1235,7 +1239,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="BrakeIndication"
+ Name="BrakeIndicationStruct"
  Guid="41a336e9-1de8-4fb5-9351-ad460fc084ff"
 >
 <ReqRef
@@ -1319,7 +1323,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="FixedTextInformation"
+ Name="FixedTextInformationStruct"
  Guid="26e515bb-f3e4-46f9-9e5a-ecd0158a3957"
 >
 <ReqRef
@@ -1419,7 +1423,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- Name="PlainTextInformation"
+ Name="PlainTextInformationStruct"
  Guid="9dcac6df-951c-4976-bff3-efd619a8881c"
 >
 <ReqRef
@@ -1518,7 +1522,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ReversingAllowed"
+ Name="ReversingAllowedStruct"
  Guid="ba291907-c1d1-4d94-9795-276e0a692631"
 >
 <ReqRef
@@ -1611,7 +1615,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrackConditionsWithoutSoundHorn"
+ Name="TrackConditionsWithoutSoundHornStruct"
  Guid="20dd8be2-ba6c-4b08-8995-edc9d762fba3"
 >
 <ReqRef
@@ -1869,7 +1873,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrackConditionsWithSoundHorn"
+ Name="TrackConditionsWithSoundHornStruct"
  Guid="7e70ceff-9700-49f1-bd7f-6fc565fcd260"
 >
 <ReqRef
@@ -2066,7 +2070,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="GeographicalPosition"
+ Name="GeographicalPositionStruct"
  Guid="8db68a98-4195-47f4-8306-aede9f683f2b"
 >
 <ReqRef
@@ -2234,7 +2238,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="OverrideStatus"
+ Name="OverrideStatusStruct"
  Guid="3dacfe3d-4d9a-44ab-ab3f-e29cee96d1a4"
 >
 <ReqRef
@@ -2258,7 +2262,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Parameters>
 <Parameter
  Type="Boolean"
- Name="isActive"
+ Name="aisActive"
  Guid="68cb827b-c0af-45c5-8184-a77ad0882b7c"
 >
 </Parameter></Parameters>
@@ -2285,8 +2289,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="43962877-b6d3-4d4e-b030-c4e0f5858340"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="d38959d1-004a-4405-ac7b-3546672c0a8f"
->THIS.OverrideStatus &lt;- isActive</Action></Actions>
+>THIS.OverrideStatus &lt;- aisActive</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="7a455b30-0153-44e0-8e9f-54643af240d3"
 >
@@ -2331,7 +2336,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="LXStatusNotProtected"
+ Name="LXStatusNotProtectedStruct"
  Guid="20e3b1ee-070b-48ce-88c2-fb04833b0522"
 >
 <ReqRef
@@ -2409,7 +2414,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ShuntingRefusedByRbc"
+ Name="ShuntingRefusedByRbcStruct"
  Guid="9a83641b-338e-4b21-a593-cbaa050f4143"
 >
 <ReqRef
@@ -2563,7 +2568,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ShuntingRequestNotAnsweredByRbc"
+ Name="ShuntingRequestNotAnsweredByRbcStruct"
  Guid="bd41535e-2c0a-4730-8a75-b044c5c07c28"
 >
 <ReqRef
@@ -2691,7 +2696,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AcceptedEmergencyStops"
+ Name="AcceptedEmergencyStopsStruct"
  Guid="f1c00dab-3594-45fe-965f-472ac49962fb"
 >
 <ReqRef
@@ -2793,7 +2798,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="EntryInFsOs"
+ Name="EntryInFsOsStruct"
  Guid="2f0e3efa-aa9c-43e7-ba2c-f3011d3eed76"
 >
 <ReqRef
@@ -2957,7 +2962,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="LevelTransitionAnnouncement"
+ Name="LevelTransitionAnnouncementStruct"
  Guid="3910906f-c3b7-430c-ab72-f4de5877f313"
 >
 <ReqRef
@@ -3052,7 +3057,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrackAheadFreeRequest"
+ Name="TrackAheadFreeRequestStruct"
  Guid="60915c2a-83fa-4d86-af41-e99dac795442"
 >
 <ReqRef
@@ -3149,7 +3154,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="AdhesionFactorSlipperyRail"
+ Name="AdhesionFactorSlipperyRailStruct"
  Guid="c9546bec-291e-497b-8c08-5576f591663e"
 >
 <ReqRef
@@ -3235,7 +3240,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TracksideMalfunction"
+ Name="TracksideMalfunctionStruct"
  Guid="c6dc60af-39ca-4af8-84ba-6f39d9a07388"
 >
 <ReqRef
@@ -3363,7 +3368,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="NotificationOfTrainDataChangeFromOtherSource"
+ Name="NotificationOfTrainDataChangeFromOtherSourceStruct"
  Guid="2d147f5a-2630-46b5-b940-5d73fef69f9a"
 >
 <ReqRef
@@ -3423,6 +3428,7 @@ TODO</Comment>
  Guid="87ebef27-ae9a-458e-9c32-f008f6edc880"
 >THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="80698cbe-5fc3-4132-b115-a4cea806bdfb"
 >
@@ -3477,7 +3483,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="OperatedSystemVersion"
+ Name="OperatedSystemVersionStruct"
  Guid="ce642207-7b1f-45cf-9884-d54289f8d41f"
 >
 <ReqRef
@@ -3537,6 +3543,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="dcaff847-9048-4c07-b2fd-33846a0fc656"
 >THIS.Version &lt;- aVersion</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="23733e87-721c-44c4-bbd3-5adbfebcd971"
 >
@@ -3596,7 +3603,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="RadioNetworkRegistrationFailed"
+ Name="RadioNetworkRegistrationFailedStruct"
  Guid="9379c173-dd46-45b5-a6e7-0ddfb2148ecb"
 >
 <ReqRef
@@ -3658,6 +3665,7 @@ Available( THIS.DisplayStartTime)</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ Implemented="TRUE"
  Name="Handle start time"
  Guid="08ae5334-dc05-4789-ac62-e6d3dcc0019f"
 >
@@ -3674,6 +3682,7 @@ Available( THIS.DisplayStartTime)</PreCondition></PreConditions>
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Record time at start of display"
  Guid="ef18c0f7-0c44-4cc9-a468-781ddf0b7d1d"
 >
@@ -3688,6 +3697,7 @@ Available( THIS.DisplayStartTime)</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="b3c10919-d99a-4d8e-8bc5-95f419d8bb4b"
 >
@@ -3744,7 +3754,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SafeRadioConnectionIndication"
+ Name="SafeRadioConnectionIndicationStruct"
  Guid="32263c5e-73e8-4833-98b1-eaa5377d0487"
 >
 <ReqRef
@@ -3844,7 +3854,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="LocalTime"
+ Name="LocalTimeStruct"
  Guid="2f4ae091-d9d5-46bd-a600-bba2363cdea4"
 >
 <ReqRef
@@ -3939,7 +3949,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="Gradient"
+ Name="GradientStruct"
  Guid="a6c5c037-6426-434e-a656-7c67ac03dd54"
 >
 <ReqRef
@@ -4051,7 +4061,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="MRSP"
+ Name="MRSPStruct"
  Guid="e795e547-3c46-4cab-a8fc-f30cf676ba57"
 >
 <ReqRef
@@ -4165,7 +4175,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="IndicationLocationAtMrspSpeed"
+ Name="IndicationLocationAtMrspSpeedStruct"
  Guid="577a2ad3-1d82-4abe-8fc7-b00c8279e942"
 >
 <ReqRef
@@ -4274,7 +4284,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="FirstTargetAtZeroSpeed"
+ Name="FirstTargetAtZeroSpeedStruct"
  Guid="82e70058-06a7-4d38-9bd3-4daa6b1537af"
 >
 <ReqRef
@@ -4391,7 +4401,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="BrakeReason"
+ Name="BrakeReasonStruct"
  Guid="5fc56167-5832-478f-b861-015533c2922b"
 >
 <ReqRef
@@ -4503,7 +4513,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TracksideNotCompatible"
+ Name="TracksideNotCompatibleStruct"
  Guid="81d46b1d-a4d0-4259-a434-d7da0c84d701"
 >
 <ReqRef
@@ -4631,7 +4641,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainIsRejected"
+ Name="TrainIsRejectedStruct"
  Guid="5886307f-d6b7-46c1-b454-a965936186de"
 >
 <ReqRef
@@ -4759,7 +4769,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="RouteUnsuitabilities"
+ Name="RouteUnsuitabilitiesStruct"
  Guid="37b832e4-e2d6-4e67-83b7-7abd35758ff6"
 >
 <ReqRef
@@ -4866,7 +4876,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TargetDistance"
+ Name="TargetDistanceStruct"
  Guid="74d706d6-b872-4cad-85e5-a5455a9edfb4"
 >
 <ReqRef
@@ -4970,7 +4980,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TrainData"
+ Name="TrainDataStruct"
  Guid="623f3bf0-410f-4c18-aa4e-5b8d513764c9"
 >
 <ReqRef
@@ -5074,7 +5084,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SBI"
+ Name="SBIStruct"
  Guid="13b7aaa8-f6c7-4600-996a-a27eb602319b"
 >
 <ReqRef
@@ -5141,6 +5151,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="c4592263-0aa6-472c-a03a-ed1b2e33cb19"
 >THIS.Speed &lt;- aSpeed</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Hide otherwise"
  Guid="f4c58988-707b-4df3-86bd-16a03afcaf76"
 >
@@ -5185,7 +5196,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="VirtualBaliseCovers"
+ Name="VirtualBaliseCoversStruct"
  Guid="8d82b2e7-c222-4a96-8b3c-0c95390ca6d4"
 >
 <ReqRef
@@ -5283,7 +5294,7 @@ TODO</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="LSSMA"
+ Name="LSSMAStruct"
  Guid="61cf8736-704c-4cb6-822c-25091fe9f603"
 >
 <ReqRef
