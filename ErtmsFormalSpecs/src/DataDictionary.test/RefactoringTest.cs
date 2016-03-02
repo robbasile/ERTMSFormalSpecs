@@ -491,5 +491,51 @@ namespace DataDictionary.test
 
             Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "THIS.El1 <- True");
         }
+
+        /// <summary>
+        ///     Test that renaming a structure does not replace expressions of the type
+        ///         FIRST X IN ... where X is of the structure's type
+        /// </summary>
+        [Test]
+        public void TestRefactorStructureAccessedwithFIRST_IN()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "Test");
+            StructureElement element = CreateStructureElement(structure, "El", "Boolean");
+            Collection collection = CreateCollection(nameSpace1, "TestCol", "Test", 10);
+
+            Variable varCol = CreateVariable(nameSpace1, "var", "TestCol");
+
+            Function function = CreateFunction(nameSpace1, "TestFun", "Boolean");
+            Case case1 = CreateCase(function, "Value", "(FIRST X IN var).El");
+
+            Refactor(structure, "TestStructure");
+
+            Assert.AreEqual(((Case)function.Cases[0]).ExpressionText, "(FIRST X IN var).El");
+        }
+
+        /// <summary>
+        ///     Test that when a structure is renamed, the procedures it contains with an expression
+        ///     such as THIS.Element are not modified
+        /// </summary>
+        [Test]
+        public void TestRenameStructureWithProcedureReferencingElement()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "Test");
+            CreateStructureElement(structure, "El1", "Boolean");
+            Procedure procedure = CreateProcedure(structure, "ValidateEl1");
+            RuleCondition condition1 = CreateRuleAndCondition(procedure, "Set to True");
+            CreateAction(condition1, "THIS.El1 <- True");
+
+
+            Refactor(structure, "Structure");
+
+            Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "THIS.El1 <- True");
+        }
     }
 }

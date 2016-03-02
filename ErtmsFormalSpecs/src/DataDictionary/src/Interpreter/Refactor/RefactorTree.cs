@@ -129,9 +129,28 @@ namespace DataDictionary.Interpreter.Refactor
                     }
                     else
                     {
-                        if (expression is Call && expression.Ref is Structure)
+                        if (expression.Ref is Structure)
                         {
-                            replaced = ReplaceNonTerminal(expression, null);
+                            UnaryExpression unaryExpression = expression as UnaryExpression;
+                            if (expression is Call)
+                            {
+                                replaced = ReplaceNonTerminal(expression, null);                                
+                            }
+                            else if (unaryExpression != null && unaryExpression.Expression != null)
+                            {
+                                replaced = ReplaceNonTerminal(expression, null);
+                            }
+                            else if (unaryExpression != null &&
+                                     unaryExpression.Term != null &&
+                                     unaryExpression.Term.Designator != null &&
+                                     unaryExpression.Term.Designator.IsPredefined())
+                            {
+                                replaced = ReplaceNonTerminal(expression, null);
+                            }
+                            else
+                            {
+                                replaced = ReplaceNonTerminal(expression, expression.Ref as ModelElement);                                                            
+                            }
                         }
                         else
                         {
