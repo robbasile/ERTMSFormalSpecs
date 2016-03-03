@@ -518,7 +518,7 @@ namespace GUI.IPCInterface
             }
             else
             {
-                Thread.Sleep(300);
+                Thread.Sleep(50);
             }
 
             return retVal;
