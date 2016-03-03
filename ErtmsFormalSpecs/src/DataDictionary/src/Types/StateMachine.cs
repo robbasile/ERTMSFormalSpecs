@@ -271,10 +271,14 @@ namespace DataDictionary.Types
             }
         }
 
+        /// <summary>
+        ///     Clears the cache associated to this model element
+        /// </summary>
         public void ClearCache()
         {
             cachedValues = null;
             DeclaredElements = null;
+            ApplicableRules = null;
         }
 
         /// <summary>
@@ -819,7 +823,7 @@ namespace DataDictionary.Types
         ///     The combination of this state machine with its updates and updated elements
         /// </summary>
         public StateMachine UnifiedStateMachine { get; protected set; }
-        
+
         /// <summary>
         ///     Indicates if the element holds messages, or is part of a path to a message
         /// </summary>
@@ -1137,6 +1141,49 @@ namespace DataDictionary.Types
             Util.DontNotify(() => { retVal.Name = "StateMachine" + GetElementNumber(enclosingCollection); });
 
             return retVal;
+        }
+
+        /// <summary>
+        /// The priorities for which a rule is available for this type
+        /// </summary>
+        private HashSet<acceptor.RulePriority> ApplicableRules { get; set; }
+
+        /// <summary>
+        /// Indicates that a rule is applicable for this type at the provided priority
+        /// </summary>
+        /// <returns></returns>
+        public override bool ApplicableRule(acceptor.RulePriority priority)
+        {
+            if (ApplicableRules == null)
+            {
+                ApplicableRules = new HashSet<acceptor.RulePriority>();
+
+                // Consider the rules at this level
+                foreach (Rule rule in Rules)
+                {
+                    foreach (acceptor.RulePriority active in rule.ActivationPriorities)
+                    {
+                        ApplicableRules.Add(active);
+                    }
+                }
+
+                // Consider the rules in inner states
+                foreach (State state in States)
+                {
+                    if (state.StateMachine != null)
+                    {
+                        foreach (acceptor.RulePriority active in System.Enum.GetValues(typeof(acceptor.RulePriority)))
+                        {
+                            if (state.StateMachine.ApplicableRule(active))
+                            {
+                                ApplicableRules.Add(active);                                                            
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ApplicableRules.Contains(priority);
         }
     }
 }

@@ -700,5 +700,59 @@ namespace DataDictionary.Types
 
             return retVal;
         }
+
+
+        /// <summary>
+        /// The priorities for which a rule is available for this type
+        /// </summary>
+        private HashSet<acceptor.RulePriority> ApplicableRules { get; set; }
+
+        /// <summary>
+        /// Indicates that a rule is applicable for this type at the provided priority
+        /// </summary>
+        /// <returns></returns>
+        public override bool ApplicableRule(acceptor.RulePriority priority)
+        {
+            if (ApplicableRules == null)
+            {
+                ApplicableRules = new HashSet<acceptor.RulePriority>();
+
+                // Consider the rules at this level
+                foreach (Rule rule in Rules)
+                {
+                    foreach (acceptor.RulePriority active in rule.ActivationPriorities)
+                    {
+                        ApplicableRules.Add(active);
+                    }
+                }
+
+                // Consider the structure elements
+                foreach (ITypedElement element in Elements)
+                {
+                    if (element.Type != null)
+                    {
+                        foreach (acceptor.RulePriority active in System.Enum.GetValues(typeof(acceptor.RulePriority)))
+                        {
+                            if (element.Type.ApplicableRule(active))
+                            {
+                                ApplicableRules.Add(active);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return ApplicableRules.Contains(priority);
+        }
+
+        /// <summary>
+        ///     Clears the cache associated to this model element
+        /// </summary>
+        public override void ClearCache()
+        {
+            base.ClearCache();
+
+            ApplicableRules = null;
+        }
     }
 }

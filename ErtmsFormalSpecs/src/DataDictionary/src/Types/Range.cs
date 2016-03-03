@@ -435,11 +435,11 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="context">The context used to perform this operation</param>
         /// <param name="left"></param>
-        /// <param name="Operation"></param>
+        /// <param name="operation"></param>
         /// <param name="right"></param>
         /// <returns></returns>
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator operation, IValue right) // left +/-/*/div/exp right
         {
             IValue retVal = null;
 
@@ -451,11 +451,11 @@ namespace DataDictionary.Types
 
             if (int1 == null || int2 == null)
             {
-                retVal = EFSSystem.DoubleType.PerformArithmericOperation(context, left, Operation, right);
+                retVal = EFSSystem.DoubleType.PerformArithmericOperation(context, left, operation, right);
             }
             else
             {
-                retVal = EFSSystem.IntegerType.PerformArithmericOperation(context, left, Operation, right);
+                retVal = EFSSystem.IntegerType.PerformArithmericOperation(context, left, operation, right);
             }
 
             return retVal;

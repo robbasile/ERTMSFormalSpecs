@@ -475,60 +475,63 @@ namespace DataDictionary.Tests.Runner
         {
             if (variable != null && variable.Value != EfsSystem.Instance.EmptyValue)
             {
-                if (variable.Type is Structure)
+                if (variable.Type != null && variable.Type.ApplicableRule(priority))
                 {
-                    Structure structure = variable.Type as Structure;
-                    foreach (Rules.Rule rule in structure.Rules)
+                    if (variable.Type is Structure)
                     {
-                        rule.Evaluate(this, priority, variable, activations, explanation);
-                    }
-
-                    StructureValue value = variable.Value as StructureValue;
-                    if (value != null)
-                    {
-                        foreach (IVariable subVariable in value.SubVariables.Values)
+                        Structure structure = variable.Type as Structure;
+                        foreach (Rules.Rule rule in structure.Rules)
                         {
-                            EvaluateVariable(priority, activations, subVariable, explanation);
+                            rule.Evaluate(this, priority, variable, activations, explanation);
                         }
-                    }
-                }
-                else if (variable.Type is StateMachine)
-                {
-                    EvaluateStateMachine(activations, priority, variable, explanation);
-                }
-                else if (variable.Type is Collection)
-                {
-                    Collection collectionType = variable.Type as Collection;
-                    if (variable.Value != EfsSystem.Instance.EmptyValue)
-                    {
-                        ListValue val = variable.Value as ListValue;
 
-                        if (val != null)
+                        StructureValue value = variable.Value as StructureValue;
+                        if (value != null)
                         {
-                            foreach (IValue subVal in val.Val)
+                            foreach (IVariable subVariable in value.SubVariables.Values)
                             {
-                                Variables.Variable tmp = new Variables.Variable
-                                {
-                                    Name = "list_entry",
-                                    Type = collectionType.Type,
-                                    Value = subVal
-                                };
-
-                                EvaluateVariable(priority, activations, tmp, explanation);
+                                EvaluateVariable(priority, activations, subVariable, explanation);
                             }
                         }
-                        else
+                    }
+                    else if (variable.Type is StateMachine)
+                    {
+                        EvaluateStateMachine(activations, priority, variable, explanation);
+                    }
+                    else if (variable.Type is Collection)
+                    {
+                        Collection collectionType = variable.Type as Collection;
+                        if (variable.Value != EfsSystem.Instance.EmptyValue)
                         {
-                            ModelElement element = variable as ModelElement;
-                            if (element != null)
+                            ListValue val = variable.Value as ListValue;
+
+                            if (val != null)
                             {
-                                element.AddError("Variable " + variable.Name + " does not hold a collection but " +
-                                                 variable.Value);
+                                foreach (IValue subVal in val.Val)
+                                {
+                                    Variables.Variable tmp = new Variables.Variable
+                                    {
+                                        Name = "list_entry",
+                                        Type = collectionType.Type,
+                                        Value = subVal
+                                    };
+
+                                    EvaluateVariable(priority, activations, tmp, explanation);
+                                }
                             }
                             else
                             {
-                                throw new Exception("Variable " + variable.Name + " does not hold a collection but " +
-                                                    variable.Value);
+                                ModelElement element = variable as ModelElement;
+                                if (element != null)
+                                {
+                                    element.AddError("Variable " + variable.Name + " does not hold a collection but " +
+                                                     variable.Value);
+                                }
+                                else
+                                {
+                                    throw new Exception("Variable " + variable.Name + " does not hold a collection but " +
+                                                        variable.Value);
+                                }
                             }
                         }
                     }

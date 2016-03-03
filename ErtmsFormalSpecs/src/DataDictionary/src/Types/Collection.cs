@@ -308,11 +308,11 @@ namespace DataDictionary.Types
             return retVal;
         }
 
-        public override IValue PerformArithmericOperation(InterpretationContext context, IValue left, BinaryExpression.Operator Operation, IValue right)
+        public override IValue PerformArithmericOperation(InterpretationContext context, IValue left, BinaryExpression.Operator operation, IValue right)
         {
             ListValue retVal = null;
 
-            switch (Operation)
+            switch (operation)
             {
                 case BinaryExpression.Operator.Add:
                     Collection leftType = left.Type as Collection;
@@ -410,29 +410,21 @@ namespace DataDictionary.Types
 
             return retVal;
         }
-    }
-
-    /// <summary>
-    ///     A generic collection
-    /// </summary>
-    public class GenericCollection : Collection
-    {
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="efsSystem"></param>
-        public GenericCollection(EfsSystem efsSystem)
-        {
-            Enclosing = efsSystem;
-            setMaxSize(int.MaxValue);
-        }
 
         /// <summary>
-        ///     The type of the elements in this collection
+        /// Indicates that a rule is applicable for this type at the provided priority
         /// </summary>
-        public override Type Type
+        /// <returns></returns>
+        public override bool ApplicableRule(acceptor.RulePriority priority)
         {
-            get { return EFSSystem.AnyType; }
+            bool retVal = false;
+
+            if (Type != null)
+            {
+                retVal = Type.ApplicableRule(priority);
+            }
+
+            return retVal;
         }
     }
 }

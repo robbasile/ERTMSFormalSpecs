@@ -22,70 +22,10 @@ using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.src;
 using DataDictionary.Values;
-using Utils;
 using Function = DataDictionary.Functions.Function;
-using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Types
 {
-    /// <summary>
-    ///     This is an element which has a default value
-    /// </summary>
-    public interface IDefaultValueElement : IExpressionable
-    {
-        string Default { get; set; }
-    }
-
-    /// <summary>
-    ///     This is an element which has a type
-    /// </summary>
-    public interface ITypedElement : IModelElement
-    {
-        /// <summary>
-        ///     The namespace related to the typed element
-        /// </summary>
-        NameSpace NameSpace { get; }
-
-        /// <summary>
-        ///     Provides the type name of the element
-        /// </summary>
-        string TypeName { get; set; }
-
-        /// <summary>
-        ///     The type of the element
-        /// </summary>
-        Type Type { get; set; }
-
-        /// <summary>
-        ///     Provides the mode of the typed element
-        /// </summary>
-        acceptor.VariableModeEnumType Mode { get; }
-
-        /// <summary>
-        ///     Provides the default value of the typed element
-        /// </summary>
-        string Default { get; set; }
-    }
-
-    /// <summary>
-    ///     This is a type which can enumerate its possible values
-    /// </summary>
-    public interface IEnumerateValues
-    {
-        /// <summary>
-        ///     Provides all constant values from this type
-        /// </summary>
-        /// <param name="scope">the current scope to identify the constant</param>
-        /// <param name="retVal">the dictionary to fill which maps name->value</param>
-        void Constants(string scope, Dictionary<string, object> retVal);
-
-        /// <summary>
-        ///     Provides the values whose name matches the name provided
-        /// </summary>
-        /// <param name="index">the index in names to consider</param>
-        /// <param name="names">the simple value names</param>
-        IValue findValue(string[] names, int index);
-    }
 
     /// <summary>
     ///     A type. All types must inherit from this class
@@ -295,87 +235,15 @@ namespace DataDictionary.Types
         }
 
         /// <summary>
-        ///     Finds all references to a specific type
-        /// </summary>
-        private class TypeUsageFinder : Visitor
-        {
-            /// <summary>
-            ///     The usages of the type
-            /// </summary>
-            public HashSet<ITypedElement> Usages { get; private set; }
-
-            /// <summary>
-            ///     The type looked for
-            /// </summary>
-            public Type Target { get; private set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="target"></param>
-            public TypeUsageFinder(Type target)
-            {
-                Target = target;
-                Usages = new HashSet<ITypedElement>();
-            }
-
-            public override void visit(Variable obj, bool visitSubNodes)
-            {
-                Variables.Variable variable = (Variables.Variable) obj;
-
-                if (variable.Type == Target)
-                {
-                    Usages.Add(variable);
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
-
-            public override void visit(Generated.StructureElement obj, bool visitSubNodes)
-            {
-                StructureElement element = (StructureElement) obj;
-
-                if (element.Type == Target)
-                {
-                    Usages.Add(element);
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
-        }
-
-
-        /// <summary>
-        ///     Provides the set of typed elements which uses this type
-        /// </summary>
-        /// <param name="type">the type to be referenced by the typed elements</param>
-        /// <returns>the set of typed elements which have 'type' as type</returns>
-        public static HashSet<ITypedElement> ElementsOfType(Type type)
-        {
-            TypeUsageFinder visitor = new TypeUsageFinder(type);
-
-            EfsSystem efsSystem = EnclosingFinder<EfsSystem>.find(type);
-            if (efsSystem != null)
-            {
-                foreach (Dictionary dictionary in efsSystem.Dictionaries)
-                {
-                    visitor.visit(dictionary);
-                }
-            }
-
-            return visitor.Usages;
-        }
-
-        /// <summary>
         ///     Performs the arithmetic operation based on the type of the result
         /// </summary>
         /// <param name="context">The context used to perform this operation</param>
         /// <param name="left"></param>
-        /// <param name="Operation"></param>
+        /// <param name="operation"></param>
         /// <param name="right"></param>
         /// <returns></returns>
         public virtual IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator operation, IValue right) // left +/-/*/div/exp right
         {
             IValue retVal = null;
 
@@ -402,7 +270,7 @@ namespace DataDictionary.Types
                 if (leftFunction.Graph != null)
                 {
                     IGraph tmp = null;
-                    switch (Operation)
+                    switch (operation)
                     {
                         case BinaryExpression.Operator.Add:
                             tmp = leftFunction.Graph.AddGraph(rigthFunction.Graph);
@@ -431,7 +299,7 @@ namespace DataDictionary.Types
                     Surface rightSurface = rigthFunction.GetSurface(leftFunction.Surface.XParameter,
                         leftFunction.Surface.YParameter);
                     Surface tmp = null;
-                    switch (Operation)
+                    switch (operation)
                     {
                         case BinaryExpression.Operator.Add:
                             tmp = leftFunction.Surface.AddSurface(rightSurface);
@@ -590,9 +458,6 @@ namespace DataDictionary.Types
         /// <summary>
         ///     Indicates if the type is double
         /// </summary>
-        /// <param name="root"></param>
-        /// <param name="expression"></param>
-        /// <param name="parameter"></param>
         public bool IsDouble()
         {
             bool retVal = false;
@@ -609,16 +474,7 @@ namespace DataDictionary.Types
 
             return retVal;
         }
-
-        /// <summary>
-        ///     Adds a model element in this model element
-        /// </summary>
-        /// <param name="copy"></param>
-        public override void AddModelElement(IModelElement element)
-        {
-            base.AddModelElement(element);
-        }
-
+        
         /// <summary>
         ///     Combines two types to create a new one
         /// </summary>
@@ -700,91 +556,12 @@ namespace DataDictionary.Types
         {
             explanation.Comment(this);
         }
-    }
-
-    /// <summary>
-    ///     Anything
-    /// </summary>
-    public class AnyType : Type
-    {
-        public override string Name
-        {
-            get { return "AnyType"; }
-            set { }
-        }
-
-        public override string FullName
-        {
-            get { return Name; }
-        }
 
         /// <summary>
-        ///     Constrcutor
+        /// Indicates that a rule is applicable for this type at the provided priority
         /// </summary>
-        public AnyType(EfsSystem efsSystem)
-        {
-            Enclosing = efsSystem;
-        }
-
-        public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.Operator Operation, IValue right)
-        {
-            throw new Exception("Cannot perform arithmetic operation between " + left.LiteralName + " and " +
-                                right.LiteralName);
-        }
-
-        /// <summary>
-        ///     Indicates that the other type can be placed in variables of this type
-        /// </summary>
-        /// <param name="otherType"></param>
         /// <returns></returns>
-        public override bool Match(Type otherType)
-        {
-            if (otherType is NoType)
-            {
-                return false;
-            }
-            return true;
-        }
-    }
-
-    /// <summary>
-    ///     Nothing
-    /// </summary>
-    public class NoType : Type
-    {
-        public override string Name
-        {
-            get { return "NoType"; }
-            set { }
-        }
-
-        public override string FullName
-        {
-            get { return Name; }
-        }
-
-        /// <summary>
-        ///     Constrcutor
-        /// </summary>
-        public NoType(EfsSystem efsSystem)
-        {
-            Enclosing = efsSystem;
-        }
-
-        public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.Operator Operation, IValue right)
-        {
-            throw new Exception("Cannot perform arithmetic operation between " + left.LiteralName + " and " +
-                                right.LiteralName);
-        }
-
-        /// <summary>
-        ///     Indicates that the other type can be placed in variables of this type
-        /// </summary>
-        /// <param name="otherType"></param>
-        /// <returns></returns>
-        public override bool Match(Type otherType)
+        public virtual bool ApplicableRule(acceptor.RulePriority priority)
         {
             return false;
         }

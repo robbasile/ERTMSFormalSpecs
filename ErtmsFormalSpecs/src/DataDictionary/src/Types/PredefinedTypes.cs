@@ -307,18 +307,18 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="context">The context used to perform this operation</param>
         /// <param name="left"></param>
-        /// <param name="Operation"></param>
+        /// <param name="operation"></param>
         /// <param name="right"></param>
         /// <returns></returns>
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator operation, IValue right) // left +/-/*/div/exp right
         {
             IntValue retVal = null;
 
             int int1 = getValue(left);
             int int2 = getValue(right);
 
-            switch (Operation)
+            switch (operation)
             {
                 case BinaryExpression.Operator.Exp:
                     retVal = new IntValue(EFSSystem.IntegerType, (Decimal) Math.Pow((double) int1, (double) int2));
@@ -520,18 +520,18 @@ namespace DataDictionary.Types
         /// </summary>
         /// <param name="context">The context used to perform this operation</param>
         /// <param name="left"></param>
-        /// <param name="Operation"></param>
+        /// <param name="operation"></param>
         /// <param name="right"></param>
         /// <returns></returns>
         public override IValue PerformArithmericOperation(InterpretationContext context, IValue left,
-            BinaryExpression.Operator Operation, IValue right) // left +/-/*/div/exp right
+            BinaryExpression.Operator operation, IValue right) // left +/-/*/div/exp right
         {
             DoubleValue retVal = null;
 
             double double1 = getValue(left);
             double double2 = getValue(right);
 
-            switch (Operation)
+            switch (operation)
             {
                 case BinaryExpression.Operator.Exp:
                     retVal = new DoubleValue(this, Math.Pow(double1, double2));
