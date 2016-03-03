@@ -155,6 +155,10 @@ namespace DataDictionary.Interpreter
                 {
                     VisitReduceExpression((ReduceExpression) expression);
                 }
+                else if (expression is FilterExpression)
+                {
+                    VisitFilterExpression((FilterExpression)expression);
+                }
                 else if (expression is SumExpression)
                 {
                     VisitSumExpression((SumExpression) expression);
@@ -264,6 +268,18 @@ namespace DataDictionary.Interpreter
                 {
                     VisitExpression(reduceExpression.InitialValue);
                 }
+            }
+        }        
+
+        /// <summary>
+        ///     Visits a FILTER expression
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        protected virtual void VisitFilterExpression(FilterExpression filterExpression)
+        {
+            if (filterExpression != null)
+            {
+                VisitConditionBasedListExpression(filterExpression);
             }
         }
 
