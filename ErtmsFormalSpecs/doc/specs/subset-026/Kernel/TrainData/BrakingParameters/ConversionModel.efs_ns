@@ -104,7 +104,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <Parameters>
 <Parameter
  Type="BaseTypes.Speed"
- Name="aV"
+ Name="V"
  Guid="5bcfac88-66b3-4636-81d9-ff186c9ab369"
 >
 </Parameter><Parameter
@@ -121,7 +121,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="94cfdace-fcda-4ad5-a861-847385ec9eb4"
->aV &lt; 100.0</PreCondition></PreConditions>
+>V &lt; 100.0</PreCondition></PreConditions>
 <Expression>- 0.00000063 * aBrakePercentage * aBrakePercentage * aBrakePercentage + 0.000061 * aBrakePercentage * aBrakePercentage + 0.00472 * aBrakePercentage + 0.0663</Expression>
 </Case><Case
  Name="Between 100 km/h and 120 km/h"
@@ -130,7 +130,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="bfcb0395-95d4-419d-8442-447988aa9a3b"
->aV &lt; 120.0</PreCondition></PreConditions>
+>V &lt; 120.0</PreCondition></PreConditions>
 <Expression>0.000000273 * aBrakePercentage * aBrakePercentage * aBrakePercentage - 0.00000454 * aBrakePercentage * aBrakePercentage + 0.00514 * aBrakePercentage + 0.13</Expression>
 </Case><Case
  Name="Between 120 km/h and 150 km/h"
@@ -139,7 +139,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="b2611d26-8732-4f6d-8674-fdb3db4c2748"
->aV &lt; 150.0</PreCondition></PreConditions>
+>V &lt; 150.0</PreCondition></PreConditions>
 <Expression>0.0000000558 * aBrakePercentage * aBrakePercentage * aBrakePercentage - 0.00000676 * aBrakePercentage * aBrakePercentage + 0.00581 * aBrakePercentage + 0.0479</Expression>
 </Case><Case
  Name="Between 150 km/h and 180 km/h"
@@ -148,7 +148,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="082bc876-00e6-4588-9fd5-5206265adcf4"
->aV &lt; 180.0</PreCondition></PreConditions>
+>V &lt; 180.0</PreCondition></PreConditions>
 <Expression>0.00000003 * aBrakePercentage * aBrakePercentage * aBrakePercentage - 0.00000385 * aBrakePercentage * aBrakePercentage + 0.00552 * aBrakePercentage + 0.048</Expression>
 </Case><Case
  Name="Above 180 km/h"
@@ -176,7 +176,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <Parameters>
 <Parameter
  Type="BaseTypes.Speed"
- Name="aV"
+ Name="V"
  Guid="6c96d34a-e9df-46c7-9cf3-f8d396636228"
 >
 </Parameter></Parameters>
@@ -188,7 +188,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="34301833-6ccf-4f9c-9c44-93c1b616d337"
->aV &lt; 100.0</PreCondition></PreConditions>
+>V &lt; 100.0</PreCondition></PreConditions>
 <Expression>100.0</Expression>
 </Case><Case
  Name="120 km/h"
@@ -197,7 +197,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="02dbeb2f-ca25-4c25-8fa6-9d94a2613f16"
->aV &lt; 120.0</PreCondition></PreConditions>
+>V &lt; 120.0</PreCondition></PreConditions>
 <Expression>120.0</Expression>
 </Case><Case
  Name="150 km/h"
@@ -206,7 +206,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="282f743f-623e-4930-b9f0-0f84ec704a94"
->aV &lt; 150.0</PreCondition></PreConditions>
+>V &lt; 150.0</PreCondition></PreConditions>
 <Expression>150.0</Expression>
 </Case><Case
  Name="180 km/h"
@@ -215,7 +215,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <PreConditions>
 <PreCondition
  Guid="2aa3af5b-25c2-4fc7-a137-e825b504d4aa"
->aV &lt; 180.0</PreCondition></PreConditions>
+>V &lt; 180.0</PreCondition></PreConditions>
 <Expression>180.0</Expression>
 </Case><Case
  Name="Otherwise"
@@ -397,7 +397,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <Parameters>
 <Parameter
  Type="BaseTypes.Speed"
- Name="aV"
+ Name="V"
  Guid="2c316db0-7b6a-4def-a700-048aa331b5f9"
 >
 </Parameter></Parameters>
@@ -406,7 +406,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
  Name="Value"
  Guid="5aae405b-3859-4809-8b7a-d3982f736060"
 >
-<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency, aSpeed =&gt; aV )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency, aSpeed =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -504,7 +504,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
 <Parameters>
 <Parameter
  Type="BaseTypes.Speed"
- Name="aV"
+ Name="V"
  Guid="deffff49-7147-4f0e-831d-ba5f9da684b9"
 >
 </Parameter></Parameters>
@@ -513,7 +513,7 @@ Kernel.TrainData.TrainData.Value.TrainLength &lt;= Kernel.TrainData.BrakingParam
  Name="Value"
  Guid="52800a20-7b55-41eb-86d5-16be6840fd80"
 >
-<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service, aSpeed =&gt; aV )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service, aSpeed =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1245,27 +1245,27 @@ Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrai
 <Actions>
 <Action
  Guid="bbb40c9b-4a91-4203-a00d-df8b755c24c6"
->aBrakingModel.Val1.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( aV =&gt; aBrakingModel.Val1.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val1.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val1.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="29905a73-c2da-4a3b-93b4-82837f7821cf"
 >aBrakingModel.Val2.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val1.SpeedStep )</Action><Action
  Guid="cc558af0-ff56-4f4c-9253-3ccdc323b58c"
->aBrakingModel.Val2.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( aV =&gt; aBrakingModel.Val2.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val2.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val2.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="d879ee76-41ef-4c72-9131-6b14220147b3"
 >aBrakingModel.Val3.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val2.SpeedStep )</Action><Action
  Guid="6aa8704d-360d-4bf4-adb5-36bf94995598"
->aBrakingModel.Val3.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( aV =&gt; aBrakingModel.Val3.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val3.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val3.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="fb581b46-c93d-48d6-a727-a89c47bef563"
 >aBrakingModel.Val4.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val3.SpeedStep )</Action><Action
  Guid="bd257293-72f3-4014-a6ca-1635997ba2ed"
->aBrakingModel.Val4.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( aV =&gt; aBrakingModel.Val4.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val4.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val4.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="92ea5ad7-1d04-4258-8ff2-658fd677a3f0"
 >aBrakingModel.Val5.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val4.SpeedStep )</Action><Action
  Guid="c3d87dd1-f2db-4305-9daf-863cc051c191"
->aBrakingModel.Val5.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( aV =&gt; aBrakingModel.Val5.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
+>aBrakingModel.Val5.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val5.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action><Action
  Guid="21b08493-c9e7-4afe-9ba4-6f0bf958fb1f"
 >aBrakingModel.Val6.SpeedStep &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextSpeedStep ( aBrakingModel.Val5.SpeedStep )</Action><Action
  Guid="c8cdc33c-f7a7-4eea-8b3f-87acedd17411"
->aBrakingModel.Val6.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( aV =&gt; aBrakingModel.Val6.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action></Actions>
+>aBrakingModel.Val6.Acceleration &lt;- Kernel.TrainData.BrakingParameters.ConversionModel.BasicDecelerationNextAcceleration ( V =&gt; aBrakingModel.Val6.SpeedStep, aBrakePercentage =&gt; aBrakePercentage )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

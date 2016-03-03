@@ -74,7 +74,7 @@
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -90,7 +90,9 @@
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="c3713a65-4764-437c-98e3-65fdf5fa0da8"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -121,20 +123,20 @@
 <Actions>
 <Action
  Guid="975b2755-cd47-4e83-8b55-0138ec430460"
->Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
+>Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSetStruct
 {
-    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSet{},
-    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{},
-    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{}
+    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSetStruct{},
+    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSetStruct{},
+    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSetStruct{}
 }</Action><Action
  Guid="6147f55f-aae7-4018-9c66-60317f2cc85e"
->Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSet{}</Action><Action
+>Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSetStruct{}</Action><Action
  Guid="dc76efcf-de98-4791-95b1-114b42657a22"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="325cc5b1-7150-42fc-9c44-68a495e86a02"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInG</Action><Action
  Guid="1a184c54-7039-444b-92aa-7664c8370da9"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -308,29 +310,29 @@ IN
  Guid="cb99ef84-b6c8-4a85-a6ee-9b6122c03578"
 >TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action><Action
  Guid="ba257dbe-43b3-48d5-aac3-40083319edac"
->Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="da55bb33-f25b-46f4-8dd9-96065b8d3af8"
 >TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive &lt;- True</Action><Action
  Guid="d0c4e2bf-8d0c-433f-8b29-dc1649094c91"
->Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</Action><Action
  Guid="6095387b-90b3-4a9c-a249-13bf45e45c0c"
 >TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive &lt;- True</Action><Action
  Guid="8c596613-fea2-4091-b37b-5f9444069ef7"
->Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="87eab5e9-42d2-4ba7-abb5-058874bfdbdb"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="7bc10510-b655-47fe-bf44-b7a0f4948ee3"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="ad250091-089b-4572-bc7b-0170d2680e57"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -341,7 +343,7 @@ IN
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="470af1f5-4036-467c-9df4-b2fb795e8010"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -354,13 +356,13 @@ IN
  Guid="d3e56ecf-5855-4f4c-a29c-8f48dcc0cde2"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency.EddyCurrent_Magnetic_Regenerative &lt;- 2.5</Action><Action
  Guid="77696a8c-1e4a-4709-af49-4a81c312ed09"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="03720067-9124-43a1-8b41-a51f0509ed84"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
@@ -368,19 +370,19 @@ IN
  Guid="baa961f0-bc92-416f-a68a-b2547da9ab76"
 >Kernel.TrainData.TrainData.Value.T_brake_service.EddyCurrent_Regenerative &lt;- 2.5</Action><Action
  Guid="ee96b9cb-7f1d-4774-8283-6bece8afb496"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="1d3b39a6-d441-45c1-a0be-8b40af2e9f5f"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="831c54d8-57cf-4fa0-b2fe-096cad217beb"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -391,7 +393,7 @@ IN
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="38968c51-aee5-41ad-9f2d-459f08128ac5"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -404,13 +406,13 @@ IN
  Guid="c3802b8a-00e8-4847-a0ac-7b195a52d860"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency.Regenerative &lt;- 2.0</Action><Action
  Guid="13cead1f-e528-4a0c-a909-2accc4a39502"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="62f8d7a9-74ba-4d8c-aed0-f4e1a45dbdba"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
@@ -4019,7 +4021,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -4035,7 +4037,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="5fd2c4eb-73ee-4972-888b-2cfd712af6e6"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -4066,20 +4070,20 @@ IN
 <Actions>
 <Action
  Guid="6068cb19-ffad-4b60-9a31-8a021b5856af"
->Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
+>Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSetStruct
 {
-    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSet{},
-    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{},
-    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{}
+    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSetStruct{},
+    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSetStruct{},
+    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSetStruct{}
 }</Action><Action
  Guid="18630444-559e-4a5f-bde0-1df1c6cdcbdb"
->Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSet{}</Action><Action
+>Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSetStruct{}</Action><Action
  Guid="351ff92b-16ed-40bd-848c-5ac0dd616cd2"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="bfc5cca0-e084-4a13-ae80-755481dcfdbb"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInP</Action><Action
  Guid="339502ba-d087-4328-b0c6-95db6d350972"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -4253,29 +4257,29 @@ IN
  Guid="1a2af2bb-366e-4eac-bdbf-9122f0507ea1"
 >TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action><Action
  Guid="d0d11ef7-02cf-420f-849c-11e0d6dcc71a"
->Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="4d46b844-3f67-4906-b1c4-957ae805e878"
 >TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive &lt;- True</Action><Action
  Guid="cdf8a8fe-eada-4233-b805-72903b49ad9e"
->Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</Action><Action
  Guid="b8e43a06-7d1a-4f78-aaa9-8f6dd8ffd1fa"
 >TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive &lt;- True</Action><Action
  Guid="bfecce6c-20e5-475c-b475-64f39c0685e2"
->Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="0777ab4d-c958-4691-bd9a-361df0daa0f3"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="468622aa-f8e6-4744-8358-7cff4e7ad574"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="cac5a313-5022-4e65-a4ab-c3332bff1ac9"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4286,7 +4290,7 @@ IN
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="bce2b024-b92f-4746-95c0-f2becc2c6e21"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4299,13 +4303,13 @@ IN
  Guid="a34a9deb-094d-47f5-9fa8-78ff232e7658"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency.EddyCurrent_Magnetic_Regenerative &lt;- 2.5</Action><Action
  Guid="5c077aac-bc7e-4dae-b67b-4c10aaa38dee"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="a1766018-25b9-49fc-8c9a-6f56a588503e"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
@@ -4313,19 +4317,19 @@ IN
  Guid="945515e9-e530-4c8f-91d3-a40d34754d77"
 >Kernel.TrainData.TrainData.Value.T_brake_service.EddyCurrent_Regenerative &lt;- 2.5</Action><Action
  Guid="8f6ed326-bc10-4072-a6e7-00a84f572733"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="04f2d55c-d4bb-4d11-990c-812ab4b63550"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="2fe9c8dd-ed9b-45a8-9f13-cc86f96eaa00"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4336,7 +4340,7 @@ IN
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="f1e4ec4b-fcbc-4097-8a91-b8f7c575c196"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -4349,13 +4353,13 @@ IN
  Guid="416ce254-8cdd-42bb-bba0-40f181302e13"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency.Regenerative &lt;- 2.0</Action><Action
  Guid="bab8eb05-f793-40ab-93ca-8db9ae5bf63f"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="14813585-bbd1-4473-b747-7fec10a30853"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
@@ -8015,7 +8019,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -8031,7 +8035,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="cdfc9c5a-cfc4-42cc-a5db-799bfb8b04ef"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -8062,20 +8068,20 @@ IN
 <Actions>
 <Action
  Guid="48ea1842-fcf8-4785-a71b-4ae9cadd8913"
->Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSet
+>Kernel.TrainData.TrainData.Value.EBModels &lt;- Kernel.TrainData.BrakingParameters.EBModelSetStruct
 {
-    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSet{},
-    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{},
-    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{}
+    ModelSet =&gt; Kernel.TrainData.BrakingParameters.BrakingModelSetStruct{},
+    Kdry_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kdry_rstValuesSetStruct{},
+    Kwet_rstValuesSet =&gt; Kernel.TrainData.BrakingParameters.Kwet_rstValuesSetStruct{}
 }</Action><Action
  Guid="a8cc8d55-d87d-4f01-8382-dec517e5af0d"
->Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSet{}</Action><Action
+>Kernel.TrainData.TrainData.Value.SBModels &lt;- Kernel.TrainData.BrakingParameters.SBModelSetStruct{}</Action><Action
  Guid="d4f010d9-adfe-47f4-9ab3-181db211a2a4"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="45d401ce-7286-49d6-ab8f-2d6557c720e9"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="536c9aac-50df-441a-aecd-27094bc078d8"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -8249,29 +8255,29 @@ IN
  Guid="34ddffae-51f1-4e27-8b1a-e6ca734c45ac"
 >TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive &lt;- True</Action><Action
  Guid="b51e5efd-595a-48b7-8246-fc26250e5d76"
->Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="60a021e3-8b0f-4e04-b99f-f82c28d1ccb7"
 >TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive &lt;- True</Action><Action
  Guid="0bd2b45d-43a5-4382-be9c-d24c9946c12e"
->Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB</Action><Action
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</Action><Action
  Guid="42e882d3-703a-4113-8680-8d26d1e1fc13"
 >TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive &lt;- True</Action><Action
  Guid="24f7f354-8a65-45a6-8c6a-5939a52112f7"
->Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
  Guid="5da30d44-2e33-4a19-bd9e-e44cacd78179"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="9e9c05a0-879d-4982-bfc1-c72fc85deeec"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.EddyCurrent_Magnetic_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="27c43c10-59d8-4231-8226-4e9a4935cd3a"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.EddyCurrent_Magnetic_Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -8282,7 +8288,7 @@ IN
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="82a61694-2652-4de5-bc8a-2b80d8c72808"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.EddyCurrent_Magnetic_Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -8295,13 +8301,13 @@ IN
  Guid="eec13a62-4e39-40c6-bd51-0f4b99e1a81b"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency.EddyCurrent_Magnetic_Regenerative &lt;- 2.5</Action><Action
  Guid="fc0541a0-0bf5-4ced-982c-136ea64064b3"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="4dddd60c-c1e0-4ef6-b8e2-f139c46e73b7"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.EddyCurrent_Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
@@ -8309,19 +8315,19 @@ IN
  Guid="b2d95002-4705-4f8a-875e-2a3dac10528c"
 >Kernel.TrainData.TrainData.Value.T_brake_service.EddyCurrent_Regenerative &lt;- 2.5</Action><Action
  Guid="ae079df8-b2d5-49af-a5fb-38888b5b3e40"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="def0fbfd-6dea-409a-aeb1-4e831404c619"
->Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.EBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 0.8
 }</Action><Action
  Guid="32a593ef-bf27-4cdf-86b4-2e3cf475cefe"
->Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.Regenerative.Cl__99_9999999 &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -8332,7 +8338,7 @@ IN
     CF6 =&gt; 1.0
 }</Action><Action
  Guid="e5379119-f6bb-40a2-b28d-662af6fc1606"
->Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValue
+>Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.Regenerative &lt;- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct
 {
     CF0 =&gt; 1.0,
     CF1 =&gt; 1.0,
@@ -8345,13 +8351,13 @@ IN
  Guid="ca0c945c-923c-4277-9dc1-b734fae996e1"
 >Kernel.TrainData.TrainData.Value.T_brake_emergency.Regenerative &lt;- 2.0</Action><Action
  Guid="054d2ce6-4502-4654-b71d-d0575a18c8ee"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val0 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; 0.0,
     Acceleration =&gt; 1.0
 }</Action><Action
  Guid="388d115d-e30d-4d67-bfdf-9295a492a44f"
->Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValue
+>Kernel.TrainData.TrainData.Value.SBModels.ModelSet.Regenerative.Val1 &lt;- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct
 {
     SpeedStep =&gt; Default.BaseTypes.Speed.Infinity,
     Acceleration =&gt; 1.0
@@ -11960,7 +11966,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -11976,7 +11982,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="d190a1ce-0172-4cfa-be15-18f32bf01922"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -12019,9 +12027,9 @@ IN
  Guid="a86b879d-301c-45ba-aa12-0a85a0d8f4d3"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="e16508f7-a058-419f-aeab-ff000784e274"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInG</Action><Action
  Guid="138447fd-646f-4c48-a902-e4e9f6f3e474"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -15353,7 +15361,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -15369,7 +15377,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="4bf40658-745f-49e3-a0bc-44d955616589"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -15412,9 +15422,9 @@ IN
  Guid="ffcb7bb2-0869-4b7b-b022-12af195d7dbf"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="ea7ccbec-224c-4fae-86cd-a392ce423791"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInG</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInG</Action><Action
  Guid="4577d771-87ee-44cc-a674-66f19ad74c9d"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -18732,7 +18742,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -18748,7 +18758,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="95cb9eeb-6293-4931-9f9f-efe1c67d2282"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -18791,9 +18803,9 @@ IN
  Guid="39119350-3838-41ad-85fa-09ab8a607a0f"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="6ca4b4fc-8825-4e03-88a6-31c2591335db"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInP</Action><Action
  Guid="1e2fa7fe-aebc-418a-90ad-6a1882e7dfef"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -22125,7 +22137,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -22141,7 +22153,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="8af68a2e-bff9-49a7-b16a-47a4fbf42e1a"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -22184,9 +22198,9 @@ IN
  Guid="911a827a-5b94-4264-8117-8bb8980200df"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="7a89edbd-b21f-4cad-af47-7c6fb528f103"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.FreightTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.FreightTrainInP</Action><Action
  Guid="0997c5c9-d6ad-406c-94fe-18b77e761d8a"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -25518,7 +25532,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -25534,7 +25548,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="c6161352-1e51-44dd-a210-b5bcc627ba27"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -25577,9 +25593,9 @@ IN
  Guid="a94af1af-c4cd-48b8-9bdc-d993397651e2"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="4a9f5bb3-6acb-4aeb-b57d-4b10d7f7cd38"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="744cb3a2-c696-4701-add4-88dbf1a18c2a"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -28913,7 +28929,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -28929,7 +28945,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="0d7b57b4-69fa-4de0-aead-210e438eec46"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -28972,9 +28990,9 @@ IN
  Guid="118f7518-e7c9-4a52-a3bc-bcd0f372e0ad"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="a19d1dd9-731e-4da6-96eb-a9107151d767"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="60719149-e713-4687-8587-5b77a6e658b5"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -32294,7 +32312,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -32310,7 +32328,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="5810fabc-aed2-4a31-aa2c-802c0048b278"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -32353,9 +32373,9 @@ IN
  Guid="b7d2cbe7-fa76-4582-a957-60c1643ba328"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="0c46540f-08e7-479a-8408-e93bf99a0948"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="402b9552-099d-467d-a832-c4647d807282"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 0.0
@@ -35716,7 +35736,7 @@ IN
 {
   NID =&gt; 0, 
   Orientation =&gt; Default.OrientationEnum.Nominal, 
-  Position =&gt; BTM.Position
+  Position =&gt; BTM.PositionStruct
   {
     Position =&gt; 0.0, 
     UnderReadingAmountOdo =&gt; 0.0, 
@@ -35732,7 +35752,9 @@ IN
     Second =&gt; 20, 
     TTS =&gt; 600
   }
-}</Action></Actions>
+}</Action><Action
+ Guid="7e443e9a-540a-4e8e-ad41-1c7407e91789"
+>Kernel.TrainPosition.Position.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -35775,9 +35797,9 @@ IN
  Guid="6a39f25b-1414-4739-a464-7b0cccf37887"
 >Kernel.TrainData.TrainData.Value.MaximumSpeed &lt;- 180.0</Action><Action
  Guid="69529b42-720b-43b3-ba2c-68333556c519"
->Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositions.PassengerTrainInP</Action><Action
+>Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="23b90b2a-09c6-47bc-8ac6-fc938e71cfed"
->Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModel
+>Kernel.TrainData.TrainData.Value.TractionModel &lt;- Kernel.TrainData.TractionModelStruct
 {
     Coefficient =&gt; 0.0,
     Constant    =&gt; 2.0

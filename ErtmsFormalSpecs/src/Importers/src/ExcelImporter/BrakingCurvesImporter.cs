@@ -192,7 +192,7 @@ namespace Importers.ExcelImporter
                                                     "    {\n" +
                                                     "    NID => 0,\n" +
                                                     "    Orientation => Default.OrientationEnum.Nominal,\n" +
-                                                    "    Position => BTM.Position\n" +
+                                                    "    Position => BTM.PositionStruct\n" +
                                                     "    {\n" +
                                                     "        Position => 0.0,\n" +
                                                     "        UnderReadingAmountOdo => 0.0,\n" +
@@ -210,6 +210,10 @@ namespace Importers.ExcelImporter
                                                     "    }\n" +
                                                     "}";
                 aSubStep.AddModelElement(LRBGInitialization);
+
+                TestAction TrainPositionState = new TestAction();
+                TrainPositionState.ExpressionText = "Kernel.TrainPosition.Position.DataState <- Default.DataStateEnum.Valid";
+                aSubStep.AddModelElement(TrainPositionState);
             }
         }
 
@@ -230,10 +234,10 @@ namespace Importers.ExcelImporter
             /* This is a gamma train => we have to initialize brake models in the train data */
             addAction(aSubStep,
                 String.Format(
-                    "Kernel.TrainData.TrainData.Value.EBModels <- Kernel.TrainData.BrakingParameters.EBModelSet\n{{\n    ModelSet => Kernel.TrainData.BrakingParameters.BrakingModelSet{{}},\n    Kdry_rstValuesSet => Kernel.TrainData.BrakingParameters.Kdry_rstValuesSet{{}},\n    Kwet_rstValuesSet => Kernel.TrainData.BrakingParameters.Kwet_rstValuesSet{{}}\n}}"));
+                    "Kernel.TrainData.TrainData.Value.EBModels <- Kernel.TrainData.BrakingParameters.EBModelSetStruct\n{{\n    ModelSet => Kernel.TrainData.BrakingParameters.BrakingModelSetStruct{{}},\n    Kdry_rstValuesSet => Kernel.TrainData.BrakingParameters.Kdry_rstValuesSetStruct{{}},\n    Kwet_rstValuesSet => Kernel.TrainData.BrakingParameters.Kwet_rstValuesSetStruct{{}}\n}}"));
             addAction(aSubStep,
                 String.Format(
-                    "Kernel.TrainData.TrainData.Value.SBModels <- Kernel.TrainData.BrakingParameters.SBModelSet{{}}"));
+                    "Kernel.TrainData.TrainData.Value.SBModels <- Kernel.TrainData.BrakingParameters.SBModelSetStruct{{}}"));
 
             /* Initializing the maximum train speed */
             /* I didn't find this value in ERA sheets, but I observed than their P function can exceed 160 km/h => the maximum speed should be greater than 160 km/h */
@@ -521,14 +525,14 @@ namespace Importers.ExcelImporter
             }
             addAction(aSubStep,
                 String.Format(
-                    "Kernel.TrainData.TrainData.Value.BrakePosition <- Kernel.TrainData.BrakingParameters.BrakePositions.{0}",
+                    "Kernel.TrainData.TrainData.Value.BrakePosition <- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.{0}",
                     decodedStringValue));
 
 
             /* Initializing the traction model */
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.TrainData.TrainData.Value.TractionModel <- Kernel.TrainData.TractionModel\n{{\n    Coefficient => {0:0.0},\n    Constant    => {1:0.0}\n}}",
+                    "Kernel.TrainData.TrainData.Value.TractionModel <- Kernel.TrainData.TractionModelStruct\n{{\n    Coefficient => {0:0.0},\n    Constant    => {1:0.0}\n}}",
                     0, (double) (aRange.Cells[16, 4] as Range).Value2));
 
 
@@ -892,7 +896,7 @@ namespace Importers.ExcelImporter
                     addAction(aSubStep, String.Format("TIU.SpecialBrakeStatus.EddyCurrentBrakeIsActive <- True"));
                     addAction(aSubStep,
                         String.Format(
-                            "Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface <- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both\n"));
+                            "Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface <- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both\n"));
                 }
                 ebBrakesCombination += obj == null ? "" : "EddyCurrent";
                 sbBrakesCombination += obj == null ? "" : "EddyCurrent";
@@ -905,7 +909,7 @@ namespace Importers.ExcelImporter
                     addAction(aSubStep, String.Format("TIU.SpecialBrakeStatus.MagneticShoeBrakeIsActive <- True"));
                     addAction(aSubStep,
                         String.Format(
-                            "Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface <- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.EB\n"));
+                            "Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface <- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB\n"));
                 }
                 ebBrakesCombination += ebBrakesCombination == "" ? "Magnetic" : "_Magnetic";
             }
@@ -917,7 +921,7 @@ namespace Importers.ExcelImporter
                     addAction(aSubStep, String.Format("TIU.SpecialBrakeStatus.RegenerativeBrakeIsActive <- True"));
                     addAction(aSubStep,
                         String.Format(
-                            "Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface <- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatus.Both\n"));
+                            "Kernel.TrainData.TrainData.Value.RegenerativeBrakeInterface <- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both\n"));
                 }
                 ebBrakesCombination += ebBrakesCombination == "" ? "Regenerative" : "_Regenerative";
                 sbBrakesCombination += sbBrakesCombination == "" ? "Regenerative" : "_Regenerative";
@@ -939,14 +943,14 @@ namespace Importers.ExcelImporter
                     doubleValue = temp;
                     addAction(aSubStep,
                         String.Format(CultureInfo.InvariantCulture,
-                            "Kernel.TrainData.TrainData.Value.EBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => {2:0.0###},\n    Acceleration => {3:0.0###}\n}}",
+                            "Kernel.TrainData.TrainData.Value.EBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct\n{{\n    SpeedStep => {2:0.0###},\n    Acceleration => {3:0.0###}\n}}",
                             ebBrakesCombination, index, speed, doubleValue));
                     index++;
                 }
             }
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.TrainData.TrainData.Value.EBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Acceleration => {2:0.0###}\n}}",
+                    "Kernel.TrainData.TrainData.Value.EBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Acceleration => {2:0.0###}\n}}",
                     ebBrakesCombination, index, doubleValue));
 
 
@@ -957,7 +961,7 @@ namespace Importers.ExcelImporter
             /* Initializing Kdry_rst */
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.{0}.{1} <- Kernel.TrainData.BrakingParameters.CorrectFactorValue\n{{\n    CF0 => {2:0.0###},\n    CF1 => {3:0.0###},\n    CF2 => {4:0.0###},\n    CF3 => {5:0.0###},\n    CF4 => {6:0.0###},\n    CF5 => {7:0.0###},\n    CF6 => {8:0.0###}\n}}",
+                    "Kernel.TrainData.TrainData.Value.EBModels.Kdry_rstValuesSet.{0}.{1} <- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct\n{{\n    CF0 => {2:0.0###},\n    CF1 => {3:0.0###},\n    CF2 => {4:0.0###},\n    CF3 => {5:0.0###},\n    CF4 => {6:0.0###},\n    CF5 => {7:0.0###},\n    CF6 => {8:0.0###}\n}}",
                     ebBrakesCombination,
                     "Cl__99_9999999", // this value should be provided by the previous step
                     (double) (aRange.Cells[23, dataColumnNumber + 2] as Range).Value2,
@@ -972,7 +976,7 @@ namespace Importers.ExcelImporter
             /* Initializing Kwet_rst */
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.{0} <- Kernel.TrainData.BrakingParameters.CorrectFactorValue\n{{\n    CF0 => {1:0.0###},\n    CF1 => {2:0.0###},\n    CF2 => {3:0.0###},\n    CF3 => {4:0.0###},\n    CF4 => {5:0.0###},\n    CF5 => {6:0.0###},\n    CF6 => {7:0.0###}\n}}",
+                    "Kernel.TrainData.TrainData.Value.EBModels.Kwet_rstValuesSet.{0} <- Kernel.TrainData.BrakingParameters.CorrectFactorValueStruct\n{{\n    CF0 => {1:0.0###},\n    CF1 => {2:0.0###},\n    CF2 => {3:0.0###},\n    CF3 => {4:0.0###},\n    CF4 => {5:0.0###},\n    CF5 => {6:0.0###},\n    CF6 => {7:0.0###}\n}}",
                     ebBrakesCombination,
                     (double) (aRange.Cells[38, dataColumnNumber + 2] as Range).Value2,
                     (double) (aRange.Cells[40, dataColumnNumber + 2] as Range).Value2,
@@ -1003,14 +1007,14 @@ namespace Importers.ExcelImporter
                     doubleValue = temp;
                     addAction(aSubStep,
                         String.Format(CultureInfo.InvariantCulture,
-                            "Kernel.TrainData.TrainData.Value.SBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => {2:0.0###},\n    Acceleration => {3:0.0###}\n}}",
+                            "Kernel.TrainData.TrainData.Value.SBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct\n{{\n    SpeedStep => {2:0.0###},\n    Acceleration => {3:0.0###}\n}}",
                             sbBrakesCombination, index, speed, doubleValue));
                     index++;
                 }
             }
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.TrainData.TrainData.Value.SBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValue\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Acceleration => {2:0.0###}\n}}",
+                    "Kernel.TrainData.TrainData.Value.SBModels.ModelSet.{0}.Val{1} <- Kernel.TrainData.BrakingParameters.BrakingModelValueStruct\n{{\n    SpeedStep => Default.BaseTypes.Speed.Infinity,\n    Acceleration => {2:0.0###}\n}}",
                     sbBrakesCombination, index, doubleValue));
 
 
