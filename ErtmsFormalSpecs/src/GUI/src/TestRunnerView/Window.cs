@@ -21,6 +21,7 @@ using DataDictionary;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using GUI.IPCInterface;
+using GUI.LongOperations;
 using GUI.Properties;
 using Utils;
 using Step = DataDictionary.Tests.Step;
@@ -284,6 +285,7 @@ namespace GUI.TestRunnerView
             }
             Clear();
             EfsSystem.Instance.Context.HandleEndOfCycle();
+            RefreshModel.Execute();
             tabControl1.SelectedTab = testExecutionTabPage;
         }
 
