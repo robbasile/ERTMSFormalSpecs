@@ -58,7 +58,7 @@ namespace DataDictionary.Interpreter
         public Term(ModelElement root, ModelElement log, Expression literal, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            LiteralValue = literal;
+            LiteralValue = SetEnclosed(literal);
         }
 
         /// <summary>

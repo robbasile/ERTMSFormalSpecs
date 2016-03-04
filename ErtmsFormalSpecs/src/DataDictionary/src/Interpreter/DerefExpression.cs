@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Types;

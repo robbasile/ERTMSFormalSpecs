@@ -25,7 +25,6 @@ using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
 using Range = DataDictionary.Types.Range;
-using StructureElement = DataDictionary.Types.StructureElement;
 using Type = DataDictionary.Types.Type;
 
 namespace DataDictionary.Interpreter.Statement

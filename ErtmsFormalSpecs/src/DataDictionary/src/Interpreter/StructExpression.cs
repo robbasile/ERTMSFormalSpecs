@@ -46,7 +46,7 @@ namespace DataDictionary.Interpreter
             Dictionary<Designator, Expression> associations, ParsingData parsingData)
             : base(root, log, parsingData)
         {
-            Structure = structure;
+            Structure = SetEnclosed(structure);
             SetAssociation(associations);
         }
 
