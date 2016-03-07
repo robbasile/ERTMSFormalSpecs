@@ -5503,6 +5503,98 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="220"
+ Y="900"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ResetRegistrationStateSMAndRegister"
+ Guid="d350e2ac-bc56-4b36-a24f-d6a8bc66af49"
+>
+<ReqRef
+ Id="07af900f-f07f-4018-abe3-bab8be32b2a9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a37cfb33-89a5-490b-8116-d6e93003de18"
+>
+</ReqRef><ReqRef
+ Id="e0778e14-e6ea-4f06-8c69-56236250b636"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b87ed868-f960-48c3-91a2-44e8bd93c8fe"
+>
+</ReqRef><ReqRef
+ Id="68a814aa-d977-4ba8-8329-54aaaec00081"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="62e13287-9274-4a10-a8d9-61bc43743daf"
+>
+</ReqRef><ReqRef
+ Id="9f6c605e-3f76-4367-a7a4-7f4fa458ef67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acf5fff6-c2c1-4942-9f14-cfbc91462662"
+>
+</ReqRef><ReqRef
+ Id="dcc51a42-0407-4ab9-855a-55dc04e2ce4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ccb5fde5-2b51-4838-82b0-b9adb86d4ab8"
+>
+</ReqRef><ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7c5bd59-b00c-4d77-b69d-b4029a7261c1"
+>
+</ReqRef><Comment>The procedure starts the registering of the provided mobile terminal to the provided network, except if the terminal is already registered to the provided netword.</Comment>
+<Parameters>
+<Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="e87cbc10-8580-4bf6-b693-a86c31134b3b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Register a terminal"
+ Guid="e516dbd5-4acd-486c-9834-992ad3cfad91"
+>
+<ReqRef
+ Id="fc32fb41-1c57-4753-a923-fe676aabf35d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="98711b81-9e6c-4e8d-b7fe-f10d346bccba"
+>
+</ReqRef><Comment>Requests the registering of the provided mobile terminal to the provided network, if it is not already registered to that network.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Register"
+ Guid="cbfd45b9-bf06-425c-8c44-df597f0f3cbd"
+>
+<PreConditions>
+<PreCondition
+ Guid="2e61b99c-8683-4040-8fab-78a11e0ea11a"
+>NOT
+(
+  THIS.RegistrationState in EURORADIO.TerminalStruct.RegistrationStateSM.Registered
+    AND
+  THIS.NetworkId == aNetworkId
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c47132cf-3f4d-4a06-9fcd-2c032a0104d5"
+>THIS.NetworkId &lt;- &apos;&apos;</Action><Action
+ Guid="96b3c678-84b0-4d67-949a-b1b9875d16f6"
+>THIS.RegistrationRequestState.Response &lt;- False</Action><Action
+ Guid="490a35a6-043f-4a5b-b79f-616b2b906f3e"
+>THIS.RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="2bd9f770-4284-492c-bfce-076f3a3933fd"
+>THIS.RegistrationState &lt;- EURORADIO.TerminalStruct.RegistrationStateSM.NotRegistered</Action><Action
+ Guid="cb5b6cd3-3863-4ab9-91a9-2dda18617be6"
+>THIS.NetworkIdToRegister &lt;- aNetworkId</Action><Action
+ Guid="90b0a548-226b-4bf1-b54e-6f0cae7bc962"
+>THIS.RegistrationOrderIsReceived &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="String"
@@ -8825,16 +8917,14 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="78ee6641-812f-4c2a-afbe-b0e4ada5e038"
->EURORADIO.RegisterATerminal
+>EURORADIO.Terminal1.ResetRegistrationStateSMAndRegister
 (
-    aTerminal=&gt; EURORADIO.Terminal1,
-    aNetworkId=&gt; aNetworkId
+    aNetworkId
 )</Action><Action
- Guid="c6f1daed-dbca-4284-aa54-e5ac33091cd8"
->EURORADIO.RegisterATerminal
+ Guid="32182ac6-6175-40d8-b9ba-e83cb3c402b7"
+>EURORADIO.Terminal2.ResetRegistrationStateSMAndRegister
 (
-    aTerminal=&gt; EURORADIO.Terminal2,
-    aNetworkId=&gt; aNetworkId
+    aNetworkId
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -8854,16 +8944,14 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="25c3fc69-9b60-4bb1-a2d1-b74d2cd381a9"
->EURORADIO.RegisterATerminal
+>EURORADIO.Terminal1.ResetRegistrationStateSMAndRegister
 (
-    aTerminal=&gt; EURORADIO.Terminal1,
-    aNetworkId=&gt; EURORADIO.DefaultRadioNetworkId
+    EURORADIO.DefaultRadioNetworkId
 )</Action><Action
- Guid="e3be1ede-90b1-4290-b919-3187a1668b3c"
->EURORADIO.RegisterATerminal
+ Guid="5442134a-9062-458e-a3e8-adf01cbfa296"
+>EURORADIO.Terminal2.ResetRegistrationStateSMAndRegister
 (
-    aTerminal=&gt; EURORADIO.Terminal2,
-    aNetworkId=&gt; EURORADIO.DefaultRadioNetworkId
+    EURORADIO.DefaultRadioNetworkId
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -12097,97 +12185,6 @@ RevSupPacketAvailable(
 <Action
  Guid="847054a6-9b00-4448-832a-5edaa16863c2"
 >EURORADIO.RegisterMobileTerminals ( aPacket.NID_MN )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="220"
- Y="900"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="RegisterATerminal"
- Guid="91d65967-0ce4-4f16-86a3-05c2262bea89"
->
-<ReqRef
- Id="07af900f-f07f-4018-abe3-bab8be32b2a9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6920acdb-a800-4874-b91e-7f52be773233"
->
-</ReqRef><ReqRef
- Id="e0778e14-e6ea-4f06-8c69-56236250b636"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="94e92411-7aaa-47d2-9a62-3c2e6c77a8f0"
->
-</ReqRef><ReqRef
- Id="68a814aa-d977-4ba8-8329-54aaaec00081"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="832b01ee-f945-4278-92c0-f3ee17daaf78"
->
-</ReqRef><ReqRef
- Id="9f6c605e-3f76-4367-a7a4-7f4fa458ef67"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="04776bc6-432c-48f5-b474-809ce444a9d4"
->
-</ReqRef><ReqRef
- Id="dcc51a42-0407-4ab9-855a-55dc04e2ce4e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="67e9c776-a853-4d0d-95a0-27d086dc8e16"
->
-</ReqRef><ReqRef
- Id="dba4721e-ecc7-46a8-945a-ca408198338c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6eae9ec4-d583-4f99-9789-6285cbfc1c32"
->
-</ReqRef><Comment>The procedure starts the registering of the provided mobile terminal to the provided network, except if the terminal is already registered to the provided netword.</Comment>
-<Parameters>
-<Parameter
- Type="TerminalStruct"
- Name="aTerminal"
- Guid="69f73909-1dca-46c6-a79f-e7d801022eb6"
->
-</Parameter><Parameter
- Type="String"
- Name="aNetworkId"
- Guid="16f25452-c7ca-4c62-8a7d-417fe5fdb16f"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Register a terminal"
- Guid="0e7dcaaa-a043-4bc5-baf6-d4ab91873869"
->
-<ReqRef
- Id="fc32fb41-1c57-4753-a923-fe676aabf35d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7b24901c-10ca-440f-b179-193bbaca3ef6"
->
-</ReqRef><Comment>Requests the registering of the provided mobile terminal to the provided network, if it is not already registered to that network.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Register a terminal"
- Guid="4bc4b088-a4d4-497a-949d-f269fbf04b8a"
->
-<PreConditions>
-<PreCondition
- Guid="b98357f2-9bff-490d-951c-a72293c7c303"
->aTerminal != EMPTY
-  AND
-NOT
-(
-  aTerminal.RegistrationState in EURORADIO.TerminalStruct.RegistrationStateSM.Registered
-    AND
-  aTerminal.NetworkId == aNetworkId
-)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="d0f0e831-08a8-4181-a47d-9d039b484d48"
->aTerminal.NetworkIdToRegister &lt;- aNetworkId</Action><Action
- Guid="503a9e82-74de-44aa-9897-753d7f0369c1"
->aTerminal.RegistrationOrderIsReceived &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
