@@ -58,6 +58,17 @@
  Name="Registration"
  Guid="5641c6a9-bd83-441a-9645-6a0565b566c3"
 >
+</Variable><Variable
+ Type="VersionManagement.SystemVersionEnum"
+ DefaultValue="VersionManagement.SystemVersionEnum.Version1_0"
+ VariableMode="Internal"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="RBCSystemVersion"
+ Guid="a1d2bb2f-1e11-428c-a6a4-30b54ffd12e8"
+>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -92,9 +103,11 @@
 <PreConditions>
 <PreCondition
  Guid="72fd24d3-5426-49e8-b920-536a62653c6c"
->EURORADIO.CurrentTerminal().RegistrationState == EURORADIO.TerminalStruct.RegistrationStateSM.Registering</PreCondition><PreCondition
+>EURORADIO.CurrentTerminal().RegistrationState in [EURORADIO.TerminalStruct.RegistrationStateSM.Registering]</PreCondition><PreCondition
  Guid="a2a208d3-6285-4661-9c0a-0f1c85e9e5da"
->Count &lt; 0</PreCondition></PreConditions>
+>Count &lt; 0</PreCondition><PreCondition
+ Guid="f49c5401-1777-4cec-9c81-262562039e16"
+>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.S3.ReceiveNetworkIDs.Registration]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a24620fa-1c09-407b-9c66-00fc553ee1dd"
@@ -150,13 +163,15 @@
  Guid="61c7b75e-799a-4ca5-ac2c-1dec951ae643"
 >Count == 0</PreCondition><PreCondition
  Guid="a0cf0f2f-1814-4330-afeb-421a6d759856"
->EURORADIO.CurrentTerminal().RegistrationState == EURORADIO.TerminalStruct.RegistrationStateSM.Registering</PreCondition></PreConditions>
+>EURORADIO.CurrentTerminal().RegistrationState in [EURORADIO.TerminalStruct.RegistrationStateSM.Registering]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="af4e765b-39f6-46f7-bd9c-87ad84595dd8"
->EURORADIO.CurrentTerminal().RegistrationRequestState &lt;-  Registration</Action><Action
+>EURORADIO.CurrentTerminal().RegistrationRequestState.Response &lt;-  Registration</Action><Action
  Guid="e743facc-19e0-4a76-bbb0-a2d34b80a41e"
->Count &lt;- -1</Action></Actions>
+>Count &lt;- -1</Action><Action
+ Guid="ca42b954-6e3e-4c9d-9bca-4478b0a8fd82"
+>EURORADIO.CurrentTerminal().RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
