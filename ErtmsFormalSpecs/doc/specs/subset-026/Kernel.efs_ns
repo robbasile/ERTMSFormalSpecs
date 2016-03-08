@@ -824,8 +824,8 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 </ReqRef><PreConditions>
 <PreCondition
- Guid="5871e862-a82a-4e2f-8116-9005579a5960"
->EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+ Guid="92ac4e11-b853-4cfd-9511-127154fb4c3f"
+>EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Connected]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8d3533ec-8462-4002-ba2c-f7215b0c9ae8"
@@ -840,8 +840,10 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 <PreConditions>
 <PreCondition
- Guid="c09c63fb-2e4c-42ca-a000-fb272b226019"
->EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</PreCondition></PreConditions>
+ Guid="b8e9607c-3902-4155-9695-55c927cebde4"
+>EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Inactive]</PreCondition><PreCondition
+ Guid="fa792366-c41f-4080-84af-f15f52639813"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="88402501-8090-4591-b9bd-d010232a505f"

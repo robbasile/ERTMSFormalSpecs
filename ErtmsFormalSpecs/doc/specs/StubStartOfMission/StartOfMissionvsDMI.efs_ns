@@ -59,15 +59,25 @@
  Guid="5641c6a9-bd83-441a-9645-6a0565b566c3"
 >
 </Variable><Variable
- Type="VersionManagement.SystemVersionEnum"
- DefaultValue="VersionManagement.SystemVersionEnum.Version1_0"
+ Type="Messages.M_VERSION"
+ DefaultValue="Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0"
  VariableMode="Internal"
- X="221"
+ X="490"
+ Y="230"
+ Width="100"
+ Height="50"
+ Name="RBCMVERSION"
+ Guid="a1d2bb2f-1e11-428c-a6a4-30b54ffd12e8"
+>
+</Variable><Variable
+ Type="Boolean"
+ VariableMode="Internal"
+ X="331"
  Y="1"
  Width="100"
  Height="50"
- Name="RBCSystemVersion"
- Guid="a1d2bb2f-1e11-428c-a6a4-30b54ffd12e8"
+ Name="RBCRequestReceived"
+ Guid="f333d680-ce5b-4e11-bd7c-4075a71ffabf"
 >
 </Variable></Variables>
 <Rules>
@@ -174,48 +184,82 @@
 >EURORADIO.CurrentTerminal().RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Response</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
- Priority="Processing"
+ Priority="Verification"
  X="490"
  Y="70"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="AnswerRBCConnectionRequest"
  Guid="6feb4ba9-4836-426c-aeb1-d8d46fd4cfbe"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="AnswerRBCConnectionRequest_Connection"
+ Name="SendRBCSystemVersion_1"
  Guid="a0c595db-4fed-4a48-9331-14e993fd0b80"
 >
 <PreConditions>
 <PreCondition
+ Guid="79848107-c360-43aa-a1e5-cb37e149f48d"
+>EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Connecting.WaitForSystemVersion]</PreCondition><PreCondition
+ Guid="725b1fa2-ec7b-4001-a4d2-a34bc7ac6119"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition><PreCondition
  Guid="26dcf0b3-ba34-486f-aa11-40fde6ac439c"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.D31</PreCondition><PreCondition
- Guid="5252d24e-cfe0-4c79-8d9b-46883d11a522"
->EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
- Guid="5a8445bf-0dad-40d4-ad25-704994b81f67"
->True</PreCondition></PreConditions>
+ Guid="f6b3715c-2af9-4af8-8c19-6c54ee6f7c20"
+>RBCMVERSION in [Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0,
+Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0]</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="60aef578-20b7-4a4b-b974-c24affeb3c1d"
->EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+ Guid="bcf1f3ff-6804-4aed-8238-d506b3526be9"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message{
+SystemVersion2 =&gt; EMPTY,
+SystemVersion1 =&gt; 
+Messages.SystemVersion1.MESSAGE.TRACK_TO_TRAIN.Message{
+RIU_SYSTEM_VERSION =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.RBC.RIU_SYSTEM_VERSION.Message{
+    NID_MESSAGE =&gt; 0,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; 1000 * (MessageTypes.Time)(Kernel.DateAndTime.CurrentTime - 1.0),
+    M_ACK =&gt; 0,
+    NID_LRBG =&gt; 0,
+    M_VERSION =&gt; RBCMVERSION
+}
+},
+BitField =&gt; &apos;&apos;
+}</Action></Actions>
 </RuleCondition><RuleCondition
- Name="AnswerRBCConnectionRequest_NoConnection"
- Guid="7b8361e3-b248-460a-8dde-cd55651aa418"
+ Name="SendRBCSystemVersion_2"
+ Guid="b438aafd-ce93-4ffe-9978-4e1f0398588c"
 >
 <PreConditions>
 <PreCondition
- Guid="3c1731ec-ee3b-4117-941a-30ba7f13160e"
+ Guid="41bd33ba-55c1-4757-a68f-8b59ea9e0c42"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition><PreCondition
+ Guid="5852748a-224c-416f-ad35-4bc28780cbfe"
+>EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Connecting.WaitForSystemVersion]</PreCondition><PreCondition
+ Guid="3c1bd8dc-54a1-404a-919c-ae2ad34a731a"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.D31</PreCondition><PreCondition
- Guid="c3160172-4200-4a2a-b283-b5eb5ab1c004"
->EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
- Guid="904e442b-68fa-430d-92ff-bd6ad99c0fda"
->False</PreCondition></PreConditions>
+ Guid="df2b643c-ce0a-41df-83c7-13d8afd8ab5b"
+>RBCMVERSION in [Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0]</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="8ee930e9-2b41-406d-ba3a-6a360fbacd63"
->EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</Action></Actions>
+ Guid="eb07b1b1-d85c-4c0f-b335-8ffa6504409d"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message{
+SystemVersion2 =&gt; 
+Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+RIU_SYSTEM_VERSION =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.RBC.RIU_SYSTEM_VERSION.Message{
+    NID_MESSAGE =&gt; 0,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; 1000 * (MessageTypes.Time)(Kernel.DateAndTime.CurrentTime - 1.0),
+    M_ACK =&gt; 0,
+    NID_LRBG =&gt; 0,
+    M_VERSION =&gt; RBCMVERSION
+}
+},
+SystemVersion1 =&gt; EMPTY,
+BitField =&gt; &apos;&apos;
+}</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
@@ -296,6 +340,36 @@
     SystemVersion1 =&gt; EMPTY,
     Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
 }</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ X="221"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="SendRBCRequestAcknowledgement"
+ Guid="655556ab-a770-4ba5-bc56-fcb6451de173"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="InitiateRBCConnection"
+ Guid="59b5d6df-ac10-4822-a6a7-25749dc7165d"
+>
+<PreConditions>
+<PreCondition
+ Guid="65378fc0-4264-474f-9cea-90bbe4272da2"
+>Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.D31</PreCondition><PreCondition
+ Guid="5252d24e-cfe0-4c79-8d9b-46883d11a522"
+>EURORADIO.CurrentRBCConnection().SafeRadioConnectionStatus == EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
+ Guid="2b133dd9-0f81-416d-b939-1322653fceae"
+>EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Connecting.WaitForSetUp]</PreCondition><PreCondition
+ Guid="d24927a5-ecf6-4c23-95a2-0009119beb20"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionRequestIsSent</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0ad2395e-0f47-4406-be4a-cfc681ce5f31"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
