@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Values;
@@ -73,43 +74,43 @@ namespace DataDictionary.Functions.PredefinedFunctions
             AssignParameters(context, actuals);
 
             StringValue number = context.FindOnStack(Number).Value as StringValue;
-
             if (number != null && number.Val != "")
             {
-                char[] tmp = number.Val.ToCharArray();
-
-                // Each character in the string is checked. The expected format is
-                // #########FFFFF
-                // ie. a sequence of digits, possibly followed by a sequence of 'F'.
-                // numbersequence indicates that we are in the first part of the string
-                bool numberSequence = true;
-                for (int i = 0; i < tmp.Length; i++)
+                string textValue = number.Val;
+                NumberStyles style = NumberStyles.Number; 
+                if (textValue.StartsWith("0x", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    // If we encounter a letter that is not F, the value is incorrect
-                    if (Char.IsLetter(tmp[i]) && !tmp[i].Equals('F'))
-                    {
-                        break;
-                    }
+                    textValue = textValue.Substring(2);
+                    style = NumberStyles.HexNumber;
+                }
+                if (textValue.EndsWith(" h", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    textValue = textValue.Substring(0, textValue.Length - 2);
+                    style = NumberStyles.HexNumber;
+                }
+                while (textValue[textValue.Length - 1] == 'F')
+                {
+                    textValue = textValue.Substring(0, textValue.Length - 1);
+                    style = NumberStyles.HexNumber;
+                }
 
-                    // If we encounter a number after the first 'F' character, the value is incorrect
-                    if (!numberSequence && Char.IsDigit(tmp[i]))
-                    {
-                        break;
-                    }
-
-                    if (Char.IsLetter(tmp[i]))
-                    {
-                        numberSequence = false;
-                    }
-
-                    // Once the whole string has been checked without error, set the return to true
-                    if (i == tmp.Length - 1)
+                if (style == NumberStyles.HexNumber)
+                {
+                    ulong val;
+                    if (ulong.TryParse(textValue, style, CultureInfo.InvariantCulture, out val))
                     {
                         retVal = EFSSystem.BoolType.True;
                     }
                 }
+                else
+                {
+                    Decimal val;
+                    if (Decimal.TryParse(textValue, style, CultureInfo.InvariantCulture, out val))
+                    {
+                        retVal = EFSSystem.BoolType.True;
+                    }                    
+                }
             }
-
             context.LocalScope.PopContext(token);
 
             return retVal;
