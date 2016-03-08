@@ -717,6 +717,58 @@ namespace GUI
             }
 
             /// <summary>
+            ///     Take the name of a step
+            ///     If the name begins with "Step #", removes this and returns only the description of the step
+            /// </summary>
+            /// <param name="stepName"></param>
+            /// <returns></returns>
+            private string RemoveStepNumber(string stepName)
+            {
+                string retVal = stepName;
+
+                if (!string.IsNullOrEmpty(retVal))
+                {
+                    if (retVal.StartsWith("Step") || retVal.StartsWith("step"))
+                    {
+                        //  Remove the "Step " substring at the start of the step's name
+                        //  This converts step names of the type
+                        //      Step 2 - Step description   or
+                        //      Step 2: Step description
+                        //  to
+                        //      2 - Step description        or
+                        //      2: Step description
+
+                        retVal = retVal.Substring(4);
+
+
+                        //  Iterate through the characters in the step name to get the index of the first letter
+                        //  then remove all of the string before that index, getting
+                        //      Step description
+                        int indexOfFirstChar = 0;
+                        for (int i = 0; i < retVal.Length; i++)
+                        {
+                            if (Char.IsLetter(retVal[i]))
+                            {
+                                indexOfFirstChar = i;
+                                break;
+                            }
+
+                            // If no letters are found, set retVal to the empty string
+                            // Since the original name of the step was just "Step #"
+                            if (i == retVal.Length - 1)
+                            {
+                                indexOfFirstChar = i;
+                            }
+                        }
+
+                        retVal = retVal.Substring(indexOfFirstChar);
+                    }
+                }
+
+                return retVal;
+            }
+
+            /// <summary>
             ///     Updates the names of model elements to ensure that they match the defined naming convention
             /// </summary>
             /// <param name="obj"></param>
@@ -755,6 +807,10 @@ namespace GUI
                     {
                         newName = EnsureSuffix(namable.Name, StateMachineSuffix);
                     }
+                }
+                else if (namable is DataDictionary.Tests.Step)
+                {
+                    newName = RemoveStepNumber(namable.Name);
                 }
 
                 if (!string.IsNullOrEmpty(newName))
