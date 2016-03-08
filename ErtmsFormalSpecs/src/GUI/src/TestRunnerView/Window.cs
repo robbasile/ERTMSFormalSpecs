@@ -62,7 +62,7 @@ namespace GUI.TestRunnerView
             {
                 if (subSequence != null)
                 {
-                    EfsSystem.Runner = new Runner(subSequence, false, true, Settings.Default.CheckForCompatibleChanges);
+                    EfsSystem.Runner = new Runner(subSequence, true, true, Settings.Default.CheckForCompatibleChanges);
                 }
             }
 
