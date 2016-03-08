@@ -254,6 +254,301 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Guid="7b57277f-e2ab-45c2-a612-f14d23efda3a"
 >HandleModeChange()</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Display train data screen"
+ Guid="f424f0ac-e605-4c1b-937f-3cac247923a1"
+>
+<Comment>Displays the train data screen when requested by the driver</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Display the train data screen when the driver requests it"
+ Guid="3445fa77-ede7-4894-a55b-b995ecc5910a"
+>
+<PreConditions>
+<PreCondition
+ Guid="54ffa2cf-4f1e-4f3f-80bd-1f21b9611b74"
+>THIS.In_TrainDataEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3fd170ac-0f4d-44a9-bb58-af93cd9d2590"
+>THIS.In_TrainData.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Display train running number screen"
+ Guid="39f6b879-3d7e-41b5-b5b9-088a04cfd65b"
+>
+<Comment>Displays the train running number screen when requested by the driver</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Display the train running screen when the driver requests it"
+ Guid="1e6d4de0-5a54-49ef-add0-f29e8849b584"
+>
+<PreConditions>
+<PreCondition
+ Guid="69811f31-2f78-450d-a9c3-948b1f5e09a1"
+>THIS.In_TrainRunningNumberEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Name="Initiate request according to train running number data state"
+ Guid="3b1486ed-bfd2-4a04-a0ad-792d673a21b4"
+>
+<Comment>Initiate request according to train running number data state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Valid train running number"
+ Guid="712a8cb5-d6b9-4821-b199-eaea5588f5e1"
+>
+<Comment>The train running number is valid</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d591f591-4a2b-4556-830d-ef520aed64ec"
+>Kernel.TrainRunningNumber.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2534f92b-ac68-4762-98e8-b5f0594630ce"
+>THIS.In_TrainRunningNumber.InitiateRequest(
+    aNumber =&gt; Kernel.TrainRunningNumber.Value,
+    aEnter =&gt; True,
+    aReValidate =&gt; False
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Invalid train running number"
+ Guid="3e45e94a-04e4-44e4-9428-fab903e1f19d"
+>
+<Comment>The train running number is invalid</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a8d197c0-7db6-4383-b594-355805383ba0"
+>Kernel.TrainRunningNumber.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="777ae3ff-3744-4b3b-95b9-295bd13243ce"
+>THIS.In_TrainRunningNumber.InitiateRequest(
+    aNumber =&gt; Kernel.TrainRunningNumber.Value,
+    aEnter =&gt; True,
+    aReValidate =&gt; True
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Unknown train running number"
+ Guid="f10690c3-a35b-4780-80e4-d3c4260bc758"
+>
+<Comment>The train running number is unknown</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e2f27f18-f321-4e5e-a035-1cef9f5d52cc"
+>Kernel.TrainRunningNumber.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="974c43d0-8bd4-4f33-b58c-4a37c91cd42e"
+>THIS.In_TrainRunningNumber.InitiateRequest(
+    aNumber =&gt; &apos;&apos;,
+    aEnter =&gt; True,
+    aReValidate =&gt; True
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Display level screen"
+ Guid="8bb2e49a-49e0-4d99-ad2d-86d3a5613ab9"
+>
+<Comment>Displays the level screen when requested by the driver</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Display the level screen when the driver requests it"
+ Guid="711322e4-05e0-4aa0-bf0a-063aada8efd6"
+>
+<PreConditions>
+<PreCondition
+ Guid="781d04b5-73f2-4893-8a1d-d525e10de1ea"
+>THIS.In_ErtmsEtcsLevelEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Name="Initiate request according to level data state"
+ Guid="b49fb632-65f1-42d7-bf85-21b76cbe1dc0"
+>
+<Comment>Initiate request according to level data state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Valid level"
+ Guid="a4cf9188-b54a-4bdb-bfa4-c8c7d119dbc7"
+>
+<Comment>The level is valid</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2cb8d409-4193-4648-aa8f-52599819cdef"
+>Kernel.Level.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="56575309-fb45-4557-aa94-0644044bf9a4"
+>THIS.In_ErtmsEtcsLevel.InitiateRequest(
+     aLevel =&gt; Kernel.Level.Value,
+     aEnter =&gt; True,
+     aReValidate =&gt; False,
+     aNTCLevels =&gt; Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard 
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Invalid level"
+ Guid="acba3724-f84d-4d94-bd97-6ef184739083"
+>
+<Comment>The level is invalid</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c56c46b3-7155-4de7-ac8e-e9ccb7fffcf8"
+>Kernel.Level.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cd63b06c-5c43-4aa4-9995-ee1a63f18197"
+>THIS.In_ErtmsEtcsLevel.InitiateRequest(
+     aLevel =&gt; Kernel.Level.Value,
+     aEnter =&gt; False,
+     aReValidate =&gt; True,
+     aNTCLevels =&gt; Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard 
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Unknown level"
+ Guid="4274aaa9-8757-438b-8a42-cf134e6c5dfc"
+>
+<Comment>The level is unknown</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7b2193cc-faae-4db5-9a00-58c9701ee753"
+>Kernel.Level.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="84f88fa4-cd1b-47ec-bd56-ff7a29183093"
+>DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
+(
+  aLevel =&gt; LevelDataStruct
+  {
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.Unknown
+  },
+  aEnter =&gt; True, 
+  aReValidate =&gt; False,
+  aNTCLevels =&gt; Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Display driver id screen"
+ Guid="66a84e02-d011-4b76-84e2-34e8ce49b796"
+>
+<Comment>Displays the driver id screen when requested by the driver</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Display the level screen when the driver requests it"
+ Guid="ab51526e-5646-4572-b432-ce0fcead2a25"
+>
+<PreConditions>
+<PreCondition
+ Guid="f3ce38ea-b762-4473-b5fe-82a78b2042af"
+>THIS.In_DriverIdEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ Name="Initiate request according to driver id data state"
+ Guid="42a3e171-698e-474a-bd35-b26e71968d3a"
+>
+<Comment>Initiate request according to driver id data state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Valid driver id"
+ Guid="5225188d-9529-4fbd-bd49-b5a93ad6ddc0"
+>
+<Comment>The driver id is valid</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b5e3221b-94ae-403f-956d-464ee7c6ab33"
+>Kernel.DriverId.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="121f925b-220d-444f-a461-81549a230684"
+>THIS.In_DriverId.InitiateRequest(
+    aId =&gt; Kernel.DriverId.Value ,
+    aEnter =&gt; True,
+    aReValidate =&gt; False
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Invalid driver id"
+ Guid="1bfd6513-7f22-4232-937a-d4a85ac727cc"
+>
+<Comment>The driver id is invalid</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b98c65bd-46da-461d-8595-b011d13c9063"
+>Kernel.DriverId.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3fa2db16-75cf-489d-aa86-99d9dd061ce4"
+>THIS.In_DriverId.InitiateRequest(
+    aId =&gt; Kernel.DriverId.Value ,
+    aEnter =&gt; True,
+    aReValidate =&gt; True
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Unknown driver id"
+ Guid="2d6094b8-8686-4d70-9b50-09ca9e0f87a6"
+>
+<Comment>The driver id is unknown</Comment>
+<PreConditions>
+<PreCondition
+ Guid="539af2e3-11cc-4bbb-b2c4-cc46d1e55527"
+>Kernel.DriverId.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4a947f6c-8cfd-4dec-942d-42be3f47566e"
+>THIS.In_DriverId.InitiateRequest(
+    aId =&gt; &apos;&apos;,
+    aEnter =&gt; True,
+    aReValidate =&gt; False
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Name="Display virtual balise cover screen"
+ Guid="47d2272f-f41c-4659-899e-fd50a13f0b08"
+>
+<Comment>Displays the virtual balise cover screen when requested by the driver</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Display the virtual balise cover screen when the driver requests it"
+ Guid="af690efc-9d0e-4995-9cb6-d4e54736125b"
+>
+<PreConditions>
+<PreCondition
+ Guid="30fc099d-29c1-4a31-b952-51e94395c4a4"
+>THIS.In_VirtualBaliseCoverEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="22ca8b1f-0c5a-4753-81e4-4178fd5f6146"
+>THIS.In_VirtualBaliseCover.InitiateRequest(
+     aVirtualBaliseCovers=&gt;Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs 
+)</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
 <Procedure

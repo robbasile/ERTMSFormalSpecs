@@ -1189,7 +1189,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="387c504b-603f-43ed-98aa-c8dbca1b90db"
 >
-</ReqRef><Comment>If the driver selected to enter the train running number, the on-board equipment initiates the train running number entry.</Comment>
+</ReqRef><Comment>If the driver selected to enter the train running number, the on-board equipment initiates the train running number entry by displaying the Train Running Number screen (automatically done in namespace DMI).</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1209,66 +1209,6 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 >DMI.MasterDMI().In_DriverIdEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action><Action
  Guid="b385b77f-8f9f-4732-85b3-edf4c77497da"
 >DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Invalid train running number"
- Guid="905556d9-b460-46f3-a885-1f826d813c73"
->
-<Comment>If the train running number is invalid, the on-board equipments allows to reenter it or to validate it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Invalid train running number"
- Guid="4f833585-8f6d-4a4b-9950-5d5ef43fd68f"
->
-<PreConditions>
-<PreCondition
- Guid="499e6f7b-740e-4c50-a2c0-019a1e76634e"
->Kernel.TrainRunningNumber.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="affe3d9b-7a1e-4f62-bd0a-f1ff3cb5effd"
->DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
-(
-  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; True
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Unknown train running number"
- Guid="896e6a4f-9a5b-4776-b467-3d49e1921af5"
->
-<Comment>If the train running number is unknown, the on-board equipment allows to enter it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Unknown train running number"
- Guid="51b165ad-2672-480e-9b3f-149ce0a278df"
->
-<PreConditions>
-<PreCondition
- Guid="80ee118d-5ba9-4d4d-9192-fc1272b787fa"
->Kernel.TrainRunningNumber.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9a44c4a6-0ae2-44c8-862e-44ed64c312ec"
->DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
-(
-  aNumber =&gt; &apos;&apos;, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; False
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1315,7 +1255,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8ef71ad8-8a1e-4b65-b9dd-ba8525de4459"
 >
-</ReqRef><Comment>If the driver selected to enter the driver id, the on-board equipment initiates the driver id entry.</Comment>
+</ReqRef><Comment>If the driver selected to enter the driver id, the on-board equipment displays the driver ID screen (automatically done in DMI namespace)</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1335,66 +1275,6 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.WaitForDriverId</Action><Action
  Guid="20d6315b-90bc-49df-a944-f411be368116"
 >DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Invalid driver id"
- Guid="9d8ef1c6-15c2-4187-9212-faa7974d2e6c"
->
-<Comment>If the driver id is invalid, the on-board equipments allows to reenter or validate it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Invalid driver id"
- Guid="e7ac7312-d09a-48e1-be73-6c8f26db3161"
->
-<PreConditions>
-<PreCondition
- Guid="777e8ebd-bb8e-4e5e-8b5e-5b28d51a9121"
->Kernel.DriverId.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0ff251f6-8beb-499b-9cdc-55577d26e81a"
->DMI.MasterDMI().In_DriverId.InitiateRequest
-(
-  aId =&gt; Kernel.DriverId.Value, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; True
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Unknown driver id"
- Guid="a3486f3b-4205-47cd-84cc-d6d3de3e0cff"
->
-<Comment>If the driver id is unknown, the on-board equipment allows to enter it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Unknown driver id"
- Guid="aa75fa2c-fb14-4b1b-bec4-099d87046c89"
->
-<PreConditions>
-<PreCondition
- Guid="144f89cc-2a42-4da4-a61c-9940b285fd3c"
->Kernel.DriverId.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b89bff0b-b2af-4d9c-96fc-22bbcf2647e0"
->DMI.MasterDMI().In_DriverId.InitiateRequest
-(
-  aId =&gt; &apos;&apos;, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; False
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -1929,6 +1809,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Name="Wait until the driver asks to enter/validate the level"
  Guid="e08c4c45-476d-4ff1-9955-01dd2503344f"
 >
+<Comment>Display of the Level screen is automatically done in DMI namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="36792e40-27c4-47f9-9629-1ed2140dd176"
@@ -1937,82 +1818,6 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Action
  Guid="957c7945-9062-4681-95bd-c5d6c52967a7"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S2.LevelSelectionOffered</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Invalid level"
- Guid="87ceb58a-8c61-4536-8fe8-52e9f86056af"
->
-<ReqRef
- Id="7c664288-2b36-410e-9dce-05703e002b8e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a04875b2-420b-4609-9c9d-344706167e5d"
->
-</ReqRef><Comment>If the level is invalid, the driver is asked to revalidate it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Invalid level"
- Guid="6ecff5ec-a094-4942-af33-6f53a8d43d5c"
->
-<PreConditions>
-<PreCondition
- Guid="cf8193d4-30b6-4bc3-bbd4-45a591192f5f"
->Kernel.Level.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="24019dfa-3cfc-4da4-a643-b1fc2e787e44"
->DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
-(
-  aLevel =&gt; Kernel.Level.Value, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; True
-  aNTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Unknown level"
- Guid="5d66a02b-c359-4ca0-bb43-a38dc7a05ad8"
->
-<ReqRef
- Id="44711e45-24b9-4434-8eef-30cd89f623a4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6584845c-dee6-4466-b45b-1c0cdd3b3257"
->
-</ReqRef><Comment>If the level is unknown, the driver is asked to enter it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Unknown level"
- Guid="71b9b496-2692-41e6-868d-bc83370bf72d"
->
-<PreConditions>
-<PreCondition
- Guid="ca461923-7027-48ea-a301-66f336d29791"
->Kernel.Level.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e3a60529-bb36-4ba8-9e25-407becd12d5c"
->DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
-(
-  aLevel =&gt; LevelDataStruct
-  {
-    NTC =&gt; NID_NTC.NOT_APPLICABLE,
-    Value =&gt; LevelEnum.Unknown
-  },
-  aEnter =&gt; True, 
-  aReValidate =&gt; False,
-  aNTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
@@ -3260,19 +3065,45 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Request train running number"
- Guid="c69a94c0-d0f3-4663-b8a5-25e9431d0892"
+ Name="Invalid train running number"
+ Guid="1746bdf7-9cd6-4d48-bb08-cab722620d71"
 >
 <PreConditions>
 <PreCondition
- Guid="741213d4-90d4-4130-ab98-79e4b25028c1"
->Kernel.TrainRunningNumber.DataState in [DataStateEnum.Invalid, DataStateEnum.Unknown]</PreCondition></PreConditions>
+ Guid="da2163c2-8559-4741-9074-7b6f0cf21115"
+>Kernel.TrainRunningNumber.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="d893db47-bd02-44d1-8892-0223a092758d"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S13.TrainRunningNumberEntryProposed</Action><Action
- Guid="1f7439c5-76bb-4203-8e33-f0a404163b26"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InitiateRequest()</Action></Actions>
+ Guid="0ac8622f-25d6-4e3a-acd0-dc80b595016a"
+>DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
+(
+  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; True
+)</Action><Action
+ Guid="ba6a0e32-4453-451e-a987-d657f1d5f861"
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S13.TrainRunningNumberProposed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Unknown train running number"
+ Guid="f47f9fa2-fb96-4eaf-8280-a686638807be"
+>
+<PreConditions>
+<PreCondition
+ Guid="733e9a07-b1f0-4b8b-8e39-601bc1e14072"
+>Kernel.TrainRunningNumber.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="27775e3f-6a9f-41e7-bba5-77290d1190ec"
+>DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
+(
+  aNumber =&gt; &apos;&apos;, 
+  aEnter =&gt; True, 
+  aReValidate =&gt; False
+)</Action><Action
+ Guid="d3426dfc-0203-4a63-9691-20a186a2487a"
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S13.TrainRunningNumberProposed</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -3282,7 +3113,7 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="TrainRunningNumberEntryProposed"
+ Name="TrainRunningNumberProposed"
  Guid="3cb0a181-a0b4-4211-b9c5-f0e7ed9bd867"
 >
 <Comment>The driver selected to enter the train running number. Once the data is entered and validated, the process goes to D10.</Comment>
@@ -3308,79 +3139,6 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Driver selected to enter train running number"
- Guid="51e7a3c8-09c3-4dfc-a732-5bf5837cfbbe"
->
-<PreConditions>
-<PreCondition
- Guid="10ca63be-c728-4f77-ae2f-a7b29f9d316f"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Invalid train running number"
- Guid="1c912556-cc36-438e-b863-3aebb0b7dfc6"
->
-<Comment>If the train running number is invalid, the on-board equipments asks the driver to reenter or revalidate it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Invalid train running number"
- Guid="1746bdf7-9cd6-4d48-bb08-cab722620d71"
->
-<PreConditions>
-<PreCondition
- Guid="da2163c2-8559-4741-9074-7b6f0cf21115"
->Kernel.TrainRunningNumber.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0ac8622f-25d6-4e3a-acd0-dc80b595016a"
->DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
-(
-  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; True
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Unknown train running number"
- Guid="45486070-7d31-48e8-8059-c9071d873654"
->
-<Comment>If the train running number is unknown, the on-board equipments asks the driver to enter it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Unknown train running number"
- Guid="f47f9fa2-fb96-4eaf-8280-a686638807be"
->
-<PreConditions>
-<PreCondition
- Guid="733e9a07-b1f0-4b8b-8e39-601bc1e14072"
->Kernel.TrainRunningNumber.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="27775e3f-6a9f-41e7-bba5-77290d1190ec"
->DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest
-(
-  aNumber =&gt; &apos;&apos;, 
-  aEnter =&gt; True, 
-  aReValidate =&gt; False
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Driver closed the window"
  Guid="176386ad-94e3-4681-b27f-87bf09f7997e"
@@ -3390,9 +3148,7 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
  Guid="c8bdc772-3686-480b-8186-02a614b4aa15"
 >Kernel.TrainRunningNumber.DataState != DataStateEnum.Valid</PreCondition><PreCondition
  Guid="5cca0c9d-d3cb-4563-88da-4902c33524e8"
->DMI.MasterDMI().In_TrainRunningNumber.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition><PreCondition
- Guid="e87adf10-ace6-4b7c-ae31-27bff02ec62c"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition></PreConditions>
+>DMI.MasterDMI().In_TrainRunningNumber.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ab922002-922f-478a-b549-891214039c25"
@@ -5052,14 +4808,13 @@ Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).
  Name="RequestTrainData"
  Guid="cefb9530-03d1-47b8-a982-096cf6b8d24d"
 >
+<Comment>When the driver select TrainDataEntryRequest, the train data screen is automatically displayed (DMI namespace)</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
  Guid="7bd24a23-aedd-4739-8b1a-2c72fed5e334"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S12.TrainDataRequested</Action><Action
- Guid="b31bdb03-0a0c-4c13-b1d6-f32f94ef9601"
->DMI.MasterDMI().In_TrainData.InitiateRequest()</Action><Action
  Guid="64561bba-163c-4270-bb88-1af4a286e579"
 >DeleteInformation(TrainData.TrainData)</Action></Actions>
 </RuleCondition></Conditions>
@@ -6091,42 +5846,6 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Action
  Guid="9ebd91fb-b6f2-4d28-b3f7-6fb87e037047"
 >DMI.MasterDMI().In_DriverIdEntryRequest.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Driver selected to reenter its driver id"
- Guid="c967c30b-e87c-4ea0-8a8e-fba01a0d8b09"
->
-<Comment>If the driver selected to reenter the driver id =&gt; display the screen allowing to do it.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d9868451-925b-400e-b61d-041840d8e282"
->DMI.MasterDMI().In_DriverIdEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="ea9038aa-42bd-4dc0-a9bd-f3fef9b1d975"
->DMI.MasterDMI().In_DriverIdEntryRequest.AcceptDriverResponse()</Action><Action
- Guid="5ea06ddc-7a49-47d1-bc71-2d49bca52b14"
->DMI.MasterDMI().In_DriverId.InitiateRequest
-(
-  aId =&gt; Kernel.DriverId.Value, 
-  aEnter =&gt; True,
-  aReValidate =&gt; False
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Driver reentered its driver id"
- Guid="0d07430c-b44e-4ed6-959e-db1a4b73c300"
->
-<Comment>When the driver has entered the new data, it is stored.</Comment>
-<PreConditions>
-<PreCondition
- Guid="70b4805b-0b2a-445d-883a-7171029a7383"
->DMI.MasterDMI().In_DriverId.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="959b05e1-e6de-45d3-9a34-984461be3467"
->DMI.MasterDMI().In_DriverId.AcceptDriverResponse()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -6189,41 +5908,6 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Action
  Guid="5e0fd3ed-60e6-4b96-b48c-0786ee77e557"
 >DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Driver selected to reenter the train runnning number =&gt; display the train running number screen"
- Guid="b9b89b25-5a2a-4f08-b970-f3124ede34b6"
->
-<Comment>If the driver selected to reenter the train running number =&gt; display the screen allowing to do it.</Comment>
-<PreConditions>
-<PreCondition
- Guid="56f56742-f706-4692-9865-2e18807bb9df"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5b72fd24-bc2f-4ef6-84bc-99e04d9917fe"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.AcceptDriverResponse()</Action><Action
- Guid="96f1e7f3-a2c8-465d-a517-6b57b7261814"
->DMI.MasterDMI().In_TrainRunningNumber.InitiateRequest(
-  aNumber =&gt; Kernel.TrainRunningNumber.Value, 
-  aEnter =&gt; True,
-  aReValidate =&gt; False
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Driver reentered the train running number"
- Guid="4722c094-0128-4e11-b5be-c384283a9d0c"
->
-<Comment>When the driver has entered the new data, it is stored.</Comment>
-<PreConditions>
-<PreCondition
- Guid="688bdac2-027d-4411-ae1c-aad556028a47"
->DMI.MasterDMI().In_TrainRunningNumber.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0fb5bd08-8c72-40dd-a189-ee355411ac99"
->DMI.MasterDMI().In_TrainRunningNumber.AcceptDriverResponse()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -6292,21 +5976,13 @@ Request driver acknowledgement before starting the mission.</Comment>
  Name="Driver selected to reenter the level"
  Guid="a141fb86-7873-4806-8c02-bb5cedef0402"
 >
-<Comment>If the driver selected to reenter the level =&gt; display the screen allowing to do it.</Comment>
+<Comment>If the driver selected to reenter the level =&gt; display the screen allowing to do it. This is automatically done in DMI namespace.</Comment>
 <PreConditions>
 <PreCondition
  Guid="e74820b3-2ae5-4ac7-852b-a21b93c3e667"
 >DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="d14b80ef-581e-4c38-8b74-c8b07ec40db7"
->DMI.MasterDMI().In_ErtmsEtcsLevel.InitiateRequest
-(
-    aLevel =&gt; Kernel.Level.Value,
-    aEnter =&gt; True,
-    aReValidate =&gt; False,
-    aNTCLevels =&gt; TrainData.TrainData.Value.LevelsSupportedOnBoard
-)</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6440,37 +6116,6 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Action
  Guid="1601bb77-d59c-4cf0-8fee-c86b5d7369a9"
 >DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InitiateRequest()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Driver selected to add/remove VBC"
- Guid="7c19fe30-9583-4dcb-ae9b-c74fca51c92e"
->
-<Comment>If the driver selected to add/remove VBC =&gt; display the screen allowing to do it.</Comment>
-<PreConditions>
-<PreCondition
- Guid="1f78619a-ea83-43ea-8ccf-ba01b1bca2ef"
->DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="4ea4fd55-6b4e-4462-96a1-35cb756a9df5"
->DMI.MasterDMI().In_VirtualBaliseCover.InitiateRequest
-(
-    aVirtualBaliseCovers=&gt;Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Driver set or removed VBCs"
- Guid="f1cd99fd-2387-4798-b1bc-20218fb9dd5d"
->
-<Comment>Once the drive has set or removed Virtual Balise Covers, the option to do it again remains available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="a063431e-e8a5-4fd1-a9b9-a292f7f4f3f1"
->DMI.MasterDMI().In_VirtualBaliseCover.InputInformation.DriverAnswered</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="48aa9224-7f92-4018-acd4-83e2ad3bc4c7"
->DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
