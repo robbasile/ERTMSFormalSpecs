@@ -1800,7 +1800,11 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
  Guid="ff4c1c3d-36bb-4e52-ae97-a17eabff757a"
 >IsMainConnection &lt;- True</Action><Action
  Guid="ad53ed1b-1620-494b-99fb-a6e01d551bda"
->SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</Action></Actions>
+>SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</Action><Action
+ Guid="60615fb3-bbb6-4793-b4c3-2287a69ad376"
+>SessionManagementData.ConnectionRequestIsSent &lt;- False</Action><Action
+ Guid="05d3d260-3a31-4071-8324-e20b31648170"
+>ContactRBCOrder &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3314,6 +3318,8 @@ SystemVersion1 =&gt; EMPTY
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Reset session establishment data for special cases"
  Guid="9d941ace-d89d-42ef-a2c8-ff54038d7219"
@@ -3937,6 +3943,8 @@ SystemVersion1 =&gt; EMPTY
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Check system version compatibility"
  Guid="dd86dead-77a9-4f8b-8cf7-09ade389a1aa"
@@ -3970,6 +3978,8 @@ SystemVersion1 =&gt; EMPTY
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="If the session was opened due to mode change, report the mode change"
  Guid="1b0f33d5-b59b-404c-ab25-69c870a007a0"
@@ -4026,6 +4036,8 @@ SystemVersion1 =&gt; EMPTY
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display indication to driver"
  Guid="32978d87-8f73-45bd-bb68-3f372244060e"
@@ -8491,7 +8503,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <PreConditions>
 <PreCondition
  Guid="dd160343-60f0-4795-ae66-17e29ea4cd14"
->EURORADIO.SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; EURORADIO.LastKnownRBC.Id )</PreCondition><PreCondition
+>SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; EURORADIO.LastKnownRBC.Id )</PreCondition><PreCondition
  Guid="e53a8b3e-45b3-4818-9fec-1714f34903d0"
 >Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
@@ -8800,7 +8812,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="cfb7f6d4-38c4-4b3c-8c66-f6f85d58f314"
 >Packet.NID_RADIO != &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
  Guid="fc75e5ff-9626-40d5-b7c2-9ea806fb6023"
->NOT EURORADIO.SessionIsAlreadyEstablishedWithRequestedRBC
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC
 (
   newId =&gt; EURORADIO.RBCIdStruct
   {
@@ -8858,7 +8870,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="ed774a24-cf60-4ff7-a891-167c4f37b771"
 >EURORADIO.LastKnownRBC != EMPTY</PreCondition><PreCondition
  Guid="643dd1e5-247c-445a-9d5b-4e180783a3ae"
->NOT EURORADIO.SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; EURORADIO.LastKnownRBC.Id )</PreCondition></PreConditions>
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; EURORADIO.LastKnownRBC.Id )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
@@ -8907,7 +8919,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="22232e5b-8c7d-4811-8464-469786240a65"
 >Packet.NID_RADIO == &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
  Guid="5d34872a-e00b-4a6c-9a22-783bc78f4dea"
->NOT EURORADIO.SessionIsAlreadyEstablishedWithRequestedRBC
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC
 (
   newId =&gt; EURORADIO.RBCIdStruct
   {
