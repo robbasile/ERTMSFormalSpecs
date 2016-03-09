@@ -318,7 +318,7 @@ namespace DataDictionary.Types
                     while (current != null & retVal == false)
                     {
                         // HaCK: compare the names of states to determine compatibility
-                        retVal = (current.Name == state1.Name);
+                        retVal = (current.FullName == state1.FullName);
                         current = current.EnclosingState;
                     }
                 }

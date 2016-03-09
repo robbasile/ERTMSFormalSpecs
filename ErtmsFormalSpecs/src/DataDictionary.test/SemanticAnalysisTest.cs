@@ -9,6 +9,8 @@ using Collection = DataDictionary.Types.Collection;
 using NameSpace = DataDictionary.Types.NameSpace;
 using Structure = DataDictionary.Types.Structure;
 using StructureElement = DataDictionary.Types.StructureElement;
+using StateMachine = DataDictionary.Types.StateMachine;
+using State = DataDictionary.Constants.State;
 using Variable = DataDictionary.Variables.Variable;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 
@@ -83,6 +85,39 @@ namespace DataDictionary.test
             runner.Cycle();
             Assert.AreEqual(1, action.Messages.Count);
             Assert.AreEqual(ElementLog.LevelEnum.Error, action.Messages[0].Level);
+        }
+
+        /// <summary>
+        ///     Tests that two "cousin" states in a state machine that share the same name are not confused
+        ///             State Machine
+        ///             /            \
+        ///         State1          State2
+        ///            |              |
+        ///        SubState1  !=   SubState1
+        /// </summary>
+        [Test]
+        public void TestDifferentiationOfSubStatesWithSameName()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "NameSpace");
+
+            StateMachine stateMachine = CreateStateMachine(nameSpace, "StateMachine");
+            // The left branch
+            State state1 = CreateState(stateMachine, "State1");
+            State subState1 = CreateState(state1.StateMachine, "SubState");
+            // The right branch
+            State state2 = CreateState(stateMachine, "State2");
+            State subState2 = CreateState(state2.StateMachine, "SubState");
+
+            Variable stateVariable = CreateVariable(nameSpace, "Variable", "StateMachine");
+            stateVariable.Default = "StateMachine.State1.SubState";
+
+            Compiler.Compile_Synchronous(true);
+
+            Expression expression = new Parser().Expression(dictionary,
+                "NameSpace.Variable in [NameSpace.StateMachine.State2.SubState]");
+            IValue value = expression.GetExpressionValue(new InterpretationContext(), null);
+            Assert.AreEqual(System.BoolType.False, value);
         }
     }
 }
