@@ -684,6 +684,17 @@ namespace GUI.BoxArrowDiagram
                 // Consider all boxes in this panel
                 foreach (TBoxModel model in GetBoxes())
                 {
+                    // Ensure that the box is always visible
+                    if (model.X < 0)
+                    {
+                        model.X = 0;
+                    }
+
+                    if (model.Y < 0)
+                    {
+                        model.Y = 0;
+                    }
+
                     BoxControl<TEnclosing, TBoxModel, TArrowModel> boxControl = CreateBox(model);
                     _boxes[model] = boxControl;
                 }
@@ -821,6 +832,12 @@ namespace GUI.BoxArrowDiagram
                     size.Width = width + deltaWidth;
                 }
             }
+
+            // At least, match the panel size
+            size = new Size(
+                Math.Min(size.Width, Size.Width),
+                Math.Min(size.Height, Size.Height)
+            );
 
             pictureBox.Size = size;
         }
