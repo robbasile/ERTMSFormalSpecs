@@ -1600,6 +1600,37 @@ IN BTM.Linking.Linkings</Action></Actions>
         UnderReadingAmountOdo =&gt; 0.0
     }
 }</Action><Action
+ Guid="d4a51d10-221f-4fe8-949c-0f286b2cbcf0"
+>Odometry.NominalDistance &lt;- 4050.0</Action><Action
+ Guid="6b44da8d-12c8-4dd2-bd24-93846f038dd0"
+>BTM.PreviousBaliseGroups &lt;- [BTM.PreviousBaliseGroupStruct{
+BaliseGroup =&gt; BTM.BaliseGroupStruct{
+    Position =&gt; BTM.PositionStruct{
+        Position =&gt; 3500.0,
+        UnderReadingAmountOdo =&gt; 0.0,
+        OverReadingAmountOdo =&gt; 0.0
+    },
+    NID =&gt; 9625,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; DateAndTimeStruct{
+        Year =&gt; 2012,
+        Month =&gt; 12,
+        Day =&gt; 20,
+        Hour =&gt; 20,
+        Minute =&gt; 12,
+        Second =&gt; 20,
+        TTS =&gt; 600
+    }
+},
+IsLRBG =&gt; Boolean.True,
+IsSingle =&gt; Boolean.False
+}]</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="94da6c34-c1d2-4276-b311-5419b0366aa4"
+>
+<Actions>
+<Action
  Guid="afe594ec-0029-4031-bb55-443b4f4f5243"
 >EURORADIO.CurrentRBCConnection().MessageIn  &lt;- Messages.EURORADIO.MessageIn.Message{
     SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
@@ -1611,14 +1642,14 @@ IN BTM.Linking.Linkings</Action></Actions>
     L_MESSAGE =&gt; 0,
     T_TRAIN =&gt; 0,
     M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
-    NID_LRBG =&gt; 9627,
+    NID_LRBG =&gt; 9625,
     LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
 
       {
         NID_PACKET =&gt; 15,
         Q_DIR =&gt; Messages.Q_DIR.Nominal,
         L_PACKET =&gt; 0,
-        Q_SCALE =&gt; Messages.Q_SCALE._10_cm_scaleC,
+        Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         V_LOA =&gt; 0,
         T_LOA =&gt; 0,
         N_ITER =&gt; 1,
@@ -1653,12 +1684,10 @@ IN BTM.Linking.Linkings</Action></Actions>
 },
     SystemVersion1 =&gt; EMPTY,
     Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
-}</Action><Action
- Guid="d4a51d10-221f-4fe8-949c-0f286b2cbcf0"
->Odometry.NominalDistance &lt;- 4150.0</Action></Actions>
+}</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2"
+ Name="SubStep3"
  Guid="a84e4629-f2a4-40a2-83b3-8d5092086b4a"
 >
 <Expectations>
@@ -1666,7 +1695,11 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ea6796f4-9fb9-4d60-ab83-24265ee67569"
->BTM.LRBG.NID == 9626</Expectation></Expectations>
+>BTM.LRBG.NID == 9626</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="00abacec-dba0-45c4-913c-ff0f3a8c99d8"
+>Kernel.MA.EOA().Location == 600.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1683,6 +1716,27 @@ IN BTM.Linking.Linkings</Action></Actions>
  TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="f6a714d3-b569-4c8d-9864-2b6e90be1390"
+>
+<Actions>
+<Action
+ Guid="6d626234-8418-4a27-b2b4-e4511f4be683"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 2120,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.PositionStruct
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 4100.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action><Action
+ Guid="469d73f6-b6ea-4801-ad55-f02ab6da0ee0"
+>Odometry.NominalDistance &lt;- 4150.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
+ Guid="40973dac-3c58-4d81-b974-e9499bf3c405"
 >
 <Actions>
 <Action
@@ -1755,30 +1809,17 @@ IN BTM.Linking.Linkings</Action></Actions>
             }
         }
     ]
-}</Action><Action
- Guid="6d626234-8418-4a27-b2b4-e4511f4be683"
->BTM.LRBG &lt;- BTM.BaliseGroupStruct
-{
-    NID =&gt; 2120,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Position =&gt; BTM.PositionStruct
-    {
-        OverReadingAmountOdo =&gt; 0.0,
-        Position =&gt; 4000.0,
-        UnderReadingAmountOdo =&gt; 0.0
-    }
 }</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2"
- Guid="40973dac-3c58-4d81-b974-e9499bf3c405"
->
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="b9f599b2-6f26-406b-8a43-1fe9e5a97548"
->BTM.LRBG.NID == 2120</Expectation></Expectations>
+>BTM.LRBG.NID == 2120</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c2e534d5-71b2-4067-9485-ebcefff3de46"
+>Kernel.MA.EOA().Location == 1500.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
