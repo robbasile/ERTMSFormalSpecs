@@ -45,6 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="src\Editor\BaseEditorTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -67,10 +72,12 @@
     <Compile Include="src\GraphVisualization\Functions\ProfileFunction.cs" />
     <Compile Include="src\GraphVisualization\Functions\ProfileSetFunction.cs" />
     <Compile Include="src\GraphVisualization\Functions\SurfaceFunction.cs" />
+    <Compile Include="src\GraphVisualization\Functions\TrainPosition.cs" />
     <Compile Include="src\GraphVisualization\Graphs\Graph.cs" />
     <Compile Include="src\GraphVisualization\Graphs\PointFunctionGraph.cs" />
     <Compile Include="src\GraphVisualization\Graphs\ProfileFunctionGraph.cs" />
     <Compile Include="src\GraphVisualization\Graphs\SurfaceGraph.cs" />
+    <Compile Include="src\GraphVisualization\Graphs\Train.cs" />
     <Compile Include="src\GraphVisualization\GraphVisualizer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -103,6 +110,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Editor\BaseEditorTextBox.resx">
       <DependentUpon>BaseEditorTextBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,6 +121,7 @@
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

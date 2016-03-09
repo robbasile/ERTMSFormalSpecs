@@ -24,8 +24,12 @@ using DataDictionary.Interpreter;
 using GUI.DataDictionaryView;
 using GUI.Properties;
 using GUI.Shortcuts;
+using GUIUtils.GraphVisualization.Functions;
+using GUIUtils.GraphVisualization.Graphs;
 using Utils;
 using WeifenLuo.WinFormsUI.Docking;
+using Function = DataDictionary.Functions.Function;
+using Graph = DataDictionary.Functions.Graph;
 using Util = DataDictionary.Util;
 
 namespace GUI.GraphView
@@ -36,6 +40,11 @@ namespace GUI.GraphView
         ///     The functions to be displayed in this graph view
         /// </summary>
         public List<Function> Functions { get; set; }
+
+        /// <summary>
+        /// The train position
+        /// </summary>
+        public TrainPosition TrainPosition { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -49,6 +58,8 @@ namespace GUI.GraphView
             DragDrop += GraphView_DragDrop;
 
             Functions = new List<Function>();
+
+            TrainPosition = new TrainPosition();
 
             DockAreas = DockAreas.Document;
 
@@ -259,6 +270,12 @@ namespace GUI.GraphView
                         }
                     }
                 }
+
+                Train train = new Train (GraphVisualiser);
+                train.InitializeTrain(TrainPosition.GetDistance(), TrainPosition.GetSpeed(), TrainPosition.GetUnderReadingAmount(), TrainPosition.GetOverReadingAmount());
+                GraphVisualiser.AddGraph (train);
+                GraphVisualiser.Annotations.Add (train.TrainLineAnnotation);
+                GraphVisualiser.Annotations.Add (train.TrainAnnotation);
 
                 if (name != null)
                 {
