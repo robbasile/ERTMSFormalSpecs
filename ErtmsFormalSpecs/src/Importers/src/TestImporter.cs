@@ -309,6 +309,7 @@ namespace Importers
                             subSequence.appendTestCases(testCase);
                             Step setupTestCaseStep = (Step) acceptor.getFactory().createStep();
                             setupTestCaseStep.Name = "Setup test case";
+                            setupTestCaseStep.setDistance(distance);
                             setupTestCaseStep.setDescription(setupTestCaseStep.Name);
                             setupTestCaseStep.setComment("This step is used to setup the test case " + testCaseNr +
                                                          " feature " + feature);
@@ -447,36 +448,38 @@ namespace Importers
 
             adapter.Fill(dataSet);
 
-            int packetNumber = 0;
-            DBPacket packet = (DBPacket) acceptor.getFactory().createDBPacket();
+            DBPacket packet = null;
             if (dataSet.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     object[] items = dataRow.ItemArray;
-                    short pacId = (short) items[0];
-                    if (packetNumber != pacId)
+                    if ("NID_PACKET".Equals(items[1]))
                     {
-                        if (packetNumber != 0)
+                        if (packet != null)
                         {
                             aMessage.AddPacket(packet);
                         }
                         packet = (DBPacket) acceptor.getFactory().createDBPacket();
-                        packetNumber = pacId;
                     }
-                    DBField field = (DBField) acceptor.getFactory().createDBField();
-                    string variable = items[1] as string;
-                    if (variable != null)
+
+                    if (packet != null)
                     {
-                        field.Variable = variable;
+                        DBField field = (DBField) acceptor.getFactory().createDBField();
+                        string variable = items[1] as string;
+                        if (variable != null)
+                        {
+                            field.Variable = variable;
+                        }
+                        string value = items[2] as string;
+                        if (value != null)
+                        {
+                            field.Value = VariableConverter.INSTANCE.Convert(variable, value).ToString();
+                        }
+                        packet.AddField(field);
                     }
-                    string value = items[2] as string;
-                    if (value != null)
-                    {
-                        field.Value = VariableConverter.INSTANCE.Convert(variable, value).ToString();
-                    }
-                    packet.AddField(field);
                 }
+
                 if (packet != null)
                 {
                     aMessage.AddPacket(packet);

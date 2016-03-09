@@ -7817,18 +7817,36 @@ If the train direction is unknown, this function returns true only if the packet
  Name="Train position unknown"
  Guid="6cadae08-1297-43cd-a66b-ace03591f8a9"
 >
+<Comment>This case is redundant with the next one, but it is useful because there is a specific requirement for this. 
+Furthermore, this allows to avoid getting a LRBG when the position is unknown</Comment>
 <PreConditions>
 <PreCondition
  Guid="12e9f838-227c-4206-9ffe-55c4659525ec"
 >Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
 <Expression>Q_DIR == Messages.Q_DIR.Both_directions</Expression>
 </Case><Case
- Name="Otherwise"
+ Name="Message applicable for both directions"
+ Guid="5fac9e48-f20c-4836-a2a2-362383ba0bfb"
+>
+<PreConditions>
+<PreCondition
+ Guid="22822e65-2859-4433-9d90-9b222ad29ba4"
+>Q_DIR == Messages.Q_DIR.Both_directions</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="LRBG available"
  Guid="3702a406-0058-4a67-9a20-f9f5a53e63fb"
 >
-<Expression>Q_DIR == EFSOrientationConverter ( LRBGFromNID( NID_LRBG ).Orientation )
-  OR
-Q_DIR == Messages.Q_DIR.Both_directions</Expression>
+<PreConditions>
+<PreCondition
+ Guid="82b8cbd5-ddf0-4227-9bd1-470ce29fd054"
+>Available ( LRBGFromNID( NID_LRBG ) )</PreCondition></PreConditions>
+<Expression>Q_DIR == EFSOrientationConverter ( LRBGFromNID( NID_LRBG ).Orientation )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ca55e6a3-c471-4c0a-9fd4-dca10ddc6c2a"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="BTM.BaliseGroupStruct"

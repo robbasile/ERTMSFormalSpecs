@@ -1,0 +1,145 @@
+<NameSpace
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="StartDisplay"
+ Guid="16be86e8-e9c3-458e-b753-d3afb1c82ce9"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="11948e14-13c7-4153-bb51-a4e568f2df2e"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0e6f642d-e3d3-413a-a587-cde0c6324c53"
+>
+</ReqRef><ReqRef
+ Id="5e63d042-7bf0-426a-8751-b3793574436c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="838ed4dc-45f9-4df4-b4ed-76e806372ff3"
+>
+</ReqRef><Comment>Indicates whether new fixed text messages should be reported to the JRU</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="1753284a-c031-44c3-a46c-94468c6c96a9"
+>
+<Expression>THERE_IS message IN GetFixedTextMessages()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Kernel.TextMessages.FixedTextMessagesCol"
+ Default=""
+ X="150"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetFixedTextMessages"
+ Guid="47889f8e-1f5d-4855-b8c1-b1304bad4c47"
+>
+<ReqRef
+ Id="2ff7fe69-7ba7-4e29-9c09-dd1a97e10e5c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a5a9e549-becb-4612-b396-1170ea919801"
+>
+</ReqRef><ReqRef
+ Id="5e63d042-7bf0-426a-8751-b3793574436c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8817ef7f-db0b-47ee-8cb2-91b9784e1a21"
+>
+</ReqRef><Comment>Provides the fixed text messages that should be handled by the JRU (new fixed text messages displayed to the driver)</Comment>
+<Cases>
+<Case
+ Name="Fixed text messages are displayed"
+ Guid="678c0c5f-b02e-474e-97b4-6a46569abb6e"
+>
+<PreConditions>
+<PreCondition
+ Guid="57322708-b0a7-4cd4-8ef9-51b1cf1ffa24"
+>DMI.MasterDMI().Out_FixedTextInformation.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>FILTER DMI.MasterDMI().Out_FixedTextInformation.Messages | NOT MessageInCollection(
+    textMessage =&gt; textMessage,
+    collection =&gt; HandledMessages
+)  
+USING textMessage</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7ef7c67d-6b08-4e0b-ad7d-840e98b7caad"
+>
+<Expression>[]</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="09fb4607-11f3-4383-8b2c-07ee4b8f6925"
+>
+<ReqRef
+ Id="2ff7fe69-7ba7-4e29-9c09-dd1a97e10e5c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="382e2b9b-ccb8-4500-ac5b-996709d8cd70"
+>
+</ReqRef><ReqRef
+ Id="d62ce08f-20aa-491d-a448-02ef1c5e981f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="68425459-a1d7-4919-a11e-7e994853bc2e"
+>
+</ReqRef><ReqRef
+ Id="53485e11-e11b-44ba-a091-9adc87ed98de"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="113029c8-12b0-4ffe-9894-bec6a1eef6dc"
+>
+</ReqRef><Comment>Creates a new START_DISPLAYING_FIXED_TEXT_MESSAGE message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Send START_DISPLAYING_FIXED_TEXT_MESSAGE message"
+ Guid="95d4e505-57d0-4f04-9bdc-6e4efbfc084e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send START_DISPLAYING_FIXED_TEXT_MESSAGE message"
+ Guid="86a0826c-77a1-47c4-8e61-b6ae79bbecd4"
+>
+<PreConditions>
+<PreCondition
+ Guid="26463c30-e228-4a31-ace4-810ad8033d0c"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aaaab488-0525-4543-88f9-33339ae036a3"
+>APPLY 
+  INSERT Messages.JRU.MESSAGE.Message {
+     START_DISPLAYING_FIXED_TEXT_MESSAGE =&gt; Messages.JRU.MESSAGE.START_DISPLAYING_FIXED_TEXT_MESSAGE.Message {
+         HEADER =&gt; JRU.Header.CreateHeader(16),
+         Q_TEXT =&gt; ConvertToQ_TEXT( X.FixedText )
+      }
+    } 
+  IN Messages 
+ON GetFixedTextMessages()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+</NameSpace>

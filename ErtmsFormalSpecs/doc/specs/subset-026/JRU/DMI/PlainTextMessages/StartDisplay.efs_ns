@@ -1,0 +1,185 @@
+<NameSpace
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="StartDisplay"
+ Guid="58207375-b518-4879-8c84-0c8cfffa6d2f"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="98872b3c-ca5b-4885-8cc7-73bd79e20314"
+>
+<ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e29290fa-663f-48c2-a592-7228a95421cc"
+>
+</ReqRef><ReqRef
+ Id="3b79b949-811b-4c01-9450-3d4f90cbdd80"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="57ac752e-6998-483f-83de-02b408b7308a"
+>
+</ReqRef><Comment>Indicates whether new fixed text messages should be reported to the JRU</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="afc1b050-287f-4c75-a67b-d7e82f51c0f2"
+>
+<Expression>THERE_IS message IN GetPlainTextMessages()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Kernel.TextMessages.PlainTextMessagesCol"
+ Default=""
+ X="150"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetPlainTextMessages"
+ Guid="0082d58c-d6a8-42fa-8dc8-249a6879917c"
+>
+<ReqRef
+ Id="716b3fc9-958d-44c6-8f2d-2aee2be0ff6a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="66c4430a-dbee-4dbe-bb06-dbae4351926f"
+>
+</ReqRef><ReqRef
+ Id="3b79b949-811b-4c01-9450-3d4f90cbdd80"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6cf07651-4a7b-405d-b2fc-1f3e74e28395"
+>
+</ReqRef><Comment>Provides the plain text messages that should be handled by the JRU (new plain text messages displayed to the driver)</Comment>
+<Cases>
+<Case
+ Name="Fixed text messages are displayed"
+ Guid="b0e7a6df-53e2-4001-91bb-12f81e1ee969"
+>
+<PreConditions>
+<PreCondition
+ Guid="88162f19-f2d4-4eee-804e-f64c2a721d1d"
+>DMI.MasterDMI().Out_PlainTextInformation.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Expression>FILTER DMI.MasterDMI().Out_PlainTextInformation.Messages | NOT MessageInCollection(
+    textMessage =&gt; textMessage,
+    collection =&gt; HandledMessages
+)  
+USING textMessage</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="a5ba0071-e41c-4788-90a1-fba5d445aea4"
+>
+<Expression>[]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.START_DISPLAYING_PLAIN_TEXT_MESSAGE.Collection1"
+ Default=""
+ X="280"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ToX_TEXT"
+ Guid="bb4715ac-e274-49db-a570-ceeb92cc3910"
+>
+<ReqRef
+ Id="5ff6b16e-785d-470c-9c08-7398535628cb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b2f2ddc5-807c-4137-8a56-5ec258a25585"
+>
+</ReqRef><Comment>Converts the string into its corresponding X_TEXT collection</Comment>
+<Parameters>
+<Parameter
+ Type="String"
+ Name="text"
+ Guid="e200905c-e78b-484a-9e88-63a46b20839c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="f6724b50-54e3-4a2f-a71b-c564270d3794"
+>
+<Expression>REDUCE Characters( text ) 
+USING character 
+IN RESULT + [ Messages.JRU.MESSAGE.START_DISPLAYING_PLAIN_TEXT_MESSAGE.SubStructure1{ X_TEXT =&gt; character }]
+INITIAL_VALUE []</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="9a56f9c5-3c78-497a-aa61-9f3970cecaa2"
+>
+<ReqRef
+ Id="716b3fc9-958d-44c6-8f2d-2aee2be0ff6a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4aaa5cd6-56de-46b7-804e-183c9d248512"
+>
+</ReqRef><ReqRef
+ Id="fd0b971b-3290-4dd8-bebf-f8ea2d51c947"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="546b4867-8a7b-4f6c-bccd-c2826f6d050f"
+>
+</ReqRef><ReqRef
+ Id="5ff6b16e-785d-470c-9c08-7398535628cb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="23916e18-b7ba-44d5-a7d7-0563a703f974"
+>
+</ReqRef><ReqRef
+ Id="c0e46236-6e8d-4ac9-8e4c-d41af1d382bc"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="675705ef-9fe9-4903-b2b4-5118a3d5a5bf"
+>
+</ReqRef><Comment>Creates a new START_DISPLAYING_PLAIN_TEXT_MESSAGE message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Send START_DISPLAYING_PLAIN_TEXT_MESSAGE message"
+ Guid="6b85cfff-5227-43fe-a60d-eaa68458ac10"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send START_DISPLAYING_PLAIN_TEXT_MESSAGE message"
+ Guid="a6fdadae-c944-4132-9975-dae4cf006519"
+>
+<PreConditions>
+<PreCondition
+ Guid="5833a91d-260a-440e-98c4-83341e7e9b96"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1db1092f-7662-4119-a7e3-8e889f04e343"
+>Messages &lt;- Messages + 
+MAP GetPlainTextMessages() 
+USING message 
+IN Messages.JRU.MESSAGE.Message {
+     START_DISPLAYING_PLAIN_TEXT_MESSAGE =&gt; Messages.JRU.MESSAGE.START_DISPLAYING_PLAIN_TEXT_MESSAGE.Message {
+         HEADER =&gt; JRU.Header.CreateHeader(18),
+         L_TEXT =&gt; TextLength(message.Text),
+         Sequence1 =&gt; ToX_TEXT (message.Text) 
+    } 
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+</NameSpace>

@@ -446,6 +446,25 @@ namespace DataDictionary
         }
 
         /// <summary>
+        ///     The (ordered) collection of strings
+        /// </summary>
+        /// <returns></returns>
+        private Collection _stringCollection;
+
+        public Collection StringCollection
+        {
+            get
+            {
+                if (_stringCollection == null)
+                {
+                    _stringCollection = new StringCollection(this);
+                }
+
+                return _stringCollection;
+            }
+        }
+
+        /// <summary>
         ///     The predefined types
         /// </summary>
         private Dictionary<string, Type> _predefinedTypes;
@@ -828,6 +847,23 @@ namespace DataDictionary
                 return _concatPredefinedFunction;
             }
         }
+        
+        /// <summary>
+        /// The predefined Characters function
+        /// </summary>
+        private Characters _charactersPredefinedFunction;
+
+        public Characters CharactersPredefinedFunction
+        {
+            get
+            {
+                if (_charactersPredefinedFunction == null)
+                {
+                    _charactersPredefinedFunction = new Characters(this);
+                }
+                return _charactersPredefinedFunction;
+            }
+        }
 
         /// <summary>
         ///     The predefined functions
@@ -863,6 +899,7 @@ namespace DataDictionary
                     _predefinedFunctions[FullDecelerationForTargetPredefinedFunction.Name] =
                         FullDecelerationForTargetPredefinedFunction;
                     _predefinedFunctions[ConcatPredefinedFunction.Name] = ConcatPredefinedFunction;
+                    _predefinedFunctions[CharactersPredefinedFunction.Name] = CharactersPredefinedFunction;                    
                 }
                 return _predefinedFunctions;
             }

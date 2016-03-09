@@ -1,0 +1,223 @@
+<NameSpace
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="FixedTextMessages"
+ Guid="dd5d097f-f389-498b-b1e0-40857bbec6b8"
+>
+<NameSpaces>
+<NameSpaceRef
+ Name="StartDisplay"
+ Guid="0384e49f-808d-441b-a2a6-fe19ce986c0d"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="StopDisplay"
+ Guid="3cfdb91f-69ae-4bce-b3cf-21a75c45e6c1"
+>
+</NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="170"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MessageInCollection"
+ Guid="f6741320-dbf4-4028-8da6-a5ad8ec7f4fd"
+>
+<ReqRef
+ Id="5e63d042-7bf0-426a-8751-b3793574436c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7589cb63-558e-4505-9238-613f93b8125a"
+>
+</ReqRef><ReqRef
+ Id="05ed37dc-66dc-45b9-aef7-c02e10143e9c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3074a303-adc5-42cc-b45b-3baef6f69932"
+>
+</ReqRef><Comment>Indicates whether the text message has been handled in the JRU</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TextMessages.FixedTextMessageStruct"
+ Name="textMessage"
+ Guid="51a79ca3-c51a-4c74-bc19-ec68f2a3fcad"
+>
+</Parameter><Parameter
+ Type="Kernel.TextMessages.FixedTextMessagesCol"
+ Name="collection"
+ Guid="834728f1-b266-4295-a961-e1f85b0171cf"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="a6e5b061-63bf-4d41-8a93-89630a51990d"
+>
+<Expression>THERE_IS message IN collection | message.FixedText == textMessage.FixedText</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.Q_TEXT"
+ Default=""
+ X="170"
+ Y="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConvertToQ_TEXT"
+ Guid="7d78390d-e527-4b4c-b5cb-9bb7217b940c"
+>
+<ReqRef
+ Id="d62ce08f-20aa-491d-a448-02ef1c5e981f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1f298fd8-c851-4777-a3ee-bd08f47c9370"
+>
+</ReqRef><ReqRef
+ Id="f3dc92e6-4948-4fcd-b175-1774c15b0d9d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="512e9f65-300b-4e62-b461-222f052130ce"
+>
+</ReqRef><Comment>Converts a FixedTextEnum to its corresponding Q_TEXT value</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TextMessages.FixedTextEnum"
+ Name="fixedText"
+ Guid="9ca90257-f192-4406-a8d6-ddc0bf9f4e87"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Acknowledgement"
+ Guid="8f77f646-ea41-4cf9-ab08-f80b34c58a77"
+>
+<PreConditions>
+<PreCondition
+ Guid="643961d4-d4b3-407f-b02f-a67f3d17a72d"
+>fixedText == Kernel.TextMessages.FixedTextEnum.Acknowledgement</PreCondition></PreConditions>
+<Expression>0</Expression>
+</Case><Case
+ Name="Level crossing not protected"
+ Guid="3e073f3b-8f8e-4ebf-bf88-816574d94c41"
+>
+<PreConditions>
+<PreCondition
+ Guid="4b7172a2-ee22-4e80-a71f-e5e5dbf53cf0"
+>fixedText == Kernel.TextMessages.FixedTextEnum.LevelCrossingNotProtected</PreCondition></PreConditions>
+<Expression>1</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="30"
+ Y="340"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="4932447d-e1d8-48f9-b2a7-156d9399f42f"
+>
+<ReqRef
+ Id="2ff7fe69-7ba7-4e29-9c09-dd1a97e10e5c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4311a68e-d32d-456d-8fb9-c38bc120a581"
+>
+</ReqRef><ReqRef
+ Id="658cb69e-5b0f-455f-8b4d-f9cdf3a8ee6a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a5627462-d5bd-41c4-b68f-a4f591d7a9cb"
+>
+</ReqRef><Comment>Fills the START and STOP display of fixed text data to the JRU</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="FIlls the FIXED_TEXT messages in the JRU output"
+ Guid="96ff3392-8871-4b23-ab57-0add2a967515"
+>
+<Comment>Fills the JRU data in the JRU output</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="FIlls the FIXED_TEXT messages in the JRU output"
+ Guid="bffc0733-cff4-4ae2-bcb3-8c15be34a233"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="113eed17-df49-4808-a1a5-d971948e8ac4"
+>StartDisplay.FillData()</Action><Action
+ Guid="a685117e-0f63-4100-a1a3-abf91d23a14f"
+>StopDisplay.FillData()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the HandledMessages variable"
+ Guid="976b3073-6e9c-4ecd-b724-d14c986c977b"
+>
+<Comment>Updates the variables which holds the set of messages already handled by the JRU</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the HandledMessages variable when something is displayed to the driver"
+ Guid="31203e84-223f-43be-9750-a390e950456e"
+>
+<Comment>Updates the displayed messages variable when something is displayed to the driver</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b35f256c-8846-4d2b-acc8-6781a2e137a4"
+>DMI.MasterDMI().Out_FixedTextInformation.OutputInformation.DisplayRequested</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="25289b03-c417-40b0-8214-01af3fc02089"
+>HandledMessages &lt;- DMI.MasterDMI().Out_FixedTextInformation.Messages</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Nothing is displayed to the driver"
+ Guid="c46cee74-0949-497b-ba16-df8a39c639f1"
+>
+<Comment>Nothing is displayed to the driver. The displayed messages variables should be empty</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9aefc6ce-a6e1-498d-bb8f-4dca86e20b80"
+>HandledMessages &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Kernel.TextMessages.FixedTextMessagesCol"
+ DefaultValue="[]"
+ VariableMode="Internal"
+ X="30"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HandledMessages"
+ Guid="d0e170a2-2c82-4604-930c-b88ec873a26f"
+>
+<ReqRef
+ Id="5e63d042-7bf0-426a-8751-b3793574436c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="12e100ab-c448-452d-88a7-0603b065b396"
+>
+</ReqRef><ReqRef
+ Id="05ed37dc-66dc-45b9-aef7-c02e10143e9c"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e23a4e5e-e5fb-4f6d-89ac-57e1f849b08a"
+>
+</ReqRef><Comment>The fixed text message that have already been handled in the JRU</Comment>
+</Variable></Variables>
+</NameSpace>

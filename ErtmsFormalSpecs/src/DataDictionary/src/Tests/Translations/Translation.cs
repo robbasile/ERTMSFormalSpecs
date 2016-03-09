@@ -686,8 +686,8 @@ namespace DataDictionary.Tests.Translations
                     variable = pair.Value;
                 }
 
+                // We use StartsWith and not Equals because we can have N_ITER_1 and N_ITER
                 if (variable.Name.StartsWith(field.Variable))
-                    // we use StartsWith and not Equals because we can have N_ITER_1 and N_ITER
                 {
                     if (variable.Type is Enum)
                     {
@@ -721,6 +721,7 @@ namespace DataDictionary.Tests.Translations
                     {
                         throw new Exception("Unhandled variable type");
                     }
+
                     if (variable.Name.StartsWith("N_ITER")) // we have to create a sequence
                     {
                         KeyValuePair<string, IVariable> sequencePair = aStructure.SubVariables.ElementAt(j);
@@ -741,6 +742,38 @@ namespace DataDictionary.Tests.Translations
                         sequenceVariable.Value = sequence;
                         j++;
                     }
+                }
+
+                // Special case for X_TEXT
+                if ("Sequence1".Equals(variable.Name) && "X_TEXT".Equals(field.Variable))
+                {
+                    KeyValuePair<string, IVariable> sequencePair = aStructure.SubVariables.ElementAt(j);
+                    IVariable sequenceVariable = sequencePair.Value;
+                    Collection collectionType = (Collection)system.FindType(aNameSpace, sequenceVariable.TypeName);
+                    ListValue sequence = new ListValue(collectionType, new List<IValue>());
+                    while (field != null && "X_TEXT".Equals(field.Variable))
+                    {
+                        if (string.IsNullOrEmpty(field.Value))
+                        {
+                            field.Value = " ";
+                        }
+                        Structure structureType =
+                            (Structure)system.FindType(aNameSpace, sequence.CollectionType.Type.FullName);
+                        StructureValue structureValue = new StructureValue(structureType);
+                        FillStructure(aNameSpace, fields, ref currentIndex, structureValue);
+                        sequence.Val.Add(structureValue);
+                        currentIndex += 1;
+                        if ( currentIndex < fields.Count)
+                        {
+                            field = fields[currentIndex] as DBField;
+                        }
+                        else
+                        {
+                            field = null;
+                        }
+                    }
+                    sequenceVariable.Value = sequence;
+                    j++;
                 }
 
                 // if all the fields of the structue are filled, we terminated
