@@ -956,7 +956,6 @@ namespace GUI.BoxArrowDiagram
             foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
             {
                 Rectangle rectangle = box.Rectangle;
-                rectangle.Offset(box.Location);
                 allocatedBoxes.Allocate(rectangle);
             }
 
