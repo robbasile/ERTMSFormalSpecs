@@ -28,9 +28,9 @@ using Enum = DataDictionary.Types.Enum;
 
 namespace GUI.DataDictionaryView
 {
-    public class NameSpaceTreeNode : ModelElementTreeNode<NameSpace>
+    public class NameSpaceTreeNode : GraphicalDisplayElementNode<NameSpace>
     {
-        private class ItemEditor : CommentableEditor
+        private class ItemEditor : GraphicalDisplayEditor
         {
         }
 

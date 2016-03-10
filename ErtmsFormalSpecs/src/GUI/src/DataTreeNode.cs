@@ -1456,4 +1456,61 @@ namespace GUI
             return retVal;
         }
     }
+
+    /// <summary>
+    ///     A tree node which hold a reference to a data item.
+    ///     This item can be edited by a PropertyGrid
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class GraphicalDisplayElementNode<T> : ModelElementTreeNode<T> 
+        where T : class, IModelElement, IGraphicalDisplay
+    {
+        /// <summary>
+        ///     The editor for a namable which can hold a comment
+        /// </summary>
+        public abstract class GraphicalDisplayEditor : CommentableEditor
+        {
+            [Category("Display")]
+            public Size Size
+            {
+                get { return new Size(Item.Width, Item.Height); }
+                set
+                {
+                    Item.Width = value.Width;
+                    Item.Height = value.Height;
+                    
+                }
+            }
+
+            [Category("Display")]
+            public Point Location
+            {
+                get { return new Point(Item.X, Item.Y); }
+                set
+                {
+                    Item.X = value.X;
+                    Item.Y = value.Y;
+                }
+            }
+
+            [Category("Display")]
+            public bool Hidden
+            {
+                get { return Item.Hidden; }
+                set { Item.Hidden = value; }
+            }
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="buildSubNodes"></param>
+        /// <param name="name"></param>
+        /// <param name="isFolder"></param>
+        protected GraphicalDisplayElementNode(T item, bool buildSubNodes, string name = null, bool isFolder = false)
+            : base(item, buildSubNodes, name, isFolder)
+        {
+        }
+    }
 }

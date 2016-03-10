@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -39,6 +40,37 @@ namespace GUI.DataDictionaryView
             {
                 get { return Item.getPriority(); }
                 set { Item.setPriority(value); }
+            }
+
+
+            [Category("Display")]
+            public Size Size
+            {
+                get { return new Size(Item.Width, Item.Height); }
+                set
+                {
+                    Item.Width = value.Width;
+                    Item.Height = value.Height;
+
+                }
+            }
+
+            [Category("Display")]
+            public Point Location
+            {
+                get { return new Point(Item.X, Item.Y); }
+                set
+                {
+                    Item.X = value.X;
+                    Item.Y = value.Y;
+                }
+            }
+
+            [Category("Display")]
+            public bool Hidden
+            {
+                get { return Item.Hidden; }
+                set { Item.Hidden = value; }
             }
         }
 

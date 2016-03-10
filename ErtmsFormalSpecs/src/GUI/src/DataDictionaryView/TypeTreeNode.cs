@@ -14,6 +14,8 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.Drawing;
 using DataDictionary.Types;
 
 namespace GUI.DataDictionaryView
@@ -26,6 +28,35 @@ namespace GUI.DataDictionaryView
         /// </summary>
         protected class TypeEditor : ReqRelatedEditor
         {
+            [Category("Display")]
+            public Size Size
+            {
+                get { return new Size(Item.Width, Item.Height); }
+                set
+                {
+                    Item.Width = value.Width;
+                    Item.Height = value.Height;
+
+                }
+            }
+
+            [Category("Display")]
+            public Point Location
+            {
+                get { return new Point(Item.X, Item.Y); }
+                set
+                {
+                    Item.X = value.X;
+                    Item.Y = value.Y;
+                }
+            }
+
+            [Category("Display")]
+            public bool Hidden
+            {
+                get { return Item.Hidden; }
+                set { Item.Hidden = value; }
+            }
         }
 
         /// <summary>
