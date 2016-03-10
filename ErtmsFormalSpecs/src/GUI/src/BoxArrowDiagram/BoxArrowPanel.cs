@@ -772,11 +772,6 @@ namespace GUI.BoxArrowDiagram
         }
 
         /// <summary>
-        ///     The allocated boxes
-        /// </summary>
-        private BoxAllocation _allocatedBoxes;
-
-        /// <summary>
         ///     Provides a distance between two points
         /// </summary>
         /// <param name="p1"></param>
@@ -834,10 +829,7 @@ namespace GUI.BoxArrowDiagram
             }
 
             // At least, match the panel size
-            size = new Size(
-                Math.Min(size.Width, Size.Width),
-                Math.Min(size.Height, Size.Height)
-            );
+            size = MaxSize(size, Size);
 
             pictureBox.Size = size;
         }
@@ -958,22 +950,21 @@ namespace GUI.BoxArrowDiagram
         /// </summary>
         protected virtual void ComputeArrowTextPosition()
         {
-            _allocatedBoxes = new BoxAllocation();
+            BoxAllocation allocatedBoxes = new BoxAllocation();
 
             // Allocate all boxes as non available
             foreach (BoxControl<TEnclosing, TBoxModel, TArrowModel> box in _boxes.Values)
             {
                 Rectangle rectangle = box.Rectangle;
                 rectangle.Offset(box.Location);
-                _allocatedBoxes.Allocate(rectangle);
+                allocatedBoxes.Allocate(rectangle);
             }
 
             foreach (ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow in _arrows.Values)
             {
                 Point center = arrow.GetCenter();
-                Point upSlide = Slide(arrow, center, ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Up);
-                Point downSlide = Slide(arrow, center,
-                    ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection.Down);
+                Point upSlide = Slide(allocatedBoxes, arrow, SlideDirection.Up);
+                Point downSlide = Slide(allocatedBoxes, arrow, SlideDirection.Down);
 
                 Rectangle boundingBox;
                 if (Distance(center, upSlide) <= Distance(center, downSlide))
@@ -986,7 +977,7 @@ namespace GUI.BoxArrowDiagram
                 }
 
                 arrow.Location = new Point(boundingBox.X, boundingBox.Y);
-                _allocatedBoxes.Allocate(boundingBox);
+                allocatedBoxes.Allocate(boundingBox);
             }
         }
 
@@ -994,20 +985,19 @@ namespace GUI.BoxArrowDiagram
         ///     Tries to slide the arrow up following the arrow to avoid any collision
         ///     with the already allocated bounding boxes
         /// </summary>
-        /// <param name="arrow"></param>
-        /// <param name="center"></param>
-        /// <param name="direction"></param>
+        /// <param name="allocatedBoxes">The boxes that already have been allocated</param>
+        /// <param name="arrow">The arrow to consider</param>
+        /// <param name="direction">Indicates whether the sliding should be done upward or downard the arrow orientation</param>
         /// <returns></returns>
-        private Point Slide(ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow, Point center,
-            ArrowControl<TEnclosing, TBoxModel, TArrowModel>.SlideDirection direction)
+        private Point Slide(BoxAllocation allocatedBoxes, ArrowControl<TEnclosing, TBoxModel, TArrowModel> arrow, SlideDirection direction)
         {
-            Point retVal = center;
-            Rectangle colliding = _allocatedBoxes.Intersects(arrow.GetTextBoundingBox(retVal));
+            Point retVal = arrow.GetCenter();
 
+            Rectangle colliding = allocatedBoxes.Intersects(arrow.GetTextBoundingBox(retVal));
             while (colliding != Rectangle.Empty)
             {
                 retVal = arrow.Slide(retVal, colliding, direction);
-                colliding = _allocatedBoxes.Intersects(arrow.GetTextBoundingBox(retVal));
+                colliding = allocatedBoxes.Intersects(arrow.GetTextBoundingBox(retVal));
             }
 
             return retVal;

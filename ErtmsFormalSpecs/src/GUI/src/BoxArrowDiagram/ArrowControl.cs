@@ -557,8 +557,10 @@ namespace GUI.BoxArrowDiagram
         /// <returns></returns>
         public Rectangle GetTextBoundingBox(Point center)
         {
-            int x = center.X - Width/2;
-            int y = center.Y - Height/2;
+            SizeF size = GuiUtils.Graphics.MeasureString(TypedModel.GraphicalName, Font);
+
+            int x = (int) (center.X - size.Width / 2);
+            int y = (int) (center.Y - size.Height / 2);
 
             // Position of the text box for initial arrows
             if (SourceBoxControl == null)
@@ -573,15 +575,6 @@ namespace GUI.BoxArrowDiagram
         ///     The delta applied when sliding the arrow
         /// </summary>
         private const int Delta = 5;
-
-        /// <summary>
-        ///     Direction of the slide
-        /// </summary>
-        public enum SlideDirection
-        {
-            Up,
-            Down
-        };
 
         /// <summary>
         ///     Slides the arrow following the arrow
