@@ -840,10 +840,12 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 >
 <PreConditions>
 <PreCondition
- Guid="b8e9607c-3902-4155-9695-55c927cebde4"
->EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Inactive]</PreCondition><PreCondition
- Guid="fa792366-c41f-4080-84af-f15f52639813"
->EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+ Guid="0edebf9e-1298-4646-8fc8-e79c2352d7ed"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="78f67476-d0ee-4002-a9a0-6d276b4f20ad"
+>EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Connecting.WaitForSystemVersion]</PreCondition><PreCondition
+ Guid="b522240e-2f5d-42d6-af08-4cc75543d180"
+>NOT VersionManagement.SystemVersionIsCompatible ( EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="88402501-8090-4591-b9bd-d010232a505f"
