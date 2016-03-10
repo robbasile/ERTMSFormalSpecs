@@ -1,0 +1,548 @@
+<NameSpace
+ X="150"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="ServiceBrakes"
+ Guid="11ed9e6b-f80d-4658-9799-5004d823c361"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="150"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="T_brake_basic_sb"
+ Guid="575cb3a6-9a12-48ad-a150-4f6fedda0eef"
+>
+<ReqRef
+ Id="250265ac-337b-4b32-a643-1747ce3b4e07"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="243bd294-7692-4299-8573-4f1b71a48ac0"
+>
+</ReqRef><ReqRef
+ Id="eb5ac6d4-0103-4d01-9710-5d256b480f6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b1b7a19d-5ad4-4a21-b565-d51d21efc2ba"
+>
+</ReqRef><ReqRef
+ Id="ec2ba601-e516-4d94-8029-ff236db067bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c513553-ba9f-430c-b8da-dc1e0f537389"
+>
+</ReqRef><ReqRef
+ Id="1675d177-2698-4b49-8446-3fcebff8a2ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1cd85c18-09c3-447a-894a-853398127863"
+>
+</ReqRef><ReqRef
+ Id="6daa6231-e601-4f4d-80cc-590024cf24ec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8649aa1-24ab-47a0-8546-d96da481c1e2"
+>
+</ReqRef><ReqRef
+ Id="d4abd686-74e0-4be7-8850-63b0d76f32da"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0f1ecaf-61aa-4f31-81a8-fca37d1d0f9a"
+>
+</ReqRef><Comment>Provides the value of the basic brake build up time for full service brake.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ab68d018-64a9-4aca-8e9a-b1a252bb96c5"
+>
+<Expression>BaseTypes.Time ( a_sb() +
+                             b_sb() * ( L_sb() / 100.0 ) +
+                             c_sb() * ( L_sb() / 100.0 ) *
+                                          ( L_sb() / 100.0 ) )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="150"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="T_brake_service"
+ Guid="a30297cd-7504-4ec9-b818-f4cb2d37a02c"
+>
+<ReqRef
+ Id="22233109-3b8f-4e3c-83b3-eb1332cd30ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="118abe28-a59e-46de-9eaa-05e2b0e18676"
+>
+</ReqRef><ReqRef
+ Id="286c2abb-01dd-45cf-bdd9-4b508938c872"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c6cf473-aa67-4e63-a050-bdfadcee268b"
+>
+</ReqRef><Comment>Provides the value of T_brake_service computed by the conversion model.</Comment>
+<Cases>
+<Case
+ Name="Target speed equals 0"
+ Guid="188c0703-2e06-4965-af0b-3b358272147b"
+>
+<PreConditions>
+<PreCondition
+ Guid="f5852de8-faf7-4e54-a3f7-4136e2be2342"
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>ServiceBrakes.T_brake_service_cm0</Expression>
+</Case><Case
+ Name="Target speed different from 0"
+ Guid="402862b5-a907-484d-9c8a-056b04a11538"
+>
+<Expression>ServiceBrakes.T_brake_service_cmt</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Double"
+ Default=""
+ X="260"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="a_sb"
+ Guid="f9be1f48-7a24-49bd-8adc-644643e918fc"
+>
+<ReqRef
+ Id="250265ac-337b-4b32-a643-1747ce3b4e07"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c7b8396f-60e9-4718-8cbe-1f54f0468378"
+>
+</ReqRef><ReqRef
+ Id="eb5ac6d4-0103-4d01-9710-5d256b480f6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4757e528-4e16-4f1c-942d-6b4fc6e6e0b2"
+>
+</ReqRef><ReqRef
+ Id="ec2ba601-e516-4d94-8029-ff236db067bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="249ccae3-93be-422d-8e31-ae9ff7ff5bea"
+>
+</ReqRef><Comment>Represents the coefficient a for computation of the full service brake equivalent time</Comment>
+<Cases>
+<Case
+ Name="Passenger train in P"
+ Guid="d299ecd0-0afd-45ce-a104-ec047ac6acf2"
+>
+<PreConditions>
+<PreCondition
+ Guid="7fc2b8f8-51c5-4c3c-bd5b-3e2f2d550c6d"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.PassengerTrainInP</PreCondition></PreConditions>
+<Expression>3.0</Expression>
+</Case><Case
+ Name="Freight train in P, train length &lt;= 900m"
+ Guid="c208faf0-7aa1-4ced-b282-6dca937ff6ba"
+>
+<PreConditions>
+<PreCondition
+ Guid="4a50f754-ceaa-4548-8fee-df32c58f1a9d"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition><PreCondition
+ Guid="9d7f6f77-c9a9-4f20-889a-842a5a0ca333"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+<Expression>3.0</Expression>
+</Case><Case
+ Name="Freight train in P, train length &gt; 900m"
+ Guid="00e33dc8-2aa7-4f64-9591-799eb7719a62"
+>
+<PreConditions>
+<PreCondition
+ Guid="5accc244-a459-4748-a26b-44e5d6a53552"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition><PreCondition
+ Guid="a15d76be-a557-47c2-91e0-1887d3094ad3"
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
+  AND
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+<Expression>10.5</Expression>
+</Case><Case
+ Name="Freight train in G, train length &lt;= 900m"
+ Guid="47381157-0b03-4bdf-bd15-7ea944c0da58"
+>
+<PreConditions>
+<PreCondition
+ Guid="de65c62d-1280-4015-8b67-e48377d12f06"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInG</PreCondition><PreCondition
+ Guid="a1db817f-0000-483d-90d8-5c6d0da7109f"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+<Expression>3.0</Expression>
+</Case><Case
+ Name="Freight train in G, train length &gt; 900m"
+ Guid="560f0d97-6414-4225-a636-98e4e74a54f7"
+>
+<PreConditions>
+<PreCondition
+ Guid="939f6873-c792-4e98-a749-1950b2151d2c"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInG</PreCondition><PreCondition
+ Guid="26ab82d1-f2e7-42dd-885a-c95d96d6c53d"
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
+  AND
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+<Expression>10.5</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Double"
+ Default=""
+ X="260"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="b_sb"
+ Guid="ab6f6102-0b9f-40db-88d0-793a1932989d"
+>
+<ReqRef
+ Id="250265ac-337b-4b32-a643-1747ce3b4e07"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4af58e7b-5523-464e-a903-cdaea5b757d0"
+>
+</ReqRef><ReqRef
+ Id="eb5ac6d4-0103-4d01-9710-5d256b480f6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0055c40a-2f5d-466b-8a3a-83e3aaabb41f"
+>
+</ReqRef><ReqRef
+ Id="ec2ba601-e516-4d94-8029-ff236db067bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75b381be-39c5-477a-aa5a-bdd5bada0562"
+>
+</ReqRef><Comment>Represents the coefficient b for computation of the full service brake equivalent time</Comment>
+<Cases>
+<Case
+ Name="Passenger train in P"
+ Guid="48518fb1-20e6-410f-ab7b-9e55bb2eec50"
+>
+<PreConditions>
+<PreCondition
+ Guid="d4606c7b-741c-4158-a036-3f27b40ec63d"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.PassengerTrainInP</PreCondition></PreConditions>
+<Expression>1.5</Expression>
+</Case><Case
+ Name="Freight train in P, train length &lt;= 900m"
+ Guid="8438417e-b87f-4e06-86fa-0b94ab8442f8"
+>
+<PreConditions>
+<PreCondition
+ Guid="e395577f-4a17-457a-9f3b-0203acbfff7d"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition><PreCondition
+ Guid="b3ddca92-fbad-4201-a65a-c15f1fe1c5b3"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+<Expression>2.77</Expression>
+</Case><Case
+ Name="Freight train in P, train length &gt; 900m"
+ Guid="185dedb6-e27f-42fd-be2f-d69e4a230fa7"
+>
+<PreConditions>
+<PreCondition
+ Guid="73170c97-8877-4b07-8df2-4a09b052fe8c"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition><PreCondition
+ Guid="c3421b5c-4c9b-4ac8-83bf-5ebd6b4678d4"
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
+  AND
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+<Expression>0.32</Expression>
+</Case><Case
+ Name="Freight train in G, train length &lt;= 900m"
+ Guid="0cdbdb49-ec2f-4999-a706-e946bfe5a8c1"
+>
+<PreConditions>
+<PreCondition
+ Guid="45ad651b-55ee-4ca0-9811-4c3ff7ae83e6"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInG</PreCondition><PreCondition
+ Guid="8220d3ba-a358-4705-bd95-642bdac5d8ce"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+<Expression>2.77</Expression>
+</Case><Case
+ Name="Freight train in G, train length &gt; 900m"
+ Guid="8bf7b22c-4f41-43f9-9842-46c43a5ce3a0"
+>
+<PreConditions>
+<PreCondition
+ Guid="d2d5144e-3c1d-4e8a-9d55-cc33a3dfc108"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInG</PreCondition><PreCondition
+ Guid="458ae236-743d-407f-86ea-9a92ac987582"
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
+  AND
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+<Expression>0.32</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Double"
+ Default=""
+ X="260"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="c_sb"
+ Guid="5205ab92-7232-4254-b5cd-6d9b2b1ac52b"
+>
+<ReqRef
+ Id="250265ac-337b-4b32-a643-1747ce3b4e07"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="583f0236-5a1a-4443-9709-c21024c11a9c"
+>
+</ReqRef><ReqRef
+ Id="eb5ac6d4-0103-4d01-9710-5d256b480f6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75edb7d5-e354-4a8e-860f-fee77947153a"
+>
+</ReqRef><ReqRef
+ Id="ec2ba601-e516-4d94-8029-ff236db067bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e89768a9-c359-4378-a31a-25193062d00b"
+>
+</ReqRef><Comment>Represents the coefficient c for computation of the full service brake equivalent time</Comment>
+<Cases>
+<Case
+ Name="Passenger train in P"
+ Guid="b9462ad0-b995-4695-941f-31b4903edc72"
+>
+<PreConditions>
+<PreCondition
+ Guid="21244c89-7047-401c-b7d2-9b05a92a613e"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.PassengerTrainInP</PreCondition></PreConditions>
+<Expression>0.1</Expression>
+</Case><Case
+ Name="Freight train in P, train length &lt;= 900m"
+ Guid="ec11d79b-0e5b-4b28-8a8b-1ea9fdafcc5d"
+>
+<PreConditions>
+<PreCondition
+ Guid="ee5655fc-f9a4-4019-adf0-c1165835c75d"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition><PreCondition
+ Guid="0176b9a5-3c2d-41f6-9368-311e47b9f442"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Freight train in P, train length &gt; 900m"
+ Guid="cda938d3-4239-44a9-a875-e8a641215ff0"
+>
+<PreConditions>
+<PreCondition
+ Guid="290d2e78-bc8a-45d1-8f93-45109ae317e6"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition><PreCondition
+ Guid="066a3896-60ab-498f-9181-492a1fe4306f"
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
+  AND
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+<Expression>0.18</Expression>
+</Case><Case
+ Name="Freight train in G, train length &lt;= 900m"
+ Guid="6d415fe6-9351-40c5-b1df-6c457e8f0149"
+>
+<PreConditions>
+<PreCondition
+ Guid="883b5d62-219c-412b-8872-8d17e767c66b"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInG</PreCondition><PreCondition
+ Guid="c9cc9fd2-c227-4f8d-863b-18b2b4d6a49f"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;= 900.0</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Freight train in G, train length &gt; 900m"
+ Guid="7aac9858-ae8a-4b33-8a70-cbe28e372efd"
+>
+<PreConditions>
+<PreCondition
+ Guid="b84b18c5-5f8f-434f-9447-d5e44a722343"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInG</PreCondition><PreCondition
+ Guid="b2350808-3071-4ae2-9c37-32385ea6f211"
+>900.0 &lt; Kernel.TrainData.TrainData.Value.TrainLength
+  AND
+Kernel.TrainData.TrainData.Value.TrainLength &lt;= 1500.0</PreCondition></PreConditions>
+<Expression>0.18</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Double"
+ Default=""
+ X="260"
+ Y="200"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="L_sb"
+ Guid="e619d4fb-276d-4d1f-8629-63d609ce8bd6"
+>
+<ReqRef
+ Id="250265ac-337b-4b32-a643-1747ce3b4e07"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad4a6632-4f39-4826-873a-1257f9d8a28d"
+>
+</ReqRef><ReqRef
+ Id="eb5ac6d4-0103-4d01-9710-5d256b480f6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6dd3b49d-8aad-4414-a600-b990b1783b1a"
+>
+</ReqRef><ReqRef
+ Id="ec2ba601-e516-4d94-8029-ff236db067bc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12e1b6c6-8921-4f7b-bd01-c970540d56e0"
+>
+</ReqRef><Comment>Represents the length used to compute the full service equivalent equivalent time</Comment>
+<Cases>
+<Case
+ Name="Passenger or freight train in P"
+ Guid="608c5e33-ffcf-4f09-8bf3-f78458a218cc"
+>
+<PreConditions>
+<PreCondition
+ Guid="d172b6ea-06e7-4b81-95c5-d783c77544b9"
+>Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.PassengerTrainInP
+  OR
+Kernel.TrainData.TrainData.Value.BrakePosition == BrakePositionsEnum.FreightTrainInP</PreCondition></PreConditions>
+<Expression>Kernel.TrainData.TrainData.Value.TrainLength</Expression>
+</Case><Case
+ Name="Freight train in G"
+ Guid="c93ddead-9a12-4731-9ece-1520160e6482"
+>
+<Expression>BaseTypes.MaxLength ( X1 =&gt; Kernel.TrainData.TrainData.Value.TrainLength, X2 =&gt; 400.0 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Acceleration"
+ Default=""
+ X="40"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="A_brake_service"
+ Guid="240cd24f-7291-4ca4-a93a-c7bd063198fe"
+>
+<ReqRef
+ Id="97a3e106-8336-4a99-8d77-cb4074e6882f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6f6ddc7f-022c-4b76-becb-ac202348fd7f"
+>
+</ReqRef><Comment>Provides the value of A_brake_service(V) computed by the conversion model.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="V"
+ Guid="deffff49-7147-4f0e-831d-ba5f9da684b9"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="52800a20-7b55-41eb-86d5-16be6840fd80"
+>
+<Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction ( aBrakingModel =&gt; ServiceBrakes.A_brake_service, aSpeed =&gt; V )</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
+ Type="BaseTypes.Time"
+ DefaultValue="BaseTypes.Time.NA"
+ VariableMode="Internal"
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="T_brake_service_cm0"
+ Guid="356616e9-68fa-407a-ba10-14f0447a4c83"
+>
+<ReqRef
+ Id="d976cc75-6166-4358-ad82-737ce3000aeb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c55a56c3-ec8d-4750-81c8-08ad4bd0e181"
+>
+</ReqRef><ReqRef
+ Id="a611b24a-cae4-4c3a-abe1-f83752cce43f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bc78b8c8-1f9a-4a9a-816c-5483018ae347"
+>
+</ReqRef><ReqRef
+ Id="1675d177-2698-4b49-8446-3fcebff8a2ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e963371-1dc5-4326-ad94-396f645cf611"
+>
+</ReqRef><ReqRef
+ Id="a6f45153-8ad8-444c-8853-f6edb9e480d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df639174-995c-45ae-a93f-f15d860b5abf"
+>
+</ReqRef><ReqRef
+ Id="891e7b23-96e6-451f-87b3-bc04b9eb0bdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6fe3c055-62be-4573-9009-bb7ca3082201"
+>
+</ReqRef><Comment>The value of the equivalent service brake build up time to be used when the target speed (V_target) is equal to zero.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="BaseTypes.Time.NA"
+ VariableMode="Internal"
+ X="40"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="T_brake_service_cmt"
+ Guid="8bd45684-c47f-47b1-b457-a964b4cb8433"
+>
+<ReqRef
+ Id="d976cc75-6166-4358-ad82-737ce3000aeb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8963ec23-e344-4bac-9dee-ab8a013e19ef"
+>
+</ReqRef><ReqRef
+ Id="c1352e10-31a1-42f0-91d6-9607590f3cd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8d1f499-07ef-4bd7-bd1b-0cc7aefea960"
+>
+</ReqRef><ReqRef
+ Id="1675d177-2698-4b49-8446-3fcebff8a2ee"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5439fe83-c589-498f-b9a0-3bafd4de40e9"
+>
+</ReqRef><ReqRef
+ Id="a6f45153-8ad8-444c-8853-f6edb9e480d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7fd0ff3a-3818-463c-b3b9-2a675679b841"
+>
+</ReqRef><ReqRef
+ Id="891e7b23-96e6-451f-87b3-bc04b9eb0bdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f6135c69-360d-4dec-b1af-ea522b220e52"
+>
+</ReqRef><Comment>The value of the equivalent service brake build up time to be used when the target speed (V_target) is different from zero.</Comment>
+</Variable><Variable
+ Type="BrakingModelStruct"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="40"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="A_brake_service"
+ Guid="6a502ed2-fabb-4018-b235-c07d03b76e31"
+>
+<ReqRef
+ Id="39f48aa1-5da9-45a4-8fc8-068260afeef8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fcacba4d-ad8d-4073-b61c-dfe1a49b8ada"
+>
+</ReqRef><ReqRef
+ Id="aa226185-c9bd-4c7b-abbd-b09c49dee0bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fe83b725-85b4-49e4-acdb-10604719c413"
+>
+</ReqRef><ReqRef
+ Id="bf1396d0-a166-4f1d-80d5-c4b57508c553"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1af009d6-a50c-479c-bff7-2580e2641baf"
+>
+</ReqRef><ReqRef
+ Id="891e7b23-96e6-451f-87b3-bc04b9eb0bdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="626c3571-7650-4d60-a6ce-3718d2d49ea0"
+>
+</ReqRef><Comment>The speed dependent deceleration model for the service brake, derived from the brake percentage using the conversion model (if no speed dependent deceleration model for service brake was acquired as part of Train Data).</Comment>
+</Variable></Variables>
+</NameSpace>

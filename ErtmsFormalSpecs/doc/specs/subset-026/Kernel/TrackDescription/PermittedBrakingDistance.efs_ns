@@ -890,7 +890,7 @@
 <PreCondition
  Guid="e650e13e-81be-4737-a404-293cace431a0"
 >TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>TrainData.BrakingParameters.ConversionModel.A_brake_service ( V ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.A_brake_service ( V ) + Kernel.TrackDescription.PermittedBrakingDistance.A_gradient(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -1134,7 +1134,7 @@ TrainData.BrakingParameters.Default_brk_emergency(V)</Expression>
 <PreCondition
  Guid="572e8bb1-06af-4554-aad8-8dee18cd6e36"
 >TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>BaseTypes.Acceleration ( Kernel.NationalValues.Kv_int ( V ) * Kernel.NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * TrainData.BrakingParameters.ConversionModel.A_brake_emergency ( V )</Expression>
+<Expression>BaseTypes.Acceleration ( Kernel.NationalValues.Kv_int ( V ) * Kernel.NationalValues.Kr_int ( TrainData.TrainData.Value.TrainLength ) ) * Kernel.TrainData.BrakingParameters.ConversionModel.EmergencyBrakes.A_brake_emergency ( V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"

@@ -1086,13 +1086,13 @@ namespace Importers.ExcelImporter
                 /* Verifying T_brake_emergency_cm0 */
                 addExpectation(aSubStep,
                     String.Format(CultureInfo.InvariantCulture,
-                        "Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cm0 == {0:0.0#}",
+                        "Kernel.TrainData.BrakingParameters.ConversionModel.EmergencyBrakes.T_brake_emergency_cm0 == {0:0.0#}",
                         (double) (aRange.Cells[8, 6] as Range).Value2));
 
                 /* Verifying T_brake_service_cm0 */
                 addExpectation(aSubStep,
                     String.Format(CultureInfo.InvariantCulture,
-                        "Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cm0 == {0:0.0#}",
+                        "Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.T_brake_service_cm0 == {0:0.0#}",
                         (double) (aRange.Cells[10, 6] as Range).Value2));
             }
             else
@@ -1101,14 +1101,14 @@ namespace Importers.ExcelImporter
                 /* Verifying T_brake_emergency_cmt */
                 addExpectation(aSubStep,
                     String.Format(CultureInfo.InvariantCulture,
-                        "Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_emergency_cmt == {0:0.0#}",
+                        "Kernel.TrainData.BrakingParameters.ConversionModel.EmergencyBrakes.T_brake_emergency_cmt == {0:0.0#}",
                         (double) (aRange.Cells[9, 6] as Range).Value2));
 
 
                 /* Verifying T_brake_service_cmt */
                 addExpectation(aSubStep,
                     String.Format(CultureInfo.InvariantCulture,
-                        "Kernel.TrainData.BrakingParameters.ConversionModel.T_brake_service_cmt == {0:0.0#}",
+                        "Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.T_brake_service_cmt == {0:0.0#}",
                         (double) (aRange.Cells[11, 6] as Range).Value2));
             }
 
@@ -1140,7 +1140,7 @@ namespace Importers.ExcelImporter
                     {
                         addExpectation(aSubStep,
                             String.Format(CultureInfo.InvariantCulture,
-                                "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
+                                "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.EmergencyBrakes.A_brake_emergency(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
                                 (double) (aRange.Cells[i, 9] as Range).Value2 - 0.000000001, doubleValue));
                     }
                     doubleValue = temp;
@@ -1151,7 +1151,7 @@ namespace Importers.ExcelImporter
                     }
                     addExpectation(aSubStep,
                         String.Format(CultureInfo.InvariantCulture,
-                            "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
+                            "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.EmergencyBrakes.A_brake_emergency(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
                             speedValue, doubleValue));
                 }
             }
@@ -1159,7 +1159,7 @@ namespace Importers.ExcelImporter
             /* Verifying V_lim EBI */
             addExpectation(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_emergency.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)",
+                    "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.EmergencyBrakes.A_brake_emergency.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)",
                     (double) (aRange.Cells[17, 9] as Range).Value2));
 
 
@@ -1179,7 +1179,7 @@ namespace Importers.ExcelImporter
                     {
                         addExpectation(aSubStep,
                             String.Format(CultureInfo.InvariantCulture,
-                                "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
+                                "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ServiceBrakes.ConversionModel.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
                                 (double) (aRange.Cells[i, 13] as Range).Value2 - 0.000000001, doubleValue));
                     }
                     doubleValue = temp;
@@ -1190,7 +1190,7 @@ namespace Importers.ExcelImporter
                     }
                     addExpectation(aSubStep,
                         String.Format(CultureInfo.InvariantCulture,
-                            "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
+                            "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
                             speedValue, doubleValue));
                 }
             }
@@ -1198,7 +1198,7 @@ namespace Importers.ExcelImporter
             /* Verifying V_lim BS */
             addExpectation(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.A_brake_service.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)",
+                    "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParametersConversionModel.ServiceBrakes..A_brake_service.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)",
                     (double) (aRange.Cells[17, 13] as Range).Value2));
         }
 
