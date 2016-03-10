@@ -194,11 +194,11 @@
  Guid="1a998e53-2f71-4cf3-95b9-967b6a302ef9"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="27362baa-d101-46f4-ae90-1c689c534af5"
->Kernel.TrainData.TrainIntegrity.DataState &lt;- DataStateEnum.Valid</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="8c44c0e7-2bbd-42ae-a778-7330a4a2ac85"
->Kernel.TrainData.TrainIntegrity.MinSafeRearEnd &lt;- 1356.0</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.MinSafeRearEnd &lt;- 1356.0</Action><Action
  Guid="83979dcd-82f7-4812-a5ac-29443f04f8f1"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="bde98291-8992-4ea4-b5a1-f9edcd3b0db3"
 >BTM.LRBG &lt;- 
 BTM.BaliseGroupStruct {
@@ -298,7 +298,7 @@ BTM.BaliseGroupStruct {
  Guid="56927abd-a8cd-4a6b-9cee-630c128ab113"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="d70befad-4ee7-4168-9673-32e4c747222c"
->Kernel.TrainData.TrainIntegrity &lt;- Kernel.TrainData.TrainIntegrityStruct{
+>Kernel.TrainIntegrity.TrainIntegrity &lt;- Kernel.TrainIntegrity.TrainIntegrityStruct{
 Status =&gt; Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device,
 MinSafeRearEnd =&gt; 1356.0,
 DataState =&gt; DataStateEnum.Valid
@@ -809,7 +809,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="323e9303-ae11-4fca-b521-3508170f4bb3"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="233cf61a-410d-4041-8334-35cd92e048de"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="068c5a8f-14fb-438c-b69a-a40daee0f409"
@@ -834,7 +834,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="a6ba2440-d2f6-4daa-b4a4-5ae0bf7360ec"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -848,7 +848,7 @@ BTM.BaliseGroupStruct {
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dc1e6f8b-5344-486d-a262-6993b8506f0d"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9b025144-8c48-4458-b1bd-aa67fa09e2cf"
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
@@ -872,7 +872,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="7b713c91-6f2f-410d-97ee-20d0908d0ff4"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="ccc18ffa-adb0-47e4-8438-8524305ea45e"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
@@ -895,12 +895,12 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="4aca8e0e-5f06-404b-897d-012ba2edb1b1"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_lost</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="a9068572-0e40-4a8f-9ebc-000fef3f1c68"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dec4e408-db9e-48ac-9133-34b508331fa9"
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
@@ -1062,7 +1062,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="9303b9f8-0582-4c26-8031-e056b5a71b57"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
  Guid="ad73cc1f-5804-4204-a1a7-c4129d51dd93"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="aab3b2ec-5a40-43a6-80f9-bb37f4aebee3"
@@ -1087,9 +1087,9 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="159b517e-2ec2-4cd7-b74a-b3d8c1d1ca4f"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="d6067085-0b19-4851-a6a2-70c986b21042"
->Kernel.TrainData.TrainIntegrity.MinSafeRearEnd &lt;- 115.0</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.MinSafeRearEnd &lt;- 115.0</Action><Action
  Guid="3d0741e5-0324-44b2-b022-6744723f22bc"
 >Odometry.NominalDistance &lt;- 1310.0</Action></Actions>
 <Expectations>
@@ -1105,7 +1105,7 @@ BTM.BaliseGroupStruct {
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4ef4a598-a0cc-4167-b673-3c5382281714"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="747e24fd-a1ba-4712-9bde-25f1e6e5cffb"
 >NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
@@ -1132,7 +1132,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="73146a7e-9a98-4b10-b9d2-6612f0f05845"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
  Guid="d49c76a9-d278-44bb-8796-a2ea6570de9a"
 >BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
@@ -1155,14 +1155,14 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="9c1d5070-a148-4edd-b603-56a730bc828b"
->Kernel.TrainData.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
+>Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="8279e97d-f262-4c35-a72f-3bf542945902"
->Kernel.TrainData.TrainIntegrity.MinSafeRearEnd &lt;- 117.0</Action></Actions>
+>Kernel.TrainIntegrity.TrainIntegrity.MinSafeRearEnd &lt;- 117.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="2ac4fcfe-562f-4abf-b463-ccd5a50dc5e3"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainData.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="455577fc-6f4f-44a2-a5ff-e6705ad3fd9d"
 >Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation

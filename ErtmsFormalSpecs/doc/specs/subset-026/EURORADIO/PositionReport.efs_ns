@@ -596,9 +596,9 @@ Kernel.ActiveFunctions.ReportPostion_LevelChangeDriver()</PreCondition></PreCond
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_LossOfTrainIntegrity()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainData.TrainIntegrity.Status
+EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status
   AND
-Kernel.TrainData.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
+Kernel.TrainIntegrity.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -820,9 +820,9 @@ Odometry.TrainIsAtStandstill()</Expression>
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_DriverConfirmedIntegrity()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainData.TrainIntegrity.Status
+EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status
   AND 
-Kernel.TrainData.TrainIntegrity.Status in [
+Kernel.TrainIntegrity.TrainIntegrity.Status in [
   Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
   Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device
 ]</Expression>
@@ -1287,8 +1287,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainIntegrity.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainIntegrity.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1315,8 +1315,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainIntegrity.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainIntegrity.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1344,8 +1344,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTOVER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTUNDER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainIntegrity.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainIntegrity.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -1367,8 +1367,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
         L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; Kernel.TrainData.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainData.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
+        Q_LENGTH =&gt; Kernel.TrainIntegrity.TrainIntegrity.Status,
+        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainIntegrity.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
         V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
         Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
@@ -2822,11 +2822,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="e9d87099-edc8-4dea-bdd4-ab5fd6b85fae"
->EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainData.TrainIntegrity.Status</PreCondition></PreConditions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="03674022-99fb-4c9a-913c-c3686ac1025e"
->EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- Kernel.TrainData.TrainIntegrity.Status</Action></Actions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- Kernel.TrainIntegrity.TrainIntegrity.Status</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
