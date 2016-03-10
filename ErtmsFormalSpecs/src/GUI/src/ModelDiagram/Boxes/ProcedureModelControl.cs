@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System.Drawing;
 using DataDictionary.Functions;
 
 namespace GUI.ModelDiagram.Boxes
@@ -31,6 +32,7 @@ namespace GUI.ModelDiagram.Boxes
         public ProcedureModelControl(ModelDiagramPanel panel, Procedure model)
             : base(panel, model)
         {
+            NormalColor = Color.LightCoral;
         }
 
         /// <summary>
