@@ -218,10 +218,28 @@ namespace DataDictionary.Interpreter.Statement
         public override void GetChanges(InterpretationContext context, ChangeList changes, ExplanationPart explanation,
             bool apply, Runner runner)
         {
+            IVariable variable = ListExpression.GetVariable(context);
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            changes.Add(new InsertInListChange(context, this, variable, explanation), apply, runner);
+        }
+
+        /// <summary>
+        /// Provides the change for this insert statement
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="variable"></param>
+        /// <param name="explanation"></param>
+        /// <param name="apply"></param>
+        /// <param name="runner"></param>
+        /// <returns></returns>
+        public Change GetChange(InterpretationContext context, IVariable variable, ExplanationPart explanation, bool apply, Runner runner)
+        {
+            Change retVal = null;
+
             // Explain what happens in this statement
             explanation = ExplanationPart.CreateSubExplanation(explanation, this);
 
-            IVariable variable = ListExpression.GetVariable(context);
             if (variable != null)
             {
                 // HacK : ensure that the value is a correct rigth side
@@ -267,9 +285,8 @@ namespace DataDictionary.Interpreter.Statement
                                 }
                             }
 
-                            Change change = new Change(variable, variable.Value, newListValue);
-                            changes.Add(change, apply, runner);
-                            ExplanationPart.CreateSubExplanation(explanation, Root, change);
+                            retVal = new Change(variable, variable.Value, newListValue);
+                            ExplanationPart.CreateSubExplanation(explanation, Root, retVal);
                         }
                         else
                         {
@@ -290,6 +307,8 @@ namespace DataDictionary.Interpreter.Statement
             {
                 Root.AddError("Cannot find variable for " + ListExpression);
             }
+
+            return retVal;
         }
 
         /// <summary>

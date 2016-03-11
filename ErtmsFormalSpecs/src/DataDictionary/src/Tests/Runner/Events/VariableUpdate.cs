@@ -46,7 +46,7 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="action" The action which raised the variable update></param>
+        /// <param name="action">The action which raised the variable update></param>
         public VariableUpdate(Action action, IModelElement instance, acceptor.RulePriority? priority)
             : base(action.ExpressionText, instance, priority)
         {
@@ -81,7 +81,6 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Performs the variable change
         /// </summary>
-        /// <param name="context">The execution context used to compute the values</param>
         /// <param name="runner"></param>
         public override void Apply(Runner runner)
         {

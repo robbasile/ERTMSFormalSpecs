@@ -39,12 +39,12 @@ namespace DataDictionary.Rules
         /// <summary>
         ///     The value the variable had before the change
         /// </summary>
-        public IValue PreviousValue { get; private set; }
+        public IValue PreviousValue { get; protected set; }
 
         /// <summary>
         ///     The new value affected by the change
         /// </summary>
-        public IValue NewValue { get; private set; }
+        public IValue NewValue { get; protected set; }
 
         /// <summary>
         ///     Constructor
@@ -64,7 +64,7 @@ namespace DataDictionary.Rules
         ///     Applies the change if it has not yet been applied
         /// </summary>
         /// <param name="runner"></param>
-        public void Apply(Runner runner)
+        public virtual void Apply(Runner runner)
         {
             if (!Applied)
             {
@@ -128,6 +128,29 @@ namespace DataDictionary.Rules
 
             return retVal;
         }
+
+        /// <summary>
+        /// Checks that the change is valid
+        /// </summary>
+        /// <param name="element"></param>
+        public virtual bool CheckChange(ModelElement element)
+        {
+            bool retVal = true;
+
+            if (Variable == null)
+            {
+                element.AddError("Cannot determine variable to be updated");
+                retVal = false;
+            }
+
+            if (NewValue == null)
+            {
+                element.AddError(Variable.FullName + " <- <cannot evaluate value>");
+                retVal = false;
+            }
+
+            return retVal;
+        }
     }
 
     /// <summary>
@@ -170,17 +193,23 @@ namespace DataDictionary.Rules
         }
 
         /// <summary>
-        ///     Ensures that all changes have a correct value
+        ///     Ensures that all changes are correct
         /// </summary>
         /// <param name="element"></param>
         public void CheckChanges(ModelElement element)
         {
+            List<Change> invalidChanges = new List<Change>();
             foreach (Change change in Changes)
-            {
-                if (change.NewValue == null)
+            {                
+                if ( !change.CheckChange(element) )
                 {
-                    element.AddError(change.Variable.FullName + " <- <cannot evaluate value>");
+                    invalidChanges.Add(change);
                 }
+            }
+
+            foreach (Change change in invalidChanges)
+            {
+                Changes.Remove(change);                
             }
         }
 
