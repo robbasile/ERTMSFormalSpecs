@@ -873,7 +873,7 @@ namespace DataDictionary.Functions
                     }
                     else
                     {
-                        retVal = start + 1000;
+                        retVal = start + 1000000;
                     }
                 }
                 totalSegmentSize = totalSegmentSize + (end - start);
