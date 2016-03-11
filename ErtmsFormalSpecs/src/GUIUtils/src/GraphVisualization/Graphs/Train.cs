@@ -112,8 +112,8 @@ namespace GUIUtils.GraphVisualization.Graphs
             TrainAnnotation.Image = "TrainMoving";
 
             TrainLineAnnotation = new VerticalLineAnnotation();
-            TrainLineAnnotation.AxisX = GraphVisualizer.ChartAreas[0].AxisX;
-            TrainLineAnnotation.AxisY = GraphVisualizer.ChartAreas[0].AxisY;
+            TrainLineAnnotation.AxisX = GraphVisualizer.AxisX;
+            TrainLineAnnotation.AxisY = GraphVisualizer.AxisY;
             TrainLineAnnotation.LineColor = Color.LightGray;
             TrainLineAnnotation.LineDashStyle = ChartDashStyle.Dash;
             TrainLineAnnotation.LineWidth = 2;

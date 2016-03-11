@@ -51,9 +51,15 @@ namespace GUI.GraphView
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GraphView));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.GraphVisualiser = new GraphVisualizer();
+            this.GraphVisualiser = new GUIUtils.GraphVisualization.GraphVisualizer();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.Gb_GradientAxis = new System.Windows.Forms.GroupBox();
+            this.Lbl_MinGrad = new System.Windows.Forms.Label();
+            this.Tb_MinGrad = new System.Windows.Forms.TextBox();
+            this.Tb_MaxGrad = new System.Windows.Forms.TextBox();
+            this.Lbl_MaxGrad = new System.Windows.Forms.Label();
             this.Gb_YAxis = new System.Windows.Forms.GroupBox();
+            this.Cb_AutoYSize = new System.Windows.Forms.CheckBox();
             this.Tb_MaxY = new System.Windows.Forms.TextBox();
             this.Lbl_MaxY = new System.Windows.Forms.Label();
             this.Gb_XAsix = new System.Windows.Forms.GroupBox();
@@ -62,11 +68,11 @@ namespace GUI.GraphView
             this.Lbl_MaxX = new System.Windows.Forms.Label();
             this.Tb_MinX = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.Cb_AutoYSize = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.Gb_GradientAxis.SuspendLayout();
             this.Gb_YAxis.SuspendLayout();
             this.Gb_XAsix.SuspendLayout();
             this.SuspendLayout();
@@ -112,6 +118,7 @@ namespace GUI.GraphView
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.Gb_GradientAxis);
             this.tabPage2.Controls.Add(this.Gb_YAxis);
             this.tabPage2.Controls.Add(this.Gb_XAsix);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -122,17 +129,77 @@ namespace GUI.GraphView
             this.tabPage2.Text = "Properties";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // Gb_GradientAxis
+            // 
+            this.Gb_GradientAxis.Controls.Add(this.Lbl_MinGrad);
+            this.Gb_GradientAxis.Controls.Add(this.Tb_MinGrad);
+            this.Gb_GradientAxis.Controls.Add(this.Tb_MaxGrad);
+            this.Gb_GradientAxis.Controls.Add(this.Lbl_MaxGrad);
+            this.Gb_GradientAxis.Location = new System.Drawing.Point(3, 183);
+            this.Gb_GradientAxis.Name = "Gb_GradientAxis";
+            this.Gb_GradientAxis.Size = new System.Drawing.Size(245, 78);
+            this.Gb_GradientAxis.TabIndex = 9;
+            this.Gb_GradientAxis.TabStop = false;
+            this.Gb_GradientAxis.Text = "Gradient axis";
+            // 
+            // Lbl_MinGrad
+            // 
+            this.Lbl_MinGrad.AutoSize = true;
+            this.Lbl_MinGrad.Location = new System.Drawing.Point(6, 22);
+            this.Lbl_MinGrad.Name = "Lbl_MinGrad";
+            this.Lbl_MinGrad.Size = new System.Drawing.Size(77, 13);
+            this.Lbl_MinGrad.TabIndex = 9;
+            this.Lbl_MinGrad.Text = "Minimum value";
+            // 
+            // Tb_MinGrad
+            // 
+            this.Tb_MinGrad.Location = new System.Drawing.Point(92, 19);
+            this.Tb_MinGrad.Name = "Tb_MinGrad";
+            this.Tb_MinGrad.Size = new System.Drawing.Size(138, 20);
+            this.Tb_MinGrad.TabIndex = 10;
+            this.Tb_MinGrad.Text = "-2.5";
+            this.Tb_MinGrad.TextChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // Tb_MaxGrad
+            // 
+            this.Tb_MaxGrad.Location = new System.Drawing.Point(92, 45);
+            this.Tb_MaxGrad.Name = "Tb_MaxGrad";
+            this.Tb_MaxGrad.Size = new System.Drawing.Size(138, 20);
+            this.Tb_MaxGrad.TabIndex = 6;
+            this.Tb_MaxGrad.Text = "2.5";
+            this.Tb_MaxGrad.TextChanged += new System.EventHandler(this.ValueChanged);
+            // 
+            // Lbl_MaxGrad
+            // 
+            this.Lbl_MaxGrad.AutoSize = true;
+            this.Lbl_MaxGrad.Location = new System.Drawing.Point(6, 48);
+            this.Lbl_MaxGrad.Name = "Lbl_MaxGrad";
+            this.Lbl_MaxGrad.Size = new System.Drawing.Size(80, 13);
+            this.Lbl_MaxGrad.TabIndex = 6;
+            this.Lbl_MaxGrad.Text = "Maximum value";
+            // 
             // Gb_YAxis
             // 
             this.Gb_YAxis.Controls.Add(this.Cb_AutoYSize);
             this.Gb_YAxis.Controls.Add(this.Tb_MaxY);
             this.Gb_YAxis.Controls.Add(this.Lbl_MaxY);
-            this.Gb_YAxis.Location = new System.Drawing.Point(261, 7);
+            this.Gb_YAxis.Location = new System.Drawing.Point(3, 95);
             this.Gb_YAxis.Name = "Gb_YAxis";
             this.Gb_YAxis.Size = new System.Drawing.Size(245, 82);
             this.Gb_YAxis.TabIndex = 7;
             this.Gb_YAxis.TabStop = false;
             this.Gb_YAxis.Text = "Y axis";
+            // 
+            // Cb_AutoYSize
+            // 
+            this.Cb_AutoYSize.AutoSize = true;
+            this.Cb_AutoYSize.Location = new System.Drawing.Point(9, 20);
+            this.Cb_AutoYSize.Name = "Cb_AutoYSize";
+            this.Cb_AutoYSize.Size = new System.Drawing.Size(175, 17);
+            this.Cb_AutoYSize.TabIndex = 8;
+            this.Cb_AutoYSize.Text = "Compute max size automatically";
+            this.Cb_AutoYSize.UseVisualStyleBackColor = true;
+            this.Cb_AutoYSize.CheckedChanged += new System.EventHandler(this.Cb_AutoYSize_CheckedChanged);
             // 
             // Tb_MaxY
             // 
@@ -158,7 +225,7 @@ namespace GUI.GraphView
             this.Gb_XAsix.Controls.Add(this.Lbl_MinX);
             this.Gb_XAsix.Controls.Add(this.Lbl_MaxX);
             this.Gb_XAsix.Controls.Add(this.Tb_MinX);
-            this.Gb_XAsix.Location = new System.Drawing.Point(9, 6);
+            this.Gb_XAsix.Location = new System.Drawing.Point(3, 6);
             this.Gb_XAsix.Name = "Gb_XAsix";
             this.Gb_XAsix.Size = new System.Drawing.Size(245, 83);
             this.Gb_XAsix.TabIndex = 6;
@@ -210,17 +277,6 @@ namespace GUI.GraphView
             this.label3.TabIndex = 1;
             this.label3.Text = "Maximum value";
             // 
-            // Cb_AutoYSize
-            // 
-            this.Cb_AutoYSize.AutoSize = true;
-            this.Cb_AutoYSize.Location = new System.Drawing.Point(9, 20);
-            this.Cb_AutoYSize.Name = "Cb_AutoYSize";
-            this.Cb_AutoYSize.Size = new System.Drawing.Size(175, 17);
-            this.Cb_AutoYSize.TabIndex = 8;
-            this.Cb_AutoYSize.Text = "Compute max size automatically";
-            this.Cb_AutoYSize.UseVisualStyleBackColor = true;
-            this.Cb_AutoYSize.CheckedChanged += new System.EventHandler(this.Cb_AutoYSize_CheckedChanged);
-            // 
             // GraphView
             // 
             this.AllowDrop = true;
@@ -238,6 +294,8 @@ namespace GUI.GraphView
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.GraphVisualiser)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.Gb_GradientAxis.ResumeLayout(false);
+            this.Gb_GradientAxis.PerformLayout();
             this.Gb_YAxis.ResumeLayout(false);
             this.Gb_YAxis.PerformLayout();
             this.Gb_XAsix.ResumeLayout(false);
@@ -262,5 +320,10 @@ namespace GUI.GraphView
         private System.Windows.Forms.TextBox Tb_MaxY;
         private System.Windows.Forms.Label Lbl_MaxY;
         private System.Windows.Forms.CheckBox Cb_AutoYSize;
+        private System.Windows.Forms.GroupBox Gb_GradientAxis;
+        private System.Windows.Forms.Label Lbl_MinGrad;
+        private System.Windows.Forms.TextBox Tb_MinGrad;
+        private System.Windows.Forms.TextBox Tb_MaxGrad;
+        private System.Windows.Forms.Label Lbl_MaxGrad;
     }
 }

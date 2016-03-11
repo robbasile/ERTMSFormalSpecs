@@ -3,7 +3,7 @@
 // -- Licensed under the EUPL V.1.1
 // -- http://joinup.ec.europa.eu/software/page/eupl/licence-eupl
 // --
-// -- This file is part of ERTMSFormalSpec software and documentation
+// -- This file is part of ERTMSFormalSpecs software and documentation
 // --
 // --  ERTMSFormalSpec is free software: you can redistribute it and/or modify
 // --  it under the terms of the EUPL General Public License, v.1.1
@@ -67,8 +67,8 @@ namespace GUIUtils.GraphVisualization.Graphs
         {
             GraphVisualizer = graphVisualizer;
 
-            Data = new Series();
-            GraphVisualizer.Series.Add(Data);
+            Data = new Series ();
+            GraphVisualizer.Series.Add (Data);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace GUIUtils.GraphVisualization.Graphs
             {
                 foreach (DataPoint point in Data.Points)
                 {
-                    if (point.YValues[0] > GraphVisualizer.ChartAreas[0].AxisY.Maximum && !point.IsEmpty)
+                    if (point.YValues[0] > GraphVisualizer.AxisY.Maximum && !point.IsEmpty)
                     {
                         GraphVisualizer.SetMaxY(point.YValues[0]);
                     }

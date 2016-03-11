@@ -103,8 +103,8 @@ namespace GUIUtils.GraphVisualization.Graphs
                 emptyPoint.IsEmpty = true;
                 Data.Points.Add(emptyPoint);
                 TextAnnotation annotation = new TextAnnotation();
-                annotation.AxisX = GraphVisualizer.ChartAreas[0].AxisX;
-                annotation.AxisY = GraphVisualizer.ChartAreas[0].AxisY;
+                annotation.AxisX = GraphVisualizer.AxisX;
+                annotation.AxisY = GraphVisualizer.AxisY;
                 annotation.AnchorAlignment = ContentAlignment.MiddleCenter;
                 annotation.AnchorX = emptyPoint.XValue;
                 annotation.AnchorY = emptyPoint.YValues[0];

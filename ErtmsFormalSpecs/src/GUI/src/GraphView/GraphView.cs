@@ -240,11 +240,19 @@ namespace GUI.GraphView
                     Function function = pair.Key;
                     Graph graph = pair.Value;
 
-                    if (graph != null)
+                    if (function != null && graph != null)
                     {
                         EfsProfileFunction efsProfileFunction = new EfsProfileFunction(graph);
-                        GraphVisualiser.AddGraph(new EfsProfileFunctionGraph(GraphVisualiser, efsProfileFunction,
-                            function.FullName));
+                        if (function.Name.Contains("Gradient"))
+                        {
+                            GraphVisualiser.AddGraph(new EfsGradientProfileGraph(GraphVisualiser, efsProfileFunction,
+                                function.FullName));
+                        }
+                        else
+                        {
+                            GraphVisualiser.AddGraph(new EfsProfileFunctionGraph(GraphVisualiser, efsProfileFunction,
+                                function.FullName));
+                        }
 
                         if (name == null)
                         {
@@ -313,6 +321,19 @@ namespace GUI.GraphView
                             GraphVisualiser.SetMaxY(double.NaN);
                         }
                     }
+
+                    GraphVisualiser.SetMinY2 (double.NaN);
+                    GraphVisualiser.SetMaxY2 (double.NaN);
+                    double top, bottom;
+                    if (double.TryParse (Tb_MinGrad.Text, out bottom))
+                    {
+                        GraphVisualiser.SetMinY2 (bottom);
+                    }
+                    if(double.TryParse (Tb_MaxGrad.Text, out top))
+                    {
+                        GraphVisualiser.SetMaxY2 (top);
+                    }
+
                     GraphVisualiser.DrawGraphs(expectedEndX);
                 }
             });
@@ -348,7 +369,7 @@ namespace GUI.GraphView
         }
 
         /// <summary>
-        ///     Handles CB_AutoYSize check change
+        /// Handles Cb_AutoYSize check change
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

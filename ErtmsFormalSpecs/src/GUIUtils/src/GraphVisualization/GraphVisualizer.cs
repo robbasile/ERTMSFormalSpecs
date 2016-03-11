@@ -35,7 +35,7 @@ namespace GUIUtils.GraphVisualization
         /// </summary>
         public double MinX
         {
-            get { return ChartAreas[0].AxisX.ScaleView.ViewMinimum; }
+            get { return AxisX.ScaleView.ViewMinimum; }
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace GUIUtils.GraphVisualization
         /// </summary>
         public double MaxX
         {
-            get { return ChartAreas[0].AxisX.ScaleView.ViewMaximum; }
+            get { return AxisX.ScaleView.ViewMaximum; }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace GUIUtils.GraphVisualization
         /// </summary>
         public double MinY
         {
-            get { return ChartAreas[0].AxisY.ScaleView.ViewMinimum; }
+            get { return AxisY.ScaleView.ViewMinimum; }
         }
 
         /// <summary>
@@ -59,11 +59,11 @@ namespace GUIUtils.GraphVisualization
         /// </summary>
         public double MaxY
         {
-            get { return ChartAreas[0].AxisY.ScaleView.ViewMaximum; }
+            get { return AxisY.ScaleView.ViewMaximum; }
         }
 
         /// <summary>
-        ///     The axis X
+        /// The axis X
         /// </summary>
         public Axis AxisX
         {
@@ -71,11 +71,19 @@ namespace GUIUtils.GraphVisualization
         }
 
         /// <summary>
-        ///     The axis Y
+        /// The axis Y
         /// </summary>
         public Axis AxisY
         {
             get { return ChartAreas[0].AxisY; }
+        }
+
+        /// <summary>
+        /// The axis Y2 (used for gradients)
+        /// </summary>
+        public Axis AxisY2
+        {
+            get { return ChartAreas[0].AxisY2; }
         }
 
         /// <summary>
@@ -115,25 +123,25 @@ namespace GUIUtils.GraphVisualization
         public void InitializeChart()
         {
             // Initialization of the chart area
-            ChartAreas[0].AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
-            ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
-            ChartAreas[0].AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
-            ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray;
+            AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+            AxisX.MajorGrid.LineColor = Color.LightGray;
+            AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+            AxisY.MajorGrid.LineColor = Color.LightGray;
 
-            ChartAreas[0].AxisX.MinorGrid.LineColor = Color.GhostWhite;
-            ChartAreas[0].AxisX.MinorGrid.Enabled = true;
-            ChartAreas[0].AxisY.MinorGrid.LineColor = Color.GhostWhite;
-            ChartAreas[0].AxisY.MinorGrid.Enabled = true;
+            AxisX.MinorGrid.LineColor = Color.GhostWhite;
+            AxisX.MinorGrid.Enabled = true;
+            AxisY.MinorGrid.LineColor = Color.GhostWhite;
+            AxisY.MinorGrid.Enabled = true;
 
-            ChartAreas[0].AxisX.Minimum = 0;
-            ChartAreas[0].AxisY.Maximum = 50;
-            ChartAreas[0].AxisY.Crossing = 0;
+            AxisX.Minimum = 0;
+            AxisY.Maximum = 50;
+            AxisY.Crossing = 0;
 
-            ChartAreas[0].AxisX.LabelStyle.Format = "{#}";
-            ChartAreas[0].AxisY.LabelStyle.Format = "{#}";
+            AxisX.LabelStyle.Format = "{#}";  // digits
+            AxisY.LabelStyle.Format = "{#}";  // digits
 
-            ChartAreas[0].AxisY.IsMarginVisible = false;
-            ChartAreas[0].AxisX.IsMarginVisible = false;
+            AxisY.IsMarginVisible = false;
+            AxisX.IsMarginVisible = false;
         }
 
         /// <summary>
@@ -142,7 +150,7 @@ namespace GUIUtils.GraphVisualization
         /// <param name="value"></param>
         public void SetMinX(double value)
         {
-            ChartAreas[0].AxisX.Minimum = value;
+            AxisX.Minimum = value;
         }
 
         /// <summary>
@@ -151,7 +159,7 @@ namespace GUIUtils.GraphVisualization
         /// <param name="value"></param>
         public void SetMaxX(double value)
         {
-            ChartAreas[0].AxisX.Maximum = value;
+            AxisX.Maximum = value;
         }
 
         /// <summary>
@@ -160,7 +168,7 @@ namespace GUIUtils.GraphVisualization
         /// <param name="value"></param>
         public void SetMinY(double value)
         {
-            ChartAreas[0].AxisY.Minimum = value;
+            AxisY.Minimum = value;
         }
 
         /// <summary>
@@ -169,7 +177,47 @@ namespace GUIUtils.GraphVisualization
         /// <param name="value"></param>
         public void SetMaxY(double value)
         {
-            ChartAreas[0].AxisY.Maximum = value;
+            AxisY.Maximum = value;
+        }
+
+        /// <summary>
+        /// Sets the minimum displayed value for Y axis
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetMinY2(double value)
+        {
+            AxisY2.Minimum = value;
+        }
+
+        /// <summary>
+        /// Sets the maximum displayed value for Y axis
+        /// </summary>
+        /// <param name="value"></param>
+        public void SetMaxY2(double value)
+        {
+            AxisY2.Maximum = value;
+        }
+
+        /// <summary>
+        /// Enables the display of axis Y2, used for gradients
+        /// </summary>
+        public void EnableAxisY2 ()
+        {
+
+            AxisY2.MajorGrid.LineDashStyle = ChartDashStyle.Dot;
+            AxisY2.MajorGrid.LineColor = Color.SteelBlue;
+
+            AxisY2.MinorGrid.LineColor = Color.GhostWhite;
+            AxisY2.MinorGrid.Enabled = false;
+
+            AxisY2.Minimum = -2.5;
+            AxisY2.Maximum = 2.5;
+
+            AxisY2.LabelStyle.Format = "#.####";  // decimal point
+
+            AxisY2.IsMarginVisible = false;
+
+            AxisY2.Enabled = AxisEnabled.True;
         }
 
         /// <summary>
@@ -254,9 +302,8 @@ namespace GUIUtils.GraphVisualization
                     if (e.Location.X >= 0 && e.Location.X <= chart.Size.Width &&
                         e.Location.Y >= 0 && e.Location.Y <= chart.Size.Height)
                     {
-                        HandleZoomforAxis(ChartAreas[0].AxisX, e.Location.X, 0, ChartAreas[0].AxisX.Maximum, e.Delta > 0);
-                        HandleZoomforAxis(ChartAreas[0].AxisY, e.Location.Y, negativeOffset, ChartAreas[0].AxisY.Maximum,
-                            e.Delta > 0);
+                        HandleZoomforAxis(AxisX, e.Location.X, 0, AxisX.Maximum, e.Delta > 0);
+                        HandleZoomforAxis(AxisY, e.Location.Y, negativeOffset, AxisY.Maximum, e.Delta > 0);
                     }
                 }
             }
@@ -312,8 +359,8 @@ namespace GUIUtils.GraphVisualization
         /// </summary>
         public void ResetZoom()
         {
-            ChartAreas[0].AxisX.ScaleView.ZoomReset();
-            ChartAreas[0].AxisY.ScaleView.ZoomReset();
+            AxisX.ScaleView.ZoomReset();
+            AxisY.ScaleView.ZoomReset();
         }
     }
 }
