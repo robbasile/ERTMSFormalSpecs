@@ -27,7 +27,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b2f20504-2743-4026-a731-731349057c50"
 >
-</ReqRef></Range></Ranges>
+</ReqRef><Comment>A range of possible correction factor values.</Comment>
+</Range></Ranges>
 <Structures>
 <Structure
  Default=""
@@ -45,7 +46,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3d6f4a6a-3f71-4a13-a4da-7d7770f0d060"
 >
-</ReqRef><StructureElement
+</ReqRef><Comment>Represents the gradient information item received from the trackside.</Comment>
+<StructureElement
  TypeName="BaseTypes.Distance"
  Default="0.0"
  Mode="Internal"
@@ -80,6 +82,7 @@
  Name="DefaultGradientForTSRStruct"
  Guid="26e1494d-8a46-41b8-8572-edc8cc4cb510"
 >
+<Comment>Represents the default gradient for TSR item received from the trackside.</Comment>
 <StructureElement
  TypeName="BaseTypes.Gradient"
  Default="0.0"
@@ -97,9 +100,10 @@
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="CorFactValue"
+ Name="CorFactValueStruct"
  Guid="3678f4c9-a256-4fcc-a817-027f4c276928"
 >
+<Comment>Represents a set of speed steps together with the associated correction factor values.</Comment>
 <StructureElement
  TypeName="CorrectionFactor"
  Default="0.0"
@@ -109,6 +113,7 @@
  Name="Factor"
  Guid="ea248163-79c1-4392-bc84-cc0d35c0c5d8"
 >
+<Comment>A correction factor value.</Comment>
 </StructureElement><StructureElement
  TypeName="BaseTypes.Speed"
  Default="BaseTypes.Speed.Infinity"
@@ -118,6 +123,7 @@
  Name="SpeedStep"
  Guid="c9b932d9-bfca-4f89-872e-ce70be10b9e0"
 >
+<Comment>A speed step.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="280"
@@ -126,7 +132,7 @@
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="CorFact"
+ Name="CorFactStruct"
  Guid="c265323b-5443-434c-bfe2-b45d47e46dff"
 >
 <ReqRef
@@ -134,8 +140,9 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e6e1e97e-dee3-46cf-9dce-8cb360ac6a30"
 >
-</ReqRef><StructureElement
- TypeName="CorFactValue"
+</ReqRef><Comment>Represents a correction factor values.</Comment>
+<StructureElement
+ TypeName="CorFactValueStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -144,7 +151,7 @@
  Guid="26341e31-91dd-4bf6-a34a-d463a6e50704"
 >
 </StructureElement><StructureElement
- TypeName="CorFactValue"
+ TypeName="CorFactValueStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -153,7 +160,7 @@
  Guid="7bc5525d-c7ba-4eff-8566-7737a7535ce3"
 >
 </StructureElement><StructureElement
- TypeName="CorFactValue"
+ TypeName="CorFactValueStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -162,8 +169,8 @@
  Guid="bc9aafd6-1112-45a8-9b13-068fbd70ca1e"
 >
 </StructureElement><StructureElement
- TypeName="CorFactValue"
- Default="Kernel.TrackDescription.Gradient.CorFactValue{ Factor =&gt; 0.0, SpeedStep =&gt; 0.0 }"
+ TypeName="CorFactValueStruct"
+ Default="CorFactValueStruct{ Factor =&gt; 0.0, SpeedStep =&gt; 0.0 }"
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -171,7 +178,7 @@
  Guid="b3e12edd-0f2e-4eda-9539-06513d28704c"
 >
 </StructureElement><StructureElement
- TypeName="CorFactValue"
+ TypeName="CorFactValueStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -456,6 +463,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Name="AbsoluteDistance"
  Guid="f76759ab-9143-4839-8633-d1956d28e22a"
 >
+<Comment>Computes the absolute distance of the provided gradient item. The result is obtained by computing the sum of the distances of gradient elements situated before the provided element and finally adding the distance of the provided element.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Collection1"
@@ -628,7 +636,8 @@ The formulae are easier than in subset 26 since the values of grad and M_rotatin
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a99f06b9-5c62-4bc3-b2c5-fcae475b466a"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Returns the acceleration due to the gradient at the provided location.</Comment>
+<Parameters>
 <Parameter
  Type="BaseTypes.Distance"
  Name="Distance"
@@ -950,7 +959,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
 </ReqRef><Comment>Gives the deceleration due to braking depending on the current speed value.</Comment>
 <Parameters>
 <Parameter
- Type="CorFact"
+ Type="CorFactStruct"
  Name="aCorrectionFactor"
  Guid="7ae9bf94-515d-47c6-9389-a878a49003f0"
 >
@@ -1084,9 +1093,12 @@ Outside the distances provided by the gradient, the gradient value is defined as
  Y="300"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="CompensateForTrainPosition"
  Guid="34b9d844-5bc1-45de-a814-e710a434da35"
 >
+<Comment>Updates the location of the provided gradient item by taking into account the nominal train front end position. Used for display purposes.</Comment>
 <Parameters>
 <Parameter
  Type="GradientStruct"
@@ -1143,8 +1155,8 @@ Outside the distances provided by the gradient, the gradient value is defined as
 </Function></Functions>
 <Procedures>
 <Procedure
- X="10"
- Y="500"
+ X="0"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1216,7 +1228,8 @@ Outside the distances provided by the gradient, the gradient value is defined as
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="600cb75c-bc2f-4693-8018-3f74b79e6063"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Procedure handling a new gradient profile information received from the trackside.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.GRADIENT_PROFILE.Message"
  Name="Packet"
@@ -1231,6 +1244,8 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove old information"
  Guid="1e7c36be-807c-4c1f-85a3-9931791224de"
@@ -1245,7 +1260,8 @@ Outside the distances provided by the gradient, the gradient value is defined as
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="47cc1e0d-1c85-4eb5-8a65-5ac2c4cc961f"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>First remove the previously stored information situated after the provided reference location.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -1264,11 +1280,14 @@ Outside the distances provided by the gradient, the gradient value is defined as
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Store first gradient value"
  Guid="c314ce8b-22c3-44f8-83a4-3cff301c1f57"
 >
+<Comment>Then, store the first value.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1295,11 +1314,14 @@ Outside the distances provided by the gradient, the gradient value is defined as
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Store following graduent values"
  Guid="f8c1be22-7df9-4ed1-a0f8-14f9019c76d2"
 >
+<Comment>Finally, store the following values.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1372,7 +1394,8 @@ ON Packet.Sequence1</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="18180f50-296a-44b1-be8b-ecd7f194554b"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Stores a gradient info item to the gradient profile.</Comment>
+<Parameters>
 <Parameter
  Type="GradientStruct"
  Name="Info"
@@ -1382,6 +1405,8 @@ ON Packet.Sequence1</Action></Actions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Stores the profile info"
@@ -1422,7 +1447,8 @@ ON Packet.Sequence1</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d34eea09-5fd7-48c9-8500-77ebef108d65"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Procedure handling a new default gradient profile for TSR information received from the trackside.</Comment>
+<Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION.Message"
  Name="Packet"
@@ -1432,6 +1458,8 @@ ON Packet.Sequence1</Action></Actions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Stores the default gradient for TSR value"
@@ -1500,6 +1528,8 @@ ON Packet.Sequence1</Action></Actions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Delete gradients beyond the given location"
  Guid="49af429f-abb5-4a0e-842e-7f6171bc1ed4"
@@ -1522,6 +1552,8 @@ ON Packet.Sequence1</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove elements beyond the given location"
  Guid="03a9c11c-fda1-4a2d-964e-4afe6490e825"
@@ -1543,6 +1575,8 @@ ON Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add the last element"
  Guid="5d51c9a9-fc33-4a26-b946-faa528be6af7"
@@ -1721,7 +1755,7 @@ IN
 >
 </ReqRef><Comment>Represents the default gradient for TSR supervision.</Comment>
 </Variable><Variable
- Type="CorFact"
+ Type="CorFactStruct"
  DefaultValue=""
  VariableMode="Internal"
  X="220"
@@ -1744,7 +1778,7 @@ IN
 >
 </ReqRef><Comment>Represents the speed dependent correction factor for positive gradient on the normal service brake.</Comment>
 </Variable><Variable
- Type="CorFact"
+ Type="CorFactStruct"
  DefaultValue=""
  VariableMode="Internal"
  X="330"
