@@ -4289,6 +4289,8 @@
 </ReqRef><Comment>Used to handle RBC contact information requests.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="AcceptDriverResponse"
@@ -4298,6 +4300,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Accepts data from the driver"
@@ -4324,6 +4328,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="5257dc31-c3d1-4c30-aa3b-90d1665632c1"
@@ -4332,6 +4338,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Disable if needed"
  Guid="3c70d746-f68c-4397-9ffe-3ca328f1ff33"
@@ -4356,6 +4364,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="InitiateRequest"
  Guid="896a9ec8-f1cc-49ee-a82a-bae035d64bbc"
@@ -4386,6 +4396,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Initiate request"
@@ -4419,6 +4431,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="SelectNetworkId"
@@ -4435,6 +4449,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Initiate request"
@@ -4464,6 +4480,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="ProvideDriverResponse"
@@ -4490,6 +4508,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Provide driver response"
@@ -4518,6 +4538,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="PursueNetworkIDRequest"
  Guid="0692a11a-a37f-4f69-9a7e-1146a06f2788"
@@ -4548,6 +4570,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Initiate request"
@@ -4581,6 +4605,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="WaitForSystemRequest"
  Guid="c8a9dbdd-b12f-466e-ac8d-a33b18d88536"
@@ -4606,6 +4632,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Initiate request"
@@ -4639,6 +4667,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="PursueRBCContactRequest"
  Guid="7a889019-d44e-494c-a862-60da6a65a5df"
@@ -4674,6 +4704,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Initiate request"
@@ -4707,6 +4739,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="CancelRequest"
@@ -4715,6 +4749,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="CancelRequest"
  Guid="90a9d79f-a0e7-425d-872a-d1fe9aba92b6"
@@ -4732,6 +4768,58 @@
 <Action
  Guid="0e30eef5-5064-42d3-828c-cfd5a4fdc0f3"
 >THIS.InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset"
+ Guid="62ee465a-0913-4487-95c4-2ba14535af2b"
+>
+<Comment>If the connection attempt failed, the stored data should be emptied. Interactions with the DMI would then work better.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset"
+ Guid="ec84aab5-e113-4238-b119-1fa5148fe65a"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Reset"
+ Guid="18947679-85b8-44ba-bbdf-457b45e55963"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4e080b91-264d-4c14-a9af-8b93c37d3a3d"
+>AvailableNetworks &lt;- []</Action><Action
+ Guid="ab2ff04f-d390-46a1-a9f9-f7aae717d901"
+>DriversSelectedAction &lt;- DMI.RBCContactActionEnum.None</Action><Action
+ Guid="62f2f4a3-a37b-4ad6-ac25-0a922a4ee25f"
+>InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="35fc13c7-f9b7-4d69-aba1-5ec6f3d291c8"
+>InputInformation.DriverAnswered &lt;- False</Action><Action
+ Guid="5198c34b-3b6b-48bf-876a-9ee9e2180fb7"
+>NetworkId &lt;- &apos;&apos;</Action><Action
+ Guid="2f490d6a-dfe4-4bd1-9301-d836fd05f39b"
+>ProposedActions &lt;- []</Action><Action
+ Guid="c4838377-7ccf-4ee1-8307-53172a855db1"
+>RBCContactInformation &lt;- EURORADIO.RBCContactStruct{
+Id =&gt; EURORADIO.RBCIdStruct{
+    Country =&gt; 0,
+    Id =&gt; 0
+},
+PhoneNumber =&gt; &apos;&apos;,
+DataState =&gt; DataStateEnum.Invalid
+}</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
