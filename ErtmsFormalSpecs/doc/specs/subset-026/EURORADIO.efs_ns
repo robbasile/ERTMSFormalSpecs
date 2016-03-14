@@ -4223,9 +4223,9 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 >ContactRBCOrder != EMPTY
   AND
 (
-  ContactRBCOrder.Id != EURORADIO.LastKnownRBC.Id
+  ContactRBCOrder.Id != EURORADIO.CurrentRBCConnection().ContactData.Id
     OR
-  ContactRBCOrder.PhoneNumber != EURORADIO.LastKnownRBC.PhoneNumber
+  ContactRBCOrder.PhoneNumber != EURORADIO.CurrentRBCConnection().ContactData.PhoneNumber
 )</PreCondition></PreConditions>
 <Actions>
 <Action
@@ -4234,6 +4234,8 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle connection status"
  Guid="b8346e36-3af0-4d5f-b8e7-80935075d8af"
@@ -4864,7 +4866,42 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</StateMachine></State><State
+</StateMachine><EnterAction>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Enter action"
+ Guid="6b521411-68d7-4d34-be76-22c8a2be5e62"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store RBC Contact Information"
+ Guid="35e367be-27ad-4cd8-9942-e3d58f741542"
+>
+<ReqRef
+ Id="5b400d76-8d5f-4650-b9ae-bfddacd144b6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78d3d78a-fc0f-4e1e-8612-75d8e1db6d45"
+>
+</ReqRef><PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="725f1dd0-c080-4808-9c61-12ccda9772b2"
+>LastKnownRBC &lt;- EURORADIO.RBCContactStruct{
+Id =&gt; RBCIdStruct{
+    Country =&gt; CurrentRBCConnection().ContactData.Id.Country,
+    Id =&gt; CurrentRBCConnection().ContactData.Id.Id
+},
+PhoneNumber =&gt; CurrentRBCConnection().ContactData.PhoneNumber,
+DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></EnterAction>
+</State><State
  X="180"
  Y="430"
  Width="100"
@@ -8168,6 +8205,8 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Select RBC"
  Guid="d8aeb849-b368-455f-9c7b-b9df2fe98385"
@@ -8189,13 +8228,6 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Action
  Guid="fb0c323a-04ee-47a6-86cd-341b24a90ee3"
 >EURORADIO.SelectRBCToContact().ContactRBCOrder &lt;- anOrder</Action><Action
- Guid="10e5e739-aca5-4fb6-814f-e45da2fe4dde"
->EURORADIO.LastKnownRBC &lt;- EURORADIO.RBCContactStruct
-{
-    Id =&gt; anOrder.Id,
-    PhoneNumber =&gt; anOrder.PhoneNumber,
-    DataState =&gt; DataStateEnum.Valid
-}</Action><Action
  Guid="b327d97a-1053-46ca-a7eb-480617cdb643"
 >EURORADIO.RBCContactOrderToRepeat &lt;- EMPTY</Action><Action
  Guid="890385aa-93d6-49a6-be94-a3fd1d17d4e8"
@@ -8225,6 +8257,8 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle terminal registration"
  Guid="40194bc4-0ac8-46b4-bc8c-9597f7d2a6fb"
@@ -8498,6 +8532,8 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Open RBC session"
  Guid="96a4a42f-501a-40c4-9a82-8d522f07c55a"
@@ -8707,6 +8743,8 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Contact RIU"
  Guid="41b28c18-f309-4e57-8d84-85c6374626b2"
@@ -12496,6 +12534,8 @@ RevSupPacketAvailable(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle RBC transition order"
  Guid="fec91845-5ab0-45e8-9030-039e43156b41"
