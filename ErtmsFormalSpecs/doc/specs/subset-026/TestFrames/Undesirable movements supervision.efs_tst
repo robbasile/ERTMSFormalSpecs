@@ -192,9 +192,7 @@
  Guid="68e06d97-40e8-4db3-8eb7-d9e21c42199d"
 >Odometry.NominalDistance &lt;- Odometry.NominalDistance - 1.5 * Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Action><Action
  Guid="9094f542-724c-4398-a35a-d14d146d3a6a"
->Odometry.EstimatedSpeed &lt;-  -1.0</Action><Action
- Guid="93cb3ecc-3e99-4ae8-97a0-5c268c10c69b"
->TIU.DirectionControllerInformation &lt;- TIU.DirectionControllerEnum.Backward</Action></Actions>
+>Odometry.EstimatedSpeed &lt;-  -1.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -217,7 +215,11 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
  Kind="Instantaneous"
  DeadLine="1"
  Guid="a7a08ce9-ff81-4105-b40c-f06840a10b87"
->DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation></Expectations>
+>DMI.MasterDMI().Out_BrakeReason.OutputInformation.DisplayRequested == True</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9d769b26-ca2f-42ae-8a78-cf1e422d6f43"
+>THERE_IS X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason == Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -302,7 +304,11 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
  Kind="Instantaneous"
  DeadLine="1"
  Guid="82e901e5-44bd-44ee-a23f-4144093c6b38"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition == 110.0</Expectation></Expectations>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == 110.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="696d4231-a166-4f99-9c9c-2a4d97481d5d"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Acknowledgement received"
@@ -310,14 +316,34 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
 >
 <Actions>
 <Action
- Guid="8eb9b7d3-2587-48d9-aaed-36708a3a69ef"
->DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+ Guid="1e6711cd-43c2-4d85-b92f-3fb0fa25ec39"
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="0b1c88cc-1f4c-473a-8432-a022f72aa7d1"
->FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation><Expectation
+ Guid="e76e5ac2-8e4e-4e53-8155-ad815de795d0"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation></Expectations>
+</SubStep><SubStep
+ Name="SubStep 3"
+ Guid="39b52a11-0129-4091-8a2c-6cd9142ea71a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d40d2fa9-c335-497d-8419-9d90b9d714e1"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="NewSubStep"
+ Guid="8d1258d8-6749-4813-bc63-d9df8ee93f60"
+>
+<Actions>
+<Action
+ Guid="8eb9b7d3-2587-48d9-aaed-36708a3a69ef"
+>DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+<Expectations>
+<Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="e36e4bdb-b53f-452e-8697-ccb897a66de1"
@@ -325,7 +351,11 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
  Kind="Instantaneous"
  DeadLine="1"
  Guid="91437277-734a-4211-898a-f0bb63b7370e"
->Kernel.UndesirableMovement.ReverseMovementReferencePosition == Odometry.NominalDistance</Expectation></Expectations>
+>Kernel.UndesirableMovement.ReverseMovementReferencePosition == Odometry.NominalDistance</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0b1c88cc-1f4c-473a-8432-a022f72aa7d1"
+>FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.ReverseMovementProtection</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
