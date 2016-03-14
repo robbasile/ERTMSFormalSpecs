@@ -1792,7 +1792,14 @@ ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Terminating</PreConditi
  Guid="9687e639-b5c6-470d-813a-f17940cd2731"
 >ConnectionLostTime &lt;- BaseTypes.Time.Infinity</Action><Action
  Guid="e6756e01-e930-4ca0-b174-6f394bacedb8"
->ContactData &lt;- EMPTY</Action><Action
+>ContactData &lt;- EURORADIO.RBCContactStruct{
+Id =&gt; RBCIdStruct{
+    Country =&gt; 0,
+    Id =&gt; 0
+},
+PhoneNumber =&gt; &apos;&apos;,
+DataState =&gt; DataStateEnum.Invalid
+}</Action><Action
  Guid="05d3d260-3a31-4071-8324-e20b31648170"
 >ContactRBCOrder &lt;- EMPTY</Action><Action
  Guid="3d5afa42-b712-4474-af54-81ae258173b2"
@@ -3416,13 +3423,15 @@ SystemVersion1 =&gt; EMPTY
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4bb4cdf7-1931-417e-beb1-60286392babd"
 >
-</ReqRef><Comment>In case the connection setup failed, e.g. due to an incompatible system version, the connection should terminate.</Comment>
+</ReqRef><Comment>In case the connection setup failed, e.g. due to an incompatible system version, the connection should terminate and the DMI contact information reset.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
  Guid="e0953ffe-802e-499b-a1b6-d26ec4df3289"
->ReinitializeCommunicationInformation()</Action></Actions>
+>ReinitializeCommunicationInformation()</Action><Action
+ Guid="c364a08a-b7c7-4511-87e0-c1742b7c98ba"
+>DMI.MasterDMI().In_RBCContactInformation.Reset()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State

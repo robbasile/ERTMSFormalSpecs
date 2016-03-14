@@ -4261,7 +4261,10 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
  Guid="8ee59fd4-87a1-480c-b3b5-f5475d771c87"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="5b843fa8-6ed9-4519-875a-76d8fd814251"
+><Comment>Wait for the RBC to reach the Inactive state for it has to clean the informations of DMI_In_RBCContactInformation before proceeding further. </Comment>
+EURORADIO.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCStruct.ConnectionStateSM.Inactive]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b8f2f399-bcea-4824-8a83-ebaca850d2c5"
@@ -5921,6 +5924,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Allow reenter level for states S10 and S20"
  Guid="8339b88a-c46f-47fe-96cd-9399b62676a2"
@@ -5949,6 +5954,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Allow reenter level for states S10 and S20"
@@ -5994,6 +6001,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle change of level validity"
  Guid="468b2632-cc82-4f4b-8739-75046ad3b35b"
@@ -6021,6 +6030,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle change of RBC ID / Phone number validity"
  Guid="70c6984f-6710-495d-8176-c4330408dfd5"
