@@ -633,11 +633,7 @@ namespace DataDictionary.Tests.Runner
                                         Action otherAction = traceBack[otherChange].Action;
                                         if (!variable.Type.CompareForEquality(otherChange.NewValue, change.NewValue))
                                         {
-                                            if (change is InsertInListChange && otherChange is InsertInListChange)
-                                            {
-                                                // Nothing to do : INSERT statements can be performed concurrently
-                                            }
-                                            else
+                                            if (change.CheckForCompatibility() || otherChange.CheckForCompatibility())
                                             {
                                                 string action1 = ((INamable)action.Enclosing).FullName + " : " +
                                                                  variableUpdate.Action.FullName;

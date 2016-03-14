@@ -151,6 +151,16 @@ namespace DataDictionary.Rules
 
             return retVal;
         }
+
+        /// <summary>
+        /// Indicates that this change should be compatible with all the other changes applied during the same execution cycle. 
+        /// Compatibility is defined by the fact that two changes should update the same variable with the same value.
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool CheckForCompatibility()
+        {
+            return true;
+        }
     }
 
     /// <summary>
