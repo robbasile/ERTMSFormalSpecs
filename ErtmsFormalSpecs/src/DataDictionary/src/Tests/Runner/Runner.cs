@@ -633,13 +633,22 @@ namespace DataDictionary.Tests.Runner
                                         Action otherAction = traceBack[otherChange].Action;
                                         if (!variable.Type.CompareForEquality(otherChange.NewValue, change.NewValue))
                                         {
-                                            string action1 = ((INamable) action.Enclosing).FullName + " : " +
-                                                             variableUpdate.Action.FullName;
-                                            string action2 = ((INamable) otherAction.Enclosing).FullName + " : " +
-                                                             traceBack[otherChange].Action.FullName;
-                                            variableUpdate.Action.AddError(
-                                                "Simultaneous change of the variable " + variable.FullName + " with different values. Conflit between\n" +
-                                                action1 + "\n and \n" + action2);
+                                            if (change is InsertInListChange && otherChange is InsertInListChange)
+                                            {
+                                                // Nothing to do : INSERT statements can be performed concurrently
+                                            }
+                                            else
+                                            {
+                                                string action1 = ((INamable)action.Enclosing).FullName + " : " +
+                                                                 variableUpdate.Action.FullName;
+                                                string action2 = ((INamable)otherAction.Enclosing).FullName + " : " +
+                                                                 traceBack[otherChange].Action.FullName;
+                                                variableUpdate.Action.AddError(
+                                                    "Simultaneous change of the variable " + variable.FullName + " with different values. Conflit between\n" +
+                                                    action1 + "\n and \n" + action2);
+                                                action.AddError("Conflicting change");
+                                                otherAction.AddError("Conflicting change");
+                                            }
                                         }
                                     }
                                     else

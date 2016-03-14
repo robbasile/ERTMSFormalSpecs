@@ -26,11 +26,14 @@ namespace DataDictionary.test
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             Runner runner = new Runner(false);
+            runner.CheckForCompatibleChanges = true;
             runner.Cycle();
 
             ListValue listValue = v.Value as ListValue;
             Assert.IsNotNull(listValue);
             Assert.AreEqual(2, listValue.Val.Count);
+            Assert.AreEqual(0, a1.Messages.Count);
+            Assert.AreEqual(0, a2.Messages.Count);
         }
     }
     // ReSharper restore UnusedVariable
