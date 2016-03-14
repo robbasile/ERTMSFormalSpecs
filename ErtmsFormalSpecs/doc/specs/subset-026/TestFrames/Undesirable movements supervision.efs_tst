@@ -311,7 +311,7 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
 >DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Acknowledgement received"
+ Name="First acknowledgement received"
  Guid="6ec8cb4f-b6e5-4ba5-b06e-605faaf589fb"
 >
 <Actions>
@@ -325,7 +325,8 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
  Guid="e76e5ac2-8e4e-4e53-8155-ad815de795d0"
 >FORALL X IN Kernel.BrakeCommands.ServiceBrakeCommands | X.Reason != Kernel.BrakeCommands.BrakeReasonEnum.RollAwayProtection</Expectation></Expectations>
 </SubStep><SubStep
- Name="SubStep 3"
+ TimeDelay="NotDelayed"
+ Name="Second acknowledgement requested"
  Guid="39b52a11-0129-4091-8a2c-6cd9142ea71a"
 >
 <Expectations>
@@ -335,7 +336,8 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
  Guid="d40d2fa9-c335-497d-8419-9d90b9d714e1"
 >DMI.MasterDMI().In_AcknForReverseMovementProtection.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep><SubStep
- Name="NewSubStep"
+ TimeDelay="NotDelayed"
+ Name="Second acknowledgement received"
  Guid="8d1258d8-6749-4813-bc63-d9df8ee93f60"
 >
 <Actions>
@@ -663,7 +665,7 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
 <Actions>
 <Action
  Guid="de0cb55d-051c-4319-9558-cb0ae8a74241"
->DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -954,7 +956,7 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
 <Actions>
 <Action
  Guid="d8b29dfb-bf21-4fcf-b934-ae6f724d431d"
->DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1215,7 +1217,7 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
 <Actions>
 <Action
  Guid="af9df874-462b-4cc3-942c-7df4c4f0dcb4"
->DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1443,7 +1445,7 @@ DMI.MasterDMI().Out_BrakeReason.Reasons | X.Reason == Kernel.BrakeCommands.Brake
 <Actions>
 <Action
  Guid="89f5455c-2094-4993-9382-ca1e23123082"
->DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.DriverAnswered &lt;- True</Action></Actions>
+>DMI.MasterDMI().In_AcknForRollAwayProtection.InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
