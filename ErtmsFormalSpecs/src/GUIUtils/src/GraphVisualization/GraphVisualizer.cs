@@ -217,7 +217,7 @@ namespace GUIUtils.GraphVisualization
 
             AxisY2.IsMarginVisible = false;
 
-            AxisY2.Enabled = AxisEnabled.True;
+            AxisY2.Enabled = AxisEnabled.Auto;
         }
 
         /// <summary>
