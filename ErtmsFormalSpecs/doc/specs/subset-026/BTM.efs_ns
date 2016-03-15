@@ -2280,6 +2280,47 @@ Kernel.AcceptInformation.ReversingSupervisionInformation( aSource =&gt; Kernel.A
 >
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="370"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IsNewBG"
+ Guid="c3d290dd-32f9-4add-a29f-5600b3ae9c90"
+>
+<Comment>Indicates whether the BG is different from the current LRBG.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="BGIdentifier"
+ Guid="ef133f75-9ac5-43ac-b403-b0aaa68622da"
+>
+</Parameter><Parameter
+ Type="Messages.NID_C"
+ Name="CountryIdentifier"
+ Guid="1cbd3d59-699f-4779-a2d0-93ed2c28eb73"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No LRBG"
+ Guid="dafed603-8bc8-4ec1-8c92-3f2fd39551c5"
+>
+<PreConditions>
+<PreCondition
+ Guid="3a07a085-98e6-4907-99ab-8e2a5afcc380"
+>NOT Available( LRBG )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="a5aa9f87-7420-4311-9766-18d0b6263d7f"
+>
+<Expression>LRBG.NID != BGIdentifier</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -3711,6 +3752,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Relocate trackside information"
  Guid="ba44542d-5f85-4e5c-9be1-449daf9f1059"
@@ -3745,6 +3788,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Emergency Stops"
  Guid="90e8fa4c-3bf9-4d41-8f3c-49a12c49c220"
@@ -3779,6 +3824,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Level Transition Order"
  Guid="2d7003a0-cb6f-468e-a417-912506442457"
@@ -3805,6 +3852,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Supervised Level Crossings"
  Guid="289a329e-dd2d-494d-9874-0a0f6afd15a5"
@@ -3840,6 +3889,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Level Crossings for MRSP"
  Guid="c9b63bb1-5136-491f-b4ea-529ef88b2d99"
@@ -3875,6 +3926,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Mode Profile"
  Guid="ec02eab3-53e2-4ff9-8ae8-0e416e45f9e1"
@@ -3908,6 +3961,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Adhesion Factors"
  Guid="fe95f853-8149-4972-879a-6b9bd5be4766"
@@ -3939,6 +3994,8 @@ RevSupPacketAvailable( aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Axle Load Profile"
  Guid="f8d308ef-5265-4686-ad4d-5294a4566e3b"
@@ -3974,6 +4031,8 @@ Kernel.TrackDescription.AxleLoad.ASP.ALs != []</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Gradients"
  Guid="f7f414c2-591e-4528-a588-0cc21c39ead8"
@@ -4004,6 +4063,8 @@ Kernel.TrackDescription.AxleLoad.ASP.ALs != []</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Speed Restrictions related to Permitted Braking Distance"
  Guid="e7c1a09f-a872-4e77-86cd-d2b491bf2de0"
@@ -4044,6 +4105,8 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Reversing Area"
  Guid="40f6dbf9-6100-4db6-beff-bd7529c2fc66"
@@ -4070,6 +4133,8 @@ Kernel.TrackDescription.PermittedBrakingDistance.SpeedRestrictionsProfile.SpeedR
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Route Suitability"
  Guid="0b020469-27eb-4625-b877-4adae11f6957"
@@ -4108,6 +4173,8 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []</Pr
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Static Speed Profile"
  Guid="159dcb11-7560-463b-9cb3-5f73613e9ebc"
@@ -4140,6 +4207,8 @@ Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items != []</Pr
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Applicable National Values"
  Guid="2a660229-50de-4b68-92f6-f70369884777"
@@ -4170,6 +4239,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Not Applicable National Values"
  Guid="d0df7f00-ee99-4021-aa9c-6bfd54a481fc"
@@ -4195,6 +4266,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update General Track Conditions"
  Guid="74748e63-f2b2-4d43-9d6f-5fdcdf4a5699"
@@ -4225,6 +4298,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update TC Announcements"
  Guid="8061f8db-05a5-46ac-9d17-29343b248247"
@@ -4257,6 +4332,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Big Metal Masses TC"
  Guid="be414430-2f9e-44b2-b1ce-5826957d25c7"
@@ -4287,6 +4364,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Traction Systems TC"
  Guid="896650ab-4ed1-4aa1-867a-7d82c0e82861"
@@ -4317,6 +4396,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Current Consumption TC"
  Guid="8606bf00-03d8-496d-85ec-6b5db8da9fb3"
@@ -4347,6 +4428,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Station Platforms TC"
  Guid="8cb19b29-72d4-4ccf-be2c-11912354856f"
@@ -4377,6 +4460,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Temporary Speed Restrictions"
  Guid="e69bd495-d46b-4c68-914b-e787e3a651fe"
@@ -4408,6 +4493,8 @@ BaseTypes.MaxDistance(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update SupervisedTargets"
  Guid="61e43490-4472-4e12-83e6-aa18238410bb"
@@ -4441,6 +4528,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update MA"
  Guid="a85e6bda-11f6-4977-97e6-70bd3b3538c4"
@@ -4462,6 +4551,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Check for sections"
  Guid="9c4103b1-b279-450a-83cb-7c03b9cae1b8"
@@ -4516,6 +4607,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update LRBG values"
@@ -4559,6 +4652,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update train position according to the new LRBG"
  Guid="6ba95030-7a68-4bfe-9cc3-c4a620278a3d"
@@ -4665,6 +4760,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Clear mode profile if MA received"
  Guid="843333de-ec8d-428b-8030-16cf2ddff736"
@@ -4691,6 +4788,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Test infill availability"
  Guid="cad4ecb6-47fd-4aba-963c-2aa797d1e4d1"
@@ -4771,6 +4870,8 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle balise telegram"
@@ -5214,6 +5315,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle new MA"
  Guid="27f968b8-6c75-4806-a96d-44abe1a92a13"
@@ -5300,6 +5403,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle LRBG"
  Guid="a0bf5168-6256-43d5-9291-b6437f385e01"
@@ -5332,7 +5437,10 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <PreConditions>
 <PreCondition
  Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
->BTM.LRBG.NID != BG_To_LRBG((LAST X IN CurrentBaliseGroup).Telegram.NID_BG)</PreCondition><PreCondition
+>IsNewBG(
+    BGIdentifier =&gt; BG_To_LRBG((LAST X IN CurrentBaliseGroup).Telegram.NID_BG),
+    CountryIdentifier =&gt; (LAST X IN CurrentBaliseGroup).Telegram.NID_C
+)</PreCondition><PreCondition
  Guid="9a0cc237-370c-4dcb-b53c-9bf804dd2a0d"
 >BTM.LRBGCandidate( )</PreCondition></PreConditions>
 <Actions>
@@ -5422,6 +5530,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle Level Transition Order in balise telegrams"
  Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
@@ -5448,6 +5558,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle general packets in balise telegrams"
  Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
@@ -5469,6 +5581,8 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Inform driver if message contains the default balise information"
  Guid="be70b65b-0e74-4a34-962a-f92f146bf80d"
@@ -5510,6 +5624,8 @@ IN
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle MA packet in balise telegrams"
  Guid="8bf64490-ce74-42a8-aa77-fcbf0d2bf6c9"
@@ -5536,6 +5652,8 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle Mode Profile packet in balise telegram"
  Guid="0df23762-fca4-4e00-9a26-27caab55459e"
