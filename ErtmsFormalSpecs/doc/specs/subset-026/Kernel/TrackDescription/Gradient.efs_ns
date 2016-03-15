@@ -843,7 +843,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Distance"
+ Name="aDistance"
  Guid="148cf719-eccb-4413-ad5e-c6ff71a982e9"
 >
 </Parameter></Parameters>
@@ -854,7 +854,7 @@ Outside the distances provided by the gradient, the gradient value is defined as
 >
 <Expression>(REDUCE Kernel.TrackDescription.Gradient.Gradients 
     USING X IN  MIN ( RESULT, FUNCTION d : BaseTypes.Distance =&gt; Kernel.TrackDescription.Gradient.GradientInfoProfile( GradientInfo =&gt; X, Distance =&gt; d ) )
-  INITIAL_VALUE BaseTypes.IndefiniteGradientFunction) (Distance)</Expression>
+  INITIAL_VALUE BaseTypes.IndefiniteGradientFunction) (aDistance)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Gradient"
