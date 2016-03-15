@@ -14,8 +14,8 @@
  MaxValue="32769"
  Precision="IntegerPrecision"
  Default="0"
- X="111"
- Y="181"
+ X="560"
+ Y="30"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -40,8 +40,8 @@
  MaxValue="2147483648"
  Precision="IntegerPrecision"
  Default="0"
- X="1"
- Y="1"
+ X="10"
+ Y="30"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -71,8 +71,8 @@
  MaxValue="32767"
  Precision="IntegerPrecision"
  Default="0"
- X="111"
- Y="1"
+ X="120"
+ Y="30"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -85,8 +85,8 @@
  MaxValue="32769"
  Precision="IntegerPrecision"
  Default="0"
- X="221"
- Y="1"
+ X="230"
+ Y="30"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -111,8 +111,8 @@
  MaxValue="32769"
  Precision="IntegerPrecision"
  Default="0"
- X="331"
- Y="1"
+ X="340"
+ Y="30"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -137,8 +137,8 @@
  MaxValue="4294967295"
  Precision="IntegerPrecision"
  Default="0"
- X="441"
- Y="1"
+ X="450"
+ Y="30"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -151,8 +151,8 @@
 <Function
  Type="BaseTypes.Length"
  Default=""
- X="220"
- Y="120"
+ X="230"
+ Y="210"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -179,8 +179,8 @@
 </Function><Function
  Type="BaseTypes.Gradient"
  Default=""
- X="220"
- Y="60"
+ X="120"
+ Y="90"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -205,8 +205,8 @@
 </Function><Function
  Type="BaseTypes.Acceleration"
  Default=""
- X="551"
- Y="1"
+ X="560"
+ Y="210"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -236,8 +236,8 @@
 </Function><Function
  Type="Speed"
  Default=""
- X="440"
- Y="120"
+ X="340"
+ Y="150"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -294,8 +294,8 @@
 </Function><Function
  Type="Length"
  Default=""
- X="330"
- Y="120"
+ X="230"
+ Y="150"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -356,8 +356,8 @@
 </Function><Function
  Type="BaseTypes.Speed"
  Default=""
- X="440"
- Y="60"
+ X="340"
+ Y="90"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -387,8 +387,8 @@
 </Function><Function
  Type="BaseTypes.Length"
  Default=""
- X="330"
- Y="60"
+ X="230"
+ Y="90"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -449,8 +449,8 @@
 </Function><Function
  Type="Distance"
  Default=""
- X="110"
- Y="120"
+ X="10"
+ Y="150"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -529,8 +529,8 @@
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="110"
- Y="60"
+ X="10"
+ Y="90"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -584,8 +584,8 @@
 </Function><Function
  Type="BaseTypes.Acceleration"
  Default=""
- X="1"
- Y="121"
+ X="560"
+ Y="90"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -615,8 +615,8 @@
 </Function><Function
  Type="Time"
  Default=""
- X="550"
- Y="120"
+ X="450"
+ Y="150"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -650,8 +650,8 @@
 </Function><Function
  Type="BaseTypes.Time"
  Default=""
- X="550"
- Y="60"
+ X="450"
+ Y="90"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -676,8 +676,8 @@
 </Function><Function
  Type="BaseTypes.Length"
  Default=""
- X="1"
- Y="61"
+ X="230"
+ Y="270"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -733,6 +733,64 @@
  Guid="0dfc10c1-6c15-4e27-beb3-738ad1c6438f"
 >
 <Expression>aLength</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Speed"
+ Default=""
+ X="560"
+ Y="150"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="UnResolveAcceleration"
+ Guid="15b2f94b-478a-46d2-8892-b343668e1d95"
+>
+<Comment>Converts a BaseTypes.Acceleration into its corresponding MessagesTypes.Acceleration, according to the resolution factor</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Acceleration"
+ Name="acceleration"
+ Guid="c3eaee34-5e33-41ad-97de-04c2c4d60a4b"
+>
+</Parameter><Parameter
+ Type="Double"
+ Name="resolution"
+ Guid="967d4770-70dc-48c9-891e-cb1f36271eca"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Empty"
+ Guid="4f256ce7-66a1-49b9-948f-3f26e45f28b2"
+>
+<PreConditions>
+<PreCondition
+ Guid="d5bbcd0f-e540-4f0f-9950-ed6aab4ca1ef"
+>NOT ( Available ( acceleration ) )</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="NA"
+ Guid="94af1edb-2bc2-464b-aaa6-fe7ac97b5c74"
+>
+<PreConditions>
+<PreCondition
+ Guid="c535ee71-9d28-4b5c-898e-524c7d1e9701"
+>acceleration == BaseTypes.Acceleration.NA</PreCondition></PreConditions>
+<Expression>MessageTypes.Acceleration.NA</Expression>
+</Case><Case
+ Name="Infinity"
+ Guid="55625bb4-ff37-4b2d-8f69-239206d08f7d"
+>
+<PreConditions>
+<PreCondition
+ Guid="c99c4136-0d2a-4e13-a73b-7f9e53311359"
+>acceleration == BaseTypes.Acceleration.Infinity</PreCondition></PreConditions>
+<Expression>MessageTypes.Acceleration.Infinity</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5a5ef6ed-0f66-4f5d-8247-b58e6bed4a00"
+>
+<Expression>MessageTypes.Acceleration ( acceleration / resolution )</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

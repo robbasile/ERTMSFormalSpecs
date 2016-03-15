@@ -7,15 +7,61 @@
  Guid="c20a0beb-a03f-4c76-9011-3a7c39777e4f"
 >
 <NameSpaces>
-</NameSpaces>
+<NameSpaceRef
+ Name="BrakesConfiguration"
+ Guid="69d7bcee-688f-4d8f-9870-b61906564257"
+>
+</NameSpaceRef></NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="150"
+ Y="250"
+ Width="100"
+ Height="50"
+ Name="BrakesConfigurationStruct"
+ Guid="69e89d6d-15da-4f69-b513-c8edbf60a9bc"
+>
+<ReqRef
+ Id="8623ab63-7b21-4ea0-8ae5-1f6cbb90a9b5"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c79c5305-d4ef-4af4-9fd9-79036fd4eec7"
+>
+</ReqRef><Comment>A specific brakes configuration to evaluate</Comment>
+<StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="EddyCurrentBrakesUsed"
+ Guid="4fb2aa97-69aa-48d4-8a06-e41a88c338e3"
+>
+<Comment>Indicates whether the Eddy Current brakes are considered</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="RegenerativeBrakesUsed"
+ Guid="f8b04e52-969b-4503-b869-cb2ba4a0b6ad"
+>
+<Comment>Indicates whether the Regenerative brakes are considered</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Name="MagneticShoeBrakesUsed"
+ Guid="4ad7dd69-80c0-4fbc-8fcc-c6efe61ad095"
+>
+<Comment>Indicates whether the Magnetic shoe brakes are considered</Comment>
+</StructureElement></Structure></Structures>
 <Functions>
 <Function
  Type="Messages.JRU.MESSAGE.TRAIN_DATA.Message"
  Default=""
- X="40"
- Y="140"
+ X="150"
+ Y="70"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="CreateMessage"
  Guid="64a9ed0a-2fd4-4fac-8013-c98a74c72536"
 >
@@ -244,6 +290,16 @@
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="791bfdd7-0002-442b-8be6-3c10b7afbb18"
 >
+</ReqRef><ReqRef
+ Id="1bb3c340-c410-40e6-880c-bc30ee78df20"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="177db20e-452c-4cac-82ff-1b8b2630a674"
+>
+</ReqRef><ReqRef
+ Id="34976712-9ffa-472c-8977-ca68e6aff10b"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0f4eedd0-3af2-4477-a08b-55a6e395744e"
+>
 </ReqRef><Comment>Create the TrainData JRU Messages</Comment>
 <Cases>
 <Case
@@ -270,14 +326,22 @@ L_TRAIN =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainData.TrainDa
  Q_SERVICEBRAKEFEEDBACK =&gt; ToJRUQ_ServiceBrakeFeedback(Kernel.TrainData.TrainData.Value.SBFeedbackIsImplemented),
 Q_BRAKE_CAPT_TYPE =&gt; ToJRUQ_BrakeCaptType(),
 M_BRAKE_PERCENTAGE =&gt; ToJRUBrakePercentage(Kernel.TrainData.TrainData.Value.BrakePercentage),
-M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWithAirtightSystem )
+N_BRAKE_CONF_0 =&gt; COUNT BrakeLambdaConf IN CreateSequence1(),
+Sequence1 =&gt; CreateSequence1(),
+N_BRAKE_CONF_1 =&gt; COUNT BrakeLambdaConf IN CreateSequence4(),
+Sequence4 =&gt; CreateSequence4(),
+N_ITER_0 =&gt; COUNT tractionSystem IN CreateSequence5(),
+Sequence5 =&gt; CreateSequence5(),
+N_ITER_1 =&gt; COUNT nationalSystem IN CreateSequence6(),
+Sequence6 =&gt; CreateSequence6(),
+M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWithAirtightSystem)
 }</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.JRU.M_BRAKE_PERCENTAGE"
  Default=""
- X="160"
- Y="120"
+ X="260"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -312,8 +376,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_REGENERATIVEBRAKE"
  Default=""
- X="270"
- Y="120"
+ X="370"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -375,8 +439,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_AIRTIGHT"
  Default=""
- X="380"
- Y="120"
+ X="480"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -420,8 +484,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_BRAKE_POSITION"
  Default=""
- X="490"
- Y="120"
+ X="590"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -474,8 +538,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_EDDYCURRENTBRAKE"
  Default=""
- X="160"
- Y="180"
+ X="260"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -537,8 +601,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_MAGNETICSHOEBRAKE"
  Default=""
- X="270"
- Y="180"
+ X="370"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -600,8 +664,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_REGENERATIVEBRAKE"
  Default=""
- X="380"
- Y="180"
+ X="480"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -663,8 +727,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.M_NOM_ROT_MASS"
  Default=""
- X="490"
- Y="180"
+ X="590"
+ Y="70"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -704,8 +768,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.Q_BRAKE_CAPT_TYPE"
  Default=""
- X="160"
- Y="240"
+ X="260"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -737,8 +801,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.Q_SERVICEBRAKEFEEDBACK"
  Default=""
- X="270"
- Y="240"
+ X="370"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -782,8 +846,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.Q_SERVICEBRAKEINTERFACE"
  Default=""
- X="380"
- Y="240"
+ X="480"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -827,8 +891,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 </Function><Function
  Type="Messages.JRU.Q_TRACTIONCUTOFFINTERFACE"
  Default=""
- X="490"
- Y="240"
+ X="590"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -926,11 +990,762 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 >
 <Expression>False</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection5"
+ Default=""
+ X="260"
+ Y="430"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSequence5"
+ Guid="dd01aa4e-2ac4-4609-a553-5524fe7b7c6f"
+>
+<ReqRef
+ Id="cdae853e-99ef-4221-afea-a431d90a7062"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a9b4412c-c143-4209-8602-decf61af9cd1"
+>
+</ReqRef><ReqRef
+ Id="53d8ce5f-17b9-4ab7-a9cf-1f35476af1ec"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="04d0b9d7-b437-4659-9693-ca5e8fdf8171"
+>
+</ReqRef><ReqRef
+ Id="aed3787e-59d5-4500-92f0-674ad7997248"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="01307de9-8aba-47d6-87eb-89b4bdfc8fe1"
+>
+</ReqRef><Comment>Creates the Sequence5 according to the traction systems.</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="1ba36425-9a4c-4d26-b33c-3da255b8acf7"
+>
+<Expression>MAP Kernel.TrainData.TrainData.Value.TractionSystems 
+USING tractionSystem 
+IN Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure5 {
+     M_VOLTAGE =&gt; tractionSystem.Voltage,
+     NID_CTRACTION =&gt; tractionSystem.Country 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection6"
+ Default=""
+ X="260"
+ Y="490"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSequence6"
+ Guid="6d38a095-f7c1-45a4-a72a-378871a77b2b"
+>
+<ReqRef
+ Id="01afe5d0-5e38-46a6-8884-e10f53aa1253"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9bd14a34-0283-4c58-a4ae-5a3f32acdfad"
+>
+</ReqRef><ReqRef
+ Id="b640d1cd-5e2f-4e98-ae46-aa5375410ac2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b847c260-1ad8-4130-bc03-a31a34deeb3a"
+>
+</ReqRef><Comment>Creates the Sequence6 according to the national system identities</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="1170c8ff-0d58-421c-ba8b-208bb68b4d95"
+>
+<Expression>MAP Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | level.Value == LevelEnum.LNTC 
+USING level 
+IN Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure6{
+     NID_NTC =&gt; Messages.JRU.NID_NTC (
+         level.NTC 
+    ) 
+} </Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection1"
+ Default=""
+ X="260"
+ Y="190"
+ Width="100"
+ Height="50"
+ Name="CreateSequence1"
+ Guid="4e4b511c-481d-44d3-8eb7-a683a4ed335c"
+>
+<ReqRef
+ Id="470482d0-3a61-48ea-bca5-edd507f330f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c91edaa5-ac73-41d6-9b01-3909db18ffb0"
+>
+</ReqRef><Comment>Creates the Sequence1 according to the brake capabilities for the Lambda trains</Comment>
+<Cases>
+<Case
+ Name="Conversion model is used"
+ Guid="5a5a45cb-70c1-4f75-bd85-3c04f8a1d99e"
+>
+<PreConditions>
+<PreCondition
+ Guid="c343ecb1-4f41-498c-b4c9-d7fe5a0304c2"
+>Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
+<Expression>MAP [] 
+USING lambdaCapability 
+IN Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure1 {
+     M_BRAKE_LAMBDA_CONF =&gt; 0,
+     T_BRAKE_SERVICE =&gt; 0 
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7f30afc8-c407-45ad-acdc-5596a21d01b6"
+>
+<Expression>[]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection4"
+ Default=""
+ X="260"
+ Y="250"
+ Width="100"
+ Height="50"
+ Name="CreateSequence4"
+ Guid="c4cf8260-e992-4f62-a213-c3f82ffcfc33"
+>
+<ReqRef
+ Id="1eaa9674-4bce-4d3e-ae28-70a5e58efee3"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6954596d-2a87-4e7f-92b6-9afa574ccaee"
+>
+</ReqRef><Comment>Creates the Sequence4 according to the brake capabilities for the Gamma trains</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="874dca44-6982-4609-9b3c-1c9a2a781eb8"
+>
+<Expression>CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; False,
+    RegenerativeBrakesUsed =&gt; False,
+    MagneticShoeBrakesUsed =&gt; False 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; True,
+    RegenerativeBrakesUsed =&gt; False,
+    MagneticShoeBrakesUsed =&gt; False 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; False,
+    RegenerativeBrakesUsed =&gt; True,
+    MagneticShoeBrakesUsed =&gt; False 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; True,
+    RegenerativeBrakesUsed =&gt; True,
+    MagneticShoeBrakesUsed =&gt; False 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; False,
+    RegenerativeBrakesUsed =&gt; False,
+    MagneticShoeBrakesUsed =&gt; True 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; True,
+    RegenerativeBrakesUsed =&gt; False,
+    MagneticShoeBrakesUsed =&gt; True 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; False,
+    RegenerativeBrakesUsed =&gt; True,
+    MagneticShoeBrakesUsed =&gt; True 
+}) +
+CreateSubStructure2(
+  BrakesConfigurationStruct{
+    EddyCurrentBrakesUsed =&gt; True,
+    RegenerativeBrakesUsed =&gt; True,
+    MagneticShoeBrakesUsed =&gt; True 
+})</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection2"
+ Default=""
+ X="480"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSequence2"
+ Guid="6e0886db-e375-405f-b6af-b2b73db2a693"
+>
+<ReqRef
+ Id="87775fe5-602e-4587-9e19-69183cf61658"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="34c347aa-6554-4c8a-917e-eabde7e09e4f"
+>
+</ReqRef><Comment>Creates the Sequence2 according to the emergency brake capabilities</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.EBModelSetStruct"
+ Name="Model"
+ Guid="aa24de87-060b-489c-a7b4-dc3d8a07dde6"
+>
+</Parameter><Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="74be278e-e26e-4d7f-874b-5592198cabc5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="644cea5e-b3a5-41b3-80cf-db07c14675d1"
+>
+<Expression>[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 0 
+)] + 
+[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 1 
+)] + 
+[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 2 
+)] + 
+[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 3 
+)] + 
+[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 4 
+)] + 
+[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 5 
+)] + 
+[CreateSubStructure3(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 6 
+)] +</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection3"
+ Default=""
+ X="260"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSequence3"
+ Guid="08efa910-a400-4634-8fa8-3c8152c23354"
+>
+<ReqRef
+ Id="6ca2081f-851e-4751-9012-480e458845de"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9bc4a09b-fd53-44ff-970f-7b02fa936d03"
+>
+</ReqRef><ReqRef
+ Id="bbf425ee-35fa-4076-81f6-dafb8bed41fa"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e2c4a0d1-5e87-48bf-9adf-5e3b337dc8db"
+>
+</ReqRef><Comment>Creates the Sequence2 according to the service brake capabilities</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.SBModelSetStruct"
+ Name="Model"
+ Guid="dd04fd24-e8e9-48dd-b47d-101fd3b8a7c2"
+>
+</Parameter><Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="3040724e-0782-4ee3-bbef-be1a1966e112"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="bc5f9568-1dcf-41da-940c-29e9cb32bf5f"
+>
+<Expression>[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 0
+)] + 
+[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 1
+)] + 
+[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 2
+)] + 
+[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 3
+)] + 
+[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 4
+)] + 
+[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 5
+)] + 
+[CreateSubStructure4(
+    Model =&gt; Model,
+    Configuration =&gt; Configuration,
+    CorrectionFactor =&gt; 6
+)]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.Collection4"
+ Default=""
+ X="370"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSubStructure2"
+ Guid="30bc82ef-5ff3-4c96-8748-b3f0800572a2"
+>
+<ReqRef
+ Id="470482d0-3a61-48ea-bca5-edd507f330f1"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="bd3dfdd2-ff00-4d92-87cc-305c8d0d02bb"
+>
+</ReqRef><ReqRef
+ Id="abe0f66f-fa68-49a7-8865-94f4697926f3"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="95eaa767-816e-4223-adcc-8659eed591f1"
+>
+</ReqRef><ReqRef
+ Id="87775fe5-602e-4587-9e19-69183cf61658"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e911e175-26cc-4022-b729-b6bf890222e3"
+>
+</ReqRef><ReqRef
+ Id="5626b0f1-9f44-4fed-bba1-8625f5e5bba6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ff4f10b3-8a4e-4778-ab3c-c4427038de3e"
+>
+</ReqRef><ReqRef
+ Id="6ca2081f-851e-4751-9012-480e458845de"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="716543dc-13a0-4b32-82cb-0154060c1149"
+>
+</ReqRef><ReqRef
+ Id="359b754c-597d-4321-9f37-f39af8241fe0"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b8561f36-2aba-4f81-bbef-cb9dac58f956"
+>
+</ReqRef><ReqRef
+ Id="bbf425ee-35fa-4076-81f6-dafb8bed41fa"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0f0ae7f6-9982-4340-a75d-c793e574cf90"
+>
+</ReqRef><ReqRef
+ Id="33c42d4c-ddb3-4d58-9661-7c6109e3eab5"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9b4faeeb-02c8-456c-988a-35a0978deaa4"
+>
+</ReqRef><ReqRef
+ Id="b81fba3b-ee5a-4f9d-95b0-1d41197814cd"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e1882d14-b94f-4c92-af60-25b1fcc1d84d"
+>
+</ReqRef><ReqRef
+ Id="aaf63f4f-2f5e-4b8b-8dca-5759c9c8121f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fc2a6817-1c1a-404e-997b-ee6ede9e8dee"
+>
+</ReqRef><ReqRef
+ Id="2351f936-4f0c-41f2-9296-57b91a5f2328"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="74625c7d-ad62-4685-9882-208ab17f4413"
+>
+</ReqRef><ReqRef
+ Id="f936e846-2e3d-455c-8cbf-cd0df2f386e7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3faea82b-ef4d-4a50-b1bf-9d18b8e122d5"
+>
+</ReqRef><Comment>Creates the SubStructure2 entry according to a given set of brakes configuration</Comment>
+<Parameters>
+<Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="43cd6cf3-1fbf-4977-a084-e85dc145f300"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Brake configuration available"
+ Guid="2a5ce866-1b91-432d-b69c-08d2045ab273"
+>
+<PreConditions>
+<PreCondition
+ Guid="fb29f324-c71d-4b69-b2d6-6792935c7908"
+><Comment>Braking model for emergency brakes available for this brakes configuration</Comment>
+Available (
+     Kernel.TrainData.BrakingParameters.SelectBrakingModel(
+         aModelSet =&gt; Kernel.TrainData.TrainData.Value.EBModels.ModelSet,
+         aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+         aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+         aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed 
+    ) 
+)</PreCondition><PreCondition
+ Guid="a6bd7f1d-f49b-43a2-9ae8-82990692c194"
+><Comment>Braking model for service brakes available for this brakes configuration</Comment>
+Available (
+     Kernel.TrainData.BrakingParameters.SelectBrakingModel(
+         aModelSet =&gt; Kernel.TrainData.TrainData.Value.SBModels.ModelSet,
+         aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+         aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+         aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed 
+    ) 
+)</PreCondition></PreConditions>
+<Expression>[
+  Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure2{
+     M_BRAKE_GAMMA_CONF =&gt; BrakesConfiguration.ToMBrakeGammaConf( Configuration ),
+     T_BRAKE_EMERGENCY =&gt; MessageTypes.UnResolveTime( Kernel.TrainData.BrakingParameters.T_brake_build_upValue(
+         aT_brake_build_upSet =&gt; Kernel.TrainData.TrainData.Value.T_brake_emergency,
+         aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+         aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+         aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed,
+         aEpBrakeUsed =&gt; False 
+     )),
+     N_BRAKE_SECTIONS_0 =&gt; COUNT sections IN CreateSequence2(Kernel.TrainData.TrainData.Value.EBModels, Configuration),
+     Sequence2 =&gt; CreateSequence2(Kernel.TrainData.TrainData.Value.EBModels, Configuration),
+     T_BRAKE_SERVICE =&gt; MessageTypes.UnResolveTime ( Kernel.TrainData.BrakingParameters.T_brake_build_upValue(
+         aT_brake_build_upSet =&gt; Kernel.TrainData.TrainData.Value.T_brake_service,
+         aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+         aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+         aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed,
+         aEpBrakeUsed =&gt; False 
+     )),
+     N_BRAKE_SECTIONS_1 =&gt; COUNT sections IN CreateSequence3(Kernel.TrainData.TrainData.Value.SBModels, Configuration),
+     Sequence3 =&gt; CreateSequence3(Kernel.TrainData.TrainData.Value.SBModels, Configuration) 
+}
+]</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6205f655-303b-4455-8cf3-7310685aed14"
+>
+<Expression>[]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure3"
+ Default=""
+ X="590"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSubStructure3"
+ Guid="edf6281e-e420-41fa-8c1d-bd5a3fc697e3"
+>
+<ReqRef
+ Id="234e648c-50f7-48bc-b922-9664c5e29a63"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="fa512685-0aa5-4808-8cfa-820add230bda"
+>
+</ReqRef><ReqRef
+ Id="98a105e9-8988-46ca-b688-5a06f621d178"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="58b2e3b8-8adc-4b06-a1b8-73b8fa5ea102"
+>
+</ReqRef><ReqRef
+ Id="f8759b8c-ab43-494a-ab3b-fd8ad75afa20"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7192d814-3431-457b-ae60-6f572805115c"
+>
+</ReqRef><ReqRef
+ Id="0e1ac6fe-a3e6-4288-be02-6c15c5255661"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="529899c4-f401-47cc-8029-64caa098f408"
+>
+</ReqRef><ReqRef
+ Id="83474f9f-6ba9-401e-a16e-f26a6d47a92f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cfebf672-a700-4e37-b7c1-2cc37c940a01"
+>
+</ReqRef><ReqRef
+ Id="20b9c3fb-d7e0-486b-952e-57067cd9bdbb"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="e9a3e4f0-4d29-4c73-8fac-5e56c9426056"
+>
+</ReqRef><ReqRef
+ Id="9b06cc55-c552-4058-bb4d-8213470858af"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f21aed66-833e-46b8-9ad1-0adc1393b0ae"
+>
+</ReqRef><ReqRef
+ Id="9d7c4429-39d5-4553-9c3e-37031ef87f91"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="a5c3b1a1-7e2b-4bea-bba2-d8d0f2faf122"
+>
+</ReqRef><ReqRef
+ Id="09e11638-da64-4247-8ca4-2fa73f09c5e2"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="821d66b4-a887-49a2-b11b-0e32063b8f8a"
+>
+</ReqRef><ReqRef
+ Id="0db14814-3e55-4bcd-b292-77b9db6ee18d"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b7217e05-0553-444a-9bbd-8624ebe802e2"
+>
+</ReqRef><ReqRef
+ Id="a26a0f01-43c7-4e11-9bbc-8d4f4955a138"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3af3c793-8299-4bcf-b34f-ba805255f7c4"
+>
+</ReqRef><ReqRef
+ Id="62ed59f4-bcd1-4025-8f76-76dfc9f72cc7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f8569d1f-9c64-4637-80ae-9f54adebc5b1"
+>
+</ReqRef><ReqRef
+ Id="d2c9b51e-dfb6-4600-b3d0-1826348e4e0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="548b6265-25e4-4204-9f91-504993c1937e"
+>
+</ReqRef><ReqRef
+ Id="bb2c130f-7f70-4649-b205-43d79cc935e4"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="8719809b-d604-470b-a455-8b0a7bbf9126"
+>
+</ReqRef><ReqRef
+ Id="0f2dbd96-6593-410e-aae8-fe8482274d06"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7c32c302-6f42-49b7-8241-d7b83b2ee036"
+>
+</ReqRef><ReqRef
+ Id="025a1d1f-c481-4f16-8bd5-8b1970e3de5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="083579f1-7d57-4d1a-9460-b7d48229909b"
+>
+</ReqRef><ReqRef
+ Id="91b5dc43-9b11-414a-b9b3-850841e86fed"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7fa9725e-52c9-4013-a5c0-998df1405ae4"
+>
+</ReqRef><Comment>Creates the braking model for emergency brakes</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.EBModelSetStruct"
+ Name="Model"
+ Guid="559c32a7-0785-490f-93e0-9d6bd887eae0"
+>
+</Parameter><Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="7869c815-6f98-4b75-8836-86edda1caed9"
+>
+</Parameter><Parameter
+ Type="Integer"
+ Name="CorrectionFactor"
+ Guid="a7fd1b33-8898-4b06-8849-1c2f5be4cfa0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="968a3951-8974-4352-92c3-e501027b3791"
+>
+<Expression>LET BrakingValue &lt;- Kernel.TrainData.BrakingParameters.SelectBrakingModelValue(
+     BrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBrakingModel(
+         aModelSet =&gt; Model.ModelSet,
+         aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+         aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+         aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed 
+    ),
+     CorrFactor =&gt; CorrectionFactor 
+) 
+IN
+LET KDry &lt;- Kernel.TrainData.BrakingParameters.SelectKdryValue(
+    aKdrySet =&gt; Model.Kdry_rstValuesSet,
+    aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+    aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+    aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed
+)
+IN
+LET KWet &lt;- Kernel.TrainData.BrakingParameters.SelectKwetValue(
+    aKwetSet =&gt; Model.Kwet_rstValuesSet,
+    aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+    aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+    aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed
+)
+IN
+Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure3{
+     V_BRAKE_EMERGENCY_COMP =&gt; MessageTypes.UnResolveSpeed(BrakingValue.SpeedStep, 5.0 ),
+     A_BRAKE_EMERGENCY_COMP =&gt; MessageTypes.UnResolveAcceleration(BrakingValue.Acceleration, 5.0),
+     M_KDRY_RST_50 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__50, CorrectionFactor)),
+     M_KDRY_RST_90 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__90, CorrectionFactor)),
+     M_KDRY_RST_99 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99, CorrectionFactor)),
+     M_KDRY_RST_99_9 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_9, CorrectionFactor)),
+     M_KDRY_RST_99_99 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_99, CorrectionFactor)),
+     M_KDRY_RST_99_999 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_999, CorrectionFactor)),
+     M_KDRY_RST_99_9999 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_9999, CorrectionFactor)),
+     M_KDRY_RST_99_99999 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_99999, CorrectionFactor)),
+     M_KDRY_RST_99_999999 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_999999, CorrectionFactor)),
+     M_KDRY_RST_99_9999999 =&gt; ToM_KDRY_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KDry.Cl__99_9999999, CorrectionFactor)),
+     M_KWET_RST =&gt; ToM_KWET_RST( Kernel.TrainData.BrakingParameters.SelectCorrectionFactor(KWet, CorrectionFactor)) 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure4"
+ Default=""
+ X="370"
+ Y="370"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CreateSubStructure4"
+ Guid="48e5f32a-d2a5-4110-bd7d-af6e6f075bc0"
+>
+<ReqRef
+ Id="e1bf9b64-ccf9-49ca-a29a-09da0c7e96ff"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="382d2d74-191c-4b46-a798-e8ba2622a075"
+>
+</ReqRef><ReqRef
+ Id="53bdd381-2771-4b60-8f15-a77775302e06"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="9d7c65c3-4a1a-4a49-ac2e-2dc137db45ae"
+>
+</ReqRef><ReqRef
+ Id="7e5f5b95-e177-4917-a71a-f40a403e0cb6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="37243bd0-29bf-47cb-92c4-07d6d001476b"
+>
+</ReqRef><ReqRef
+ Id="4e167f10-ee4e-4ae4-a5ae-4e875f46c1d7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="6cb19dfd-3d5f-4787-bbfb-66c643c0a060"
+>
+</ReqRef><Comment>Creates the braking model for service brakes</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.SBModelSetStruct"
+ Name="Model"
+ Guid="4b91729d-d1ad-401e-9c88-cd247b09d5c5"
+>
+</Parameter><Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="fb8b74de-aef0-4297-b68f-be4b3752a0ab"
+>
+</Parameter><Parameter
+ Type="Integer"
+ Name="CorrectionFactor"
+ Guid="73898975-0fbc-4669-a914-e8b07bcf7fa9"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="26f60656-6d95-4d74-8895-41903b0951c4"
+>
+<Expression>LET BrakingValue &lt;- Kernel.TrainData.BrakingParameters.SelectBrakingModelValue(
+     BrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBrakingModel(
+         aModelSet =&gt; Model.ModelSet,
+         aRegBrakeUsed =&gt; Configuration.RegenerativeBrakesUsed,
+         aEddyCurBrakeUsed =&gt; Configuration.EddyCurrentBrakesUsed,
+         aMagnBrakeUsed =&gt; Configuration.MagneticShoeBrakesUsed 
+    ),
+     CorrFactor =&gt; CorrectionFactor 
+) 
+IN 
+Messages.JRU.MESSAGE.TRAIN_DATA.SubStructure4 {
+     V_BRAKE_SERVICE_COMP =&gt; MessageTypes.UnResolveSpeed(BrakingValue.SpeedStep, 5.0),
+     A_BRAKE_SERVICE_COMP =&gt; MessageTypes.UnResolveAcceleration(BrakingValue.Acceleration, 5.0) 
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_KDRY_RST"
+ Default=""
+ X="700"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ToM_KDRY_RST"
+ Guid="45ac53b2-9bfb-4b46-b2c0-02d8dfb5e6d2"
+>
+<ReqRef
+ Id="025a1d1f-c481-4f16-8bd5-8b1970e3de5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="22e46829-8abf-4c63-9f54-44556783750e"
+>
+</ReqRef><Comment>Converts the correction factor on dry rails</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.CorrectionFactor"
+ Name="CorrFactor"
+ Guid="f4dbc9bc-dd49-4318-bcef-da2eb7c4d7d6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="67b1f7b0-4c13-4ccc-abb6-591392007ad8"
+>
+<Expression>Messages.JRU.M_KDRY_RST ( CorrFactor / 0.05 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_KWET_RST"
+ Default=""
+ X="700"
+ Y="310"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ToM_KWET_RST"
+ Guid="f445e440-7918-4c4c-8f20-72ca3bf6eb37"
+>
+<ReqRef
+ Id="91b5dc43-9b11-414a-b9b3-850841e86fed"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1be45dc7-2dc6-4c00-b333-0a8ab623bac4"
+>
+</ReqRef><Comment>Converts the correction factor on wet rails</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.CorrectionFactor"
+ Name="CorrFactor"
+ Guid="1a304910-f296-4c4a-8840-d5e4d7821aff"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="643fc9ad-35b6-46ac-8460-bb3e6739ff35"
+>
+<Expression>Messages.JRU.M_KWET_RST ( CorrFactor / 0.05 )</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
  X="40"
- Y="440"
+ Y="520"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -991,6 +1806,8 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Send TRAIN_DATA  message"
  Guid="623926d9-669b-4777-8a4b-e064456be9ff"
@@ -1023,7 +1840,7 @@ M_AIRTIGHT =&gt; ToJRUMAirTight(Kernel.TrainData.TrainData.Value.TrainFittedWith
  DefaultValue="Kernel.TrainData.TrainDataValuesStruct{}"
  VariableMode="Internal"
  X="40"
- Y="330"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"

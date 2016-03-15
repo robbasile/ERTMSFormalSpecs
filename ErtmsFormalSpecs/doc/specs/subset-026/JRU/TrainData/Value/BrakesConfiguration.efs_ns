@@ -1,0 +1,168 @@
+<NameSpace
+ X="150"
+ Y="310"
+ Width="100"
+ Height="50"
+ Name="BrakesConfiguration"
+ Guid="cc0ab7fb-8774-4958-bb9b-474a4f6e2960"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.JRU.M_BRAKE_GAMMA_CONF"
+ Default=""
+ X="50"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveEddyCurrentBrake"
+ Guid="cd4725d2-3458-4092-b581-2e289c4f7844"
+>
+<ReqRef
+ Id="32617ffc-0e47-494e-a52e-4b8c24f76a70"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="f302a6cd-adbd-48db-8db5-39ee2fd6b518"
+>
+</ReqRef><Comment>Provides the M_BRAKE_GAMMA_CONF if the corresponding brake is active (EddyCurrent)</Comment>
+<Parameters>
+<Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="1bf3f4e1-1ae2-41e8-baa2-3dcec69f4ef1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Active"
+ Guid="7cb441d8-6ef5-4d55-afab-a499429ebb57"
+>
+<PreConditions>
+<PreCondition
+ Guid="3ea19621-c7d8-4610-b70a-c23d351a831e"
+>Configuration.EddyCurrentBrakesUsed</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_BRAKE_GAMMA_CONF.Eddy_current_brake_interface_exists_and_status_is_active</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="0a78180b-48dc-4cb2-b813-0d27143413a7"
+>
+<Expression>0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_BRAKE_GAMMA_CONF"
+ Default=""
+ X="160"
+ Y="190"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveMagneticShoeBrake"
+ Guid="95e5cf7c-7735-491b-89b7-ace1da2adb29"
+>
+<ReqRef
+ Id="32617ffc-0e47-494e-a52e-4b8c24f76a70"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2e74be88-2ac7-49be-a94c-ddc0c9fdb09f"
+>
+</ReqRef><Comment>Provides the M_BRAKE_GAMMA_CONF if the corresponding brake is active (MagneticShoe)</Comment>
+<Parameters>
+<Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="3997e096-d0a4-47a7-a56d-f84d3baf2569"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Active"
+ Guid="2ed05fac-d37d-43a4-b724-cf7f6a0b5cbc"
+>
+<PreConditions>
+<PreCondition
+ Guid="9b9e4669-845c-44d0-b0e3-5293bd457a58"
+>Configuration.MagneticShoeBrakesUsed</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_BRAKE_GAMMA_CONF.Magnetic_shoe_brake_interface_exists_and_status_is_active</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="1bbb2bed-97d5-436a-9a98-683f18a47d72"
+>
+<Expression>0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_BRAKE_GAMMA_CONF"
+ Default=""
+ X="50"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveRegenerativeBrake"
+ Guid="be73f011-0f2d-4b65-8a1f-0e903b438da3"
+>
+<ReqRef
+ Id="32617ffc-0e47-494e-a52e-4b8c24f76a70"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4e0ae151-128e-4dcf-8532-f6a4f7a3071e"
+>
+</ReqRef><Comment>Provides the M_BRAKE_GAMMA_CONF if the corresponding brake is active (Regenerative)</Comment>
+<Parameters>
+<Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="2a142371-f312-45de-a97d-f04beebdaad8"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Active"
+ Guid="e2d5f602-9670-4acb-b285-c9295211eac5"
+>
+<PreConditions>
+<PreCondition
+ Guid="225ddfec-0c07-4513-8435-efcf846eafbd"
+>Configuration.RegenerativeBrakesUsed</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_BRAKE_GAMMA_CONF.Regenerative_brake_interface_exists_and_status_is_active</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="134ead70-359e-4991-b211-b8d502557c6a"
+>
+<Expression>0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_BRAKE_GAMMA_CONF"
+ Default=""
+ X="50"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ToMBrakeGammaConf"
+ Guid="f6c146ff-7aa1-4d2a-b466-dd18781ce2c4"
+>
+<ReqRef
+ Id="32617ffc-0e47-494e-a52e-4b8c24f76a70"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="7361eaa6-9448-403a-9021-551803806cf4"
+>
+</ReqRef><Comment>Provides the M_BRAKE_GAMMA_CONF according to the brakes configuration provided as parameter</Comment>
+<Parameters>
+<Parameter
+ Type="BrakesConfigurationStruct"
+ Name="Configuration"
+ Guid="08b3a550-2f99-4373-87f5-7eb594e57552"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="b1a534d8-8390-4d0e-bfb4-5313c7f78c24"
+>
+<Expression>ActiveEddyCurrentBrake( Configuration )
++
+ActiveMagneticShoeBrake( Configuration )
++
+ActiveRegenerativeBrake( Configuration )</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
