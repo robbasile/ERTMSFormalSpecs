@@ -20,10 +20,11 @@ using System.Collections.Generic;
 using DataDictionary.Generated;
 using Utils;
 using DataDictionary.src;
+using RuleCheckDisabling = DataDictionary.RuleCheck.RuleCheckDisabling;
 
 namespace DataDictionary.Specification
 {
-    public class Chapter : Generated.Chapter, IHoldsParagraphs
+    public class Chapter : Generated.Chapter, IHoldsParagraphs, RuleCheck.IRuleCheckDisabling
     {
         /// <summary>
         ///     The chapter name
@@ -412,6 +413,15 @@ namespace DataDictionary.Specification
                 path += "\\Specifications\\" + FullName.Replace (".", "\\") + ".efs_ch";
                 Dictionary.AddDeleteFilesElement (new DeleteFilesHandler (false, path));
             }
+        }
+
+        /// <summary>
+        /// Provides the RuleCheck disabling, if any
+        /// </summary>
+        public RuleCheckDisabling Disabling
+        {
+            get { return (RuleCheckDisabling)getRuleCheckDisabling(); }
+            set { setRuleCheckDisabling(value); }
         }
     }
 }

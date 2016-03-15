@@ -3117,6 +3117,17 @@ namespace DataDictionary.Compare
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Comment", other.getComment(), obj.getComment()) );
             }
+            if ( obj.getRuleCheckDisabling() == null )
+            {
+                if ( other.getRuleCheckDisabling() != null )
+                {
+                    diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "RuleCheckDisabling", "" ) );
+                }
+            }
+            else
+            {
+                compareRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling(), diff );
+            }
         }
 
         /// <summary>
@@ -4182,6 +4193,17 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            if ( obj.getRuleCheckDisabling() == null )
+            {
+                if ( other.getRuleCheckDisabling() != null )
+                {
+                    diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "RuleCheckDisabling", "" ) );
+                }
+            }
+            else
+            {
+                compareRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling(), diff );
+            }
         }
 
         /// <summary>
@@ -5132,6 +5154,17 @@ namespace DataDictionary.Compare
                         diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove , "Paragraphs", otherElement.Name) );
                     }
                 }
+            }
+            if ( obj.getRuleCheckDisabling() == null )
+            {
+                if ( other.getRuleCheckDisabling() != null )
+                {
+                    diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "RuleCheckDisabling", "" ) );
+                }
+            }
+            else
+            {
+                compareRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling(), diff );
             }
         }
 
@@ -9610,6 +9643,7 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            ensureGuidRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling() );
         }
 
         /// <summary>
@@ -11001,6 +11035,7 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            ensureGuidRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling() );
         }
 
         /// <summary>
@@ -12429,6 +12464,7 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            ensureGuidRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling() );
         }
 
         /// <summary>
@@ -13520,6 +13556,10 @@ namespace DataDictionary.Compare
             {
                 occurences.Add ( obj );
             }
+            if ( obj.getRuleCheckDisabling() != null )
+            {
+                searchRuleCheckDisabling ( obj.getRuleCheckDisabling(), searchString, occurences );
+            }
         }
 
         /// <summary>
@@ -13821,6 +13861,10 @@ namespace DataDictionary.Compare
                     searchTranslation ( subElement, searchString, occurences );
                 }
             }
+            if ( obj.getRuleCheckDisabling() != null )
+            {
+                searchRuleCheckDisabling ( obj.getRuleCheckDisabling(), searchString, occurences );
+            }
         }
 
         /// <summary>
@@ -14067,6 +14111,10 @@ namespace DataDictionary.Compare
                 {
                     searchParagraph ( subElement, searchString, occurences );
                 }
+            }
+            if ( obj.getRuleCheckDisabling() != null )
+            {
+                searchRuleCheckDisabling ( obj.getRuleCheckDisabling(), searchString, occurences );
             }
         }
 

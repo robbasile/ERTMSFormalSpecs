@@ -19,13 +19,12 @@ using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
-using DataDictionary.src;
 using Utils;
-using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
+using RuleCheckDisabling = DataDictionary.RuleCheck.RuleCheckDisabling;
 
 namespace DataDictionary.Tests
 {
-    public class Frame : Generated.Frame, IExpressionable, ICommentable
+    public class Frame : Generated.Frame, IExpressionable, ICommentable, RuleCheck.IRuleCheckDisabling
     {
         /// <summary>
         /// The name of the frame
@@ -300,6 +299,15 @@ namespace DataDictionary.Tests
                     Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path));
                 }
             }
+        }
+
+        /// <summary>
+        /// Provides the RuleCheck disabling, if any
+        /// </summary>
+        public RuleCheckDisabling Disabling
+        {
+            get { return (RuleCheckDisabling)getRuleCheckDisabling(); }
+            set { setRuleCheckDisabling(value); }
         }
     }
 }

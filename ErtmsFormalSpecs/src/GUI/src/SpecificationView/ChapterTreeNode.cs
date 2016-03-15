@@ -19,13 +19,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary.Generated;
+using GUI.RuleDisabling;
 using Chapter = DataDictionary.Specification.Chapter;
 using Paragraph = DataDictionary.Specification.Paragraph;
 using RequirementSetReference = DataDictionary.Specification.RequirementSetReference;
 
 namespace GUI.SpecificationView
 {
-    public class ChapterTreeNode : ModelElementTreeNode<Chapter>
+    public class ChapterTreeNode : ModelElementTreeNode<Chapter>, RuleDisabling.IDisablesRules<Chapter>
     {
         /// <summary>
         ///     The value editor
@@ -52,6 +53,8 @@ namespace GUI.SpecificationView
             }
         }
 
+        public DisablesRulesTreeNodeExtension<Chapter> Disabling { get; set; }
+
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -60,6 +63,7 @@ namespace GUI.SpecificationView
         public ChapterTreeNode(Chapter item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
+            Disabling = new DisablesRulesTreeNodeExtension<Chapter>(item, true);
         }
 
         /// <summary>
@@ -70,6 +74,8 @@ namespace GUI.SpecificationView
         public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
             base.BuildSubNodes(subNodes, recursive);
+
+            Disabling.BuildSubNodes(subNodes, recursive);
 
             foreach (Paragraph paragraph in Item.Paragraphs)
             {
@@ -151,6 +157,8 @@ namespace GUI.SpecificationView
                 recursiveActions.MenuItems.Add(new MenuItem("-"));
                 recursiveActions.MenuItems.Add(new MenuItem("Remove requirement sets", RemoveRequirementSets));
             }
+
+            Disabling.AddMenuItems(retVal);
 
             return retVal;
         }

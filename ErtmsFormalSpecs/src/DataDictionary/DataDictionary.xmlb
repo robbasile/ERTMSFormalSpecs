@@ -860,8 +860,9 @@
     <META NAME="Package">test</META>
     <FIELDS>
       <FIELD NAME="CycleDuration" TYPE="PCHAR" />
-      <FIELD NAME="SubSequences"  REFTYPE="SubSequence" MODE="DEFAULT"/>
+      <FIELD NAME="SubSequences"  REFTYPE="SubSequence" MODE="DEFAULT" />
       <FIELD NAME="Comment"       TYPE="PCHAR" />
+      <FIELD NAME="RuleCheckDisabling"  REFTYPE="RuleCheckDisabling" />
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="CycleDuration" TARGET="CycleDuration" OPTIONAL="TRUE" DEFAULT="0.1"/>
@@ -876,6 +877,7 @@
             <ELEMENTREF NAME="SubSequence"/>
           </REPEAT>
         </ENCLOSED>
+        <ELEMENTREF NAME="RuleCheckDisabling" TARGET="RuleCheckDisabling" OPTIONAL="TRUE" />
       </CONCAT>
     </FORMULA>
   </ELEMENT>
@@ -1227,6 +1229,7 @@
         <META NAME="TargetName">SubFolders</META>
       </FIELD>
       <FIELD NAME="Translations" REFTYPE="Translation" />
+      <FIELD NAME="RuleCheckDisabling"  REFTYPE="RuleCheckDisabling"/>
     </FIELDS>
     <FORMULA>
       <CONCAT>
@@ -1240,6 +1243,7 @@
             <ELEMENTREF NAME="Translation" />
           </REPEAT>
         </ENCLOSED>
+        <ELEMENTREF NAME="RuleCheckDisabling" TARGET="RuleCheckDisabling" OPTIONAL="TRUE" />
       </CONCAT>
     </FORMULA>
   </ELEMENT>
@@ -1490,6 +1494,7 @@
       </FIELD>
       <FIELD NAME="TypeSpecs" REFTYPE="TypeSpec" MODE="DEFAULT">
       </FIELD>
+      <FIELD NAME="RuleCheckDisabling"  REFTYPE="RuleCheckDisabling"/>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="id" TARGET="Id"/>
@@ -1502,6 +1507,7 @@
         <REPEAT TARGET="TypeSpecs" >
           <ELEMENTREF NAME="TypeSpec" />
         </REPEAT>
+        <ELEMENTREF NAME="RuleCheckDisabling" TARGET="RuleCheckDisabling" OPTIONAL="TRUE" />
       </CONCAT>
     </FORMULA>
   </ELEMENT>

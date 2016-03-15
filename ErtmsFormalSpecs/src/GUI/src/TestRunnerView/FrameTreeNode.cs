@@ -24,6 +24,7 @@ using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
 using GUI.Properties;
 using GUI.Report;
+using GUI.RuleDisabling;
 using GUIUtils;
 using GUIUtils.LongOperations;
 using Utils;
@@ -33,7 +34,7 @@ using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
 {
-    public class FrameTreeNode : ModelElementTreeNode<Frame>
+    public class FrameTreeNode : ModelElementTreeNode<Frame>, RuleDisabling.IDisablesRules<Frame>
     {
         /// <summary>
         ///     The value editor
@@ -52,6 +53,8 @@ namespace GUI.TestRunnerView
             }
         }
 
+        public DisablesRulesTreeNodeExtension<Frame> Disabling { get; set; }
+
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -60,6 +63,7 @@ namespace GUI.TestRunnerView
         public FrameTreeNode(Frame item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
+            Disabling = new DisablesRulesTreeNodeExtension<Frame>(item);
         }
 
         /// <summary>
@@ -70,6 +74,8 @@ namespace GUI.TestRunnerView
         public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
             base.BuildSubNodes(subNodes, recursive);
+
+            Disabling.BuildSubNodes(subNodes, recursive);
 
             foreach (SubSequence subSequence in Item.SubSequences)
             {
@@ -288,6 +294,8 @@ namespace GUI.TestRunnerView
             retVal.Insert(6, new MenuItem("-"));
             retVal.Insert(7, new MenuItem("Execute", RunHandler));
             retVal.Insert(8, new MenuItem("Create report", ReportHandler));
+
+            Disabling.AddMenuItems(retVal);
 
             return retVal;
         }

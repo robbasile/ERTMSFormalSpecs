@@ -17,6 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using DataDictionary.Types;
+using GUI.RuleDisabling;
 using GUI.TestRunnerView;
 using Folder = DataDictionary.Tests.Translations.Folder;
 using SourceText = DataDictionary.Tests.Translations.SourceText;
@@ -25,11 +27,16 @@ using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace GUI.TranslationRules
 {
-    public class FolderTreeNode : ModelElementTreeNode<Folder>
+    public class FolderTreeNode : ModelElementTreeNode<Folder>, RuleDisabling.IDisablesRules<Folder>
     {
         private class ItemEditor : NamedEditor
         {
         }
+
+        /// <summary>
+        ///     Extension ot the tree node for handling the display of rule check disabling
+        /// </summary>
+        public DisablesRulesTreeNodeExtension<Folder> Disabling { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -39,6 +46,7 @@ namespace GUI.TranslationRules
         public FolderTreeNode(Folder item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
+            Disabling = new DisablesRulesTreeNodeExtension<Folder>(item);
         }
 
         /// <summary>
@@ -49,6 +57,8 @@ namespace GUI.TranslationRules
         public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
             base.BuildSubNodes(subNodes, recursive);
+
+            Disabling.BuildSubNodes(subNodes, recursive);
 
             foreach (Folder folder in Item.Folders)
             {
@@ -142,6 +152,8 @@ namespace GUI.TranslationRules
                 new MenuItem("-"),
                 new MenuItem("Delete", DeleteHandler)
             };
+
+            Disabling.AddMenuItems(retVal);
 
             return retVal;
         }

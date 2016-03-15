@@ -23732,12 +23732,27 @@ public  void setComment( string  v) {
 }
 
 
+private  RuleCheckDisabling aRuleCheckDisabling;
+
+public  RuleCheckDisabling getRuleCheckDisabling() { return aRuleCheckDisabling;}
+
+public  void setRuleCheckDisabling(RuleCheckDisabling v) {
+  aRuleCheckDisabling = v;
+  if ( v != null ) { 
+    v.setFather(this);
+  }
+  __setDirty(true);
+  NotifyControllers(null);
+}
+
+
 public Frame()
 {
 Frame obj = this;
 aCycleDuration=(null);
 aSubSequences=(null);
 aComment=(null);
+aRuleCheckDisabling=(null);
 }
 
 public void copyTo(Frame other)
@@ -23746,6 +23761,7 @@ base.copyTo(other);
 other.aCycleDuration = aCycleDuration;
 other.aSubSequences = aSubSequences;
 other.aComment = aComment;
+other.aRuleCheckDisabling = aRuleCheckDisabling;
 }
 
 /// <remarks>This method is used by XMLBooster-generated code
@@ -23832,6 +23848,16 @@ ctxt.acceptString ("</SubSequences>");
 } // If
 } // If
 // End enclosed
+// Element Ref : RuleCheckDisabling
+ctxt.skipWhiteSpace();
+// If optional...
+if (ctxt.lookAheadOpeningTag("<RuleCheckDisabling")){
+// Parsing sub element
+this.setRuleCheckDisabling(acceptor.lAccept_RuleCheckDisabling(ctxt,"</RuleCheckDisabling>"));
+setSon(this.getRuleCheckDisabling());
+// Endif optional...
+} // If
+ctxt.skipWhiteSpace();
 ctxt.skipWhiteSpace();
 }
 
@@ -24116,6 +24142,10 @@ pw.Write("</SubSequences>");
 pw.Write('\n');
 } // If
 // After Testing for empty content: SubSequences
+// Unparsing ElementRef
+if (this.getRuleCheckDisabling() != null){
+unParse(pw, this.getRuleCheckDisabling(),false,"<RuleCheckDisabling","</RuleCheckDisabling>");
+} // If
 }
 public  override  void dispatch(XmlBBaseVisitor v)
 {
@@ -24136,6 +24166,7 @@ public  override void subElements(ArrayList l)
 for (int i = 0; i < countSubSequences(); i++) {
   l.Add(getSubSequences(i));
 }
+l.Add(this.getRuleCheckDisabling());
 }
 
 }
@@ -31858,11 +31889,26 @@ public Translation getTranslations(int idx)
   return (Translation) ( allTranslations()[idx]);
 }
 
+private  RuleCheckDisabling aRuleCheckDisabling;
+
+public  RuleCheckDisabling getRuleCheckDisabling() { return aRuleCheckDisabling;}
+
+public  void setRuleCheckDisabling(RuleCheckDisabling v) {
+  aRuleCheckDisabling = v;
+  if ( v != null ) { 
+    v.setFather(this);
+  }
+  __setDirty(true);
+  NotifyControllers(null);
+}
+
+
 public Folder()
 {
 Folder obj = this;
 aFolders=(null);
 aTranslations=(null);
+aRuleCheckDisabling=(null);
 }
 
 public void copyTo(Folder other)
@@ -31870,6 +31916,7 @@ public void copyTo(Folder other)
 base.copyTo(other);
 other.aFolders = aFolders;
 other.aTranslations = aTranslations;
+other.aRuleCheckDisabling = aRuleCheckDisabling;
 }
 
 /// <remarks>This method is used by XMLBooster-generated code
@@ -31967,6 +32014,16 @@ ctxt.acceptString ("</Translations>");
 } // If
 } // If
 // End enclosed
+// Element Ref : RuleCheckDisabling
+ctxt.skipWhiteSpace();
+// If optional...
+if (ctxt.lookAheadOpeningTag("<RuleCheckDisabling")){
+// Parsing sub element
+this.setRuleCheckDisabling(acceptor.lAccept_RuleCheckDisabling(ctxt,"</RuleCheckDisabling>"));
+setSon(this.getRuleCheckDisabling());
+// Endif optional...
+} // If
+ctxt.skipWhiteSpace();
 ctxt.skipWhiteSpace();
 }
 
@@ -32219,6 +32276,10 @@ pw.Write("</Translations>");
 pw.Write('\n');
 } // If
 // After Testing for empty content: Translations
+// Unparsing ElementRef
+if (this.getRuleCheckDisabling() != null){
+unParse(pw, this.getRuleCheckDisabling(),false,"<RuleCheckDisabling","</RuleCheckDisabling>");
+} // If
 }
 public  override  void dispatch(XmlBBaseVisitor v)
 {
@@ -32242,6 +32303,7 @@ for (int i = 0; i < countFolders(); i++) {
 for (int i = 0; i < countTranslations(); i++) {
   l.Add(getTranslations(i));
 }
+l.Add(this.getRuleCheckDisabling());
 }
 
 }
@@ -38459,12 +38521,27 @@ public TypeSpec getTypeSpecs(int idx)
   return (TypeSpec) ( allTypeSpecs()[idx]);
 }
 
+private  RuleCheckDisabling aRuleCheckDisabling;
+
+public  RuleCheckDisabling getRuleCheckDisabling() { return aRuleCheckDisabling;}
+
+public  void setRuleCheckDisabling(RuleCheckDisabling v) {
+  aRuleCheckDisabling = v;
+  if ( v != null ) { 
+    v.setFather(this);
+  }
+  __setDirty(true);
+  NotifyControllers(null);
+}
+
+
 public Chapter()
 {
 Chapter obj = this;
 aId=(null);
 aParagraphs=(null);
 aTypeSpecs=(null);
+aRuleCheckDisabling=(null);
 }
 
 public void copyTo(Chapter other)
@@ -38473,6 +38550,7 @@ base.copyTo(other);
 other.aId = aId;
 other.aParagraphs = aParagraphs;
 other.aTypeSpecs = aTypeSpecs;
+other.aRuleCheckDisabling = aRuleCheckDisabling;
 }
 
 /// <remarks>This method is used by XMLBooster-generated code
@@ -38510,6 +38588,16 @@ appendTypeSpecs(fl1951);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
+// Element Ref : RuleCheckDisabling
+ctxt.skipWhiteSpace();
+// If optional...
+if (ctxt.lookAheadOpeningTag("<RuleCheckDisabling")){
+// Parsing sub element
+this.setRuleCheckDisabling(acceptor.lAccept_RuleCheckDisabling(ctxt,"</RuleCheckDisabling>"));
+setSon(this.getRuleCheckDisabling());
+// Endif optional...
+} // If
+ctxt.skipWhiteSpace();
 ctxt.skipWhiteSpace();
 }
 
@@ -38774,6 +38862,10 @@ unParse(pw, this.getParagraphs(), false, "<Paragraph", "</Paragraph>");
 // Unparsing Repeat
 // Unparsing repetition
 unParse(pw, this.getTypeSpecs(), false, null, null);
+// Unparsing ElementRef
+if (this.getRuleCheckDisabling() != null){
+unParse(pw, this.getRuleCheckDisabling(),false,"<RuleCheckDisabling","</RuleCheckDisabling>");
+} // If
 }
 public  override  void dispatch(XmlBBaseVisitor v)
 {
@@ -38797,6 +38889,7 @@ for (int i = 0; i < countParagraphs(); i++) {
 for (int i = 0; i < countTypeSpecs(); i++) {
   l.Add(getTypeSpecs(i));
 }
+l.Add(this.getRuleCheckDisabling());
 }
 
 }

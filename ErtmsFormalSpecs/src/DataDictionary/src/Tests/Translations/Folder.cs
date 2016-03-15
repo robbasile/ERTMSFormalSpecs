@@ -18,10 +18,11 @@
 using System.Collections;
 using DataDictionary.Generated;
 using Utils;
+using RuleCheckDisabling = DataDictionary.RuleCheck.RuleCheckDisabling;
 
 namespace DataDictionary.Tests.Translations
 {
-    public class Folder : Generated.Folder, ITextualExplain
+    public class Folder : Generated.Folder, ITextualExplain, RuleCheck.IRuleCheckDisabling
     {
         /// <summary>
         ///     Constructor
@@ -171,6 +172,15 @@ namespace DataDictionary.Tests.Translations
             });
 
             return retVal;
+        }
+
+        /// <summary>
+        /// Provides the RuleCheck disabling, if any
+        /// </summary>
+        public RuleCheckDisabling Disabling
+        {
+            get { return (RuleCheckDisabling)getRuleCheckDisabling(); }
+            set { setRuleCheckDisabling(value); }
         }
      }
 }
