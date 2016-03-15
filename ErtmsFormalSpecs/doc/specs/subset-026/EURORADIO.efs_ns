@@ -8212,12 +8212,13 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  Guid="fb0c323a-04ee-47a6-86cd-341b24a90ee3"
 >EURORADIO.SelectRBCToContact().ContactRBCOrder &lt;- anOrder</Action><Action
  Guid="09fde6ed-78d4-4d43-ba1f-75cbe28d3eb0"
->EURORADIO.LastKnownRBC&lt;- EURORADIO.RBCContactStruct
+>EURORADIO.SetLastKnownRBC(EURORADIO.RBCContactStruct
 {
     Id =&gt; anOrder.Id,
     PhoneNumber =&gt; anOrder.PhoneNumber,
     DataState =&gt; DataStateEnum.Valid
-}</Action><Action
+}
+)</Action><Action
  Guid="b327d97a-1053-46ca-a7eb-480617cdb643"
 >EURORADIO.RBCContactOrderToRepeat &lt;- EMPTY</Action><Action
  Guid="890385aa-93d6-49a6-be94-a3fd1d17d4e8"
@@ -12568,7 +12569,7 @@ RevSupPacketAvailable(
  Guid="292b24e9-212c-45d5-b0f0-e37848e44ad8"
 >EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action><Action
  Guid="89c525f7-4f86-4365-ac3c-d181b753d36c"
->EURORADIO.LastKnownRBC &lt;- EURORADIO.RBCContactStruct
+>EURORADIO.SetLastKnownRBC(EURORADIO.RBCContactStruct
 {
     Id =&gt; RBCIdStruct{
         Country =&gt; aPacket.NID_C,
@@ -12576,7 +12577,8 @@ RevSupPacketAvailable(
     },
     PhoneNumber =&gt; aPacket.NID_RADIO,
     DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
+}
+)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH/PS mode"
@@ -12600,7 +12602,7 @@ RevSupPacketAvailable(
 <Actions>
 <Action
  Guid="c59b3f0b-833a-4b7f-aa43-c4ecf057eddb"
->EURORADIO.LastKnownRBC &lt;- EURORADIO.RBCContactStruct
+>EURORADIO.SetLastKnownRBC(EURORADIO.RBCContactStruct
 {
     Id =&gt; RBCIdStruct{
         Country =&gt; aPacket.NID_C,
@@ -12608,7 +12610,8 @@ RevSupPacketAvailable(
     },
     PhoneNumber =&gt; aPacket.NID_RADIO,
     DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
+}
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -12653,6 +12656,8 @@ RevSupPacketAvailable(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove Acknowledgement of Train Data from message"
  Guid="1d9f0278-f821-4a69-9457-5de267cb854f"
@@ -14098,6 +14103,59 @@ RevSupPacketAvailable(
         Increment =&gt; MessageTypes.TimeResolution(Time)
     )
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SetLastKnownRBC"
+ Guid="84687064-080e-4666-8f91-e9fdaf8e2892"
+>
+<ReqRef
+ Id="cae9ea11-6eb1-49b7-b010-183e0c897e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="91beeb8d-a44f-4e17-be18-5f3baee6e21f"
+>
+</ReqRef><ReqRef
+ Id="38c25256-da47-4c77-a112-1ee0d724e7f2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="71f97ce8-2068-4594-9979-0142eb19925a"
+>
+</ReqRef><Comment>Once the LastKnownRBC is set, the ContactOption is set to ContactLastKnownRBC so that automatic connection attempts will use the LastKnownRBC info.</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCContactStruct"
+ Name="anRBCContactStruct"
+ Guid="17b772fa-9794-455b-abac-066a8ccf2637"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="SetLastKnownRBC"
+ Guid="ba5e211e-44f9-4f28-a875-d788578bc2c2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SetLastKnownRBC"
+ Guid="71cabbe4-340e-44bc-b17e-ba362648c151"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="1f028f88-cb11-4eb1-b2a4-b944298da071"
+>EURORADIO.LastKnownRBC &lt;- anRBCContactStruct</Action><Action
+ Guid="63e34549-b64f-4606-a054-97090d84fc1d"
+>EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.ContactLastKnownRBC</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
