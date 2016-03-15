@@ -4036,6 +4036,11 @@ SystemVersion1 =&gt; EMPTY
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="026c6422-5ea2-4120-82c7-1d668d7213e3"
 >
+</ReqRef><ReqRef
+ Id="2532d879-d4d5-4d97-a3c1-1b29e909ec09"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21fcac47-0e25-4316-94f5-93675fe55b3a"
+>
 </ReqRef><Comment>If the trackside system version is not compatible, then the session is terminated, the driver is informed and the message &quot;No compatible version supported&quot; is sent to the RBC.</Comment>
 <PreConditions>
 </PreConditions>
@@ -4044,7 +4049,10 @@ SystemVersion1 =&gt; EMPTY
  Guid="ea8b7978-d9c8-42c9-a1a1-339aea7eb022"
 >THIS &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action><Action
  Guid="53aed77c-69b4-4844-84ca-aeb33f10a498"
->SendNoCompatibleVersionSupported()</Action></Actions>
+>SendNoCompatibleVersionSupported()</Action><Action
+ Guid="06b3885a-568b-4822-9264-7dabdb4a08c1"
+><Comment>If no communication can be established due to SystemVersion incompatibility, the DataState of the LastKnownRBC is set to Invalid to prevent automatic connection attempts.</Comment>
+EURORADIO.LastKnownRBC.DataState &lt;- DataStateEnum.Invalid</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4866,42 +4874,7 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
-</StateMachine><EnterAction>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Name="Enter action"
- Guid="6b521411-68d7-4d34-be76-22c8a2be5e62"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Store RBC Contact Information"
- Guid="35e367be-27ad-4cd8-9942-e3d58f741542"
->
-<ReqRef
- Id="5b400d76-8d5f-4650-b9ae-bfddacd144b6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="78d3d78a-fc0f-4e1e-8612-75d8e1db6d45"
->
-</ReqRef><PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="725f1dd0-c080-4808-9c61-12ccda9772b2"
->LastKnownRBC &lt;- EURORADIO.RBCContactStruct{
-Id =&gt; RBCIdStruct{
-    Country =&gt; CurrentRBCConnection().ContactData.Id.Country,
-    Id =&gt; CurrentRBCConnection().ContactData.Id.Id
-},
-PhoneNumber =&gt; CurrentRBCConnection().ContactData.PhoneNumber,
-DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></EnterAction>
-</State><State
+</StateMachine></State><State
  X="180"
  Y="430"
  Width="100"
@@ -5530,6 +5503,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </Rule></Rules>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="HandleAcceptingRBCContactOrder"
  Guid="1ad3468d-3948-45b2-8534-a90249aa39c1"
@@ -5563,6 +5538,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle Accepting RBC contact order"
  Guid="836c38bd-df22-4138-bbd9-2cfe1237d810"
@@ -5584,6 +5561,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update the RBC connection status"
  Guid="c906f67a-230f-4e70-a79b-4405da449b2e"
@@ -5632,6 +5611,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove the order"
  Guid="1a2c44ce-1ac0-4765-b082-57bb655e5cdd"
@@ -5702,6 +5683,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Register a terminal"
  Guid="e516dbd5-4acd-486c-9834-992ad3cfad91"
@@ -8228,6 +8211,13 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Action
  Guid="fb0c323a-04ee-47a6-86cd-341b24a90ee3"
 >EURORADIO.SelectRBCToContact().ContactRBCOrder &lt;- anOrder</Action><Action
+ Guid="09fde6ed-78d4-4d43-ba1f-75cbe28d3eb0"
+>EURORADIO.LastKnownRBC&lt;- EURORADIO.RBCContactStruct
+{
+    Id =&gt; anOrder.Id,
+    PhoneNumber =&gt; anOrder.PhoneNumber,
+    DataState =&gt; DataStateEnum.Valid
+}</Action><Action
  Guid="b327d97a-1053-46ca-a7eb-480617cdb643"
 >EURORADIO.RBCContactOrderToRepeat &lt;- EMPTY</Action><Action
  Guid="890385aa-93d6-49a6-be94-a3fd1d17d4e8"
