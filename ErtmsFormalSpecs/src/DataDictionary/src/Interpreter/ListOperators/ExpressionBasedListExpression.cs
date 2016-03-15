@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using Utils;
 
 namespace DataDictionary.Interpreter.ListOperators
@@ -63,7 +64,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 }
                 else
                 {
-                    AddError("Iterator expression not provided");
+                    AddError("Iterator expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 

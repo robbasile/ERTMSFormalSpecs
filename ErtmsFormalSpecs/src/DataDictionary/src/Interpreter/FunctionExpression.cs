@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Values;
 using Utils;
 using Function = DataDictionary.Functions.Function;
@@ -104,7 +105,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Function body not provided");
+                    AddError("Function body not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -299,7 +300,7 @@ namespace DataDictionary.Interpreter
 
             if (xParam == null || yParam == null)
             {
-                AddError("Cannot have null parameters for Function expression " + ToString());
+                AddError("Cannot have null parameters for Function expression " + ToString(), RuleChecksEnum.ExecutionFailed);
             }
             else
             {

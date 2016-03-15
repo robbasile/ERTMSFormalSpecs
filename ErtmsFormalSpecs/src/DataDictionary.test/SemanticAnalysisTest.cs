@@ -1,5 +1,6 @@
 ﻿using DataDictionary.Generated;
 using DataDictionary.Interpreter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Values;
 using NUnit.Framework;

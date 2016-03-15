@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
@@ -119,12 +120,12 @@ namespace DataDictionary.Interpreter.Statement
                     }
                     else
                     {
-                        AddError("Cannot determine collection type");
+                        AddError("Cannot determine collection type", RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
                 {
-                    AddError("List expression not provided");
+                    AddError("List expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // Value
@@ -137,17 +138,17 @@ namespace DataDictionary.Interpreter.Statement
                     {
                         if (collectionType != null && !valueType.Match(collectionType.Type))
                         {
-                            AddError("Type of " + Value + " does not match collection type " + collectionType);
+                            AddError("Type of " + Value + " does not match collection type " + collectionType, RuleChecksEnum.SemanticAnalysisError);
                         }
                     }
                     else
                     {
-                        AddError("Cannot determine type of " + Value);
+                        AddError("Cannot determine type of " + Value, RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
                 {
-                    AddError("Replacement value not provided");
+                    AddError("Replacement value not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // Condition

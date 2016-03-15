@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
@@ -76,7 +77,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("Altered variable not specified");
+                    AddError("Altered variable not specified", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // Expression
@@ -270,11 +271,11 @@ namespace DataDictionary.Interpreter.Statement
                 Collection collection = var.Type as Collection;
                 if (range != null && range.convert(value) == null)
                 {
-                    AddError("Value " + value + " is outside range");
+                    AddError("Value " + value + " is outside range", RuleChecksEnum.ExecutionFailed);
                 }
                 else if (collection != null && collection.convert(value) == null)
                 {
-                    AddError("Value " + value + " cannot be assigned to variable");                    
+                    AddError("Value " + value + " cannot be assigned to variable", RuleChecksEnum.ExecutionFailed);                    
                 }
                 else 
                 {
@@ -285,7 +286,7 @@ namespace DataDictionary.Interpreter.Statement
             }
             else
             {
-                AddError("Cannot find variable " + VariableIdentification);
+                AddError("Cannot find variable " + VariableIdentification, RuleChecksEnum.ExecutionFailed);
             }
         }
 

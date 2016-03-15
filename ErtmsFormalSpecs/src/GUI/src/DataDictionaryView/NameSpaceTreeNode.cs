@@ -24,17 +24,23 @@ using DataDictionary.Types;
 using DataDictionary.Variables;
 using GUI.FunctionalView;
 using GUI.Properties;
+using GUI.RuleDisabling;
 using Enum = DataDictionary.Types.Enum;
 
 namespace GUI.DataDictionaryView
 {
-    public class NameSpaceTreeNode : GraphicalDisplayElementNode<NameSpace>
+    public class NameSpaceTreeNode : GraphicalDisplayElementNode<NameSpace>, IDisablesRules<NameSpace>
     {
         private class ItemEditor : GraphicalDisplayEditor
         {
         }
 
         private readonly bool _isDirectory;
+
+        /// <summary>
+        ///     Extension ot the tree node for handling the display of rule check disabling
+        /// </summary>
+        public DisablesRulesTreeNodeExtension<NameSpace> Disabling { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -44,6 +50,7 @@ namespace GUI.DataDictionaryView
         public NameSpaceTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, null, false)
         {
+            Disabling = new DisablesRulesTreeNodeExtension<NameSpace>(item, true);
         }
 
         /// <summary>
@@ -57,6 +64,7 @@ namespace GUI.DataDictionaryView
             : base(item, buildSubNodes, name, isFolder)
         {
             _isDirectory = true;
+            Disabling = new DisablesRulesTreeNodeExtension<NameSpace>(item, true);
         }
 
         /// <summary>
@@ -67,6 +75,8 @@ namespace GUI.DataDictionaryView
         public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
             base.BuildSubNodes(subNodes, recursive);
+
+            Disabling.BuildSubNodes(subNodes, recursive);
 
             subNodes.Add(new NameSpaceSubNameSpacesTreeNode(Item, recursive));
             subNodes.Add(new RangesTreeNode(Item, recursive));
@@ -212,6 +222,8 @@ namespace GUI.DataDictionaryView
             retVal.Add(new MenuItem("Delete", DeleteHandler));
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(5, new MenuItem("Functional view", ShowFunctionalViewHandler));
+
+            Disabling.AddMenuItems(retVal);
 
             return retVal;
         }

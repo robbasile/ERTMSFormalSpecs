@@ -128,11 +128,12 @@ namespace DataDictionary.Interpreter
         ///     Adds an error message to the root element
         /// </summary>
         /// <param name="message"></param>
-        public void AddError(string message)
+        /// <param name="id"></param>
+        public void AddError(string message, RuleCheck.RuleChecksEnum id)
         {
             if (RootLog != null)
             {
-                RootLog.AddError(message);
+                RootLog.AddRuleCheckMessage(id, ElementLog.LevelEnum.Error, message);
             }
         }
 

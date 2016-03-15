@@ -285,65 +285,6 @@ namespace DataDictionary.Compare
                     }
                 }
             }
-            if ( obj.allRuleDisablings() != null )
-            {
-                if ( other.allRuleDisablings() != null ) 
-                {
-                    foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                    {
-                        bool compared = false;
-                        foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                        {
-                            if ( subElement.Guid == otherElement.Guid )
-                            {
-                                compareRuleDisabling ( subElement, otherElement, diff );
-                                compared = true;
-                            break;
-                            }
-                        }
-
-                        if ( !compared ) 
-                        {
-                            diff.appendChanges ( new Diff(subElement, HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "RuleDisablings", "", subElement.Name ) );
-                        }
-                    }
-
-                    foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                    {
-                        bool found = false;
-                        foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                        {
-                            if ( subElement.Guid == otherElement.Guid )
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if ( !found )
-                        {
-                            diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove , "RuleDisablings", otherElement.Name) );
-                        }
-                    }
-                }
-                else 
-                {
-                    foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                    {
-                        diff.appendChanges ( new Diff(subElement, HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "RuleDisablings", "", subElement.Name ) );
-                    }
-                }
-            }
-            else 
-            {
-                if ( other.allRuleDisablings() != null ) 
-                {
-                    foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                    {
-                        diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove , "RuleDisablings", otherElement.Name) );
-                    }
-                }
-            }
             if ( obj.allNameSpaces() != null )
             {
                 if ( other.allNameSpaces() != null ) 
@@ -613,11 +554,11 @@ namespace DataDictionary.Compare
         }
 
         /// <summary>
-        /// Compares two RuleDisabling and annotates the differences on the first one
+        /// Compares two NameSpaceRef and annotates the differences on the first one
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="other"></param>
-        public static void compareRuleDisabling(Generated.RuleDisabling obj, Generated.RuleDisabling other, VersionDiff diff)
+        public static void compareNameSpaceRef(Generated.NameSpaceRef obj, Generated.NameSpaceRef other, VersionDiff diff)
         {
             if ( other == null )
             { 
@@ -625,20 +566,92 @@ namespace DataDictionary.Compare
                 return;
             }
 
-            compareReqRelated (obj, other, diff);
+            compareNamable (obj, other, diff);
 
-            if ( !CompareUtil.canonicalStringEquality(obj.getRule(), other.getRule()) )
+        }
+
+        /// <summary>
+        /// Compares two RuleCheckDisabling and annotates the differences on the first one
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="other"></param>
+        public static void compareRuleCheckDisabling(Generated.RuleCheckDisabling obj, Generated.RuleCheckDisabling other, VersionDiff diff)
+        {
+            if ( other == null )
+            { 
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "", "", obj.Name ) );
+                return;
+            }
+
+            compareNamable (obj, other, diff);
+
+            if ( obj.allDisabledRuleChecks() != null )
             {
-                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Rule", other.getRule(), obj.getRule()) );
+                if ( other.allDisabledRuleChecks() != null ) 
+                {
+                    foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                    {
+                        bool compared = false;
+                        foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                        {
+                            if ( subElement.Guid == otherElement.Guid )
+                            {
+                                compareRuleCheckIdentifier ( subElement, otherElement, diff );
+                                compared = true;
+                            break;
+                            }
+                        }
+
+                        if ( !compared ) 
+                        {
+                            diff.appendChanges ( new Diff(subElement, HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "DisabledRuleChecks", "", subElement.Name ) );
+                        }
+                    }
+
+                    foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                    {
+                        bool found = false;
+                        foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                        {
+                            if ( subElement.Guid == otherElement.Guid )
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if ( !found )
+                        {
+                            diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove , "DisabledRuleChecks", otherElement.Name) );
+                        }
+                    }
+                }
+                else 
+                {
+                    foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                    {
+                        diff.appendChanges ( new Diff(subElement, HistoricalData.Generated.acceptor.ChangeOperationEnum.aAdd, "DisabledRuleChecks", "", subElement.Name ) );
+                    }
+                }
+            }
+            else 
+            {
+                if ( other.allDisabledRuleChecks() != null ) 
+                {
+                    foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                    {
+                        diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aRemove , "DisabledRuleChecks", otherElement.Name) );
+                    }
+                }
             }
         }
 
         /// <summary>
-        /// Compares two NameSpaceRef and annotates the differences on the first one
+        /// Compares two RuleCheckIdentifier and annotates the differences on the first one
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="other"></param>
-        public static void compareNameSpaceRef(Generated.NameSpaceRef obj, Generated.NameSpaceRef other, VersionDiff diff)
+        public static void compareRuleCheckIdentifier(Generated.RuleCheckIdentifier obj, Generated.RuleCheckIdentifier other, VersionDiff diff)
         {
             if ( other == null )
             { 
@@ -1317,6 +1330,17 @@ namespace DataDictionary.Compare
             if ( !CompareUtil.canonicalStringEquality(obj.getComment(), other.getComment()) )
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Comment", other.getComment(), obj.getComment()) );
+            }
+            if ( obj.getRuleCheckDisabling() == null )
+            {
+                if ( other.getRuleCheckDisabling() != null )
+                {
+                    diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "RuleCheckDisabling", "" ) );
+                }
+            }
+            else
+            {
+                compareRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling(), diff );
             }
         }
 
@@ -5754,81 +5778,6 @@ namespace DataDictionary.Compare
                     }
                 }
             }
-            if ( obj.allRuleDisablings() != null )
-            {
-                if ( other.allRuleDisablings() != null ) 
-                {
-                    foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                    {
-                        bool found = false;
-
-                        // Try first to assign Guid to elements which do not have a guid
-                        // This helps handling duplicated in lists
-                        foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                        {
-                            if ( CompareUtil.canonicalStringEquality(subElement.Name, otherElement.Name) && otherElement.getGuid() == null )
-                            {
-                                ensureGuidRuleDisabling ( subElement, otherElement );
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if ( !found ) 
-                        {
-                            foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                            {
-                                if ( CompareUtil.canonicalStringEquality(subElement.Name, otherElement.Name) )
-                                {
-                                    ensureGuidRuleDisabling ( subElement, otherElement );
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if ( !found ) 
-                        {
-                            ensureGuidRuleDisabling ( subElement, null );
-                        }
-                    }
-
-                    foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                    {
-                        bool found = false;
-                        foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                        {
-                            if ( CompareUtil.canonicalStringEquality(subElement.Name, otherElement.Name) )
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if ( !found )
-                        {
-                            ensureGuidRuleDisabling ( null, otherElement );
-                        }
-                    }
-                }
-                else 
-                {
-                    foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                    {
-                        ensureGuidRuleDisabling ( subElement, null );
-                    }
-                }
-            }
-            else 
-            {
-                if ( other.allRuleDisablings() != null ) 
-                {
-                    foreach ( Generated.RuleDisabling otherElement in other.allRuleDisablings() )
-                    {
-                        ensureGuidRuleDisabling ( null, otherElement );
-                    }
-                }
-            }
             if ( obj.allNameSpaces() != null )
             {
                 if ( other.allNameSpaces() != null ) 
@@ -6134,14 +6083,14 @@ namespace DataDictionary.Compare
         }
 
         /// <summary>
-        /// Ensures that two RuleDisabling have matching GUID, and recursively.
+        /// Ensures that two NameSpaceRef have matching GUID, and recursively.
         /// obj is the leader for Guid. If other doesn't match obj guid, 
         ///   1. other does not have a guid, in that case, other should have the same guid as obj
         ///   2. other already has a guid. In that case, there is a mismatch between objects, and the process stops here
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="other"></param>
-        public static void ensureGuidRuleDisabling(Generated.RuleDisabling obj, Generated.RuleDisabling other)
+        public static void ensureGuidNameSpaceRef(Generated.NameSpaceRef obj, Generated.NameSpaceRef other)
         {
             if ( obj == null )
             { 
@@ -6177,19 +6126,142 @@ namespace DataDictionary.Compare
                 }
             }
 
-            ensureGuidReqRelated (obj, other);
+            ensureGuidNamable (obj, other);
 
         }
 
         /// <summary>
-        /// Ensures that two NameSpaceRef have matching GUID, and recursively.
+        /// Ensures that two RuleCheckDisabling have matching GUID, and recursively.
         /// obj is the leader for Guid. If other doesn't match obj guid, 
         ///   1. other does not have a guid, in that case, other should have the same guid as obj
         ///   2. other already has a guid. In that case, there is a mismatch between objects, and the process stops here
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="other"></param>
-        public static void ensureGuidNameSpaceRef(Generated.NameSpaceRef obj, Generated.NameSpaceRef other)
+        public static void ensureGuidRuleCheckDisabling(Generated.RuleCheckDisabling obj, Generated.RuleCheckDisabling other)
+        {
+            if ( obj == null )
+            { 
+                if ( other != null )
+                {
+                    // Side effect, setup a GUID if needed for the other part (other)
+                    string guid = other.Guid;
+                }
+                return;
+            }
+
+            if ( other == null )
+            { 
+                if ( obj != null )
+                {
+                    // Side effect, setup a GUID if needed for the other part (obj)
+                    string guid = obj.Guid;
+                }
+                return;
+            }
+
+            if ( obj.Guid != other.getGuid() )
+            { 
+                if ( string.IsNullOrEmpty(other.getGuid()) || GuidByName && (obj.Name == other.Name) )
+                {
+                    // These are matching elements, copy the guid from  obj
+                    other.setGuid ( obj.Guid );
+                }
+                else 
+                {
+                    // Elements do not match. Stop the recursive process
+                    return;
+                }
+            }
+
+            ensureGuidNamable (obj, other);
+
+            if ( obj.allDisabledRuleChecks() != null )
+            {
+                if ( other.allDisabledRuleChecks() != null ) 
+                {
+                    foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                    {
+                        bool found = false;
+
+                        // Try first to assign Guid to elements which do not have a guid
+                        // This helps handling duplicated in lists
+                        foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                        {
+                            if ( CompareUtil.canonicalStringEquality(subElement.Name, otherElement.Name) && otherElement.getGuid() == null )
+                            {
+                                ensureGuidRuleCheckIdentifier ( subElement, otherElement );
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if ( !found ) 
+                        {
+                            foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                            {
+                                if ( CompareUtil.canonicalStringEquality(subElement.Name, otherElement.Name) )
+                                {
+                                    ensureGuidRuleCheckIdentifier ( subElement, otherElement );
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ( !found ) 
+                        {
+                            ensureGuidRuleCheckIdentifier ( subElement, null );
+                        }
+                    }
+
+                    foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                    {
+                        bool found = false;
+                        foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                        {
+                            if ( CompareUtil.canonicalStringEquality(subElement.Name, otherElement.Name) )
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if ( !found )
+                        {
+                            ensureGuidRuleCheckIdentifier ( null, otherElement );
+                        }
+                    }
+                }
+                else 
+                {
+                    foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                    {
+                        ensureGuidRuleCheckIdentifier ( subElement, null );
+                    }
+                }
+            }
+            else 
+            {
+                if ( other.allDisabledRuleChecks() != null ) 
+                {
+                    foreach ( Generated.RuleCheckIdentifier otherElement in other.allDisabledRuleChecks() )
+                    {
+                        ensureGuidRuleCheckIdentifier ( null, otherElement );
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Ensures that two RuleCheckIdentifier have matching GUID, and recursively.
+        /// obj is the leader for Guid. If other doesn't match obj guid, 
+        ///   1. other does not have a guid, in that case, other should have the same guid as obj
+        ///   2. other already has a guid. In that case, there is a mismatch between objects, and the process stops here
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="other"></param>
+        public static void ensureGuidRuleCheckIdentifier(Generated.RuleCheckIdentifier obj, Generated.RuleCheckIdentifier other)
         {
             if ( obj == null )
             { 
@@ -7100,6 +7172,7 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            ensureGuidRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling() );
         }
 
         /// <summary>
@@ -12724,13 +12797,6 @@ namespace DataDictionary.Compare
                     searchRequirementSet ( subElement, searchString, occurences );
                 }
             }
-            if ( obj.allRuleDisablings() != null )
-            {
-                foreach ( Generated.RuleDisabling subElement in obj.allRuleDisablings() )
-                {
-                    searchRuleDisabling ( subElement, searchString, occurences );
-                }
-            }
             if ( obj.allNameSpaces() != null )
             {
                 foreach ( Generated.NameSpace subElement in obj.allNameSpaces() )
@@ -12778,23 +12844,6 @@ namespace DataDictionary.Compare
         }
 
         /// <summary>
-        /// Searches a specific string in RuleDisabling and updates the list 
-        /// of model element with all the elements in which that string is found
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="obj">The string to search for</param>
-        /// <param name="occurences">The list of model elements which hold the searched string</param>
-        public static void searchRuleDisabling(Generated.RuleDisabling obj, string searchString, List<ModelElement> occurences)
-        {
-            searchReqRelated (obj, searchString, occurences);
-
-            if ( obj.getRule() != null && obj.getRule().Contains (searchString) ) 
-            {
-                occurences.Add ( obj );
-            }
-        }
-
-        /// <summary>
         /// Searches a specific string in NameSpaceRef and updates the list 
         /// of model element with all the elements in which that string is found
         /// </summary>
@@ -12802,6 +12851,39 @@ namespace DataDictionary.Compare
         /// <param name="obj">The string to search for</param>
         /// <param name="occurences">The list of model elements which hold the searched string</param>
         public static void searchNameSpaceRef(Generated.NameSpaceRef obj, string searchString, List<ModelElement> occurences)
+        {
+            searchNamable (obj, searchString, occurences);
+
+        }
+
+        /// <summary>
+        /// Searches a specific string in RuleCheckDisabling and updates the list 
+        /// of model element with all the elements in which that string is found
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="obj">The string to search for</param>
+        /// <param name="occurences">The list of model elements which hold the searched string</param>
+        public static void searchRuleCheckDisabling(Generated.RuleCheckDisabling obj, string searchString, List<ModelElement> occurences)
+        {
+            searchNamable (obj, searchString, occurences);
+
+            if ( obj.allDisabledRuleChecks() != null )
+            {
+                foreach ( Generated.RuleCheckIdentifier subElement in obj.allDisabledRuleChecks() )
+                {
+                    searchRuleCheckIdentifier ( subElement, searchString, occurences );
+                }
+            }
+        }
+
+        /// <summary>
+        /// Searches a specific string in RuleCheckIdentifier and updates the list 
+        /// of model element with all the elements in which that string is found
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="obj">The string to search for</param>
+        /// <param name="occurences">The list of model elements which hold the searched string</param>
+        public static void searchRuleCheckIdentifier(Generated.RuleCheckIdentifier obj, string searchString, List<ModelElement> occurences)
         {
             searchNamable (obj, searchString, occurences);
 
@@ -12898,6 +12980,10 @@ namespace DataDictionary.Compare
             if ( obj.getComment() != null && obj.getComment().Contains (searchString) ) 
             {
                 occurences.Add ( obj );
+            }
+            if ( obj.getRuleCheckDisabling() != null )
+            {
+                searchRuleCheckDisabling ( obj.getRuleCheckDisabling(), searchString, occurences );
             }
         }
 
@@ -14133,26 +14219,39 @@ namespace DataDictionary.Compare
         }
 
         /// <summary>
-        /// Duplicates a source RuleDisabling into its target
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public static void DuplicateRuleDisabling(Generated.RuleDisabling source, Generated.RuleDisabling target)
-        {
-            if ( source != null && target != null )
-            { 
-	            DuplicateReqRelated (source, target);
-
-                target.setRule(source.getRule());
-            }	  
-        }
-
-        /// <summary>
         /// Duplicates a source NameSpaceRef into its target
         /// </summary>
         /// <param name="source"></param>
         /// <param name="target"></param>
         public static void DuplicateNameSpaceRef(Generated.NameSpaceRef source, Generated.NameSpaceRef target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RuleCheckDisabling into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRuleCheckDisabling(Generated.RuleCheckDisabling source, Generated.RuleCheckDisabling target)
+        {
+            if ( source != null && target != null )
+            { 
+	            DuplicateNamable (source, target);
+
+            }	  
+        }
+
+        /// <summary>
+        /// Duplicates a source RuleCheckIdentifier into its target
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void DuplicateRuleCheckIdentifier(Generated.RuleCheckIdentifier source, Generated.RuleCheckIdentifier target)
         {
             if ( source != null && target != null )
             { 
@@ -14960,13 +15059,17 @@ namespace DataDictionary.Compare
 			{ 
 				DuplicateDictionary ( (Generated.Dictionary) source, (Generated.Dictionary) target);
 			}		
-			if ( source is Generated.RuleDisabling && target is Generated.RuleDisabling )
-			{ 
-				DuplicateRuleDisabling ( (Generated.RuleDisabling) source, (Generated.RuleDisabling) target);
-			}		
 			if ( source is Generated.NameSpaceRef && target is Generated.NameSpaceRef )
 			{ 
 				DuplicateNameSpaceRef ( (Generated.NameSpaceRef) source, (Generated.NameSpaceRef) target);
+			}		
+			if ( source is Generated.RuleCheckDisabling && target is Generated.RuleCheckDisabling )
+			{ 
+				DuplicateRuleCheckDisabling ( (Generated.RuleCheckDisabling) source, (Generated.RuleCheckDisabling) target);
+			}		
+			if ( source is Generated.RuleCheckIdentifier && target is Generated.RuleCheckIdentifier )
+			{ 
+				DuplicateRuleCheckIdentifier ( (Generated.RuleCheckIdentifier) source, (Generated.RuleCheckIdentifier) target);
 			}		
 			if ( source is Generated.NameSpace && target is Generated.NameSpace )
 			{ 

@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using Utils;
@@ -75,7 +76,7 @@ namespace DataDictionary.Interpreter
 
                 if (Value == null)
                 {
-                    AddError("Cannot evaluate " + ToString() + " as a number");
+                    AddError("Cannot evaluate " + ToString() + " as a number", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -240,7 +241,7 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Cannot apply NOT on non boolean types");
+                        AddError("Cannot apply NOT on non boolean types", RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else if (Minus.Equals(UnaryOp))
@@ -252,7 +253,7 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Cannot apply - on non integral types");
+                        AddError("Cannot apply - on non integral types", RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
@@ -284,7 +285,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot get variable from expression" + ToString());
+                AddError("Cannot get variable from expression" + ToString(), RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -322,7 +323,7 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Expression " + Expression + " does not evaluate to boolean");
+                        AddError("Expression " + Expression + " does not evaluate to boolean", RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else if (Minus.Equals(UnaryOp))
@@ -344,7 +345,7 @@ namespace DataDictionary.Interpreter
 
                     if (retVal == null)
                     {
-                        AddError("Cannot negate value for " + Expression);
+                        AddError("Cannot negate value for " + Expression, RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
@@ -534,7 +535,7 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Cannot create surface with unary op " + UnaryOp);
+                        AddError("Cannot create surface with unary op " + UnaryOp, RuleChecksEnum.ExecutionFailed);
                     }
                 }
             }

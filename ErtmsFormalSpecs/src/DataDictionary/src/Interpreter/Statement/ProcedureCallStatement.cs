@@ -17,6 +17,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Functions;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
@@ -64,7 +65,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("Called procedure not provided");
+                    AddError("Called procedure not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -322,12 +323,12 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("Cannot determine the called procedure for " + ToString());
+                    AddError("Cannot determine the called procedure for " + ToString(), RuleChecksEnum.ExecutionFailed);
                 }
             }
             else
             {
-                AddError("Expression " + ToString() + " is not a valid procedure call");
+                AddError("Expression " + ToString() + " is not a valid procedure call", RuleChecksEnum.ExecutionFailed);
             }
         }
 

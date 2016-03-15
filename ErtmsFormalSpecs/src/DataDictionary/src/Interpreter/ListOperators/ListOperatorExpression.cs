@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
@@ -129,12 +130,12 @@ namespace DataDictionary.Interpreter.ListOperators
                     }
                     else
                     {
-                        AddError("Cannot determine collection type on list expression " + ToString());
+                        AddError("Cannot determine collection type on list expression " + ToString(), RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
                 {
-                    AddError("List expression not provided");
+                    AddError("List expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -225,12 +226,12 @@ namespace DataDictionary.Interpreter.ListOperators
                 Type listExpressionType = ListExpression.GetExpressionType();
                 if (!(listExpressionType is Collection))
                 {
-                    AddError("List expression " + ListExpression + " should hold a collection");
+                    AddError("List expression " + ListExpression + " should hold a collection", RuleChecksEnum.SyntaxError);
                 }
             }
             else
             {
-                AddError("List expression should be provided");
+                AddError("List expression should be provided", RuleChecksEnum.SyntaxError);
             }
         }
     }

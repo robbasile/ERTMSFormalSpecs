@@ -92,12 +92,8 @@ namespace DataDictionary
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="visitSubNodes"></param>
-        public override void visit(Generated.RuleDisabling obj, bool visitSubNodes)
+        public override void visit(Generated.NameSpaceRef obj, bool visitSubNodes)
         {
-          if ( obj.getRule() != null )
-          {
-            obj.setRule(obj.getRule().Trim());
-          }
 
           base.visit(obj, visitSubNodes);
         }
@@ -107,7 +103,18 @@ namespace DataDictionary
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="visitSubNodes"></param>
-        public override void visit(Generated.NameSpaceRef obj, bool visitSubNodes)
+        public override void visit(Generated.RuleCheckDisabling obj, bool visitSubNodes)
+        {
+
+          base.visit(obj, visitSubNodes);
+        }
+
+        /// <summary>
+        /// Cleans all text fields in this element
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="visitSubNodes"></param>
+        public override void visit(Generated.RuleCheckIdentifier obj, bool visitSubNodes)
         {
 
           base.visit(obj, visitSubNodes);

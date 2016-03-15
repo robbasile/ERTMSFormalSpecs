@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 
@@ -56,7 +57,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                AddError("Cannot evaluate list type of " + ToString());
+                AddError("Cannot evaluate list type of " + ToString(), RuleChecksEnum.SemanticAnalysisError);
             }
 
             return retVal;

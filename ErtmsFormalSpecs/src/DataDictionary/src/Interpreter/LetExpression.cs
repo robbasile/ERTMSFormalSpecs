@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -117,12 +118,12 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Cannot determine binding expression type for " + ToString());
+                        AddError("Cannot determine binding expression type for " + ToString(), RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
                 {
-                    AddError("Binding expression not provided");
+                    AddError("Binding expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
 
@@ -134,7 +135,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Value expression not provided");
+                    AddError("Value expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 

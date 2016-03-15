@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using DataDictionary.Generated;
+using DataDictionary.RuleCheck;
 using DataDictionary.Specification;
 using DataDictionary.src;
 using Utils;
@@ -485,21 +486,6 @@ namespace DataDictionary
                 }
 
                 return retVal;
-            }
-        }
-
-        /// <summary>
-        ///     The rule disablings related to this rule set
-        /// </summary>
-        public ArrayList RuleDisablings
-        {
-            get
-            {
-                if (allRuleDisablings() == null)
-                {
-                    setAllRuleDisablings(new ArrayList());
-                }
-                return allRuleDisablings();
             }
         }
 
@@ -1151,13 +1137,6 @@ namespace DataDictionary
                 if (item != null)
                 {
                     appendNameSpaces(item);
-                }
-            }
-            {
-                RuleDisabling item = element as RuleDisabling;
-                if (item != null)
-                {
-                    appendRuleDisablings(item);
                 }
             }
             {

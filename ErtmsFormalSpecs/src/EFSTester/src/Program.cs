@@ -16,6 +16,7 @@
 
 using System;
 using DataDictionary;
+using DataDictionary.RuleCheck;
 using DataDictionary.Tests;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Tests.Runner.Events;

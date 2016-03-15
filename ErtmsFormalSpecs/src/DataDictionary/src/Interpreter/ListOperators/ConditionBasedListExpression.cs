@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using Utils;
@@ -124,7 +125,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 Type conditionType = Condition.GetExpressionType() as BoolType;
                 if (conditionType == null)
                 {
-                    AddError("Conditions on list expressions should be a predicate (return a boolean value)");
+                    AddError("Conditions on list expressions should be a predicate (return a boolean value)", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
         }

@@ -21,11 +21,14 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using DataDictionary;
 using DataDictionary.Generated;
+using DataDictionary.RuleCheck;
 using GUI.Converters;
 using GUI.DictionarySelector;
 using GUI.Properties;
+using GUI.RuleDisabling;
 using GUIUtils.LongOperations;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -34,6 +37,7 @@ using Frame = DataDictionary.Tests.Frame;
 using ModelElement = DataDictionary.ModelElement;
 using Parameter = DataDictionary.Parameter;
 using ReqRelated = DataDictionary.Generated.ReqRelated;
+using RuleCheckIdentifier = DataDictionary.RuleCheck.RuleCheckIdentifier;
 using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
 using SubSequence = DataDictionary.Tests.SubSequence;
@@ -1466,7 +1470,7 @@ namespace GUI
         where T : class, IModelElement, IGraphicalDisplay
     {
         /// <summary>
-        ///     The editor for a namable which can hold a comment
+        ///     The editor for a namable which has a graphical representation
         /// </summary>
         public abstract class GraphicalDisplayEditor : CommentableEditor
         {

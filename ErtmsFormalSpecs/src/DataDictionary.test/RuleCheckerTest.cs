@@ -1,5 +1,6 @@
 ﻿using DataDictionary.Functions;
 using DataDictionary.Interpreter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using DataDictionary.Variables;

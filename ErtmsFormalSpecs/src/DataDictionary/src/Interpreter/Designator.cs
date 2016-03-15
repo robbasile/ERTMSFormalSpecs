@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using DataDictionary.Constants;
 using DataDictionary.Interpreter.Filter;
 using DataDictionary.Interpreter.ListOperators;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -442,7 +443,7 @@ namespace DataDictionary.Interpreter
 
                     if (retVal == null)
                     {
-                        AddError(Image + " not found on the stack");
+                        AddError(Image + " not found on the stack", RuleChecksEnum.ExecutionFailed);
                     }
                     break;
 
@@ -470,7 +471,7 @@ namespace DataDictionary.Interpreter
 
                     if (retVal == null)
                     {
-                        AddError(Image + " not found in the current instance " + context.Instance.Name);
+                        AddError(Image + " not found in the current instance " + context.Instance.Name, RuleChecksEnum.ExecutionFailed);
                     }
                     break;
 
@@ -493,12 +494,12 @@ namespace DataDictionary.Interpreter
 
                     if (retVal == null)
                     {
-                        AddError(Image + " not found in the enclosing model");
+                        AddError(Image + " not found in the enclosing model", RuleChecksEnum.ExecutionFailed);
                     }
                     break;
 
                 case LocationEnum.NotDefined:
-                    AddError("Semantic analysis not performed on " + ToString());
+                    AddError("Semantic analysis not performed on " + ToString(), RuleChecksEnum.ExecutionFailed);
                     break;
             }
 
@@ -584,7 +585,7 @@ namespace DataDictionary.Interpreter
                             {
                                 if (enclosed != subDeclVar.Value)
                                 {
-                                    AddError("Consistency check failed : enclosed element's father relationship is inconsistent");
+                                    AddError("Consistency check failed : enclosed element's father relationship is inconsistent", RuleChecksEnum.SemanticAnalysisError);
                                 }
                             }
                             else
@@ -596,7 +597,7 @@ namespace DataDictionary.Interpreter
                                         enclosed != EfsSystem.Instance.FindByFullName("Default"))
                                     {
                                         AddError(
-                                            "Consistency check failed : enclosed element's father relationship is inconsistent");
+                                            "Consistency check failed : enclosed element's father relationship is inconsistent", RuleChecksEnum.SemanticAnalysisError);
                                     }
                                 }
                             }
@@ -633,7 +634,7 @@ namespace DataDictionary.Interpreter
 
             if (retVal == null)
             {
-                AddError("Cannot determine typed element referenced by " + ToString());
+                AddError("Cannot determine typed element referenced by " + ToString(), RuleChecksEnum.SemanticAnalysisError);
             }
 
             return retVal;

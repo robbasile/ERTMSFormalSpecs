@@ -17,18 +17,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using DataDictionary.Generated;
-using DataDictionary.src;
+using DataDictionary.RuleCheck;
 using DataDictionary.Variables;
 using Utils;
 using Function = DataDictionary.Functions.Function;
 using Procedure = DataDictionary.Functions.Procedure;
 using Rule = DataDictionary.Rules.Rule;
+using RuleCheckDisabling = DataDictionary.RuleCheck.RuleCheckDisabling;
 using Variable = DataDictionary.Variables.Variable;
 
 namespace DataDictionary.Types
 {
     public class NameSpace : Generated.NameSpace, ISubDeclarator, IFinder, IEnclosesNameSpaces, IGraphicalDisplay,
-        ICommentable
+        ICommentable, IRuleCheckDisabling
     {
         /// <summary>
         /// The name of the frame
@@ -850,6 +851,15 @@ namespace DataDictionary.Types
                     Dictionary.AddDeleteFilesElement(new DeleteFilesHandler(false, path + ".efs_ns"));
                 }
             }
+        }
+
+        /// <summary>
+        /// Provides the RuleCheck disabling, if any
+        /// </summary>
+        public RuleCheckDisabling Disabling
+        {
+            get { return (RuleCheckDisabling) getRuleCheckDisabling(); }
+            set { setRuleCheckDisabling(value); }
         }
     }
 }

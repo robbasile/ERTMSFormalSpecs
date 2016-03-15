@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -109,7 +110,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 }
                 else
                 {
-                    AddError("Accumulator expression not provided");
+                    AddError("Accumulator expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -215,7 +216,7 @@ namespace DataDictionary.Interpreter.ListOperators
             Accumulator.CheckExpression();
             if (!(DefinedAccumulator.GetExpressionType() is Range))
             {
-                AddError("Accumulator expression should be a range");
+                AddError("Accumulator expression should be a range", RuleChecksEnum.SyntaxError);
             }
         }
     }

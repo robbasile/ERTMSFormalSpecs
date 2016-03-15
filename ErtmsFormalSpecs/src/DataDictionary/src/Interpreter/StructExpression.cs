@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using Utils;
@@ -103,7 +104,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Structure type not specified");
+                    AddError("Structure type not specified", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -136,7 +137,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot determine structure type for " + ToString());
+                AddError("Cannot determine structure type for " + ToString(), RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -186,7 +187,7 @@ namespace DataDictionary.Interpreter
             {
                 if (structureType.IsAbstract)
                 {
-                    AddError("Instantiation of abstract types is forbidden");
+                    AddError("Instantiation of abstract types is forbidden", RuleChecksEnum.SyntaxError);
                 }
                 foreach (KeyValuePair<Designator, Expression> pair in Associations)
                 {
@@ -203,7 +204,7 @@ namespace DataDictionary.Interpreter
                         {
                             if (type.IsAbstract)
                             {
-                                AddError("Instantiation of abstract types is forbidden");
+                                AddError("Instantiation of abstract types is forbidden", RuleChecksEnum.SyntaxError);
                             }
                             else
                             {
@@ -216,7 +217,7 @@ namespace DataDictionary.Interpreter
                                         {
                                             AddError("Expression " + expression + " type (" + type.FullName +
                                                      ") does not match the target element " + element.Name + " type (" +
-                                                     element.Type.FullName + ")");
+                                                     element.Type.FullName + ")", RuleChecksEnum.SyntaxError);
                                         }
                                     }
                                 }
@@ -224,7 +225,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Expression " + expression + " type cannot be found");
+                            AddError("Expression " + expression + " type cannot be found", RuleChecksEnum.SyntaxError);
                         }
                     }
                     else
@@ -235,7 +236,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot find structure type " + Structure);
+                AddError("Cannot find structure type " + Structure, RuleChecksEnum.SyntaxError);
             }
         }
     }

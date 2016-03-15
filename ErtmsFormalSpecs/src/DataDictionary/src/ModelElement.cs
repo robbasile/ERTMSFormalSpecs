@@ -22,6 +22,7 @@ using System.Text;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using Utils;
 using XmlBooster;
 using Comparer = DataDictionary.Compare.Comparer;
@@ -82,6 +83,32 @@ namespace DataDictionary
         {
             AddError(message);
             Explain = explanation;
+        }
+
+        /// <summary>
+        ///     Adds a rule check message on the corresponding model element
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="level"></param>
+        /// <param name="message"></param>
+        public void AddRuleCheckMessage(RuleChecksEnum id, ElementLog.LevelEnum level, string message)
+        {
+            bool enabled = true;
+            IRuleCheckDisabling ruleCheckDisabling = EnclosingFinder<IRuleCheckDisabling>.find(this, true);
+
+            while (enabled && ruleCheckDisabling != null)
+            {
+                if (ruleCheckDisabling.Disabling != null)
+                {
+                    enabled = ruleCheckDisabling.Disabling.Enabled(id);
+                }
+                ruleCheckDisabling = EnclosingFinder<IRuleCheckDisabling>.find(ruleCheckDisabling as IEnclosed, false);
+            }
+
+            if (enabled)
+            {
+                AddElementLog(new ElementLog(level, id + ": " + message));
+            }
         }
 
         /// <summary>

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DataDictionary.Interpreter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Variables;
 using Utils;
 using Collection = DataDictionary.Types.Collection;
@@ -130,12 +131,12 @@ namespace DataDictionary.Values
                         }
                         else
                         {
-                            structureExpression.AddError("Cannot evaluate value for " + pair.Value);
+                            structureExpression.AddError("Cannot evaluate value for " + pair.Value, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                     else
                     {
-                        structureExpression.AddError("Cannot find structure element " + pair.Key.Image);
+                        structureExpression.AddError("Cannot find structure element " + pair.Key.Image, RuleChecksEnum.ExecutionFailed);
                     }
                 }
 

@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using Utils;
@@ -97,7 +98,7 @@ namespace DataDictionary.Interpreter
                         {
                             if (!current.Match(elementType))
                             {
-                                AddError("Cannot mix types " + current + " and " + elementType + "in collection");
+                                AddError("Cannot mix types " + current + " and " + elementType + "in collection", RuleChecksEnum.SemanticAnalysisError);
                             }
                         }
                     }
@@ -173,7 +174,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot evaluate " + expr);
+                    AddError("Cannot evaluate " + expr, RuleChecksEnum.ExecutionFailed);
                 }            
             }
 

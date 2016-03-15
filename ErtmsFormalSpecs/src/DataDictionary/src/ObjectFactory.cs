@@ -27,6 +27,7 @@ using RequirementSet = DataDictionary.Generated.RequirementSet;
 using RequirementSetDependancy = DataDictionary.Generated.RequirementSetDependancy;
 using RequirementSetReference = DataDictionary.Generated.RequirementSetReference;
 using TypeSpec = DataDictionary.Generated.TypeSpec;
+using RuleCheckIdentifier = DataDictionary.RuleCheck.RuleCheckIdentifier;
 
 namespace DataDictionary
 {
@@ -299,9 +300,18 @@ namespace DataDictionary
         ///     Rule disabling is obsolete
         /// </summary>
         /// <returns></returns>
-        public override RuleDisabling createRuleDisabling()
+        public override RuleCheckDisabling createRuleCheckDisabling()
         {
-            RuleDisabling retVal = new RuleDisabling();
+            RuleCheckDisabling retVal = new RuleCheck.RuleCheckDisabling();
+
+            _defaultValueSetter.SetDefaultValue(retVal);
+
+            return retVal;
+        }
+
+        public override Generated.RuleCheckIdentifier createRuleCheckIdentifier()
+        {
+            RuleCheckIdentifier retVal = new RuleCheckIdentifier();
 
             _defaultValueSetter.SetDefaultValue(retVal);
 

@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Generated;
+using DataDictionary.RuleCheck;
 using DataDictionary.Values;
 using Collection = DataDictionary.Types.Collection;
 using Type = DataDictionary.Types.Type;
@@ -69,7 +70,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                AddError("Cannot evaluate iterator type for " + ToString());
+                AddError("Cannot evaluate iterator type for " + ToString(), RuleChecksEnum.SemanticAnalysisError);
             }
 
             return retVal;

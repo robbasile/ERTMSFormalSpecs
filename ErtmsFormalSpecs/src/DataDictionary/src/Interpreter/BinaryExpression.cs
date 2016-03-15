@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -156,7 +157,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Left expression not provided");
+                    AddError("Left expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // Right
@@ -175,7 +176,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Right expression not provided");
+                    AddError("Right expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -211,14 +212,14 @@ namespace DataDictionary.Interpreter
                                 if (!leftType.Equals(rightType))
                                 {
                                     AddError("Non matching formal parameter type for parameter " + i + " " + leftType +
-                                             " vs " + rightType);
+                                             " vs " + rightType, RuleChecksEnum.SemanticAnalysisError);
                                     match = false;
                                 }
                             }
 
                             if (left.ReturnType != right.ReturnType)
                             {
-                                AddError("Non matching return types " + left.ReturnType + " vs " + right.ReturnType);
+                                AddError("Non matching return types " + left.ReturnType + " vs " + right.ReturnType, RuleChecksEnum.SemanticAnalysisError);
                                 match = false;
                             }
 
@@ -243,7 +244,7 @@ namespace DataDictionary.Interpreter
                         else
                         {
                             AddError("Invalid number of parameters, " + Left + " and " + Right +
-                                     " should have the same number of parameters");
+                                     " should have the same number of parameters", RuleChecksEnum.SemanticAnalysisError);
                         }
                     }
                     else
@@ -259,7 +260,7 @@ namespace DataDictionary.Interpreter
                         else
                         {
                             AddError(Left + "(" + left.ReturnType + " ) does not correspond to " + Right + "(" +
-                                     rightType + ")");
+                                     rightType + ")", RuleChecksEnum.SemanticAnalysisError);
                         }
                     }
                 }
@@ -279,7 +280,7 @@ namespace DataDictionary.Interpreter
                         else
                         {
                             AddError(Left + "(" + leftType + ") does not correspond to " + Right + "(" +
-                                     right.ReturnType + ")");
+                                     right.ReturnType + ")", RuleChecksEnum.SemanticAnalysisError);
                         }
                     }
                 }
@@ -299,7 +300,7 @@ namespace DataDictionary.Interpreter
             Type leftType = Left.GetExpressionType();
             if (leftType == null)
             {
-                AddError("Cannot determine expression type (1) for " + Left);
+                AddError("Cannot determine expression type (1) for " + Left, RuleChecksEnum.SemanticAnalysisError);
             }
             else
             {
@@ -316,7 +317,7 @@ namespace DataDictionary.Interpreter
                     Type rightType = Right.GetExpressionType();
                     if (rightType == null)
                     {
-                        AddError("Cannot determine expression type (2) for " + Right);
+                        AddError("Cannot determine expression type (2) for " + Right, RuleChecksEnum.SemanticAnalysisError);
                     }
                     else
                     {
@@ -433,7 +434,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -458,12 +459,12 @@ namespace DataDictionary.Interpreter
                                         else
                                         {
                                             AddError("Cannot apply an operator " + Operation +
-                                                     " on a variable of type " + rightValue.GetType());
+                                                     " on a variable of type " + rightValue.GetType(), RuleChecksEnum.SemanticAnalysisError);
                                         }
                                     }
                                     else
                                     {
-                                        AddError("Error while computing value for " + Right);
+                                        AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                                     }
                                 }
                                 else
@@ -475,13 +476,13 @@ namespace DataDictionary.Interpreter
                             }
                             else
                             {
-                                AddError("Cannot evaluate " + Left + " as a boolean");
+                                AddError("Cannot evaluate " + Left + " as a boolean", RuleChecksEnum.SemanticAnalysisError);
                             }
                         }
                         else
                         {
                             AddError("Cannot apply an operator " + Operation + " on a variable of type " +
-                                     leftValue.GetType());
+                                     leftValue.GetType(), RuleChecksEnum.SemanticAnalysisError);
                         }
                     }
                         break;
@@ -506,12 +507,12 @@ namespace DataDictionary.Interpreter
                                         else
                                         {
                                             AddError("Cannot apply an operator " + Operation +
-                                                     " on a variable of type " + rightValue.GetType());
+                                                     " on a variable of type " + rightValue.GetType(), RuleChecksEnum.SemanticAnalysisError);
                                         }
                                     }
                                     else
                                     {
-                                        AddError("Error while computing value for " + Right);
+                                        AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                                     }
                                 }
                                 else
@@ -523,13 +524,13 @@ namespace DataDictionary.Interpreter
                             }
                             else
                             {
-                                AddError("Cannot evaluate " + Left + " as a boolean");
+                                AddError("Cannot evaluate " + Left + " as a boolean", RuleChecksEnum.ExecutionFailed);
                             }
                         }
                         else
                         {
                             AddError("Cannot apply an operator " + Operation + " on a variable of type " +
-                                     leftValue.GetType());
+                                     leftValue.GetType(), RuleChecksEnum.SemanticAnalysisError);
                         }
                     }
                         break;
@@ -543,7 +544,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -559,7 +560,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -573,7 +574,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -589,7 +590,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -603,7 +604,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -617,7 +618,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -631,7 +632,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -645,7 +646,7 @@ namespace DataDictionary.Interpreter
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Right);
+                            AddError("Error while computing value for " + Right, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -668,22 +669,22 @@ namespace DataDictionary.Interpreter
                                     }
                                     else
                                     {
-                                        AddError("Incompatible types for operator is");
+                                        AddError("Incompatible types for operator is", RuleChecksEnum.SemanticAnalysisError);
                                     }
                                 }
                                 else
                                 {
-                                    AddError("The operator is can only be applied on structures");
+                                    AddError("The operator is can only be applied on structures", RuleChecksEnum.SemanticAnalysisError);
                                 }
                             }
                             else
                             {
-                                AddError("The right part of is operator should be a structure");
+                                AddError("The right part of is operator should be a structure", RuleChecksEnum.SemanticAnalysisError);
                             }
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Left);
+                            AddError("Error while computing value for " + Left, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -699,12 +700,12 @@ namespace DataDictionary.Interpreter
                             }
                             else
                             {
-                                AddError("Incompatible types for operator as");
+                                AddError("Incompatible types for operator as", RuleChecksEnum.SemanticAnalysisError);
                             }
                         }
                         else
                         {
-                            AddError("Error while computing value for " + Left);
+                            AddError("Error while computing value for " + Left, RuleChecksEnum.ExecutionFailed);
                         }
                     }
                         break;
@@ -712,7 +713,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Error while computing value for " + Left);
+                AddError("Error while computing value for " + Left, RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -854,7 +855,7 @@ namespace DataDictionary.Interpreter
 
                 if (retVal == null)
                 {
-                    AddError("Cannot create ICallable when there are no unbound parameters");
+                    AddError("Cannot create ICallable when there are no unbound parameters", RuleChecksEnum.ExecutionFailed);
                 }
             }
             else if (max == 1)
@@ -867,7 +868,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot create graph or structure when more that 2 parameters are unbound");
+                AddError("Cannot create graph or structure when more that 2 parameters are unbound", RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -903,12 +904,12 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot create graph for " + Right);
+                    AddError("Cannot create graph for " + Right, RuleChecksEnum.ExecutionFailed);
                 }
             }
             else
             {
-                AddError("Cannot create graph for " + Left);
+                AddError("Cannot create graph for " + Left, RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -939,12 +940,12 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot create surface for " + Right);
+                    AddError("Cannot create surface for " + Right, RuleChecksEnum.ExecutionFailed);
                 }
             }
             else
             {
-                AddError("Cannot create surface for " + Left);
+                AddError("Cannot create surface for " + Left, RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -1231,19 +1232,19 @@ namespace DataDictionary.Interpreter
                         {
                             if (!rightStructure.ImplementedStructures.Contains(leftStructure))
                             {
-                                AddError("No inheritance from " + Right + " to " + Left);
+                                AddError("No inheritance from " + Right + " to " + Left, RuleChecksEnum.SyntaxError);
                             }
                         }
                         else
                         {
                             AddError("Right part of " + Operation + " operation should be a structure, found " +
-                                     Right.Ref);
+                                     Right.Ref, RuleChecksEnum.SyntaxError);
                         }
                     }
                     else
                     {
                         AddError("Left expression type of " + Operation + " operation should be a structure, found " +
-                                 leftType);
+                                 leftType, RuleChecksEnum.SyntaxError);
                     }
                 }
                 else
@@ -1255,7 +1256,7 @@ namespace DataDictionary.Interpreter
                             && !rightType.ValidBinaryOperation(Operation, leftType))
                         {
                             AddError("Cannot perform " + Operation + " operation between " + Left + "(" + leftType.Name +
-                                     ") and " + Right + "(" + rightType.Name + ")");
+                                     ") and " + Right + "(" + rightType.Name + ")", RuleChecksEnum.SyntaxError);
                         }
 
                         if (Operation == Operator.Equal)
@@ -1269,7 +1270,7 @@ namespace DataDictionary.Interpreter
                             {
                                 if (leftType is Collection)
                                 {
-                                    AddError("Cannot compare collections with " + Right.Ref.Name + ". Use [] instead");
+                                    AddError("Cannot compare collections with " + Right.Ref.Name + ". Use [] instead", RuleChecksEnum.SyntaxError);
                                 }
                             }
                         }

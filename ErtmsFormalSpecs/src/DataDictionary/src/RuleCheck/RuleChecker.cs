@@ -42,12 +42,11 @@ using StructureRef = DataDictionary.Generated.StructureRef;
 using SubStep = DataDictionary.Tests.SubStep;
 using TestCase = DataDictionary.Tests.TestCase;
 using Translation = DataDictionary.Tests.Translations.Translation;
-using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
 using Type = DataDictionary.Types.Type;
 using Variable = DataDictionary.Generated.Variable;
 using Visitor = DataDictionary.Generated.Visitor;
 
-namespace DataDictionary
+namespace DataDictionary.RuleCheck
 {
     /// <summary>
     ///     Logs messages on the rules according to the validity of the rule
@@ -112,12 +111,14 @@ namespace DataDictionary
                         Type type = retVal.GetExpressionType();
                         if (type == null)
                         {
-                            model.AddError("Cannot determine expression type (5) for " + retVal);
+                            model.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                "Cannot determine expression type (5) for " + retVal);
                         }
                     }
                     else
                     {
-                        model.AddError("Cannot parse expression");
+                        model.AddRuleCheckMessage(RuleChecksEnum.SyntaxError, ElementLog.LevelEnum.Error, 
+                            "Cannot parse expression");
                     }
                 }
                 catch (Exception exception)
@@ -152,7 +153,8 @@ namespace DataDictionary
                     }
                     else
                     {
-                        model.AddError("Cannot parse statement");
+                        model.AddRuleCheckMessage(RuleChecksEnum.SyntaxError, ElementLog.LevelEnum.Error, 
+                            "Cannot parse statement");
                     }
                 }
                 catch (Exception exception)
@@ -174,17 +176,20 @@ namespace DataDictionary
             {
                 if (!(model is Dictionary || model is NameSpace))
                 {
-                    model.AddError("Updates conflict: this model element is updated in multiple patches.");
+                    model.AddRuleCheckMessage(RuleChecksEnum.Update01, ElementLog.LevelEnum.Error, 
+                        "Updates conflict: this model element is updated in multiple patches.");
                     foreach (ModelElement element in model.UpdatedBy)
                     {
-                        element.AddError("Updates conflict: the update target has also been updated in another patch.");
+                        element.AddRuleCheckMessage(RuleChecksEnum.Update01, ElementLog.LevelEnum.Error, 
+                            "Updates conflict: the update target has also been updated in another patch.");
                     }
                 }
             }
 
             if (model.getUpdates() != null && model.Updates == null)
             {
-                model.AddError("Cannot find the element updated by this.");
+                model.AddRuleCheckMessage(RuleChecksEnum.Update02, ElementLog.LevelEnum.Error, 
+                    "Cannot find the element updated by this.");
             }
         }
 
@@ -214,7 +219,8 @@ namespace DataDictionary
                 {
                     if (!frame.EFSSystem.DoubleType.Match(type))
                     {
-                        frame.AddError("Cycle duration should be compatible with the Time type");
+                        frame.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                            "Cycle duration should be compatible with the Time type");
                     }
                 }
             }
@@ -230,7 +236,8 @@ namespace DataDictionary
             {
                 if (subSequence.TestCases.Count == 0)
                 {
-                    subSequence.AddWarning("Sub sequences should hold at least one test case");
+                    subSequence.AddRuleCheckMessage(RuleChecksEnum.Test01, ElementLog.LevelEnum.Warning, 
+                        "Sub sequences should hold at least one test case");
                 }
                 else
                 {
@@ -238,7 +245,8 @@ namespace DataDictionary
 
                     if (testCase.Steps.Count == 0)
                     {
-                        testCase.AddWarning("First test case of a subsequence should hold at least one step");
+                        testCase.AddRuleCheckMessage(RuleChecksEnum.Test02, ElementLog.LevelEnum.Warning, 
+                            "First test case of a subsequence should hold at least one step");
                     }
                     else
                     {
@@ -247,11 +255,10 @@ namespace DataDictionary
                         {
                             if (step.Name.IndexOf("Setup") < 0 && step.Name.IndexOf("Initialize") < 0)
                             {
-                                step.AddWarning(
+                                step.AddRuleCheckMessage(RuleChecksEnum.Test03, ElementLog.LevelEnum.Warning, 
                                     "First step of the first test case of a subsequence should be used to setup the system, and should hold 'Setup' or 'Initialize' in its name");
                             }
                         }
-
                     }
                 }
             }
@@ -273,7 +280,8 @@ namespace DataDictionary
                 Translation translation = EfsSystem.Instance.FindTranslation(step);
                 if (translation == null)
                 {
-                    step.AddWarning("Cannot find translation for this step");
+                    step.AddRuleCheckMessage(RuleChecksEnum.Translation02, ElementLog.LevelEnum.Warning, 
+                        "Cannot find translation for this step");
                 }
 
                 if (step.getDescription() != null)
@@ -284,7 +292,8 @@ namespace DataDictionary
                     {
                         if (step.StepMessages.Count == 0)
                         {
-                            step.AddWarning("Cannot find Balise messages for this step");
+                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning, 
+                                "Cannot find Balise messages for this step");
                         }
                     }
 
@@ -294,7 +303,8 @@ namespace DataDictionary
                     {
                         if (step.StepMessages.Count == 0)
                         {
-                            step.AddWarning("Cannot find Euroloop messages for this step");
+                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning, 
+                                "Cannot find Euroloop messages for this step");
                         }
                     }
 
@@ -302,7 +312,8 @@ namespace DataDictionary
                     {
                         if (step.StepMessages.Count == 0)
                         {
-                            step.AddWarning("Cannot find RBC message for this step");
+                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning, 
+                                "Cannot find RBC message for this step");
                         }
                     }
                 }
@@ -310,7 +321,8 @@ namespace DataDictionary
 
             if (step.Name == Tests.Step.DefaultName)
             {
-                step.AddWarning("All steps should be given a name");
+                step.AddRuleCheckMessage(RuleChecksEnum.Test04, ElementLog.LevelEnum.Warning, 
+                    "All steps should be given a name");
             }
 
             base.visit(obj, visitSubNodes);
@@ -332,7 +344,8 @@ namespace DataDictionary
                 Type type = typedElement.Type;
                 if (type == null)
                 {
-                    namable.AddError("Cannot find type " + typedElement.TypeName);
+                    namable.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                        "Cannot find type " + typedElement.TypeName);
                 }
                 else if (!(typedElement is Parameter) && !(type is Types.StateMachine))
                 {
@@ -342,7 +355,8 @@ namespace DataDictionary
                     {
                         if (enclosingTypedElement.Type == type)
                         {
-                            namable.AddError("Recursive types are not allowed for " + type.Name);
+                            namable.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                "Recursive types are not allowed for " + type.Name);
                             enclosingTypedElement = null;
                         }
                         else
@@ -357,7 +371,8 @@ namespace DataDictionary
                 Type conflictingType = EfsSystem.Instance.FindType_silent(typedElement.NameSpace, typedElement.Name);
                 if (conflictingType != null && conflictingType != typedElement)
                 {
-                    namable.AddWarning(namable.Name + " has the same name as type " + conflictingType.FullName);
+                    namable.AddRuleCheckMessage(RuleChecksEnum.Naming01, ElementLog.LevelEnum.Warning, 
+                        namable.Name + " has the same name as type " + conflictingType.FullName);
                 }
 
             }
@@ -467,12 +482,13 @@ namespace DataDictionary
 
                     if (requiresComment)
                     {
-                        ((ModelElement) commentable).AddInfo("This element should be documented");
+                        ((ModelElement) commentable).AddRuleCheckMessage(RuleChecksEnum.Process01, ElementLog.LevelEnum.Info, 
+                            "This element should be documented");
                     }
                 }
                 else if (commentable.Comment.Contains("TODO"))
                 {
-                    ((ModelElement) commentable).AddInfo(
+                    ((ModelElement) commentable).AddRuleCheckMessage(RuleChecksEnum.Process02, ElementLog.LevelEnum.Info, 
                         "The implementation of this element is unfinished - see comment");
                 }
             }
@@ -491,8 +507,9 @@ namespace DataDictionary
             {
                 if (!element.DefaultValue.Type.Match(element.Type))
                 {
-                    element.AddError("Type of default value (" + element.DefaultValue.Type.FullName +
-                                     ") does not match element type (" + element.Type.FullName + ")");
+                    element.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error,
+                        "Type of default value (" + element.DefaultValue.Type.FullName +
+                        ") does not match element type (" + element.Type.FullName + ")");
                 }
             }
 
@@ -507,7 +524,8 @@ namespace DataDictionary
             {
                 if (variable.Type == null)
                 {
-                    variable.AddError("Cannot find type for variable");
+                    variable.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error,
+                        "Cannot find type for variable");
                 }
                 else
                 {
@@ -518,19 +536,21 @@ namespace DataDictionary
                         {
                             if (!ValidMode(variable.Mode, element.Mode))
                             {
-                                variable.AddWarning("Invalid mode for " + element.Name);
+                                variable.AddRuleCheckMessage(RuleChecksEnum.Access01, ElementLog.LevelEnum.Warning,
+                                    "Invalid mode for " + element.Name);
                             }
                         }
                     }
                     if (variable.Type.IsAbstract)
                     {
-                        variable.AddError("Instantiation of abstract types is forbidden");
+                        variable.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error,
+                            "Instantiation of abstract types is forbidden");
                     }
                 }
                 if (Utils.Util.isEmpty(variable.Comment) && variable.Type != null &&
                     Utils.Util.isEmpty(variable.Type.Comment))
                 {
-                    variable.AddInfo(
+                    variable.AddRuleCheckMessage(RuleChecksEnum.Process03, ElementLog.LevelEnum.Info, 
                         "Missing variable semantics. Update the 'Comment' associated to the variable or to the corresponding type");
                 }
 
@@ -543,8 +563,9 @@ namespace DataDictionary
                 {
                     if (!variable.DefaultValue.Type.Match(variable.Type))
                     {
-                        variable.AddError("Type of default value (" + variable.DefaultValue.Type.FullName +
-                                          ")does not match variable type (" + variable.Type.FullName + ")");
+                        variable.AddRuleCheckMessage(RuleChecksEnum.Process04, ElementLog.LevelEnum.Error, 
+                            "Type of default value (" + variable.DefaultValue.Type.FullName +
+                            ")does not match variable type (" + variable.Type.FullName + ")");
                     }
                 }
             }
@@ -567,13 +588,15 @@ namespace DataDictionary
                         {
                             if (!ValidMode(element.Mode, subElement.Mode))
                             {
-                                element.AddWarning("Invalid mode for " + subElement.Name);
+                                element.AddRuleCheckMessage(RuleChecksEnum.Access01, ElementLog.LevelEnum.Warning, 
+                                    "Invalid mode for " + subElement.Name);
                             }
                         }
                     }
                     if (element.Type != null && element.Type.IsAbstract)
                     {
-                        element.AddError("Instantiation of abstract types is forbidden");
+                        element.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                            "Instantiation of abstract types is forbidden");
                     }
                     if (!Utils.Util.isEmpty(element.getDefault()))
                     {
@@ -594,24 +617,26 @@ namespace DataDictionary
                                     elementFound = true;
                                     if (element.Type != implementedElement.Type)
                                     {
-                                        structure.AddError("The type of element " + element.Name + " (" +
-                                                           element.TypeName +
-                                                           ") does not correspond to the type of the implemented element (" +
-                                                           implementedElement.TypeName + ")");
+                                        structure.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                            "The type of element " + element.Name + " (" + element.TypeName +
+                                            ") does not correspond to the type of the implemented element (" +
+                                            implementedElement.TypeName + ")");
                                     }
                                     break;
                                 }
                             }
                             if (elementFound == false)
                             {
-                                structure.AddError("Inherited member " + implementedElement.Name + " from interface " +
-                                                   implementedStructure.Name + " is not implemented");
+                                structure.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                    "Inherited member " + implementedElement.Name + " from interface " +
+                                    implementedStructure.Name + " is not implemented");
                             }
                         }
                     }
                     else
                     {
-                        structure.AddError("Interface not found");
+                        structure.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error,
+                            "Interface not found");
                     }
                 }
             }
@@ -635,8 +660,8 @@ namespace DataDictionary
             {
                 if (subElements.ContainsKey(element.Name))
                 {
-                    element.AddError(ERROR_MESSAGE);
-                    subElements[element.Name].AddError(ERROR_MESSAGE);
+                    element.AddRuleCheckMessage(RuleChecksEnum.Structure01, ElementLog.LevelEnum.Error, ERROR_MESSAGE);
+                    subElements[element.Name].AddRuleCheckMessage(RuleChecksEnum.Structure01, ElementLog.LevelEnum.Error, ERROR_MESSAGE);
                 }
                 else
                 {
@@ -664,7 +689,8 @@ namespace DataDictionary
 
             if (errorDetected)
             {
-                obj.AddError("Referenced interface not found");
+                obj.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                    "Referenced interface not found");
             }
         }
 
@@ -675,7 +701,8 @@ namespace DataDictionary
             {
                 if (reqRef.Paragraph == null)
                 {
-                    reqRef.AddError("Invalid reference to a requirement (" + reqRef.getId() + ")");
+                    reqRef.AddRuleCheckMessage(RuleChecksEnum.Requirements01, ElementLog.LevelEnum.Error, 
+                        "Invalid reference to a requirement (" + reqRef.getId() + ")");
                 }
             }
         }
@@ -704,7 +731,8 @@ namespace DataDictionary
                     {
                         if (reqRef.Paragraph == null)
                         {
-                            reqRef.AddError("Cannot find paragraph corresponding to " + reqRef.getId());
+                            reqRef.AddRuleCheckMessage(RuleChecksEnum.Requirements02, ElementLog.LevelEnum.Error, 
+                                "Cannot find paragraph corresponding to " + reqRef.getId());
                         }
                         else if (reqRef.Paragraph.getType() == acceptor.Paragraph_type.aREQUIREMENT)
                         {
@@ -721,7 +749,8 @@ namespace DataDictionary
                 }
                 if (!requirementFound)
                 {
-                    reqRelated.AddInfo("No requirement found for element");
+                    reqRelated.AddRuleCheckMessage(RuleChecksEnum.Process05, ElementLog.LevelEnum.Info, 
+                        "No requirement found for element");
                 }
             }
 
@@ -736,8 +765,9 @@ namespace DataDictionary
                     {
                         if (other.getImplemented())
                         {
-                            other.AddWarning("This element is set as implemented whereas one of its children is not");
-                            current.AddWarning(
+                            other.AddRuleCheckMessage(RuleChecksEnum.Process06, ElementLog.LevelEnum.Warning,
+                                "This element is set as implemented whereas one of its children is not");
+                            current.AddRuleCheckMessage(RuleChecksEnum.Process06, ElementLog.LevelEnum.Warning,
                                 "This element is set as not implemented whereas its parent is marked implemented");
                         }
                     }
@@ -802,7 +832,7 @@ namespace DataDictionary
 
                                                 if (!found)
                                                 {
-                                                    preCondition.AddError(
+                                                    preCondition.AddRuleCheckMessage(RuleChecksEnum.Request01, ElementLog.LevelEnum.Error,
                                                         "Rules where the Pre conditions is based on a Request type variable must assign that variable the value 'Request.Disabled'");
                                                 }
                                             }
@@ -814,7 +844,8 @@ namespace DataDictionary
                                     {
                                         if (ruleCondition.Reads(variable))
                                         {
-                                            preCondition.AddError("An outgoing variable cannot be read");
+                                            preCondition.AddRuleCheckMessage(RuleChecksEnum.Access02, ElementLog.LevelEnum.Error, 
+                                                "An outgoing variable cannot be read");
                                         }
                                     }
                                 }
@@ -845,7 +876,8 @@ namespace DataDictionary
                     {
                         if (!preCondition.Dictionary.EFSSystem.BoolType.Match(expression.GetExpressionType()))
                         {
-                            preCondition.AddError("Expression type should be Boolean");
+                            preCondition.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                "Expression type should be Boolean");
                         }
 
                         ITypedElement element = OverallTypedElementFinder.INSTANCE.findByName(preCondition,
@@ -858,11 +890,13 @@ namespace DataDictionary
                                 {
                                     if (preCondition.findOperator().CompareTo("==") == 0)
                                     {
-                                        preCondition.AddWarning("Operator == should not be used for state machines");
+                                        preCondition.AddRuleCheckMessage(RuleChecksEnum.StateMachine01, ElementLog.LevelEnum.Warning, 
+                                            "Operator == should not be used for state machines");
                                     }
                                     else if (preCondition.findOperator().CompareTo("!=") == 0)
                                     {
-                                        preCondition.AddWarning("Operator != should not be used for state machines");
+                                        preCondition.AddRuleCheckMessage(RuleChecksEnum.StateMachine01, ElementLog.LevelEnum.Warning, 
+                                            "Operator != should not be used for state machines");
                                     }
                                 }
                             }
@@ -899,7 +933,8 @@ namespace DataDictionary
 
                 if (action.DeActivated)
                 {
-                    action.AddWarning("Action has been deactivated");
+                    action.AddRuleCheckMessage(RuleChecksEnum.Process07, ElementLog.LevelEnum.Warning, 
+                        "Action has been deactivated");
                 }
             }
 
@@ -922,7 +957,8 @@ namespace DataDictionary
                         {
                             if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
                             {
-                                expect.AddError("Expression type should be Boolean");
+                                expect.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                    "Expression type should be Boolean");
                             }
                         }
                     }
@@ -933,7 +969,8 @@ namespace DataDictionary
                         {
                             if (!expect.EFSSystem.BoolType.Match(expression.GetExpressionType()))
                             {
-                                expect.AddError("Condition type should be Boolean");
+                                expect.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                    "Condition type should be Boolean");
                             }
                         }
                     }
@@ -959,11 +996,13 @@ namespace DataDictionary
                 {
                     if (Utils.Util.isEmpty(stateMachine.Default))
                     {
-                        stateMachine.AddError("Empty initial state");
+                        stateMachine.AddRuleCheckMessage(RuleChecksEnum.StateMachine02, ElementLog.LevelEnum.Error, 
+                            "Empty initial state");
                     }
                     if (stateMachine.DefaultValue == null)
                     {
-                        stateMachine.AddError("Cannot find default value");
+                        stateMachine.AddRuleCheckMessage(RuleChecksEnum.StateMachine03, ElementLog.LevelEnum.Error, 
+                            "Cannot find default value");
                     }
                 }
             }
@@ -981,7 +1020,8 @@ namespace DataDictionary
 
                 if (state.Name.Contains(' '))
                 {
-                    state.AddError("A state name cannot contain white spaces");
+                    state.AddRuleCheckMessage(RuleChecksEnum.StateMachine04, ElementLog.LevelEnum.Error, 
+                        "A state name cannot contain white spaces");
                 }
             }
 
@@ -1004,13 +1044,15 @@ namespace DataDictionary
                     {
                         if (Utils.Util.isEmpty(type.getDefault()))
                         {
-                            type.AddError("Types should define their default value");
+                            type.AddRuleCheckMessage(RuleChecksEnum.Type01, ElementLog.LevelEnum.Error, 
+                                "Types should define their default value");
                         }
                         else
                         {
                             if (type.DefaultValue == null)
                             {
-                                type.AddError("Invalid default value");
+                                type.AddRuleCheckMessage(RuleChecksEnum.Type02, ElementLog.LevelEnum.Error, 
+                                    "Invalid default value");
                             }
                         }
                     }
@@ -1029,7 +1071,7 @@ namespace DataDictionary
                                 (range.getPrecision() == acceptor.PrecisionEnum.aDoublePrecision &&
                                  range.Default != null && range.Default.IndexOf('.') <= 0))
                             {
-                                type.AddError(
+                                type.AddRuleCheckMessage(RuleChecksEnum.Type03, ElementLog.LevelEnum.Error, 
                                     "Default value's precision does not correspond to the type's precision");
                             }
                         }
@@ -1043,8 +1085,9 @@ namespace DataDictionary
                                 range.getPrecision() == acceptor.PrecisionEnum.aIntegerPrecision &&
                                 value.IndexOf('.') > 0)
                             {
-                                type.AddError("Precision of the special value + " + specValue.Name +
-                                              " does not correspond to the type's precision");
+                                type.AddRuleCheckMessage(RuleChecksEnum.Type04, ElementLog.LevelEnum.Error, 
+                                    "Precision of the special value + " + specValue.Name +
+                                    " does not correspond to the type's precision");
                             }
                         }
                     }
@@ -1054,7 +1097,8 @@ namespace DataDictionary
                     {
                         if (collection.getMaxSize() == 0)
                         {
-                            type.AddError("Collections should be upper bounded");
+                            type.AddRuleCheckMessage(RuleChecksEnum.Type05, ElementLog.LevelEnum.Error, 
+                                "Collections should be upper bounded");
                         }
                     }
                 }
@@ -1083,8 +1127,10 @@ namespace DataDictionary
                 Paragraph otherParagraph;
                 if (_paragraphs.TryGetValue(paragraph.Name, out otherParagraph))
                 {
-                    paragraph.AddError("Duplicate paragraph id " + paragraph.Name);
-                    otherParagraph.AddError("Duplicate paragraph id " + paragraph.Name);
+                    paragraph.AddRuleCheckMessage(RuleChecksEnum.Requirements03, ElementLog.LevelEnum.Error, 
+                        "Duplicate paragraph id " + paragraph.Name);
+                    otherParagraph.AddRuleCheckMessage(RuleChecksEnum.Requirements03, ElementLog.LevelEnum.Error, 
+                        "Duplicate paragraph id " + paragraph.Name);
                 }
                 else
                 {
@@ -1096,12 +1142,13 @@ namespace DataDictionary
                     case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_Implemented:
                         if (!paragraph.IsApplicable())
                         {
-                            paragraph.AddWarning(
+                            paragraph.AddRuleCheckMessage(RuleChecksEnum.Process08, ElementLog.LevelEnum.Warning, 
                                 "Paragraph state does not correspond to implementation status (Implemented but not applicable)");
                         }
                         if (paragraph.getReviewed() == false)
                         {
-                            paragraph.AddWarning("A non reviewed paragraph is marked as implemented");
+                            paragraph.AddRuleCheckMessage(RuleChecksEnum.Process09, ElementLog.LevelEnum.Warning, 
+                                "A non reviewed paragraph is marked as implemented");
                         }
                         break;
 
@@ -1109,7 +1156,7 @@ namespace DataDictionary
                     case acceptor.SPEC_IMPLEMENTED_ENUM.defaultSPEC_IMPLEMENTED_ENUM:
                         if (!paragraph.IsApplicable())
                         {
-                            paragraph.AddWarning(
+                            paragraph.AddRuleCheckMessage(RuleChecksEnum.Process10, ElementLog.LevelEnum.Warning, 
                                 "Paragraph state does not correspond to implementation status (N/A but not applicable)");
                         }
                         break;
@@ -1117,7 +1164,7 @@ namespace DataDictionary
                     case acceptor.SPEC_IMPLEMENTED_ENUM.Impl_NotImplementable:
                         if (paragraph.IsApplicable())
                         {
-                            paragraph.AddWarning(
+                            paragraph.AddRuleCheckMessage(RuleChecksEnum.Process11, ElementLog.LevelEnum.Warning, 
                                 "Paragraph state does not correspond to implementation status (Not implementable but applicable)");
                         }
                         break;
@@ -1130,9 +1177,9 @@ namespace DataDictionary
                         ReqRelated model = reqRef.Enclosing as ReqRelated;
                         if (!model.ImplementationCompleted)
                         {
-                            model.AddWarning(
+                            model.AddRuleCheckMessage(RuleChecksEnum.Process12, ElementLog.LevelEnum.Warning, 
                                 "Requirement implementation is complete, while model element implementation is not");
-                            paragraph.AddWarning(
+                            paragraph.AddRuleCheckMessage(RuleChecksEnum.Process12, ElementLog.LevelEnum.Warning, 
                                 "Requirement implementation is complete, while model element implementation is not");
                         }
                     }
@@ -1153,14 +1200,16 @@ namespace DataDictionary
                             (!paragraph.BelongsToRequirementSet(requirementSet)) &&
                             paragraph.SubParagraphBelongsToRequirementSet(requirementSet))
                         {
-                            paragraph.AddWarning("Paragraph scope should be " + requirementSet.Name +
-                                                 ", according to its sub-paragraphs");
+                            paragraph.AddRuleCheckMessage(RuleChecksEnum.Process13, ElementLog.LevelEnum.Warning, 
+                                "Paragraph scope should be " + requirementSet.Name +
+                                ", according to its sub-paragraphs");
                         }
                     }
 
                     if ((!scopeFound) && (paragraph.getType() == acceptor.Paragraph_type.aREQUIREMENT))
                     {
-                        paragraph.AddWarning("Paragraph scope not set");
+                        paragraph.AddRuleCheckMessage(RuleChecksEnum.Process14, ElementLog.LevelEnum.Warning, 
+                            "Paragraph scope not set");
                     }
                 }
             }
@@ -1174,7 +1223,8 @@ namespace DataDictionary
 
             if (function.ReturnType == null)
             {
-                function.AddError("Cannot determine function return type");
+                function.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                    "Cannot determine function return type");
             }
 
             base.visit(obj, visitSubNodes);
@@ -1196,19 +1246,21 @@ namespace DataDictionary
                     {
                         if (!cas.EnclosingFunction.ReturnType.Match(expressionType))
                         {
-                            cas.AddError("Expression type (" + expressionType.FullName +
-                                         ") does not match function return type (" +
-                                         cas.EnclosingFunction.ReturnType.Name + ")");
+                            cas.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                                "Expression type (" + expressionType.FullName + ") does not match function return type (" +
+                                cas.EnclosingFunction.ReturnType.Name + ")");
                         }
                     }
                     else
                     {
-                        cas.AddError("Cannot determine expression type (6) for " + cas.Expression.ToString());
+                        cas.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, 
+                            "Cannot determine expression type (6) for " + cas.Expression);
                     }
                 }
                 else
                 {
-                    cas.AddError("Cannot evaluate expression " + cas.ExpressionText);
+                    cas.AddRuleCheckMessage(RuleChecksEnum.SyntaxError, ElementLog.LevelEnum.Error, 
+                        "Cannot evaluate expression " + cas.ExpressionText);
                 }
             }
             catch (Exception e)
@@ -1232,14 +1284,18 @@ namespace DataDictionary
                     {
                         if (enumValue.getValue().CompareTo(other.getValue()) == 0)
                         {
-                            enumValue.AddError("Duplicated enumeration value");
-                            other.AddError("Duplicated enumeration value");
+                            enumValue.AddRuleCheckMessage(RuleChecksEnum.Type06, ElementLog.LevelEnum.Error, 
+                                "Duplicated enumeration value");
+                            other.AddRuleCheckMessage(RuleChecksEnum.Type06, ElementLog.LevelEnum.Error, 
+                                "Duplicated enumeration value");
                         }
 
                         if (enumValue.LiteralName == other.LiteralName)
                         {
-                            enumValue.AddError("Duplicated enumeration value name");
-                            other.AddError("Duplicated enumeration value name");
+                            enumValue.AddRuleCheckMessage(RuleChecksEnum.Type07, ElementLog.LevelEnum.Error, 
+                                "Duplicated enumeration value name");
+                            other.AddRuleCheckMessage(RuleChecksEnum.Type07, ElementLog.LevelEnum.Error, 
+                                "Duplicated enumeration value name");
                         }
                     }
                     valuesFound.Add(enumValue);
@@ -1267,7 +1323,8 @@ namespace DataDictionary
         {
             if (!new Parser().IsIdentifier(name))
             {
-                model.AddError("Invalid identifier");
+                model.AddRuleCheckMessage(RuleChecksEnum.Naming02, ElementLog.LevelEnum.Error, 
+                    "Invalid identifier");
             }
         }
 
@@ -1279,24 +1336,28 @@ namespace DataDictionary
             {
                 if (range.getMinValue().IndexOf(".") >= 0)
                 {
-                    range.AddError("Invalid min value for integer range : must be an integer");
+                    range.AddRuleCheckMessage(RuleChecksEnum.Type08, ElementLog.LevelEnum.Error, 
+                        "Invalid min value for integer range : must be an integer");
                 }
 
                 if (range.getMaxValue().IndexOf(".") >= 0)
                 {
-                    range.AddError("Invalid max value for integer range : must be an integer");
+                    range.AddRuleCheckMessage(RuleChecksEnum.Type08, ElementLog.LevelEnum.Error, 
+                        "Invalid max value for integer range : must be an integer");
                 }
             }
             else
             {
                 if (range.getMinValue().IndexOf(".") < 0)
                 {
-                    range.AddError("Invalid min value for float range : must have a decimal part");
+                    range.AddRuleCheckMessage(RuleChecksEnum.Type09, ElementLog.LevelEnum.Error, 
+                        "Invalid min value for float range : must have a decimal part");
                 }
 
                 if (range.getMaxValue().IndexOf(".") < 0)
                 {
-                    range.AddError("Invalid max value for float range : must have a decimal part");
+                    range.AddRuleCheckMessage(RuleChecksEnum.Type09, ElementLog.LevelEnum.Error, 
+                        "Invalid max value for float range : must have a decimal part");
                 }
             }
             try
@@ -1305,7 +1366,8 @@ namespace DataDictionary
             }
             catch (FormatException)
             {
-                range.AddError("Cannot parse min value for range");
+                range.AddRuleCheckMessage(RuleChecksEnum.Type10, ElementLog.LevelEnum.Error, 
+                    "Cannot parse min value for range");
             }
 
             try
@@ -1314,7 +1376,8 @@ namespace DataDictionary
             }
             catch (FormatException)
             {
-                range.AddError("Cannot parse max value for range");
+                range.AddRuleCheckMessage(RuleChecksEnum.Type10, ElementLog.LevelEnum.Error, 
+                    "Cannot parse max value for range");
             }
 
             List<Constants.EnumValue> valuesFound = new List<Constants.EnumValue>();
@@ -1322,7 +1385,8 @@ namespace DataDictionary
             {
                 if (enumValue.Value == null)
                 {
-                    enumValue.AddError("Value is not valid");
+                    enumValue.AddRuleCheckMessage(RuleChecksEnum.Type11, ElementLog.LevelEnum.Error, 
+                        "Value is not valid");
                 }
                 else
                 {
@@ -1330,14 +1394,18 @@ namespace DataDictionary
                     {
                         if (range.CompareForEquality(enumValue.Value, other.Value))
                         {
-                            enumValue.AddError("Duplicate special value");
-                            other.AddError("Duplicate special value");
+                            enumValue.AddRuleCheckMessage(RuleChecksEnum.Type12, ElementLog.LevelEnum.Error, 
+                                "Duplicate special value");
+                            other.AddRuleCheckMessage(RuleChecksEnum.Type12, ElementLog.LevelEnum.Error, 
+                                "Duplicate special value");
                         }
 
                         if (enumValue.LiteralName == other.LiteralName)
                         {
-                            enumValue.AddError("Duplicate special value name");
-                            other.AddError("Duplicate special value name");
+                            enumValue.AddRuleCheckMessage(RuleChecksEnum.Type12, ElementLog.LevelEnum.Error,
+                                "Duplicate special value name");
+                            other.AddRuleCheckMessage(RuleChecksEnum.Type12, ElementLog.LevelEnum.Error,
+                                "Duplicate special value name");
                         }
                     }
                     valuesFound.Add(enumValue);
@@ -1384,8 +1452,10 @@ namespace DataDictionary
                                 // if a match was found for every comment or the source does not have a comment => problem
                                 if (matchFound || source.Comments.Count == 0)
                                 {
-                                    translation.AddError("Found translation with duplicate source text " + source.Name);
-                                    other.AddError("Found translation with duplicate source text " + source.Name);
+                                    translation.AddRuleCheckMessage(RuleChecksEnum.Translation01, ElementLog.LevelEnum.Error, 
+                                        "Found translation with duplicate source text " + source.Name);
+                                    other.AddRuleCheckMessage(RuleChecksEnum.Translation01, ElementLog.LevelEnum.Error, 
+                                        "Found translation with duplicate source text " + source.Name);
                                 }
                             }
                         }
@@ -1406,7 +1476,7 @@ namespace DataDictionary
                 }
                 if (countActions == 0 && countExpectations == 0)
                 {
-                    translation.AddWarning(
+                    translation.AddRuleCheckMessage(RuleChecksEnum.Process15, ElementLog.LevelEnum.Warning, 
                         "Empty translation which is not linked to a requirement, or does not hold any comment");
                 }
             }

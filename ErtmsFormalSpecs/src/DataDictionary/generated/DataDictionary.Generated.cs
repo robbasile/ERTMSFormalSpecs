@@ -1901,167 +1901,6 @@ public RequirementSet getRequirementSets(int idx)
   return (RequirementSet) ( allRequirementSets()[idx]);
 }
 
-private System.Collections.ArrayList aRuleDisablings;
-
-/// <summary>Part of the list interface for RuleDisablings</summary>
-/// <returns>a collection of all the elements in RuleDisablings</returns>
-public System.Collections.ArrayList allRuleDisablings()
-  {
-if (aRuleDisablings == null){
-    setAllRuleDisablings( new System.Collections.ArrayList() );
-} // If
-    return aRuleDisablings;
-  }
-
-/// <summary>Part of the list interface for RuleDisablings</summary>
-/// <returns>a collection of all the elements in RuleDisablings</returns>
-private System.Collections.ArrayList getRuleDisablings()
-  {
-    return allRuleDisablings();
-  }
-
-/// <summary>Part of the list interface for RuleDisablings</summary>
-/// <param name="coll">a collection of elements which replaces 
-///        RuleDisablings's current content.</param>
-public void setAllRuleDisablings(System.Collections.ArrayList coll)
-  {
-  __setDirty(true);
-    aRuleDisablings = coll;
-    NotifyControllers(null);
-  }
-public void setAllRuleDisablings(Lock aLock,System.Collections.ArrayList coll)
-  {
-  __setDirty(true);
-    aRuleDisablings = coll;
-NotifyControllers(aLock);
-  }
-
-/// <summary>Part of the list interface for RuleDisablings</summary>
-/// <param name="el">a RuleDisabling to add to the collection in 
-///           RuleDisablings</param>
-/// <seealso cref="appendRuleDisablings(System.Collections.IList)"/>
-public void appendRuleDisablings(RuleDisabling el)
-  {
-  __setDirty(true);
-  el.__setDirty(true);
-  allRuleDisablings().Add(el);
-  acceptor.connectSon (this, el);
-NotifyControllers(null);
-  }
-
-public void appendRuleDisablings(Lock aLock,RuleDisabling el)
-  {
-  __setDirty(true);
-  el.__setDirty(true);
-  allRuleDisablings().Add(el);
-  acceptor.connectSon (this, el);
-NotifyControllers(aLock);
-  }
-/// <summary>Part of the list interface for RuleDisablings</summary>
-/// <param name="coll">a collection ofRuleDisablings to add to the collection in 
-///           RuleDisablings</param>
-/// <seealso cref="appendRuleDisablings(RuleDisabling)"/>
-public void appendRuleDisablings(System.Collections.IList coll)
-  {
-  __setDirty(true);
-  allRuleDisablings().XmlBAddRange(coll);
-  acceptor.connectSons (this, coll);
-NotifyControllers(null);
-  }
-
-public void appendRuleDisablings(System.Collections.IList coll,Lock aLock)
-  {
-  __setDirty(true);
-  allRuleDisablings().XmlBAddRange(coll);
-  acceptor.connectSons (this, coll);
-NotifyControllers(aLock);
-  }
-
-/// <summary>Part of the list interface for RuleDisablings
-/// This insertion function inserts a new element in the
-/// collection in RuleDisablings</summary>
-/// <param name="idx">the index where the insertion must take place</param>
-/// <param name="el">the element to insert</param>
-public void insertRuleDisablings(int idx, RuleDisabling el)
-  {
-  __setDirty(true);
-  allRuleDisablings().Insert (idx, el);
-NotifyControllers(null);
-  }
-
-public void insertRuleDisablings(int idx, RuleDisabling el,Lock aLock)
-  {
-  __setDirty(true);
-  allRuleDisablings().Insert (idx, el);
-NotifyControllers(aLock);
-  }
-
-/// <summary>Part of the list interface for RuleDisablings
-/// This function returns the index of an element in
-/// the collection.</summary>
-/// <param name="el">the object to look for</param>
-/// <returns>the index where it is found, or -1 if it is not.</returns>
-public int indexOfRuleDisablings(IXmlBBase el)
-  {
-  return ((System.Collections.IList) allRuleDisablings()).IndexOf (el);
-  }
-
-/// <summary>Part of the list interface for RuleDisablings
-/// This deletion function removes an element from the
-/// collection in RuleDisablings</summary>
-/// <param name="idx">the index of the element to remove</param>
-public void deleteRuleDisablings(int idx)
-  {
-  __setDirty(true);
-  allRuleDisablings().RemoveAt(idx);
-NotifyControllers(null);
-  }
-
-public void deleteRuleDisablings(int idx,Lock aLock)
-  {
-  __setDirty(true);
-  allRuleDisablings().RemoveAt(idx);
-NotifyControllers(aLock);
-  }
-
-/// <summary>Part of the list interface for RuleDisablings
-/// This deletion function removes an element from the
-/// collection in RuleDisablings
-/// If the object given in parameter is not found in the
-/// the collection, this function does nothing.</summary>
-/// <param name="obj">the object to remove</param>
-public void removeRuleDisablings(IXmlBBase obj)
-  {
-  int idx = indexOfRuleDisablings(obj);
-  if (idx >= 0) { deleteRuleDisablings(idx);
-NotifyControllers(null);
-   }
-  }
-
-public void removeRuleDisablings(IXmlBBase obj,Lock aLock)
-  {
-  int idx = indexOfRuleDisablings(obj);
-  if (idx >= 0) { deleteRuleDisablings(idx);
-NotifyControllers(aLock);
-  }}
-
-/// <summary>Part of the list interface for RuleDisablings</summary>
-/// <returns>the number of elements in RuleDisablings</returns>
-public int countRuleDisablings()
-  {
-  return allRuleDisablings().Count;
-  }
-
-/// <summary>Part of the list interface for RuleDisablings
-/// This function returns an element from the
-/// collection in RuleDisablings based on an index.</summary>
-/// <param name="idx">the index of the element to extract</param>
-/// <returns>the extracted element</returns>
-public RuleDisabling getRuleDisablings(int idx)
-{
-  return (RuleDisabling) ( allRuleDisablings()[idx]);
-}
-
 private System.Collections.ArrayList aNameSpaces;
 
 /// <summary>Part of the list interface for NameSpaces</summary>
@@ -2761,7 +2600,6 @@ public Dictionary()
 Dictionary obj = this;
 aSpecifications=(null);
 aRequirementSets=(null);
-aRuleDisablings=(null);
 aNameSpaces=(null);
 aNameSpaceRefs=(null);
 aTests=(null);
@@ -2777,7 +2615,6 @@ public void copyTo(Dictionary other)
 base.copyTo(other);
 other.aSpecifications = aSpecifications;
 other.aRequirementSets = aRequirementSets;
-other.aRuleDisablings = aRuleDisablings;
 other.aNameSpaces = aNameSpaces;
 other.aNameSpaceRefs = aNameSpaceRefs;
 other.aTests = aTests;
@@ -2804,13 +2641,11 @@ Specification fl165;
 bool fl176;
 RequirementSet fl178;
 bool fl189;
-RuleDisabling fl191;
-bool fl202;
-NameSpace fl204;
-NameSpaceRef fl216;
-bool fl227;
-Frame fl229;
-FrameRef fl241;
+NameSpace fl191;
+NameSpaceRef fl203;
+bool fl214;
+Frame fl216;
+FrameRef fl228;
 
 ctxt.skipWhiteSpace();
 base.parseBody(ctxt);
@@ -2862,8 +2697,11 @@ ctxt.acceptString ("</RequirementSets>");
 } // If
 // End enclosed
 ctxt.skipWhiteSpace();
-// Optional Enclosed
-if (ctxt.lookAheadOpeningTag("<RuleDisabling")){
+// Enclosed
+ctxt.acceptString ("<NameSpaces");
+if (ctxt.isAlNum()){
+ctxt.fail ("White space expected after TAG");
+} // If
 ctxt.skipWhiteSpace();
 fl189 = true ; 
 while (fl189) { // BeginLoop 
@@ -2888,59 +2726,18 @@ ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
 fl191 = null;
-while(ctxt.lookAheadOpeningTag ("<RuleDisabling")) {
-fl191 = acceptor.lAccept_RuleDisabling(ctxt, "</RuleDisabling>");
-appendRuleDisablings(fl191);
-ctxt.skipWhiteSpace();
-} // -- monomorphic Loop
-// EndRepeat
-ctxt.skipWhiteSpace();
-ctxt.acceptString ("</RuleDisabling>");
-} // If
-} // If
-// End enclosed
-ctxt.skipWhiteSpace();
-// Enclosed
-ctxt.acceptString ("<NameSpaces");
-if (ctxt.isAlNum()){
-ctxt.fail ("White space expected after TAG");
-} // If
-ctxt.skipWhiteSpace();
-fl202 = true ; 
-while (fl202) { // BeginLoop 
-ctxt.skipWhiteSpace();
-if (ctxt.isAlNum()){
-ctxt.skipTill ('=');
-ctxt.advance();
-ctxt.skipWhiteSpace();
-quoteChar = ctxt.acceptQuote();
-ctxt.skipTill (quoteChar);
-ctxt.accept(quoteChar);
-ctxt.skipWhiteSpace();
-} else {
-fl202 = false ; 
-} // If
-} // While
-if (ctxt.current() == '/'){
-ctxt.advance();
-ctxt.accept('>');
-} else {
-ctxt.accept('>');
-// Repeat
-ctxt.skipWhiteSpace();
-fl204 = null;
 while(ctxt.lookAheadOpeningTag ("<NameSpace")) {
-fl204 = acceptor.lAccept_NameSpace(ctxt, "</NameSpace>");
-appendNameSpaces(fl204);
+fl191 = acceptor.lAccept_NameSpace(ctxt, "</NameSpace>");
+appendNameSpaces(fl191);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
 // Repeat
 ctxt.skipWhiteSpace();
-fl216 = null;
+fl203 = null;
 while(ctxt.lookAheadOpeningTag ("<NameSpaceRef")) {
-fl216 = acceptor.lAccept_NameSpaceRef(ctxt, "</NameSpaceRef>");
-appendNameSpaceRefs(fl216);
+fl203 = acceptor.lAccept_NameSpaceRef(ctxt, "</NameSpaceRef>");
+appendNameSpaceRefs(fl203);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -2952,8 +2749,8 @@ ctxt.skipWhiteSpace();
 // Optional Enclosed
 if (ctxt.lookAheadOpeningTag("<Tests")){
 ctxt.skipWhiteSpace();
-fl227 = true ; 
-while (fl227) { // BeginLoop 
+fl214 = true ; 
+while (fl214) { // BeginLoop 
 ctxt.skipWhiteSpace();
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -2964,7 +2761,7 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-fl227 = false ; 
+fl214 = false ; 
 } // If
 } // While
 if (ctxt.current() == '/'){
@@ -2974,19 +2771,19 @@ ctxt.accept('>');
 ctxt.accept('>');
 // Repeat
 ctxt.skipWhiteSpace();
-fl229 = null;
+fl216 = null;
 while(ctxt.lookAheadOpeningTag ("<Frame")) {
-fl229 = acceptor.lAccept_Frame(ctxt, "</Frame>");
-appendTests(fl229);
+fl216 = acceptor.lAccept_Frame(ctxt, "</Frame>");
+appendTests(fl216);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
 // Repeat
 ctxt.skipWhiteSpace();
-fl241 = null;
+fl228 = null;
 while(ctxt.lookAheadOpeningTag ("<FrameRef")) {
-fl241 = acceptor.lAccept_FrameRef(ctxt, "</FrameRef>");
-appendTestRefs(fl241);
+fl228 = acceptor.lAccept_FrameRef(ctxt, "</FrameRef>");
+appendTestRefs(fl228);
 ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
@@ -3030,24 +2827,24 @@ public  override  void parse(XmlBContext ctxt,  string  endingTag)
 int indicator = 0;
 char quoteChar;
  string  tempStr = null;
-bool fl252;
-bool fl253;
-bool fl254;
-bool fl255;
-bool fl256;
-bool fl257;
+bool fl239;
+bool fl240;
+bool fl241;
+bool fl242;
+bool fl243;
+bool fl244;
 #pragma warning restore 0168, 0219
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl252 = false ; 
-fl253 = false ; 
-fl254 = false ; 
-fl255 = false ; 
-fl256 = false ; 
-fl257 = true ; 
-while (fl257) { // BeginLoop 
+fl239 = false ; 
+fl240 = false ; 
+fl241 = false ; 
+fl242 = false ; 
+fl243 = false ; 
+fl244 = true ; 
+while (fl244) { // BeginLoop 
 switch (ctxt.current()) {
 case 'x':
 {
@@ -3057,9 +2854,9 @@ case 's':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("i:noNamespaceSchemaLocation=")){
-indicator = 253;
+indicator = 240;
 } else {
-indicator = 258;
+indicator = 245;
 } // If
 break;
 } // Case
@@ -3067,14 +2864,14 @@ case 'm':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("lns:xsi=")){
-indicator = 252;
+indicator = 239;
 } else {
-indicator = 258;
+indicator = 245;
 } // If
 break;
 } // Case
 default:
-indicator = 258;
+indicator = 245;
 break;
 } // Switch
 break;
@@ -3083,9 +2880,9 @@ case 'U':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("pdates=")){
-indicator = 255;
+indicator = 242;
 } else {
-indicator = 258;
+indicator = 245;
 } // If
 break;
 } // Case
@@ -3093,9 +2890,9 @@ case 'I':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("sRemoved=")){
-indicator = 256;
+indicator = 243;
 } else {
-indicator = 258;
+indicator = 245;
 } // If
 break;
 } // Case
@@ -3103,76 +2900,76 @@ case 'G':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("uid=")){
-indicator = 254;
+indicator = 241;
 } else {
-indicator = 258;
+indicator = 245;
 } // If
 break;
 } // Case
 default:
-indicator = 258;
+indicator = 245;
 break;
 } // Switch
 switch (indicator) {
-case 252: {
+case 239: {
 // Handling attribute xmlns:xsi
 // Also handles alien attributes with prefix xmlns:xsi
-if (fl252){
+if (fl239){
 ctxt.fail ("Duplicate attribute: xmlns:xsi");
 } // If
-fl252 = true ; 
+fl239 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setXsi((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 253: {
+case 240: {
 // Handling attribute xsi:noNamespaceSchemaLocation
 // Also handles alien attributes with prefix xsi:noNamespaceSchemaLocation
-if (fl253){
+if (fl240){
 ctxt.fail ("Duplicate attribute: xsi:noNamespaceSchemaLocation");
 } // If
-fl253 = true ; 
+fl240 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setXsiLocation((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 254: {
+case 241: {
 // Handling attribute Guid
 // Also handles alien attributes with prefix Guid
-if (fl254){
+if (fl241){
 ctxt.fail ("Duplicate attribute: Guid");
 } // If
-fl254 = true ; 
+fl241 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setGuid((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 255: {
+case 242: {
 // Handling attribute Updates
 // Also handles alien attributes with prefix Updates
-if (fl255){
+if (fl242){
 ctxt.fail ("Duplicate attribute: Updates");
 } // If
-fl255 = true ; 
+fl242 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setUpdates((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 256: {
+case 243: {
 // Handling attribute IsRemoved
 // Also handles alien attributes with prefix IsRemoved
-if (fl256){
+if (fl243){
 ctxt.fail ("Duplicate attribute: IsRemoved");
 } // If
-fl256 = true ; 
+fl243 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setIsRemoved(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
@@ -3180,7 +2977,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 258: {
+case 245: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -3191,16 +2988,16 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl252){
+if (!fl239){
 ctxt.fail ("Mandatory attribute missing: xmlns:xsi in Dictionary");
 } // If
-if (!fl253){
+if (!fl240){
 ctxt.fail ("Mandatory attribute missing: xsi:noNamespaceSchemaLocation in Dictionary");
 } // If
-if (!fl256){
+if (!fl243){
 this.setIsRemoved( false);
 } // If
-fl257 = false ; 
+fl244 = false ; 
 } // If
 break;
 } // End of dispatch label
@@ -3295,19 +3092,6 @@ pw.Write('\n');
 } // If
 // After Testing for empty content: RequirementSets
 // Unparsing Enclosed
-// Testing for empty content: RuleDisablings
-if (countRuleDisablings() > 0){
-pw.Write("<RuleDisabling>");
-pw.Write('\n');
-// Unparsing Repeat
-// Unparsing repetition
-unParse(pw, this.getRuleDisablings(), false, "<RuleDisabling", "</RuleDisabling>");
-pw.Write("</RuleDisabling>");
-// Father is not a mixed
-pw.Write('\n');
-} // If
-// After Testing for empty content: RuleDisablings
-// Unparsing Enclosed
 pw.Write("<NameSpaces>");
 pw.Write('\n');
 // Unparsing Repeat
@@ -3362,9 +3146,6 @@ for (int i = 0; i < countSpecifications(); i++) {
 for (int i = 0; i < countRequirementSets(); i++) {
   l.Add(getRequirementSets(i));
 }
-for (int i = 0; i < countRuleDisablings(); i++) {
-  l.Add(getRuleDisablings(i));
-}
 for (int i = 0; i < countNameSpaces(); i++) {
   l.Add(getNameSpaces(i));
 }
@@ -3382,41 +3163,27 @@ l.Add(this.getShortcutDictionary());
 }
 
 }
-public partial class RuleDisabling
-: DataDictionary.ReqRelated
+public partial class NameSpaceRef
+: DataDictionary.Namable
 {
 public  override  bool find(Object search){
 if (search is String ) {
-if(getRule().CompareTo((String) search) == 0)return true;
 }
 return false;
 }
 
 public  override  void NotifyControllers(Lock aLock){
 	base.NotifyControllers(aLock);
-	ControllersManager.RuleDisablingController.alertChange(aLock, this);
+	ControllersManager.NameSpaceRefController.alertChange(aLock, this);
 }
-private   string  aRule;
-
-public   string  getRule() { return aRule;}
-
-public  void setRule( string  v) {
-  aRule = v;
-  __setDirty(true);
-  NotifyControllers(null);
-}
-
-
-public RuleDisabling()
+public NameSpaceRef()
 {
-RuleDisabling obj = this;
-aRule=(null);
+NameSpaceRef obj = this;
 }
 
-public void copyTo(RuleDisabling other)
+public void copyTo(NameSpaceRef other)
 {
 base.copyTo(other);
-other.aRule = aRule;
 }
 
 /// <remarks>This method is used by XMLBooster-generated code
@@ -3449,234 +3216,114 @@ public  override  void parse(XmlBContext ctxt,  string  endingTag)
 int indicator = 0;
 char quoteChar;
  string  tempStr = null;
-bool fl266;
-bool fl267;
-bool fl268;
-bool fl269;
-bool fl270;
-bool fl271;
-bool fl272;
-bool fl273;
-bool fl274;
+bool fl253;
+bool fl254;
+bool fl255;
+bool fl256;
+bool fl257;
 #pragma warning restore 0168, 0219
 
 ctxt.skipWhiteSpace();
 {
 // Accept Attributes
-fl266 = false ; 
-fl267 = false ; 
-fl268 = false ; 
-fl269 = false ; 
-fl270 = false ; 
-fl271 = false ; 
-fl272 = false ; 
-fl273 = false ; 
-fl274 = true ; 
-while (fl274) { // BeginLoop 
+fl253 = false ; 
+fl254 = false ; 
+fl255 = false ; 
+fl256 = false ; 
+fl257 = true ; 
+while (fl257) { // BeginLoop 
 switch (ctxt.current()) {
-case 'V':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("erified=")){
-indicator = 268;
-} else {
-indicator = 275;
-} // If
-break;
-} // Case
 case 'U':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("pdates=")){
-indicator = 272;
+indicator = 255;
 } else {
-indicator = 275;
-} // If
-break;
-} // Case
-case 'R':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("ule=")){
-indicator = 266;
-} else {
-indicator = 275;
+indicator = 258;
 } // If
 break;
 } // Case
 case 'N':
 {
 ctxt.advance();
-switch (ctxt.current()) {
-case 'e':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("edsRequirement=")){
-indicator = 269;
+if (ctxt.lookAheadString("ame=")){
+indicator = 253;
 } else {
-indicator = 275;
+indicator = 258;
 } // If
-break;
-} // Case
-case 'a':
-{
-ctxt.advance();
-if (ctxt.lookAhead3('m','e','=')){
-indicator = 270;
-} else {
-indicator = 275;
-} // If
-break;
-} // Case
-default:
-indicator = 275;
-break;
-} // Switch
 break;
 } // Case
 case 'I':
 {
 ctxt.advance();
-switch (ctxt.current()) {
-case 's':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("Removed=")){
-indicator = 273;
+if (ctxt.lookAheadString("sRemoved=")){
+indicator = 256;
 } else {
-indicator = 275;
+indicator = 258;
 } // If
-break;
-} // Case
-case 'm':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("plemented=")){
-indicator = 267;
-} else {
-indicator = 275;
-} // If
-break;
-} // Case
-default:
-indicator = 275;
-break;
-} // Switch
 break;
 } // Case
 case 'G':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("uid=")){
-indicator = 271;
+indicator = 254;
 } else {
-indicator = 275;
+indicator = 258;
 } // If
 break;
 } // Case
 default:
-indicator = 275;
+indicator = 258;
 break;
 } // Switch
 switch (indicator) {
-case 266: {
-// Handling attribute Rule
-// Also handles alien attributes with prefix Rule
-if (fl266){
-ctxt.fail ("Duplicate attribute: Rule");
-} // If
-fl266 = true ; 
-quoteChar = ctxt.acceptQuote();
-this.setRule((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
-ctxt.accept(quoteChar);
-ctxt.skipWhiteSpace();
-break;
-} // End of dispatch label
-case 267: {
-// Handling attribute Implemented
-// Also handles alien attributes with prefix Implemented
-if (fl267){
-ctxt.fail ("Duplicate attribute: Implemented");
-} // If
-fl267 = true ; 
-quoteChar = ctxt.acceptQuote();
-this.setImplemented(acceptor.lAcceptBoolean(ctxt));
-ctxt.accept(quoteChar);
-ctxt.skipWhiteSpace();
-break;
-} // End of dispatch label
-case 268: {
-// Handling attribute Verified
-// Also handles alien attributes with prefix Verified
-if (fl268){
-ctxt.fail ("Duplicate attribute: Verified");
-} // If
-fl268 = true ; 
-quoteChar = ctxt.acceptQuote();
-this.setVerified(acceptor.lAcceptBoolean(ctxt));
-ctxt.accept(quoteChar);
-ctxt.skipWhiteSpace();
-break;
-} // End of dispatch label
-case 269: {
-// Handling attribute NeedsRequirement
-// Also handles alien attributes with prefix NeedsRequirement
-if (fl269){
-ctxt.fail ("Duplicate attribute: NeedsRequirement");
-} // If
-fl269 = true ; 
-quoteChar = ctxt.acceptQuote();
-this.setNeedsRequirement(acceptor.lAcceptBoolean(ctxt));
-ctxt.accept(quoteChar);
-ctxt.skipWhiteSpace();
-break;
-} // End of dispatch label
-case 270: {
+case 253: {
 // Handling attribute Name
 // Also handles alien attributes with prefix Name
-if (fl270){
+if (fl253){
 ctxt.fail ("Duplicate attribute: Name");
 } // If
-fl270 = true ; 
+fl253 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 271: {
+case 254: {
 // Handling attribute Guid
 // Also handles alien attributes with prefix Guid
-if (fl271){
+if (fl254){
 ctxt.fail ("Duplicate attribute: Guid");
 } // If
-fl271 = true ; 
+fl254 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setGuid((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 272: {
+case 255: {
 // Handling attribute Updates
 // Also handles alien attributes with prefix Updates
-if (fl272){
+if (fl255){
 ctxt.fail ("Duplicate attribute: Updates");
 } // If
-fl272 = true ; 
+fl255 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setUpdates((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
-case 273: {
+case 256: {
 // Handling attribute IsRemoved
 // Also handles alien attributes with prefix IsRemoved
-if (fl273){
+if (fl256){
 ctxt.fail ("Duplicate attribute: IsRemoved");
 } // If
-fl273 = true ; 
+fl256 = true ; 
 quoteChar = ctxt.acceptQuote();
 this.setIsRemoved(acceptor.lAcceptBoolean(ctxt));
 ctxt.accept(quoteChar);
@@ -3684,7 +3331,7 @@ ctxt.skipWhiteSpace();
 break;
 } // End of dispatch label
 // Final default label
-case 275: {
+case 258: {
 // Taking ignorable attributes into account
 if (ctxt.isAlNum()){
 ctxt.skipTill ('=');
@@ -3695,22 +3342,10 @@ ctxt.skipTill (quoteChar);
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 } else {
-if (!fl266){
-ctxt.fail ("Mandatory attribute missing: Rule in RuleDisabling");
-} // If
-if (!fl267){
-this.setImplemented( false);
-} // If
-if (!fl268){
-this.setVerified( false);
-} // If
-if (!fl269){
-this.setNeedsRequirement( true);
-} // If
-if (!fl273){
+if (!fl256){
 this.setIsRemoved( false);
 } // If
-fl274 = false ; 
+fl257 = false ; 
 } // If
 break;
 } // End of dispatch label
@@ -3742,37 +3377,15 @@ ctxt.acceptString(endingTag);
 int i;
 #pragma warning restore 0168, 0219
 if (headingTag == null) {
-  headingTag = "<RuleDisabling";
-  endingTag = "</RuleDisabling>";
+  headingTag = "<NameSpaceRef";
+  endingTag = "</NameSpaceRef>";
 }
 
 pw.Write(headingTag);
 if (typeId){
-pw.Write(" xsi:type=\"RuleDisabling\"");
+pw.Write(" xsi:type=\"NameSpaceRef\"");
 } // If
 pw.Write('\n');
-pw.Write(" Rule=\"");
-acceptor.unParsePcData(pw, this.getRule());
-pw.Write('"');
-pw.Write('\n');
-if (this.getImplemented()){
-pw.Write(" Implemented=\"");
-acceptor.unParsePcData(pw, this.getImplemented());
-pw.Write('"');
-pw.Write('\n');
-} // If
-if (this.getVerified()){
-pw.Write(" Verified=\"");
-acceptor.unParsePcData(pw, this.getVerified());
-pw.Write('"');
-pw.Write('\n');
-} // If
-if (!this.getNeedsRequirement()){
-pw.Write(" NeedsRequirement=\"");
-acceptor.unParsePcData(pw, this.getNeedsRequirement());
-pw.Write('"');
-pw.Write('\n');
-} // If
 if (this.getName() != null){
 pw.Write(" Name=\"");
 acceptor.unParsePcData(pw, this.getName());
@@ -3834,7 +3447,7 @@ public  override void subElements(ArrayList l)
 }
 
 }
-public partial class NameSpaceRef
+public partial class RuleCheckDisabling
 : DataDictionary.Namable
 {
 public  override  bool find(Object search){
@@ -3845,14 +3458,477 @@ return false;
 
 public  override  void NotifyControllers(Lock aLock){
 	base.NotifyControllers(aLock);
-	ControllersManager.NameSpaceRefController.alertChange(aLock, this);
+	ControllersManager.RuleCheckDisablingController.alertChange(aLock, this);
 }
-public NameSpaceRef()
+private System.Collections.ArrayList aDisabledRuleChecks;
+
+/// <summary>Part of the list interface for DisabledRuleChecks</summary>
+/// <returns>a collection of all the elements in DisabledRuleChecks</returns>
+public System.Collections.ArrayList allDisabledRuleChecks()
+  {
+if (aDisabledRuleChecks == null){
+    setAllDisabledRuleChecks( new System.Collections.ArrayList() );
+} // If
+    return aDisabledRuleChecks;
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks</summary>
+/// <returns>a collection of all the elements in DisabledRuleChecks</returns>
+private System.Collections.ArrayList getDisabledRuleChecks()
+  {
+    return allDisabledRuleChecks();
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks</summary>
+/// <param name="coll">a collection of elements which replaces 
+///        DisabledRuleChecks's current content.</param>
+public void setAllDisabledRuleChecks(System.Collections.ArrayList coll)
+  {
+  __setDirty(true);
+    aDisabledRuleChecks = coll;
+    NotifyControllers(null);
+  }
+public void setAllDisabledRuleChecks(Lock aLock,System.Collections.ArrayList coll)
+  {
+  __setDirty(true);
+    aDisabledRuleChecks = coll;
+NotifyControllers(aLock);
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks</summary>
+/// <param name="el">a RuleCheckIdentifier to add to the collection in 
+///           DisabledRuleChecks</param>
+/// <seealso cref="appendDisabledRuleChecks(System.Collections.IList)"/>
+public void appendDisabledRuleChecks(RuleCheckIdentifier el)
+  {
+  __setDirty(true);
+  el.__setDirty(true);
+  allDisabledRuleChecks().Add(el);
+  acceptor.connectSon (this, el);
+NotifyControllers(null);
+  }
+
+public void appendDisabledRuleChecks(Lock aLock,RuleCheckIdentifier el)
+  {
+  __setDirty(true);
+  el.__setDirty(true);
+  allDisabledRuleChecks().Add(el);
+  acceptor.connectSon (this, el);
+NotifyControllers(aLock);
+  }
+/// <summary>Part of the list interface for DisabledRuleChecks</summary>
+/// <param name="coll">a collection ofRuleCheckIdentifiers to add to the collection in 
+///           DisabledRuleChecks</param>
+/// <seealso cref="appendDisabledRuleChecks(RuleCheckIdentifier)"/>
+public void appendDisabledRuleChecks(System.Collections.IList coll)
+  {
+  __setDirty(true);
+  allDisabledRuleChecks().XmlBAddRange(coll);
+  acceptor.connectSons (this, coll);
+NotifyControllers(null);
+  }
+
+public void appendDisabledRuleChecks(System.Collections.IList coll,Lock aLock)
+  {
+  __setDirty(true);
+  allDisabledRuleChecks().XmlBAddRange(coll);
+  acceptor.connectSons (this, coll);
+NotifyControllers(aLock);
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks
+/// This insertion function inserts a new element in the
+/// collection in DisabledRuleChecks</summary>
+/// <param name="idx">the index where the insertion must take place</param>
+/// <param name="el">the element to insert</param>
+public void insertDisabledRuleChecks(int idx, RuleCheckIdentifier el)
+  {
+  __setDirty(true);
+  allDisabledRuleChecks().Insert (idx, el);
+NotifyControllers(null);
+  }
+
+public void insertDisabledRuleChecks(int idx, RuleCheckIdentifier el,Lock aLock)
+  {
+  __setDirty(true);
+  allDisabledRuleChecks().Insert (idx, el);
+NotifyControllers(aLock);
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks
+/// This function returns the index of an element in
+/// the collection.</summary>
+/// <param name="el">the object to look for</param>
+/// <returns>the index where it is found, or -1 if it is not.</returns>
+public int indexOfDisabledRuleChecks(IXmlBBase el)
+  {
+  return ((System.Collections.IList) allDisabledRuleChecks()).IndexOf (el);
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks
+/// This deletion function removes an element from the
+/// collection in DisabledRuleChecks</summary>
+/// <param name="idx">the index of the element to remove</param>
+public void deleteDisabledRuleChecks(int idx)
+  {
+  __setDirty(true);
+  allDisabledRuleChecks().RemoveAt(idx);
+NotifyControllers(null);
+  }
+
+public void deleteDisabledRuleChecks(int idx,Lock aLock)
+  {
+  __setDirty(true);
+  allDisabledRuleChecks().RemoveAt(idx);
+NotifyControllers(aLock);
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks
+/// This deletion function removes an element from the
+/// collection in DisabledRuleChecks
+/// If the object given in parameter is not found in the
+/// the collection, this function does nothing.</summary>
+/// <param name="obj">the object to remove</param>
+public void removeDisabledRuleChecks(IXmlBBase obj)
+  {
+  int idx = indexOfDisabledRuleChecks(obj);
+  if (idx >= 0) { deleteDisabledRuleChecks(idx);
+NotifyControllers(null);
+   }
+  }
+
+public void removeDisabledRuleChecks(IXmlBBase obj,Lock aLock)
+  {
+  int idx = indexOfDisabledRuleChecks(obj);
+  if (idx >= 0) { deleteDisabledRuleChecks(idx);
+NotifyControllers(aLock);
+  }}
+
+/// <summary>Part of the list interface for DisabledRuleChecks</summary>
+/// <returns>the number of elements in DisabledRuleChecks</returns>
+public int countDisabledRuleChecks()
+  {
+  return allDisabledRuleChecks().Count;
+  }
+
+/// <summary>Part of the list interface for DisabledRuleChecks
+/// This function returns an element from the
+/// collection in DisabledRuleChecks based on an index.</summary>
+/// <param name="idx">the index of the element to extract</param>
+/// <returns>the extracted element</returns>
+public RuleCheckIdentifier getDisabledRuleChecks(int idx)
 {
-NameSpaceRef obj = this;
+  return (RuleCheckIdentifier) ( allDisabledRuleChecks()[idx]);
 }
 
-public void copyTo(NameSpaceRef other)
+public RuleCheckDisabling()
+{
+RuleCheckDisabling obj = this;
+aDisabledRuleChecks=(null);
+}
+
+public void copyTo(RuleCheckDisabling other)
+{
+base.copyTo(other);
+other.aDisabledRuleChecks = aDisabledRuleChecks;
+}
+
+/// <remarks>This method is used by XMLBooster-generated code
+/// internally. Please refrain from using it, as it
+/// might produce unexpected results, and might change
+/// or even disappear in the future.</remarks>
+public  override void parseBody(XmlBContext ctxt)
+
+{
+#pragma warning disable 0168, 0219
+int indicator=0;
+char quoteChar;
+ string  tempStr;
+#pragma warning restore 0168, 0219
+RuleCheckIdentifier fl265;
+
+ctxt.skipWhiteSpace();
+base.parseBody(ctxt);
+// Repeat
+ctxt.skipWhiteSpace();
+fl265 = null;
+while(ctxt.lookAheadOpeningTag ("<RuleCheckIdentifier")) {
+fl265 = acceptor.lAccept_RuleCheckIdentifier(ctxt, "</RuleCheckIdentifier>");
+appendDisabledRuleChecks(fl265);
+ctxt.skipWhiteSpace();
+} // -- monomorphic Loop
+// EndRepeat
+ctxt.skipWhiteSpace();
+}
+
+
+/// <remarks>This method is used by XMLBooster-generated code
+/// internally. Please refrain from using it, as it
+/// might produce unexpected results, and might change
+/// or even disappear in the future.</remarks>
+public  override  void parse(XmlBContext ctxt,  string  endingTag)
+
+{
+#pragma warning disable 0168, 0219
+int indicator = 0;
+char quoteChar;
+ string  tempStr = null;
+bool fl276;
+bool fl277;
+bool fl278;
+bool fl279;
+bool fl280;
+#pragma warning restore 0168, 0219
+
+ctxt.skipWhiteSpace();
+{
+// Accept Attributes
+fl276 = false ; 
+fl277 = false ; 
+fl278 = false ; 
+fl279 = false ; 
+fl280 = true ; 
+while (fl280) { // BeginLoop 
+switch (ctxt.current()) {
+case 'U':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("pdates=")){
+indicator = 278;
+} else {
+indicator = 281;
+} // If
+break;
+} // Case
+case 'N':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("ame=")){
+indicator = 276;
+} else {
+indicator = 281;
+} // If
+break;
+} // Case
+case 'I':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("sRemoved=")){
+indicator = 279;
+} else {
+indicator = 281;
+} // If
+break;
+} // Case
+case 'G':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("uid=")){
+indicator = 277;
+} else {
+indicator = 281;
+} // If
+break;
+} // Case
+default:
+indicator = 281;
+break;
+} // Switch
+switch (indicator) {
+case 276: {
+// Handling attribute Name
+// Also handles alien attributes with prefix Name
+if (fl276){
+ctxt.fail ("Duplicate attribute: Name");
+} // If
+fl276 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setName((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+case 277: {
+// Handling attribute Guid
+// Also handles alien attributes with prefix Guid
+if (fl277){
+ctxt.fail ("Duplicate attribute: Guid");
+} // If
+fl277 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setGuid((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+case 278: {
+// Handling attribute Updates
+// Also handles alien attributes with prefix Updates
+if (fl278){
+ctxt.fail ("Duplicate attribute: Updates");
+} // If
+fl278 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setUpdates((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+case 279: {
+// Handling attribute IsRemoved
+// Also handles alien attributes with prefix IsRemoved
+if (fl279){
+ctxt.fail ("Duplicate attribute: IsRemoved");
+} // If
+fl279 = true ; 
+quoteChar = ctxt.acceptQuote();
+this.setIsRemoved(acceptor.lAcceptBoolean(ctxt));
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+break;
+} // End of dispatch label
+// Final default label
+case 281: {
+// Taking ignorable attributes into account
+if (ctxt.isAlNum()){
+ctxt.skipTill ('=');
+ctxt.advance();
+ctxt.skipWhiteSpace();
+quoteChar = ctxt.acceptQuote();
+ctxt.skipTill (quoteChar);
+ctxt.accept(quoteChar);
+ctxt.skipWhiteSpace();
+} else {
+if (!fl279){
+this.setIsRemoved( false);
+} // If
+fl280 = false ; 
+} // If
+break;
+} // End of dispatch label
+} // Dispatch
+} // While
+}
+ctxt.skipWhiteSpace();
+if (ctxt.current() == '/'){
+ctxt.advance();
+ctxt.accept('>');
+} else {
+ctxt.accept('>');
+parseBody(ctxt);
+ctxt.acceptString(endingTag);
+// If formula empty
+} // If
+}
+
+/// <remarks>This method is used by XMLBooster-generated code
+/// internally. Please refrain from using it, as it
+/// might produce unexpected results, and might change
+/// or even disappear in the future.</remarks>
+ override  public  void unParse(TextWriter pw,
+                    bool typeId,
+                     string  headingTag,
+                     string  endingTag)
+{
+#pragma warning disable 0168, 0219
+int i;
+#pragma warning restore 0168, 0219
+if (headingTag == null) {
+  headingTag = "<RuleCheckDisabling";
+  endingTag = "</RuleCheckDisabling>";
+}
+
+pw.Write(headingTag);
+if (typeId){
+pw.Write(" xsi:type=\"RuleCheckDisabling\"");
+} // If
+pw.Write('\n');
+if (this.getName() != null){
+pw.Write(" Name=\"");
+acceptor.unParsePcData(pw, this.getName());
+pw.Write('"');
+pw.Write('\n');
+} // If
+if (this.getGuid() != null){
+pw.Write(" Guid=\"");
+acceptor.unParsePcData(pw, this.getGuid());
+pw.Write('"');
+pw.Write('\n');
+} // If
+if (this.getUpdates() != null){
+pw.Write(" Updates=\"");
+acceptor.unParsePcData(pw, this.getUpdates());
+pw.Write('"');
+pw.Write('\n');
+} // If
+if (this.getIsRemoved()){
+pw.Write(" IsRemoved=\"");
+acceptor.unParsePcData(pw, this.getIsRemoved());
+pw.Write('"');
+pw.Write('\n');
+} // If
+pw.Write('>');
+pw.Write('\n');
+unParseBody(pw);
+pw.Write(endingTag);
+}
+
+/// <remarks>This method is used by XMLBooster-generated code
+/// internally. Please refrain from using it, as it
+/// might produce unexpected results, and might change
+/// or even disappear in the future.</remarks>
+ override public void unParseBody(TextWriter pw)
+{
+#pragma warning disable 0168, 0219
+int i;
+#pragma warning restore 0168, 0219
+
+base.unParseBody(pw);
+// Unparsing Repeat
+// Unparsing repetition
+unParse(pw, this.getDisabledRuleChecks(), false, "<RuleCheckIdentifier", "</RuleCheckIdentifier>");
+}
+public  override  void dispatch(XmlBBaseVisitor v)
+{
+  ((Visitor)v).visit(this);
+}
+
+public  override  void dispatch(XmlBBaseVisitor v, bool visitSubNodes)
+{
+  ((Visitor)v).visit(this, visitSubNodes);
+}
+/// <remarks>This method is used by XMLBooster-generated code
+/// internally. Please refrain from using it, as it
+/// might produce unexpected results, and might change
+/// or even disappear in the future.</remarks>
+public  override void subElements(ArrayList l)
+{
+ base.subElements(l);
+for (int i = 0; i < countDisabledRuleChecks(); i++) {
+  l.Add(getDisabledRuleChecks(i));
+}
+}
+
+}
+public partial class RuleCheckIdentifier
+: DataDictionary.Namable
+{
+public  override  bool find(Object search){
+if (search is String ) {
+}
+return false;
+}
+
+public  override  void NotifyControllers(Lock aLock){
+	base.NotifyControllers(aLock);
+	ControllersManager.RuleCheckIdentifierController.alertChange(aLock, this);
+}
+public RuleCheckIdentifier()
+{
+RuleCheckIdentifier obj = this;
+}
+
+public void copyTo(RuleCheckIdentifier other)
 {
 base.copyTo(other);
 }
@@ -4048,13 +4124,13 @@ ctxt.acceptString(endingTag);
 int i;
 #pragma warning restore 0168, 0219
 if (headingTag == null) {
-  headingTag = "<NameSpaceRef";
-  endingTag = "</NameSpaceRef>";
+  headingTag = "<RuleCheckIdentifier";
+  endingTag = "</RuleCheckIdentifier>";
 }
 
 pw.Write(headingTag);
 if (typeId){
-pw.Write(" xsi:type=\"NameSpaceRef\"");
+pw.Write(" xsi:type=\"RuleCheckIdentifier\"");
 } // If
 pw.Write('\n');
 if (this.getName() != null){
@@ -5980,6 +6056,20 @@ public  void setComment( string  v) {
 }
 
 
+private  RuleCheckDisabling aRuleCheckDisabling;
+
+public  RuleCheckDisabling getRuleCheckDisabling() { return aRuleCheckDisabling;}
+
+public  void setRuleCheckDisabling(RuleCheckDisabling v) {
+  aRuleCheckDisabling = v;
+  if ( v != null ) { 
+    v.setFather(this);
+  }
+  __setDirty(true);
+  NotifyControllers(null);
+}
+
+
 public NameSpace()
 {
 NameSpace obj = this;
@@ -6001,6 +6091,7 @@ aY=(0);
 aHidden=(false);
 aPinned=(false);
 aComment=(null);
+aRuleCheckDisabling=(null);
 }
 
 public void copyTo(NameSpace other)
@@ -6024,6 +6115,7 @@ other.aY = aY;
 other.aHidden = aHidden;
 other.aPinned = aPinned;
 other.aComment = aComment;
+other.aRuleCheckDisabling = aRuleCheckDisabling;
 }
 
 /// <remarks>This method is used by XMLBooster-generated code
@@ -6480,6 +6572,16 @@ ctxt.acceptString ("</Rules>");
 } // If
 } // If
 // End enclosed
+// Element Ref : RuleCheckDisabling
+ctxt.skipWhiteSpace();
+// If optional...
+if (ctxt.lookAheadOpeningTag("<RuleCheckDisabling")){
+// Parsing sub element
+this.setRuleCheckDisabling(acceptor.lAccept_RuleCheckDisabling(ctxt,"</RuleCheckDisabling>"));
+setSon(this.getRuleCheckDisabling());
+// Endif optional...
+} // If
+ctxt.skipWhiteSpace();
 ctxt.skipWhiteSpace();
 }
 
@@ -7060,6 +7162,10 @@ pw.Write("</Rules>");
 pw.Write('\n');
 } // If
 // After Testing for empty content: Rules
+// Unparsing ElementRef
+if (this.getRuleCheckDisabling() != null){
+unParse(pw, this.getRuleCheckDisabling(),false,"<RuleCheckDisabling","</RuleCheckDisabling>");
+} // If
 }
 public  override  void dispatch(XmlBBaseVisitor v)
 {
@@ -7110,6 +7216,7 @@ for (int i = 0; i < countVariables(); i++) {
 for (int i = 0; i < countRules(); i++) {
   l.Add(getRules(i));
 }
+l.Add(this.getRuleCheckDisabling());
 }
 
 }
@@ -45415,10 +45522,12 @@ public static Controller<ReferencesParagraph, IListener<ReferencesParagraph>> Re
 public static Controller<ReqRelated, IListener<ReqRelated>> ReqRelatedController = new Controller<ReqRelated, IListener<ReqRelated>>();
 //Dictionary  Dictionary
 public static Controller<Dictionary, IListener<Dictionary>> DictionaryController = new Controller<Dictionary, IListener<Dictionary>>();
-//RuleDisabling  RuleDisabling
-public static Controller<RuleDisabling, IListener<RuleDisabling>> RuleDisablingController = new Controller<RuleDisabling, IListener<RuleDisabling>>();
 //NameSpaceRef  NameSpaceRef
 public static Controller<NameSpaceRef, IListener<NameSpaceRef>> NameSpaceRefController = new Controller<NameSpaceRef, IListener<NameSpaceRef>>();
+//RuleCheckDisabling  RuleCheckDisabling
+public static Controller<RuleCheckDisabling, IListener<RuleCheckDisabling>> RuleCheckDisablingController = new Controller<RuleCheckDisabling, IListener<RuleCheckDisabling>>();
+//RuleCheckIdentifier  RuleCheckIdentifier
+public static Controller<RuleCheckIdentifier, IListener<RuleCheckIdentifier>> RuleCheckIdentifierController = new Controller<RuleCheckIdentifier, IListener<RuleCheckIdentifier>>();
 //NameSpace  NameSpace
 public static Controller<NameSpace, IListener<NameSpace>> NameSpaceController = new Controller<NameSpace, IListener<NameSpace>>();
 //ReqRef  ReqRef
@@ -45545,8 +45654,9 @@ NamableController.ActivateNotification();
 ReferencesParagraphController.ActivateNotification();
 ReqRelatedController.ActivateNotification();
 DictionaryController.ActivateNotification();
-RuleDisablingController.ActivateNotification();
 NameSpaceRefController.ActivateNotification();
+RuleCheckDisablingController.ActivateNotification();
+RuleCheckIdentifierController.ActivateNotification();
 NameSpaceController.ActivateNotification();
 ReqRefController.ActivateNotification();
 TypeController.ActivateNotification();
@@ -45614,8 +45724,9 @@ NamableController.DesactivateNotification();
 ReferencesParagraphController.DesactivateNotification();
 ReqRelatedController.DesactivateNotification();
 DictionaryController.DesactivateNotification();
-RuleDisablingController.DesactivateNotification();
 NameSpaceRefController.DesactivateNotification();
+RuleCheckDisablingController.DesactivateNotification();
+RuleCheckIdentifierController.DesactivateNotification();
 NameSpaceController.DesactivateNotification();
 ReqRefController.DesactivateNotification();
 TypeController.DesactivateNotification();
@@ -49634,28 +49745,61 @@ case 'u':
 ctxt.advance();
 if (ctxt.lookAhead2('l','e')){
 switch (ctxt.current()) {
+case 'C':
+{
+ctxt.advance();
+switch (ctxt.current()) {
+case 'o':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("ndition")){
+ctxt.accept(quoteChar);
+res = lAccept_RuleCondition(ctxt, endingTag);
+} else {
+res = null;
+} // If
+break;
+} // Case
+case 'h':
+{
+ctxt.advance();
+if (ctxt.lookAhead3('e','c','k')){
+switch (ctxt.current()) {
+case 'I':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("dentifier")){
+ctxt.accept(quoteChar);
+res = lAccept_RuleCheckIdentifier(ctxt, endingTag);
+} else {
+res = null;
+} // If
+break;
+} // Case
 case 'D':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("isabling")){
 ctxt.accept(quoteChar);
-res = lAccept_RuleDisabling(ctxt, endingTag);
+res = lAccept_RuleCheckDisabling(ctxt, endingTag);
 } else {
-ctxt.accept(quoteChar);
-res = lAccept_Rule(ctxt, endingTag);
+res = null;
 } // If
 break;
 } // Case
-case 'C':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("ondition")){
-ctxt.accept(quoteChar);
-res = lAccept_RuleCondition(ctxt, endingTag);
+default:
+res = null;
+break;
+} // Switch
 } else {
-ctxt.accept(quoteChar);
-res = lAccept_Rule(ctxt, endingTag);
+res = null;
 } // If
+break;
+} // Case
+default:
+res = null;
+break;
+} // Switch
 break;
 } // Case
 default:
@@ -50410,28 +50554,61 @@ case 'u':
 ctxt.advance();
 if (ctxt.lookAhead2('l','e')){
 switch (ctxt.current()) {
+case 'C':
+{
+ctxt.advance();
+switch (ctxt.current()) {
+case 'o':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("ndition")){
+ctxt.accept(quoteChar);
+res = lAccept_RuleCondition(ctxt, endingTag);
+} else {
+res = null;
+} // If
+break;
+} // Case
+case 'h':
+{
+ctxt.advance();
+if (ctxt.lookAhead3('e','c','k')){
+switch (ctxt.current()) {
+case 'I':
+{
+ctxt.advance();
+if (ctxt.lookAheadString("dentifier")){
+ctxt.accept(quoteChar);
+res = lAccept_RuleCheckIdentifier(ctxt, endingTag);
+} else {
+res = null;
+} // If
+break;
+} // Case
 case 'D':
 {
 ctxt.advance();
 if (ctxt.lookAheadString("isabling")){
 ctxt.accept(quoteChar);
-res = lAccept_RuleDisabling(ctxt, endingTag);
+res = lAccept_RuleCheckDisabling(ctxt, endingTag);
 } else {
-ctxt.accept(quoteChar);
-res = lAccept_Rule(ctxt, endingTag);
+res = null;
 } // If
 break;
 } // Case
-case 'C':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("ondition")){
-ctxt.accept(quoteChar);
-res = lAccept_RuleCondition(ctxt, endingTag);
+default:
+res = null;
+break;
+} // Switch
 } else {
-ctxt.accept(quoteChar);
-res = lAccept_Rule(ctxt, endingTag);
+res = null;
 } // If
+break;
+} // Case
+default:
+res = null;
+break;
+} // Switch
 break;
 } // Case
 default:
@@ -50937,18 +51114,6 @@ case 'u':
 ctxt.advance();
 if (ctxt.lookAhead2('l','e')){
 switch (ctxt.current()) {
-case 'D':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("isabling")){
-ctxt.accept(quoteChar);
-res = lAccept_RuleDisabling(ctxt, endingTag);
-} else {
-ctxt.accept(quoteChar);
-res = lAccept_Rule(ctxt, endingTag);
-} // If
-break;
-} // Case
 case 'C':
 {
 ctxt.advance();
@@ -51173,18 +51338,6 @@ case 'u':
 ctxt.advance();
 if (ctxt.lookAhead2('l','e')){
 switch (ctxt.current()) {
-case 'D':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("isabling")){
-ctxt.accept(quoteChar);
-res = lAccept_RuleDisabling(ctxt, endingTag);
-} else {
-ctxt.accept(quoteChar);
-res = lAccept_Rule(ctxt, endingTag);
-} // If
-break;
-} // Case
 case 'C':
 {
 ctxt.advance();
@@ -51293,12 +51446,12 @@ if (endingTag == null) endingTag = "</Dictionary>";
 /// internally. Please refrain from using it, as it
 /// might produce unexpected results, and might change
 /// or even disappear in the future.</remarks>
-public static RuleDisabling lAccept_RuleDisabling (XmlBContext ctxt, 
+public static NameSpaceRef lAccept_NameSpaceRef (XmlBContext ctxt, 
                           string  endingTag)
 
   {
-if (endingTag == null) endingTag = "</RuleDisabling>";
-  RuleDisabling res = aFactory.createRuleDisabling();
+if (endingTag == null) endingTag = "</NameSpaceRef>";
+  NameSpaceRef res = aFactory.createNameSpaceRef();
   res.parse(ctxt, endingTag);
   return res;
   }
@@ -51307,12 +51460,26 @@ if (endingTag == null) endingTag = "</RuleDisabling>";
 /// internally. Please refrain from using it, as it
 /// might produce unexpected results, and might change
 /// or even disappear in the future.</remarks>
-public static NameSpaceRef lAccept_NameSpaceRef (XmlBContext ctxt, 
+public static RuleCheckDisabling lAccept_RuleCheckDisabling (XmlBContext ctxt, 
                           string  endingTag)
 
   {
-if (endingTag == null) endingTag = "</NameSpaceRef>";
-  NameSpaceRef res = aFactory.createNameSpaceRef();
+if (endingTag == null) endingTag = "</RuleCheckDisabling>";
+  RuleCheckDisabling res = aFactory.createRuleCheckDisabling();
+  res.parse(ctxt, endingTag);
+  return res;
+  }
+
+/// <remarks>This method is used by XMLBooster-generated code
+/// internally. Please refrain from using it, as it
+/// might produce unexpected results, and might change
+/// or even disappear in the future.</remarks>
+public static RuleCheckIdentifier lAccept_RuleCheckIdentifier (XmlBContext ctxt, 
+                          string  endingTag)
+
+  {
+if (endingTag == null) endingTag = "</RuleCheckIdentifier>";
+  RuleCheckIdentifier res = aFactory.createRuleCheckIdentifier();
   res.parse(ctxt, endingTag);
   return res;
   }
@@ -52244,28 +52411,28 @@ case 'q':
 {
 ctxt.advance();
 ctxt.acceptString ("uot;");
-indicator = 2655;
+indicator = 2659;
 break;
 } // Case
 case 'n':
 {
 ctxt.advance();
 ctxt.acceptString ("bsp;");
-indicator = 2654;
+indicator = 2658;
 break;
 } // Case
 case 'l':
 {
 ctxt.advance();
 ctxt.accept2('t',';');
-indicator = 2652;
+indicator = 2656;
 break;
 } // Case
 case 'g':
 {
 ctxt.advance();
 ctxt.accept2('t',';');
-indicator = 2653;
+indicator = 2657;
 break;
 } // Case
 case 'a':
@@ -52276,18 +52443,18 @@ case 'p':
 {
 ctxt.advance();
 ctxt.accept3('o','s',';');
-indicator = 2656;
+indicator = 2660;
 break;
 } // Case
 case 'm':
 {
 ctxt.advance();
 ctxt.accept2('p',';');
-indicator = 2651;
+indicator = 2655;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2664)");
+ctxt.recoverableFail ("Other character expected (2668)");
 break;
 } // Switch
 break;
@@ -52296,39 +52463,39 @@ case '#':
 {
 ctxt.advance();
 ctxt.accept('x');
-indicator = 2657;
+indicator = 2661;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2666)");
+ctxt.recoverableFail ("Other character expected (2670)");
 break;
 } // Switch
 switch (indicator) {
-case 2651: {
+case 2655: {
 c = XMLB_AMPERSAND;
 break;
 } // End of dispatch label
-case 2652: {
+case 2656: {
 c = XMLB_LESS;
 break;
 } // End of dispatch label
-case 2653: {
+case 2657: {
 c = XMLB_GREATER;
 break;
 } // End of dispatch label
-case 2654: {
+case 2658: {
 c = XMLB_NBSP;
 break;
 } // End of dispatch label
-case 2655: {
+case 2659: {
 c = XMLB_QUOT;
 break;
 } // End of dispatch label
-case 2656: {
+case 2660: {
 c = XMLB_APOS;
 break;
 } // End of dispatch label
-case 2657: {
+case 2661: {
 c = (char) ctxt.acceptHexa();
 ctxt.accept(';');
 break;
@@ -52596,22 +52763,50 @@ throw new XmlBException (ctxt.errorMessage());
   return res;
   }
 
-/// <summary>Top level function to parse an RuleDisabling from 
+/// <summary>Top level function to parse an RuleCheckDisabling from 
 /// a context. This kind of function is only made
 /// available for elements marked as MAIN in the 
 /// metadefinition</summary>
 /// <seealso cref="accept"/>
-public static RuleDisabling acceptRuleDisabling(XmlBContext ctxt)
+public static RuleCheckDisabling acceptRuleCheckDisabling(XmlBContext ctxt)
 
   {
-RuleDisabling res;
+RuleCheckDisabling res;
 ctxt.skipWhiteSpace();
 try {
-ctxt.acceptString ("<RuleDisabling");
+ctxt.acceptString ("<RuleCheckDisabling");
 if (ctxt.isAlNum()){
 ctxt.fail ("White space expected after TAG");
 } // If
-  res = lAccept_RuleDisabling(ctxt, "</RuleDisabling>");
+  res = lAccept_RuleCheckDisabling(ctxt, "</RuleCheckDisabling>");
+ } catch (XmlBRecoveryException e) {
+  throw new XmlBException("Unexpected recovery exception: " +
+     e.ToString());
+}
+  ctxt.close();
+if (ctxt.errCount() > 0){
+res = null;
+throw new XmlBException (ctxt.errorMessage());
+} // If
+  return res;
+  }
+
+/// <summary>Top level function to parse an RuleCheckIdentifier from 
+/// a context. This kind of function is only made
+/// available for elements marked as MAIN in the 
+/// metadefinition</summary>
+/// <seealso cref="accept"/>
+public static RuleCheckIdentifier acceptRuleCheckIdentifier(XmlBContext ctxt)
+
+  {
+RuleCheckIdentifier res;
+ctxt.skipWhiteSpace();
+try {
+ctxt.acceptString ("<RuleCheckIdentifier");
+if (ctxt.isAlNum()){
+ctxt.fail ("White space expected after TAG");
+} // If
+  res = lAccept_RuleCheckIdentifier(ctxt, "</RuleCheckIdentifier>");
  } catch (XmlBRecoveryException e) {
   throw new XmlBException("Unexpected recovery exception: " +
      e.ToString());
@@ -53990,7 +54185,7 @@ ctxt.acceptString ("stCase");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2674)");
+ctxt.recoverableFail ("Other character expected (2678)");
 break;
 } // Switch
 break;
@@ -54019,7 +54214,7 @@ ctxt.acceptString ("quence");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2679)");
+ctxt.recoverableFail ("Other character expected (2683)");
 break;
 } // Switch
 break;
@@ -54088,7 +54283,7 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2687)");
+ctxt.recoverableFail ("Other character expected (2691)");
 break;
 } // Switch
 break;
@@ -54153,7 +54348,7 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2694)");
+ctxt.recoverableFail ("Other character expected (2698)");
 break;
 } // Switch
 break;
@@ -54167,24 +54362,46 @@ case 'u':
 ctxt.advance();
 ctxt.accept2('l','e');
 switch (ctxt.current()) {
-case 'D':
-{
-ctxt.advance();
-if (ctxt.lookAheadString("isabling")){
-  res =  lAccept_RuleDisabling(ctxt, "</RuleDisabling>");
-} else {
-  res =  lAccept_Rule(ctxt, "</Rule>");
-} // If
-break;
-} // Case
 case 'C':
 {
 ctxt.advance();
-if (ctxt.lookAheadString("ondition")){
+switch (ctxt.current()) {
+case 'o':
+{
+ctxt.advance();
+ctxt.acceptString ("ndition");
   res =  lAccept_RuleCondition(ctxt, "</RuleCondition>");
-} else {
-  res =  lAccept_Rule(ctxt, "</Rule>");
-} // If
+break;
+} // Case
+case 'h':
+{
+ctxt.advance();
+ctxt.accept3('e','c','k');
+switch (ctxt.current()) {
+case 'I':
+{
+ctxt.advance();
+ctxt.acceptString ("dentifier");
+  res =  lAccept_RuleCheckIdentifier(ctxt, "</RuleCheckIdentifier>");
+break;
+} // Case
+case 'D':
+{
+ctxt.advance();
+ctxt.acceptString ("isabling");
+  res =  lAccept_RuleCheckDisabling(ctxt, "</RuleCheckDisabling>");
+break;
+} // Case
+default:
+ctxt.recoverableFail ("Other character expected (2706)");
+break;
+} // Switch
+break;
+} // Case
+default:
+ctxt.recoverableFail ("Other character expected (2707)");
+break;
+} // Switch
 break;
 } // Case
 default:
@@ -54237,7 +54454,7 @@ ctxt.accept2('e','f');
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2704)");
+ctxt.recoverableFail ("Other character expected (2713)");
 break;
 } // Switch
 break;
@@ -54250,7 +54467,7 @@ ctxt.accept3('n','g','e');
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2706)");
+ctxt.recoverableFail ("Other character expected (2715)");
 break;
 } // Switch
 break;
@@ -54278,7 +54495,7 @@ ctxt.acceptString ("Condition");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2711)");
+ctxt.recoverableFail ("Other character expected (2720)");
 break;
 } // Switch
 break;
@@ -54317,13 +54534,13 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2716)");
+ctxt.recoverableFail ("Other character expected (2725)");
 break;
 } // Switch
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2717)");
+ctxt.recoverableFail ("Other character expected (2726)");
 break;
 } // Switch
 break;
@@ -54389,7 +54606,7 @@ ctxt.acceptString ("lder");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2725)");
+ctxt.recoverableFail ("Other character expected (2734)");
 break;
 } // Switch
 break;
@@ -54427,7 +54644,7 @@ break;
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2730)");
+ctxt.recoverableFail ("Other character expected (2739)");
 break;
 } // Switch
 break;
@@ -54469,13 +54686,13 @@ ctxt.acceptString ("ield");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2737)");
+ctxt.recoverableFail ("Other character expected (2746)");
 break;
 } // Switch
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2738)");
+ctxt.recoverableFail ("Other character expected (2747)");
 break;
 } // Switch
 break;
@@ -54520,7 +54737,7 @@ ctxt.accept2('s','e');
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2744)");
+ctxt.recoverableFail ("Other character expected (2753)");
 break;
 } // Switch
 break;
@@ -54533,13 +54750,13 @@ ctxt.acceptString ("ction");
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2746)");
+ctxt.recoverableFail ("Other character expected (2755)");
 break;
 } // Switch
 break;
 } // Case
 default:
-ctxt.recoverableFail ("Other character expected (2747)");
+ctxt.recoverableFail ("Other character expected (2756)");
 break;
 } // Switch
 return res;
@@ -54580,8 +54797,9 @@ public  override IXmlBBase genericAccept (XmlBContext ctxt)
 public abstract partial class Factory
 {
 public abstract Dictionary createDictionary();
-public abstract RuleDisabling createRuleDisabling();
 public abstract NameSpaceRef createNameSpaceRef();
+public abstract RuleCheckDisabling createRuleCheckDisabling();
+public abstract RuleCheckIdentifier createRuleCheckIdentifier();
 public abstract NameSpace createNameSpace();
 public abstract ReqRef createReqRef();
 public abstract Enum createEnum();
@@ -54745,14 +54963,14 @@ for (int i=0; i<Subs.Length; i++) {
 }
 }
 
-public virtual void visit(RuleDisabling obj)
+public virtual void visit(NameSpaceRef obj)
 {
   visit(obj, true);
 }
 
-public virtual void visit(RuleDisabling obj, bool visitSubNodes)
+public virtual void visit(NameSpaceRef obj, bool visitSubNodes)
 {
-visit ((ReqRelated) obj, false);
+visit ((Namable) obj, false);
 if (visitSubNodes){
 IXmlBBase[] Subs  = acceptor.subElements((IXmlBBase)obj);
 if (Subs != null){
@@ -54763,12 +54981,30 @@ for (int i=0; i<Subs.Length; i++) {
 }
 }
 
-public virtual void visit(NameSpaceRef obj)
+public virtual void visit(RuleCheckDisabling obj)
 {
   visit(obj, true);
 }
 
-public virtual void visit(NameSpaceRef obj, bool visitSubNodes)
+public virtual void visit(RuleCheckDisabling obj, bool visitSubNodes)
+{
+visit ((Namable) obj, false);
+if (visitSubNodes){
+IXmlBBase[] Subs  = acceptor.subElements((IXmlBBase)obj);
+if (Subs != null){
+for (int i=0; i<Subs.Length; i++) {
+  dispatch(Subs[i], true);
+} // If
+} // If
+}
+}
+
+public virtual void visit(RuleCheckIdentifier obj)
+{
+  visit(obj, true);
+}
+
+public virtual void visit(RuleCheckIdentifier obj, bool visitSubNodes)
 {
 visit ((Namable) obj, false);
 if (visitSubNodes){

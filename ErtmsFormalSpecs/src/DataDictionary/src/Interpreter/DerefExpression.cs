@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -118,12 +119,12 @@ namespace DataDictionary.Interpreter
                 {
                     // Several possible interpretations for this deref expression, not allowed
                     AddError("Expression " + ToString() + " may have several interpretations " + tmp +
-                             ", please disambiguate");
+                             ", please disambiguate", RuleChecksEnum.SemanticAnalysisError);
                 }
                 else
                 {
                     // No possible interpretation for this deref expression, not allowed
-                    AddError("Expression " + ToString() + " has no interpretation");
+                    AddError("Expression " + ToString() + " has no interpretation", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -201,7 +202,7 @@ namespace DataDictionary.Interpreter
 
                     if (retVal.IsEmpty)
                     {
-                        AddError("Cannot find " + Arguments[i] + " in " + Arguments[i - 1]);
+                        AddError("Cannot find " + Arguments[i] + " in " + Arguments[i - 1], RuleChecksEnum.SemanticAnalysisError);
                     }
 
                     if (retVal.IsUnique)
@@ -212,7 +213,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot evaluate " + Arguments[0]);
+                AddError("Cannot evaluate " + Arguments[0], RuleChecksEnum.SemanticAnalysisError);
             }
 
             retVal.Filter(expectation);
@@ -338,7 +339,7 @@ namespace DataDictionary.Interpreter
 
             if (retVal == null)
             {
-                AddError(ToString() + " does not refer to a value");
+                AddError(ToString() + " does not refer to a value", RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal as IValue;
@@ -376,7 +377,7 @@ namespace DataDictionary.Interpreter
 
             if (retVal == null)
             {
-                AddError(ToString() + " prefix does not refer to a value");
+                AddError(ToString() + " prefix does not refer to a value", RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -394,7 +395,7 @@ namespace DataDictionary.Interpreter
 
             if (retVal == null)
             {
-                AddError("Cannot evaluate call to " + ToString());
+                AddError("Cannot evaluate call to " + ToString(), RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;

@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -130,7 +131,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Initial value not provided");
+                    AddError("Initial value not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // Expression
@@ -206,7 +207,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot evaluate condition " + Condition);
+                    AddError("Cannot evaluate condition " + Condition, RuleChecksEnum.ExecutionFailed);
                     stop = true;
                 }
 
@@ -292,12 +293,12 @@ namespace DataDictionary.Interpreter
                     if (expressionType != initialValueType)
                     {
                         AddError("Expression " + Expression + " has not the same type (" + expressionType.FullName +
-                                 " than initial value " + InitialValue + " type " + initialValueType.FullName);
+                                 " than initial value " + InitialValue + " type " + initialValueType.FullName, RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
                 {
-                    AddError("Cannot determine type of expression " + Expression);
+                    AddError("Cannot determine type of expression " + Expression, RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 Type conditionType = Condition.GetExpressionType();
@@ -305,17 +306,17 @@ namespace DataDictionary.Interpreter
                 {
                     if (!(conditionType is BoolType))
                     {
-                        AddError("Condition " + Condition + " does not evaluate to a boolean");
+                        AddError("Condition " + Condition + " does not evaluate to a boolean", RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
                 else
                 {
-                    AddError("Cannot determine type of condition " + Condition);
+                    AddError("Cannot determine type of condition " + Condition, RuleChecksEnum.SyntaxError);
                 }
             }
             else
             {
-                AddError("Cannot determine type of the initial value " + InitialValue);
+                AddError("Cannot determine type of the initial value " + InitialValue, RuleChecksEnum.SemanticAnalysisError);
             }
         }
 

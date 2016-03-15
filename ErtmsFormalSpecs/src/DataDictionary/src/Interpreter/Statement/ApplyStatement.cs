@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
@@ -119,7 +120,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("List expression not provided");
+                    AddError("List expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // ConditionExpression
@@ -136,7 +137,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("Applied statement not provided");
+                    AddError("Applied statement not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 

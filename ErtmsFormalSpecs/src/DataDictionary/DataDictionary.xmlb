@@ -83,7 +83,6 @@
     <FIELDS>
       <FIELD NAME="Specifications"        REFTYPE="Specification" />
       <FIELD NAME="RequirementSets"       REFTYPE="RequirementSet" />
-      <FIELD NAME="RuleDisablings"        REFTYPE="RuleDisabling" />
       <FIELD NAME="NameSpaces"            REFTYPE="NameSpace" >
         <META NAME="TargetName">Namespaces</META>
       </FIELD>
@@ -118,11 +117,6 @@
             <ELEMENTREF NAME="RequirementSet"/>
           </REPEAT>
         </ENCLOSED>
-        <ENCLOSED NAME="RuleDisabling" OPTIONAL="TRUE">
-          <REPEAT TARGET="RuleDisablings">
-            <ELEMENTREF NAME="RuleDisabling"/>
-          </REPEAT>
-        </ENCLOSED>
         <ENCLOSED NAME="NameSpaces">
 	  <CONCAT>
             <REPEAT TARGET="NameSpaces">
@@ -149,25 +143,33 @@
     </FORMULA>
   </ELEMENT>
 
-  <!-- ------------------------- -->
-  <!-- Disabling of a rule       -->
-  <!-- ------------------------- -->
-  <ELEMENT NAME="RuleDisabling" BASEELEMENT="ReqRelated" MAIN="TRUE" BASECLASS="DataDictionary.ReqRelated">
-    <META NAME="Package">customization</META>
-    <FIELDS>
-      <FIELD NAME="Rule" TYPE="PCHAR" >
-        <META NAME="DoNotTranslate" />
-      </FIELD>
-    </FIELDS>
-    <ATTRIBUTES>
-      <ATTR NAME="Rule" TARGET="Rule" />
-    </ATTRIBUTES>
-  </ELEMENT>
-
   <!-- ------------------- -->
   <!-- NameSpace Reference -->
   <!-- ------------------- -->
   <ELEMENT NAME="NameSpaceRef" BASEELEMENT="Namable" BASECLASS="DataDictionary.Namable">
+  </ELEMENT>
+
+  <!-- ------------------------- -->
+  <!-- Rule check disabling      -->
+  <!-- ------------------------- -->
+  <ELEMENT NAME="RuleCheckDisabling" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
+    <FIELDS>
+      <FIELD NAME="DisabledRuleChecks" REFTYPE="RuleCheckIdentifier" >
+      </FIELD>
+    </FIELDS>
+    <FORMULA>
+      <CONCAT>
+        <REPEAT TARGET="DisabledRuleChecks">
+          <ELEMENTREF NAME="RuleCheckIdentifier"/>
+        </REPEAT>
+      </CONCAT>
+    </FORMULA>
+  </ELEMENT>
+
+  <!-- ------------------------- -->
+  <!-- Rule check identifier     -->
+  <!-- ------------------------- -->
+  <ELEMENT NAME="RuleCheckIdentifier" BASEELEMENT="Namable" MAIN="TRUE" BASECLASS="DataDictionary.Namable">
   </ELEMENT>
 
   <!-- --------- -->
@@ -221,6 +223,7 @@
         <META NAME="DoNotCompare"/>
       </FIELD>
       <FIELD NAME="Comment"             TYPE="PCHAR"/>
+      <FIELD NAME="RuleCheckDisabling"  REFTYPE="RuleCheckDisabling"/>
     </FIELDS>
     <ATTRIBUTES>
       <ATTR NAME="X"      TARGET="X"      OPTIONAL="TRUE" DEFAULT="-1" />
@@ -290,6 +293,7 @@
             <ELEMENTREF NAME="Rule" />
           </REPEAT>
         </ENCLOSED>
+        <ELEMENTREF NAME="RuleCheckDisabling" TARGET="RuleCheckDisabling" OPTIONAL="TRUE" />
       </CONCAT>
     </FORMULA>
   </ELEMENT>

@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using DataDictionary.Functions;
 using DataDictionary.Functions.PredefinedFunctions;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -132,7 +133,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Actual parameter " + designator.Image + " is bound twice");
+                    AddError("Actual parameter " + designator.Image + " is bound twice", RuleChecksEnum.ExecutionFailed);
                 }
             }
 
@@ -241,7 +242,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Called function not provided");
+                    AddError("Called function not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -333,7 +334,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot get type of function call " + ToString());
+                AddError("Cannot get type of function call " + ToString(), RuleChecksEnum.SemanticAnalysisError);
             }
 
             return retVal;
@@ -381,7 +382,7 @@ namespace DataDictionary.Interpreter
                     else
                     {
                         AddError("Cannot create graph on Call " + function.Name + " ( " +
-                                 ParameterValues(parameterValues) + " )");
+                                 ParameterValues(parameterValues) + " )", RuleChecksEnum.ExecutionFailed);
                     }
                 }
                 else // surface
@@ -395,7 +396,7 @@ namespace DataDictionary.Interpreter
                     else
                     {
                         AddError("Cannot create surface on Call " + function.Name + " ( " +
-                                 ParameterValues(parameterValues) + " )");
+                                 ParameterValues(parameterValues) + " )", RuleChecksEnum.ExecutionFailed);
                     }
                 }
 
@@ -498,7 +499,7 @@ namespace DataDictionary.Interpreter
                     else
                     {
                         AddError("Cannot evaluate value for parameter " + i + " (" + expression +
-                                 ") of function " + callable.Name);
+                                 ") of function " + callable.Name, RuleChecksEnum.ExecutionFailed);
                         throw new Exception ("Evaluation of parameters failed: Cannot evaluate value for parameter " + i +
                                              " (" + expression + ") of function " + callable.Name);
                     }
@@ -521,7 +522,7 @@ namespace DataDictionary.Interpreter
                     }
                     else
                     {
-                        AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
+                        AddError("Cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name, RuleChecksEnum.ExecutionFailed);
                         throw new Exception("Evaluation of parameters failed: cannot evaluate value for parameter " + pair.Key + " of function " + callable.Name);
                     }
                     ExplanationPart.SetNamable(subExplanation, val);
@@ -598,7 +599,7 @@ namespace DataDictionary.Interpreter
                 if (called.FormalParameters.Count != AllParameters.Count)
                 {
                     AddError("Invalid number of arguments provided for function call " + ToString() + " expected " +
-                             called.FormalParameters.Count + " actual " + AllParameters.Count);
+                             called.FormalParameters.Count + " actual " + AllParameters.Count, RuleChecksEnum.SemanticAnalysisError);
                 }
                 else
                 {
@@ -623,13 +624,13 @@ namespace DataDictionary.Interpreter
                         if (parameter == null)
                         {
                             AddError("Parameter " + name + " is not defined as formal parameter of function " +
-                                     called.FullName);
+                                     called.FullName, RuleChecksEnum.SemanticAnalysisError);
                         }
                         else
                         {
                             if (actuals.ContainsKey(name))
                             {
-                                AddError("Parameter " + name + " is assigned twice in " + ToString());
+                                AddError("Parameter " + name + " is assigned twice in " + ToString(), RuleChecksEnum.SemanticAnalysisError);
                             }
                             else
                             {
@@ -652,7 +653,7 @@ namespace DataDictionary.Interpreter
             }
             else
             {
-                AddError("Cannot determine callable referenced by " + ToString());
+                AddError("Cannot determine callable referenced by " + ToString(), RuleChecksEnum.SemanticAnalysisError);
             }
         }
 
@@ -665,20 +666,20 @@ namespace DataDictionary.Interpreter
             Type argumentType = expression.GetExpressionType();
             if (argumentType == null)
             {
-                AddError("Cannot evaluate argument type for argument " + expression);
+                AddError("Cannot evaluate argument type for argument " + expression, RuleChecksEnum.SemanticAnalysisError);
             }
             else
             {
                 if (parameter.Type == null)
                 {
-                    AddError("Cannot evaluate formal parameter type for " + parameter.Name);
+                    AddError("Cannot evaluate formal parameter type for " + parameter.Name, RuleChecksEnum.SemanticAnalysisError);
                 }
                 else
                 {
                     if (!parameter.Type.Match(argumentType))
                     {
                         AddError("Invalid argument " + expression + " type, expected " +
-                                 parameter.Type.FullName + ", actual " + argumentType.FullName);
+                                 parameter.Type.FullName + ", actual " + argumentType.FullName, RuleChecksEnum.SemanticAnalysisError);
                     }
                 }
             }
@@ -761,7 +762,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot determine called function");
+                    AddError("Cannot determine called function", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -823,7 +824,7 @@ namespace DataDictionary.Interpreter
                 }
                 else
                 {
-                    AddError("Cannot determine called function");
+                    AddError("Cannot determine called function", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
             retVal.XParameter = xParam;

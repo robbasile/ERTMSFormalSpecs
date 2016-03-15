@@ -1,4 +1,5 @@
 ﻿using DataDictionary.Functions;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Types;
 using NUnit.Framework;

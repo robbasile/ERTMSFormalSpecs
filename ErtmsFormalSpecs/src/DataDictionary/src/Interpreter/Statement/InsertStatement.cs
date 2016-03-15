@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Rules;
 using DataDictionary.Tests.Runner;
 using DataDictionary.Types;
@@ -79,7 +80,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("Value to insert not provided");
+                    AddError("Value to insert not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // ListExpression
@@ -90,7 +91,7 @@ namespace DataDictionary.Interpreter.Statement
                 }
                 else
                 {
-                    AddError("List expression not provided");
+                    AddError("List expression not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
 
                 // ReplaceElement

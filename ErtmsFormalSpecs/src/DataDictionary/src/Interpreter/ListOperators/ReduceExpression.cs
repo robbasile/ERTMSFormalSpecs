@@ -17,6 +17,7 @@
 using System;
 using DataDictionary.Functions;
 using DataDictionary.Interpreter.Filter;
+using DataDictionary.RuleCheck;
 using DataDictionary.Values;
 using DataDictionary.Variables;
 using Utils;
@@ -85,7 +86,7 @@ namespace DataDictionary.Interpreter.ListOperators
                 }
                 else
                 {
-                    AddError("Initial value not provided");
+                    AddError("Initial value not provided", RuleChecksEnum.SemanticAnalysisError);
                 }
             }
 
@@ -142,7 +143,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                AddError("Cannot evaluate list value " + ListExpression);
+                AddError("Cannot evaluate list value " + ListExpression, RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -192,12 +193,12 @@ namespace DataDictionary.Interpreter.ListOperators
                 }
                 else
                 {
-                    AddError("Cannot evaluate REDUCE expression to a function");
+                    AddError("Cannot evaluate REDUCE expression to a function", RuleChecksEnum.ExecutionFailed);
                 }
             }
             else
             {
-                AddError("Cannot evaluate REDUCE expression to a function");
+                AddError("Cannot evaluate REDUCE expression to a function", RuleChecksEnum.ExecutionFailed);
             }
 
             return retVal;
@@ -259,7 +260,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             else
             {
-                AddError("Cannot determine initial value expression type for " + ToString());
+                AddError("Cannot determine initial value expression type for " + ToString(), RuleChecksEnum.SemanticAnalysisError);
             }
 
 
@@ -274,7 +275,7 @@ namespace DataDictionary.Interpreter.ListOperators
             }
             if (!refToResultFound)
             {
-                AddError("REDUCE expressions should reference RESULT variable");
+                AddError("REDUCE expressions should reference RESULT variable", RuleChecksEnum.SyntaxError);
             }
         }
 
