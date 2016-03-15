@@ -27,14 +27,14 @@ namespace DataDictionary.test
             RuleCheckerVisitor visitor = new RuleCheckerVisitor(dictionary);
             visitor.visit(nameSpace);
 
-            Assert.True(HasMessage(r1, "Invalid min value for integer range : must be an integer"));
-            Assert.False(HasMessage(r1, "Invalid max value for integer range : must be an integer"));
+            Assert.True(HasMessage(r1, "Type08: Invalid min value for integer range : must be an integer"));
+            Assert.False(HasMessage(r1, "Type08: Invalid max value for integer range : must be an integer"));
 
-            Assert.False(HasMessage(r2, "Invalid min value for float range : must have a decimal part"));
-            Assert.True(HasMessage(r2, "Invalid max value for float range : must have a decimal part"));
+            Assert.False(HasMessage(r2, "Type09: Invalid min value for float range : must have a decimal part"));
+            Assert.True(HasMessage(r2, "Type09: Invalid max value for float range : must have a decimal part"));
 
-            Assert.True(HasMessage(r3, "Cannot parse min value for range"));
-            Assert.False(HasMessage(r3, "Cannot parse max value for range"));
+            Assert.True(HasMessage(r3, "Type10: Cannot parse min value for range"));
+            Assert.False(HasMessage(r3, "Type10: Cannot parse max value for range"));
         }
 
         /// <summary>

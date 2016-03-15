@@ -77,7 +77,7 @@ namespace DataDictionary.test.updateModel
             Assert.AreEqual(errorsList.Count, 1);
 
             // The error is that it does not have a base element to update
-            Assert.That(errorsList[0].Log == "Cannot find the element updated by this.");
+            Assert.That(errorsList[0].Log == "Update02: Cannot find the element updated by this.");
         }
     }
 }
