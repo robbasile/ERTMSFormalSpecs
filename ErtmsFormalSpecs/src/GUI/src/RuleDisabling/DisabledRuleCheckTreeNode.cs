@@ -15,19 +15,39 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
-using DataDictionary;
 using DataDictionary.RuleCheck;
 
-namespace GUI
+namespace GUI.RuleDisabling
 {
-    public class DisabledRuleChecksTreeNode<T> : ModelElementTreeNode<T> where T : ModelElement, IRuleCheckDisabling
+    public class DisabledRuleCheckTreeNode : ModelElementTreeNode<RuleCheckIdentifier>
     {
         /// <summary>
-        ///     The editor for message variables
+        ///     Indicates that this req ref can be removed from its model
         /// </summary>
-        protected class ItemEditor : NamedEditor
+        private bool CanBeDeleted { get; set; }
+
+        private class ItemEditor : Editor
         {
+            /// <summary>
+            ///     The item name
+            /// </summary>
+            [Category("Description")]
+            public virtual string Name
+            {
+                get
+                {
+                    string retVal = "";
+
+                    if (Item != null)
+                    {
+                        retVal = Item.Name;
+                    }
+
+                    return retVal;
+                }
+            }
         }
 
         /// <summary>
@@ -35,28 +55,12 @@ namespace GUI
         /// </summary>
         /// <param name="item"></param>
         /// <param name="buildSubNodes"></param>
-        public DisabledRuleChecksTreeNode(T item, bool buildSubNodes)
-            : base(item, buildSubNodes, "Disabled Rules", true)
+        /// <param name="canBeDeleted"></param>
+        /// <param name="name"></param>
+        public DisabledRuleCheckTreeNode(RuleCheckIdentifier item, bool buildSubNodes, bool canBeDeleted, string name = null)
+            : base(item, buildSubNodes, name)
         {
-        }
-
-        /// <summary>
-        ///     Builds the subnodes of this node
-        /// </summary>
-        /// <param name="subNodes"></param>
-        /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
-        {
-            base.BuildSubNodes(subNodes, recursive);
-
-            if (Item.Disabling != null)
-            {
-                foreach (RuleCheckIdentifier disabledRule in Item.Disabling.DisabledRuleChecks)
-                {
-                    subNodes.Add(new DisabledRuleCheckTreeNode(disabledRule, recursive, true, disabledRule.Name));
-                }
-                subNodes.Sort();
-            }
+            CanBeDeleted = canBeDeleted;
         }
 
         /// <summary>
@@ -74,7 +78,12 @@ namespace GUI
         /// <returns></returns>
         protected override List<MenuItem> GetMenuItems()
         {
-            List<MenuItem> retVal = new List<MenuItem>();
+            List<MenuItem> retVal = new List<MenuItem> {};
+
+            if (CanBeDeleted)
+            {
+                retVal.Add(new MenuItem("Delete", DeleteHandler));
+            }
 
             return retVal;
         }

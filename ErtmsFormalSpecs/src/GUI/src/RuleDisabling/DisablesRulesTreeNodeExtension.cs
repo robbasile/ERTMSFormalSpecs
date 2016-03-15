@@ -20,51 +20,33 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
 using DataDictionary.RuleCheck;
-using GUI.RuleDisabling;
 using RuleCheckDisabling = DataDictionary.RuleCheck.RuleCheckDisabling;
 using RuleCheckIdentifier = DataDictionary.RuleCheck.RuleCheckIdentifier;
 
-namespace GUI
+namespace GUI.RuleDisabling
 {
-    public abstract class DisablesRuleChecksTreeNode<T> : ModelElementTreeNode<T> where T : ModelElement, IRuleCheckDisabling
+    public class DisablesRulesTreeNodeExtension<T> 
+        where T : ModelElement, IRuleCheckDisabling
     {
-        /// <summary>
-        ///     The editor for message variables
-        /// </summary>
-        protected class DisablesRuleChecksEditor : CommentableEditor
-        {
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            protected DisablesRuleChecksEditor()
-            {
-            }
-        }
-
         /// <summary>
         ///     Indicates whether this node handles disablings
         /// </summary>
-        protected bool HandleDisablings { get; private set; }
+        public bool HandleDisablings { get; private set; }
+
+        /// <summary>
+        ///     Reference to the model element that can disable rule checks
+        /// </summary>
+        private readonly T _item;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="buildSubNodes"></param>
-        /// <param name="name"></param>
-        /// <param name="isFolder"></param>
         /// <param name="addDisablings"></param>
-        protected DisablesRuleChecksTreeNode(T item, bool buildSubNodes, string name = null, bool isFolder = false,
-            bool addDisablings = true)
-            : base(item, buildSubNodes, name, isFolder)
+        public DisablesRulesTreeNodeExtension(T item, bool addDisablings = true)
         {
             HandleDisablings = addDisablings;
-
-            if (buildSubNodes)
-            {
-                // State of the node changed, rebuild the subnodes.
-                BuildOrRefreshSubNodes(null);
-            }
+           _item = item;
         }
 
         /// <summary>
@@ -73,7 +55,7 @@ namespace GUI
         /// <returns></returns>
         private bool DisablesRules()
         {
-            return HandleDisablings && Item.Disabling != null && Item.Disabling.DisabledRuleChecks.Count > 0;
+            return HandleDisablings && _item.Disabling != null && _item.Disabling.DisabledRuleChecks.Count > 0;
         }
 
         /// <summary>
@@ -81,13 +63,11 @@ namespace GUI
         /// </summary>
         /// <param name="subNodes"></param>
         /// <param name="recursive">Indicates whether the subnodes of the nodes should also be built</param>
-        public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
+        public void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
-            base.BuildSubNodes(subNodes, recursive);
-
             if (DisablesRules())
             {
-                subNodes.Add(new DisabledRuleChecksTreeNode<T>(Item, recursive));
+                subNodes.Add(new DisabledRuleChecksTreeNode<T>(_item, recursive));
             }
         }
 
@@ -105,12 +85,11 @@ namespace GUI
             {
                 RuleCheckIdentifier identifier = (RuleCheckIdentifier) acceptor.getFactory().createRuleCheckIdentifier();
                 identifier.Name = selectRule.SelectedRule.ToString();
-                if (Item.Disabling == null)
+                if (_item.Disabling == null)
                 {
-                    Item.Disabling = (RuleCheckDisabling) acceptor.getFactory().createRuleCheckDisabling();
+                    _item.Disabling = (RuleCheckDisabling) acceptor.getFactory().createRuleCheckDisabling();
                 }
-                Item.Disabling.appendDisabledRuleChecks(identifier);
-                BuildOrRefreshSubNodes(null);
+                _item.Disabling.appendDisabledRuleChecks(identifier);
             }
         }
 
@@ -118,9 +97,9 @@ namespace GUI
         ///     The menu items for this tree node
         /// </summary>
         /// <returns></returns>
-        protected override List<MenuItem> GetMenuItems()
+        public List<MenuItem> AddMenuItems(List<MenuItem> baseList)
         {
-            List<MenuItem> retVal = base.GetMenuItems();
+            List<MenuItem> retVal = baseList;
 
             retVal.Add(new MenuItem("Add rule disabling", AddRuleDisabling));
 
