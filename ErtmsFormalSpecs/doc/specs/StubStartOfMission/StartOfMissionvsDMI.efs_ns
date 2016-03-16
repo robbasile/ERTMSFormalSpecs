@@ -60,7 +60,7 @@
 >
 </Variable><Variable
  Type="Messages.M_VERSION"
- DefaultValue="Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0"
+ DefaultValue="Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0"
  VariableMode="Internal"
  X="490"
  Y="230"
@@ -78,6 +78,17 @@
  Height="50"
  Name="RBCRequestReceived"
  Guid="f333d680-ce5b-4e11-bd7c-4075a71ffabf"
+>
+</Variable><Variable
+ Type="Messages.M_VERSION"
+ DefaultValue="Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0"
+ VariableMode="Internal"
+ X="490"
+ Y="230"
+ Width="100"
+ Height="50"
+ Name="Valid_RBCMVERSION"
+ Guid="e918a757-2a56-488b-8628-58aa21f3d7c8"
 >
 </Variable></Variables>
 <Rules>
@@ -370,6 +381,105 @@ BitField =&gt; &apos;&apos;
 <Action
  Guid="0ad2395e-0f47-4406-be4a-cfc681ce5f31"
 >EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="TrainDataReception_S11"
+ Guid="04d2d957-d0db-4960-a55b-008def8af304"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ReceiveTrainData"
+ Guid="90946437-02dc-46e8-9e08-b4c32e03f87a"
+>
+<PreConditions>
+<PreCondition
+ Guid="2b072846-43c9-4fa5-ac8d-3268b6d33c63"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S11.SendTrainData</PreCondition><PreCondition
+ Guid="c66a48c9-91bd-4c52-9c25-b226db4bc232"
+>Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.VALIDATED_TRAIN_DATA)</PreCondition><PreCondition
+ Guid="c8734c6e-f4ee-45f1-996a-3e2279c0dcac"
+>Count &lt; 0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="165b67c6-30e7-4703-b185-8c34468222ee"
+>Count &lt;- 10</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Verification"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="TrainDataAcknowledgement_S11"
+ Guid="5edc2d1a-a14e-4087-aede-94aad485fe46"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcknowledgeTrainDataReception"
+ Guid="2dfb440d-ddea-4bec-aa6d-5437f1bafdf5"
+>
+<PreConditions>
+<PreCondition
+ Guid="6242bd5d-66ac-4cfb-9057-7e8f397f5586"
+>Count == 0</PreCondition><PreCondition
+ Guid="0d647ea3-e930-41b3-ad01-c72cc6d88d10"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S11.TrainDataSent</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d71adeb7-8701-48cb-bd3b-ed5c54cca2e9"
+>Count &lt;- -1</Action><Action
+ Guid="041684bb-33d3-4108-a1cc-b3e20494868a"
+>EURORADIO.CurrentRBCConnection().MessageIn &lt;- Messages.EURORADIO.MessageIn.Message{
+SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
+    ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.ACKNOWLEDGEMENT_OF_TRAIN_DATA.Message
+    {
+        L_MESSAGE =&gt; 10,
+        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+        NID_LRBG =&gt; 0,
+        NID_MESSAGE =&gt; 8,
+        T_TRAIN_0 =&gt; 0,
+        T_TRAIN_1 =&gt; 0
+    }
+    },
+SystemVersion1 =&gt; EMPTY,
+Priority =&gt; 0,
+BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="GiveCorrectSystemVersion"
+ Guid="a81cc924-e44d-4e41-89bc-f6a1d29ab60a"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="CorrectSystemVersion"
+ Guid="d60608e6-f0b0-4dae-a93f-e04af6e98d32"
+>
+<PreConditions>
+<PreCondition
+ Guid="db05372d-fba3-4aa4-8e0e-f1c0f40106bd"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.A32</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6820a040-5d81-4456-968d-730c139a77d5"
+>RBCMVERSION &lt;- Valid_RBCMVERSION</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
