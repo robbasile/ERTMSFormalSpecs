@@ -37,8 +37,10 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
- Name="Open communication session"
+ Name="Choose to contact last known RBC"
  Guid="51c7f69b-d934-4d7c-868e-1097d9dca6b2"
 >
 <ReqRef
@@ -56,7 +58,7 @@
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Open communication session"
+ Name="Contact last known RBC"
  Guid="4e52bf4c-6585-4d39-843c-6eebf9675521"
 >
 <PreConditions>
@@ -69,12 +71,14 @@
 >NOT EURORADIO.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="abb9b9dd-961c-4db9-b601-5176cfc924a5"
->EURORADIO.OpenRBCSession()</Action></Actions>
+ Guid="ab3a7c56-6494-4ac2-996a-69f8ec134060"
+>ContactLastKnownRBC()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="AcceptDriverResponse"
@@ -84,6 +88,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Accepts data from the driver"
@@ -112,6 +118,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="InitiateRequest"
@@ -143,6 +151,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="InitiateRequest"
@@ -176,6 +186,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="94c5e6e9-9d6e-44d7-9569-482648a50c5f"
@@ -189,6 +201,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Disable if needed"
  Guid="1f846ffb-1fee-49ba-849c-082c2ef391d8"
@@ -213,6 +227,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="ProvideDriverResponse"
@@ -229,6 +245,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Provide driver response"
@@ -250,6 +268,50 @@
 >InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
  Guid="8d8339a2-3bb0-45cb-a845-e68bcc0a597c"
 >Level &lt;- aLevel</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ContactLastKnownRBC"
+ Guid="4d452374-ed35-40f2-9cc0-bdea4cc9d949"
+>
+<ReqRef
+ Id="2beacd86-f3da-4d70-9f5b-c90738e82b4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70ff22f0-8a0f-4436-a0da-9c2a2b03330f"
+>
+</ReqRef><ReqRef
+ Id="cae9ea11-6eb1-49b7-b010-183e0c897e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c3145e2-9f48-4bbf-a7af-7ad6cbf39c4f"
+>
+</ReqRef><Comment>Procedure to contact last known RBC. Automatically called as soon as the driver changes the Level to 2/3.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ContactLastKnownRBC"
+ Guid="c1781922-0f1f-437b-9195-cc2ff6b8fb9d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="ContactLastKnownRBC"
+ Guid="ed83810d-538c-463f-a466-7ffeaf8cde6a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="42cb8024-2aef-4c20-81f0-d1df5ae0d549"
+>EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.ContactLastKnownRBC</Action><Action
+ Guid="2548d8a1-13a3-497b-b2a5-b625dbd4fe7f"
+>EURORADIO.OpenRBCSession()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
