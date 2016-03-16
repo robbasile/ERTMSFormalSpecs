@@ -6928,6 +6928,18 @@ EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRa
 >NOT EURORADIO.TerminalIsRegistered(EURORADIO.CurrentTerminal())</PreCondition></PreConditions>
 <Expression>[DMI.RBCContactActionEnum.ReenterNetworkId]</Expression>
 </Case><Case
+ Name="Invalid RBC-ID/phone number_InvalidLastKnownRB C"
+ Guid="14297389-0b18-4f52-bebe-932e62913e7a"
+>
+<PreConditions>
+<PreCondition
+ Guid="22c7b707-5f14-4975-9670-03f0efee00f8"
+>EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Invalid</PreCondition><PreCondition
+ Guid="718b390d-c952-4fb1-900a-85c566ce024a"
+>EURORADIO.LastKnownRBC.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Expression>[DMI.RBCContactActionEnum.ReenterNetworkId,
+DMI.RBCContactActionEnum.UseEireneShortNumber, DMI.RBCContactActionEnum.RevalidateContactInfo, DMI.RBCContactActionEnum.EnterContactInfo]</Expression>
+</Case><Case
  Name="Invalid RBC-ID/phone number"
  Guid="63d1f25a-5bd9-45c5-978e-7fe44ecdf335"
 >
