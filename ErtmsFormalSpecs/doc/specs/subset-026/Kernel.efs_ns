@@ -2493,16 +2493,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
  Guid="8a9f122d-645e-4adc-be29-94e2a938646b"
 >DMI.MasterDMI().In_NonLeadingRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="fb322063-ab6f-45d4-a3f1-8ed7000acaf7"
-><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
-DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
- Guid="9d1aa2e5-b30f-4f93-a4d4-559e1bd93ea0"
-><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
-DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action><Action
- Guid="5a3aec44-37c6-4383-87c2-84179676cdbc"
-><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
-DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2570,16 +2561,7 @@ DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Act
 <Actions>
 <Action
  Guid="95ad63ec-6c25-4487-9483-5761e7f0231f"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S12</Action><Action
- Guid="72007b2f-cf4d-4e5f-bad8-659edc1cc4da"
-><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
-DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
- Guid="6a691584-c660-4c88-ad5b-759dc77e46b4"
-><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
-DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action><Action
- Guid="08b26d17-2574-48c3-a0bd-812261da4832"
-><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
-DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S12</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2628,16 +2610,7 @@ DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Act
  Guid="85d5c94d-3176-4321-980a-89906a0a0b71"
 >DMI.MasterDMI().In_TrainData.InputInformation.Disable()</Action><Action
  Guid="463167fb-e523-4010-bd09-8a3064471d6d"
->EURORADIO.OpenRBCSession()</Action><Action
- Guid="33febeaf-0fb0-4ba2-966e-0d11369dbf64"
-><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
-DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
- Guid="4bbfa649-ae1f-4097-9e2e-481b16018777"
-><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
-DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action><Action
- Guid="16ba5635-5730-4bc7-b514-d336d287837d"
-><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
-DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action></Actions>
+>EURORADIO.OpenRBCSession()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2881,7 +2854,19 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
  Guid="2e192d4a-bab4-439d-b95b-d9d6cac1ca80"
 >DMI.MasterDMI().In_ShuntingRequest.InputInformation.Disable()</Action><Action
  Guid="c345c908-e6d1-45ea-95f7-2566f04dcee5"
->DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.Disable()</Action></Actions>
+>DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.Disable()</Action><Action
+ Guid="5ad043a3-9b93-4200-88f4-cbdf65c181e1"
+><Comment>Stops displaying the RadioNetworkRegistrationFailed message if it was.</Comment>
+
+DMI.MasterDMI().Out_RadioNetworkRegistrationFailed.DisplayStartTime &lt;- EMPTY</Action><Action
+ Guid="d8aa655b-5879-4b71-a5ed-cab5390477fd"
+><Comment>Stops displaying the TracksideNotCompatibleMessage if it was.</Comment>
+
+DMI.MasterDMI().Out_TracksideNotCompatible.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="8cd8327e-8c55-4a11-93c7-45b1987a6961"
+><Comment>Stops displaying the TrainIsRejectedMessage if it was.</Comment>
+
+DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></LeaveAction>
 </State><State
