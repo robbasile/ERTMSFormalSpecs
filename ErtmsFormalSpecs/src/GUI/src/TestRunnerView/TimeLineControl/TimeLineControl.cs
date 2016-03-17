@@ -24,6 +24,7 @@ using DataDictionary.Generated;
 using DataDictionary.Interpreter.Statement;
 using DataDictionary.Tests.Runner.Events;
 using GUI.Properties;
+using GUIUtils.Images;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
 using NameSpace = DataDictionary.Types.NameSpace;
@@ -160,22 +161,16 @@ namespace GUI.TestRunnerView.TimeLineControl
         ///     The image indexes used to retrieve images
         /// </summary>
         private const int ToolsImageIndex = 0;
-
         private const int ErrorImageIndex = 1;
         private const int SuccessImageIndex = 2;
         private const int QuestionMarkImageIndex = 3;
-        private const int AntennaImageIndex = 4;
-        private const int BalanceImageIndex = 5;
-        private const int SpeedControlImageIndex = 6;
-        private const int TrainImageIndex = 7;
-        private const int WheelImageIndex = 8;
-        private const int InImageIndex = 9;
-        private const int OutImageIndex = 10;
-        private const int InOutImageIndex = 11;
-        private const int InternalImageIndex = 12;
-        private const int CallImageIndex = 13;
-        private const int CircularArrowIndex = 14;
-        private const int DownArrowIndex = 15;
+        private const int InImageIndex = 4;
+        private const int OutImageIndex = 5;
+        private const int InOutImageIndex = 6;
+        private const int InternalImageIndex = 7;
+        private const int CallImageIndex = 8;
+        private const int CircularArrowIndex = 9;
+        private const int DownArrowIndex = 10;
 
         /// <summary>
         ///     Constructor
@@ -191,11 +186,6 @@ namespace GUI.TestRunnerView.TimeLineControl
             Images.Images.Add(Resources.error);
             Images.Images.Add(Resources.success);
             Images.Images.Add(Resources.question_mark);
-            Images.Images.Add(Resources.antenna);
-            Images.Images.Add(Resources.balance);
-            Images.Images.Add(Resources.speed_control);
-            Images.Images.Add(Resources.train);
-            Images.Images.Add(Resources.wheel);
             Images.Images.Add(Resources.in_icon);
             Images.Images.Add(Resources.out_icon);
             Images.Images.Add(Resources.in_out_icon);
@@ -537,24 +527,24 @@ namespace GUI.TestRunnerView.TimeLineControl
             public string BottomText { get; private set; }
 
             /// <summary>
-            ///     The image index of the left icon
+            ///     The image of the left icon
             /// </summary>
-            public int LeftIconImageIndex { get; private set; }
+            public Image LeftIconImage { get; private set; }
 
             /// <summary>
-            ///     The image index of the Right icon
+            ///     The image of the Right icon
             /// </summary>
-            public int RightIconImageIndex { get; private set; }
+            public Image RightIconImage { get; private set; }
 
             /// <summary>
             ///     The icons to display on the top right of the event
             /// </summary>
-            public List<int> TopRightIconImageIndex { get; private set; }
+            public List<Image> TopRightIconImage { get; private set; }
 
             /// <summary>
             ///     The icon to display near the RightIcon
             /// </summary>
-            public int RightIconModifierImageIndex { get; private set; }
+            public Image RightIconModifierImage { get; private set; }
 
             /// <summary>
             ///     Constructor
@@ -565,16 +555,16 @@ namespace GUI.TestRunnerView.TimeLineControl
             /// <param name="leftIcon"></param>
             /// <param name="rightIcon"></param>
             /// <param name="rightIconModifier"></param>
-            public EventDisplayAttributes(Color fillColor, Pen drawPen, string bottomText, int leftIcon, int rightIcon,
-                int rightIconModifier)
+            public EventDisplayAttributes(Color fillColor, Pen drawPen, string bottomText, Image leftIcon, Image rightIcon,
+                Image rightIconModifier)
             {
                 FillColor = fillColor;
                 DrawPen = drawPen;
                 BottomText = bottomText;
-                LeftIconImageIndex = leftIcon;
-                RightIconImageIndex = rightIcon;
-                RightIconModifierImageIndex = rightIconModifier;
-                TopRightIconImageIndex = new List<int>();
+                LeftIconImage = leftIcon;
+                RightIconImage = rightIcon;
+                RightIconModifierImage = rightIconModifier;
+                TopRightIconImage = new List<Image>();
             }
         }
 
@@ -586,7 +576,7 @@ namespace GUI.TestRunnerView.TimeLineControl
         private EventDisplayAttributes GetDisplayAttributes(ModelEvent evt)
         {
             EventDisplayAttributes retVal = new EventDisplayAttributes(Color.White, new Pen(Color.Black), "<undefined>",
-                -1, -1, -1);
+                null, null, null);
 
             ModelElement.DontRaiseError(() =>
             {
@@ -600,25 +590,25 @@ namespace GUI.TestRunnerView.TimeLineControl
                     {
                         case Expect.EventState.Active:
                             retVal = new EventDisplayAttributes(Color.Violet, new Pen(Color.Black), name,
-                                QuestionMarkImageIndex, GetImageIndex(expect.Expectation), -1);
+                                Images.Images[QuestionMarkImageIndex], NameSpaceImages.Instance.GetImage(expect.Expectation), null);
                             break;
                         case Expect.EventState.Fullfilled:
                             retVal = new EventDisplayAttributes(Color.LightGreen, new Pen(Color.Green), name,
-                                SuccessImageIndex, GetImageIndex(expect.Expectation), -1);
+                                Images.Images[SuccessImageIndex], NameSpaceImages.Instance.GetImage(expect.Expectation), null);
                             break;
                         case Expect.EventState.TimeOut:
-                            retVal = new EventDisplayAttributes(Color.Red, new Pen(Color.DarkRed), name, ErrorImageIndex,
-                                GetImageIndex(expect.Expectation), -1);
+                            retVal = new EventDisplayAttributes(Color.Red, new Pen(Color.DarkRed), name, Images.Images[ErrorImageIndex],
+                                NameSpaceImages.Instance.GetImage(expect.Expectation), null);
                             break;
                     }
 
                     if (expect.Expectation.getKind() == acceptor.ExpectationKind.aContinuous)
                     {
-                        retVal.TopRightIconImageIndex.Add(CircularArrowIndex);
+                        retVal.TopRightIconImage.Add(Images.Images[CircularArrowIndex]);
                     }
                     if (expect.Expectation.Blocking)
                     {
-                        retVal.TopRightIconImageIndex.Add(DownArrowIndex);
+                        retVal.TopRightIconImage.Add(Images.Images[DownArrowIndex]);
                     }
                 }
 
@@ -628,8 +618,8 @@ namespace GUI.TestRunnerView.TimeLineControl
                     string name = GuiUtils.AdjustForDisplay(modelInterpretationFailure.Message,
                         _eventSize.Width - 4, BottomFont);
 
-                    retVal = new EventDisplayAttributes(Color.Red, new Pen(Color.DarkRed), name, ErrorImageIndex,
-                        GetImageIndex(modelInterpretationFailure.Instance as ModelElement), -1);
+                    retVal = new EventDisplayAttributes(Color.Red, new Pen(Color.DarkRed), name, Images.Images[ErrorImageIndex],
+                        NameSpaceImages.Instance.GetImage(modelInterpretationFailure.Instance as ModelElement), null);
                 }
 
                 RuleFired ruleFired = evt as RuleFired;
@@ -638,40 +628,40 @@ namespace GUI.TestRunnerView.TimeLineControl
                     string name = GuiUtils.AdjustForDisplay(ShortName(ruleFired.RuleCondition.Name),
                         _eventSize.Width - 4, BottomFont);
 
-                    retVal = new EventDisplayAttributes(Color.LightBlue, new Pen(Color.Blue), name, -1,
-                        GetImageIndex(ruleFired.RuleCondition), ToolsImageIndex);
+                    retVal = new EventDisplayAttributes(Color.LightBlue, new Pen(Color.Blue), name, null,
+                        NameSpaceImages.Instance.GetImage(ruleFired.RuleCondition), Images.Images[ToolsImageIndex]);
                 }
 
                 VariableUpdate variableUpdate = evt as VariableUpdate;
                 if (variableUpdate != null)
                 {
                     string name = variableUpdate.Action.ExpressionText;
-                    int rightIcon = -1;
-                    int rightModifier = -1;
+                    Image rightIcon = null;
+                    Image rightModifier = null;
                     if (variableUpdate.Action.Statement != null)
                     {
                         name = variableUpdate.Action.Statement.ShortShortDescription();
-                        rightIcon = GetImageIndex(variableUpdate.Action.Statement.AffectedElement());
+                        rightIcon = NameSpaceImages.Instance.GetImage(variableUpdate.Action.Statement.AffectedElement());
 
                         switch (variableUpdate.Action.Statement.UsageDescription())
                         {
                             case Statement.ModeEnum.Call:
-                                rightModifier = CallImageIndex;
+                                rightModifier = Images.Images[CallImageIndex];
                                 break;
                             case Statement.ModeEnum.In:
-                                rightModifier = InImageIndex;
+                                rightModifier = Images.Images[InImageIndex];
                                 break;
 
                             case Statement.ModeEnum.InOut:
-                                rightModifier = InOutImageIndex;
+                                rightModifier = Images.Images[InOutImageIndex];
                                 break;
 
                             case Statement.ModeEnum.Internal:
-                                rightModifier = InternalImageIndex;
+                                rightModifier = Images.Images[InternalImageIndex];
                                 break;
 
                             case Statement.ModeEnum.Out:
-                                rightModifier = OutImageIndex;
+                                rightModifier = Images.Images[OutImageIndex];
                                 break;
                         }
                     }
@@ -680,12 +670,12 @@ namespace GUI.TestRunnerView.TimeLineControl
                     NameSpace nameSpace = EnclosingFinder<NameSpace>.find(variableUpdate.Action);
                     if (nameSpace == null)
                     {
-                        retVal = new EventDisplayAttributes(Color.LightGray, new Pen(Color.Black), name, -1, rightIcon,
+                        retVal = new EventDisplayAttributes(Color.LightGray, new Pen(Color.Black), name, null, rightIcon,
                             rightModifier);
                     }
                     else
                     {
-                        retVal = new EventDisplayAttributes(Color.BlanchedAlmond, new Pen(Color.Black), name, -1,
+                        retVal = new EventDisplayAttributes(Color.BlanchedAlmond, new Pen(Color.Black), name, null,
                             rightIcon, rightModifier);
                     }
                 }
@@ -693,52 +683,9 @@ namespace GUI.TestRunnerView.TimeLineControl
                 SubStepActivated subStepActivated = evt as SubStepActivated;
                 if (subStepActivated != null)
                 {
-                    retVal = new EventDisplayAttributes(Color.LightGray, new Pen(Color.Black), "SubStep", -1, -1, -1);
+                    retVal = new EventDisplayAttributes(Color.LightGray, new Pen(Color.Black), "SubStep", null, null, null);
                 }
             });
-
-            return retVal;
-        }
-
-        /// <summary>
-        ///     Provides the image index of the element provided
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
-        private int GetImageIndex(ModelElement element)
-        {
-            int retVal = -1;
-
-            NameSpace nameSpace = EnclosingNameSpaceFinder.find(element);
-            while (nameSpace != null && nameSpace.EnclosingNameSpace != null)
-            {
-                nameSpace = nameSpace.EnclosingNameSpace;
-            }
-
-            // TODO : Allow to define the image in the namespace itself
-            if (nameSpace != null)
-            {
-                if (nameSpace.Name == "BTM" || nameSpace.Name == "EURORADIO")
-                {
-                    retVal = AntennaImageIndex;
-                }
-                else if (nameSpace.Name == "JRU")
-                {
-                    retVal = BalanceImageIndex;
-                }
-                else if (nameSpace.Name == "DMI")
-                {
-                    retVal = SpeedControlImageIndex;
-                }
-                else if (nameSpace.Name == "Odometry")
-                {
-                    retVal = WheelImageIndex;
-                }
-                else
-                {
-                    retVal = TrainImageIndex;
-                }
-            }
 
             return retVal;
         }
@@ -823,28 +770,27 @@ namespace GUI.TestRunnerView.TimeLineControl
                     pe.Graphics.DrawString(attributes.BottomText, BottomFont, new SolidBrush(attributes.DrawPen.Color),
                         new Point(bounds.Left + 2, bounds.Bottom - 2 - BottomFont.Height));
 
-                    if (attributes.LeftIconImageIndex >= 0)
+                    if (attributes.LeftIconImage != null)
                     {
-                        pe.Graphics.DrawImage(Images.Images[attributes.LeftIconImageIndex], bounds.Left + 4,
+                        pe.Graphics.DrawImage(attributes.LeftIconImage, bounds.Left + 4,
                             bounds.Top + 4, 20, 20);
                     }
 
-                    if (attributes.RightIconImageIndex >= 0)
+                    if (attributes.RightIconImage != null)
                     {
-                        pe.Graphics.DrawImage(Images.Images[attributes.RightIconImageIndex], bounds.Right - 4 - 20,
+                        pe.Graphics.DrawImage(attributes.RightIconImage, bounds.Right - 4 - 20,
                             bounds.Top + 4, 20, 20);
                     }
 
-                    if (attributes.RightIconImageIndex >= 0 && attributes.RightIconModifierImageIndex >= 0)
+                    if (attributes.RightIconImage!= null && attributes.RightIconModifierImage != null)
                     {
-                        pe.Graphics.DrawImage(Images.Images[attributes.RightIconModifierImageIndex],
-                            bounds.Right - 4 - 30, bounds.Top + 10, 16, 16);
+                        pe.Graphics.DrawImage(attributes.RightIconModifierImage, bounds.Right - 4 - 30, bounds.Top + 10, 16, 16);
                     }
 
                     int shift = 0;
-                    foreach (int index in attributes.TopRightIconImageIndex)
+                    foreach (Image image in attributes.TopRightIconImage)
                     {
-                        pe.Graphics.DrawImage(Images.Images[index], bounds.Right - 16 + shift, bounds.Top, 16, 16);
+                        pe.Graphics.DrawImage(image, bounds.Right - 16 + shift, bounds.Top, 16, 16);
                         shift = shift - 16;
                     }
                 }

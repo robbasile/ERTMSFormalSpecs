@@ -1342,6 +1342,10 @@ namespace DataDictionary.Compare
             {
                 compareRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling(), diff );
             }
+            if ( obj.getImageIndex() != other.getImageIndex() )
+            {
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "ImageIndex", other.getImageIndex().ToString(), obj.getImageIndex().ToString()) );
+            }
         }
 
         /// <summary>
@@ -14320,6 +14324,7 @@ namespace DataDictionary.Compare
 	            DuplicateNamable (source, target);
 
                 target.setComment(source.getComment());
+                target.setImageIndex(source.getImageIndex());
             }	  
         }
 

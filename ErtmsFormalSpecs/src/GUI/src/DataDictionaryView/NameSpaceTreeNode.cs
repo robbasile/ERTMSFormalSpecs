@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Functions;
@@ -25,6 +27,7 @@ using DataDictionary.Variables;
 using GUI.FunctionalView;
 using GUI.Properties;
 using GUI.RuleDisabling;
+using GUIUtils.Images;
 using Enum = DataDictionary.Types.Enum;
 
 namespace GUI.DataDictionaryView
@@ -33,6 +36,21 @@ namespace GUI.DataDictionaryView
     {
         private class ItemEditor : GraphicalDisplayEditor
         {
+            // ReSharper disable UnusedMember.Local
+            [Category("Display")]
+            public int ImageIndex
+            {
+                get { return Item.getImageIndex(); }
+                set { Item.setImageIndex(value); }
+            }
+
+            [Category("Display")]
+            public Image Image
+            {
+                get { return NameSpaceImages.Instance.GetImage(Item); }
+            }
+
+            // ReSharper restore UnusedMember.Local
         }
 
         private readonly bool _isDirectory;
@@ -50,6 +68,7 @@ namespace GUI.DataDictionaryView
         public NameSpaceTreeNode(NameSpace item, bool buildSubNodes)
             : base(item, buildSubNodes, null, false)
         {
+            // ReSharper disable once RedundantArgumentDefaultValue
             Disabling = new DisablesRulesTreeNodeExtension<NameSpace>(item, true);
         }
 
@@ -64,6 +83,7 @@ namespace GUI.DataDictionaryView
             : base(item, buildSubNodes, name, isFolder)
         {
             _isDirectory = true;
+            // ReSharper disable once RedundantArgumentDefaultValue
             Disabling = new DisablesRulesTreeNodeExtension<NameSpace>(item, true);
         }
 
