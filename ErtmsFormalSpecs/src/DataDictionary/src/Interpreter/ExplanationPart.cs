@@ -62,7 +62,8 @@ namespace DataDictionary.Interpreter
 
                 if (RightPart != null && !(RightPart is Procedure))
                 {
-                    if (LeftPart is RuleCondition)
+                    RuleCondition ruleCondition = LeftPart as RuleCondition;
+                    if (ruleCondition != null && ruleCondition.PreConditions.Count > 0)
                     {
                         if (RightPart == EfsSystem.Instance.BoolType.True)
                         {
