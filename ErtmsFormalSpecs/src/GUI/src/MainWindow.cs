@@ -1653,47 +1653,26 @@ namespace GUI
         private class MarkVariables : Visitor
         {
             /// <summary>
-            /// Indicates that IN variables should be marked
+            /// Which mode should be marked.
             /// </summary>
-            private bool InVariables { get; set; }
-
-            /// <summary>
-            /// Indicates that OUT variables should be marked
-            /// </summary>
-            private bool OutVariables { get; set; }
-
-            /// <summary>
-            /// Indicates that INOUT variables should be marked
-            /// </summary>
-            private bool InOutVariables { get; set; }
+            private string Mode { get; set; }
 
             /// <summary>
             /// Constructor
             /// </summary>
-            /// <param name="inVariables"></param>
-            /// <param name="outVariables"></param>
-            public MarkVariables(bool inVariables, bool outVariables, bool inOutVariables)
+            /// <param name="mode"></param>
+            public MarkVariables(string mode)
             {
-                InVariables = inVariables;
-                OutVariables = outVariables;
-                InOutVariables = inOutVariables;
+                Mode = mode;
             }
 
             public override void visit(Variable obj, bool visitSubNodes)
             {
                 DataDictionary.Variables.Variable myVariable = (DataDictionary.Variables.Variable) obj;
                 
-                if (InVariables && myVariable.Mode == acceptor.VariableModeEnumType.aIncoming)
+                if (myVariable.Mode == acceptor.StringTo_Enum_VariableModeEnumType(Mode))
                 {
-                    myVariable.AddInfo("IN variable");
-                }
-                if (OutVariables && myVariable.Mode == acceptor.VariableModeEnumType.aOutgoing)
-                {
-                    myVariable.AddInfo("OUT variable");
-                }
-                if (InOutVariables && myVariable.Mode == acceptor.VariableModeEnumType.aInOut)
-                {
-                    myVariable.AddInfo("IN_OUT variable");
+                    myVariable.AddInfo(Mode + " variable");
                 }
 
                 base.visit(obj, visitSubNodes);
@@ -1706,7 +1685,7 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkVariables markVariables = new MarkVariables(true, false, false);
+                    MarkVariables markVariables = new MarkVariables("Incoming");
                     markVariables.visit(dictionary, true);
                 }
             }
@@ -1719,7 +1698,7 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkVariables markVariables = new MarkVariables(false, true, false);
+                    MarkVariables markVariables = new MarkVariables("Outgoing");
                     markVariables.visit(dictionary, true);
                 }
             }
@@ -1732,11 +1711,90 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkVariables markVariables = new MarkVariables(false, false, true);
+                    MarkVariables markVariables = new MarkVariables("InOut");
                     markVariables.visit(dictionary, true);
                 }
             }
             );
+        }
+
+
+        private class MarkRules : Visitor
+        {
+            /// <summary>
+            /// Which priority should be marked.
+            /// </summary>
+            private string Priority { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="priority"></param>
+            public MarkRules(string priority)
+            {
+                Priority = priority;
+            }
+
+            public override void visit(Rule obj, bool visitSubNodes)
+            {
+                DataDictionary.Rules.Rule myRule = (DataDictionary.Rules.Rule)obj;
+
+                if (myRule.getPriority() == acceptor.StringTo_Enum_RulePriority(Priority))
+                {
+                    myRule.AddInfo(Priority + " priority");
+                }
+                
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
+        private void processingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MarkingHistory.PerformMark(() =>
+            {
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    MarkRules markrules = new MarkRules("Processing");
+                    markrules.visit(dictionary, true);
+                }
+            }
+            );
+        }
+
+        private void updateOUTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+            {
+                MarkRules markrules = new MarkRules("UpdateOUT");
+                markrules.visit(dictionary, true);
+            }
+        }
+
+        private void updateINTERNALToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+            {
+                MarkRules markrules = new MarkRules("UpdateINTERNAL");
+                markrules.visit(dictionary, true);
+            }
+        }
+
+        private void cleanUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+            {
+                MarkRules markrules = new MarkRules("CleanUp");
+                markrules.visit(dictionary, true);
+            }
+        }
+
+        private void verificationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+            {
+                MarkRules markrules = new MarkRules("Verification");
+                markrules.visit(dictionary, true);
+            }
         }
     }
 }
