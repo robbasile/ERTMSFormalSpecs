@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -1647,6 +1648,95 @@ namespace GUI
         private void showNavigationViewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             GenericWindowHandling<NavigationView.Window>.AddOrShow(this, NavigationWindow, DockAreas.DockTop);
+        }
+
+        private class MarkVariables : Visitor
+        {
+            /// <summary>
+            /// Indicates that IN variables should be marked
+            /// </summary>
+            private bool InVariables { get; set; }
+
+            /// <summary>
+            /// Indicates that OUT variables should be marked
+            /// </summary>
+            private bool OutVariables { get; set; }
+
+            /// <summary>
+            /// Indicates that INOUT variables should be marked
+            /// </summary>
+            private bool InOutVariables { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="inVariables"></param>
+            /// <param name="outVariables"></param>
+            public MarkVariables(bool inVariables, bool outVariables, bool inOutVariables)
+            {
+                InVariables = inVariables;
+                OutVariables = outVariables;
+                InOutVariables = inOutVariables;
+            }
+
+            public override void visit(Variable obj, bool visitSubNodes)
+            {
+                DataDictionary.Variables.Variable myVariable = (DataDictionary.Variables.Variable) obj;
+                
+                if (InVariables && myVariable.Mode == acceptor.VariableModeEnumType.aIncoming)
+                {
+                    myVariable.AddInfo("IN variable");
+                }
+                if (OutVariables && myVariable.Mode == acceptor.VariableModeEnumType.aOutgoing)
+                {
+                    myVariable.AddInfo("OUT variable");
+                }
+                if (InOutVariables && myVariable.Mode == acceptor.VariableModeEnumType.aInOut)
+                {
+                    myVariable.AddInfo("IN_OUT variable");
+                }
+
+                base.visit(obj, visitSubNodes);
+            }
+        }
+
+        private void iNToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MarkingHistory.PerformMark(() =>
+            {
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    MarkVariables markVariables = new MarkVariables(true, false, false);
+                    markVariables.visit(dictionary, true);
+                }
+            }
+            );
+        }
+
+        private void oUTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MarkingHistory.PerformMark(() =>
+            {
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    MarkVariables markVariables = new MarkVariables(false, true, false);
+                    markVariables.visit(dictionary, true);
+                }
+            }
+            );
+        }
+
+        private void iNOUTToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MarkingHistory.PerformMark(() =>
+            {
+                foreach (Dictionary dictionary in EfsSystem.Dictionaries)
+                {
+                    MarkVariables markVariables = new MarkVariables(false, false, true);
+                    markVariables.visit(dictionary, true);
+                }
+            }
+            );
         }
     }
 }
