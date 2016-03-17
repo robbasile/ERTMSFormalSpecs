@@ -1,0 +1,306 @@
+<Frame
+ CycleDuration="0.1"
+ Name="EURORADIO Onboard ReferenceTimer Update"
+ Guid="4a43b2dd-b903-46fd-a548-d9d3fbcce00f"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="SubSequence1"
+ Guid="9942b3bc-41ed-474d-8b5c-304f421cd6ca"
+>
+<TestCases>
+<TestCase
+ Name="Update at EURORADIO events only"
+ Guid="c11b0a69-2909-4fef-a66c-6cad69086e0a"
+>
+<ReqRef
+ Id="60e39a2f-4380-44e7-bf85-7142748b200f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29411408-5b92-4a12-875b-ff81f9d3b70f"
+>
+</ReqRef><ReqRef
+ Id="42342bff-4561-490e-beae-73b88476afe8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e1b5c6e-adf1-4567-bd41-43b8caa2a9ae"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Initialize test environment"
+ Guid="4c736af0-97e9-48a5-b2f4-87960a42084c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="d2b79188-d30b-4e97-b0b9-221b6ae6fef1"
+>
+<Actions>
+<Action
+ Guid="5dc2ee51-9697-42d7-814e-37a80556e988"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.SR
+)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3a3679b9-3728-41fe-9ae4-4136e93a12ca"
+>Kernel.Level.Value.Value == LevelEnum.L1</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="1"
+ Guid="00f96b77-7613-4872-b59d-b0757906e379"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer == BaseTypes.Time.NA</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Wait and change the level"
+ Guid="edd49d18-641d-4e3d-8a9a-2085b266047a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="46bfe81b-4d3a-4a6f-ad9c-c71e0c2a0497"
+>
+<Actions>
+<Action
+ Guid="e647cf8c-e3d0-47b2-a2e4-98b138f57c02"
+>Kernel.DateAndTime.CurrentTime &lt;- 150.0</Action><Action
+ Guid="a6210bb2-60b0-4f0c-9ddb-58bcacba2280"
+>Kernel.LevelTransition.LevelTransitionToProcess &lt;- Kernel.LevelTransition.LevelTransitionStruct{
+AcknLength =&gt; 0.0,
+TRLevel =&gt; LevelDataStruct{
+    NTC =&gt; NID_NTC.NOT_APPLICABLE,
+    Value =&gt; LevelEnum.L2
+}
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="75833e1e-dc7b-44ec-bffd-09ecf1d8332e"
+>
+<Actions>
+<Action
+ Guid="b4442e61-8e81-42ee-93cc-cded889d7f31"
+>Kernel.DateAndTime.CurrentTime &lt;- 160.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="eff0b459-84ac-4b3d-8811-afc89f0aabbc"
+>
+<Actions>
+<Action
+ Guid="209b5de4-1bf8-44f3-bb32-f0cbc4de7e93"
+>Kernel.LevelTransition.ExecuteLevelTransitionOrder()</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="2"
+ Guid="ecb6ed45-7fb9-4f4d-a36f-e2d52272163b"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &gt;= 160.0</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="2"
+ Guid="e8479026-4aeb-4fb1-baeb-89cf29a715ac"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &lt;= 160.5</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="606c9917-f7e8-4e1d-9463-9d9741510bfd"
+>Kernel.DateAndTime.CurrentTime &gt; 161.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Wait and receive a message"
+ Guid="7d38af23-d8c7-4153-a4b4-d7b670752139"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="19ebdf1d-87b2-48b7-a158-845567119bb0"
+>
+<Actions>
+<Action
+ Guid="05aadbd1-7fd6-4907-8071-98b20f93ad21"
+>Kernel.DateAndTime.CurrentTime &lt;- 180.0</Action><Action
+ Guid="db2bf45e-9679-47fd-9f57-88386da6012f"
+>BTM.LRBG &lt;- BTM.BaliseGroupStruct
+{
+    NID =&gt; 9626,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.PositionStruct
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 4000.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+}</Action><Action
+ Guid="e284b05e-652f-4962-a29d-ea714c37ca2d"
+>BTM.PreviousBaliseGroups &lt;- [BTM.PreviousBaliseGroupStruct{
+BaliseGroup =&gt; BTM.BaliseGroupStruct{
+    Position =&gt; BTM.PositionStruct{
+        Position =&gt; 3500.0,
+        UnderReadingAmountOdo =&gt; 0.0,
+        OverReadingAmountOdo =&gt; 0.0
+    },
+    NID =&gt; 9625,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; DateAndTimeStruct{
+        Year =&gt; 2012,
+        Month =&gt; 12,
+        Day =&gt; 20,
+        Hour =&gt; 20,
+        Minute =&gt; 12,
+        Second =&gt; 20,
+        TTS =&gt; 600
+    }
+},
+IsLRBG =&gt; Boolean.True,
+IsSingle =&gt; Boolean.False
+}]</Action><Action
+ Guid="1d96d0f1-d489-409b-ba37-54db47cf1078"
+>Odometry.NominalDistance &lt;- 4050.0</Action><Action
+ Guid="da06f107-89bd-41ab-94ec-a4f9872d8c74"
+>EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="d3b90eee-e033-4f8d-8187-78c6ade1dffe"
+>
+<Actions>
+<Action
+ Guid="0eae3ec1-4d67-47a5-a9c8-bcaae4c6ae63"
+>Kernel.DateAndTime.CurrentTime &lt;- 190.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="0f5d82ec-8059-426f-a48e-8a3c33b4d08d"
+>
+<Actions>
+<Action
+ Guid="228af0ff-341b-4c4c-a1f4-98f07b9c200a"
+>EURORADIO.CurrentRBCConnection().MessageIn  &lt;- Messages.EURORADIO.MessageIn.Message{
+    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+{
+    MOVEMENT_AUTHORITY =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.Message
+    {
+
+    NID_MESSAGE =&gt; 0,
+    L_MESSAGE =&gt; 0,
+    T_TRAIN =&gt; 189000,
+    M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
+    NID_LRBG =&gt; 9625,
+    LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
+
+      {
+        NID_PACKET =&gt; 15,
+        Q_DIR =&gt; Messages.Q_DIR.Nominal,
+        L_PACKET =&gt; 0,
+        Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
+        V_LOA =&gt; 0,
+        T_LOA =&gt; 0,
+        N_ITER =&gt; 1,
+        Sequence1 =&gt; [
+
+                 Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
+                 {
+                   L_SECTION =&gt; 100,
+                   Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+                   T_SECTIONTIMER =&gt; 0,
+                   D_SECTIONTIMERSTOPLOC =&gt; 0
+                 }
+                                ],
+        L_ENDSECTION =&gt; 1000,
+        Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information,
+        T_SECTIONTIMER =&gt; 0,
+        D_SECTIONTIMERSTOPLOC =&gt; 0,
+        Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information,
+        T_ENDTIMER =&gt; 0,
+        D_ENDTIMERSTARTLOC =&gt; 0,
+        Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.No_danger_point_information,
+        D_DP =&gt; 0,
+        V_RELEASEDP =&gt; 0,
+        Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information,
+        D_STARTOL =&gt; 0,
+        T_OL =&gt; 0,
+        D_OL =&gt; 0,
+        V_RELEASEOL =&gt; 0
+       },
+    Sequence1 =&gt; []
+}
+},
+    SystemVersion1 =&gt; EMPTY,
+    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep4"
+ Guid="e4eef962-8734-4601-aada-19541e25b17f"
+>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="2"
+ Guid="d9fb8e80-9de3-4d92-a8a5-7917a64e0b8d"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &gt;= 190.0</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="2"
+ Guid="cc6b7695-d107-4cbb-b0b8-0c1e16081ee6"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &lt;= 190.5</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d955f66f-c108-44fb-98d9-95ce45e82c14"
+>Kernel.DateAndTime.CurrentTime &gt; 191.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Exit radio hole"
+ Guid="d436bfe0-a4c8-439a-9ace-3440a139fbdc"
+>
+<SubSteps>
+<SubStep
+ Name="SubStep1"
+ Guid="becfab3b-1a29-406f-b1d6-486e3016883b"
+>
+<Actions>
+<Action
+ Guid="27e3830c-560b-464b-b463-26c4e7413964"
+>Kernel.DateAndTime.CurrentTime &lt;- 200.0</Action><Action
+ Guid="31818de4-fab7-44be-89dc-f04c3a9c0521"
+>EURORADIO.InRadioHole &lt;- True</Action></Actions>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>
