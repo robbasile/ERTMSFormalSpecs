@@ -290,6 +290,7 @@ IsSingle =&gt; Boolean.False
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="SubStep1"
  Guid="becfab3b-1a29-406f-b1d6-486e3016883b"
 >
@@ -299,6 +300,28 @@ IsSingle =&gt; Boolean.False
 >Kernel.DateAndTime.CurrentTime &lt;- 200.0</Action><Action
  Guid="31818de4-fab7-44be-89dc-f04c3a9c0521"
 >EURORADIO.InRadioHole &lt;- True</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="c58d4b98-d45e-49c0-a861-729c7a82e88f"
+>
+<Expectations>
+<Expectation
+ Kind="Continuous"
+ DeadLine="2"
+ Guid="a2b2a0a5-5db3-41a5-8581-75a6bc605380"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &gt;= 200.0</Expectation><Expectation
+ Kind="Continuous"
+ DeadLine="2"
+ Guid="22c83fa6-27b1-4b7b-b22f-bb2dbad50dcb"
+>EURORADIO.CurrentRBCConnection().OnboardReference_MessageTimer &lt;= 200.5</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ee13ef7e-ae0e-4d3e-b649-2ff4e62e95e5"
+>Kernel.DateAndTime.CurrentTime &gt; 201.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="442e8955-8498-456e-bf79-40510017d9d6"
+>EURORADIO.InRadioHole == False</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
