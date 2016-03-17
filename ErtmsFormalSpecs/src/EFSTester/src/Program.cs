@@ -82,7 +82,7 @@ namespace EFSTester
 
                 // Make sure everything is recompiled
                 Console.Out.WriteLine("Recompiling everything");
-                efsSystem.Compiler.Compile_Synchronous(true, false);
+                efsSystem.Compiler.Compile_Synchronous(true);
 
                 // Ensure the model is consistent
                 Console.Out.WriteLine("Checking model");
@@ -125,16 +125,8 @@ namespace EFSTester
                                     if (expect != null)
                                     {
                                         string message = expect.Message.Replace('\n', ' ');
-                                        TestCase testCase = EnclosingFinder<TestCase>.find(expect.Expectation);
-                                        if (testCase.ImplementationCompleted)
-                                        {
-                                            Console.Out.WriteLine(" failed (unexpected) :" + message);
-                                            failed = true;
-                                        }
-                                        else
-                                        {
-                                            Console.Out.WriteLine(" failed (expected) : " + message);
-                                        }
+                                        Console.Out.WriteLine(" failed :" + message);
+                                        failed = true;
                                     }
                                     else
                                     {
