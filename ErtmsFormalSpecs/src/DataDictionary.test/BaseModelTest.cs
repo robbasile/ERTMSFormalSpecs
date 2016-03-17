@@ -481,6 +481,22 @@ namespace DataDictionary.test
         }
 
         /// <summary>
+        ///     Creates a rule and a rule condition in the rule condition
+        /// </summary>
+        /// <param name="enclosing"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected RuleCondition CreateRuleAndCondition(RuleCondition enclosing, string name)
+        {
+            Rule rule = (Rule)Factory.createRule();
+            enclosing.appendSubRules(rule);
+            rule.Name = name;
+            rule.setPriority(acceptor.RulePriority.aProcessing);
+
+            return CreateRuleCondition(rule, name);
+        }
+
+        /// <summary>
         ///     Creates a rule and a rule condition in the state machine
         /// </summary>
         /// <param name="enclosing"></param>

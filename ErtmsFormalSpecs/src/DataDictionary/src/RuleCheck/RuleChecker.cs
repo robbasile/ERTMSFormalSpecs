@@ -778,6 +778,24 @@ namespace DataDictionary.RuleCheck
             base.visit(obj, visitSubNodes);
         }
 
+        public override void visit(Generated.Rule obj, bool visitSubNodes)
+        {
+            Rules.Rule rule = obj as Rules.Rule;
+
+            if (rule != null)
+            {
+                if (rule.EnclosingRule != null)
+                {
+                    if (rule.getPriority() != rule.EnclosingRule.getPriority())
+                    {
+                        rule.AddRuleCheckMessage(RuleChecksEnum.SemanticAnalysisError, ElementLog.LevelEnum.Error, "Parent rule has not the same priority !");
+                    }
+                }
+            }
+
+            base.visit(obj, visitSubNodes);
+        }
+
         public override void visit(RuleCondition obj, bool subNodes)
         {
             Rules.RuleCondition ruleCondition = obj as Rules.RuleCondition;
