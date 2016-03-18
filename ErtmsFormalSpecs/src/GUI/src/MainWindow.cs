@@ -1655,13 +1655,13 @@ namespace GUI
             /// <summary>
             /// Which mode should be marked.
             /// </summary>
-            private string Mode { get; set; }
+            private acceptor.VariableModeEnumType Mode { get; set; }
 
             /// <summary>
             /// Constructor
             /// </summary>
             /// <param name="mode"></param>
-            public MarkVariables(string mode)
+            public MarkVariables(acceptor.VariableModeEnumType mode)
             {
                 Mode = mode;
             }
@@ -1670,10 +1670,10 @@ namespace GUI
             {   // IN OUT are also IN or OUT.
                 DataDictionary.Variables.Variable myVariable = (DataDictionary.Variables.Variable) obj;
                 
-                if (myVariable.Mode == acceptor.StringTo_Enum_VariableModeEnumType(Mode) || 
+                if (myVariable.Mode == Mode || 
                     myVariable.Mode == acceptor.VariableModeEnumType.aInOut)
                 {
-                    myVariable.AddInfo(Mode + " variable");
+                    myVariable.AddInfo(acceptor.Enum_VariableModeEnumType_ToString(Mode) + " variable");
                 }
 
                 base.visit(obj, visitSubNodes);
@@ -1686,7 +1686,7 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkVariables markVariables = new MarkVariables("Incoming");
+                    MarkVariables markVariables = new MarkVariables(acceptor.VariableModeEnumType.aIncoming);
                     markVariables.visit(dictionary, true);
                 }
             }
@@ -1699,7 +1699,7 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkVariables markVariables = new MarkVariables("Outgoing");
+                    MarkVariables markVariables = new MarkVariables(acceptor.VariableModeEnumType.aOutgoing);
                     markVariables.visit(dictionary, true);
                 }
             }
@@ -1712,7 +1712,7 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkVariables markVariables = new MarkVariables("InOut");
+                    MarkVariables markVariables = new MarkVariables(acceptor.VariableModeEnumType.aInOut);
                     markVariables.visit(dictionary, true);
                 }
             }
@@ -1725,13 +1725,13 @@ namespace GUI
             /// <summary>
             /// Which priority should be marked.
             /// </summary>
-            private string Priority { get; set; }
+            private acceptor.RulePriority Priority { get; set; }
 
             /// <summary>
             /// Constructor
             /// </summary>
             /// <param name="priority"></param>
-            public MarkRules(string priority)
+            public MarkRules(acceptor.RulePriority priority)
             {
                 Priority = priority;
             }
@@ -1740,9 +1740,9 @@ namespace GUI
             {
                 DataDictionary.Rules.Rule myRule = (DataDictionary.Rules.Rule)obj;
 
-                if (myRule.getPriority() == acceptor.StringTo_Enum_RulePriority(Priority))
+                if (myRule.getPriority() == Priority)
                 {
-                    myRule.AddInfo(Priority + " priority");
+                    myRule.AddInfo(acceptor.Enum_RulePriority_ToString(Priority) + " priority");
                 }
                 
                 base.visit(obj, visitSubNodes);
@@ -1755,7 +1755,7 @@ namespace GUI
             {
                 foreach (Dictionary dictionary in EfsSystem.Dictionaries)
                 {
-                    MarkRules markrules = new MarkRules("Processing");
+                    MarkRules markrules = new MarkRules(acceptor.RulePriority.aProcessing);
                     markrules.visit(dictionary, true);
                 }
             }
@@ -1766,7 +1766,7 @@ namespace GUI
         {
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                MarkRules markrules = new MarkRules("UpdateOUT");
+                MarkRules markrules = new MarkRules(acceptor.RulePriority.aUpdateOUT);
                 markrules.visit(dictionary, true);
             }
         }
@@ -1775,7 +1775,7 @@ namespace GUI
         {
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                MarkRules markrules = new MarkRules("UpdateINTERNAL");
+                MarkRules markrules = new MarkRules(acceptor.RulePriority.aUpdateINTERNAL);
                 markrules.visit(dictionary, true);
             }
         }
@@ -1784,7 +1784,7 @@ namespace GUI
         {
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                MarkRules markrules = new MarkRules("CleanUp");
+                MarkRules markrules = new MarkRules(acceptor.RulePriority.aCleanUp);
                 markrules.visit(dictionary, true);
             }
         }
@@ -1793,7 +1793,7 @@ namespace GUI
         {
             foreach (Dictionary dictionary in EfsSystem.Dictionaries)
             {
-                MarkRules markrules = new MarkRules("Verification");
+                MarkRules markrules = new MarkRules(acceptor.RulePriority.aVerification);
                 markrules.visit(dictionary, true);
             }
         }
