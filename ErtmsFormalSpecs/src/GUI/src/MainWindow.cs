@@ -1667,10 +1667,11 @@ namespace GUI
             }
 
             public override void visit(Variable obj, bool visitSubNodes)
-            {
+            {   // IN OUT are also IN or OUT.
                 DataDictionary.Variables.Variable myVariable = (DataDictionary.Variables.Variable) obj;
                 
-                if (myVariable.Mode == acceptor.StringTo_Enum_VariableModeEnumType(Mode))
+                if (myVariable.Mode == acceptor.StringTo_Enum_VariableModeEnumType(Mode) || 
+                    myVariable.Mode == acceptor.VariableModeEnumType.aInOut)
                 {
                     myVariable.AddInfo(Mode + " variable");
                 }
