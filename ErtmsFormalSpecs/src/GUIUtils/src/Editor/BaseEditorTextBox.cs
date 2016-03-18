@@ -86,6 +86,7 @@ namespace GUIUtils.Editor
             EditionTextBox.KeyUp += Editor_KeyUp;
             EditionTextBox.KeyPress += Editor_KeyPress;
             EditionTextBox.MouseUp += EditionTextBox_MouseClick;
+            EditionTextBox.MouseHover += EditionTextBox_MouseHover;
             EditionTextBox.ShortcutsEnabled = true;
             EditionTextBox.MouseMove += EditionTextBox_MouseMove;
 
@@ -136,6 +137,16 @@ namespace GUIUtils.Editor
             {
                 contextMenuStrip1.Show(PointToScreen(MouseLocation));
             }
+        }
+
+        private void EditionTextBox_MouseHover(object sender, EventArgs e)
+        {
+            Point location = MouseLocation;
+            INamable instance = GetInstance(location);
+
+            location.Offset(10, 10);
+            const bool considerMouseMove = true;
+            ExplainAndShow(instance, location, considerMouseMove);
         }
 
         private void EditionTextBox_MouseClick(object sender, MouseEventArgs e)
@@ -446,7 +457,17 @@ namespace GUIUtils.Editor
             INamable retVal = null;
 
             int index = EditionTextBox.GetCharIndexFromPosition(location);
-            retVal = GetInstance(index);
+
+            // Ensure that the index actually corresponds to the desired location
+            Point confirmLocation = EditionTextBox.GetPositionFromCharIndex(index);
+            int dX = Math.Abs(confirmLocation.X - location.X);
+            int dY = Math.Abs(confirmLocation.Y - location.Y);
+            int distance = (int) Math.Sqrt(dX*dX + dY*dY);
+
+            if (distance < 30)
+            {
+                retVal = GetInstance(index);
+            }
 
             return retVal;
         }
