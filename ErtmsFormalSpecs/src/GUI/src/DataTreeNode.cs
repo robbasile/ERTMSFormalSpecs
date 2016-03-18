@@ -21,14 +21,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using DataDictionary;
 using DataDictionary.Generated;
 using DataDictionary.RuleCheck;
 using GUI.Converters;
 using GUI.DictionarySelector;
 using GUI.Properties;
-using GUI.RuleDisabling;
 using GUIUtils.LongOperations;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -37,7 +35,6 @@ using Frame = DataDictionary.Tests.Frame;
 using ModelElement = DataDictionary.ModelElement;
 using Parameter = DataDictionary.Parameter;
 using ReqRelated = DataDictionary.Generated.ReqRelated;
-using RuleCheckIdentifier = DataDictionary.RuleCheck.RuleCheckIdentifier;
 using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
 using SubSequence = DataDictionary.Tests.SubSequence;
@@ -523,6 +520,7 @@ namespace GUI
         /// <param name="e"></param>
         protected void MarkAsImplemented(object sender, EventArgs e)
         {
+            // ReSharper disable once UnusedVariable
             MarkAsImplementedVisitor visitor = new MarkAsImplementedVisitor(Model);
         }
 
@@ -575,6 +573,7 @@ namespace GUI
         /// <param name="e"></param>
         protected void MarkAsVerified(object sender, EventArgs e)
         {
+            // ReSharper disable once UnusedVariable
             MarkAsVerifiedVisitor visitor = new MarkAsVerifiedVisitor(Model);
         }
 
@@ -637,6 +636,7 @@ namespace GUI
             {
                 DataDictionary.Util.DontNotify(() =>
                     {
+                        // ReSharper disable once UnusedVariable
                         SearchAndReplaceVisitor visitor = new SearchAndReplaceVisitor(Model, dialog.SearchString, dialog.ReplaceString);
                     });
             }
@@ -812,7 +812,7 @@ namespace GUI
                         newName = EnsureSuffix(namable.Name, StateMachineSuffix);
                     }
                 }
-                else if (namable is DataDictionary.Tests.Step)
+                else if (namable is Step)
                 {
                     newName = RemoveStepNumber(namable.Name);
                 }
@@ -832,6 +832,7 @@ namespace GUI
             BaseModelElement modelElement = Model as BaseModelElement;
             if (modelElement != null)
             {
+                // ReSharper disable once ObjectCreationAsStatement
                 new CheckNamingVisitor(modelElement);
             }
         }
@@ -897,7 +898,7 @@ namespace GUI
 
             foreach (TreeNode node in Nodes)
             {
-                if (node.Text.CompareTo(text) == 0)
+                if (node.Text.Equals(text))
                 {
                     retVal = node as BaseTreeNode;
                     break;
@@ -1327,7 +1328,7 @@ namespace GUI
                         bool unique = true;
                         foreach (IModelElement model in Item.EnclosingCollection)
                         {
-                            if (model != null && model != Item && model.Name.CompareTo(value) == 0)
+                            if (model != null && model != Item && model.Name.Equals(value))
                             {
                                 unique = false;
                                 break;

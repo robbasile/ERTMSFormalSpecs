@@ -28,7 +28,7 @@ namespace GUIUtils.Images
         /// <summary>
         /// All the images available for namespaces
         /// </summary>
-        private ImageList Images { get; set; }
+        public ImageList Images { get; private set; }
 
         /// <summary>
         /// Constructor

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Functions;
@@ -38,10 +39,11 @@ namespace GUI.DataDictionaryView
         {
             // ReSharper disable UnusedMember.Local
             [Category("Display")]
+            [Editor(typeof(ImageUITypedEditor), typeof(UITypeEditor))]
             public int ImageIndex
             {
                 get { return Item.getImageIndex(); }
-                set { Item.setImageIndex(value); }
+                set { Item.setImageIndex(value);}
             }
 
             [Category("Display")]
@@ -49,7 +51,6 @@ namespace GUI.DataDictionaryView
             {
                 get { return NameSpaceImages.Instance.GetImage(Item); }
             }
-
             // ReSharper restore UnusedMember.Local
         }
 
