@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using DataDictionary;
 using DataDictionary.Generated;
 using GUI.DictionarySelector;
@@ -37,6 +38,7 @@ using Utils;
 using WeifenLuo.WinFormsUI.Docking;
 using Dictionary = DataDictionary.Dictionary;
 using Specification = DataDictionary.Specification.Specification;
+using SubSequence = DataDictionary.Tests.SubSequence;
 using Util = DataDictionary.Util;
 using Window = GUI.MessagesView.Window;
 
@@ -1037,8 +1039,25 @@ namespace GUI
                 openFileDialog.Filter = "Access Files (*.mdb)|*.mdb";
                 if (openFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
+                    string sequenceName = Path.GetFileName(openFileDialog.FileName);
+                    bool keepManualTranslations = true;
+                    SubSequence subSequence = dictionary.FindSubSequence(sequenceName);
+                    if (subSequence != null && subSequence.ContainsManualTranslation())
+                    {
+                        DialogResult dialogResult = MessageBox.Show(this, "Keep manual translations ?", "Manual translations found in " + sequenceName,
+                            MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.No)
+                        {
+                            keepManualTranslations = false;
+                        }
+                        else if (dialogResult == DialogResult.Cancel)
+                        {
+                            return;
+                        }
+                    }
+
                     ImportTestDataBaseOperation operation = new ImportTestDataBaseOperation(openFileDialog.FileName,
-                        dictionary, ImportTestDataBaseOperation.Mode.File);
+                        dictionary, ImportTestDataBaseOperation.Mode.File, keepManualTranslations);
                     operation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Import database");
                 }
             }
@@ -1052,9 +1071,22 @@ namespace GUI
                 FolderBrowserDialog selectFolderDialog = new FolderBrowserDialog();
                 if (selectFolderDialog.ShowDialog(this) == DialogResult.OK)
                 {
+                    bool keepManualTranslations = true;
+                    DialogResult dialogResult = MessageBox.Show(this, "Keep manual translations ?",
+                        "Manual translations",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.No)
+                    {
+                        keepManualTranslations = false;
+                    }
+                    else if (dialogResult == DialogResult.Cancel)
+                    {
+                        return;
+                    }
+
                     ImportTestDataBaseOperation operation =
                         new ImportTestDataBaseOperation(selectFolderDialog.SelectedPath, dictionary,
-                            ImportTestDataBaseOperation.Mode.Directory);
+                            ImportTestDataBaseOperation.Mode.Directory, keepManualTranslations);
                     operation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Import database directory");
                 }
             }

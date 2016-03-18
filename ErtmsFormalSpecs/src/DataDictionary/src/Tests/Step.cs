@@ -22,7 +22,6 @@ using DBMessage = DataDictionary.Tests.DBElements.DBMessage;
 using SourceText = DataDictionary.Tests.Translations.SourceText;
 using SourceTextComment = DataDictionary.Tests.Translations.SourceTextComment;
 using Translation = DataDictionary.Tests.Translations.Translation;
-using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
 
 namespace DataDictionary.Tests
 {
@@ -192,27 +191,31 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Fills the actual step with information of another test case
         /// </summary>
-        /// <param name="aStep"></param>
-        public void Merge(Step aStep)
+        /// <param name="previousStep"></param>
+        /// <param name="keepManualTranslations">Indicates that manual translation for be kept during import</param>
+        public void Merge(Step previousStep, bool keepManualTranslations)
         {
-            setAllSubSteps(aStep.SubSteps);
+            if (keepManualTranslations)
+            {
+                setAllSubSteps(previousStep.SubSteps);
+            }
 
-            setGuid(aStep.getGuid());
-            setComment(aStep.Comment);
-            setTranslated(aStep.getTranslated());
-            setTranslationRequired(aStep.getTranslationRequired());
+            setGuid(previousStep.getGuid());
+            setComment(previousStep.Comment);
+            setTranslated(previousStep.getTranslated());
+            setTranslationRequired(previousStep.getTranslationRequired());
 
             int cnt = 0;
             foreach (DBMessage message in StepMessages)
             {
-                if (cnt < aStep.StepMessages.Count)
+                if (cnt < previousStep.StepMessages.Count)
                 {
-                    message.Merge((DBMessage) aStep.StepMessages[cnt]);
+                    message.Merge((DBMessage) previousStep.StepMessages[cnt]);
                 }
                 cnt += 1;
             }
 
-            foreach (ReqRef reqRef in aStep.Requirements)
+            foreach (ReqRef reqRef in previousStep.Requirements)
             {
                 appendRequirements(reqRef);
             }

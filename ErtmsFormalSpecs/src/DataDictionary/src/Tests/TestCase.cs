@@ -18,11 +18,10 @@ using System;
 using System.Collections;
 using DataDictionary.Generated;
 using Utils;
-using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
 
 namespace DataDictionary.Tests
 {
-    public class TestCase : Generated.TestCase, ITextualExplain, ICommentable
+    public class TestCase : Generated.TestCase, ITextualExplain
     {
         public ArrayList Steps
         {
@@ -80,7 +79,7 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
             {
@@ -97,37 +96,58 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Fills the actual test case with steps of another test case
         /// </summary>
-        /// <param name="oldTestCase"></param>
-        public void Merge(TestCase aTestCase)
+        /// <param name="previousTestCase"></param>
+        /// <param name="keepManualTranslations">Indicates that manual translation for be kept during import</param>
+        public void Merge(TestCase previousTestCase, bool keepManualTranslations)
         {
-            if (aTestCase != null)
+            if (previousTestCase != null)
             {
-                setGuid(aTestCase.getGuid());
+                setGuid(previousTestCase.getGuid());
                 foreach (Step step in Steps)
                 {
-                    Step oldStep = null;
-                    foreach (Step other in aTestCase.Steps)
+                    Step previousStep = null;
+                    foreach (Step other in previousTestCase.Steps)
                     {
                         if (other.getDescription() == step.getDescription() &&
                             other.getTCS_Order() == step.getTCS_Order())
                         {
-                            oldStep = other;
+                            previousStep = other;
                             break;
                         }
                     }
 
-                    if (oldStep != null)
+                    if (previousStep != null)
                     {
-                        if (step.getTCS_Order() == oldStep.getTCS_Order())
+                        if (step.getTCS_Order() == previousStep.getTCS_Order())
                         {
-                            step.Merge(oldStep);
+                            step.Merge(previousStep, keepManualTranslations);
                         }
                         else
                         {
                             throw new Exception("The new version of the test case " + Name + " contains the step " +
-                                                step.Name + " instead of " + oldStep.Name);
+                                                step.Name + " instead of " + previousStep.Name);
                         }
                     }
+                }
+
+                if (keepManualTranslations)
+                {
+                    int index = 0;
+                    foreach (Step step in previousTestCase.Steps)
+                    {
+                        if (step.getTCS_Order() == 0 && !step.getTranslationRequired())
+                        {
+                            // This step has been added manually
+                            allSteps().Insert(index, step);
+                            step.setFather(this);
+                        }
+                        index += 1;
+                    }
+                }
+
+                foreach (ReqRef reqRef in previousTestCase.Requirements)
+                {
+                    appendRequirements(reqRef);
                 }
             }
         }

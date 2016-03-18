@@ -34,51 +34,53 @@ namespace Importers
         /// <summary>
         ///     The path to the access database
         /// </summary>
-        private string filePath;
+        private string _filePath;
 
+        /// <summary>
+        ///     The path to the access database
+        /// </summary>
         public string FilePath
         {
-            get { return filePath; }
-            private set { filePath = value.Replace("\\", "/"); }
+            get { return _filePath; }
+            private set { _filePath = value.Replace("\\", "/"); }
         }
 
         /// <summary>
         ///     The password used to access the database, if any
         /// </summary>
-        private string password;
-
-        public string Password
-        {
-            get { return password; }
-            private set { password = value; }
-        }
+        public string Password { get; private set; }
 
         /// <summary>
         ///     The connection to the database
         /// </summary>
-        private OleDbConnection connection;
+        private OleDbConnection _connection;
 
+        /// <summary>
+        ///     The connection to the database
+        /// </summary>
         public OleDbConnection Connection
         {
             get
             {
-                if (connection == null)
+                if (_connection == null)
                 {
-                    connection = new OleDbConnection();
-                    connection.ConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0; Data Source=" + FilePath +
-                                                  ";Jet OLEDB:Database Password=" + Password + ";";
-                    connection.Open();
+                    _connection = new OleDbConnection
+                    {
+                        ConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0; Data Source=" + FilePath +
+                                           ";Jet OLEDB:Database Password=" + Password + ";"
+                    };
+                    _connection.Open();
                 }
-                return connection;
+                return _connection;
             }
             private set
             {
-                if (connection != null)
+                if (_connection != null)
                 {
-                    connection.Close();
-                    connection.Dispose();
+                    _connection.Close();
+                    _connection.Dispose();
                 }
-                connection = value;
+                _connection = value;
             }
         }
 
@@ -97,11 +99,12 @@ namespace Importers
         ///     Imports the database into the corresponding frame by creating a new subsequence
         /// </summary>
         /// <param name="frame"></param>
-        public void Import(Frame frame)
+        /// <param name="keepManualTranslations">Indicates that manual translation for be kept during import</param>
+        public void Import(Frame frame, bool keepManualTranslations)
         {
             try
             {
-                importSubSequence(frame);
+                ImportSubSequence(frame, keepManualTranslations);
             }
             finally
             {
@@ -113,9 +116,10 @@ namespace Importers
         ///     Imports the subsequence stored in the database
         /// </summary>
         /// <param name="frame"></param>
-        private void importSubSequence(Frame frame)
+        /// <param name="keepManualTranslations">Indicates that manual translation for be kept during import</param>
+        private void ImportSubSequence(Frame frame, bool keepManualTranslations)
         {
-            string sql = "SELECT TestSequenceID, TestSequenceName FROM TSW_TestSequence";
+            const string sql = "SELECT TestSequenceID, TestSequenceName FROM TSW_TestSequence";
 
             OleDbDataAdapter adapter = new OleDbDataAdapter(sql, Connection);
             DataSet dataSet = new DataSet();
@@ -126,47 +130,47 @@ namespace Importers
             {
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
-                    int subSequenceID = (int) dataRow.ItemArray.GetValue(0);
+                    int subSequenceId = (int) dataRow.ItemArray.GetValue(0);
                     string subSequenceName = (string) dataRow.ItemArray.GetValue(1);
 
                     SubSequence newSubSequence = (SubSequence) acceptor.getFactory().createSubSequence();
                     newSubSequence.Name = subSequenceName;
-                    importInitialValues(newSubSequence, subSequenceID);
-                    importSteps(newSubSequence);
+                    ImportInitialValues(newSubSequence, subSequenceId);
+                    ImportSteps(newSubSequence);
 
-                    SubSequence oldSubSequence = frame.findSubSequence(subSequenceName);
-                    if (oldSubSequence != null)
+                    SubSequence previousSubSequence = frame.findSubSequence(subSequenceName);
+                    if (previousSubSequence != null)
                     {
-                        newSubSequence.setGuid(oldSubSequence.getGuid());
+                        newSubSequence.setGuid(previousSubSequence.getGuid());
                         int cnt = 0;
-                        foreach (TestCase oldTestCase in oldSubSequence.TestCases)
+                        foreach (TestCase previousTestCase in previousSubSequence.TestCases)
                         {
                             if (cnt < newSubSequence.TestCases.Count)
                             {
                                 TestCase newTestCase = newSubSequence.TestCases[cnt] as TestCase;
                                 if (newTestCase != null)
                                 {
-                                    if (oldTestCase.Name.Equals(newTestCase.Name))
+                                    if (previousTestCase.Name.Equals(newTestCase.Name))
                                     {
-                                        newTestCase.Merge(oldTestCase);
+                                        newTestCase.Merge(previousTestCase, keepManualTranslations);
                                     }
                                     else
                                     {
                                         throw new Exception(newTestCase.FullName + " is found instead of " +
-                                                            oldTestCase.FullName + " while importing sub-sequence " +
+                                                            previousTestCase.FullName + " while importing sub-sequence " +
                                                             newSubSequence.FullName);
                                     }
                                 }
                             }
                             else
                             {
-                                throw new Exception("The test case " + oldTestCase.FullName +
+                                throw new Exception("The test case " + previousTestCase.FullName +
                                                     " is not present in the new data base");
                             }
                             cnt++;
                         }
 
-                        oldSubSequence.Delete();
+                        previousSubSequence.Delete();
                     }
 
                     frame.appendSubSequences(newSubSequence);
@@ -181,13 +185,14 @@ namespace Importers
         /// <summary>
         ///     Imports the subsequence stored in the database
         /// </summary>
-        /// <param name="frame"></param>
-        private void importInitialValues(SubSequence subSequence, int subSequenceID)
+        /// <param name="subSequence"></param>
+        /// <param name="subSequenceId"></param>
+        private void ImportInitialValues(SubSequence subSequence, int subSequenceId)
         {
             // Level is a reserved word...
             string sql =
                 "SELECT D_LRBG, TSW_TestSeqSCItl.Level, Mode, NID_LRBG, Q_DIRLRBG, Q_DIRTRAIN, Q_DLRBG, RBC_ID, RBCPhone FROM TSW_TestSeqSCItl WHERE TestSequenceID = " +
-                subSequenceID;
+                subSequenceId;
 
             OleDbDataAdapter adapter = new OleDbDataAdapter(sql, Connection);
             DataSet dataSet = new DataSet();
@@ -198,6 +203,7 @@ namespace Importers
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     int i = 0;
+                    // ReSharper disable InconsistentNaming
                     string D_LRBG = dataRow.ItemArray.GetValue(i++) as string;
                     string Level = dataRow.ItemArray.GetValue(i++) as string;
                     string Mode = dataRow.ItemArray.GetValue(i++) as string;
@@ -207,6 +213,7 @@ namespace Importers
                     string Q_DLRBG = dataRow.ItemArray.GetValue(i++) as string;
                     string RBC_ID = dataRow.ItemArray.GetValue(i++) as string;
                     string RBCPhone = dataRow.ItemArray.GetValue(i++) as string;
+                    // ReSharper restore InconsistentNaming
 
                     subSequence.setD_LRBG(D_LRBG);
                     subSequence.setLevel(Level);
@@ -223,23 +230,23 @@ namespace Importers
                     subSequence.appendTestCases(testCase);
 
                     Step initializeTrainDataStep = (Step) acceptor.getFactory().createStep();
-                    ;
+                    
                     initializeTrainDataStep.setTCS_Order(0);
                     initializeTrainDataStep.setDistance(0);
                     initializeTrainDataStep.setDescription("Initialize train data");
                     initializeTrainDataStep.setTranslationRequired(true);
                     testCase.appendSteps(initializeTrainDataStep);
 
-                    Step DefaultValuesStep = (Step) acceptor.getFactory().createStep();
-                    ;
-                    DefaultValuesStep.setTCS_Order(0);
-                    DefaultValuesStep.setDistance(0);
-                    DefaultValuesStep.setDescription("Set default values");
-                    DefaultValuesStep.setTranslationRequired(true);
-                    testCase.appendSteps(DefaultValuesStep);
+                    Step defaultValuesStep = (Step) acceptor.getFactory().createStep();
+                    
+                    defaultValuesStep.setTCS_Order(0);
+                    defaultValuesStep.setDistance(0);
+                    defaultValuesStep.setDescription("Set default values");
+                    defaultValuesStep.setTranslationRequired(true);
+                    testCase.appendSteps(defaultValuesStep);
 
                     Step manualSetupStep = (Step) acceptor.getFactory().createStep();
-                    ;
+                    
                     manualSetupStep.setTCS_Order(0);
                     manualSetupStep.setDistance(0);
                     manualSetupStep.setDescription("Manual setup test sequence");
@@ -249,7 +256,7 @@ namespace Importers
             }
             else
             {
-                throw new Exception("Cannot find entry in table TSW_TestSeqSCItl WHERE TestSequenceID = " + subSequenceID);
+                throw new Exception("Cannot find entry in table TSW_TestSeqSCItl WHERE TestSequenceID = " + subSequenceId);
             }
         }
 
@@ -257,10 +264,9 @@ namespace Importers
         ///     Imports the steps in a sub sequence
         /// </summary>
         /// <param name="subSequence"></param>
-        private void importSteps(SubSequence subSequence)
+        private void ImportSteps(SubSequence subSequence)
         {
-            string sql =
-                "SELECT TCSOrder, Distance, FT_NUMBER, TC_NUMBER, ST_STEP, ST_DESCRIPTION, UserComment, ST_IO, ST_INTERFACE, ST_COMMENTS, TestLevelIn, TestLevelOut, TestModeIn, TestModeOut FROM TSW_TCStep ORDER BY TCSOrder";
+            const string sql = "SELECT TCSOrder, Distance, FT_NUMBER, TC_NUMBER, ST_STEP, ST_DESCRIPTION, UserComment, ST_IO, ST_INTERFACE, ST_COMMENTS, TestLevelIn, TestLevelOut, TestModeIn, TestModeOut FROM TSW_TCStep ORDER BY TCSOrder";
 
             OleDbDataAdapter adapter = new OleDbDataAdapter(sql, Connection);
             DataSet dataSet = new DataSet();
@@ -347,7 +353,7 @@ namespace Importers
                         }
                         step.setTranslationRequired(true);
 
-                        importStepMessages(step);
+                        ImportStepMessages(step);
 
                         testCase.appendSteps(step);
                     }
@@ -364,10 +370,9 @@ namespace Importers
         ///     Imports all the messages used by this step
         /// </summary>
         /// <param name="aStep"></param>
-        private void importStepMessages(Step aStep)
+        private void ImportStepMessages(Step aStep)
         {
-            string sql =
-                "SELECT TCSOrder, MessageOrder, MessageType, Var_Name, Var_Value FROM TSW_MessageHeader ORDER BY MessageOrder, Var_Row";
+            const string sql = "SELECT TCSOrder, MessageOrder, MessageType, Var_Name, Var_Value FROM TSW_MessageHeader ORDER BY MessageOrder, Var_Row";
 
             OleDbDataAdapter adapter = new OleDbDataAdapter(sql, Connection);
             DataSet dataSet = new DataSet();
@@ -377,11 +382,10 @@ namespace Importers
             {
                 int messageNumber = 0;
                 DBMessage message = null;
-                int order = -1;
                 foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                 {
                     object[] items = dataRow.ItemArray;
-                    order = (int) items[0];
+                    int order = (int) items[0];
                     if (order == aStep.getTCS_Order())
                     {
                         short messageOrder = (short) items[1];
@@ -390,7 +394,7 @@ namespace Importers
                             if (messageNumber != 0)
                             {
                                 aStep.AddMessage(message);
-                                importPackets(message, order);
+                                ImportPackets(message, order);
                             }
                             short messageTypeNumber = (short) items[2];
                             acceptor.DBMessageType messageType = acceptor.DBMessageType.defaultDBMessageType;
@@ -428,7 +432,7 @@ namespace Importers
                 if (message != null)
                 {
                     aStep.AddMessage(message);
-                    importPackets(message, aStep.getTCS_Order());
+                    ImportPackets(message, aStep.getTCS_Order());
                 }
             }
         }
@@ -438,7 +442,9 @@ namespace Importers
         ///     Impports all the packets for a given message
         /// </summary>
         /// <param name="aMessage"></param>
-        private void importPackets(DBMessage aMessage, int TCS_order)
+        /// <param name="TCS_order"></param>
+        // ReSharper disable once InconsistentNaming
+        private void ImportPackets(DBMessage aMessage, int TCS_order)
         {
             string sql = "SELECT Pac_ID, Var_Name, Var_Value FROM TSW_MessageBody WHERE (TCSOrder = " + TCS_order +
                          ") AND (MessageOrder = " + aMessage.MessageOrder + ") ORDER BY Var_Row";

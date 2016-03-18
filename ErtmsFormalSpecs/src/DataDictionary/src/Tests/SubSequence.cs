@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using DataDictionary.Generated;
 using Utils;
 using Comparer = Utils.Comparer;
-using TranslationDictionary = DataDictionary.Tests.Translations.TranslationDictionary;
 
 namespace DataDictionary.Tests
 {
@@ -166,6 +165,34 @@ namespace DataDictionary.Tests
         {
             get { return getComment(); }
             set { setComment(value); }
+        }
+
+        /// <summary>
+        /// Indicates that the sub sequence contains a manual translation
+        /// </summary>
+        /// <returns></returns>
+        public bool ContainsManualTranslation()
+        {
+            bool retVal = false;
+
+            foreach (TestCase testCase in TestCases)
+            {
+                foreach (Step step in testCase.Steps)
+                {
+                    if (!step.getTranslationRequired())
+                    {
+                        retVal = true;
+                        break;
+                    }
+                }
+
+                if (retVal)
+                {
+                    break;
+                }
+            }
+
+            return retVal;
         }
     }
 }

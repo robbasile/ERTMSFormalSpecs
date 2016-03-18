@@ -60,16 +60,23 @@ namespace GUI.LongOperations
         private Mode ImportMode { get; set; }
 
         /// <summary>
+        /// Indicates that manual translations should be kept while importing the file(s)
+        /// </summary>
+        private bool KeepManualTranslations { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="dictionary"></param>
         /// <param name="mode"></param>
-        public ImportTestDataBaseOperation(string fileName, Dictionary dictionary, Mode mode)
+        /// <param name="keepManualTranslations">Indicates that manual translation for be kept during import</param>
+        public ImportTestDataBaseOperation(string fileName, Dictionary dictionary, Mode mode, bool keepManualTranslations)
         {
             FileName = fileName;
             _dictionary = dictionary;
             ImportMode = mode;
+            KeepManualTranslations = keepManualTranslations;
         }
 
         /// <summary>
@@ -88,14 +95,14 @@ namespace GUI.LongOperations
             if (ImportMode == Mode.File)
             {
                 TestImporter importer = new TestImporter(FileName, DbPassword);
-                importer.Import(frame);
+                importer.Import(frame, KeepManualTranslations);
             }
             else
             {
                 foreach (string fName in Directory.GetFiles(FileName, "*.mdb"))
                 {
                     TestImporter importer = new TestImporter(fName, DbPassword);
-                    importer.Import(frame);
+                    importer.Import(frame, KeepManualTranslations);
                 }
             }
 
