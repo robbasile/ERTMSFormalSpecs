@@ -126,7 +126,7 @@ namespace GUIUtils.Editor
         {
             INamable instance = GetInstance(location);
 
-            if (instance != null)
+            if ((ModifierKeys == Keys.Alt) && (instance != null))
             {
                 location.Offset(10, 10);
                 const bool considerMouseMove = true;
@@ -228,6 +228,17 @@ namespace GUIUtils.Editor
                 }
 
                 ConsiderMouseMoveToCloseExplanation = sensibleToMouseMove;
+
+                explainRichTextBox.Size = new Size(400, 200);
+                if (explainRichTextBox.Size.Width >= Size.Width * 0.8)
+                {
+                    explainRichTextBox.Size = new Size((int) (Size.Width*0.8), explainRichTextBox.Size.Height);
+                }
+                if (explainRichTextBox.Size.Height >= Size.Height * 0.8)
+                {
+                    explainRichTextBox.Size = new Size(explainRichTextBox.Size.Width, (int) (Size.Height*0.8));
+                }
+
                 explainRichTextBox.Show();
                 EditionTextBox.SendToBack();
             }
