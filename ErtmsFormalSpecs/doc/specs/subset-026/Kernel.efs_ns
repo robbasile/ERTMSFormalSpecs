@@ -1015,9 +1015,9 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 >
 <States>
 <State
- X="400"
+ X="490"
  Y="60"
- Width="150"
+ Width="250"
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1048,6 +1048,8 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Ask Driver Id and possibly train running number and virtual balise cover"
@@ -1065,12 +1067,12 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <PreConditions>
 </PreConditions>
 <Actions>
-<Action
- Guid="6bc7426d-b02b-434f-b579-9703a36b9897"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.WaitForDriverSelection</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Invalid or unknown train running number"
  Guid="c5c372ae-2ed7-44b5-931a-4f785faea67f"
@@ -1100,8 +1102,10 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
- Name="Invalid or unknown driver id"
+ Name="Driver id"
  Guid="7ceb0570-8756-4415-9364-fc87e930a941"
 >
 <ReqRef
@@ -1115,20 +1119,65 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Invalid or unknown driver id"
+ Name="Unknown driver id"
+ Guid="8242f10f-c036-40ec-a9e4-d1311742911e"
+>
+<Comment>The driver ID screen is automatically displayed to the driver</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d2c70318-7076-45e4-81d9-8e829bbb39c1"
+>Kernel.DriverId.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="56cf47d4-59af-4b0b-9c02-abe5caf4f6cf"
+>DMI.MasterDMI().In_DriverId.InitiateRequest(
+    aId =&gt; &apos;&apos;,
+    aEnter =&gt; True,
+    aReValidate =&gt; False
+)</Action><Action
+ Guid="60f544b5-9b46-467c-8deb-a45a31cae22e"
+>THIS &lt;- WaitForDriverId</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Invalid driver id"
  Guid="4768fc0c-b2c4-4285-8498-b8dae1ac5917"
 >
+<Comment>The driver ID screen is automatically displayed to the driver</Comment>
 <PreConditions>
 <PreCondition
  Guid="4c1bcc5b-91cb-42ce-b8a5-df6929aefa41"
->Kernel.DriverId.DataState in [DataStateEnum.Invalid, DataStateEnum.Unknown]</PreCondition></PreConditions>
+>Kernel.DriverId.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="486875f2-6e3d-4cbc-b4ee-21f50184093d"
->DMI.MasterDMI().In_DriverIdEntryRequest.InitiateRequest()</Action></Actions>
+><Comment>The driver ID screen is automatically displayed to the driver</Comment>
+DMI.MasterDMI().In_DriverId.InitiateRequest(
+    aId =&gt; Kernel.DriverId.Value ,
+    aEnter =&gt; True,
+    aReValidate =&gt; True
+)</Action><Action
+ Guid="376053c1-666c-4932-b579-8dd325021619"
+>THIS &lt;- WaitForDriverId</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise"
+ Guid="de479130-24b6-46c5-88b1-c5c7d21e8b48"
+>
+<Comment>The driver ID can be entered by the driver</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="44dcea74-b451-424d-8949-35d665e61ad0"
+>DMI.MasterDMI().In_DriverIdEntryRequest.InitiateRequest()</Action><Action
+ Guid="6bc7426d-b02b-434f-b579-9703a36b9897"
+>THIS &lt;- WaitForDriverSelection</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Set/remove virtual balise cover"
  Guid="b85dd727-24cc-4b21-835a-b3d2f1fa9126"
@@ -1157,7 +1206,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
- X="400"
+ X="430"
  Y="230"
  Width="150"
  Height="50"
@@ -1189,6 +1238,8 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Driver selected the train running number"
  Guid="8b637282-3598-44ec-b153-a72b761c0b6a"
@@ -1221,6 +1272,8 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Driver selected the virtual balise cover"
  Guid="32450414-5819-404e-aa89-f91d3a727dad"
@@ -1278,17 +1331,13 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 >DMI.MasterDMI().In_DriverIdEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="19aab77b-193c-4cd2-84bb-84019a974e91"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action><Action
  Guid="5b5b6e13-9d2a-4ddb-9306-3f19db286cb0"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.WaitForDriverId</Action><Action
- Guid="20d6315b-90bc-49df-a944-f411be368116"
->DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.WaitForDriverId</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
- X="770"
- Y="230"
+ X="880"
+ Y="220"
  Width="150"
  Height="50"
  Implemented="TRUE"
@@ -1342,8 +1391,8 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
- X="410"
- Y="370"
+ X="600"
+ Y="380"
  Width="150"
  Height="50"
  Implemented="TRUE"
@@ -1405,6 +1454,76 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <Action
  Guid="27a87601-18ea-4fbb-9140-921d90d79429"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.AskToEnterValues</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Driver selected the train running number"
+ Guid="71733642-280c-4ba2-83e8-a492aadfad12"
+>
+<ReqRef
+ Id="b5adeff5-835f-415a-a6c0-4bdaee8b3cb8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="199352ba-dc34-45a6-89cf-ae74a5ad3716"
+>
+</ReqRef><Comment>If the driver selected to enter the train running number, the on-board equipment initiates the train running number entry by displaying the Train Running Number screen (automatically done in namespace DMI).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Driver selected the train running number"
+ Guid="eea223d0-49c2-4e1b-a627-ff81a561fc38"
+>
+<PreConditions>
+<PreCondition
+ Guid="f29750eb-2969-49ea-b131-bfbf7ea5be84"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="026eea42-1f60-4ffc-bfb2-a4600948e1fc"
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.WaitForTrainRunningNumber</Action><Action
+ Guid="3ce77824-954d-4831-8aab-af5d1dd4b54e"
+>DMI.MasterDMI().In_DriverIdEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action><Action
+ Guid="25804e02-fcf6-430e-876a-5923443c85f6"
+>DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Driver selected the virtual balise cover"
+ Guid="8eebc22d-7e00-47fb-a36a-cbe5cc00a920"
+>
+<ReqRef
+ Id="079c6696-ff46-4b49-b30c-23ad82da6fd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8998a160-0b49-4191-94de-0e5fc1332e13"
+>
+</ReqRef><Comment>If the driver selected to enter the virtual balise cover, the on-board equipment initiates the virtual balise cover entry.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Driver selected the virtual balise cover"
+ Guid="341845d5-159c-43d9-b908-7f3406474254"
+>
+<PreConditions>
+<PreCondition
+ Guid="63df04c2-ea5b-4c06-8094-4630f1804a0a"
+>DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e7711ff1-b500-429d-9ef6-762f7dca2893"
+>DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action><Action
+ Guid="f1a5b2db-dc7c-4a4c-b826-ae1ce5c02a9f"
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S1.WaitForVirtualBaliseCover</Action><Action
+ Guid="ce973943-159d-4446-8985-f0f9b970ab50"
+>DMI.MasterDMI().In_DriverIdEntryRequest.InputInformation.RequestStatus &lt;- RequestEnum.Disabled</Action><Action
+ Guid="4cb932d4-7df1-40cc-a0a9-3de28b8f4033"
+>DMI.MasterDMI().In_VirtualBaliseCover.InputInformation.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -9709,6 +9828,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Disconnect primary connection"
  Guid="b8383795-f3cb-45b2-bd4d-f1592f131b20"
@@ -9730,6 +9851,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Post actions"
  Guid="65d86c80-8e83-4b39-87fc-f4f1ddeef874"
@@ -9745,6 +9868,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Comment>If there is a secondary connection =&gt; terminate it.</Comment>
 <PreConditions>
 <PreCondition
+ Guid="2064e3ed-ebd0-4f32-98ac-1f97f15a8088"
+>Available ( EURORADIO.SecondaryRBCConnection() )</PreCondition><PreCondition
  Guid="74beabb9-3bd4-453c-88c9-a53147d14eec"
 >EURORADIO.SecondaryRBCConnection().SafeRadioConnectionStatus != EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</PreCondition></PreConditions>
 <Actions>
@@ -9789,6 +9914,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Disconnect secondary connection"
  Guid="2739c179-94b8-4598-87d1-198fc4e9f0a3"

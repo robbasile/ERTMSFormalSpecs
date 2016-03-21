@@ -6148,7 +6148,12 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <Actions>
 <Action
  Guid="d18867e9-84f9-4f6b-80d6-c22af14ddfe1"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S1</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S1</Action><Action
+ Guid="89accc0f-6b69-48a5-b68f-95a74b5646aa"
+>Kernel.DriverId &lt;- Kernel.DriverIdStruct{
+     Value =&gt; &apos;12345&apos;,
+     DataState =&gt; DataStateEnum.Valid 
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -6242,15 +6247,7 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 >DMI.MasterDMI().In_DriverId.Id == &apos;&apos;</Expectation><Expectation
  Kind="Instantaneous"
  Guid="5f61b175-eac7-4408-8da3-dd3f0c50aae7"
->DMI.MasterDMI().In_DriverId.InputInformation.RequestStatus == RequestEnum.Request</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="1343b88d-7782-4fbf-9fd9-7ed245360d6a"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="e8a62db2-495c-4635-986b-ecf2265056a5"
->DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+>DMI.MasterDMI().In_DriverId.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -6382,15 +6379,7 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
  Kind="Instantaneous"
  DeadLine="1"
  Guid="97963fbe-c924-450c-a7a9-ecd35e86d59d"
->DMI.MasterDMI().In_DriverId.DriverAction.ReValidate == True</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="c50a1674-1380-4909-aa12-adff65b2489f"
->DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="d96f1ea3-44d3-480d-80dc-acde664d3000"
->DMI.MasterDMI().In_VirtualBaliseCoverEntryRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+>DMI.MasterDMI().In_DriverId.DriverAction.ReValidate == True</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
