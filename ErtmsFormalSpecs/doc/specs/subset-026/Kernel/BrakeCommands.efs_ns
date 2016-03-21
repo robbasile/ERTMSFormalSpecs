@@ -1527,43 +1527,6 @@ IN Kernel.BrakeCommands.EmergencyBrakeCommands</Action></Actions>
 >APPLY DisplayBrakeCommand(X) ON Kernel.BrakeCommands.EmergencyBrakeCommands</Action><Action
  Guid="646527a3-05c3-468d-9050-dc9f8f2b75c3"
 >APPLY DisplayBrakeCommand(X) ON Kernel.BrakeCommands.ServiceBrakeCommands</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Display TR reason"
- Guid="008236d0-aa11-4107-9e6e-5562edfa224d"
->
-<ReqRef
- Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="149b1ae8-f5ad-440e-8f10-e48a9c0e5c3a"
->
-</ReqRef><Comment>Displays the trip reason on the DMI.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display reason for TR mode"
- Guid="1da3a6c2-3279-4f23-b795-09b96bfb7ae0"
->
-<PreConditions>
-<PreCondition
- Guid="db698431-04ed-49bb-b877-65c637a29172"
->Kernel.Mode == ModeEnum.TR</PreCondition><PreCondition
- Guid="9b89c340-ef51-4c14-bb62-8a7b2d72fba4"
->Kernel.BrakeCommands.EmergencyStops != []</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a3fc4c17-da7a-44f6-a07b-e0a9591ad4dc"
->DMI.MasterDMI().Out_TripReason.Display(
-    aReason =&gt; (FIRST X IN Kernel.BrakeCommands.EmergencyStops).Reason,
-    aStartTime =&gt; (FIRST X IN Kernel.BrakeCommands.EmergencyStops).StartTime
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

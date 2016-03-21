@@ -4052,42 +4052,7 @@ SystemVersion1 =&gt; EMPTY
  Guid="ea8b7978-d9c8-42c9-a1a1-339aea7eb022"
 >THIS &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action><Action
  Guid="53aed77c-69b4-4844-84ca-aeb33f10a498"
->SendNoCompatibleVersionSupported()</Action><Action
- Guid="06b3885a-568b-4822-9264-7dabdb4a08c1"
-><Comment>If no communication can be established due to SystemVersion incompatibility, the DataState of the LastKnownRBC is set to Invalid to prevent automatic connection attempts.</Comment>
-EURORADIO.LastKnownRBC.DataState &lt;- DataStateEnum.Invalid</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Display indication to driver"
- Guid="32978d87-8f73-45bd-bb68-3f372244060e"
->
-<Comment>If the on-board is unable to connect to the RBC, only display the Incompatible System Version information if the current mode is not SL.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Mode is not SL"
- Guid="0ff8a2f0-4595-49a4-b1ff-17efce2e7f5b"
->
-<ReqRef
- Id="26f8b2b9-4d92-46f3-8c33-b40b1b891b32"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="05961053-1d2a-4252-922e-6124df28fbd1"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="8473eb41-8b29-4bfc-850f-20dab16f4863"
->Kernel.Mode != ModeEnum.SL</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="67b23c1f-f588-4c6d-82e0-4bd1b8feb62a"
->DMI.MasterDMI().Out_TracksideNotCompatible.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+>SendNoCompatibleVersionSupported()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -8238,6 +8203,54 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  Guid="99a91b08-4822-4266-b578-590f6bb62fcd"
 >
 <Expression>LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="111"
+ Y="301"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IncompatibleVersionReceived"
+ Guid="f4458742-2ae1-4062-aef4-7341b829ddac"
+>
+<ReqRef
+ Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e63556fc-ab8a-4644-aeda-c81b47a3d022"
+>
+</ReqRef><ReqRef
+ Id="790cf49e-a85c-4110-b567-fc5d57052339"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4a188d75-b7d7-4d9e-9b25-dafe944dee03"
+>
+</ReqRef><ReqRef
+ Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fca8116b-c648-446e-99b2-a74da8fc0c1e"
+>
+</ReqRef><ReqRef
+ Id="e28641fe-d20c-42ee-a1e3-a02d73f37d4a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d45c70b5-56f5-4db3-9128-01fde611b7fe"
+>
+</ReqRef><Comment>Indicates that the system version of the attempted RBC connection is incompatible (for display on the DMI).</Comment>
+<Cases>
+<Case
+ Name="No System Version Order Message"
+ Guid="8f08b35c-8b50-4a53-b55f-31004b353844"
+>
+<PreConditions>
+<PreCondition
+ Guid="ead90fcd-7877-4113-bcfe-47013d6cbaec"
+>NOT Available( UpdatedMessageIn( CurrentRBCConnection()).SystemVersion2.RIU_SYSTEM_VERSION )</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="e58021fd-0dcb-4301-ba53-579fd6729815"
+>
+<Expression>NOT VersionManagement.SystemVersionIsCompatible ( CurrentRBCConnection().SessionManagementData.SystemVersion.Value )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

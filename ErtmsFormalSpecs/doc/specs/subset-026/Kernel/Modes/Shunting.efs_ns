@@ -144,6 +144,27 @@
   AND  
 (FIRST Balise IN aBaliseGroup).Telegram.NID_BG == ShuntingBG.NID_BG</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="111"
+ Y="1"
+ Width="100"
+ Height="50"
+ Name="RequestNotAnsweredByRBC"
+ Guid="9695d8c2-4a02-47e6-b153-2ab98f8cba67"
+>
+<Cases>
+<Case
+ Name="Value"
+ Guid="401d6567-7db0-454d-9dcb-46505c30d201"
+>
+<Expression>Modes.Shunting.TimeOfTheLastSentRequest + EURORADIO.TimeBeforeMessageRepetition &lt;= DateAndTime.CurrentTime
+
+  AND  
+
+Modes.Shunting.NumberOfSentRequestRepetitions == 3</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

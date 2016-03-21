@@ -2411,7 +2411,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Name="Update Change of train data from source other than the driver"
  Guid="07a0ab0b-d557-4c6e-8ffa-0bbb7c226176"
 >
-<Comment>Updates the display of the notification that the train data has been changed by somethin gother than the driver.</Comment>
+<Comment>Updates the display of the notification that the train data has been changed by something other than the driver.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2432,13 +2432,16 @@ Fetches the time from the kernel and adjusts according to the current country id
  X="0"
  Y="0"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Operated system version"
  Guid="7b729ba2-b54d-487d-adcd-6c2bd033711a"
 >
+<Comment>Updates the display of the currently operated system version.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Operated system version"
  Guid="134eb38e-bd3c-49b2-a9c8-ebff7507c800"
 >
@@ -2455,6 +2458,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Y="0"
  Implemented="TRUE"
  Verified="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Override status"
  Guid="f1fbaadb-bbfc-4bbd-aaae-a84f0f28b660"
 >
@@ -2463,10 +2467,12 @@ Fetches the time from the kernel and adjusts according to the current country id
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6b6478c9-2644-4fb2-96b2-fd9389226a3c"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Updates the display of the override status.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Override status"
  Guid="02938f40-0c21-495f-a708-0c114f00cdc9"
 >
@@ -2482,6 +2488,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  X="0"
  Y="0"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Radio network registration failed"
  Guid="43464f16-f2e9-41ae-bb9f-292e6a28b9ba"
 >
@@ -2490,10 +2497,12 @@ Fetches the time from the kernel and adjusts according to the current country id
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="070b88f0-03e9-4993-8cd3-19fd35ea153f"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Updates the display of the &quot;Radio network registration failed&quot; information.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Radio network registration failed"
  Guid="1729703d-ea00-4437-be20-5ec0c7aa537f"
 >
@@ -2509,13 +2518,16 @@ Fetches the time from the kernel and adjusts according to the current country id
  X="0"
  Y="0"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Reversing allowed"
  Guid="15a27120-374a-4fea-ac36-1138d77e2393"
 >
+<Comment>Updates the display of the permission to reverse.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Reversing allowed"
  Guid="7d51b3c8-258a-4c1b-98a5-c48d9bfdb032"
 >
@@ -2531,13 +2543,16 @@ Fetches the time from the kernel and adjusts according to the current country id
  X="0"
  Y="0"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Shunting refused by RBC"
  Guid="72d2d57b-dfa7-4c88-a1db-f91565ac63c1"
 >
+<Comment>Updates the display of the &quot;Shunting refused by RBC&quot; information.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update Shunting refused by RBC"
  Guid="c8746139-5006-4619-807b-093995304c79"
 >
@@ -2590,6 +2605,11 @@ Fetches the time from the kernel and adjusts according to the current country id
  Name="Update Track conditions with sound horn"
  Guid="b8847b2c-c64b-4715-b9f3-4a37b23fd312"
 >
+<Comment>Updates the display of planning information and active track conditions for the following:
+ - Sound horn
+ - Non stopping area
+ - Tunnel stopping area
+ - Change of traction system.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2657,6 +2677,181 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Action
  Guid="08b54ecd-5df3-4aa9-953a-644b97848a6e"
 >Out_FixedTextInformation.Display()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Shunting request not answered by RBC"
+ Guid="945aec8e-7523-44bf-9442-1f435ef9083e"
+>
+<Comment>Updates the display of the notification that the driver&apos;s request to enter SH mode was not answered by the RBC in the required time.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Shunting request not answered by RBC"
+ Guid="b07525bb-53bb-4b87-8555-80319a5be334"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="48f1cb63-790f-4295-ba44-c0dcb8a23bf1"
+>THIS.Out_ShuntingRequestNotAnsweredByRbc.Display
+(
+  Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.S050]
+    AND  
+  Kernel.Modes.Shunting.RequestNotAnsweredByRBC()
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track ahead free request"
+ Guid="eb635b93-d70e-449b-b858-059c8c3cdb21"
+>
+<Comment>Updates the display of the track ahead free request.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track ahead free request"
+ Guid="8310bdaa-74b3-42a3-88ad-94cb7cc49fff"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="50c47429-915e-4f58-9e38-8a6efce6b6f2"
+>THIS.Out_TrackAheadFreeRequest.Display( Available(Kernel.TrackAheadFree.TrackAheadFreeRequest) )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Trackside malfunction"
+ Guid="d217cbc7-d2a8-40eb-b400-a4611aa4c01f"
+>
+<Comment>Updates the display of the trackside malfunction.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Trackside malfunction"
+ Guid="4effb924-6b0b-4a20-a493-e6957aca7e9f"
+>
+<Comment>TODO Indicate on the DMI when the received balise message could not be decoded, this is the trackside malfunction.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="265b5838-5b6b-4236-91ef-4b81b5641fac"
+>THIS.Out_TracksideMalfunction.Display( aTracksideMalfunction =&gt; False )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Trackside not compatible"
+ Guid="a9e4b90b-d5cd-4abf-92e9-2a42de39a75d"
+>
+<ReqRef
+ Id="26f8b2b9-4d92-46f3-8c33-b40b1b891b32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="477db2cf-721f-4bc3-9156-dc85d401828e"
+>
+</ReqRef><Comment>Updates the display of the &quot;Trackside not compatible&quot; information.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Trackside not compatible"
+ Guid="27d69fb7-5098-44ea-884a-1d531ce4a293"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9cad28ce-4c21-4262-83cd-bda1f1b33242"
+>THIS.Out_TracksideNotCompatible.Display( EURORADIO.IncompatibleVersionReceived() )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Train rejected"
+ Guid="52403bd8-9ecb-4d14-a8ae-7b38a3119dd8"
+>
+<Comment>Updates the display of the &quot;Train rejected by RBC&quot; information.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Train rejected"
+ Guid="64d9281b-a122-48fb-971a-5c32a4660633"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ef2ff8c4-bbad-435b-af06-1d609c8c7d07"
+>THIS.Out_TrainIsRejected.Display( Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.A40] )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Trip reason"
+ Guid="78a09774-0702-48a0-b096-01623e6de8e9"
+>
+<Comment>Updates the display of the trip reason.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Trip reason"
+ Guid="11d99b9b-7444-485b-a629-07e9ca16f374"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="48f95f20-f99a-4aaa-8e47-8f9f99170f66"
+>THIS.Out_TripReason.Display(
+    aTrainTripped =&gt; Kernel.Mode in [ModeEnum.TR],
+    aReasons =&gt; Kernel.BrakeCommands.EmergencyStops
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Virtual balise covers"
+ Guid="f124fe7a-7dc9-4129-b54e-791b7bc129ea"
+>
+<Comment>Updates the display of the virtual balise covers.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Virtual balise covers"
+ Guid="70544d40-6e7e-4c1e-a07c-c0151baeec94"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b3f7dc95-97ca-4196-bf50-18784b0ba20b"
+>THIS.Out_VirtualBaliseCovers.Display( Kernel.VirtualBaliseCover.VirtualBaliseCovers )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

@@ -639,7 +639,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Guid="f87bb6ae-17c7-4285-8e28-fcbeaeb36771"
 >Kernel.Level.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="662c3df4-c42d-42b4-969f-26374908d16a"
->Kernel.DriverId.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+>DriverId.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="1a50685a-e6cf-47fb-ade5-c83eda9ddb1e"
 >Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.SR, ModeEnum.SN, ModeEnum.UN]</PreCondition></PreConditions>
 <Actions>
@@ -1147,7 +1147,7 @@ Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition><
 <PreConditions>
 <PreCondition
  Guid="4c1bcc5b-91cb-42ce-b8a5-df6929aefa41"
->Kernel.DriverId.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+>DriverId.DataState in [DataStateEnum.Invalid, DataStateEnum.Unknown]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="486875f2-6e3d-4cbc-b4ee-21f50184093d"
@@ -1430,7 +1430,7 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <PreConditions>
 <PreCondition
  Guid="60f30bae-564a-4fdd-aafb-e3573d0cbdf8"
->Kernel.DriverId.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+>DriverId.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5e31eb20-f81b-480a-b45d-8ffcdb87aa64"
@@ -4823,8 +4823,8 @@ Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
- X="1060"
- Y="600"
+ X="1040"
+ Y="610"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -4861,8 +4861,6 @@ Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).
 </PreConditions>
 <Actions>
 <Action
- Guid="8965824c-5485-443a-a533-d11c284be2a7"
->DMI.MasterDMI().Out_TrainIsRejected.Display()</Action><Action
  Guid="99c164b8-f204-4242-bd29-a23f75c47447"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10</Action></Actions>
 </RuleCondition></Conditions>
@@ -8789,13 +8787,9 @@ The report is handled in the EURORADIO namespace</Comment>
 <PreConditions>
 <PreCondition
  Guid="a4e05313-ab68-48d5-baf5-b37b99f603b5"
->Kernel.Modes.Shunting.TimeOfTheLastSentRequest + EURORADIO.TimeBeforeMessageRepetition &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
- Guid="19cb51ac-6e20-41cf-94af-80d94d18f09c"
->Kernel.Modes.Shunting.NumberOfSentRequestRepetitions == 3</PreCondition></PreConditions>
+>Kernel.Modes.Shunting.RequestNotAnsweredByRBC()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="2e912ee5-2d72-472a-ba0b-87cdfbc37223"
->DMI.MasterDMI().Out_ShuntingRequestNotAnsweredByRbc.Display()</Action><Action
  Guid="0ad25f45-c491-44cc-b897-bb52084011af"
 >EURORADIO.CloseRBCSession()</Action></Actions>
 </RuleCondition><RuleCondition
