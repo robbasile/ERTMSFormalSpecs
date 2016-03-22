@@ -36,6 +36,7 @@ java:
 test:
 	bin/EFSTester.exe "doc/specs/subset-026.efs" 
 	bin/EFSTester.exe "doc/specs/subset-026.efs" "doc/specs/braking curves verification.efs"
+	bin/EFSTester.exe "doc/specs/subset-026.efs" "doc/specs/DMIFunctionalTests.efs"
 
 unit_test:
 	../../tools/NUnit-2.6.3/bin/nunit-console.exe bin/DataDictionary.test.dll /xml=nunit-result.xml
