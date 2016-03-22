@@ -451,8 +451,7 @@ namespace DataDictionary.RuleCheck
                         requiresComment = ruleCondition.EnclosingRule.RuleConditions.Count > 1;
                     }
 
-                    if (commentable is NameSpace
-                        || commentable is Functions.Case
+                    if (commentable is Functions.Case
                         || commentable is Rules.PreCondition
                         || commentable is Rules.Action)
                     {
@@ -482,8 +481,16 @@ namespace DataDictionary.RuleCheck
 
                     if (requiresComment)
                     {
-                        ((ModelElement) commentable).AddRuleCheckMessage(RuleChecksEnum.Process01, ElementLog.LevelEnum.Info, 
-                            "This element should be documented");
+                        if (commentable is NameSpace)
+                        {
+                            ((ModelElement)commentable).AddRuleCheckMessage(RuleChecksEnum.Process16, ElementLog.LevelEnum.Info,
+                                "Namespaces should have a description of their contents");
+                        }
+                        else
+                        {
+                            ((ModelElement)commentable).AddRuleCheckMessage(RuleChecksEnum.Process01, ElementLog.LevelEnum.Info,
+                                "This element should be documented");
+                        }
                     }
                 }
                 else if (commentable.Comment.Contains("TODO"))
