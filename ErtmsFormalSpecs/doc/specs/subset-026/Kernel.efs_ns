@@ -5773,6 +5773,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="End of SoM"
@@ -5798,6 +5800,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Transition to a mode different from SB"
@@ -5822,6 +5826,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Desk is closed"
@@ -10762,12 +10768,7 @@ This is done now because the calculation depends on te mode.</Comment>
  Name="Standard case"
  Guid="8ba82f05-9b34-48da-8d8d-80d7f286c995"
 >
-<ReqRef
- Id="a0239fb6-709c-4818-9907-463b7c24e661"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="970145bd-9c18-4190-9854-bc0d9af7aa3b"
->
-</ReqRef><Comment>Deletes the stored information that can be deleted immediately after the moment the train passed its location.</Comment>
+<Comment>Deletes the stored information that can be deleted immediately after the moment the train passed its location.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -10779,14 +10780,6 @@ This is done now because the calculation depends on te mode.</Comment>
 </PreConditions>
 <Actions>
 <Action
- Guid="2c71eac1-630f-48fd-a4b3-99f57fca20c1"
->REMOVE ALL
-  BaseTypes.RemoveLocationBasedElement
-  (
-    aLocation =&gt; X.Location,
-    anAdditionalDistance =&gt; 0.0
-  )
-IN Kernel.GeographicalPosition.GeographicalPositionInformation</Action><Action
  Guid="be32f8de-1052-414f-b7e3-30384843a095"
 >REMOVE ALL
   BaseTypes.RemoveLocationBasedElement
@@ -10795,15 +10788,6 @@ IN Kernel.GeographicalPosition.GeographicalPositionInformation</Action><Action
     anAdditionalDistance =&gt; 0.0
   )
 IN TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action><Action
- Guid="de7ddf6a-1fbf-4bcb-a79d-9744a7e44281"
->REMOVE ALL
-  BaseTypes.RemoveLengthLocationBasedElement
-  (
-    anElement =&gt; X,
-    anAdditionalDistance =&gt; 0.0
-  )
-IN
-  Kernel.MA.ModeProfile.Profile</Action><Action
  Guid="effae0ff-821f-49a4-b156-ec9f0cd7cc5b"
 >REMOVE ALL
   TrackDescription.TrackConditions.ConditionExitsApplicability
@@ -11722,12 +11706,7 @@ IN
  Name="Clean Up"
  Guid="5ede8ba9-0011-4a3b-878f-702096c02b6a"
 >
-<ReqRef
- Id="a0239fb6-709c-4818-9907-463b7c24e661"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="eba28f24-d4a4-4294-bacf-3bd78a1d9cb1"
->
-</ReqRef><Comment>Performs the cleaning of the information which is not needed by the Kernel anymore.</Comment>
+<Comment>Performs the cleaning of the information which is not needed by the Kernel anymore.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition

@@ -4,7 +4,6 @@
  Width="100"
  Height="50"
  Pinned="TRUE"
- Image="3"
  Name="DMI"
  Guid="27079fd5-b597-44b6-9a91-248896c6f707"
 >
@@ -581,8 +580,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </Rule></Rules>
 <Procedures>
 <Procedure
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="HandleModeChange"
@@ -597,8 +594,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <Rules>
 <Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Mode tracker"
  Guid="5f189810-768f-4746-a833-62795357cd52"
@@ -1196,8 +1191,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="AcceptDriverResponse"
@@ -1207,8 +1200,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <Rules>
 <Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Update system state"
  Guid="9f705a65-3f09-4a10-8237-361dcb288a67"
@@ -1487,8 +1478,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="UpdateOUTVariables"
@@ -1498,8 +1487,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <Rules>
 <Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Accepted emergency stops"
@@ -1528,8 +1515,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Update Adhesion factor slippery rail"
  Guid="54fcf6e8-43cb-4470-a6c9-2b6ed45934f7"
@@ -1568,8 +1553,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Brake indication"
@@ -1593,8 +1576,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Brake reason"
@@ -1637,8 +1618,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Driver ID"
@@ -1662,8 +1641,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Entry in FS/OS mode"
@@ -1687,8 +1664,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update First target at zero speed"
@@ -1722,6 +1697,29 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Fixed Text Information"
+ Guid="f555d322-4a91-4797-ab6f-95059de8ba27"
+>
+<Comment>Updates the displayed fixed text messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Fixed Text Information"
+ Guid="d1a32a78-e0da-4282-b841-a50d8860c36f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="08b54ecd-5df3-4aa9-953a-644b97848a6e"
+>Out_FixedTextInformation.Display()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
  X="0"
  Y="0"
  Implemented="TRUE"
@@ -1752,8 +1750,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Gradient"
@@ -1777,8 +1773,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Indication location at MSRP speed"
@@ -1802,8 +1796,6 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Level"
@@ -1826,9 +1818,45 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 >Out_CurrentErtmsEtcsLevel.Display(Kernel.Level)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Level transition announcement"
+ Guid="1e3954da-e9ad-4596-b583-8077c0b160db"
+>
+<ReqRef
+ Id="a0fffb6f-52dd-4294-b705-ac27dc95a180"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a653b04f-4eb0-4108-b0b5-2869929ff093"
+>
+</ReqRef><ReqRef
+ Id="54debebc-e391-4fd2-a3d7-8e0abf2a1c27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0519beb-bd5b-41ac-847e-5baece47d6c0"
+>
+</ReqRef><ReqRef
+ Id="91f853db-5446-42e9-bd20-c7df2c617fdd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="712e1f6b-4c8f-4415-a4b7-cda386d26326"
+>
+</ReqRef><Comment>Updates the displayed level transition announcement.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Level transition announcement"
+ Guid="c2263e89-b41c-4125-8a20-8f409e22f22e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b542510f-0bec-400f-be43-ef11c529ab3b"
+>Out_LevelTransitionAnnouncement.Display( Kernel.LevelTransition.LevelTransitionToProcess)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Local time"
@@ -1860,8 +1888,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update LSSMA"
@@ -1884,9 +1910,40 @@ Fetches the time from the kernel and adjusts according to the current country id
 >Out_LSSMA.Display(Kernel.Modes.LimitedSupervision.LSSMA())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update LX status not protected"
+ Guid="d88275ac-911c-40c6-812b-40b079f7cc17"
+>
+<ReqRef
+ Id="18f662c4-1a06-4ad0-9986-1dc47f1c5948"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1825ae10-d7a3-41e1-b924-8598cca5dcaf"
+>
+</ReqRef><ReqRef
+ Id="c8715350-50d3-418e-a138-39f03d488016"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="58367d86-444c-46ab-b820-cfe2f18bf52b"
+>
+</ReqRef><Comment>Updates the display of an upcoming non protected level crossing.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update LX status not protected"
+ Guid="63caf8fc-caf5-465b-b4b8-c37891045e37"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="33cc9f15-3c2a-4ee1-bacd-29dfd763641f"
+>Out_LXStatusNotProtected.Display()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Mode"
@@ -1910,8 +1967,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update MRSP"
@@ -1934,9 +1989,82 @@ Fetches the time from the kernel and adjusts according to the current country id
 >Out_MRSP.Display()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Notification of change of train data from source other than the driver"
+ Guid="07a0ab0b-d557-4c6e-8ffa-0bbb7c226176"
+>
+<Comment>Updates the display of the notification that the train data has been changed by something other than the driver.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update change of train data from source other than the driver"
+ Guid="a0bd460f-a65d-4cde-8417-8f908e6a9ea2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7f4262a8-3bc1-482c-88ff-8049f305226a"
+>Out_NotificationOfTrainDataChangeFromOtherSource.Display(Kernel.TrainData.TrainDataChanged())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Operated system version"
+ Guid="7b729ba2-b54d-487d-adcd-6c2bd033711a"
+>
+<Comment>Updates the display of the currently operated system version.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Operated system version"
+ Guid="134eb38e-bd3c-49b2-a9c8-ebff7507c800"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f10930e6-9ff3-44bd-b317-74e06d0bd1af"
+>Out_OperatedSystemVersion.Display(VersionManagement.OperatedSystemVersion)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Verified="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Override status"
+ Guid="f1fbaadb-bbfc-4bbd-aaae-a84f0f28b660"
+>
+<ReqRef
+ Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6b6478c9-2644-4fb2-96b2-fd9389226a3c"
+>
+</ReqRef><Comment>Updates the display of the override status.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Override status"
+ Guid="02938f40-0c21-495f-a708-0c114f00cdc9"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a347970a-5336-4aaa-a2cb-fe38cc95b2d0"
+>Out_OverrideStatus.Display(Kernel.Override.OverrideIsActive())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Permitted speed"
@@ -1974,6 +2102,59 @@ Fetches the time from the kernel and adjusts according to the current country id
  Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
+ Name="Update Plain Text Information"
+ Guid="73c82b6c-667f-4d96-af1e-904c53284842"
+>
+<Comment>Updates the displayed plain text messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Plain Text Information"
+ Guid="1cbbe667-e8e6-42ab-a37b-2abfff8e2d55"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bfe554b7-22b2-40f3-8e7e-50dda6b1e895"
+>Out_PlainTextInformation.Display()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Radio network registration failed"
+ Guid="43464f16-f2e9-41ae-bb9f-292e6a28b9ba"
+>
+<ReqRef
+ Id="251b9c82-1dc9-4d99-8648-7a96b0526d5b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="070b88f0-03e9-4993-8cd3-19fd35ea153f"
+>
+</ReqRef><Comment>Updates the display of the &quot;Radio network registration failed&quot; information.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Radio network registration failed"
+ Guid="1729703d-ea00-4437-be20-5ec0c7aa537f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="da4be61d-482a-47c8-ae1c-10267a3b7f3b"
+>Out_RadioNetworkRegistrationFailed.Display(Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.A29])</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Update RBC contact information"
  Guid="8ca3d038-333d-4b0d-acf4-183ac9b16b65"
 >
@@ -2002,8 +2183,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Release speed"
@@ -2031,9 +2210,30 @@ Fetches the time from the kernel and adjusts according to the current country id
 >Out_ReleaseSpeed.Display(Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Reversing allowed"
+ Guid="15a27120-374a-4fea-ac36-1138d77e2393"
+>
+<Comment>Updates the display of the permission to reverse.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Reversing allowed"
+ Guid="7d51b3c8-258a-4c1b-98a5-c48d9bfdb032"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="76b36c9e-6d52-480f-a25d-2253c03e6a8a"
+>Out_ReversingAllowed.Display(Kernel.TrackDescription.ReversingArea.ReversingAllowed())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Route unsuitabilities"
@@ -2107,8 +2307,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update SBI"
@@ -2141,407 +2339,7 @@ Fetches the time from the kernel and adjusts according to the current country id
 >Out_SBI.Display( Kernel.SpeedAndDistanceMonitoring.Display.SBISpeed() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Speed and distance monitoring and supervision status"
- Guid="52d482c3-5968-4ffd-b59a-22a5a195af0f"
->
-<Comment>Updates the displayed speed and distance monitoring type and the supervision status</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update speed and distance monitoring and supervision status"
- Guid="ee8f8820-7a3e-488c-940c-9b5393756831"
->
-<PreConditions>
-<PreCondition
- Guid="7488f13c-8a6e-4cf8-8931-dd021c1574b6"
->Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="975c42a9-7e96-48dd-99bb-ee51294679d3"
->Out_SpeedAndDistanceMonitoringSupervisionStatus.Display(
-    aMonitoringType =&gt; Kernel.SpeedAndDistanceMonitoring.GetMonitoringType(),
-    aSupervisionStatus =&gt; Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus()
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Target distance"
- Guid="975d61c0-380d-467c-9f56-cee47458be1b"
->
-<Comment>Updates the displayed distance to target</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Display distance to target"
- Guid="463e57c3-09a7-4c0a-9506-917d7b2b22a0"
->
-<Comment>Display the distance to the MRDT.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="95abd450-76f6-428e-86cf-f0ea0499e461"
->Out_TargetDistance.Display(Kernel.SpeedAndDistanceMonitoring.Display.TargetDistance())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Target speed"
- Guid="a8a43592-998b-47a2-9c66-d85a5ca4e7c4"
->
-<Comment>Updates the displayed target speed</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Display target speed"
- Guid="192abb43-8a6c-4da5-8120-07c256ce6121"
->
-<Comment>Display the target speed.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="5219b74e-b386-4878-9e8d-c3ec3d480333"
->Out_TargetSpeed.Display(Kernel.SpeedAndDistanceMonitoring.Display.TargetSpeed())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Train data"
- Guid="358297e0-46fe-4c59-8a59-700a2527bd90"
->
-<ReqRef
- Id="2589f2ce-8abb-4ab9-aff1-62dd5f23f754"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fb47b3bc-cab0-4134-a64e-bb694f82ed2a"
->
-</ReqRef><ReqRef
- Id="cc64a008-67ae-4edc-b2da-420e3d3998a1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="63cbed05-511a-476f-b00c-7aa7e7e1f0c0"
->
-</ReqRef><ReqRef
- Id="b5e3cc55-f32d-4a93-9afb-f9a177f51d9a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a1a60425-7e0b-487e-99de-fa2d81eabf43"
->
-</ReqRef><ReqRef
- Id="b54aeafa-57aa-479c-a635-a9f08e9d5f82"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9470b561-98d2-4d45-a44e-0ac756a05ac3"
->
-</ReqRef><ReqRef
- Id="9b5bc05a-22cc-46c2-b86e-98b08f33de35"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4d68b97c-2485-402b-92d8-73561abbaa33"
->
-</ReqRef><Comment>Updates the displayed train data</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update train data"
- Guid="546af9fd-4098-4427-994b-8d9473c046b0"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="7c4571e4-a3ac-499c-9dc9-b1dd1f630b2a"
->Out_TrainData.Display(Kernel.TrainData.TrainData)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Train running number"
- Guid="9f34dfca-a33b-4a9f-8086-0d6696620d3e"
->
-<ReqRef
- Id="a14fe95a-8673-4454-b89a-54c4ae081318"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6be65c89-59bb-4faf-a989-36b5e734ad26"
->
-</ReqRef><Comment>Updates the displayed train running number</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update train running number"
- Guid="ea6f4be3-180c-4a57-81eb-85a5919853f3"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="f3a9d8ce-e6a1-4172-b66b-5be711d63c3b"
->Out_TrainRunningNumber.Display(Kernel.TrainRunningNumber.Value)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Train speed"
- Guid="52451ff8-713a-4f4a-8dfd-482516db9c52"
->
-<Comment>Updates the displayed current speed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update train speed"
- Guid="2390984d-fd81-4f13-9e63-70ec1f9db39c"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="ef7b5877-7325-4951-994a-7959661cf001"
->Out_TrainSpeed.Display(Odometry.TrainSpeed())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Level transition announcement"
- Guid="1e3954da-e9ad-4596-b583-8077c0b160db"
->
-<ReqRef
- Id="a0fffb6f-52dd-4294-b705-ac27dc95a180"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a653b04f-4eb0-4108-b0b5-2869929ff093"
->
-</ReqRef><ReqRef
- Id="54debebc-e391-4fd2-a3d7-8e0abf2a1c27"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f0519beb-bd5b-41ac-847e-5baece47d6c0"
->
-</ReqRef><ReqRef
- Id="91f853db-5446-42e9-bd20-c7df2c617fdd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="712e1f6b-4c8f-4415-a4b7-cda386d26326"
->
-</ReqRef><Comment>Updates the displayed level transition announcement.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Level transition announcement"
- Guid="c2263e89-b41c-4125-8a20-8f409e22f22e"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="b542510f-0bec-400f-be43-ef11c529ab3b"
->Out_LevelTransitionAnnouncement.Display( Kernel.LevelTransition.LevelTransitionToProcess)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update LX status not protected"
- Guid="d88275ac-911c-40c6-812b-40b079f7cc17"
->
-<ReqRef
- Id="18f662c4-1a06-4ad0-9986-1dc47f1c5948"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1825ae10-d7a3-41e1-b924-8598cca5dcaf"
->
-</ReqRef><ReqRef
- Id="c8715350-50d3-418e-a138-39f03d488016"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="58367d86-444c-46ab-b820-cfe2f18bf52b"
->
-</ReqRef><Comment>Updates the display of an upcoming non protected level crossing.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update LX status not protected"
- Guid="63caf8fc-caf5-465b-b4b8-c37891045e37"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="33cc9f15-3c2a-4ee1-bacd-29dfd763641f"
->Out_LXStatusNotProtected.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Change of train data from source other than the driver"
- Guid="07a0ab0b-d557-4c6e-8ffa-0bbb7c226176"
->
-<Comment>Updates the display of the notification that the train data has been changed by something other than the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update change of train data from source other than the driver"
- Guid="a0bd460f-a65d-4cde-8417-8f908e6a9ea2"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="7f4262a8-3bc1-482c-88ff-8049f305226a"
->Out_NotificationOfTrainDataChangeFromOtherSource.Display(Kernel.TrainData.TrainDataChanged())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Operated system version"
- Guid="7b729ba2-b54d-487d-adcd-6c2bd033711a"
->
-<Comment>Updates the display of the currently operated system version.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Operated system version"
- Guid="134eb38e-bd3c-49b2-a9c8-ebff7507c800"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="f10930e6-9ff3-44bd-b317-74e06d0bd1af"
->Out_OperatedSystemVersion.Display(VersionManagement.OperatedSystemVersion)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Verified="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Override status"
- Guid="f1fbaadb-bbfc-4bbd-aaae-a84f0f28b660"
->
-<ReqRef
- Id="6bfffc4c-98dc-4742-aa70-9301ecbe28b5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6b6478c9-2644-4fb2-96b2-fd9389226a3c"
->
-</ReqRef><Comment>Updates the display of the override status.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Override status"
- Guid="02938f40-0c21-495f-a708-0c114f00cdc9"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="a347970a-5336-4aaa-a2cb-fe38cc95b2d0"
->Out_OverrideStatus.Display(Kernel.Override.OverrideIsActive())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Radio network registration failed"
- Guid="43464f16-f2e9-41ae-bb9f-292e6a28b9ba"
->
-<ReqRef
- Id="251b9c82-1dc9-4d99-8648-7a96b0526d5b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="070b88f0-03e9-4993-8cd3-19fd35ea153f"
->
-</ReqRef><Comment>Updates the display of the &quot;Radio network registration failed&quot; information.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Radio network registration failed"
- Guid="1729703d-ea00-4437-be20-5ec0c7aa537f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="da4be61d-482a-47c8-ae1c-10267a3b7f3b"
->Out_RadioNetworkRegistrationFailed.Display(Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.A29])</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Reversing allowed"
- Guid="15a27120-374a-4fea-ac36-1138d77e2393"
->
-<Comment>Updates the display of the permission to reverse.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Reversing allowed"
- Guid="7d51b3c8-258a-4c1b-98a5-c48d9bfdb032"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="76b36c9e-6d52-480f-a25d-2253c03e6a8a"
->Out_ReversingAllowed.Display(Kernel.TrackDescription.ReversingArea.ReversingAllowed())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update Shunting refused by RBC"
@@ -2562,121 +2360,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Action
  Guid="d4aef1ea-0f47-47ec-85a8-02d7fecf3b6e"
 >Out_ShuntingRefusedByRbc.Display(Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.A220])</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Track conditions without sound horn"
- Guid="b643e214-3f98-401c-b21b-2f7ea3f982b1"
->
-<Comment>Updates the display of planning information and active track conditions for the following:
- - Turn off main power switch
- - Lower pantograph
- - Air tightness
- - Radio hole
- - Brake inhibition.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Track conditions without sound horn"
- Guid="10988328-9db9-4e29-aec1-bca77739ca9a"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="29b82fe5-cb63-4e0c-ab9c-ed959c805970"
->Out_TrackConditionsWithoutSoundHorn.Display(
-    aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.BrakeInhibitionConditions.DisplayedPlanningInformation(),
-    aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.BrakeInhibitionConditions.DisplayedAnnouncements()
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Track conditions with sound horn"
- Guid="b8847b2c-c64b-4715-b9f3-4a37b23fd312"
->
-<Comment>Updates the display of planning information and active track conditions for the following:
- - Sound horn
- - Non stopping area
- - Tunnel stopping area
- - Change of traction system.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Track conditions with sound horn"
- Guid="a3834feb-91f8-4cd7-bb0f-557088ffad3f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="fbae4759-ccbd-4e31-aa5b-21b186762c84"
->Out_TrackConditionsWithSoundHorn.Display(
-    aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedPlanningInformation(),
-    aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedAnnouncements()
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Plain Text Information"
- Guid="73c82b6c-667f-4d96-af1e-904c53284842"
->
-<Comment>Updates the displayed plain text messages.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Plain Text Information"
- Guid="1cbbe667-e8e6-42ab-a37b-2abfff8e2d55"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="bfe554b7-22b2-40f3-8e7e-50dda6b1e895"
->Out_PlainTextInformation.Display()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateOUT"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Fixed Text Information"
- Guid="f555d322-4a91-4797-ab6f-95059de8ba27"
->
-<Comment>Updates the displayed fixed text messages.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update Fixed Text Information"
- Guid="d1a32a78-e0da-4282-b841-a50d8860c36f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="08b54ecd-5df3-4aa9-953a-644b97848a6e"
->Out_FixedTextInformation.Display()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2707,6 +2390,82 @@ Fetches the time from the kernel and adjusts according to the current country id
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Speed and distance monitoring and supervision status"
+ Guid="52d482c3-5968-4ffd-b59a-22a5a195af0f"
+>
+<Comment>Updates the displayed speed and distance monitoring type and the supervision status</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update speed and distance monitoring and supervision status"
+ Guid="ee8f8820-7a3e-488c-940c-9b5393756831"
+>
+<PreConditions>
+<PreCondition
+ Guid="7488f13c-8a6e-4cf8-8931-dd021c1574b6"
+>Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="975c42a9-7e96-48dd-99bb-ee51294679d3"
+>Out_SpeedAndDistanceMonitoringSupervisionStatus.Display(
+    aMonitoringType =&gt; Kernel.SpeedAndDistanceMonitoring.GetMonitoringType(),
+    aSupervisionStatus =&gt; Kernel.SpeedAndDistanceMonitoring.GetSupervisionStatus()
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Target distance"
+ Guid="975d61c0-380d-467c-9f56-cee47458be1b"
+>
+<Comment>Updates the displayed distance to target</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Display distance to target"
+ Guid="463e57c3-09a7-4c0a-9506-917d7b2b22a0"
+>
+<Comment>Display the distance to the MRDT.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="95abd450-76f6-428e-86cf-f0ea0499e461"
+>Out_TargetDistance.Display(Kernel.SpeedAndDistanceMonitoring.Display.TargetDistance())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Target speed"
+ Guid="a8a43592-998b-47a2-9c66-d85a5ca4e7c4"
+>
+<Comment>Updates the displayed target speed</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Display target speed"
+ Guid="192abb43-8a6c-4da5-8120-07c256ce6121"
+>
+<Comment>Display the target speed.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5219b74e-b386-4878-9e8d-c3ec3d480333"
+>Out_TargetSpeed.Display(Kernel.SpeedAndDistanceMonitoring.Display.TargetSpeed())</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="Processing"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -2728,6 +2487,67 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Action
  Guid="50c47429-915e-4f58-9e38-8a6efce6b6f2"
 >THIS.Out_TrackAheadFreeRequest.Display( Available(Kernel.TrackAheadFree.TrackAheadFreeRequest) )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions with sound horn"
+ Guid="b8847b2c-c64b-4715-b9f3-4a37b23fd312"
+>
+<Comment>Updates the display of planning information and active track conditions for the following:
+ - Sound horn
+ - Non stopping area
+ - Tunnel stopping area
+ - Change of traction system.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions with sound horn"
+ Guid="a3834feb-91f8-4cd7-bb0f-557088ffad3f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="fbae4759-ccbd-4e31-aa5b-21b186762c84"
+>Out_TrackConditionsWithSoundHorn.Display(
+    aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedPlanningInformation(),
+    aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayedAnnouncements()
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions without sound horn"
+ Guid="b643e214-3f98-401c-b21b-2f7ea3f982b1"
+>
+<Comment>Updates the display of planning information and active track conditions for the following:
+ - Turn off main power switch
+ - Lower pantograph
+ - Air tightness
+ - Radio hole
+ - Brake inhibition.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Track conditions without sound horn"
+ Guid="10988328-9db9-4e29-aec1-bca77739ca9a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="29b82fe5-cb63-4e0c-ab9c-ed959c805970"
+>Out_TrackConditionsWithoutSoundHorn.Display(
+    aPlanningInformation =&gt; Kernel.TrackDescription.TrackConditions.Display.BrakeInhibitionConditions.DisplayedPlanningInformation(),
+    aActiveConditions =&gt; Kernel.TrackDescription.TrackConditions.Display.BrakeInhibitionConditions.DisplayedAnnouncements()
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2780,6 +2600,105 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Action
  Guid="9cad28ce-4c21-4262-83cd-bda1f1b33242"
 >THIS.Out_TracksideNotCompatible.Display( EURORADIO.IncompatibleVersionReceived() )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Train data"
+ Guid="358297e0-46fe-4c59-8a59-700a2527bd90"
+>
+<ReqRef
+ Id="2589f2ce-8abb-4ab9-aff1-62dd5f23f754"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fb47b3bc-cab0-4134-a64e-bb694f82ed2a"
+>
+</ReqRef><ReqRef
+ Id="cc64a008-67ae-4edc-b2da-420e3d3998a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63cbed05-511a-476f-b00c-7aa7e7e1f0c0"
+>
+</ReqRef><ReqRef
+ Id="b5e3cc55-f32d-4a93-9afb-f9a177f51d9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1a60425-7e0b-487e-99de-fa2d81eabf43"
+>
+</ReqRef><ReqRef
+ Id="b54aeafa-57aa-479c-a635-a9f08e9d5f82"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9470b561-98d2-4d45-a44e-0ac756a05ac3"
+>
+</ReqRef><ReqRef
+ Id="9b5bc05a-22cc-46c2-b86e-98b08f33de35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d68b97c-2485-402b-92d8-73561abbaa33"
+>
+</ReqRef><Comment>Updates the displayed train data</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update train data"
+ Guid="546af9fd-4098-4427-994b-8d9473c046b0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7c4571e4-a3ac-499c-9dc9-b1dd1f630b2a"
+>Out_TrainData.Display(Kernel.TrainData.TrainData)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="UpdateOUT"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Train running number"
+ Guid="9f34dfca-a33b-4a9f-8086-0d6696620d3e"
+>
+<ReqRef
+ Id="a14fe95a-8673-4454-b89a-54c4ae081318"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6be65c89-59bb-4faf-a989-36b5e734ad26"
+>
+</ReqRef><Comment>Updates the displayed train running number</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update train running number"
+ Guid="ea6f4be3-180c-4a57-81eb-85a5919853f3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f3a9d8ce-e6a1-4172-b66b-5be711d63c3b"
+>Out_TrainRunningNumber.Display(Kernel.TrainRunningNumber.Value)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update Train speed"
+ Guid="52451ff8-713a-4f4a-8dfd-482516db9c52"
+>
+<Comment>Updates the displayed current speed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update train speed"
+ Guid="2390984d-fd81-4f13-9e63-70ec1f9db39c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ef7b5877-7325-4951-994a-7959661cf001"
+>Out_TrainSpeed.Display(Odometry.TrainSpeed())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2855,8 +2774,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Open"
  Guid="38cb193d-05ba-4a10-8fb1-247e0b6f797f"
@@ -2875,8 +2792,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Rules>
 <Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Open desk"
  Guid="6ae108c5-e47a-4ed5-86cb-411a222b7ae7"
@@ -2914,8 +2829,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Close"
  Guid="af44812e-c9c3-49aa-b490-e3e47b225b9a"
@@ -2934,8 +2847,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Rules>
 <Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  Name="Rule1"
  Guid="ee3c6cf3-6d53-4049-a92c-fc22899f55b6"
@@ -4213,8 +4124,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 </Rule></Rules>
 <Procedures>
 <Procedure
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="AcceptDriverResponse"
@@ -4224,8 +4133,6 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Rules>
 <Rule
  Priority="Processing"
- X="0"
- Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Accept driver response"

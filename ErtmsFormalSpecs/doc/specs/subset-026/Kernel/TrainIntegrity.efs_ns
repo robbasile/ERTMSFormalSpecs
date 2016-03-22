@@ -112,6 +112,17 @@
 </ReqRef><Comment>Calculates the safe train length by subtracting the min safe rear end of the train (taken at the last time the train integrity was confirmed) from the estimated front end.</Comment>
 <Cases>
 <Case
+ Name="Front end position unknown"
+ Guid="14e283e9-578d-4b06-aa5d-df10c02aaa5c"
+>
+<PreConditions>
+<PreCondition
+ Guid="f1fdd3e3-7c9e-4b92-861b-ec2643c567ad"
+>NOT ActiveFunctions.DeterminePositionFromLRBG()
+  OR  
+TrainPosition.Position.DataState != DataStateEnum.Valid</PreCondition></PreConditions>
+<Expression>BaseTypes.Length.NA</Expression>
+</Case><Case
  Name="Value"
  Guid="9742f9fc-6a8d-4815-87e3-a57aaa2e3435"
 >
