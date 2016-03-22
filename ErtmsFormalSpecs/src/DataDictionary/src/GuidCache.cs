@@ -30,7 +30,7 @@ namespace DataDictionary
         /// <summary>
         ///     The cache between guid and ModelElement
         /// </summary>
-        private readonly Dictionary<string, ModelElement> _cache = new Dictionary<string, ModelElement>();
+        private Dictionary<string, ModelElement> _cache = new Dictionary<string, ModelElement>();
 
         /// <summary>
         ///     Constructor
@@ -45,7 +45,7 @@ namespace DataDictionary
         /// </summary>
         public void ClearCache()
         {
-            _cache.Clear();
+            _cache = new Dictionary<string, ModelElement>();
         }
 
         /// <summary>
@@ -108,8 +108,8 @@ namespace DataDictionary
 
             if (guid != null)
             {
-                UniqueAccess.WaitOne();
                 try {
+                    UniqueAccess.WaitOne();
                     if (!_cache.TryGetValue(guid, out retVal))
                     {
                         // Update cache's contents
