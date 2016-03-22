@@ -4392,7 +4392,7 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 <Actions>
 <Action
  Guid="26178f16-a790-43b6-ace7-e6ae61afe16a"
->THIS &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected.ConnectionEstablished</Action></Actions>
+>THIS &lt;- ConnectionEstablished</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -4892,12 +4892,29 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 >
 <Comment>The connection is being terminated.</Comment>
 <StateMachine
+ Default="WaitForAck"
  Implemented="TRUE"
  Guid="dfd5369b-7468-4e57-b4c3-591d53607134"
+>
+<States>
+<State
+ X="50"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="WaitForAck"
+ Guid="f4fe3e3d-6198-4325-b13b-269273b41959"
+>
+<StateMachine
+ Implemented="TRUE"
+ Guid="cd8555d0-9d7b-4bde-97bc-5014e62ee166"
 >
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle termination of the communication session"
  Guid="0b222548-b9a6-47d8-8a8c-8f261e6eb180"
@@ -4945,15 +4962,11 @@ The information related to the current communication session is reinitialized.</
 <Actions>
 <Action
  Guid="cf4d6f18-e067-47ef-af99-8b3cdfe23667"
->THIS &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action><Action
- Guid="8a08daf0-bedb-4977-a7e3-57845212e89b"
->ReinitializeCommunicationInformation()</Action><Action
+>THIS &lt;- AckReceived</Action><Action
  Guid="b2911cf2-e495-44ac-9990-c74a924f43a4"
 >SessionManagementData.Action &lt;- EURORADIO.ContactActionEnum.Terminate</Action><Action
- Guid="647ebe75-16e6-45fe-b548-651236617b73"
->SessionManagementData.ConnectionRequestIsSent &lt;- True</Action><Action
- Guid="8123d25a-e014-4582-90b8-34922a36d18b"
->SafeRadioConnectionStatus &lt;- EURORADIO.SafeRadioConnectionStatusEnum.NoConnection</Action></Actions>
+ Guid="dae42ece-72cd-4059-9581-13f3f48f7bf8"
+>SessionManagementData.ConnectionRequestIsSent &lt;- True</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repeat Termination of Communication Session message"
@@ -4969,6 +4982,8 @@ The information related to the current communication session is reinitialized.</
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Repeat Termination of Communication Session message"
@@ -5028,13 +5043,92 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <Actions>
 <Action
  Guid="ca565153-dca3-42f4-a94e-b62cfede617a"
->THIS &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action><Action
- Guid="f3f8fa5b-bb54-459b-836d-86a309a18c16"
->ReinitializeCommunicationInformation()</Action></Actions>
+>THIS &lt;- TooManyAttempts</Action><Action
+ Guid="dd0e5a61-8ee3-4878-9241-feb5c3e43197"
+>SessionManagementData.Action &lt;- EURORADIO.ContactActionEnum.Terminate</Action><Action
+ Guid="75947bfd-3d67-4cb2-8b23-4021f10eae4f"
+>SessionManagementData.ConnectionRequestIsSent &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</StateMachine></State><State
+ X="580"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckReceived"
+ Guid="82e9a974-1d0b-42df-9956-a46748313d9a"
+>
+<StateMachine
+ Implemented="TRUE"
+ Guid="f3afb5d9-4df1-4b34-8d0c-b82a21b75d9b"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Reinitialize the connection"
+ Guid="090f9484-817d-4f1f-9d22-ad80023e9c9d"
+>
+<Comment>Reset the connection to Inactive</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reinitialize the connection"
+ Guid="f6d6e83f-628c-4460-806b-ccc1d0d2bfda"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0e6a150a-9710-4bde-adfa-d6a1377c193e"
+>THIS &lt;- Inactive</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</StateMachine></State><State
+ X="50"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TooManyAttempts"
+ Guid="c65a78a6-a30f-4001-9a3c-863fb0ec5936"
+>
+<StateMachine
+ Implemented="TRUE"
+ Guid="54592986-d7a7-4167-8a37-441c1746aff2"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Reinitialize the connection"
+ Guid="d7f216d4-d204-4e8e-b7b4-0ab67fbf50c8"
+>
+<Comment>Reset the connection to Inactive</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reinitialize the connection"
+ Guid="5cc2e965-6582-4bcf-b286-4909c77cdb1c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="de1dc071-6e0e-41a4-8fbb-37d5cea64de8"
+>THIS &lt;- Inactive</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</StateMachine></State></States>
 </StateMachine></State></States>
 </StateMachine></StateMachines>
 </Structure><Structure
