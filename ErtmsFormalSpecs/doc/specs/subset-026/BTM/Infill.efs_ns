@@ -1,0 +1,332 @@
+<NameSpace
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="Infill"
+ Guid="2dc6aea7-522b-4955-b8d5-f0b2710c2a41"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="InfillLocationReferenceStruct"
+ Guid="211b0fd6-dcca-4f92-8f96-7a2900ff78c5"
+>
+<StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Name="MainSignalPosition"
+ Guid="3fe5e3e2-caf8-40b2-99c2-547dbbf1df92"
+>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_BG"
+ Default=""
+ Mode="Internal"
+ Name="InfillReferenceBG"
+ Guid="434c993d-c475-4e4b-a5b2-ea3fd99fd6fc"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="BTM.BaliseGroupMessagesCol"
+ Default=""
+ X="480"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="CurrentInfillTelegrams"
+ Guid="345f7dc8-70e7-45e7-88c8-015a916f201e"
+>
+<Comment>This function extracts the infill (or non-infill) packets of the CurrentBaliseGroup. It returns a collection of StoredBaliseStructs whose length is the same as the original one. Returned StoredBaliseStruct.Telegram.Sequence1 may be empty if the original BaliseGroupMessage contains no infill packet.
+Note that there may be at most two INFILL_LOCATION_REFERENCE packet, one for each direction. This function returns only infilled packet for the forward direction.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="SelectInfill"
+ Guid="a410b36f-98ba-4ff1-ba24-ec7d724893d2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Infilled packets"
+ Guid="daf9e1c6-60ae-41cc-ae5f-77b7bb761760"
+>
+<Comment>If the first INFILL_LOCATION_REFERENCE packet gives infill information for the forward direction, the second, if any, can give information for the backward direction only. Hence one must in this case consider packets in between the two infill packets. On the other hand, if the first gives infill information for the reverse orientation, one must consider packets after the second infill_location_reference packet.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4daecc79-b0e4-4151-bcd8-0c91a60bc5f8"
+>SelectInfill</PreCondition></PreConditions>
+<Expression>MAP CurrentBaliseGroup USING X IN StoredBaliseStruct{
+Telegram =&gt; CutAtFirstInfillPacket(CutAtFirstInfillPacket(
+    aTelegram =&gt; X.Telegram,
+    AfterFirstInfillPacket =&gt; True),
+AfterFirstInfillPacket =&gt;  IsDataDirectionForward(DirectionOfFirstInfillPacket(X.Telegram))
+),
+Missed =&gt; X.Missed
+}</Expression>
+</Case><Case
+ Name="Non-Infilled packets"
+ Guid="0339a595-8979-4935-9b10-ac89032a1a69"
+>
+<Expression>MAP CurrentBaliseGroup USING X IN StoredBaliseStruct{
+Telegram =&gt; CutAtFirstInfillPacket(
+    aTelegram =&gt; X.Telegram,
+    AfterFirstInfillPacket =&gt; False
+),
+Missed =&gt; X.Missed
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="InfillLocationReferenceStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="InfillLocationReference"
+ Guid="d616b1b9-4d8e-42c1-a4e4-472a334dc8dc"
+>
+<Cases>
+<Case
+ Name="InfillReferenceBG"
+ Guid="0d03886e-1bf0-4268-b438-46c70c2cf6ea"
+>
+<Expression>InfillLocationReferenceStruct{
+MainSignalPosition =&gt; 0.0,
+InfillReferenceBG =&gt; 
+( 
+FIRST X IN CurrentBaliseGroup | 
+(
+THERE_IS V IN X.Telegram.Sequence1 | 
+(
+Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)
+AND
+IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(X.Telegram.Sequence1.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Mesages.Q_DIR))
+)
+).Telegram.Sequence1.(FIRST V IN X.Telegram.Sequence1 | (Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE))).
+TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Message.NID_BG
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.Message"
+ Default=""
+ X="480"
+ Y="260"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CutAtFirstInfillPacket"
+ Guid="ab3f4922-57f0-46a2-aeed-95e630fa0032"
+>
+<Comment>Returns a balise telegram containing packets located after or before the first infill_location_reference packet encountered in aTelegram.Sequence1.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="b596216e-67e8-40af-b09a-1783db126343"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="AfterFirstInfillPacket"
+ Guid="53c5c3b9-f274-47bb-ba26-818e54306ad0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Packets after first INFILL_LOCATION_REFERENCE packet"
+ Guid="0e316a43-9bc3-4f22-95a9-a02fdf61c622"
+>
+<Comment>There is an infill_location_reference packet. Packets after this infill_location_reference are returned.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="38b28c45-a5a6-406c-a047-df4a097b2492"
+>THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) </PreCondition><PreCondition
+ Guid="a6674c35-62f2-4668-81e5-777dc7e9fcb4"
+>AfterFirstInfillPacket</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; aTelegram.Q_UPDOWN, 
+  M_VERSION =&gt; aTelegram.M_VERSION, 
+  Q_MEDIA =&gt;aTelegram.Q_MEDIA, 
+  N_PIG =&gt; aTelegram.N_PIG, 
+  N_TOTAL =&gt; aTelegram.N_TOTAL, 
+  M_DUP =&gt; aTelegram.M_DUP, 
+  M_MCOUNT =&gt; aTelegram.M_MCOUNT, 
+  NID_C =&gt; aTelegram.NID_C, 
+  NID_BG =&gt; aTelegram.NID_BG, 
+  Q_LINK =&gt; aTelegram.Q_LINK, 
+  Sequence1 =&gt;  FILTER aTelegram.Sequence1 | 
+(
+Before(
+    ExpectedFirst =&gt; FIRST V IN aTelegram.Sequence1 | 
+                Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) ,
+    ExpectedSecond =&gt; X ,
+    Collection =&gt; aTelegram.Sequence1 
+    )
+)
+USING X, 
+  BitField =&gt; &apos;&apos;
+}</Expression>
+</Case><Case
+ Name="Packets before first INFILL_LOCATION_REFERENCE packet"
+ Guid="46bcae9b-9a70-423b-8362-7c0ef4adc297"
+>
+<Comment>There is an infill_location_reference packet. Packets before this one are returned.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="aa6e17c2-b766-43ba-9da9-8f1fa6b18823"
+>THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) </PreCondition><PreCondition
+ Guid="7a5ca06a-62f6-4adb-8439-990fc1329be0"
+>NOT AfterFirstInfillPacket</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; aTelegram.Q_UPDOWN, 
+  M_VERSION =&gt; aTelegram.M_VERSION, 
+  Q_MEDIA =&gt;aTelegram.Q_MEDIA, 
+  N_PIG =&gt; aTelegram.N_PIG, 
+  N_TOTAL =&gt; aTelegram.N_TOTAL, 
+  M_DUP =&gt; aTelegram.M_DUP, 
+  M_MCOUNT =&gt; aTelegram.M_MCOUNT, 
+  NID_C =&gt; aTelegram.NID_C, 
+  NID_BG =&gt; aTelegram.NID_BG, 
+  Q_LINK =&gt; aTelegram.Q_LINK, 
+  Sequence1 =&gt;  FILTER aTelegram.Sequence1 | 
+(
+Before(
+    ExpectedFirst =&gt; X ,
+    ExpectedSecond =&gt; FIRST V IN aTelegram.Sequence1 | 
+                Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) ,
+    Collection =&gt; aTelegram.Sequence1 
+    )
+)
+USING X, 
+  BitField =&gt; &apos;&apos;
+}</Expression>
+</Case><Case
+ Name="Packets after a non existing INFILL_LOCATION_REFERENCE packet"
+ Guid="a0134d5d-a8b0-48ad-b9c1-8a4028c0a9e2"
+>
+<Comment>Returns a telegram with an empty packet collection if required to return packets after the first infill_location_reference packet while there is no such packet.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="25c6c6e1-6a6e-4b41-b7d9-52015671a961"
+>AfterFirstInfillPacket</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; aTelegram.Q_UPDOWN, 
+  M_VERSION =&gt; aTelegram.M_VERSION, 
+  Q_MEDIA =&gt;aTelegram.Q_MEDIA, 
+  N_PIG =&gt; aTelegram.N_PIG, 
+  N_TOTAL =&gt; aTelegram.N_TOTAL, 
+  M_DUP =&gt; aTelegram.M_DUP, 
+  M_MCOUNT =&gt; aTelegram.M_MCOUNT, 
+  NID_C =&gt; aTelegram.NID_C, 
+  NID_BG =&gt; aTelegram.NID_BG, 
+  Q_LINK =&gt; aTelegram.Q_LINK, 
+  Sequence1 =&gt; [], 
+  BitField =&gt; &apos;&apos;
+}</Expression>
+</Case><Case
+ Name="Packets before a non-existing INFILL_LOCATION_REFERENCE packet"
+ Guid="c1b32ea2-b58f-439f-bd71-265f28c2893f"
+>
+<Comment>Returns the full telegram if required to return packets before the first infill_location_reference packet while there is no such packet.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="dec60907-c99e-4299-bef5-e08305f56a49"
+>AfterFirstInfillPacket</PreCondition></PreConditions>
+<Expression>Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; aTelegram.Q_UPDOWN, 
+  M_VERSION =&gt; aTelegram.M_VERSION, 
+  Q_MEDIA =&gt;aTelegram.Q_MEDIA, 
+  N_PIG =&gt; aTelegram.N_PIG, 
+  N_TOTAL =&gt; aTelegram.N_TOTAL, 
+  M_DUP =&gt; aTelegram.M_DUP, 
+  M_MCOUNT =&gt; aTelegram.M_MCOUNT, 
+  NID_C =&gt; aTelegram.NID_C, 
+  NID_BG =&gt; aTelegram.NID_BG, 
+  Q_LINK =&gt; aTelegram.Q_LINK, 
+  Sequence1 =&gt; aTelegram.Sequence1, 
+  BitField =&gt; &apos;&apos;
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.DataDirectionEnum"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="DirectionOfFirstInfillPacket"
+ Guid="f9a3b3a2-b695-4143-ac57-933e8dfe50bd"
+>
+<Comment>Gives the direction of validity of the infill packet w.r.t. the balise group orientation.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="5074bb3c-cf83-4978-862a-a3d8fc40c3e6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="There is an INFILL_LOCATION_REFERENCE packet"
+ Guid="0682c5fb-72a8-4d00-810a-27bd1c4cb90d"
+>
+<PreConditions>
+<PreCondition
+ Guid="486c890b-0bfc-4ac8-a9a1-d640ded5d5dc"
+>THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) </PreCondition></PreConditions>
+<Expression>Default.Q_DIR_to_DataDirectionEnum_Converter(
+(FIRST X IN aTelegram.Sequence1 | 
+Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="23147208-7ef8-419e-bf88-613d36d2febb"
+>
+<Expression>Default.DataDirectionEnum.Unknown</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="IsDataDirectionForward"
+ Guid="d4e7d286-ca38-42ae-8fae-7363b22e4ca2"
+>
+<Parameters>
+<Parameter
+ Type="DataDirectionEnum"
+ Name="aDataDirection"
+ Guid="25e65e8c-13e1-4a0a-9761-7940afccd3a5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Forward"
+ Guid="7cb3b1e6-b505-4a89-a3cd-ef5cb90fbdc3"
+>
+<PreConditions>
+<PreCondition
+ Guid="d122e037-cc76-42f8-a81c-debfdb602108"
+>(aDataDirection == DataDirectionEnum.Nominal AND BTM.BaliseGroupOrientation() == OrientationEnum.Nominal) OR (aDataDirection == DataDirectionEnum.Reverse AND BTM.BaliseGroupOrientation() == OrientationEnum.Reverse) </PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="db7a9ca8-7ae8-46fa-b541-8bc194cfd622"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
