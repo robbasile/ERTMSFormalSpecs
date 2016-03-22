@@ -1470,10 +1470,15 @@ namespace DataDictionary.RuleCheck
                                 // if a match was found for every comment or the source does not have a comment => problem
                                 if (matchFound || source.Comments.Count == 0)
                                 {
-                                    translation.AddRuleCheckMessage(RuleChecksEnum.Translation01, ElementLog.LevelEnum.Error, 
-                                        "Found translation with duplicate source text " + source.Name);
-                                    other.AddRuleCheckMessage(RuleChecksEnum.Translation01, ElementLog.LevelEnum.Error, 
-                                        "Found translation with duplicate source text " + source.Name);
+                                    if (translation != other)
+                                    {
+                                        translation.AddRuleCheckMessage(RuleChecksEnum.Translation01,
+                                            ElementLog.LevelEnum.Error,
+                                            "Found translation with duplicate source text " + source.Name);
+                                        other.AddRuleCheckMessage(RuleChecksEnum.Translation01,
+                                            ElementLog.LevelEnum.Error,
+                                            "Found translation with duplicate source text " + source.Name);
+                                    }
                                 }
                             }
                         }
