@@ -41,6 +41,8 @@
  Y="200"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="CurrentInfillTelegrams"
  Guid="345f7dc8-70e7-45e7-88c8-015a916f201e"
 >
@@ -84,35 +86,34 @@ Missed =&gt; X.Missed
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="InfillLocationReferenceStruct"
+ Type="Messages.NID_BG"
  Default=""
  X="0"
  Y="0"
  Width="100"
  Height="50"
- Name="InfillLocationReference"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InfillReferenceNID"
  Guid="d616b1b9-4d8e-42c1-a4e4-472a334dc8dc"
 >
+<Comment>Get the NIG of the referenced BG. Note : the linking information is not necessarily transmitted by the same balise, hence it has to be recovered another way.</Comment>
 <Cases>
 <Case
  Name="InfillReferenceBG"
  Guid="0d03886e-1bf0-4268-b438-46c70c2cf6ea"
 >
-<Expression>InfillLocationReferenceStruct{
-MainSignalPosition =&gt; 0.0,
-InfillReferenceBG =&gt; 
-( 
-FIRST X IN CurrentBaliseGroup | 
-(
-THERE_IS V IN X.Telegram.Sequence1 | 
-(
-Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)
-AND
-IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(X.Telegram.Sequence1.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Mesages.Q_DIR))
-)
-).Telegram.Sequence1.(FIRST V IN X.Telegram.Sequence1 | (Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE))).
-TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Message.NID_BG
-}</Expression>
+<PreConditions>
+<PreCondition
+ Guid="8303432e-05ce-4832-a8e2-085405b35411"
+>Available(GetPacketWithInfill( GetTelegramWithInfill(CurrentBaliseGroup)))</PreCondition></PreConditions>
+<Expression>GetPacketWithInfill( GetTelegramWithInfill(CurrentBaliseGroup)).TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.NID_BG
+</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e0c59638-25ef-405a-bd5c-c201d3d0528f"
+>
+<Expression>Messages.NID_BG.NID_UNKNOWN</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.EUROBALISE.Message"
@@ -148,7 +149,7 @@ TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Message.NID_BG
 <PreConditions>
 <PreCondition
  Guid="38b28c45-a5a6-406c-a047-df4a097b2492"
->THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) </PreCondition><PreCondition
+>THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)</PreCondition><PreCondition
  Guid="a6674c35-62f2-4668-81e5-777dc7e9fcb4"
 >AfterFirstInfillPacket</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.Message
@@ -183,7 +184,7 @@ USING X,
 <PreConditions>
 <PreCondition
  Guid="aa6e17c2-b766-43ba-9da9-8f1fa6b18823"
->THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) </PreCondition><PreCondition
+>THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)</PreCondition><PreCondition
  Guid="7a5ca06a-62f6-4adb-8439-990fc1329be0"
 >NOT AfterFirstInfillPacket</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.Message
@@ -266,6 +267,8 @@ USING X,
  Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="DirectionOfFirstInfillPacket"
  Guid="f9a3b3a2-b695-4143-ac57-933e8dfe50bd"
 >
@@ -285,7 +288,7 @@ USING X,
 <PreConditions>
 <PreCondition
  Guid="486c890b-0bfc-4ac8-a9a1-d640ded5d5dc"
->THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) </PreCondition></PreConditions>
+>THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)</PreCondition></PreConditions>
 <Expression>Default.Q_DIR_to_DataDirectionEnum_Converter(
 (FIRST X IN aTelegram.Sequence1 | 
 Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)</Expression>
@@ -302,6 +305,8 @@ Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOC
  Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="IsDataDirectionForward"
  Guid="d4e7d286-ca38-42ae-8fae-7363b22e4ca2"
 >
@@ -320,13 +325,83 @@ Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOC
 <PreConditions>
 <PreCondition
  Guid="d122e037-cc76-42f8-a81c-debfdb602108"
->(aDataDirection == DataDirectionEnum.Nominal AND BTM.BaliseGroupOrientation() == OrientationEnum.Nominal) OR (aDataDirection == DataDirectionEnum.Reverse AND BTM.BaliseGroupOrientation() == OrientationEnum.Reverse) </PreCondition></PreConditions>
+>(aDataDirection == DataDirectionEnum.Nominal AND BTM.BaliseGroupOrientation() == OrientationEnum.Nominal) OR (aDataDirection == DataDirectionEnum.Reverse AND BTM.BaliseGroupOrientation() == OrientationEnum.Reverse)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="db7a9ca8-7ae8-46fa-b541-8bc194cfd622"
 >
 <Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.Message"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetTelegramWithInfill"
+ Guid="c8057362-7b44-4877-a9b1-2f4ccaa70065"
+>
+<Comment>Convenience function. Finds the first telegram in a balise group that contains an INFILL_LOCATION_REFERENCE packet with the right orientation.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBG"
+ Guid="a02711c2-7e42-472e-ad5d-d0e5df9cbb62"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c6be2e2e-d450-4166-8e58-bb221cee0892"
+>
+<Expression>(
+FIRST X IN aBG |
+(
+THERE_IS V IN X.Telegram.Sequence1 | 
+(
+Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)
+AND
+IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR))
+)
+)
+).Telegram</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.SubStructure1"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetPacketWithInfill"
+ Guid="1758c8a5-71ed-4c23-8ceb-30c2e5c6ccbb"
+>
+<Comment>Convenience function. Gets the packet INFILL_LOCATION_REFERENCE (with the right orientation) in a telegram.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="5c51d3b4-5f90-435c-94d6-8a116f384c84"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="d073b891-fc3a-422a-bda4-f5748842c88d"
+>
+<Expression>FIRST V IN aTelegram.Sequence1 | 
+(
+Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)
+AND
+IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR))
+)
+</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
