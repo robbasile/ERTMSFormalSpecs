@@ -436,7 +436,7 @@ namespace DataDictionary.RuleCheck
             {
                 if (string.IsNullOrEmpty(commentable.Comment))
                 {
-                    NameSpace nameSpace = EnclosingNameSpaceFinder.find((ModelElement) commentable);
+                    NameSpace nameSpace = EnclosingNameSpaceFinder.find((ModelElement) commentable, true);
                     bool requiresComment = nameSpace != null;
 
                     Types.StateMachine stateMachine = commentable as Types.StateMachine;

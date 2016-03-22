@@ -6,6 +6,7 @@
  Name="PositionReport"
  Guid="e7cf5843-ef46-4028-aa51-d0dc661e9005"
 >
+<Comment>Handling of position reports, with functions to determine whether a position report should be sent and the procedure for sending them.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Enumerations>
@@ -58,9 +59,9 @@
 >
 </EnumValue></Values>
 </Enum><Enum
- Default="EURORADIO.PositionReport.InconsistentMessageTypeEnum.None"
- X="551"
- Y="61"
+ Default="InconsistentMessageTypeEnum.None"
+ X="540"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -100,7 +101,7 @@
 <Structure
  Default=""
  X="540"
- Y="10"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -214,7 +215,7 @@
 </ReqRef><Comment>Contains the type of message consistency error that must be reported to the RBC.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="190"
+ X="10"
  Y="10"
  Width="100"
  Height="50"
@@ -312,7 +313,7 @@
 </StructureElement></Structure><Structure
  Default=""
  X="10"
- Y="10"
+ Y="100"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -1380,8 +1381,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Messages.Q_STATUS"
  Default=""
- X="450"
- Y="480"
+ X="230"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1432,7 +1433,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
  Type="MessageTypes.Distance"
  Default=""
  X="10"
- Y="480"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1470,7 +1471,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
  Type="Boolean"
  Default=""
  X="120"
- Y="480"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1498,8 +1499,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="BaseTypes.Time"
  Default=""
- X="1"
- Y="61"
+ X="670"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1543,8 +1544,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="1"
- Y="121"
+ X="780"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1597,7 +1598,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
  Type="Boolean"
  Default=""
  X="230"
- Y="360"
+ Y="300"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1631,8 +1632,8 @@ PositionReport.PositionReportParameters.Values.SpecialLocations == []</PreCondit
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="1"
- Y="241"
+ X="560"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1686,8 +1687,8 @@ SUM SpecialLocations | Before(
 </Function><Function
  Type="EURORADIO.TrainData.TrainEndEnum"
  Default=""
- X="111"
- Y="241"
+ X="780"
+ Y="360"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1779,8 +1780,8 @@ SUM SpecialLocations | Before(
 </Function></Functions>
 <Procedures>
 <Procedure
- X="230"
- Y="420"
+ X="340"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1849,8 +1850,8 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="10"
- Y="420"
+ X="120"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2037,8 +2038,8 @@ ON
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="120"
- Y="420"
+ X="230"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2107,8 +2108,8 @@ ON
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="230"
- Y="300"
+ X="10"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
