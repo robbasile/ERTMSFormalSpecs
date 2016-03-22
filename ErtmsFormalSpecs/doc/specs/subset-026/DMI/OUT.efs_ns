@@ -420,7 +420,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="c93f4903-b117-4618-8f57-dacfb78b8def"
 >Available(aRBCConnection)</PreCondition><PreCondition
  Guid="ea196d3a-3a56-4163-8634-da71452dd81e"
->Available(aNetworkId)</PreCondition></PreConditions>
+>Available(aNetworkId)</PreCondition><PreCondition
+ Guid="e250838b-00cd-41f5-92ca-8458d9abd4f8"
+>aRBCConnection.ContactData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c616e830-2c9c-4a4c-9efc-031bc0324327"
@@ -498,6 +500,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the train running number.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="620705e9-5fb0-439b-a8b4-ace071731445"
@@ -515,14 +519,16 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Parameters>
 <Parameter
- Type="String"
- Name="aNumber"
+ Type="Kernel.TrainRunningNumberStruct"
+ Name="aTrainRunningNumber"
  Guid="b3c563fc-f77a-430f-9030-f743b4f5e67a"
 >
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="8952e5ae-fc68-4c10-8f3c-7ab73aea731a"
@@ -538,13 +544,15 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <PreConditions>
 <PreCondition
  Guid="26511343-05ee-424e-81d5-fa5d215b0abb"
->TrainRunningNumberAvailable()</PreCondition></PreConditions>
+>TrainRunningNumberAvailable()</PreCondition><PreCondition
+ Guid="0c159f47-2775-4411-953c-17bb343d33d2"
+>aTrainRunningNumber.DataState in [DataStateEnum.Valid]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4bfa712f-c5c4-4bdf-81da-777d5a731aa9"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="c4378cbd-b3a0-4e2c-886d-76e2c9d95e06"
->THIS.Number &lt;- aNumber</Action></Actions>
+>THIS.Number &lt;- aTrainRunningNumber.Value</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"
@@ -560,6 +568,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="a49764ce-e5d0-4529-95de-57c95ea2f7b6"
@@ -609,6 +619,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the train speed.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="dee7aaf1-b8fb-45e9-88f3-1821069aeb5c"
@@ -624,6 +636,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="66b18e7d-d44c-4293-8277-1a09d73471bd"
@@ -663,6 +677,8 @@ TrainSpeedAvailable()</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="3485519e-4832-4308-b6ad-2953be550fdc"
@@ -834,6 +850,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the target speed.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="58d6abc6-f80c-4f6b-b62c-db899acc553c"
@@ -849,6 +867,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="27406cfb-4263-4d39-b912-c1a57fb32a55"
@@ -888,6 +908,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="1dfd2a58-a3c6-4357-801d-4bc4450d44d5"
@@ -931,6 +953,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the release speed.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="51b55bdc-f98d-46b4-abbb-2dbb25b23c69"
@@ -946,6 +970,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="b81ab2c4-f923-487b-bccf-ed7f06693d42"
@@ -1033,6 +1059,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the speed and distance monitoring supervision status.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="f3472631-6ef1-4827-9131-2e61683f2580"
@@ -1058,6 +1086,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="05c1ede7-39f5-4b54-83ce-661b14ac0dca"
@@ -1099,6 +1129,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="5ee71389-d35b-48b9-8b3a-56d0d3bc3ea4"
@@ -1150,6 +1182,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the trip reason.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="d71c5da4-cadf-4d32-bf1f-faf0f343e2a7"
@@ -1175,6 +1209,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="69473145-f44a-46e8-add5-2d825b5016c6"
@@ -1204,6 +1240,8 @@ THERE_IS X IN aReasons</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="If starting the display, record the time"
  Guid="5a90d674-72a2-4179-903f-abc06e8c7ecd"
@@ -1243,6 +1281,8 @@ THERE_IS X IN aReasons</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="973955f5-51d2-46e3-9f36-4f1f88fff733"
@@ -1686,6 +1726,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  - Brake inhibition.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="a8cb650f-1bba-42dd-893b-3bf22b1609bc"
@@ -1766,6 +1808,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update the request status"
  Guid="b788ff21-23ad-453a-8416-a66e5c3016c5"
@@ -1832,6 +1876,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add end condition to announcements that do not have one"
  Guid="70bb5e0f-542d-4213-b0ce-c05e73f44434"
@@ -1853,6 +1899,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="8ce242cb-cff6-4b4f-8ae9-ee456ad01b7e"
@@ -1943,6 +1991,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
  - Change of traction system.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="78b77eb3-b475-46f5-acde-89a0d43ebf6d"
@@ -1983,6 +2033,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update the request status"
  Guid="3f617c8f-b944-4ad1-b4c1-0384df8af42a"
@@ -2049,6 +2101,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add end condition to announcements that do not have one"
  Guid="841dffe5-5c2d-4414-88d2-a798eb04c0be"
@@ -2070,6 +2124,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="3838f8fc-c57d-41db-afbc-7936b8b73deb"
@@ -2647,6 +2703,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Indicates that the shunting request has not been answered by the RBC.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="983f9745-99f1-4746-ac0b-c5f354ce659e"
@@ -2662,6 +2720,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="58a7d0de-2531-4603-9bc5-c7fbd641845d"
@@ -2699,6 +2759,8 @@ aRequestNotAnswered</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="If starting the display, record the time"
  Guid="0d904ff7-023d-4663-9fae-e6990ddb1285"
@@ -2738,6 +2800,8 @@ aRequestNotAnswered</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="eca2c41c-9069-4711-859a-7dc1e909dcb8"
@@ -2805,6 +2869,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Handles display of information relative to the list of accepted emergency stops.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="b1742414-9781-40ad-87c4-d3cb7124b2d0"
@@ -2820,6 +2886,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update the request status"
  Guid="8421ba55-591b-4796-9c09-4710d95373f8"
@@ -2859,6 +2927,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="d7832a85-6439-4875-8587-1f00b3bd41c6"
@@ -3167,6 +3237,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides track ahead free information.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="80d1217e-b052-48d2-9366-b0faa69d6015"
@@ -3182,6 +3254,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="e341f6b1-e46e-455c-ae11-f550c7af1270"
@@ -3219,6 +3293,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="bf4376f3-953e-4a9f-b8e3-c2b2c1347ba1"
@@ -3253,6 +3329,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Handles display of slippery rail conditions.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="5dd0b2ce-d783-4170-94dd-639720c29e8d"
@@ -3268,6 +3346,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="d1c56730-de67-47e4-ba5d-051c02add546"
@@ -3305,6 +3385,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="010861b6-a30d-4228-9184-7f935ef1212b"
@@ -3339,6 +3421,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Indicates a trackside malfunction.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="e66605d1-4a0a-4d3e-8332-a04dc91574b6"
@@ -3354,6 +3438,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="ee1ecdad-884e-44b2-bcc0-ebe2d6314371"
@@ -3391,6 +3477,8 @@ aTracksideMalfunction</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="If starting the display, record the time"
  Guid="c330d22b-236c-4aac-b8b1-85d09f832c10"
@@ -3430,6 +3518,8 @@ aTracksideMalfunction</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="e00c0c2a-28ff-4127-935f-cbf45de6cbac"
@@ -4659,6 +4749,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Indicates that the trackside is not compatible.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="74ab3607-8dad-4080-9cdd-bee80faf67f0"
@@ -4679,6 +4771,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="dce2585d-7166-40c9-a2da-3cd89c8ad349"
@@ -4716,6 +4810,8 @@ aIsIncompatible</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="If starting the display, record the time"
  Guid="95d2df52-6142-4de3-8271-854eb39d03a5"
@@ -4755,6 +4851,8 @@ aIsIncompatible</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="5e5f66f6-35cd-428e-80a0-56bd61bdf40e"
@@ -4808,6 +4906,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Indicates that the train has been rejected.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="2797fa3b-01cc-4a68-8de4-c2ba14b18c1d"
@@ -4823,6 +4923,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="7eda67c1-0dde-4da7-be23-c59382524a46"
@@ -4860,6 +4962,8 @@ aTrainRejected</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="If starting the display, record the time"
  Guid="fcff083d-fc82-4c3b-a111-bb3bbe8d151c"
@@ -4899,6 +5003,8 @@ aTrainRejected</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="9935aff9-5d76-4b39-bc13-206385ac34e5"
@@ -4952,6 +5058,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the route unsuitabilities.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="dabfb835-9563-4b39-8ce8-acdfcfc71d65"
@@ -4967,6 +5075,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="d8c54739-a06d-4ff1-ba4d-506e9f7e7148"
@@ -5066,6 +5176,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the target distance.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="23b64412-11c8-4605-8618-94efc185d8a1"
@@ -5081,6 +5193,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="dbc36a7c-4fef-44fc-ad68-45aff2e60082"
@@ -5122,6 +5236,8 @@ TargetDistanceMandatory()</PreCondition><PreCondition
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="2db3f81d-aac1-4c87-aba8-5abd144297e2"
@@ -5165,6 +5281,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the train data for output.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="af1106c3-a3e8-449d-ad1e-e18ed16333a9"
@@ -5190,6 +5308,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="3ad006c9-41d1-447c-a83f-69b306e65913"
@@ -5205,7 +5325,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <PreConditions>
 <PreCondition
  Guid="121da27d-a61b-4bcc-8b1d-f1c5798cad9e"
->TrainDataAvailable()</PreCondition></PreConditions>
+>TrainDataAvailable()</PreCondition><PreCondition
+ Guid="77b8b2f6-c0eb-4801-8d7d-682bdc463c64"
+>aTrainData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="162c6a27-aee4-4c11-8823-afd3d40ef986"
@@ -5227,6 +5349,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="a079db71-351e-4b01-acc8-5330265698bc"
@@ -5286,6 +5410,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the SBI value.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="a8bd3ae9-2c2d-4650-8772-b26beaf9c248"
@@ -5301,6 +5427,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="781ba4ad-f1ef-4b86-b6c6-9f03d2924766"
@@ -5342,6 +5470,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="8740509c-bbae-4c41-a077-f72f04bb8546"
@@ -5385,6 +5515,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Provides the virtual balise cover information.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="92c83905-eb9f-4c66-8277-59719628d5b8"
@@ -5410,6 +5542,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="64aa12c0-0152-405f-912a-3617986b3a2c"
@@ -5449,6 +5583,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="267468ab-1a51-4e28-8d7d-a2dd52b786bb"
@@ -5769,18 +5905,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Enumerates the cases where the request is available"
  Guid="c72585be-367d-461e-88a5-58f221664e5d"
 >
-<PreConditions>
-<PreCondition
- Guid="6f936051-6a0a-4521-8fbf-89557d23c877"
->Kernel.DriverId.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="822d231a-c55e-452d-8006-adfd865b5121"
->Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="7ed1cc36-7e42-41db-aaf4-9168f8bd834a"
->
-<Expression>False</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -5973,16 +6098,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="In FS mode"
  Guid="d9077400-ab58-4c57-91b0-5093988dae04"
 >
-<PreConditions>
-<PreCondition
- Guid="6171e686-f3f7-443d-bd7d-fc66cb60ad9f"
->Kernel.Mode in [ModeEnum.FS]</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="3f596a9c-bbf4-4dc7-bfd2-b5cb10cf708c"
->
-<Expression>False</Expression>
+<Expression>Kernel.Mode in [ModeEnum.FS]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6315,20 +6431,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Enumerates the cases where the request is available"
  Guid="a1d8f728-6d14-4b90-8a6d-48554a0a3ae2"
 >
-<PreConditions>
-<PreCondition
- Guid="9e8ca9c5-4a4a-4714-ab99-c890630f8a7c"
->EURORADIO.CurrentRBCConnection() != EMPTY
-  AND
-EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="668da623-2d83-40c9-b8d0-2d5019210036"
->Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="652607ae-9aef-476a-a400-5bbc5dffe9f6"
->
-<Expression>False</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6618,7 +6721,7 @@ EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</P
  Name="Enumerates the cases where the request is available"
  Guid="28690335-579e-471c-8489-bc3709ee8621"
 >
-<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.SR, ModeEnum.OS, ModeEnum.LS]</Expression>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.SR, ModeEnum.OS]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6772,18 +6875,7 @@ EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</P
  Name="Enumerates the cases where the request is available"
  Guid="d68f08c0-a248-4931-a7e1-81377e69fffa"
 >
-<PreConditions>
-<PreCondition
- Guid="30583a23-f744-4b6a-ac2f-35f6e76e1b54"
->Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="3d5d5eed-1972-419b-8312-df27e8e88fdc"
->Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="5168289a-5fbc-4c67-8010-ec46436b7771"
->
-<Expression>False</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -6836,18 +6928,7 @@ EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</P
  Name="Enumerates the cases where the request is available"
  Guid="23448439-2f4b-4bd2-b3ba-6591cb4d035c"
 >
-<PreConditions>
-<PreCondition
- Guid="b73a69e7-e4e5-4525-96e9-48b1fd25e83a"
->Kernel.TrainRunningNumber.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="3f4b039a-ded2-4b35-ad89-95c9f9b2d671"
->Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="aef6c0fd-9c05-40e8-a165-c9ce3ac59e17"
->
-<Expression>False</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -7012,18 +7093,7 @@ EURORADIO.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</P
  Name="Enumerates the cases where the request is available"
  Guid="2c5a07d0-3570-49ca-abfc-22e367e9ab86"
 >
-<PreConditions>
-<PreCondition
- Guid="db9347d9-c562-405e-8405-78de9252f49b"
->Kernel.VirtualBaliseCover.VirtualBaliseCovers.DataState == DataStateEnum.Valid</PreCondition><PreCondition
- Guid="6798119e-2545-4df2-8473-7940d0fc138d"
->Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="0b1a56ca-fdf4-4eeb-99a3-a9384802b13e"
->
-<Expression>False</Expression>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
