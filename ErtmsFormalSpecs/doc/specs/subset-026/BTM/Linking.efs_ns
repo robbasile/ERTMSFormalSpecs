@@ -1207,6 +1207,17 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Linking used - repositioning information"
+ Guid="da4871b3-f972-49c1-9cae-054736dcef35"
+>
+<PreConditions>
+<PreCondition
+ Guid="7fafc1aa-203c-4535-bc00-e69ab34d1cbf"
+>aLinkingUsed</PreCondition><PreCondition
+ Guid="002136ed-5249-4a30-a4d8-f566e91e7805"
+>CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )</Expression>
+</Case><Case
  Name="Linking used"
  Guid="6a733c58-6ee4-4358-a5b5-d7771e02ee5d"
 >

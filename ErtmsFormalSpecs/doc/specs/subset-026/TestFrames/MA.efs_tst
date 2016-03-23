@@ -4124,24 +4124,13 @@ V_STATIC =&gt; 0
 <Actions>
 <Action
  Guid="e13046c0-21b6-4d4e-b5fb-8bf56500125d"
->BTM.Linking.Linkings &lt;- []</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step 2 - Setup for the repositioning information"
- Guid="61818e95-8130-4800-aa05-d31f980f854c"
->
-<Actions>
-<Action
- Guid="f6991e62-dc07-42e8-8e3a-88cbfc7409fe"
->INSERT BTM.Linking.LinkingDataStruct{
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
     LocationAccuracy =&gt; 1.0,
     Orientation =&gt; OrientationEnum.Nominal,
     Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
     Distance =&gt; 105.0,
     BaliseGroupIdentifier =&gt; Messages.NID_BG.NID_UNKNOWN
-}
-
-IN BTM.Linking.Linkings</Action></Actions>
+}]</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step 3 - Receive repositioning information"
@@ -4222,7 +4211,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="96952592-c2fe-471c-b3a6-79ad816e5b2f"
->Kernel.MA.EOA().Location == 2105.0</Expectation></Expectations>
+>Kernel.MA.EOA().Location == 2000.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -4244,24 +4233,13 @@ IN BTM.Linking.Linkings</Action></Actions>
 <Actions>
 <Action
  Guid="423f439f-65d1-4454-b2bb-e688de511f2b"
->BTM.Linking.Linkings &lt;- []</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step 2 - Setup for the rejected repositioning information"
- Guid="a56dcdee-17f5-4c39-a3ae-09bb13f77470"
->
-<Actions>
-<Action
- Guid="c5de6f6a-1552-48ca-81f7-097e18faf94c"
->INSERT BTM.Linking.LinkingDataStruct{
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
     LocationAccuracy =&gt; 1.0,
     Orientation =&gt; OrientationEnum.Nominal,
     Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
     Distance =&gt; 105.0,
     BaliseGroupIdentifier =&gt; 5466
-}
-
-IN BTM.Linking.Linkings</Action></Actions>
+}]</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step 3 - Receive repositioning information"
@@ -4332,7 +4310,7 @@ IN BTM.Linking.Linkings</Action></Actions>
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f08475a0-4c8f-499f-952b-561eb8ed83fa"
->Kernel.MA.EOA().Location == 2000.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1895.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="fca6b8cd-7015-4b19-96b2-d51a5c5f498f"
@@ -4356,32 +4334,11 @@ IN BTM.Linking.Linkings</Action></Actions>
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step 1 - Clear linking data"
- Guid="a2c340f6-7b89-4c39-a015-37bf1a342ff4"
->
-<Actions>
-<Action
- Guid="5707bc89-47ae-405b-ae39-6ad2a2c7b918"
->BTM.Linking.Linkings &lt;- []</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
  Name="Sub-step 2 - Set up an MA and linking information"
  Guid="debe2b05-7664-479c-bc93-1d11961ca373"
 >
 <Actions>
 <Action
- Guid="2845f3d9-488f-49e9-adb6-9a8269f66595"
->INSERT 
-BTM.Linking.LinkingDataStruct{
-    LocationAccuracy =&gt; 1.0,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
-    Distance =&gt; 105.0,
-    BaliseGroupIdentifier =&gt; Messages.NID_BG.NID_UNKNOWN
-}
-
-IN
-BTM.Linking.Linkings</Action><Action
  Guid="2b1ae6ac-d648-43d9-b064-f2ff381aea97"
 >Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
 
@@ -4401,7 +4358,15 @@ BTM.Linking.Linkings</Action><Action
         DangerPoint =&gt; EMPTY,
         Overlap =&gt; EMPTY
     }
-}</Action></Actions>
+}</Action><Action
+ Guid="5707bc89-47ae-405b-ae39-6ad2a2c7b918"
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
+    LocationAccuracy =&gt; 1.0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+    Distance =&gt; 105.0,
+    BaliseGroupIdentifier =&gt; Messages.NID_BG.NID_UNKNOWN
+}]</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -4476,11 +4441,11 @@ BTM.Linking.Linkings</Action><Action
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ed206680-d69c-4700-9be9-b4c62e8abd72"
->Kernel.MA.EOA().Location == 1305.0</Expectation><Expectation
+>Kernel.MA.EOA().Location == 1200.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c6a2665c-6283-4b4b-b5f7-5f8a7dced41b"
->(FIRST X IN Kernel.MA.MA.Sections).Length == 705.0</Expectation><Expectation
+>(FIRST X IN Kernel.MA.MA.Sections).Length == 600.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="3e216b08-6657-4fc7-89cd-e19d594da9e5"

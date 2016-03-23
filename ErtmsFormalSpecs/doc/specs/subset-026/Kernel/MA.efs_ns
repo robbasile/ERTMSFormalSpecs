@@ -3273,6 +3273,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Store previous information"
  Guid="2c71883e-4454-4fb3-81ba-ab1d2e464a82"
@@ -3335,6 +3337,8 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update common fields"
  Guid="82a191c5-efd4-43f7-8044-7c64dd434824"
@@ -3399,6 +3403,8 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle information according to infill status"
  Guid="9dd23dbd-a238-4098-830f-ac2d73d2bea4"
@@ -3483,6 +3489,8 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update sections"
@@ -3536,6 +3544,8 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update end section"
  Guid="23071766-2e94-42fa-b132-c6626baafd5c"
@@ -3578,6 +3588,8 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Check end section timer"
  Guid="8dd58980-55ef-4bb2-b236-e4152bf43630"
@@ -3632,6 +3644,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Check overlap timer"
  Guid="1435801b-bb35-40e4-821c-64e45f56e759"
@@ -3668,6 +3682,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="EndSectionTimeOutAvailable"
@@ -3733,6 +3749,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="TimeOutAvailable"
@@ -3798,6 +3816,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="DangerPointAvailable"
@@ -3873,6 +3893,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="OverlapAvailable"
@@ -3964,6 +3986,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update release speed"
  Guid="647e47fc-77bb-4324-a035-94fa77e8c514"
@@ -3986,6 +4010,8 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle MA shortening"
  Guid="ccde6b34-d341-4a07-b0cb-c58dbc79d705"
@@ -4106,6 +4132,8 @@ Kernel.MA.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove information beyond the infill location"
  Guid="01a20fc7-41d9-4841-b6ab-a349a1d6e470"
@@ -4127,6 +4155,8 @@ Kernel.MA.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Insert new sections"
@@ -4255,6 +4285,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update current section"
@@ -4273,30 +4305,40 @@ IN
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="60c621ea-4f64-46fb-b51a-2bc159ca92e9"
 >
-</ReqRef><Comment>Updates the length of the first section of the MA, if there are multiple sections</Comment>
+</ReqRef><Comment>Updates the length of the first section of the MA.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8ca2de13-4875-4b41-8ee8-bf5d34b237c6"
 >Available ( Kernel.MA.MA ) AND Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="3611dfd8-ce76-44f9-b77d-2ed6793b73c7"
->(FIRST X IN Kernel.MA.MA.Sections).Length &lt;- DistanceToBG + MessageTypes.QScaleLength ( length =&gt; Packet.L_SECTION, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+ Guid="84df1a57-c7b4-46a2-867c-5d16978acf69"
+>(FIRST X IN Kernel.MA.MA.Sections).Length &lt;- Default.BaseTypes.DistanceToLength (
+  MessageTypes.QScaleLength (
+    length =&gt; Packet.L_SECTION,
+    scale =&gt; Packet.Q_SCALE
+  ) 
+)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="One section available"
  Guid="6ca58f29-f4a7-4e32-8bd5-772a34ecc1f5"
 >
-<Comment>Updates the lengths of the End Section if that is the only section</Comment>
+<Comment>Updates the length of the end section of the MA.</Comment>
 <PreConditions>
 <PreCondition
  Guid="03a63234-cc66-4102-9072-1c51e26cfced"
 >Available ( Kernel.MA.MA )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="9871f412-589a-449d-bf33-f3744a32d9b4"
->Kernel.MA.MA.EndSection.Length &lt;- DistanceToBG + MessageTypes.QScaleLength ( length =&gt; Packet.L_SECTION, scale =&gt; Packet.Q_SCALE )</Action></Actions>
+ Guid="0df6d054-934d-4726-ac67-7e715097a479"
+>Kernel.MA.MA.EndSection.Length &lt;- BaseTypes.DistanceToLength( 
+  MessageTypes.QScaleLength (
+    length =&gt; Packet.L_SECTION,
+    scale =&gt; Packet.Q_SCALE
+  )
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
