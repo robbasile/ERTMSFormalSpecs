@@ -2617,21 +2617,45 @@
 <PreConditions>
 <PreCondition
  Guid="88451235-b776-4e6b-b6c7-253add891445"
->aMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
+>aMessage.FulfillAllTheEvents</PreCondition></PreConditions>
 <Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )
   AND
 StartModeConditionSatisfied( aMessage =&gt; aMessage )
   AND
 StartLevelConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 </Case><Case
- Name="One condition has to be fulfilled"
+ Name="One condition has to be fulfilled (level)"
  Guid="f9db6c5c-502f-4935-a5cd-4b8f508f9421"
 >
-<Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )
-  OR
-StartModeConditionSatisfied( aMessage =&gt; aMessage )
-  OR
-StartLevelConditionSatisfied( aMessage =&gt; aMessage )</Expression>
+<PreConditions>
+<PreCondition
+ Guid="2b26483e-5260-48ab-9fd9-41a7ab6130b4"
+>aMessage.StartLevelCondition.IsLimitedByLevel</PreCondition></PreConditions>
+<Expression>StartLevelConditionSatisfied( aMessage =&gt; aMessage )</Expression>
+</Case><Case
+ Name="One condition has to be fulfilled mode)"
+ Guid="3b8418d3-6826-4279-af5c-1035cc0de6e8"
+>
+<PreConditions>
+<PreCondition
+ Guid="ae43c40d-e6d5-450d-8ede-a8362b497518"
+>aMessage.StartModeCondition.IsLimitedByMode</PreCondition></PreConditions>
+<Expression>StartModeConditionSatisfied( aMessage =&gt; aMessage )</Expression>
+</Case><Case
+ Name="One condition has to be fulfilled location)"
+ Guid="4dbb0cc8-9ea5-4747-8576-10ca23bccdc2"
+>
+<PreConditions>
+<PreCondition
+ Guid="c4bb259f-6cea-40ea-b31d-6989b3585f37"
+>aMessage.Location != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>StartLocationConditionSatisfied( aMessage=&gt; aMessage )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b2d9dd05-525e-420e-a80a-2345495c7045"
+>
+<Comment>In this case, the start condition is limited by nothing</Comment>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2675,10 +2699,8 @@ StartLevelConditionSatisfied( aMessage =&gt; aMessage )</Expression>
 <PreConditions>
 <PreCondition
  Guid="10b66425-dbad-4b27-980d-c12526c650c2"
->aMessage.FulfillAllTheEvents == True</PreCondition></PreConditions>
-<Expression>aMessage.DisplayStartTime.Timer != BaseTypes.Time.NA
-  AND
-EndLocationConditionSatisfied(  aMessage =&gt; aMessage )
+>aMessage.FulfillAllTheEvents</PreCondition></PreConditions>
+<Expression>EndLocationConditionSatisfied(  aMessage =&gt; aMessage )
   AND
 TimerConditionSatisfied( aMessage=&gt; aMessage )
   AND
@@ -2688,22 +2710,67 @@ EndLevelConditionSatisfied( aMessage =&gt; aMessage )
   AND
 AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 </Case><Case
- Name="One condition has to be fulfilled"
+ Name="One condition has to be fulfilled (level)"
  Guid="41f12ee7-3e93-4a38-b1a2-16ec896669f1"
 >
-<Expression>aMessage.DisplayStartTime.Timer != BaseTypes.Time.NA
-  AND
-(
-  EndLocationConditionSatisfied(  aMessage =&gt; aMessage )
-    OR
-  TimerConditionSatisfied( aMessage=&gt; aMessage )
-    OR
-  EndModeConditionSatisfied( aMessage =&gt; aMessage )
-    OR
-  EndLevelConditionSatisfied( aMessage =&gt; aMessage )
-    OR
-  AckConditionSatisfied( aMessage =&gt; aMessage )
-)</Expression>
+<PreConditions>
+<PreCondition
+ Guid="54faf01a-fb4d-45eb-93a9-9698ade692d9"
+>aMessage.EndLevelCondition.IsLimitedByLevel</PreCondition><PreCondition
+ Guid="127022f3-d846-4792-8597-ff675b17cd11"
+>EndLevelConditionSatisfied( aMessage =&gt; aMessage )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="One condition has to be fulfilled (mode)"
+ Guid="87617b67-a8b6-4db8-8bc5-58abfa0a8a05"
+>
+<PreConditions>
+<PreCondition
+ Guid="d11aa855-dfaa-4beb-88de-3ebe53ac8d65"
+>aMessage.EndModeCondition.IsLimitedByMode</PreCondition><PreCondition
+ Guid="e969cb7a-b7fa-490a-bda2-fdcbd3371947"
+>EndModeConditionSatisfied( aMessage =&gt; aMessage )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="One condition has to be fulfilled (location)"
+ Guid="9b5bbbbb-6a73-404c-b2bf-51523e57673c"
+>
+<PreConditions>
+<PreCondition
+ Guid="b68ec615-7b8b-42ee-b25a-ded663c973c1"
+>aMessage.Location != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="823fb732-e57d-467b-a92b-b566ba2e45fa"
+>aMessage.Length != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="589944c4-f57f-43eb-94d3-a6a5d7f00d7f"
+>EndLocationConditionSatisfied(  aMessage =&gt; aMessage )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="One condition has to be fulfilled (timer)"
+ Guid="ddb9933f-8ba9-4c63-8119-f2fed715d890"
+>
+<PreConditions>
+<PreCondition
+ Guid="ac578e45-4796-48d9-aaaf-56f2dd56cede"
+>aMessage.DisplayDuration != BaseTypes.Time.NA</PreCondition><PreCondition
+ Guid="fb45f57c-ac1b-4e9a-9ed4-ecd6fe5f7d31"
+>TimerConditionSatisfied( aMessage=&gt; aMessage )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="One condition has to be fulfilled (acknowledgement)"
+ Guid="3ef02801-5dc3-4885-8639-3258f94b9c41"
+>
+<PreConditions>
+<PreCondition
+ Guid="8ce8b534-74a8-4849-a933-66f327adb505"
+>aMessage.DriverConfirmation != DriverConfirmationEnum.NoConfirmationRequired</PreCondition><PreCondition
+ Guid="cddb33f7-b87b-4483-af78-f4616cafea52"
+>AckConditionSatisfied( aMessage =&gt; aMessage )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c663c8f0-0766-4589-a5be-1de1a7c4072b"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2726,7 +2793,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="219ddf53-7b00-42c1-ad34-6a1190cd4cc2"
 >
-</ReqRef><Comment>Indicates if the start condition related to the mode is satisfied, i.e. the onboard mode is the same as specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
+</ReqRef><Comment>Indicates if the start condition related to the mode is satisfied, i.e. the onboard mode is the same as specified in the message.</Comment>
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
@@ -2748,7 +2815,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  Name="End condition"
  Guid="aa3a52c2-5f10-4ee6-a278-4098b1ebc259"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2771,7 +2838,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2cf7ce06-208d-4832-b162-c8074ae7bfa2"
 >
-</ReqRef><Comment>Indicates if the start condition related to the level is satisfied, i.e. the onboard level is the same as specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
+</ReqRef><Comment>Indicates if the start condition related to the level is satisfied, i.e. the onboard level is the same as specified in the message.</Comment>
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
@@ -2787,13 +2854,13 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 <PreConditions>
 <PreCondition
  Guid="0387b433-fb26-4fe5-9a37-cd621bbcab32"
->aMessage.StartLevelCondition.IsLimitedByLevel == True</PreCondition></PreConditions>
+>aMessage.StartLevelCondition.IsLimitedByLevel</PreCondition></PreConditions>
 <Expression>Kernel.Level.Value == aMessage.StartLevelCondition.Level</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="2affa7eb-69d7-4cba-8865-ac2bc5d8cb79"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2821,21 +2888,28 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Not yet displayed"
+ Guid="64917945-4bb2-4412-ad13-faf71eb1f78c"
+>
+<PreConditions>
+<PreCondition
+ Guid="69d4ce89-2c8f-4658-8aa4-ab85fc815e2c"
+>aMessage.DisplayStartTime.Timer == BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
  Name="Timer condition defined"
  Guid="f5cbfe2e-7509-4df4-a4af-0040c83e05c6"
 >
 <PreConditions>
 <PreCondition
  Guid="61dec2f5-59e9-4f4c-b53f-fce130dfbec6"
->aMessage.DisplayDuration != BaseTypes.Time.NA</PreCondition><PreCondition
- Guid="46181f25-f929-46df-bef7-a962ff5e4249"
->aMessage.DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition></PreConditions>
+>aMessage.DisplayDuration != BaseTypes.Time.NA</PreCondition></PreConditions>
 <Expression>aMessage.DisplayStartTime.Timer + aMessage.DisplayDuration &lt;= Kernel.DateAndTime.CurrentTime</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="4702eef8-76b4-4d1e-9025-8e56786d0c2a"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2880,7 +2954,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  Name="Otherwise"
  Guid="954340ca-efb8-4036-8ea5-e43a86d3e778"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2918,6 +2992,15 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Not yet displayed"
+ Guid="d513427c-3628-4c7b-abb2-9452af71f532"
+>
+<PreConditions>
+<PreCondition
+ Guid="4da893e3-3d15-4df5-bd76-e8db556893ca"
+>aMessage.DisplayStartTime.Timer == BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
  Name="Location condition is defined"
  Guid="46b070ff-396a-4ca2-9e55-760ac8be0805"
 >
@@ -2932,7 +3015,7 @@ AckConditionSatisfied( aMessage=&gt; aMessage )</Expression>
  Name="Otherwise"
  Guid="6210cb0d-bcee-4ed5-acb0-30fa00b0d1ce"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -3135,7 +3218,7 @@ aMessage.AckStopsDisplay</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c8e33e28-76e3-4635-9a85-a6679a11ebfd"
 >
-</ReqRef><Comment>Indicates if the acknowledgement condition is satisfied. The function returns true either if no acknowledgement is required for that texte message or if the acknowledgement is required and the driver has acknowledged.</Comment>
+</ReqRef><Comment>Indicates if the acknowledgement condition is satisfied. The function returns true either if no acknowledgement is required for that text message or if the acknowledgement is required and the driver has acknowledged.</Comment>
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
@@ -3157,7 +3240,7 @@ aMessage.AckStopsDisplay</Expression>
  Name="Otherwise"
  Guid="b269257a-1e56-4083-9361-7e46018b7138"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3328,7 +3411,7 @@ IN aMessage</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ae0c6483-dc97-4775-acb5-a52d96f78850"
 >
-</ReqRef><Comment>Indicates if the start condition related to the level is satisfied, i.e. the onboard level is different from the value specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
+</ReqRef><Comment>Indicates if the start condition related to the level is satisfied, i.e. the onboard level is different from the value specified in the message.</Comment>
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
@@ -3338,6 +3421,15 @@ IN aMessage</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Not yet displayed"
+ Guid="637e7333-da44-4a36-ba1c-b0ef16afc9e8"
+>
+<PreConditions>
+<PreCondition
+ Guid="8572f235-2252-419f-8bc6-ae2f78b1aecd"
+>aMessage.DisplayStartTime.Timer == BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
  Name="Level condition defined"
  Guid="ecfbcdd3-e6c3-44b6-a36c-a09dfb80a900"
 >
@@ -3350,7 +3442,7 @@ IN aMessage</Expression>
  Name="Otherwise"
  Guid="152cba5b-8eff-4741-9686-35280a818553"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3373,7 +3465,7 @@ IN aMessage</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d2345629-ccbe-4e7b-aa9c-1c99730de229"
 >
-</ReqRef><Comment>Indicates if the start condition related to the mode is satisfied, i.e. the onboard mode is different from the value specified in the message. If no condition is defined, the value of FulfillAllTheEvents is tested since if only one of the conditions is satisfied, this function should return false.</Comment>
+</ReqRef><Comment>Indicates if the start condition related to the mode is satisfied, i.e. the onboard mode is different from the value specified in the message.</Comment>
 <Parameters>
 <Parameter
  Type="TextMessageInterface"
@@ -3383,6 +3475,15 @@ IN aMessage</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Not yet displayed"
+ Guid="77256fad-da77-4e01-aaae-eb728a84201a"
+>
+<PreConditions>
+<PreCondition
+ Guid="c3905046-e763-4682-97e6-e66f204773cb"
+>aMessage.DisplayStartTime.Timer == BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
  Name="Mode condition defined"
  Guid="8778cea8-7482-47c7-b319-09e47780ff40"
 >
@@ -3395,7 +3496,7 @@ IN aMessage</Expression>
  Name="End condition"
  Guid="36f1d65e-e34e-4617-86da-ea005efa8d1a"
 >
-<Expression>aMessage.FulfillAllTheEvents</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
