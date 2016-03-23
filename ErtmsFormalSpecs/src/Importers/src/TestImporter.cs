@@ -137,11 +137,13 @@ namespace Importers
                     newSubSequence.Name = subSequenceName;
                     ImportInitialValues(newSubSequence, subSequenceId);
                     ImportSteps(newSubSequence);
+                    newSubSequence.setCompleted(false);
 
                     SubSequence previousSubSequence = frame.findSubSequence(subSequenceName);
                     if (previousSubSequence != null)
                     {
                         newSubSequence.setGuid(previousSubSequence.getGuid());
+                        newSubSequence.setCompleted(previousSubSequence.getCompleted());
                         int cnt = 0;
                         foreach (TestCase previousTestCase in previousSubSequence.TestCases)
                         {
