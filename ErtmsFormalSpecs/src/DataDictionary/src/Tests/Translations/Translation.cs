@@ -620,32 +620,32 @@ namespace DataDictionary.Tests.Translations
         {
             EfsSystem system = EfsSystem.Instance;
             Structure structure = null;
-            NameSpace nameSpace = findNameSpace("Messages.PACKET");
-
-            foreach (NameSpace subNameSpace in nameSpace.NameSpaces)
+            NameSpace nameSpace = findNameSpace("Messages.PACKET.TRACK_TO_TRAIN");
+            foreach (NameSpace packetNameSpace in nameSpace.NameSpaces)
             {
-                foreach (NameSpace packetNameSpace in subNameSpace.NameSpaces)
-                {
-                    Structure structureType =
-                        (Structure) system.FindType(packetNameSpace, packetNameSpace.FullName + ".Message");
-                    StructureValue structureValue = new StructureValue(structureType);
+                Structure structureType =
+                    (Structure) system.FindType(packetNameSpace, packetNameSpace.FullName + ".Message");
+                StructureValue structureValue = new StructureValue(structureType);
 
-                    foreach (KeyValuePair<string, IVariable> pair in structureValue.SubVariables)
+                foreach (KeyValuePair<string, IVariable> pair in structureValue.SubVariables)
+                {
+                    string variableName = pair.Key;
+                    if (variableName.Equals("NID_PACKET"))
                     {
-                        string variableName = pair.Key;
-                        if (variableName.Equals("NID_PACKET"))
+                        IntValue value = pair.Value.Value as IntValue;
+                        if (value.Val == nidPacket)
                         {
-                            IntValue value = pair.Value.Value as IntValue;
-                            if (value.Val == nidPacket)
-                            {
-                                structure = structureType;
-                            }
-                        }
-                        if (structure != null)
-                        {
-                            break;
+                            structure = structureType;
                         }
                     }
+                    if (structure != null)
+                    {
+                        break;
+                    }
+                }
+                if (structure != null)
+                {
+                    break;
                 }
             }
 
