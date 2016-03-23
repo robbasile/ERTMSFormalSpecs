@@ -6,6 +6,7 @@
  Name="InfillMA"
  Guid="729a3d75-7de7-43f1-a3b7-a951c2084d1e"
 >
+<Comment>Translation rules for the message &quot;INFILL MA&quot;.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Functions>
@@ -223,7 +224,7 @@ aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  Guid="efb4a22e-8977-459e-a7ed-8ce138b1d6ea"
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
  Guid="e7eb686c-fa2d-45bd-82b1-b903ec845daf"
->VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+>Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.SubStructure1{
 TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(
@@ -444,7 +445,7 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
  Name="Value"
  Guid="490a2abb-e1e3-43c1-a70b-d49f537898de"
 >
-<Expression>MAP aPacketsList USING X IN VersionManagement.Translation.Messages.InfillMA.UpdatePacket(X, aPacketsList)</Expression>
+<Expression>MAP aPacketsList USING X IN Translation.Messages.InfillMA.UpdatePacket(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.INFILL_MA.Message"

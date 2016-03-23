@@ -6,6 +6,7 @@
  Name="MovementAuthority"
  Guid="4dc6c6ab-55e2-4722-9e9f-568cb186de54"
 >
+<Comment>Translation rules for the message &quot;MOVEMENT AUTHORITY&quot;.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Functions>
@@ -84,7 +85,7 @@
  Name="Value"
  Guid="f8a1e7e8-c11a-4bbe-b9e0-703c12599399"
 >
-<Expression>MAP aPacketsList USING X IN VersionManagement.Translation.Messages.MovementAuthority.UpdatePacket(X, aPacketsList)</Expression>
+<Expression>MAP aPacketsList USING X IN Translation.Messages.MovementAuthority.UpdatePacket(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.SubStructure1"
@@ -428,7 +429,7 @@ aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  Guid="01e2a2bd-08b1-4008-9f18-7032e753711e"
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
  Guid="4ed2a799-3457-4c1f-8df2-0ed5deaf0929"
->VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+>Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.SubStructure1{
 TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(

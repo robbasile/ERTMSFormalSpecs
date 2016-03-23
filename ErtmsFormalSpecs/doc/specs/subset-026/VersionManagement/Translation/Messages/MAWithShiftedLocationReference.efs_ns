@@ -6,6 +6,7 @@
  Name="MAWithShiftedLocationReference"
  Guid="b48668cf-152e-4767-a0e0-c4b517c01287"
 >
+<Comment>Translation rules for the message &quot;MA WITH SHIFTED LOCATION REFERENCE&quot;.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Functions>
@@ -341,7 +342,7 @@ aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  Guid="4390b26a-0916-4f53-8da7-247cbf9af5c0"
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
  Guid="eef37bd8-a86b-4e2e-8b5b-835faff83b60"
->VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+>Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.SubStructure1{
 TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(
@@ -660,7 +661,7 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
  Name="Value"
  Guid="8d912174-e9e2-42f8-9da4-78277355791a"
 >
-<Expression>MAP aPacketsList USING X IN VersionManagement.Translation.Messages.MAWithShiftedLocationReference.UpdatePacket(X, aPacketsList)</Expression>
+<Expression>MAP aPacketsList USING X IN Translation.Messages.MAWithShiftedLocationReference.UpdatePacket(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.MA_WITH_SHIFTED_LOCATION_REFERENCE.Message"

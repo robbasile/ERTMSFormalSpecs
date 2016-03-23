@@ -6,6 +6,7 @@
  Name="GeneralMessage"
  Guid="b05ce0e9-a11b-43f5-a5eb-b72aa0e78698"
 >
+<Comment>Translation rules for the message &quot;GENERAL MESSAGE&quot;.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Functions>
@@ -365,7 +366,7 @@ aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  Guid="96167fd8-6813-4d6c-8f4c-0d8e6a26d17b"
 >FORALL X IN aOtherPackets | NOT Available(X.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM_BL3)</PreCondition><PreCondition
  Guid="4d49e717-ff60-4627-b1d8-6c25f9767a70"
->VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
+>Translation.Packets.TrackConditionChangeOfTractionSystem.IsTranslatable(aPacket.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.M_TRACTION)</PreCondition></PreConditions>
 <Expression>Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1{
 TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM
  =&gt; VersionManagement.Translation.Packets.TrackConditionChangeOfTractionSystem.UpdatedPacket(
@@ -671,7 +672,7 @@ TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; VersionManagement.Translation.Pa
  Name="Value"
  Guid="65d7fe7b-a50e-4955-bdd7-111d5242372a"
 >
-<Expression>MAP aPacketsList USING X IN VersionManagement.Translation.Messages.GeneralMessage.UpdatePacket(X, aPacketsList)</Expression>
+<Expression>MAP aPacketsList USING X IN Translation.Messages.GeneralMessage.UpdatePacket(X, aPacketsList)</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
