@@ -2380,7 +2380,9 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <Actions>
 <Action
  Guid="bf7bbae9-8b6d-4bd3-808a-af8eacf7b880"
->EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.ContactLastKnownRBC</Action></Actions>
+>EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.ContactLastKnownRBC</Action><Action
+ Guid="c5f0fcde-b0a8-434e-866e-5328f0e3716b"
+>EURORADIO.SetNextRBCToContact(EURORADIO.LastKnownRBC)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Driver elected to use on-board stored short number"
@@ -2399,7 +2401,13 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <Actions>
 <Action
  Guid="95793100-26fa-4d28-b9e4-af14dded9d38"
->EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.UseOnBoardStoredShortNumber</Action></Actions>
+>EURORADIO.ContactOption &lt;- EURORADIO.ContactOptionEnum.UseOnBoardStoredShortNumber</Action><Action
+ Guid="da239881-0505-4849-9496-922b2c5e480c"
+>EURORADIO.NextRBCToContact &lt;- EURORADIO.RBCContactStruct{
+    Id =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id,
+    PhoneNumber =&gt; EURORADIO.ShortNumber,
+    DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Driver revalidated or entered new RBC contact information"
@@ -2687,6 +2695,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="E12"
  Guid="d5324989-c96d-4b16-9c39-0928e2c735c5"
@@ -2732,10 +2742,12 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
  Guid="85d5c94d-3176-4321-980a-89906a0a0b71"
 >DMI.MasterDMI().In_TrainData.InputInformation.Disable()</Action><Action
  Guid="463167fb-e523-4010-bd09-8a3064471d6d"
->EURORADIO.OpenRBCSession()</Action></Actions>
+>EURORADIO.ContactLastKnownRBC()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle train position data state"
@@ -5666,6 +5678,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Terminal registered to network"
@@ -5691,7 +5705,9 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Actions>
 <Action
  Guid="599e4f2e-fb91-4a43-b77e-ae747f08f8d1"
->THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.A31</Action></Actions>
+>THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.A31</Action><Action
+ Guid="bd3fb10c-c9f8-477b-ad79-111b8e1c7ff2"
+>EURORADIO.SetNextRBCToContact(EURORADIO.LastKnownRBC)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

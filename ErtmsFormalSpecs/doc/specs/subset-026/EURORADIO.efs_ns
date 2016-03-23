@@ -131,7 +131,7 @@
 </EnumValue><EnumValue
  Value="3"
  Name="None"
- Guid="0ca1ef56-ad4c-46ce-91ca-94eb05874054"
+ Guid="f802e297-30e5-4034-abee-0707c1f611b9"
 >
 </EnumValue></Values>
 </Enum><Enum
@@ -3641,7 +3641,7 @@ SystemVersion1 =&gt; EMPTY
 <PreConditions>
 <PreCondition
  Guid="5f21704f-fd79-4d25-ac8d-54f9ec46d7e7"
->NumberOfSentRequests &lt; EURORADIO.NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
+>NumberOfSentRequests &lt; NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c9db820-9596-4dc3-b487-9fb6e343bc2b"
@@ -4158,6 +4158,8 @@ ContactRBCOrder.ActionToPerform == EURORADIO.ContactActionEnum.Terminate</PreCon
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle connection status"
  Guid="50b05be7-9062-4bd8-acb3-e83c5bd54956"
@@ -8265,7 +8267,7 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="ContactRBC"
+ Name="ManageRBCConnexion"
  Guid="d105e077-5c97-4b2b-97a0-538f17fd7201"
 >
 <ReqRef
@@ -8669,14 +8671,14 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <PreConditions>
 <PreCondition
  Guid="dd160343-60f0-4795-ae66-17e29ea4cd14"
->SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; EURORADIO.LastKnownRBC.Id )</PreCondition><PreCondition
+>SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; EURORADIO.NextRBCToContact.Id )</PreCondition><PreCondition
  Guid="e53a8b3e-45b3-4818-9fec-1714f34903d0"
 >Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
 </Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Contact last known RBC"
+ Name="Otherwise"
  Guid="f01fc2bf-5429-4449-a4de-036700e0a472"
 >
 <ReqRef
@@ -8689,85 +8691,24 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="06f42b1f-3ae0-42a2-8cee-ca8119a0ce18"
 >
-</ReqRef><Comment>Contact last known RBC. If there is no valid last known RBC stored on-board, the order is ignored.</Comment>
+</ReqRef><Comment>If there is no valid NextRBCToContact stored on-board, the order is ignored.</Comment>
 <PreConditions>
 <PreCondition
- Guid="b800f70b-83f7-45b4-9432-c769f9dca3f6"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.ContactLastKnownRBC</PreCondition><PreCondition
  Guid="c12c7ead-1138-41ac-bb3b-164fdeda2b0e"
->EURORADIO.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition><PreCondition
+>Available(EURORADIO.NextRBCToContact)</PreCondition><PreCondition
  Guid="b6c9ffbd-a2ff-4991-b04b-891776087408"
 >Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2078f218-6c1c-485a-9a00-f77a91524075"
->EURORADIO.ContactRBC
-(
-    anOrder =&gt; EURORADIO.ContactOrderStruct
-    {
-        Id =&gt; LastKnownRBC.Id,
-        PhoneNumber =&gt; LastKnownRBC.PhoneNumber,
-        ActionToPerform =&gt; ContactActionEnum.Establish
-    }
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Use on-board stored short number"
- Guid="862bab30-ca83-421f-999b-a05239d001d6"
->
-<ReqRef
- Id="40859515-77c4-46aa-96a5-12453cd171a2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="82f9117e-6a4e-4124-8891-6c82527765c5"
->
-</ReqRef><Comment>Use on-board store short number.</Comment>
-<PreConditions>
-<PreCondition
- Guid="44730a03-b518-420f-86e0-c7c20a7a8fc6"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.UseOnBoardStoredShortNumber</PreCondition><PreCondition
- Guid="77ca7656-05eb-4ac6-b321-ae79aa9c15dd"
->Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5dd1dd73-af6c-4f90-99d8-db129a45167f"
->EURORADIO.ContactRBC
-(
-    anOrder =&gt; EURORADIO.ContactOrderStruct
-    {
-        Id =&gt; CurrentRBCConnection().ContactData.Id,
-        PhoneNumber =&gt; ShortNumber,
-        ActionToPerform =&gt; ContactActionEnum.Establish
-    }
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Use RBC id + phone number"
- Guid="191d7715-3f6a-4e80-856b-e904fa4f1342"
->
-<ReqRef
- Id="cebfc056-7b96-49d7-a6ff-1fdf0076bb9e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e7fc21dd-a91f-44fb-a8a0-321f2a70b430"
->
-</ReqRef><Comment>Use RBC id + phone number.</Comment>
-<PreConditions>
-<PreCondition
- Guid="a96e13e9-b470-4d73-9b24-98a3929baf63"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition><PreCondition
- Guid="f809aa9b-8f93-4e41-9984-b3c9f1d9a074"
->Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9f928072-675b-4a55-a3b6-da40798f6286"
->EURORADIO.ContactRBC
-(
-    anOrder =&gt; EURORADIO.ContactOrderStruct
-    {
-        Id =&gt; EURORADIO.NextRBCToContact.Id,
-        PhoneNumber =&gt; EURORADIO.NextRBCToContact.PhoneNumber,
-        ActionToPerform =&gt; ContactActionEnum.Establish
-    }
-)</Action></Actions>
+>ManageRBCConnexion(anOrder =&gt; EURORADIO.ContactOrderStruct
+  {
+    Id =&gt; NextRBCToContact.Id, 
+    PhoneNumber =&gt; NextRBCToContact.PhoneNumber, 
+    ActionToPerform =&gt; ContactActionEnum.Establish,
+    AppliesToSleepingUnits =&gt; False,
+    EndOfValidityLocation =&gt; Default.BaseTypes.Distance.Unknown
+  })</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -8823,7 +8764,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="9c41a20d-c457-4bed-8e73-8106d54cde3b"
->EURORADIO.ContactRBC
+>ManageRBCConnexion
 (
     anOrder=&gt; EURORADIO.ContactOrderStruct
     {
@@ -8995,7 +8936,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="a6ebac2e-aa73-4d15-b591-4cdeeb13852b"
->EURORADIO.ContactRBC
+>ManageRBCConnexion
 (
     anOrder =&gt; EURORADIO.ContactOrderStruct
     {
@@ -9046,7 +8987,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
->EURORADIO.ContactRBC
+>ManageRBCConnexion
 (
     anOrder =&gt; EURORADIO.ContactOrderStruct
     {
@@ -9102,7 +9043,7 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Actions>
 <Action
  Guid="81f8e818-3b94-4484-9cb1-2ae9a62240e9"
->EURORADIO.ContactRBC
+>ManageRBCConnexion
 (
     anOrder =&gt; EURORADIO.ContactOrderStruct
     {
@@ -12372,6 +12313,8 @@ RevSupPacketAvailable(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Store the received system version"
  Guid="fb46a7fe-c199-4921-811e-cdacaa581017"
@@ -14327,6 +14270,69 @@ RevSupPacketAvailable(
 >EURORADIO.NextRBCToContact &lt;- anRBCContactStruct</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ContactLastKnownRBC"
+ Guid="10e3697a-0ec7-4f85-883b-9aad915a848c"
+>
+<Comment>Convenience procedure. Used notably for automatic connections to RBC.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set RBC to connect to"
+ Guid="2c968e28-f004-4324-9b04-8dfc26b1f9b7"
+>
+<Comment>Sets the RBC to contact to LastKnown</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set RBC to connect to"
+ Guid="83f6775f-df1c-4d1c-b053-d56b6ea41ca1"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="165ff882-a702-4d40-8bd3-19c8fb8ad7e7"
+>SetNextRBCToContact(LastKnownRBC)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Open session"
+ Guid="f9f43fe9-2c50-4476-ad4b-22c7f0b15d8f"
+>
+<Comment>Open the RBC session</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Open session"
+ Guid="ba8d5344-0da2-4e81-8a41-5250332bb0b2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bbb13c9c-e661-4afb-b3d6-5294b4ffdde2"
+>OpenRBCSession()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -14515,7 +14521,7 @@ RevSupPacketAvailable(
 </ReqRef><Comment>Second mobile terminal.</Comment>
 </Variable><Variable
  Type="ContactOptionEnum"
- DefaultValue="ContactOptionEnum.None"
+ DefaultValue="ContactOptionEnum.ContactLastKnownRBC"
  VariableMode="Internal"
  X="580"
  Y="320"
@@ -14725,6 +14731,7 @@ RevSupPacketAvailable(
 </ReqRef><Comment>Number of times to try to establish a safe radio connection.</Comment>
 </Variable><Variable
  Type="RBCContactStruct"
+ DefaultValue="EMPTY"
  VariableMode="Internal"
  X="130"
  Y="470"
@@ -14744,7 +14751,7 @@ RevSupPacketAvailable(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5141c222-4eb2-4de0-a1bf-89a78d9b79e4"
 >
-</ReqRef><Comment>Will be used to store the contact information of RBC which can&apos;t be presently contacted (e.g. infill order to connect, order to connect while in shunting, ...)</Comment>
+</ReqRef><Comment>Will be used to store the contact information of RBC to be presently contacted.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -14777,7 +14784,7 @@ RevSupPacketAvailable(
 <Actions>
 <Action
  Guid="b5fbfee4-ca84-4128-9ab3-2edd2f4447ef"
->EURORADIO.ContactRBC( anOrder =&gt; EURORADIO.RBCContactOrderToRepeat )</Action></Actions>
+>ManageRBCConnexion( anOrder =&gt; EURORADIO.RBCContactOrderToRepeat )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
