@@ -2185,25 +2185,6 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Do not check linking"
- Guid="df90ec56-8901-46cd-adf6-222ce297838b"
->
-<Comment>In all but FS, LS and OS modes, linking consistency is not checked.</Comment>
-<PreConditions>
-<PreCondition
- Guid="75e2e59b-82ce-46f5-b4c3-f77163334510"
->NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition><PreCondition
- Guid="29540586-570d-4072-b0e3-c75fb0a754a3"
->NOT BTM.Linking.MessageRejected</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b5267b4f-321c-48a3-8cb1-b091b3a4496d"
->BTM.CheckMessageConsistency(
-    LinkingUsed =&gt; False,
-    LinkingReaction =&gt; BTM.Linking.LinkingReaction.CommandServiceBrake
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
  Name="No Linking"
  Guid="1674753e-32b6-4435-b722-c9d87cf7a490"
 >
@@ -2434,6 +2415,8 @@ If the BG was passed in the right direction, handle the message. If not, the tra
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Apply linking reaction"
  Guid="f07d5a05-8583-4a98-a5f2-1464ad307db7"
@@ -2448,7 +2431,9 @@ If the BG was passed in the right direction, handle the message. If not, the tra
  Guid="1e54cf59-c9c9-464a-950b-5f5fb8ceebf8"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="c01d0dc6-7c31-4a8f-8602-95f88fe48070"
+>NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d500b496-dbe7-4910-a496-022d1d5989a4"
@@ -2456,6 +2441,8 @@ If the BG was passed in the right direction, handle the message. If not, the tra
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Check received BG is the second expected BG"
  Guid="b84f47c1-6ac0-4dd1-bee1-1b95b875e026"
@@ -2487,6 +2474,8 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Check the new first linked BG"
  Guid="087cea16-6a8a-40b8-b9ab-6551b1eb0ffa"
