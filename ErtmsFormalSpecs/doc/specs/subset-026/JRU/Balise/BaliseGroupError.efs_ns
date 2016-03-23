@@ -1,0 +1,247 @@
+<NameSpace
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="BaliseGroupError"
+ Guid="19c5edd5-be69-49ca-9fed-649a0ebc688b"
+>
+<Comment>Definition of the JRU message &quot;BALISE GROUP ERROR&quot;, and functions to fetch all the information needed for this message.</Comment>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendMessage"
+ Guid="374d7aef-b4e9-4678-b4bc-2b73fff639a2"
+>
+<ReqRef
+ Id="2775cdfc-7d3f-4adc-b431-79d473f86272"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4fe2b442-6a8a-4c48-93ac-47d3f53a996a"
+>
+</ReqRef><ReqRef
+ Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="17267c64-c310-4496-baa2-7f4ea3a197f1"
+>
+</ReqRef><ReqRef
+ Id="21600e54-3c0f-4546-97fb-88261e491c24"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0455e567-719a-43ff-bc66-e48706927d73"
+>
+</ReqRef><Comment>Indicates that a BALISE group error has occurred, which is one of the following cases:
+   Linking error
+   Incorrect/unreadable BG received</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="23751432-4c76-4354-ad9b-15f3defd77aa"
+>
+<Expression>BTM.Linking.LinkingError
+  OR  
+BTM.UnreadableBaliseReceived
+  OR  
+BTM.InconsistentBaliseGroupReceived</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.NID_C"
+ Default=""
+ X="160"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetNID_C"
+ Guid="b5fab284-27f4-4e27-828d-85d20b6fa913"
+>
+<ReqRef
+ Id="8188c39d-5a75-462e-bc91-e5b619c08830"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="2fc50e01-d44f-4ff5-bbc9-481f13537144"
+>
+</ReqRef><Comment>Provides the NID_C of the balise group.</Comment>
+<Cases>
+<Case
+ Name="Include a NID_C"
+ Guid="dde2c525-6205-4fbf-bb6f-3df6e21bfef8"
+>
+<PreConditions>
+<PreCondition
+ Guid="644a5d8d-c177-4a57-9aa5-9fae5b55b4a2"
+>THERE_IS X IN BTM.CurrentBaliseGroup</PreCondition></PreConditions>
+<Expression>(FIRST X IN BTM.CurrentBaliseGroup | NOT X.Missed).Telegram.NID_C</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ffd0c966-418c-4b66-95a3-3331c6918e89"
+>
+<Expression>0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.NID_ERRORBG"
+ Default=""
+ X="160"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetNID_ERRORBG"
+ Guid="22b599d4-0bda-4e0a-874c-0609e30ad09b"
+>
+<ReqRef
+ Id="cad27005-1141-498f-8aa4-e246c2d7d024"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="620b4706-0427-4575-b7cb-5d2feabceb40"
+>
+</ReqRef><Comment>Provides the NID_BG of the balise group.</Comment>
+<Cases>
+<Case
+ Name="Include a NID_ERRORBG"
+ Guid="7afeb088-1412-4c2b-9599-c33dfba4cccd"
+>
+<PreConditions>
+<PreCondition
+ Guid="98d12712-3680-4660-80de-feed0a187ec3"
+>THERE_IS X IN BTM.CurrentBaliseGroup</PreCondition></PreConditions>
+<Expression>(FIRST X IN BTM.CurrentBaliseGroup | NOT X.Missed).Telegram.NID_BG</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c9977e30-6c56-471b-bc40-85c3281f660d"
+>
+<Expression>0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.JRU.M_ERROR"
+ Default=""
+ X="160"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetM_ERROR"
+ Guid="893eb560-9d23-437e-ba89-677e25b49833"
+>
+<ReqRef
+ Id="50903bc8-6206-4f86-b8c2-bb1a49dced13"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b0000ab1-8d55-4ff3-a274-fee5cea564f6"
+>
+</ReqRef><Comment>Provides the error code for this error.</Comment>
+<Cases>
+<Case
+ Name="Linking error"
+ Guid="63990855-b46e-4020-84ef-48a3f28822ab"
+>
+<PreConditions>
+<PreCondition
+ Guid="e9ff2cd6-95e4-4046-a9ac-d77d8a12d825"
+>BTM.Linking.LinkingError</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_ERROR.Balise_consistency__linking</Expression>
+</Case><Case
+ Name="Unlinked BG error"
+ Guid="ba5f163a-0876-4002-b690-d673f85d4d0c"
+>
+<PreConditions>
+<PreCondition
+ Guid="eb2a3ea7-0ae6-49c3-a9a5-fa088c126c04"
+>BTM.InconsistentBaliseGroupReceived</PreCondition><PreCondition
+ Guid="3173d1bd-24aa-47b9-b81b-32fd474e66dc"
+>NOT BTM.Linking.CurrentBGIsLinked()</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_ERROR.Balise_consistency__unlinked_group</Expression>
+</Case><Case
+ Name="Message error"
+ Guid="66c8fff6-9894-4717-bc50-fa7c7fbad95d"
+>
+<PreConditions>
+<PreCondition
+ Guid="29d0b1d3-6994-4fce-bf48-2b59e2abc488"
+>BTM.InconsistentBaliseGroupReceived
+  OR  
+BTM.UnreadableBaliseReceived</PreCondition></PreConditions>
+<Expression>Messages.JRU.M_ERROR.Balise_consistency__message_error</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="40"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="FillData"
+ Guid="d0949e6e-b394-4429-822f-7976a524808c"
+>
+<ReqRef
+ Id="7772053c-d409-4597-b72f-988827e11fff"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="cece4d81-2541-4268-878a-349a1ab403bc"
+>
+</ReqRef><ReqRef
+ Id="ccd7ef95-5c65-43d9-b86b-bbca24597cab"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1640c252-b2fa-4522-9439-d22efb628e39"
+>
+</ReqRef><ReqRef
+ Id="8188c39d-5a75-462e-bc91-e5b619c08830"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="5007807c-e23d-4c58-9054-311d07188c87"
+>
+</ReqRef><ReqRef
+ Id="cad27005-1141-498f-8aa4-e246c2d7d024"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="626a90d9-641f-4167-bf08-1a1391d23184"
+>
+</ReqRef><ReqRef
+ Id="50903bc8-6206-4f86-b8c2-bb1a49dced13"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="4d1134dc-57c0-4cd5-91d9-8a47920d26fc"
+>
+</ReqRef><ReqRef
+ Id="85571c61-c62b-4499-ae83-df5dba7d9c7f"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="144ee382-35ff-4490-81e2-b40d6f9e81b6"
+>
+</ReqRef><Comment>Creates a new TELEGRAM_FROM_BALISE message, if required</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Send TELEGRAM_FROM_BALISE message"
+ Guid="1d2a2efd-d652-4273-a65a-432d52fbf5ad"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send TELEGRAM_FROM_BALISE message"
+ Guid="e7383d66-948a-4977-bf44-c55111838114"
+>
+<PreConditions>
+<PreCondition
+ Guid="d766aea2-21c0-434b-90b3-ed3e46bc1480"
+>SendMessage()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c0b0650f-6899-4e7e-9728-713f3a7a8b89"
+>INSERT Messages.JRU.MESSAGE.Message
+{
+  BALISE_GROUP_ERROR =&gt; Messages.JRU.MESSAGE.BALISE_GROUP_ERROR.Message
+  {
+    HEADER =&gt; JRU.Header.CreateHeader( 12 ),
+    NID_C =&gt; GetNID_C(), 
+    NID_ERRORBG =&gt; GetNID_ERRORBG(), 
+    M_ERROR =&gt; GetM_ERROR()
+  }
+} IN Messages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+</NameSpace>

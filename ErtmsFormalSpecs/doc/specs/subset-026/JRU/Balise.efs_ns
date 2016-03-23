@@ -6,93 +6,77 @@
  Name="Balise"
  Guid="649cebe7-f492-4120-af71-cdca8efc6065"
 >
-<Comment>Definition of the JRU message &quot;TELEGRAM FROM BALISE&quot;, and functions to fetch all the information needed for this message.</Comment>
+<Comment>Definition of the JRU messages related to balise messages, and functions to fetch all the information needed for these messages.</Comment>
 <NameSpaces>
-</NameSpaces>
-<Functions>
-<Function
- Type="Boolean"
- Default=""
- X="40"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SendMessage"
- Guid="0fea15cc-3567-478e-9175-1c3ff3c8fe3b"
+<NameSpaceRef
+ Name="TelegramFromBalise"
+ Guid="60f45199-f174-4935-8520-ef02f9e96846"
 >
-<ReqRef
- Id="2775cdfc-7d3f-4adc-b431-79d473f86272"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="5834c1be-f58c-4a4c-b2bc-f0a3fbacc8f8"
+</NameSpaceRef><NameSpaceRef
+ Name="BaliseGroupError"
+ Guid="63b9435b-af6e-4950-830a-464704d141ed"
 >
-</ReqRef><ReqRef
- Id="e394f9dd-0990-4f2d-ac8d-9a045f765d0a"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="7058f626-ff10-4fd7-a200-532b2496d36b"
->
-</ReqRef><Comment>Indicates that a BALISE message has been received and should be reported in the JRU</Comment>
-<Cases>
-<Case
- Name="Always"
- Guid="dd859344-d323-4634-bd14-f32e438d4a4a"
->
-<Expression>Available ( BTM.UpdatedReceivedMessage(BTM.Message) )</Expression>
-</Case></Cases>
-</Function></Functions>
+</NameSpaceRef></NameSpaces>
 <Procedures>
 <Procedure
- X="40"
- Y="70"
+ X="30"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
  Name="FillData"
- Guid="612282fe-01e2-4fc3-acd7-81e9ccd41b47"
+ Guid="c09d25c3-825e-410b-8ad6-950255537ec9"
 >
 <ReqRef
  Id="4ab81fb1-24cc-45db-8eae-dc76d5cec96f"
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="62c66b77-d173-4e68-84d0-f7f9c908449d"
+ Guid="540ada8a-03e0-4c3f-83a2-4363a659ea9a"
 >
 </ReqRef><ReqRef
  Id="d5f77b0d-de50-41bd-8a16-2a2d0f8d98d9"
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="3cb3d3d8-ada6-4192-b51a-f76b09966fa3"
+ Guid="6057d2da-aa3d-41a6-8fad-dc2a8d7a3038"
 >
 </ReqRef><ReqRef
  Id="3879a47b-14de-4665-bd8e-48684c7716d8"
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="20865bd9-f914-422b-b642-b5a4c69245cc"
+ Guid="4ea9dc34-bc21-4e4e-ae67-9320276a0877"
 >
-</ReqRef><Comment>Creates a new TELEGRAM_FROM_BALISE message, if required</Comment>
+</ReqRef><ReqRef
+ Id="7772053c-d409-4597-b72f-988827e11fff"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="0691eb58-8802-40cd-851c-3a3a50591fa1"
+>
+</ReqRef><ReqRef
+ Id="ccd7ef95-5c65-43d9-b86b-bbca24597cab"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="191dd297-1a3e-490f-b4e0-11d75f054307"
+>
+</ReqRef><Comment>Creates the balise related messages, if required</Comment>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
- Name="Send TELEGRAM_FROM_BALISE message"
- Guid="9248e878-02e5-4f2e-9241-ec0fa3f3b319"
+ Name="Send balise-related messages"
+ Guid="bf97ee5b-0466-4fc3-9d9a-bb654ade449b"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Send TELEGRAM_FROM_BALISE message"
- Guid="0508d0fa-84d4-418a-adc8-6cb39c5cb9e8"
+ Name="Send balise-related messages"
+ Guid="6bc84a26-0c1f-44a3-a548-129a789f432e"
 >
 <PreConditions>
-<PreCondition
- Guid="375f6f5f-2ba5-4cfa-ae0d-b1b1c8dae37d"
->SendMessage()</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="071e1044-7100-4c33-83cb-ebb60d6650a6"
->INSERT Messages.JRU.MESSAGE.Message {
-     TELEGRAM_FROM_BALISE =&gt;Messages.JRU.MESSAGE.TELEGRAM_FROM_BALISE.Message{
-         HEADER =&gt; Header.CreateHeader(6),
-         TELEGRAM=&gt; BTM.UpdatedReceivedMessage(BTM.Message) 
-    } 
-} IN Messages</Action></Actions>
+ Guid="327102d9-5d83-4fc3-9b6f-4bbdbb2fa537"
+>TelegramFromBalise.FillData()</Action><Action
+ Guid="158046b1-15cf-4875-b11d-256727edd7cc"
+>BaliseGroupError.FillData()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

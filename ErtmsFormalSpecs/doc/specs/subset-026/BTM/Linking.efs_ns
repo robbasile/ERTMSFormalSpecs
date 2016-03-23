@@ -48,8 +48,8 @@
 </EnumValue></Values>
 </Enum><Enum
  Default="BTM.Linking.LinkingErrorEnum.NoError"
- X="790"
- Y="100"
+ X="560"
+ Y="140"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1674,13 +1674,37 @@ This function is called whenever it is appropriate, so it does not need any prec
 <Parameters>
 <Parameter
  Type="LinkingErrorEnum"
- Name="LinkingError"
+ Name="aLinkingError"
  Guid="62cabd1b-e448-4a0f-943d-b04cdd1f727a"
 >
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Record the linking error"
+ Guid="2aa1a1e8-2182-4be8-b935-27d09423646f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Record the linking error"
+ Guid="435645e9-9453-4805-9b6b-bc48d588cafc"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="624d4830-fadf-45b4-9d45-33ea833b3e51"
+>LinkingError &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Apply linking reaction"
  Guid="b7705540-c896-4991-ac91-962e6c50429d"
@@ -1704,6 +1728,8 @@ This function is called whenever it is appropriate, so it does not need any prec
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update the second linking distance"
  Guid="1024949a-955e-4701-a399-dcf5aec130cd"
@@ -1731,6 +1757,8 @@ If BG1 is missed, we must update the other one to (BG2, 750m).</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Perform RAMS supervision"
  Guid="d37cca32-2073-4760-bec8-18956485578d"
@@ -1753,7 +1781,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <PreConditions>
 <PreCondition
  Guid="72349d33-45a8-41e4-940c-0270741518ca"
->LinkingError == BTM.Linking.LinkingErrorEnum.ExpectationWindowEnd</PreCondition><PreCondition
+>aLinkingError == BTM.Linking.LinkingErrorEnum.ExpectationWindowEnd</PreCondition><PreCondition
  Guid="c81cf5d3-5ba4-45c4-88ae-d440792088eb"
 >NOT Available(BTM.Linking.RAMSSupervisedBG)</PreCondition><PreCondition
  Guid="4a406c10-9567-49cb-8325-7ee96d451c70"
@@ -1774,7 +1802,7 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f44c901a-254b-48c9-922d-5f7efd86147e"
->LinkingError == BTM.Linking.LinkingErrorEnum.ExpectationWindowEnd</PreCondition></PreConditions>
+>aLinkingError == BTM.Linking.LinkingErrorEnum.ExpectationWindowEnd</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12fbd64d-db68-4145-9895-cb630522e463"
@@ -1786,6 +1814,8 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Stop expecting the inconsistent BG"
  Guid="d28fd530-6d88-4aee-952e-4508fddee9da"
@@ -2588,6 +2618,8 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Apply linking reaction"
  Guid="f1fe9f61-e172-4e5a-8af9-248c5d841e04"
@@ -2707,6 +2739,8 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Delete linking beyond the given location"
@@ -2883,6 +2917,20 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
  Guid="a6ba06db-a4c5-43ce-ba2d-9af8d6d7e61e"
 >
 </ReqRef><Comment>Contains the identity and end of expectation window of a linked repositioning BG.</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="780"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="LinkingError"
+ Guid="7185c19a-664c-4ca4-97d0-2d274812ec06"
+>
+<Comment>Indicates that there was a linking error during this cycle.
+
+TODO: functionnalise this</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -2954,6 +3002,28 @@ AntennaDistance( DistanceIntervalEnum.Min ) &gt; BTM.Linking.RAMSRepositioningBG
 <Action
  Guid="05d233d1-f4fd-4e47-9d02-eec5223c9448"
 >BTM.Linking.RAMSRepositioningBG &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="230"
+ Y="520"
+ Width="100"
+ Height="50"
+ Name="Clean up linking error"
+ Guid="a8255c41-51d6-4a18-b21f-f030e23687a9"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set LinkingError to False"
+ Guid="62bf41dd-0c41-48f9-9360-71747d305b82"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="16ec0ff5-ed38-4f3e-bacd-83a6a765e3d3"
+>LinkingError &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

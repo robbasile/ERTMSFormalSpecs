@@ -5112,7 +5112,9 @@ ON BTM.CurrentBaliseGroup | BTM.BaliseTelegramToBeHandled ( X )</Action></Action
  Guid="9a7ebaab-1cb6-4f18-be81-d5d8666bf161"
 >BTM.MessageIsInconsistent(LinkingUsed)</PreCondition></PreConditions>
 <Actions>
-</Actions>
+<Action
+ Guid="1c2227e4-e91a-4180-9bbf-aa1c7e42a44b"
+>InconsistentBaliseGroupReceived &lt;- Boolean.True</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5385,6 +5387,8 @@ LinkingUsed</PreCondition></PreConditions>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Fill first balise"
@@ -5414,6 +5418,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Fill second balise"
@@ -5443,6 +5449,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Fill third balise"
@@ -5472,6 +5480,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Fill fourth balise"
@@ -5501,6 +5511,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Fill fifth balise"
@@ -5839,6 +5851,32 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Guid="f770e0b3-3697-4c32-8338-161d11649a23"
 >
 </ReqRef><Comment>This variable holds the balise message to be processed.</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="UnreadableBaliseReceived"
+ Guid="0eead242-4994-413b-a5ca-69af5e6a5c87"
+>
+<Comment>Indicates that an unreadable BG was passed.</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="InconsistentBaliseGroupReceived"
+ Guid="b98c9f14-49ce-48c7-a0ff-b5004fe8aebb"
+>
+<Comment>Indicates that an inconsistent BG was received in this cycle.
+
+TODO: functionnalize this</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
@@ -5849,7 +5887,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- Name="Clean Up"
+ Name="Clean up received balise"
  Guid="027c7622-f051-4f14-b4db-c9cc9b6487ff"
 >
 <ReqRef
@@ -5882,6 +5920,8 @@ Available(Message.SystemVersion2)</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="CleanUp"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Clear current balises from current balise group"
@@ -5985,6 +6025,30 @@ CurrentBaliseGroup != []
  Guid="ba00487e-7656-41a0-9bd0-98cb43c0ceec"
 >INSERT BTM.MissedBalise() 
 IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="Clean up incorrect balises"
+ Guid="619c913f-8fc6-4d93-9ad1-657ce8f052e7"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set UnreadableBaliseReceived to False"
+ Guid="36010244-9142-4e3e-b9f2-e42b542c5625"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="cebd66f8-8202-4350-a311-9b811c557fb8"
+>UnreadableBaliseReceived &lt;- Boolean.False</Action><Action
+ Guid="782d8ee4-0cee-4d4d-aef6-81e3ef46a8a2"
+>InconsistentBaliseGroupReceived &lt;- Boolean.False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
