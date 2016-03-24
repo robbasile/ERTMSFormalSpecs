@@ -34,16 +34,45 @@
 </ReqRef><Comment>Indicates whether the additional data JRU message must be sent.</Comment>
 <Cases>
 <Case
- Name="Adhesion factor value changed"
+ Name="Adhesion factor value has been entered by the driver"
  Guid="b6f1ee97-eb90-45fb-b6f8-20eb24cc8d90"
 >
-<Expression>LastAdhesion != GetAdhesion() OR
-LastContactOption != GetContactOption() OR
-LastNID_Operational != GetNID_Operational() OR
-LastNetworkId != GetNetworkId() OR
-LastNID_C != GetNID_C() OR
-LastNID_RBC != GetNID_RBC() OR
-LastNID_Radio != GetNID_Radio()</Expression>
+<PreConditions>
+<PreCondition
+ Guid="b54f0b91-b5fa-41ab-9032-31d0353ef1af"
+>DMI.MasterDMI().In_TrackAdhesionFactor.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Contact options values have been entered by the driver"
+ Guid="1218766d-173e-4fb1-9313-cc4f784d30b4"
+>
+<PreConditions>
+<PreCondition
+ Guid="4c3ffa04-e0ed-414f-9428-3432211af411"
+>DMI.MasterDMI().In_RBCContactInformation.InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="18061c35-40d3-4ce0-bf56-740f4a7125eb"
+>DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.UseLastStoredNumber
+OR
+DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.EnterContactInfo
+OR
+DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.RevalidateContactInfo
+OR
+DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.UseEireneShortNumber</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="NID_OPERATIONAL has been modified by the driver"
+ Guid="2d2af31a-5bee-4553-90f7-d6e6330a26e0"
+>
+<PreConditions>
+<PreCondition
+ Guid="52a25195-3dbf-43c3-82c3-f194c86124f1"
+>DMI.MasterDMI().In_TrainRunningNumber.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="739dffb1-88e2-40f0-a695-25c00f71cfef"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_ADHESION"
@@ -91,7 +120,7 @@ LastNID_Radio != GetNID_Radio()</Expression>
  Name="Always"
  Guid="f476ba9a-ddbb-4195-9fed-4879964dc2a5"
 >
-<Expression>EURORADIO.CurrentTerminal().NetworkId</Expression>
+<Expression>DMI.MasterDMI().In_RBCContactInformation.NetworkId</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.JRU.Q_RBCENTRY"
@@ -123,7 +152,7 @@ LastNID_Radio != GetNID_Radio()</Expression>
 <PreConditions>
 <PreCondition
  Guid="c8238fc9-56af-4cb9-9fbc-2c2cc4d6d654"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.ContactLastKnownRBC</PreCondition></PreConditions>
+>DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.UseLastStoredNumber</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_RBCENTRY.Contact_last_known_RBC</Expression>
 </Case><Case
  Name="RBC Id and Phone Number"
@@ -132,7 +161,9 @@ LastNID_Radio != GetNID_Radio()</Expression>
 <PreConditions>
 <PreCondition
  Guid="2b7dc089-7d83-47c7-8cf6-f485209477d4"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
+>DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.EnterContactInfo
+OR
+DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.RevalidateContactInfo</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_RBCENTRY.Enter_RBC_data</Expression>
 </Case><Case
  Name="Onboard stored short number"
@@ -141,7 +172,7 @@ LastNID_Radio != GetNID_Radio()</Expression>
 <PreConditions>
 <PreCondition
  Guid="0c44676d-3c85-420b-8687-cad84d4d1fcd"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.UseOnBoardStoredShortNumber</PreCondition></PreConditions>
+>DMI.MasterDMI().In_RBCContactInformation.DriversSelectedAction == DMI.RBCContactActionEnum.UseEireneShortNumber</PreCondition></PreConditions>
 <Expression>Messages.JRU.Q_RBCENTRY.Use_short_number</Expression>
 </Case><Case
  Name="Otherwise"
@@ -168,19 +199,10 @@ LastNID_Radio != GetNID_Radio()</Expression>
 </ReqRef><Comment>Provides the NID_C</Comment>
 <Cases>
 <Case
- Name="Contact by RBC ID and phone number"
+ Name="Always"
  Guid="ec6974a3-4ffa-454d-87da-a7e349d2e01b"
 >
-<PreConditions>
-<PreCondition
- Guid="8fc29619-6035-4723-8953-cb2ea67d3ec4"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
-<Expression>EURORADIO.CurrentRBCConnection().ContactData.Id.Country</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="804844e7-8e23-4373-9b75-d7d514459800"
->
-<Expression>0</Expression>
+<Expression>DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.Id.Country</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.NID_RBC"
@@ -201,19 +223,10 @@ LastNID_Radio != GetNID_Radio()</Expression>
 </ReqRef><Comment>Provides the NID_RBC</Comment>
 <Cases>
 <Case
- Name="Contact by RBC ID and phone number"
+ Name="Always"
  Guid="8b152900-d38e-4543-8967-65ded8c711ce"
 >
-<PreConditions>
-<PreCondition
- Guid="c4858e3e-e857-4e5c-beb6-2efdffefb83e"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
-<Expression>EURORADIO.CurrentRBCConnection().ContactData.Id.Id</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="33b205e7-44f3-4762-a772-57883461de97"
->
-<Expression>0</Expression>
+<Expression>DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.Id.Id</Expression>
 </Case></Cases>
 </Function><Function
  Type="String"
@@ -234,19 +247,10 @@ LastNID_Radio != GetNID_Radio()</Expression>
 </ReqRef><Comment>Provides the NID_RBC</Comment>
 <Cases>
 <Case
- Name="Contact by RBC ID and phone number"
+ Name="Always"
  Guid="f4e6527a-1e64-4b93-a0b6-7325fe7fdb8a"
 >
-<PreConditions>
-<PreCondition
- Guid="f17681b4-cfa5-4868-9fc4-6b4b3a115d03"
->EURORADIO.ContactOption == EURORADIO.ContactOptionEnum.RBCIdAndPhoneNumber</PreCondition></PreConditions>
-<Expression>EURORADIO.CurrentRBCConnection().ContactData.PhoneNumber</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="d1bd2a6d-9777-46e8-88e2-2e8bc0ca8c18"
->
-<Expression>&apos;&apos;</Expression>
+<Expression>DMI.MasterDMI().In_RBCContactInformation.RBCContactInformation.PhoneNumber</Expression>
 </Case></Cases>
 </Function><Function
  Type="String"
@@ -288,44 +292,8 @@ LastNID_Radio != GetNID_Radio()</Expression>
  SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
  Guid="edcae020-e792-4238-82e2-0341f1fabc7d"
 >
-</ReqRef><Comment>Updates the registered values</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update registered values"
- Guid="3ffc83e4-73b9-4709-91c2-475863fd608d"
->
-<Comment>Updates the registered values</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update registered values"
- Guid="82664b5c-1d29-4a9d-bdd6-38dcf76785c3"
->
-<PreConditions>
-<PreCondition
- Guid="439d2ef9-4e5a-43c1-b53c-922cb8a1754b"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="3f2a40b5-87e6-44ea-9421-76aa70313fd2"
->LastAdhesion &lt;- GetAdhesion()</Action><Action
- Guid="958b0483-cfa3-4865-a971-bea432fefb23"
->LastNetworkId &lt;- GetNetworkId()</Action><Action
- Guid="b13c5fd8-91a9-40d6-a0f6-3c8694f90fac"
->LastContactOption &lt;- GetContactOption()</Action><Action
- Guid="bd86f306-7830-450e-af7f-3cf4cb4ddbfa"
->LastNID_C &lt;- GetNID_C()</Action><Action
- Guid="22385e03-d8ab-4f5c-b754-83999eb35544"
->LastNID_RBC &lt;- GetNID_RBC()</Action><Action
- Guid="5c0d0cfa-d6f5-4f6a-81c0-0fa716cb94fa"
->LastNID_Radio &lt;- GetNID_Radio()</Action><Action
- Guid="a2ff9525-0aa8-4605-86de-fb2044a641c4"
->LastNID_Operational &lt;- GetNID_Operational()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
+</ReqRef><Comment>Updates the registered values. 
+Nothing to do, since the message is triggered by the driver action (DMI.MasterDMI().In_XXX), not by value changes</Comment>
 </Procedure><Procedure
  X="40"
  Y="70"
@@ -426,126 +394,4 @@ LastNID_Radio != GetNID_Radio()</Expression>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
-<Variables>
-<Variable
- Type="Messages.JRU.M_ADHESION"
- VariableMode="Internal"
- X="40"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastAdhesion"
- Guid="0550998d-7f9b-44ef-8877-84b350747f0b"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2da833b6-2760-4050-a86c-3dc443506430"
->
-</ReqRef><Comment>The last registered ADHESION information</Comment>
-</Variable><Variable
- Type="String"
- VariableMode="Internal"
- X="150"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastNetworkId"
- Guid="504ad0e5-4fcb-4290-adfa-c5f10a71c992"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="43fe57a9-bbac-41b8-87b5-7814635f9e9a"
->
-</ReqRef><Comment>The last registered NETWORK_ID</Comment>
-</Variable><Variable
- Type="Messages.JRU.Q_RBCENTRY"
- DefaultValue="Messages.JRU.Q_RBCENTRY.Spare"
- VariableMode="Internal"
- X="260"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastContactOption"
- Guid="8ed4c3bc-0df0-479f-81f8-465a57ce0bca"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="55be1531-1182-40e2-8b7c-7abab891fcbf"
->
-</ReqRef><Comment>The last registered CONTACT_OPTION</Comment>
-</Variable><Variable
- Type="Messages.NID_C"
- VariableMode="Internal"
- X="370"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastNID_C"
- Guid="46a26656-69d3-48ef-b6b4-71797a866392"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="5193e133-18f0-4bfb-9057-a69dc3f047ad"
->
-</ReqRef><Comment>The last registered NID_C</Comment>
-</Variable><Variable
- Type="Messages.NID_RBC"
- VariableMode="Internal"
- X="480"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastNID_RBC"
- Guid="833ccbe6-cf25-42ae-a38f-bf72181e6a0b"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="2b64d079-6a48-42d3-ae8c-d6ffc75a642e"
->
-</ReqRef><Comment>The last registered NID_RBC</Comment>
-</Variable><Variable
- Type="String"
- VariableMode="Internal"
- X="590"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastNID_Radio"
- Guid="81f84d48-ea17-4057-813d-3a5dac5be0b7"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="912a7ea4-576c-4bd9-bfee-51247f170e4b"
->
-</ReqRef><Comment>The last registered NID_RADIO</Comment>
-</Variable><Variable
- Type="String"
- VariableMode="Internal"
- X="700"
- Y="260"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastNID_Operational"
- Guid="b740498a-9f1c-4952-a8de-54434452e181"
->
-<ReqRef
- Id="49e57c03-ad42-4d56-9434-6dda17872a1e"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="e0283ea1-dac2-4156-beba-a1a02d6fbfa6"
->
-</ReqRef><Comment>The last registered NID_OPERATIONAL</Comment>
-</Variable></Variables>
 </NameSpace>
