@@ -198,6 +198,8 @@
 <Rules>
 <Rule
  Priority="CleanUp"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Clear input message"
  Guid="46319b75-1481-4c0f-aa43-2ddac6249e60"
@@ -221,6 +223,8 @@
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Clear output message"
@@ -468,6 +472,8 @@ Keep the reason for it to be displayed to the driver.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle system version"
  Guid="e941d9be-8af0-4666-8a42-e6771e677b2d"
@@ -625,6 +631,37 @@ Keep the reason for it to be displayed to the driver.</Comment>
     Sequence1 =&gt; [],
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime)
 }</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level transition border"
+ Guid="bef3e5da-8b8c-4b0e-96c9-cbca4f5d4b3c"
+>
+<Comment>Keeps track of the fact the a position report was sent for passing the current level transition border from level 2/3 with the min safe rear end.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level transition border"
+ Guid="6102b727-3b48-4a7b-8bba-bdd309b747c1"
+>
+<PreConditions>
+<PreCondition
+ Guid="0a027266-6bd5-40ea-a8fd-448122fb34d3"
+>PositionReport.SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd()</PreCondition><PreCondition
+ Guid="3c31d773-a498-4ec6-8bba-79be2966b47b"
+>Available( CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c3e16fa7-8736-4446-a631-3c458cd9d1e0"
+>Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3928,6 +3965,8 @@ SystemVersion1 =&gt; EMPTY
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="System version received"
  Guid="504d3e3c-ba1c-4573-b0c5-e2c4369b494c"
@@ -9255,6 +9294,8 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Linking information available"
  Guid="b523ec16-e78f-443e-bc71-c86ea98fb8ce"
@@ -9388,6 +9429,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Level Transition Order available"
  Guid="2de45eff-8689-46b3-81c8-51492ec1fe26"
@@ -9531,6 +9574,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="SR authorisation message available"
  Guid="e847d1b0-8be3-41a3-8ffd-43e655a3a124"
@@ -9582,6 +9627,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Movement authority message available"
  Guid="626962c6-9ca8-4901-8a62-680c26f7dc7a"
@@ -9641,6 +9688,8 @@ ON
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Gradient Profile available"
  Guid="539f7a0f-52e3-44ad-9ab0-68b3b3aaf17c"
@@ -9701,6 +9750,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="International Static Speed Profile available"
  Guid="8864fbd0-0eae-4dce-8805-790e4f3551ee"
@@ -9761,6 +9812,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="List of Balises for SH Area available"
  Guid="fcf5520f-ce3c-4f17-b984-02a819e47adb"
@@ -9817,6 +9870,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle common packets"
  Guid="9d2b2f55-0898-4428-9183-70002729d631"
@@ -9843,6 +9898,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle the Movement Authority"
  Guid="7d82c686-4ecc-403f-abbd-e4c751de1bdf"
@@ -9902,6 +9959,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Mode profile available"
  Guid="77eaf966-192f-4c0e-9990-7e4897dad4af"
@@ -9975,6 +10034,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Request to shorten MA message available"
  Guid="f573cc24-d8e7-4a5a-837b-fcfd15701f42"
@@ -10048,6 +10109,8 @@ ON
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Mode profile available"
  Guid="0118014c-9220-4336-9541-bf8317e774e2"
@@ -10114,6 +10177,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Shortened MA accepted"
  Guid="cceec5af-35c2-47b3-bc2d-d6c0c115605e"
@@ -10205,6 +10270,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Conditional emergency stop message available"
  Guid="6219bab3-329e-48c8-ac3b-43208d1cff15"
@@ -10260,6 +10327,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Verify if the train has passed the stop location"
  Guid="a3dde26d-052a-40b9-91b8-f0946f5668e9"
@@ -10326,6 +10395,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Unconditional emergency stop message avaialbe"
  Guid="d181ba0c-6ecc-4a2b-9f9b-3d3ea2832731"
@@ -10388,6 +10459,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Emergency stop revocation message availabe"
  Guid="369b1a3a-96e2-4bf7-879d-2459dcb3a412"
@@ -10457,6 +10530,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="General message available"
  Guid="e53756b8-59a0-40ca-aa4c-9eca78feb0b4"
@@ -10494,6 +10569,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Gradient Profile available"
  Guid="4a9a4eb7-1bc1-4708-b7c1-58bc9ff5914e"
@@ -10552,6 +10629,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="International Static Speed Profile available"
  Guid="e2613834-c158-44ec-aaf6-2f914c3bbeaf"
@@ -10610,6 +10689,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle common packets"
  Guid="e4f3055e-8206-43cb-ad1e-69339e7e0c22"
@@ -10637,6 +10718,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="SH authorised message available"
  Guid="4bb7073f-95bc-4318-8d3f-3caa5247ea0c"
@@ -10676,6 +10759,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="National Values available"
  Guid="9a3c053d-b15b-46ab-9d8d-50795ecd1cef"
@@ -10725,6 +10810,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="List of Balises for SH Area available"
  Guid="bab31a37-d08a-4b35-824b-86657028cd02"
@@ -10777,6 +10864,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="RBC/RIU system version message available"
  Guid="72ea757d-52ec-42fa-bd6a-154f694dc4ae"
@@ -10816,6 +10905,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="MA with shifted location reference message available"
  Guid="c827bc7f-c31b-4e5b-b1d7-0c40f0977756"
@@ -10911,6 +11002,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Gradient Profile available"
  Guid="efd7e4a0-0976-4e75-a0bf-44bf43ea2d60"
@@ -10970,6 +11063,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="International Static Speed Profile available"
  Guid="49a0e5a1-4301-4f0d-bc43-dde40199e6ea"
@@ -11029,6 +11124,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="List of Balises for SH Area available"
  Guid="a912d48d-042d-4141-9dfa-c604721ebf86"
@@ -11084,6 +11181,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Mode profile available"
  Guid="d438dc8b-7936-4bcf-8833-97af765a4527"
@@ -11145,6 +11244,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle common packets"
  Guid="869557a0-0507-4938-a986-1cd81407d126"
@@ -11172,6 +11273,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Track ahead free request message available"
  Guid="94458279-c5f8-4ad9-8905-dba6a4e03d8e"
@@ -11222,6 +11325,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Infill MA message available"
  Guid="ed471ca1-d692-4236-a58c-bfb34482b2b2"
@@ -11276,6 +11381,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Gradient Profile available"
  Guid="809de9ec-27ff-497b-9205-0e2b6911d6f0"
@@ -11324,6 +11431,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="International Static Speed Profile available"
  Guid="09c578a2-b125-4623-afb8-2ba76f8bdb6b"
@@ -11383,6 +11492,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Track Condition Change of traction system available"
  Guid="bf72a2dd-3b8e-4bf1-a7db-38827dd90bcf"
@@ -11432,6 +11543,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Track Condition Change of allowed current consumption available"
  Guid="49a1737e-f58b-41ac-a045-65ff9c2dc65a"
@@ -11481,6 +11594,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Level Transition Order available"
  Guid="1e3c7c24-198c-43ed-975b-dbe5a441caf3"
@@ -11523,6 +11638,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="List of Balises for SH Area available"
  Guid="e2d83bd2-c2ef-4510-88fa-5f6292e75a18"
@@ -11578,6 +11695,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Axle Load Speed Profile available"
  Guid="2da3df56-f97f-4132-bcb9-3f125bd7d0fe"
@@ -11628,6 +11747,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Permitted Braking Distance Information available"
  Guid="b6df4d30-4c3f-4a9f-934d-3aa594e3e8da"
@@ -11678,6 +11799,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Temporary Speed Restriction available"
  Guid="1b6bd578-165b-4fb1-9f00-7ab79fcac232"
@@ -11732,6 +11855,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Temporary Speed Restriction Revocation available"
  Guid="adaf9552-d0bf-4ffa-9cc0-43e5cc271f17"
@@ -11782,6 +11907,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Track Condition available"
  Guid="8ad11f95-a253-408a-83a8-df1141565a3d"
@@ -11831,6 +11958,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Track Condition Station Platforms available"
  Guid="eb92efe4-d6f4-4df3-bc7a-218c5505af7c"
@@ -11880,6 +12009,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Route Suitability Data available"
  Guid="1cfcd676-857b-4365-ae5e-e92d658219b7"
@@ -11934,6 +12065,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Adhesion factor available"
  Guid="1cc78b43-035a-41fb-8dfb-df492da7fc7e"
@@ -11983,6 +12116,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Mode profile available"
  Guid="ba5e7903-74f0-416c-ace9-cdc1392a7a73"
@@ -12044,6 +12179,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Level Crossing information available"
  Guid="83d31b12-3729-4612-a022-6a378471613a"
@@ -12093,6 +12230,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Reversing Area or Supervision Information available"
  Guid="3f894663-c54e-41c2-a609-1a567adb163c"
@@ -12180,6 +12319,8 @@ RevSupPacketAvailable(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Initiation of a communication session message available"
  Guid="3e9c2f71-7759-4362-8ed1-97a91010386c"
@@ -12220,6 +12361,8 @@ RevSupPacketAvailable(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Train accepted message available"
  Guid="725718e5-f5f3-4f4d-b754-8dc45947c867"
@@ -12258,6 +12401,8 @@ RevSupPacketAvailable(
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Prepare acknowledgement if requested"
  Guid="05f32dd2-3e73-453b-8a77-e33513624811"
