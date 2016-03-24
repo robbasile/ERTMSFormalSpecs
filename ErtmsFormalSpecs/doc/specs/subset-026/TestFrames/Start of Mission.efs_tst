@@ -430,13 +430,29 @@
 >EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action><Action
  Guid="f013eef3-2616-4c2b-8cab-1c8874036d6d"
 >EURORADIO.Terminal1.RegistrationState &lt;- EURORADIO.TerminalStruct.RegistrationStateSM.Registered</Action><Action
- Guid="0b38415d-f823-4f2a-9481-73ec93282125"
->EURORADIO.SetNextRBCToContact(EURORADIO.LastKnownRBC)</Action></Actions>
+ Guid="9b93d08e-29bf-4f2f-831a-af3e2616a98d"
+>EURORADIO.LastKnownRBC &lt;- EURORADIO.RBCContactStruct
+{
+    Id =&gt; EURORADIO.RBCIdStruct{
+        Country =&gt; 8,
+        Id =&gt; 1212
+    },
+    PhoneNumber =&gt; &apos;987654321&apos;,
+    DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="8d62ad12-47e6-4f18-8ba7-625f2f89a922"
 >EURORADIO.CurrentRBCConnection().ConnectionState in EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Expectation></Expectations>
+</SubStep><SubStep
+ Name="SubStep3"
+ Guid="8be15229-77fa-46ad-b34d-095bf9528736"
+>
+<Actions>
+<Action
+ Guid="0b38415d-f823-4f2a-9481-73ec93282125"
+>EURORADIO.SetNextRBCToContact(EURORADIO.LastKnownRBC)</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -473,17 +489,7 @@
 <Actions>
 <Action
  Guid="75a0dedb-7e33-4dba-a835-0aa4c203f0d6"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.A31</Action><Action
- Guid="9b93d08e-29bf-4f2f-831a-af3e2616a98d"
->EURORADIO.LastKnownRBC &lt;- EURORADIO.RBCContactStruct
-{
-    Id =&gt; EURORADIO.RBCIdStruct{
-        Country =&gt; 8,
-        Id =&gt; 1212
-    },
-    PhoneNumber =&gt; &apos;987654321&apos;,
-    DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.A31</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

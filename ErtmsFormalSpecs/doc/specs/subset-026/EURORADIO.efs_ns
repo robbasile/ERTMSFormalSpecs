@@ -5505,7 +5505,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </ReqRef><Comment>Phone number of the RBC.</Comment>
 </StructureElement><StructureElement
  TypeName="DataStateEnum"
- Default="DataStateEnum.Invalid"
+ Default="DataStateEnum.Unknown"
  Mode="Internal"
  Implemented="TRUE"
  Name="DataState"
@@ -8697,7 +8697,9 @@ EURORADIO.Terminal1.RBCConnection.SafeRadioConnectionStatus == EURORADIO.SafeRad
  Guid="c12c7ead-1138-41ac-bb3b-164fdeda2b0e"
 >Available(EURORADIO.NextRBCToContact)</PreCondition><PreCondition
  Guid="b6c9ffbd-a2ff-4991-b04b-891776087408"
->Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition><PreCondition
+ Guid="7e21b635-a17f-49e1-affd-2dbf18f4058e"
+>EURORADIO.NextRBCToContact.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2078f218-6c1c-485a-9a00-f77a91524075"
@@ -14259,7 +14261,7 @@ RevSupPacketAvailable(
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="SetLastKnownRBC"
+ Name="SetNextRBCToContact"
  Guid="4dd4f9e6-5dbb-4706-a879-3dfdee023f6c"
 >
 <PreConditions>
@@ -14301,11 +14303,15 @@ RevSupPacketAvailable(
  Guid="83f6775f-df1c-4d1c-b053-d56b6ea41ca1"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="a4fc4dd9-e300-4474-b3c5-c7a5eccfd6d7"
+>LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="165ff882-a702-4d40-8bd3-19c8fb8ad7e7"
->SetNextRBCToContact(LastKnownRBC)</Action></Actions>
+>SetNextRBCToContact(LastKnownRBC)</Action><Action
+ Guid="bbb13c9c-e661-4afb-b3d6-5294b4ffdde2"
+>OpenRBCSession()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -14328,9 +14334,7 @@ RevSupPacketAvailable(
 <PreConditions>
 </PreConditions>
 <Actions>
-<Action
- Guid="bbb13c9c-e661-4afb-b3d6-5294b4ffdde2"
->OpenRBCSession()</Action></Actions>
+</Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
