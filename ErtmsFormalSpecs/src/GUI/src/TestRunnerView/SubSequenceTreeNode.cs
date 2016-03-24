@@ -15,12 +15,10 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using DataDictionary;
-using DataDictionary.Generated;
 using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
 using GUI.Properties;
@@ -348,59 +346,6 @@ namespace GUI.TestRunnerView
             }
         }
 
-
-        private void CopySetup(ArrayList setupActions)
-        {
-            TestCase testingTestCase = Item.TestCases[1] as TestCase;
-            if (testingTestCase != null)
-            {
-                foreach (Step modeStep in testingTestCase.Steps)
-                {
-                    Expectation expt = new Expectation();
-                    SubStep subStep = modeStep.SubSteps[0] as SubStep;
-                    if (subStep != null &&
-                        subStep.Expectations.Count == 1)
-                    {
-                        expt.ExpressionText = ((Expectation)subStep.Expectations[0]).ExpressionText;
-                        subStep.Expectations.Remove(subStep.Expectations[0]);
-                    }
-
-                    SubStep newSubStep = (SubStep)acceptor.getFactory().createSubStep();
-                    newSubStep.Name = "Set required data";
-
-                    // Add all setup actions to the new substep
-                    foreach (Action action in setupActions)
-                    {
-                        newSubStep.AddModelElement(action.Duplicate());
-                    }
-                    newSubStep.AddModelElement(expt);
-
-                    modeStep.SubSteps.Insert(1, newSubStep);
-                    newSubStep.Enclosing = modeStep;
-                }
-            }
-        }
-
-
-        public void DMITestFixer(object sender, EventArgs args)
-        {
-            if (Item != null &&
-                Item.TestCases.Count == 2)
-            {
-                TestCase setupTestCase = Item.TestCases[0] as TestCase;
-                if (setupTestCase != null)
-                {
-                    Step setupStep = setupTestCase.Steps[0] as Step;
-                    if (setupStep != null &&
-                        setupStep.SubSteps.Count == 3)
-                    {
-                        CopySetup(((SubStep) setupStep.SubSteps[2]).Actions);
-                    }
-                }
-            }
-        }
-
-
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -409,12 +354,10 @@ namespace GUI.TestRunnerView
         {
             List<MenuItem> retVal = new List<MenuItem>
             {
-                new MenuItem("Fix DMI test", DMITestFixer),
                 new MenuItem("Add test case", AddHandler),
-                new MenuItem("Delete", DeleteHandler)
+                new MenuItem("Delete", DeleteHandler),
+                new MenuItem("-")
             };
-
-            retVal.Add(new MenuItem("-"));
 
             retVal.AddRange(base.GetMenuItems());
             retVal.Insert(6, new MenuItem("Apply translation rules", TranslateHandler));

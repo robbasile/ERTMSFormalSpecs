@@ -34,7 +34,7 @@ using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
 {
-    public class FrameTreeNode : ModelElementTreeNode<Frame>, RuleDisabling.IDisablesRules<Frame>
+    public class FrameTreeNode : ModelElementTreeNode<Frame>, IDisablesRules<Frame>
     {
         /// <summary>
         ///     The value editor
@@ -210,17 +210,26 @@ namespace GUI.TestRunnerView
                             subSequences.Sort();
                             foreach (SubSequence subSequence in subSequences)
                             {
-                                Dialog.UpdateMessage("Executing " + subSequence.Name);
-
-                                const bool explain = false;
-                                const bool ensureCompiled = false;
-                                Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled, Settings.Default.CheckForCompatibleChanges);
-
-                                int testCasesFailed = subSequence.ExecuteAllTestCases(Frame.EFSSystem.Runner);
-                                if (testCasesFailed > 0)
+                                if (subSequence.getCompleted())
                                 {
-                                    subSequence.AddError("Execution failed");
-                                    Failed += 1;
+                                    Dialog.UpdateMessage("Executing " + subSequence.Name);
+
+                                    const bool explain = false;
+                                    const bool ensureCompiled = false;
+                                    Frame.EFSSystem.Runner = new Runner(subSequence, explain, ensureCompiled,
+                                        Settings.Default.CheckForCompatibleChanges);
+
+                                    int testCasesFailed = subSequence.ExecuteAllTestCases(Frame.EFSSystem.Runner);
+                                    if (testCasesFailed > 0)
+                                    {
+                                        subSequence.AddError("Execution failed");
+                                        Failed += 1;
+                                    }
+                                }
+                                else
+                                {
+                                    subSequence.AddWarning(
+                                        "Sub sequence not executed because it is not marked as completed");
                                 }
                             }
                         }
