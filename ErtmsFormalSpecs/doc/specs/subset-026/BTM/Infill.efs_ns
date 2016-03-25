@@ -6,6 +6,7 @@
  Name="Infill"
  Guid="2dc6aea7-522b-4955-b8d5-f0b2710c2a41"
 >
+<Comment>Common functions for infill packets treatment.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Functions>
@@ -22,7 +23,7 @@
  Guid="345f7dc8-70e7-45e7-88c8-015a916f201e"
 >
 <Comment>This function extracts the infill (or non-infill) packets of the CurrentBaliseGroup. It returns a collection of StoredBaliseStructs whose length is the same as the original one. Returned StoredBaliseStruct.Telegram.Sequence1 may be empty if the original BaliseGroupMessage contains no infill packet.
-Note that there may be at most two INFILL_LOCATION_REFERENCE packet, one for each direction. This function returns only infilled packet for the forward direction.</Comment>
+Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram, one for each direction. This function returns only infilled packet for the forward direction.</Comment>
 <Parameters>
 <Parameter
  Type="Boolean"
@@ -101,7 +102,7 @@ Missed =&gt; X.Missed
  Name="CutAtFirstInfillPacket"
  Guid="ab3f4922-57f0-46a2-aeed-95e630fa0032"
 >
-<Comment>Returns a balise telegram containing packets located after or before the first infill_location_reference packet encountered in aTelegram.Sequence1.</Comment>
+<Comment>Convenience function. Returns a balise telegram containing packets located after or before the first infill_location_reference packet encountered in aTelegram.Sequence1.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.EUROBALISE.Message"
@@ -235,7 +236,7 @@ USING X,
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="Default.DataDirectionEnum"
+ Type="Messages.Q_DIR"
  Default=""
  X="0"
  Y="0"
@@ -263,14 +264,13 @@ USING X,
 <PreCondition
  Guid="486c890b-0bfc-4ac8-a9a1-d640ded5d5dc"
 >THERE_IS W IN aTelegram.Sequence1 | Available(W.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)</PreCondition></PreConditions>
-<Expression>Default.Q_DIR_to_DataDirectionEnum_Converter(
-(FIRST X IN aTelegram.Sequence1 | 
-Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)</Expression>
+<Expression>(FIRST X IN aTelegram.Sequence1 | 
+Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="23147208-7ef8-419e-bf88-613d36d2febb"
 >
-<Expression>Default.DataDirectionEnum.Unknown</Expression>
+<Expression>Messages.Q_DIR.Spare</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -284,16 +284,17 @@ Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOC
  Name="IsDataDirectionForward"
  Guid="d4e7d286-ca38-42ae-8fae-7363b22e4ca2"
 >
+<Comment>Tells whether the infill information concerns forward movements and hence should be considered.</Comment>
 <Parameters>
 <Parameter
- Type="DataDirectionEnum"
- Name="aDataDirection"
+ Type="Messages.Q_DIR"
+ Name="aMessageDirection"
  Guid="25e65e8c-13e1-4a0a-9761-7940afccd3a5"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Forward"
+ Name="Value"
  Guid="7cb3b1e6-b505-4a89-a3cd-ef5cb90fbdc3"
 >
 <PreConditions>
@@ -339,7 +340,7 @@ THERE_IS V IN X.Telegram.Sequence1 |
 (
 Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)
 AND
-IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR))
+IsDataDirectionForward(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)
 )
 )
 ).Telegram</Expression>
@@ -373,7 +374,7 @@ IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(V.TRACK_TO_TRAIN.INF
 (
 Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)
 AND
-IsDataDirectionForward(Q_DIR_to_DataDirectionEnum_Converter(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR))
+IsDataDirectionForward(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)
 )</Expression>
 </Case></Cases>
 </Function></Functions>
