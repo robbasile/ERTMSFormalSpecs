@@ -29,6 +29,7 @@ using GUI.LongOperations;
 using GUI.Report;
 using GUI.RequirementSetDiagram;
 using GUI.RulePerformances;
+using GUI.src.LongMessageView;
 using GUI.Status;
 using GUIUtils;
 using GUIUtils.LongOperations;
@@ -1843,7 +1844,9 @@ namespace GUI
                 {
                     result += file + "\n";
                 }
-                MessageBox.Show(this, result, "Found files", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LongMessageForm textPresentation = new LongMessageForm {richTextBox1 = {Text = result}};
+                textPresentation.Show();
+                //MessageBox.Show(this, result, "Found files", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
