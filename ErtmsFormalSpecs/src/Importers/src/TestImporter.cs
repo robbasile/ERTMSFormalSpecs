@@ -494,5 +494,26 @@ namespace Importers
                 }
             }
         }
+
+        /// <summary>
+        /// Indicates if the specific packet was found in the database
+        /// </summary>
+        /// <param name="packetNumber"></param>
+        /// <returns></returns>
+        public bool FindSpecificPacket(int packetNumber)
+        {
+            bool retVal = false;
+            string sql = "SELECT * FROM TSW_MessageBody WHERE Pac_Id = " + packetNumber;
+
+            OleDbDataAdapter adapter = new OleDbDataAdapter(sql, Connection);
+            DataSet dataSet = new DataSet();
+
+            adapter.Fill(dataSet);
+            retVal = dataSet.Tables[0].Rows.Count > 0;
+
+            Connection = null;
+
+            return retVal;
+        }
     }
 }

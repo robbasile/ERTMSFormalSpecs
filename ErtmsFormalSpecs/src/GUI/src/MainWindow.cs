@@ -1829,5 +1829,22 @@ namespace GUI
                 markrules.visit(dictionary, true);
             }
         }
+
+        private void findInSubset076ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog selectFolderDialog = new FolderBrowserDialog();
+            if (selectFolderDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                FindInTestDataBasesOperation operation =
+                        new FindInTestDataBasesOperation(selectFolderDialog.SelectedPath, 136);
+                operation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Find in databases");
+                string result = "";
+                foreach (string file in operation.FileNames)
+                {
+                    result += file + "\n";
+                }
+                MessageBox.Show(this, result, "Found files", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }
