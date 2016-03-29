@@ -999,6 +999,11 @@ namespace DataDictionary.RuleCheck
                             }
                         }
                     }
+                    if (expect.Blocking && expect.DeadLine < 0.0 && expect.getKind() == acceptor.ExpectationKind.aContinuous)
+                    {
+                        expect.AddRuleCheckMessage(RuleChecksEnum.Test05, ElementLog.LevelEnum.Warning,
+                            "This expectation may cause the test to run indefinitely");
+                    }
                 }
                 catch (Exception exception)
                 {
