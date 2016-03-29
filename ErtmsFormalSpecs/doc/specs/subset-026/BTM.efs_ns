@@ -4143,6 +4143,8 @@ If all the messages of the current balise group have been received, calls Handle
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Keep record of the time and position of the location reference"
  Guid="7e3f7eb7-4732-4b05-aee5-6838c06ed5c5"
@@ -4179,6 +4181,8 @@ If all the messages of the current balise group have been received, calls Handle
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Keep note of missed balises"
  Guid="2bac6cbb-3616-40c8-a658-72f42fddb191"
@@ -4216,6 +4220,8 @@ Message.N_PIG != LastReceivedBalise().N_PIG - 1</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add missed balises to list"
  Guid="c37a6131-48f8-4538-96f1-d0e80a225a25"
@@ -4252,6 +4258,8 @@ Message.N_PIG != LastReceivedBalise().N_PIG - 1</PreCondition></PreConditions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add a second balise to CurrentBaliseGroup"
  Guid="9d23acde-90a3-4baf-af77-c13fd881958b"
@@ -4291,6 +4299,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Fill other missing balises"
  Guid="3aa0e4a6-721c-4b7e-abd6-43e494b29bd2"
@@ -4326,6 +4336,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add a second balise to CurrentBaliseGroup"
  Guid="477aa7e5-2d35-428f-bde3-7e87b96fc4d2"
@@ -4365,6 +4377,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Fill other missing balises"
  Guid="d29af369-e613-40d6-be03-cd08c7e44853"
@@ -4390,6 +4404,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Store message"
@@ -4420,6 +4436,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Keep position of the balise"
@@ -4440,32 +4458,6 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 <Action
  Guid="2b0bea2f-701c-4d39-b9fb-f12ed87bc4e4"
 >BTM.PrevBalisePosition &lt;- Odometry.NominalDistance</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="UpdateINTERNAL"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="All balises have been received for the balise group"
- Guid="cfeca65f-2c5b-4b0a-88b7-aeb5a11123da"
->
-<Comment>If telegrams from all balises of the current balise group have been received, the on-board handles the new message.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="All balises have been received for the balise group"
- Guid="1e6e1aef-6e2f-455a-a63e-f24a5d6fc960"
->
-<Comment>N_TOTAL is the number of balises - 1</Comment>
-<PreConditions>
-<PreCondition
- Guid="4c98c872-6bf7-41f9-b74a-be01dbe0b55c"
->BTM.FullBGReceived()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e7bdbad0-03e6-4eab-af45-686bb9024af6"
->BTM.Linking.CheckBGBeforeHandling()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

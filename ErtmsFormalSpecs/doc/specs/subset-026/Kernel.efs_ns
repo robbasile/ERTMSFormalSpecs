@@ -10438,6 +10438,36 @@ BTM.Linking.RAMSWindowPassed()
 <Action
  Guid="96ddb3ee-57c1-40a0-bc68-2be6f515660e"
 >BTM.StoreBaliseGroupMessage ( BTM.UpdatedReceivedMessage(BTM.Message))</Action></Actions>
+<SubRules>
+<Rule
+ Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="All balises have been received for the balise group"
+ Guid="cfeca65f-2c5b-4b0a-88b7-aeb5a11123da"
+>
+<Comment>If telegrams from all balises of the current balise group have been received, the on-board handles the new message.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="All balises have been received for the balise group"
+ Guid="1e6e1aef-6e2f-455a-a63e-f24a5d6fc960"
+>
+<Comment>N_TOTAL is the number of balises - 1</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4c98c872-6bf7-41f9-b74a-be01dbe0b55c"
+>BTM.FullBGReceived()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e7bdbad0-03e6-4eab-af45-686bb9024af6"
+>BTM.Linking.CheckBGBeforeHandling()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
