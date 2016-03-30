@@ -10223,8 +10223,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <PreConditions>
 <PreCondition
  Guid="3034a046-5335-4291-b268-c1be131e240f"
->Available( BTM.LRBG.Position )</PreCondition></PreConditions>
-<Expression>BTM.LRBG.Position.Position</Expression>
+>Available( BTM.LRBG.LRBG.Position )</PreCondition></PreConditions>
+<Expression>BTM.LRBG.LRBG.Position.Position</Expression>
 </Case><Case
  Name="Unlinked BG position, if available"
  Guid="c7809cb9-9c62-4095-9b96-e614e1d0d144"
@@ -10232,8 +10232,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <PreConditions>
 <PreCondition
  Guid="50d72afc-1431-4cb8-b388-1ad295a75ab0"
->Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
-<Expression>BTM.UnlinkedBGPosition.Position</Expression>
+>Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>BTM.LRBG.UnlinkedBGPosition.Position</Expression>
 </Case><Case
  Name="0 otherwise"
  Guid="0c0f178c-cfeb-4493-8e8e-b2a2847791e1"
@@ -10465,7 +10465,7 @@ BTM.Linking.RAMSWindowPassed()
 <Actions>
 <Action
  Guid="e7bdbad0-03e6-4eab-af45-686bb9024af6"
->BTM.Linking.CheckBGBeforeHandling()</Action></Actions>
+>BTM.HandleMessage(BTM.CurrentBaliseGroup)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

@@ -1,0 +1,882 @@
+<NameSpace
+ X="150"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="LRBG"
+ Guid="0a99062f-7d9e-4aac-a5b2-d4bdd3ae2348"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="690"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PreviousBaliseGroupStruct"
+ Guid="b78c15a0-5a41-4d5f-9222-3d4b477cb17b"
+>
+<Comment>Used to store a received balise group. Allows to know if that balise group became the LRBG.</Comment>
+<StructureElement
+ TypeName="BaliseGroupStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BaliseGroup"
+ Guid="368fccbb-30e4-44e2-b001-fc2c5a8fd196"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IsLRBG"
+ Guid="076ebd0a-bdf0-4724-a6d2-89898982f162"
+>
+<Comment>Indicates if the current balise group is (or was) an LRBG.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="IsSingle"
+ Guid="d64b4af4-32c8-461a-ab5f-b71ed7f4261c"
+>
+<ReqRef
+ Id="76868626-5a6b-4610-a688-a56653fef701"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c2b9437-285e-4bbf-8939-fb35385e147c"
+>
+</ReqRef><Comment>Indicates if the that balise group is single or not.</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="690"
+ Y="480"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="BaliseGroupStruct"
+ Guid="5ec3b420-18e5-4e1a-9d06-81474b8546eb"
+>
+<ReqRef
+ Id="3dbd1b48-23b6-40f9-a38e-77df9cc1ed68"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ce0cea6-f421-462c-9e62-f3b5e470f2ca"
+>
+</ReqRef><Comment>Represents the information about the Last Relevant Balise Group.</Comment>
+<StructureElement
+ TypeName="PositionStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Position"
+ Guid="53b317e4-f85b-45cd-b79c-843b43dc7e89"
+>
+<Comment>Position of the LRBG.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_LRBG"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NID"
+ Guid="ccd4df78-86cc-4740-a762-d1a06fe9a782"
+>
+<Comment>The identity number of the LRBG.</Comment>
+</StructureElement><StructureElement
+ TypeName="OrientationEnum"
+ Default="OrientationEnum.Unknown"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Orientation"
+ Guid="24a24010-b828-44c6-b635-7e3bebf0f7b3"
+>
+<ReqRef
+ Id="fa52def8-80bf-416e-a115-e86bb26fb0ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8d3f9121-fdbd-4799-a7ea-8411bbd98679"
+>
+</ReqRef><ReqRef
+ Id="5a70895f-ceeb-4c8f-9e52-f3de05ca5a83"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8aeba253-ea31-4c8f-acc6-2c2174b814bd"
+>
+</ReqRef><ReqRef
+ Id="d1944e18-a016-48f1-9817-9a6c415e92e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5f7e229-1874-48ab-96ec-ccf2cb4e9d75"
+>
+</ReqRef><Comment>Indicates of the orientation of the LRBG can be determined.</Comment>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Timestamp"
+ Guid="2f0be26b-32d3-46b2-a2d7-00768d0f2af2"
+>
+<Comment>The moment when the balise group was received by the train. Used to retrieve the most recent balise group.</Comment>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="PreviousBaliseGroupStruct"
+ MaxSize="8"
+ Default="[]"
+ X="690"
+ Y="300"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BaliseGroupsCol"
+ Guid="8cbc2535-0557-4e22-b8de-8c576bea9427"
+>
+<Comment>Represents the list of last received LRBGs.</Comment>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="370"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IsNewBG"
+ Guid="c3d290dd-32f9-4add-a29f-5600b3ae9c90"
+>
+<Comment>Indicates whether the BG is different from the current LRBG.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="BGIdentifier"
+ Guid="ef133f75-9ac5-43ac-b403-b0aaa68622da"
+>
+</Parameter><Parameter
+ Type="Messages.NID_C"
+ Name="CountryIdentifier"
+ Guid="1cbd3d59-699f-4779-a2d0-93ed2c28eb73"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No LRBG"
+ Guid="dafed603-8bc8-4ec1-8c92-3f2fd39551c5"
+>
+<PreConditions>
+<PreCondition
+ Guid="3a07a085-98e6-4907-99ab-8e2a5afcc380"
+>NOT Available( LRBG )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="a5aa9f87-7420-4311-9766-18d0b6263d7f"
+>
+<Expression>LRBG.NID != BGIdentifier</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="140"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="LRBGCandidate"
+ Guid="09e83b0e-f7e5-4b6c-bdcc-f525de451186"
+>
+<ReqRef
+ Id="50574953-3247-4859-8de2-1049ab46e862"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="779fe215-3bf2-4c8f-a832-1ed8d5d0f6b2"
+>
+</ReqRef><ReqRef
+ Id="675394d7-4475-4a7f-9846-627ae90086d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f5ae238c-42d9-470d-8cd7-2d31ad14f2a0"
+>
+</ReqRef><ReqRef
+ Id="18834f9f-2f32-40fe-9d9a-97c8e2991f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2cc92b31-5b34-4951-abfe-3f489a768dbf"
+>
+</ReqRef><Comment>Indicates whether the Current Balise Group is a candidate for LRBG</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="2384c880-80a7-47a9-9c6d-fa33add409db"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Linking available"
+ Guid="e5500388-7ed0-4a1d-9efb-de0e559d6fd3"
+>
+<PreConditions>
+<PreCondition
+ Guid="d6f19038-6d40-4e3d-ba91-773dab02a05a"
+>BTM.Linking.LinkingApplicable()</PreCondition></PreConditions>
+<Expression>Linking.BGWithinFrame(aBaliseGroup)</Expression>
+</Case><Case
+ Name="Linking not available"
+ Guid="c0fbb6a1-646f-4f71-8bbc-322f3a4f4ee9"
+>
+<Expression>Linking.BGIsLinked( aBaliseGroup )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaliseGroupStruct"
+ Default=""
+ X="260"
+ Y="140"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="PreviousLRBG"
+ Guid="9f7a84b1-1005-45f6-b9a7-9675d7b6593a"
+>
+<ReqRef
+ Id="1ee16e25-19bc-4c58-b451-ebd13c054d1c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="17bfb0c0-9d46-49c4-ae57-2b48d16ed23d"
+>
+</ReqRef><Comment>Provides the previous LRBG, if any.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a3bab8f5-ac86-45fb-b5e9-c1df8045ffea"
+>
+<Expression>(REDUCE PreviousBaliseGroups | X.IsLRBG
+  USING X IN SelectNearerBG ( X , RESULT )
+  INITIAL_VALUE EMPTY).BaliseGroup</Expression>
+</Case></Cases>
+</Function><Function
+ Type="PreviousBaliseGroupStruct"
+ Default=""
+ X="40"
+ Y="140"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="FarthestBG"
+ Guid="1a488722-6327-48c3-b7d2-acf35d480352"
+>
+<ReqRef
+ Id="1ee16e25-19bc-4c58-b451-ebd13c054d1c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e92dc5b-c0e4-432e-bab4-2c9a2ab3e362"
+>
+</ReqRef><Comment>Provides the previous LRBG, if any.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="9a9dcfe5-feaa-4d5e-9492-a5095eb075c8"
+>
+<Expression>REDUCE BTM.LRBG.PreviousBaliseGroups
+  USING X IN SelectFartherBG ( X , RESULT )
+  INITIAL_VALUE EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="150"
+ Y="320"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TravelledDistanceFromBG"
+ Guid="8c1c8b83-7a3e-4623-a519-765f7d5919ad"
+>
+<ReqRef
+ Id="b9a734e7-b75f-426b-a5f9-6926dfdc248d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd6ee481-0620-4540-9c94-c124e0e0cc3b"
+>
+</ReqRef><Comment>Provides the distance travelled from a balise group given in parameter. In case the balise group is not stored in the list of previously received balise groups, the returned distance is unknown.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="aBG"
+ Guid="83176aad-6fcb-4cc8-8267-fa10ab3d9a55"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The BG is available"
+ Guid="bbc79522-c8ab-4fa8-b6ed-089f511bd393"
+>
+<PreConditions>
+<PreCondition
+ Guid="39d378f2-a59c-43bf-9e51-ee9605484628"
+>THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID == aBG</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - (FIRST X IN PreviousBaliseGroups | X.BaliseGroup.NID == aBG).BaliseGroup.Position.Position</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="bbb4368c-06da-4efc-9230-417c0d87f09f"
+>
+<Expression>BaseTypes.Distance.Unknown</Expression>
+</Case></Cases>
+</Function><Function
+ Type="LRBG.PreviousBaliseGroupStruct"
+ Default=""
+ X="150"
+ Y="80"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SelectNearerBG"
+ Guid="77955bc8-c494-4883-b4f6-268715694571"
+>
+<Comment>Selects the balise group which is the nearer between the two balise groups provided</Comment>
+<Parameters>
+<Parameter
+ Type="LRBG.PreviousBaliseGroupStruct"
+ Name="bg1"
+ Guid="8ec1dd11-507e-4aef-b6e9-8c437c20b3c3"
+>
+</Parameter><Parameter
+ Type="LRBG.PreviousBaliseGroupStruct"
+ Name="bg2"
+ Guid="81075d74-f8d2-46ee-9424-ee00d6302b4a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Empty bg1"
+ Guid="f3c35d97-e93e-446b-980c-13e34bf183d2"
+>
+<PreConditions>
+<PreCondition
+ Guid="9d0c7531-62af-47a6-9b40-51e5eb394bc1"
+>NOT Available ( bg1 )</PreCondition></PreConditions>
+<Expression>bg2</Expression>
+</Case><Case
+ Name="Empty bg2"
+ Guid="27a5b5d9-356a-4cb5-ab64-6b3ace859b24"
+>
+<PreConditions>
+<PreCondition
+ Guid="495c1002-f55d-4422-8fea-db8e4e649571"
+>NOT Available ( bg2 )</PreCondition></PreConditions>
+<Expression>bg1</Expression>
+</Case><Case
+ Name="bg1 is more recent"
+ Guid="794009f7-5d86-40b9-bdc3-acd7d06aafaf"
+>
+<PreConditions>
+<PreCondition
+ Guid="7cbc332d-8834-435a-9c08-ada4f2d15ea5"
+>NOT Kernel.DateAndTime.T1LaterThanT2(
+    T1 =&gt; bg2.BaliseGroup.Timestamp,
+    T2 =&gt; bg1.BaliseGroup.Timestamp
+)</PreCondition></PreConditions>
+<Expression>bg1</Expression>
+</Case><Case
+ Name="bg2 is more recent"
+ Guid="9b6c6061-1000-432f-aa53-8c4ce5e77484"
+>
+<Expression>bg2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="LRBG.PreviousBaliseGroupStruct"
+ Default=""
+ X="40"
+ Y="80"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SelectFartherBG"
+ Guid="6a90105b-499b-4fa4-ba97-0ee80e86f32c"
+>
+<Comment>Selects the balise group which is the nearer between the two balise groups provided</Comment>
+<Parameters>
+<Parameter
+ Type="LRBG.PreviousBaliseGroupStruct"
+ Name="bg1"
+ Guid="8b6a601b-8730-44f5-846d-56bba22cc276"
+>
+</Parameter><Parameter
+ Type="LRBG.PreviousBaliseGroupStruct"
+ Name="bg2"
+ Guid="3160361b-f9a7-4adb-bbcb-5ea66685108e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Empty bg1"
+ Guid="fd17fe25-b13f-43b7-ac23-1234806bcb16"
+>
+<PreConditions>
+<PreCondition
+ Guid="6e69621e-5017-45cf-8e5f-a2803b992672"
+>NOT Available ( bg1 )</PreCondition></PreConditions>
+<Expression>bg2</Expression>
+</Case><Case
+ Name="Empty bg2"
+ Guid="1f5e2c08-986e-4b2d-a85b-9c9ada73f682"
+>
+<PreConditions>
+<PreCondition
+ Guid="2cdda462-ce0b-45cb-98a9-23033b4e862b"
+>NOT Available ( bg2 )</PreCondition></PreConditions>
+<Expression>bg1</Expression>
+</Case><Case
+ Name="bg1 is the oldest"
+ Guid="6500b8d8-aa19-4146-a096-2d8753a7760f"
+>
+<PreConditions>
+<PreCondition
+ Guid="ca98163b-74ba-48e2-b24b-35a21cb85d6f"
+>Kernel.DateAndTime.T1LaterThanT2(
+    T1 =&gt; bg2.BaliseGroup.Timestamp,
+    T2 =&gt; bg1.BaliseGroup.Timestamp
+)</PreCondition></PreConditions>
+<Expression>bg1</Expression>
+</Case><Case
+ Name="bg2 is the oldest"
+ Guid="a430f7b8-6f5f-4c7f-b0bf-805f91f8c444"
+>
+<Expression>bg2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="620"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="CurrentBGIsSingle"
+ Guid="df71b6c3-9242-4aa9-9de5-4af1944389a1"
+>
+<ReqRef
+ Id="76868626-5a6b-4610-a688-a56653fef701"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20f9b592-92f4-4fe2-99c0-316f45d325c6"
+>
+</ReqRef><Comment>Indicates if the current balise group is single.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ecba41eb-172e-43a6-a77b-432225e820eb"
+>
+<Expression>(FIRST X IN CurrentBaliseGroup).Telegram.N_TOTAL == 0</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="820"
+ Y="190"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="HandleNewLRBG"
+ Guid="c31fd441-b73c-4a8c-b590-155d2827dab2"
+>
+<ReqRef
+ Id="f57e28e7-7ee4-40ea-9cbe-fd0ea913add0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7f9018a3-318b-4c60-a75e-0822012b2b05"
+>
+</ReqRef><ReqRef
+ Id="50574953-3247-4859-8de2-1049ab46e862"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6beac18d-82e2-426e-b617-0411fdd220dd"
+>
+</ReqRef><ReqRef
+ Id="18834f9f-2f32-40fe-9d9a-97c8e2991f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99c46e2f-d424-4e5f-86e4-0f6601827b8e"
+>
+</ReqRef><ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dd1f0f7-51f7-4705-b8b0-c0080a3c892e"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="853255a2-6e72-4c1c-9a59-93811a66b6d3"
+>
+</ReqRef><ReqRef
+ Id="762a9a50-d079-460f-80fd-c72d91c43331"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="adb79b46-a095-4792-ba16-3906c7ab9105"
+>
+</ReqRef><Comment>This procedure is used when the train detects a new LRBG, in order to update information relative to its LRBG.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_LRBG"
+ Name="Nid_BG"
+ Guid="73175fa3-6e28-4a7d-af6d-805fb341b09c"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="de3e8c92-4f0c-455c-bda5-61148adb4598"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="aOrientation"
+ Guid="d91f8e16-2cb9-4a3e-b8bb-daa91156d3e8"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Relocate trackside information"
+ Guid="ba44542d-5f85-4e5c-9be1-449daf9f1059"
+>
+<ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="feeed07e-3eba-41e9-a6f4-d67e85244d86"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6eb5465d-9a7f-4a6f-a8fc-cc96ea2fcc91"
+>
+</ReqRef><ReqRef
+ Id="762a9a50-d079-460f-80fd-c72d91c43331"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="505bbe08-5740-4319-842a-42efa5202fae"
+>
+</ReqRef><Comment>Since all distances are measured from the reference location of the LRBG, all distances saved the kernel must be relocated when the EVC accepts a new LRBG</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update all distances"
+ Guid="a7a697f6-8f4f-4e63-b505-36a910508835"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="91863d30-c672-46f1-bf03-f7eac1cf8d89"
+>Kernel.TrainPosition.RelocateTracksideInformation(aDistanceFromRef)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update LRBG values"
+ Guid="952f0bc7-e6f8-412b-95b9-788d6a207d38"
+>
+<ReqRef
+ Id="f57e28e7-7ee4-40ea-9cbe-fd0ea913add0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e90a4163-5b91-4747-8052-0602b8d6cd03"
+>
+</ReqRef><ReqRef
+ Id="2296310f-3ab8-4332-9af3-424d5a85eb88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b875755-7cd2-49a6-a9f1-aef5fba0ca11"
+>
+</ReqRef><Comment>The LRBG position is updated with the current values of the odometer.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Update LRBG values"
+ Guid="a8fe89c4-6f5d-4d9a-92eb-f96ffbf1883e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0ed7fcdc-0c4d-4e64-b329-3a748a11b5b8"
+>LRBG &lt;- BaliseGroupStruct
+{
+  Timestamp =&gt; BGLocationReference.Timestamp,
+  NID =&gt; Nid_BG,
+  Position =&gt; BGLocationReference.Position,
+  Orientation =&gt; aOrientation
+}</Action><Action
+ Guid="9ea8e191-ce41-4e2f-8bab-49b9a8bbbde8"
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- aOrientation</Action><Action
+ Guid="d4709923-6e3a-4170-a807-7cd47e242466"
+>UnlinkedBGPosition &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update train position according to the new LRBG"
+ Guid="6ba95030-7a68-4bfe-9cc3-c4a620278a3d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update train position"
+ Guid="6b5d9bbd-08b2-4d46-b2e9-8ba7e6464bb1"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d6555c60-a272-4bc1-ad46-43c8964833c3"
+>Kernel.TrainPosition.UpdatePositionState()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="StoreBGLocation"
+ Guid="81c387dd-5ff5-4503-9107-46a6e671edd8"
+>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="108a5960-9469-4c67-be6c-c4d4646817d4"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle LRBG"
+ Guid="a0bf5168-6256-43d5-9291-b6437f385e01"
+>
+<ReqRef
+ Id="50574953-3247-4859-8de2-1049ab46e862"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ac0c1363-8c77-4d99-ab2c-8aa09208dbb3"
+>
+</ReqRef><ReqRef
+ Id="18834f9f-2f32-40fe-9d9a-97c8e2991f93"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4be0e5a1-144c-4987-9970-de1652eaa020"
+>
+</ReqRef><Comment>Verifies if the current balise group is an LRBG candidate (in that case the LRBG is updated) or is unlinked (in that case the information related to the last unlinked balise group is updated). In all the cases the new balise group is stored in the list of previous balise groups.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="The BG becomes LRBG"
+ Guid="604b0d58-795f-4720-86b5-1b92956a4206"
+>
+<ReqRef
+ Id="997012e6-1938-4ed6-b9fe-4a696ee0c30f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="936076b4-52d1-470d-adbe-5d793f0c72ac"
+>
+</ReqRef><Comment>If the current balise group is a candidate to become a new LRBG, then it is stored as a new LRBG.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
+>BTM.LRBG.IsNewBG(
+    BGIdentifier =&gt; BG_To_LRBG(GetNID_BG(aBaliseGroup)),
+    CountryIdentifier =&gt; GetNID_C(aBaliseGroup)
+)</PreCondition><PreCondition
+ Guid="9a0cc237-370c-4dcb-b53c-9bf804dd2a0d"
+>BTM.LRBG.LRBGCandidate(aBaliseGroup)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3c939d6a-99af-451a-b12d-368fece30c2a"
+>BTM.LRBG.HandleNewLRBG(
+    Nid_BG =&gt; BG_To_LRBG( GetNID_BG( aBaliseGroup ) ),
+    aDistanceFromRef =&gt; DistanceFromReference( Linking.UseLinkingInformation(aBaliseGroup) AND Linking.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
+    aOrientation =&gt; BGOrientation( aBaliseGroup )
+)</Action><Action
+ Guid="eec330f2-bae4-4027-998f-3bed4d222121"
+>INSERT
+  BTM.LRBG.PreviousBaliseGroupStruct
+  {
+      BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+      {
+          Position =&gt; BGLocationReference.Position,
+          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
+          Orientation =&gt; BGOrientation(aBaliseGroup),
+          Timestamp =&gt; BGLocationReference.Timestamp
+      },
+      IsLRBG =&gt; Boolean.True,
+      IsSingle =&gt; CurrentBGIsSingle()
+  }
+  IN BTM.LRBG.PreviousBaliseGroups
+  WHEN FULL REPLACE BTM.LRBG.FarthestBG()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="The BG is unlinked"
+ Guid="51d206fc-d4b1-42ee-8e76-c5ffeea965a5"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e617305-b06c-466c-a6bc-26a12f4ef8ba"
+>
+</ReqRef><ReqRef
+ Id="f6495886-9165-4d0b-9a11-087ff8f09831"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c54cb7f-df4a-443d-a868-cd17d0703e68"
+>
+</ReqRef><Comment>Otherwise, if the balise group is unlinked, stores the position of that unlinked balise group, which may be used for position reporting. The balise group is also stored in the list of previous balise groups in case it will be needed for the geographical position reporting.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1f80f179-74aa-465e-b6d3-e15aba062a97"
+>NOT Linking.BGIsLinked( aBaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e0d92db1-ce43-4385-ae52-42c474a91e91"
+>INSERT
+  BTM.LRBG.PreviousBaliseGroupStruct
+  {
+      BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+      {
+          Position =&gt; BGLocationReference.Position,
+          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
+          Orientation =&gt; BGOrientation(aBaliseGroup),
+          Timestamp =&gt; BGLocationReference.Timestamp
+      },
+      IsLRBG =&gt; Boolean.False,
+      IsSingle =&gt; CurrentBGIsSingle()
+  }
+  IN BTM.LRBG.PreviousBaliseGroups
+  WHEN FULL REPLACE BTM.LRBG.FarthestBG()</Action><Action
+ Guid="fc7c3af7-269c-418d-b2fd-6be29f8bd92b"
+>BTM.LRBG.UnlinkedBGPosition &lt;- BGLocationReference.Position</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise"
+ Guid="45fc3591-bbef-464e-9eef-5658c496eb8d"
+>
+<Comment>Stores the balise group in the list of previous balise groups.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a0a2bd8f-ac0c-44b6-aa24-93d5263d8371"
+>INSERT
+  BTM.LRBG.PreviousBaliseGroupStruct
+  {
+      BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+      {
+          Position =&gt; BGLocationReference.Position,
+          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
+          Orientation =&gt; BGOrientation(aBaliseGroup),
+          Timestamp =&gt; BGLocationReference.Timestamp
+      },
+      IsLRBG =&gt; Boolean.False,
+      IsSingle =&gt; CurrentBGIsSingle()
+  }
+  IN BTM.LRBG.PreviousBaliseGroups
+  WHEN FULL REPLACE BTM.LRBG.FarthestBG()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="BaliseGroupStruct"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="690"
+ Y="560"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="LRBG"
+ Guid="06c55d45-6f6b-44e0-a0df-de6dc2de2e0a"
+>
+<ReqRef
+ Id="3dbd1b48-23b6-40f9-a38e-77df9cc1ed68"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b5a1282-7ddb-4f88-8fae-0f00fabb9e50"
+>
+</ReqRef><Comment>This variable holds information about the LRBG</Comment>
+</Variable><Variable
+ Type="PositionStruct"
+ DefaultValue=""
+ VariableMode="Internal"
+ X="560"
+ Y="560"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="UnlinkedBGPosition"
+ Guid="3c6eb797-49dd-4338-b5b4-c5259654cd5e"
+>
+<ReqRef
+ Id="d5dcae2f-5a41-4d4b-ab0d-436579a7646a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af50a432-2fa9-4cc0-9306-cbc8cfac4344"
+>
+</ReqRef><Comment>Saves the information provided by the odometry at the moment where an unlinked balise group is passed. Used to compute the position, over and under reading amount relative to that unlinked balise.</Comment>
+</Variable><Variable
+ Type="BaliseGroupsCol"
+ DefaultValue="[]"
+ VariableMode="Internal"
+ X="820"
+ Y="300"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="PreviousBaliseGroups"
+ Guid="4552d13d-fb1c-495c-950c-24ad3eb2d288"
+>
+<ReqRef
+ Id="4147b6c6-84d8-452d-b38e-8479cb6dc795"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ceae857b-172a-46d7-96a7-5cf2bd79689b"
+>
+<Comment>Even if in the requiremets, the previous LRBG are decribed in the train position, it seemed more structured to place this list in the BTM namespace, near the LRBG</Comment>
+</ReqRef><ReqRef
+ Id="f7fc46b2-db95-4d3a-8dcc-19f1948d1fff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="07beb723-31eb-4427-82db-90278134c80b"
+>
+</ReqRef><ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61471da9-4946-45d0-a2a2-91035553eeb5"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da4dcf60-1319-4a1e-8270-1c49be31027b"
+>
+</ReqRef><ReqRef
+ Id="762a9a50-d079-460f-80fd-c72d91c43331"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9464e467-44ab-4a73-a921-0116fb51ac5d"
+>
+</ReqRef><Comment>Holds the balise groups that have been processed before.</Comment>
+</Variable></Variables>
+</NameSpace>

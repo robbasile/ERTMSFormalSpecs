@@ -1,6 +1,6 @@
 <NameSpace
  X="40"
- Y="610"
+ Y="80"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -13,7 +13,7 @@
 <Enumerations>
 <Enum
  Default="BTM.Linking.LinkingReaction.NoReaction"
- X="230"
+ X="200"
  Y="10"
  Width="100"
  Height="50"
@@ -103,7 +103,7 @@
 <Structures>
 <Structure
  Default=""
- X="230"
+ X="200"
  Y="100"
  Width="100"
  Height="50"
@@ -349,7 +349,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Implemented="TRUE"
  Verified="TRUE"
  NeedsRequirement="FALSE"
- Name="CurrentBGWithinFrame"
+ Name="BGWithinFrame"
  Guid="e4b951d5-e364-4b31-a4e0-c6ad0e6fea3c"
 >
 <ReqRef
@@ -378,6 +378,13 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Guid="e152e477-1c03-4d5e-8707-276952ce2016"
 >
 </ReqRef><Comment>Returns true if the current BaliseGroup is linked + stored in our Linking database and within reach of the onboard antenna</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="4cf12abb-3cb1-4a2d-9e04-866c9e978f6f"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Expectation window for Unknown BG ID"
@@ -393,7 +400,7 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Name="Check the expectation window"
  Guid="0bfe0cf6-52e4-46b8-a258-00e1f3aa67c4"
 >
-<Expression>BTM.Linking.BGinExpectationWindow( FIRST X IN BTM.Linking.Linkings )</Expression>
+<Expression>BGIsInExpectationWindow( FIRST X IN BTM.Linking.Linkings )</Expression>
 </Case></Cases>
 </Function><Function
  Type="LinkingDataStruct"
@@ -475,6 +482,13 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
  Guid="49a0f15f-753a-4b28-adc4-b971e6631605"
 >
 </ReqRef><Comment>If the current balise group was announced by linking as &quot;unknown&quot;, then it will only be considered if it contains the repositioning information valid for the train orientation.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="5722127e-b1b6-4bc8-bf17-d069a6d25054"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Check linking consistency"
@@ -486,9 +500,12 @@ Since this only stores what is inside Q_LOCACC (which can only be in the range o
 >Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
 <Expression>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN
   AND
-THERE_IS X IN BTM.CurrentBaliseGroup | BTM.Linking.TelegramContainsRepositioningInformation ( X.Telegram )
+THERE_IS X IN aBaliseGroup | TelegramContainsRepositioningInformation(
+    Message =&gt; X.Telegram,
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
+)
   AND
-BTM.BaliseGroupOrientation() == BTM.Linking.CurrentLinking().Orientation</Expression>
+BGOrientationIsValid(aBaliseGroup)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="785236bb-e746-4b79-a351-c6484432eced"
@@ -530,8 +547,14 @@ BTM.BaliseGroupOrientation() == BTM.Linking.CurrentLinking().Orientation</Expres
 <PreConditions>
 <PreCondition
  Guid="18f99ebe-a473-4db4-b373-7e63ff5fd10e"
->THERE_IS X IN BTM.Linking.Linkings | X.BaliseGroupIdentifier == NID_BG</PreCondition></PreConditions>
-<Expression>( FIRST X IN BTM.Linking.Linkings | X.BaliseGroupIdentifier == NID_BG ).Distance</Expression>
+>Available( GetLinkingFromNidBG(NID_BG) )</PreCondition></PreConditions>
+<Expression>(SUM Linkings | Before(
+        ExpectedFirst =&gt; X,
+        ExpectedSecond =&gt; GetLinkingFromNidBG(NID_BG),
+        Collection =&gt; Linkings
+    )
+ USING X IN X.Distance)
+ + GetLinkingFromNidBG(NID_BG).Distance</Expression>
 </Case><Case
  Name="No information available"
  Guid="d73efdcf-cfd4-445a-8b37-24b05899772b"
@@ -617,16 +640,7 @@ Justification: This simple function can be used here since the update of availab
  Name="Yes"
  Guid="748aed41-c3ac-445b-bd0a-2eb300d6b520"
 >
-<PreConditions>
-<PreCondition
- Guid="724efeca-0f8b-468c-b945-1d780a28c811"
->BTM.Linking.Linkings != []</PreCondition></PreConditions>
-<Expression>Boolean.True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="6f2947ab-680b-4f75-8593-5caa93ea57c4"
->
-<Expression>Boolean.False</Expression>
+<Expression>BTM.Linking.Linkings != []</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -638,7 +652,7 @@ Justification: This simple function can be used here since the update of availab
  Pinned="TRUE"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="CurrentBGIsLinked"
+ Name="BGIsLinked"
  Guid="9e18ed01-8872-48ce-ad92-cf3ad4f6b5f9"
 >
 <ReqRef
@@ -649,12 +663,19 @@ Justification: This simple function can be used here since the update of availab
 </ReqRef><Comment>Returns true if the Current Balise Group is linked
 
 FORALL_IN is defensive programming; if the Collection does not have the same values for Q_LINK in all Telegrams, the Message should not have been accepted in the first place (§3.16.2.4.1/c, §3.16.2.4.4/c, §3.16.2.5.1/c)</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="fcaf151c-9bdb-45d3-a6f7-6511a90fd934"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
  Guid="10d7ba53-fe0f-4e69-b2f8-e74a576996b1"
 >
-<Expression>FORALL X IN BTM.CurrentBaliseGroup | X.Telegram.Q_LINK == Messages.Q_LINK.Linked</Expression>
+<Expression>FORALL X IN aBaliseGroup | X.Telegram.Q_LINK == Messages.Q_LINK.Linked</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -674,14 +695,21 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
  Guid="4ace0d8a-5450-4e81-a56a-4858fbdf2225"
 >
 </ReqRef><Comment>Special case of ConsiderBG(). Returns true if the current BG is unlinked but has to be considered, nevertheless.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="9512c0f2-0e3f-47fa-b2c4-d55a392fa317"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
  Guid="7a5fb781-d47d-4183-85ce-e677f5830885"
 >
-<Expression>NOT BTM.Linking.CurrentBGIsLinked()
+<Expression>NOT BGIsLinked(aBaliseGroup)
   AND
-(COUNT X IN BTM.CurrentBaliseGroup) &gt;= 2</Expression>
+(COUNT X IN aBaliseGroup) &gt;= 2</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -716,6 +744,13 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
  Guid="48985d3b-ea65-4129-a0d4-e89d0093552b"
 >
 </ReqRef><Comment>Verifies that the identifier of the current BG was announced by the linking (or that the linking has announced that the following balise group&apos;s identifier is unknown).</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="aId"
+ Guid="3f391221-3ad4-47da-9c0a-82a5fa92cbdb"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Check linking consistency"
@@ -725,7 +760,7 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
 <PreCondition
  Guid="82df884c-19da-40cc-b3b1-5c5365462f5f"
 >Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
-<Expression>THERE_IS X IN BTM.Linking.Linkings | X.BaliseGroupIdentifier == (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG</Expression>
+<Expression>THERE_IS X IN BTM.Linking.Linkings | X.BaliseGroupIdentifier == aId</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="09df7dbf-e9d8-4952-aa0d-0c4b26e9dd18"
@@ -756,13 +791,21 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
  Name="Message"
  Guid="f0bd316f-cdcd-41eb-8a6a-cf4007997b85"
 >
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="d8f78a5c-6bad-46b7-ae67-395d3780d3fe"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
  Guid="efbb6e0b-2160-4e54-acf9-98923bf5abab"
 >
-<Expression>THERE_IS X IN Message.Sequence1 | ConsiderBTMPacket ( PacketOrientation =&gt; X.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR)</Expression>
+<Expression>THERE_IS X IN Message.Sequence1 | Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; X.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="LinkingErrorEnum"
@@ -816,7 +859,19 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fd3f8b1f-0d60-42bb-9f46-db9b0c2d1827"
 >
+</ReqRef><ReqRef
+ Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08c35d30-c3b0-49aa-9ed9-47c9cca9967b"
+>
 </ReqRef><Comment>Returns true if there is a linking consistency error with the BG</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="0aae76d7-7b42-411c-96f3-8785055b0b06"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Do not check Linking consistency"
@@ -835,9 +890,9 @@ FORALL_IN is defensive programming; if the Collection does not have the same val
 <PreConditions>
 <PreCondition
  Guid="9395d930-3de6-407a-9481-58901353982a"
->(FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG == (FIRST X IN BTM.Linking.Linkings).BaliseGroupIdentifier
+>GetNID_BG(aBaliseGroup) == (FIRST X IN BTM.Linking.Linkings).BaliseGroupIdentifier
   AND  
-NOT BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
+NOT BGWithinFrame(aBaliseGroup)</PreCondition></PreConditions>
 <Expression>BTM.Linking.LinkingErrorEnum.BGEncounteredEarly</Expression>
 </Case><Case
  Name="Later BG found first"
@@ -848,9 +903,9 @@ NOT BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 <PreCondition
  Guid="eefad305-9f3a-4973-a898-0f076af71e89"
 >THERE_IS X IN BTM.Linking.Linkings | 
-    ((X != FIRST X IN BTM.Linking.Linkings) AND ( (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG == X.BaliseGroupIdentifier))
+    ((X != FIRST X IN BTM.Linking.Linkings) AND ( GetNID_BG(aBaliseGroup) == X.BaliseGroupIdentifier))
   AND  
-BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
+BGWithinFrame(aBaliseGroup)</PreCondition></PreConditions>
 <Expression>BTM.Linking.LinkingErrorEnum.WrongBG</Expression>
 </Case><Case
  Name="Otherwise"
@@ -880,12 +935,19 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Guid="6aac8dd4-9edd-47c7-acfb-f7219d224d2f"
 >
 </ReqRef><Comment>Returns True if the announced BG&apos;s orientation matches the expected orientation</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="3657405e-fe1c-4811-af5e-6b9b318e58fa"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Value"
  Guid="e8cfc917-3918-4465-9013-4236335bcc82"
 >
-<Expression>BTM.Linking.CurrentLinking().Orientation == BTM.BaliseGroupOrientation()</Expression>
+<Expression>BTM.Linking.CurrentLinking().Orientation == BGOrientation(aBaliseGroup)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -910,6 +972,13 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Guid="68901a58-e8fa-4e41-b5f7-a31e93997ee5"
 >
 </ReqRef><Comment>Returns True if the train has no linking information or if the current BG is unlinked</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="21c7104a-cfe7-4b08-a96a-c0b8e26504c9"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Linking is not available"
@@ -928,7 +997,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="36ca612a-201d-450b-971d-11450853b5f9"
->BTM.Linking.ConsiderUnlinkedBG()</PreCondition></PreConditions>
+>BTM.Linking.ConsiderUnlinkedBG(aBaliseGroup)</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
@@ -969,6 +1038,13 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Guid="c12cdcc0-b4fb-4d97-939d-5db6d594f159"
 >
 </ReqRef><Comment>Returns True if the current BG is linked and announced</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="981b6903-ef6c-4a58-8e38-17c0cf967882"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="Current BG linked and announced"
@@ -976,11 +1052,11 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 >
 <Expression>(BTM.Linking.LinkingApplicable())
   AND  
-(BTM.Linking.CurrentBGIsLinked())
+(BGIsLinked(aBaliseGroup))
   AND  
-( BTM.Linking.BGIdentityIsValid()
+( BTM.Linking.BGIdentityIsValid(GetNID_BG(aBaliseGroup))
     OR  
-  BTM.Linking.BGIsUnknownWithRepositioningPacketValidForDirection() )</Expression>
+  BTM.Linking.BGIsUnknownWithRepositioningPacketValidForDirection(aBaliseGroup) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="LinkingDataStruct"
@@ -1029,10 +1105,19 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Value"
+ Name="There is a linking with the provided identifier"
  Guid="c33cb167-421e-456d-a6bf-0eddbeb039be"
 >
+<PreConditions>
+<PreCondition
+ Guid="229f3cc2-2dce-4aca-ace5-1fb68a474761"
+>BGIdentityIsValid( NID_BG )</PreCondition></PreConditions>
 <Expression>FIRST BG IN BTM.Linking.Linkings | BG.BaliseGroupIdentifier == NID_BG</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6d5a260c-a6c2-4a38-b06a-b4753dd4f089"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1075,7 +1160,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="BGinExpectationWindow"
+ Name="BGIsInExpectationWindow"
  Guid="bc073612-7beb-4876-ba83-6c868455d95a"
 >
 <ReqRef
@@ -1110,7 +1195,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="4b2c047b-90a3-49e7-b4f9-8ff093ea90a3"
->BTM.BGLocationReference.Position.Position + BTM.BGLocationReference.Position.UnderReadingAmountOdo &lt; LinkedBG.Distance - LinkedBG.LocationAccuracy + BTM.LRBG.Position.Position</PreCondition></PreConditions>
+>BTM.BGLocationReference.Position.Position + BTM.BGLocationReference.Position.UnderReadingAmountOdo &lt; LinkedBG.Distance - LinkedBG.LocationAccuracy + LRBG.LRBG.Position.Position</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="After expectation window"
@@ -1120,7 +1205,7 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="a13d9a26-6872-475a-b2a5-b2e0d9cf137e"
->BTM.BGLocationReference.Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &gt; LinkedBG.Distance + LinkedBG.LocationAccuracy + BTM.LRBG.Position.Position</PreCondition></PreConditions>
+>BTM.BGLocationReference.Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &gt; LinkedBG.Distance + LinkedBG.LocationAccuracy + LRBG.LRBG.Position.Position</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Inside expectation window"
@@ -1187,56 +1272,115 @@ BTM.Linking.CurrentBGWithinFrame()</PreCondition></PreConditions>
 <Expression>AntennaDistance( DistanceIntervalEnum.Min ) &gt; BTM.Linking.RAMSSupervisedBG.EndOfWindow</Expression>
 </Case></Cases>
 </Function><Function
- Type="BaseTypes.Distance"
+ Type="Boolean"
  Default=""
- X="780"
- Y="200"
+ X="670"
+ Y="380"
  Width="100"
  Height="50"
- Name="DistanceFromReference"
- Guid="0ae663a7-8b68-4ccb-8aff-35f888ff9ca9"
+ Implemented="TRUE"
+ Name="ConsiderBaliseMessage"
+ Guid="5924968f-66af-4d9f-93cc-6c0c651f4a2b"
 >
-<Comment>The distance that the train has covered from its current location reference.
-Used when a new BG is received, the parameter aLinkingUsed indicates whether to reposition the train based on the received linking information or whether to use the odometry distance.</Comment>
-<Parameters>
+<ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c99405c-0a1a-4326-ae3b-8f164bbce03f"
+>
+</ReqRef><ReqRef
+ Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4211a098-6b11-44af-92b5-9af48c6c169c"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df625f75-fece-4951-be3a-5aa0fd982d85"
+>
+</ReqRef><ReqRef
+ Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59beb8f8-0607-43c3-b508-942f3e0a13b2"
+>
+</ReqRef><ReqRef
+ Id="370bc14e-630a-4f72-87f6-54e50015825c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9aaddcb7-5af4-47ea-bdff-7432fd9c34a3"
+>
+</ReqRef><Parameters>
 <Parameter
- Type="Boolean"
- Name="aLinkingUsed"
- Guid="83fb0854-ba5f-4f0e-bc60-2fc30e474183"
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="de4e0601-42b9-473f-b861-4a8a125930d1"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Linking used - repositioning information"
- Guid="da4871b3-f972-49c1-9cae-054736dcef35"
+ Name="Consider BG with linking"
+ Guid="7dfd9cbc-b631-42eb-8c27-733d4b0c6d28"
 >
 <PreConditions>
 <PreCondition
- Guid="7fafc1aa-203c-4535-bc00-e69ab34d1cbf"
->aLinkingUsed</PreCondition><PreCondition
- Guid="002136ed-5249-4a30-a4d8-f566e91e7805"
->CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )</Expression>
+ Guid="b8f8f76c-4714-4357-86bb-c4a09571c1ec"
+>BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
+ Guid="63a6024f-238f-41a5-a858-35f93930937d"
+>LinkingApplicable()</PreCondition></PreConditions>
+<Expression>BTM.Linking.ConsiderBGWithLinking(aBaliseGroup)</Expression>
 </Case><Case
- Name="Linking used"
- Guid="6a733c58-6ee4-4358-a5b5-d7771e02ee5d"
+ Name="Consider BG without linking"
+ Guid="bb9f7d9f-231e-48e3-957d-44fa33c4253d"
 >
-<PreConditions>
-<PreCondition
- Guid="74979ccd-2860-4341-a7f9-50ba912f66c8"
->aLinkingUsed</PreCondition></PreConditions>
-<Expression>CurrentLinking().Distance</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="6666be28-e39d-4e88-a92d-ec5dbfd8069b"
+<Expression>BTM.Linking.ConsiderBGWithoutLinking(aBaliseGroup)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="UseLinkingInformation"
+ Guid="8b384565-d3f6-4feb-8c55-2059fdfa8bbf"
 >
-<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )</Expression>
+<ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2184685-1b0f-4ba1-a780-aa705694c0ac"
+>
+</ReqRef><ReqRef
+ Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11095974-5f18-4bba-960e-205b5f3f5c4a"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="033b65ec-0b9b-4204-a4d9-c8a43a9f5d10"
+>
+</ReqRef><Comment>The BG should only be evaluated with reference to the linking information if:
+  1) The BG is marked as linked
+  2) There is linking information stored on-board</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="0c4e2075-0e55-451f-a136-3c141c644ac4"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="fac907e6-9ee1-4c6c-a6ea-23ee99680faa"
+>
+<Expression>BGIsLinked( aBaliseGroup )
+  AND  
+LinkingApplicable()</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
  X="10"
- Y="420"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1460,7 +1604,7 @@ IN BTM.Linking.Linkings</Action></Actions>
 </Rule></Rules>
 </Procedure><Procedure
  X="120"
- Y="420"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1543,8 +1687,8 @@ IN BTM.Linking.Linkings</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="230"
- Y="420"
+ X="120"
+ Y="470"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1578,6 +1722,8 @@ This function is called whenever it is appropriate, so it does not need any prec
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Stop expecting current BG"
  Guid="662b3dc5-53fd-490d-9fa5-d31299970ac2"
@@ -1601,6 +1747,8 @@ This function is called whenever it is appropriate, so it does not need any prec
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Start balise cross-talk supervision"
  Guid="f834e2de-9329-4fd0-82db-3de962582e6e"
@@ -1627,8 +1775,8 @@ This function is called whenever it is appropriate, so it does not need any prec
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="340"
- Y="420"
+ X="230"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1837,599 +1985,8 @@ Activate the service brake if a second linked BG in a row is missed.</Comment>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="670"
- Y="420"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="CheckBGBeforeHandling"
- Guid="46db880c-ef3f-4a0a-b4cc-e2d35ba556b3"
->
-<ReqRef
- Id="689ab6d6-cac9-4667-86bf-c6be70fefd43"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a2e2fb3b-dd84-4c86-975b-7d6d3af82555"
->
-</ReqRef><ReqRef
- Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9bfafb88-420b-4da7-ae50-ac7cdb434667"
->
-</ReqRef><ReqRef
- Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7f50a28c-3294-45ec-abcf-f25872353706"
->
-</ReqRef><ReqRef
- Id="572df3cf-8b3b-4e6d-b78e-c0ff6690a2cb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ac81e337-d784-4e3c-b81e-61c4aaace7bc"
->
-</ReqRef><ReqRef
- Id="85c84a18-90d4-4035-90e4-abdba8729120"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9f39e6f1-1c6f-4d49-9449-091b5b6c69fa"
->
-</ReqRef><ReqRef
- Id="2c84de1b-61c3-4555-b485-6b4eae58ae90"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a7b061c3-553a-46fd-8d83-965b0dbe14b6"
->
-</ReqRef><ReqRef
- Id="259e3c43-f68a-4c80-8402-32349f27172d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8ce9acea-5496-46cc-97b3-76aee8407b74"
->
-</ReqRef><ReqRef
- Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c83c7e94-95e6-475f-9d5c-b6aeeb0a46e4"
->
-</ReqRef><ReqRef
- Id="370bc14e-630a-4f72-87f6-54e50015825c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e6a6c189-97f6-4f51-9956-420679e3fd16"
->
-</ReqRef><ReqRef
- Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="65fc2a0c-20a8-4de3-8e5c-7ab2646c7aea"
->
-</ReqRef><ReqRef
- Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2e571b5d-7f6e-4706-b8d9-704cc4440866"
->
-</ReqRef><ReqRef
- Id="2a179500-0c97-46fb-975e-2dda45df541e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2ec34226-e3b2-4ee0-a85e-d53aa4286c61"
->
-</ReqRef><ReqRef
- Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="99879114-f1fd-49c7-8798-fbf193b40038"
->
-</ReqRef><ReqRef
- Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="62fce0f9-f1df-45cc-8519-a8bef2998613"
->
-</ReqRef><ReqRef
- Id="a28fa2ad-f49b-49e3-b6c9-a96b78f87074"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="39b783b6-ddcc-4861-93ca-c9b0d2b96780"
->
-</ReqRef><ReqRef
- Id="2ae792ac-3c8b-4e81-a0b9-fcf10ab3dbdc"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5a96836b-bf87-46e5-b194-0e5711a54457"
->
-</ReqRef><ReqRef
- Id="d9694f89-1162-4ba5-a82c-a37e0df77929"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="87a2a88b-1e1b-4ed7-beeb-e3817870ead5"
->
-</ReqRef><ReqRef
- Id="cc65b517-2625-4019-bbbf-8b6f317ae84f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c4110f81-9299-4db1-a2b9-69f1408bcc21"
->
-</ReqRef><ReqRef
- Id="2acfcc15-b52e-4162-a72e-a4ff1e9f43e1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5ac8c2db-68d2-46bb-86c3-32404b3cb362"
->
-</ReqRef><ReqRef
- Id="2a937786-e263-4ac1-b082-05a22e1946c6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ceb1c4a5-3728-4a4f-9074-fda8b9a33389"
->
-</ReqRef><Comment>Performs all the linking and linking consistency checks needed before a balise message is handled</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check list of expected balises"
- Guid="1c6c1ee3-5e2b-46de-b12e-939ceebac056"
->
-<Comment>If the current mode is SH/SR, check the received  BG against the list of expected balises for SH/SR Mode.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="In SH mode"
- Guid="5aa01674-ac6a-41a6-ad84-8971d1ae9e14"
->
-<ReqRef
- Id="aef89c33-3eb6-459c-901c-72a521999db9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="05824919-5263-420b-9c2a-992ae628a6e4"
->
-</ReqRef><Comment>In SH mode, check for a list of expected Balise groups for SH.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d3e69c54-db46-4f85-9ff3-3159f3eeaff0"
->Kernel.Mode == ModeEnum.SH</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8d1a6745-9466-4063-a719-d54c187a08dc"
->BTM.Linking.MessageRejected &lt;- NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check Override"
- Guid="4943ad82-27d7-43c4-b277-643868333dfe"
->
-<Comment>The actions depoend on whether the Override function is active.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Override active"
- Guid="6f42a3b6-0413-4061-a5fb-ab1fea4beb13"
->
-<ReqRef
- Id="772e0087-dcb8-45bf-a888-56863cd592af"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d332e7a-6bd1-4a3f-afbb-4273099d0492"
->
-</ReqRef><ReqRef
- Id="f8000cfa-0807-4266-8df9-c687e29b4770"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e94c9171-3088-46d7-b3c7-d192767e41b8"
->
-</ReqRef><Comment>If Override is active, then the only consequence on the unexpected balise is ending the Override.</Comment>
-<PreConditions>
-<PreCondition
- Guid="4d72ed6a-34ed-4ae1-bee2-5d3eee748c56"
->Kernel.Override.OverrideIsActive()</PreCondition><PreCondition
- Guid="7cc8d037-8b04-42f7-ba28-aa0267b49cb4"
->NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a1911e56-0595-4442-9bba-9d751ab62385"
->Kernel.Override.EndOverride()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Otherwise"
- Guid="b6c3eb5c-244e-4a41-8e01-6d3509939a7d"
->
-<Comment>Otherwise, the the train will Trip.</Comment>
-<PreConditions>
-<PreCondition
- Guid="dd9b3225-2527-4b38-b5cc-9e1c9a9aec2c"
->NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="834b94d2-1cc0-44a6-9de5-016da6df76c4"
->Kernel.Modes.Shunting.UnexpectedBGPassed&lt;- NOT Kernel.Modes.Shunting.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="In SR mode"
- Guid="8a482241-5c9d-4374-876a-dee9e253676a"
->
-<ReqRef
- Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5c1abe7f-0f3b-4028-b63a-0aac206b28af"
->
-</ReqRef><Comment>In SR mode, check for a list of expected Balise groups for SR.</Comment>
-<PreConditions>
-<PreCondition
- Guid="b0d0f21d-b735-4fdb-bb84-9a28eba9d3d1"
->Kernel.Mode == ModeEnum.SR</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="6cb1c474-bc67-4f05-835f-4028f0ac9989"
->BTM.Linking.MessageRejected &lt;- NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check Override"
- Guid="09461e53-fbd0-411d-bf24-e120886a608a"
->
-<Comment>The actions depoend on whether the Override function is active.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Override active"
- Guid="5719c186-4073-47b5-bf4f-6e0e9d3bf64b"
->
-<ReqRef
- Id="772e0087-dcb8-45bf-a888-56863cd592af"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b7d9cb74-e25e-4b10-85d1-c1b96eec0f87"
->
-</ReqRef><ReqRef
- Id="f8000cfa-0807-4266-8df9-c687e29b4770"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5f3e462e-cc2e-4c47-b1fa-8d46bb271e0b"
->
-</ReqRef><Comment>If Override is active, then the only consequence on the unexpected balise is ending the Override.</Comment>
-<PreConditions>
-<PreCondition
- Guid="99004535-a5d7-4dad-b64c-4b6ccd0e0a0a"
->Kernel.Override.OverrideIsActive()</PreCondition><PreCondition
- Guid="27d3d240-9b53-4aab-802c-a16ca17e0216"
->NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="50b573f5-f985-4c63-a42e-68a3738515a0"
->Kernel.Override.EndOverride()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Otherwise"
- Guid="52c4be68-2cd6-4ce2-b857-cea879dcfd47"
->
-<Comment>Otherwise, the the train will Trip.</Comment>
-<PreConditions>
-<PreCondition
- Guid="e6c3708a-6599-485b-9b48-0b9a8b0301e7"
->NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="da4003ca-f51b-4105-998f-3eb77cbdfcde"
->Kernel.Modes.StaffResponsible.UnexpectedBGPassed&lt;- NOT Kernel.Modes.StaffResponsible.BGIsExpected(BTM.CurrentBaliseGroup)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Otherwise"
- Guid="dc1777c6-7bfe-4c25-b2f7-0679143c756a"
->
-<Comment>In other modes, we do not need to check against a list of expected Balise groups.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="b8a8678f-a8b2-46f1-8bf8-616eb813e4d9"
->BTM.Linking.MessageRejected &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check VBC"
- Guid="caf9206b-cf25-4596-a689-99b419d3dcfb"
->
-<ReqRef
- Id="325f20da-5bb8-48c5-8709-2d85152d43f7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ec0c4e31-e44a-4513-ab42-757e60d68b0c"
->
-</ReqRef><Comment>Check the Virtual Balise Covers against the message</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Check VBC"
- Guid="7e86b069-6f62-4f0b-becf-0151f3bb1dc6"
->
-<PreConditions>
-<PreCondition
- Guid="f09ace5e-2bad-4e68-8426-d3bbf8bcdcc8"
->Kernel.ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition><PreCondition
- Guid="782453fa-a201-492f-b441-89440b123b19"
->NOT BTM.Linking.MessageRejected</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1a8e70a6-fc3d-4212-a393-e6e1c1372d77"
->BTM.Linking.MessageRejected &lt;- THERE_IS X IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs | ( X.Marker.Area == (FIRST Message IN BTM.CurrentBaliseGroup).Telegram.NID_C  AND  X.Marker.Marker == (FIRST Message IN BTM.CurrentBaliseGroup).Telegram.NID_BG )</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check the coutry/region identifiers"
- Guid="e64b04f0-4cb3-4e30-85e9-507a57b9bce8"
->
-<ReqRef
- Id="319c077a-b554-46e1-b263-636a65b5e1e9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="08104a7e-e6a7-4e29-9cad-5a1e8018da1e"
->
-</ReqRef><ReqRef
- Id="c9d51e90-7f7e-4c3e-b330-dec4e7a4499d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="70873974-ce7e-4f1a-aff0-b9750addfa2e"
->
-</ReqRef><Comment>Check the Virtual Balise Covers for any markers that are not applicable i nthe current region.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove markers with NID_C different to BG"
- Guid="47d119c4-d206-455a-9286-1cb961ec1be7"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="2e1d9662-6036-4897-a228-37c00a44fe2b"
->Kernel.VirtualBaliseCover.CheckNID_C(
-    NID_C =&gt; (FIRST Message IN BTM.CurrentBaliseGroup).Telegram.NID_C
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check Linking"
- Guid="03c7adad-c5f2-4e0c-b75a-fc95323fbc0e"
->
-<ReqRef
- Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="11686a8a-2e17-4465-98bb-16877dd16273"
->
-</ReqRef><ReqRef
- Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="613f2ef2-9b75-4bce-ab3b-9e42b280c042"
->
-</ReqRef><ReqRef
- Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="932d00f8-4441-4e04-bed6-fc45254299a5"
->
-</ReqRef><Comment>This handles the case where there is no linking information available or the received message is unlinked</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="No Linking"
- Guid="1674753e-32b6-4435-b722-c9d87cf7a490"
->
-<Comment>Linking is not applicable in this case</Comment>
-<PreConditions>
-<PreCondition
- Guid="e42b64dc-30a7-4d68-85ec-69e259afc79d"
->BTM.Linking.ConsiderBGWithoutLinking()</PreCondition><PreCondition
- Guid="e2380874-6cd0-43ab-90a7-bc48cdb67166"
->NOT BTM.Linking.MessageRejected</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="bac12566-89d7-4f78-a052-2705f05be489"
->BTM.CheckMessageConsistency(
-    LinkingUsed =&gt; False,
-    LinkingReaction =&gt; BTM.Linking.LinkingReaction.CommandServiceBrake
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Linking"
- Guid="1fb15c41-3215-4765-a3ec-e3745a94adb7"
->
-<ReqRef
- Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="568b2e62-5a2a-4d68-ae5c-66b129595653"
->
-</ReqRef><Comment>Consider the BG with linking</Comment>
-<PreConditions>
-<PreCondition
- Guid="5f6b30d6-5215-4d2b-bd11-4191bbad5d7f"
->BTM.Linking.ConsiderBGWithLinking()</PreCondition><PreCondition
- Guid="956fa6d3-bdee-4ddb-96ba-4dd281e6e5c0"
->NOT BTM.Linking.MessageRejected</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check balise cross-talk RAMS"
- Guid="84bb496a-8f09-4b15-80be-d4e46aa8e27b"
->
-<ReqRef
- Id="6ae42f8d-795c-47e9-8a41-3f4433b18021"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6a52c330-f335-47a7-9669-8c47a73c9b9d"
->
-</ReqRef><Comment>If the RAMS cross-talk supervision function is active, check the linking. If the balise was linked and is expected in the linking information, delete the supervision information as it is no longer needed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove RAMS if known, linked BG"
- Guid="b2d4afb6-ba51-4ccb-9557-e58bd290d804"
->
-<ReqRef
- Id="848fea93-159f-4a91-8e12-25254251ce91"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9d9a39dd-ce42-4973-b858-899bf41e5a07"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="5c4ec92f-7397-4b1a-8e94-ab0d3f2c56b3"
->BTM.Linking.CurrentLinking().BaliseGroupIdentifier != Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="369dfef1-1fae-4ce2-b6c1-777ef0432e42"
->BTM.Linking.RAMSRepositioningBG &lt;- EMPTY</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check balise reception RAMS"
- Guid="d830518c-e527-4ce2-8aba-7ea17d82d7b7"
->
-<Comment>If the RAMS supervision function is active, check it against the current BG.
-If the IDs match, stop the RAMS supervision.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove RAMS supervision of passed BG"
- Guid="cb55754b-6fb9-4556-a4e0-28de420565c0"
->
-<PreConditions>
-<PreCondition
- Guid="620c93eb-fc20-46b3-aa97-2c6d1ad2a3ab"
->Available(BTM.Linking.RAMSSupervisedBG)
-  AND  
-BTM.Linking.RAMSSupervisedBG.Id == (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="efaa08c9-62f2-45d9-b68f-3a1da3e29641"
->BTM.Linking.RAMSSupervisedBG &lt;- EMPTY</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Linking consistency"
- Guid="fe7b358e-e6db-40dd-a1da-f91ccb48aa66"
->
-<ReqRef
- Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="55293400-a7f5-4956-a033-2e9096f7b0e9"
->
-</ReqRef><ReqRef
- Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e3f1793b-11f7-4795-8bce-77cca8e969ce"
->
-</ReqRef><ReqRef
- Id="2a179500-0c97-46fb-975e-2dda45df541e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a3944870-66f6-4372-bfbe-b52916f561a4"
->
-</ReqRef><ReqRef
- Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0be5aede-ece2-4ec9-8f1c-d767bb0c4aaf"
->
-</ReqRef><ReqRef
- Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a7caea05-929f-4b2b-9ba3-67fafa1cf76e"
->
-</ReqRef><Comment>Check that the linking consistency information is all valid and act accordingly</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="No linking consistency errors"
- Guid="92ae5112-1d17-470b-8deb-cde67e73ab4e"
->
-<Comment>Linking consistency is OK
-If the BG was passed in the right direction, handle the message. If not, the train will be tripped (as a mode transition, no need to specify that here)</Comment>
-<PreConditions>
-<PreCondition
- Guid="64a649af-e04e-4e87-9f05-10155fb800fd"
->BTM.Linking.ConsistencyError() == BTM.Linking.LinkingErrorEnum.NoError</PreCondition><PreCondition
- Guid="8a07516f-5e49-4e7f-9fb9-ca69da857f66"
->BTM.Linking.BGOrientationIsValid()</PreCondition><PreCondition
- Guid="ece8fce6-b40d-40dc-bf42-8979cd157cb4"
->BTM.Linking.ConsiderBGWithLinking()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="6f9ef685-68b5-4cf8-ab5b-fe3765ff7cb1"
->BTM.CheckMessageConsistency(
-    LinkingUsed =&gt; True,
-    LinkingReaction =&gt; (FIRST X IN BTM.Linking.Linkings).Reaction
-)</Action><Action
- Guid="73f60427-194a-4f61-9082-16f71fa2409d"
->BTM.Linking.StopExpectingBG( (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="There is an error in the linking consistency of the current BG"
- Guid="eb7ab073-eb3e-4a3f-99bb-2227d1147a1b"
->
-<Comment>If the received, linked BG is the next one expected, its message can still be accepted</Comment>
-<PreConditions>
-<PreCondition
- Guid="55a61f56-5d3b-4c7d-8122-989e234d8234"
->BTM.Linking.ConsistencyError() != BTM.Linking.LinkingErrorEnum.NoError</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="4dd4bc3d-0771-48b0-8b36-200f331fbb16"
->BTM.Linking.HandleConsistencyError()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Check RAMS repositioning function"
- Guid="b9dec577-e68c-4cb0-83bc-4e13d56f5bec"
->
-<ReqRef
- Id="6ae42f8d-795c-47e9-8a41-3f4433b18021"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f9eabc81-580c-4d83-b081-34fbb10dd3d3"
->
-</ReqRef><ReqRef
- Id="aaa581cb-18a1-43c9-861e-43c4d76ec1fe"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f0a3dba2-4e71-4107-a0e9-129298deb930"
->
-</ReqRef><Comment>If the received BG is linked but is not present in the linking information while the RAMS cross-talk supervision function is active, active the service brake.</Comment>
-<PreConditions>
-<PreCondition
- Guid="5777b7bc-699f-45f1-89ed-9f7a10ab06d7"
->Available(BTM.Linking.RAMSRepositioningBG)</PreCondition><PreCondition
- Guid="e1a20219-11e1-4519-8332-9991357825e0"
->THERE_IS message IN BTM.CurrentBaliseGroup | 
-(
-  THERE_IS packet IN message.Telegram.Sequence1 |
-    Available(packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION)
-)</PreCondition><PreCondition
- Guid="97e201cd-7e8c-4cd0-9796-d3b94acf3a02"
->(FIRST X IN BTM.CurrentBaliseGroup | NOT X.Missed).Telegram.Q_LINK == Messages.Q_LINK.Linked</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f7aea1c2-1e1f-4d47-8f36-412e4107ba4b"
->Kernel.HandlingOfAcceptedAndStoredInformation.RAMSSupervisionFunctionLedToServiceBrake &lt;- True</Action><Action
- Guid="294b1490-c94d-4bac-b054-feaef3d222b4"
->Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.RAMSSupervision)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="560"
- Y="420"
+ X="340"
+ Y="410"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2442,6 +1999,13 @@ If the BG was passed in the right direction, handle the message. If not, the tra
  Guid="2c91ae43-c72a-4c3a-9710-9300ed5342c7"
 >
 </ReqRef><Comment>Procedure that handles the case where the received BG is linked, but there is a linking consistency error</Comment>
+<Parameters>
+<Parameter
+ Type="LinkingErrorEnum"
+ Name="aConsistencyError"
+ Guid="fa352fd0-9834-478c-a8e4-392d524c7f1c"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2467,7 +2031,7 @@ If the BG was passed in the right direction, handle the message. If not, the tra
 <Actions>
 <Action
  Guid="d500b496-dbe7-4910-a496-022d1d5989a4"
->BTM.Linking.HandleLinkingError(BTM.Linking.ConsistencyError())</Action></Actions>
+>BTM.Linking.HandleLinkingError(aConsistencyError)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2522,14 +2086,9 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 <PreConditions>
 <PreCondition
  Guid="4763c511-acc0-4a63-804e-33272d25fac6"
->BTM.Linking.BGinExpectationWindow( BTM.Linking.CurrentLinking() )</PreCondition></PreConditions>
+>BGIsInExpectationWindow( BTM.Linking.CurrentLinking() )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="df96badb-3bc3-40d3-b767-aa2ff7b5b2be"
->BTM.CheckMessageConsistency(
-    LinkingUsed =&gt; True,
-    LinkingReaction =&gt; BTM.Linking.CurrentLinking().Reaction
-)</Action><Action
  Guid="b1dfce5d-66ae-4d4d-a99a-2708b3c6650f"
 >BTM.Linking.StopExpectingBG( (FIRST X IN BTM.CurrentBaliseGroup).Telegram.NID_BG )</Action></Actions>
 </RuleCondition><RuleCondition
@@ -2549,8 +2108,8 @@ As the first part of this procedure deletes the first (inconsistent) BG from the
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="450"
- Y="420"
+ X="230"
+ Y="470"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2700,8 +2259,8 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="780"
- Y="420"
+ X="10"
+ Y="470"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2754,15 +2313,11 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
  Guid="73565ceb-37b3-4b9b-be18-969fcda91e6b"
 >
 <PreConditions>
-<PreCondition
- Guid="506a2644-bec8-45d9-8999-6a0355be0ee3"
->BTM.Linking.Linkings != []
-  AND
-(LAST X IN BTM.Linking.Linkings).Distance &gt; aLocation</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="a80aee1b-084e-449b-af7b-529212487248"
->BTM.Linking.Linkings &lt;- MAP BTM.Linking.Linkings | X.Distance &lt;= aLocation USING X IN X</Action></Actions>
+>BTM.Linking.Linkings &lt;- FILTER Linkings | DistanceToBaliseGroup( X.BaliseGroupIdentifier ) &lt;= aLocation USING X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -2936,7 +2491,7 @@ TODO: functionnalise this</Comment>
 <Rule
  Priority="CleanUp"
  X="120"
- Y="520"
+ Y="530"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -2966,7 +2521,7 @@ TODO: functionnalise this</Comment>
 </Rule><Rule
  Priority="CleanUp"
  X="10"
- Y="520"
+ Y="530"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3006,7 +2561,7 @@ AntennaDistance( DistanceIntervalEnum.Min ) &gt; BTM.Linking.RAMSRepositioningBG
 </Rule><Rule
  Priority="CleanUp"
  X="230"
- Y="520"
+ Y="530"
  Width="100"
  Height="50"
  Name="Clean up linking error"

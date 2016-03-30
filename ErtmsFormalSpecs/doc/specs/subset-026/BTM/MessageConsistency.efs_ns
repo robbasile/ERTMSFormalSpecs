@@ -1,0 +1,802 @@
+<NameSpace
+ X="40"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="MessageConsistency"
+ Guid="cff520a1-17dd-4d75-bb82-95d0b3160320"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="260"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InconsistentMessageCounters"
+ Guid="a1e62178-d9df-4071-b48d-0ea402143296"
+>
+<ReqRef
+ Id="5b83898b-9d38-4194-ba39-282256776162"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dba29bb1-bbac-4c65-adb4-89944c702dbc"
+>
+</ReqRef><ReqRef
+ Id="ff4a7424-8900-4f28-bd9d-78e5d8d68a96"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66cf7176-322d-48f1-bf2d-02b8b197fb43"
+>
+</ReqRef><ReqRef
+ Id="44ee1586-bb5c-42b3-b64d-c63e870d4d0e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f3c4a24-38ea-4260-a3fb-555b70e12c0d"
+>
+</ReqRef><ReqRef
+ Id="d3960249-edd7-4e75-8c50-ba27a4b4af49"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ad2fd8d-6136-4970-a8f0-d6d1b2cdc54d"
+>
+</ReqRef><ReqRef
+ Id="752dcbf7-d97c-4790-bac1-1fc62dbf66f1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ea8ee672-ffc2-4aea-8472-b9b0f3ed3d50"
+>
+</ReqRef><ReqRef
+ Id="68a7df3c-ca07-4adf-ac06-12ba8e631b5e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="447ddcef-7468-471e-b430-5e18c9d47ff5"
+>
+</ReqRef><ReqRef
+ Id="00031a80-e9f3-4821-a0a6-1d322a75fa85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e570ab3f-bd33-4724-875d-c61df23a1f5b"
+>
+</ReqRef><ReqRef
+ Id="d40be57e-365b-4f3a-ad26-7ff1d347c5f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b5d976e0-bde2-487e-9518-68a0622ded95"
+>
+</ReqRef><ReqRef
+ Id="04376925-d0f1-494f-bbdf-2723a7d3b9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e4812f5-b89e-4a4a-b548-fc33bd61c90c"
+>
+</ReqRef><Comment>Checks that all the message counters in the received BG are consistent (or that they all fit all other telegrams in the message).</Comment>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="f03ff606-0490-47eb-9990-e1df5f00bc5d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="All telegrams fit all others"
+ Guid="4bdef627-9e9b-4909-80c2-52097e9aec50"
+>
+<PreConditions>
+<PreCondition
+ Guid="a7bc10ee-a2e0-4e3e-9076-9f264f4a9e5c"
+>FORALL X IN aBaliseGroup | X.Telegram.M_MCOUNT == Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="A telegram fits none of the others"
+ Guid="4eb04444-97ff-45c2-97c3-0a5be833fb59"
+>
+<PreConditions>
+<PreCondition
+ Guid="0922999e-5a02-4990-b933-752811cb95c6"
+>THERE_IS Message IN aBaliseGroup | Message.Telegram.M_MCOUNT == Messages.M_MCOUNT.The_telegram_never_fits_any_message_of_the_group</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="There are two different message counters"
+ Guid="4a4aad7b-16a2-4058-b14a-8f29471350c7"
+>
+<Expression>THERE_IS Message IN aBaliseGroup | Message.Telegram.M_MCOUNT != BGM_MCOUNT(aBaliseGroup) AND Message.Telegram.M_MCOUNT != Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="260"
+ Y="260"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IncorrectValuesInMessage"
+ Guid="3260aec8-acde-48a4-813c-60c18974cfa2"
+>
+<ReqRef
+ Id="53747e4e-7f05-4bf8-9573-a743730e9af0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e3d71f43-4a31-47c7-8969-35c8d6cf85bf"
+>
+</ReqRef><ReqRef
+ Id="91521e6e-52aa-4c7b-bb7f-957007e8cee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad33275d-1d78-40f5-ba77-fc984ac71544"
+>
+</ReqRef><ReqRef
+ Id="758b6d57-bd6b-465f-b091-3477da12be7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="568def3c-1745-40f9-a486-2b01b6c5244a"
+>
+</ReqRef><ReqRef
+ Id="2acfcc15-b52e-4162-a72e-a4ff1e9f43e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b43825ac-ede4-4cfb-894b-24bc74886dc6"
+>
+</ReqRef><ReqRef
+ Id="da9f0886-9eda-4e06-91e4-41094a7a488f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="49268431-7e68-45c1-8abc-d59a62754742"
+>
+</ReqRef><Comment>Checks whether any of the variables in the message contain incorrect or spare values.</Comment>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="a5dd089a-5268-4145-a4c2-c078686eda8c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="6648ca8c-27e7-484f-b532-c80efeaf4c48"
+>
+<Expression>THERE_IS Message IN aBaliseGroup | NOT Messages.EUROBALISE.MessageValuesCorrect(Message.Telegram)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BaliseGroupIncomplete"
+ Guid="036c6c2b-15a1-405a-9afd-6a3bd4d66669"
+>
+<ReqRef
+ Id="3324bf1d-eedf-4227-a95f-86ca4e2d72e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1790e72e-ac6b-4ea6-babc-99ace6047388"
+>
+</ReqRef><ReqRef
+ Id="00031a80-e9f3-4821-a0a6-1d322a75fa85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="80118b6c-79dd-4f49-aae5-9b2cdcfbf8a2"
+>
+</ReqRef><ReqRef
+ Id="bc35119f-f1da-40d4-b6f7-b73c9ba07d98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="334c1577-1d0b-4294-a4ba-48179288eeee"
+>
+</ReqRef><ReqRef
+ Id="bb8f4e12-123f-4746-81d4-bd86e68fad6b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46b8f5fa-fcc0-4f8a-bba4-bad2f00be8ff"
+>
+</ReqRef><ReqRef
+ Id="5c440e26-b092-4abd-8105-dca981501e3f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ae4c9cc-2c3d-4485-ab91-55206e30c45d"
+>
+</ReqRef><ReqRef
+ Id="d9803061-6365-4307-896d-2019de665b23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8f4befa-e34c-4027-b57b-43c11910ca5f"
+>
+</ReqRef><ReqRef
+ Id="a7df0f1f-2d5f-4baa-b656-9ddbc4393074"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d3442c50-933d-48a1-a1ad-0a25cf37a913"
+>
+</ReqRef><ReqRef
+ Id="d40be57e-365b-4f3a-ad26-7ff1d347c5f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a0b0cf3f-9220-4357-a9ad-fabc9c930d68"
+>
+</ReqRef><ReqRef
+ Id="8bb7feaf-24fe-4d1a-9775-87e913521f1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ee71460-e278-46ed-b8c2-60634e51de02"
+>
+</ReqRef><ReqRef
+ Id="0eeafa43-5aca-4a22-b601-8acb4a81c8cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d6a3e4c-aae5-4bac-96a3-1beea1a0e6c0"
+>
+</ReqRef><ReqRef
+ Id="79632341-1718-4a2e-b6d6-dbdd628d9fa2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b39345f7-10da-47aa-be9a-a23d7feb516c"
+>
+</ReqRef><ReqRef
+ Id="c714f3fb-5bad-4115-8fd3-588a1387795d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c4f0db6-3f95-41b0-b2af-02e03b3f4b97"
+>
+</ReqRef><Comment>Checks whether any balises were missed in the current balise group.
+If balises were missed, checks for an acceptable duplicate.</Comment>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="467758e1-b6b9-43f3-beb0-cb874483da70"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Linking used"
+ Guid="91830afb-1eb6-4209-a2c4-02bf86f2962e"
+>
+<PreConditions>
+<PreCondition
+ Guid="f542a03d-bf03-4346-a2c9-fbb9fe2892b6"
+>Linking.BGIsLinked(aBaliseGroup)</PreCondition></PreConditions>
+<Expression>THERE_IS X IN aBaliseGroup | 
+X.Missed
+ AND
+NOT 
+(
+PreviousBalise(X, aBaliseGroup).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group
+  OR  
+NextBalise(X, aBaliseGroup).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group
+)</Expression>
+</Case><Case
+ Name="Linking not used"
+ Guid="e3eb75ad-5aa6-4b1c-8aa0-c2bc1ee9a5a3"
+>
+<Expression>THERE_IS X IN aBaliseGroup | 
+X.Missed
+ AND 
+NOT
+(
+  (
+  PreviousBalise(X, aBaliseGroup).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group
+    OR  
+  NextBalise(X, aBaliseGroup).Telegram.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group
+  )
+
+ AND 
+
+ DuplicatedBaliseIsUseable( Balise =&gt; X.Telegram, aBaliseGroup =&gt; aBaliseGroup )
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="StoredBaliseStruct"
+ Default=""
+ X="150"
+ Y="440"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NextBalise"
+ Guid="fef8ac32-5aed-498a-86c0-9f0edc069b2e"
+>
+<Comment>The next balise in the BG&apos;s nominal direction (N_PIG + 1)</Comment>
+<Parameters>
+<Parameter
+ Type="StoredBaliseStruct"
+ Name="Balise"
+ Guid="1ce2bf6f-4cee-4870-ab21-09cfdff13924"
+>
+</Parameter><Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="ba1da98d-6eda-4329-b107-b4d5f2cc68dc"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Is the last balise"
+ Guid="9644f69a-be11-4345-8d52-1e8bc44c5dcd"
+>
+<PreConditions>
+<PreCondition
+ Guid="595de1de-547e-4abb-ad2b-a8d06d89d477"
+>Balise.Telegram.N_PIG == Balise.Telegram.N_TOTAL</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f7acfe2d-b478-41f5-ba31-7a3b6317b206"
+>
+<Expression>FIRST X IN aBaliseGroup | X.Telegram.N_PIG == Balise.Telegram.N_PIG + 1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="StoredBaliseStruct"
+ Default=""
+ X="260"
+ Y="440"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PreviousBalise"
+ Guid="24f3f5b0-0930-42c6-9f98-2798965db389"
+>
+<Comment>The previous balise in the BG&apos;s nominal direction (N_PIG - 1)</Comment>
+<Parameters>
+<Parameter
+ Type="StoredBaliseStruct"
+ Name="Balise"
+ Guid="2df68c8a-3538-4009-a290-020a05ba0e21"
+>
+</Parameter><Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="67a2243d-5129-4654-965b-e483644118f3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Is the first balise"
+ Guid="26527d65-b9e1-4d59-a084-dc246939456e"
+>
+<PreConditions>
+<PreCondition
+ Guid="5d77f4f5-b547-4a9c-b267-2f033ad6f535"
+>Balise.Telegram.N_PIG == 0</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="de41cd39-d996-43c8-a2fd-2bab198aad1c"
+>
+<Expression>FIRST X IN aBaliseGroup | X.Telegram.N_PIG == Balise.Telegram.N_PIG - 1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="40"
+ Y="380"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsConsistent"
+ Guid="2fd2a28a-aa48-4284-999c-cfc3fc9edd19"
+>
+<ReqRef
+ Id="00031a80-e9f3-4821-a0a6-1d322a75fa85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fcd73cc5-e5d4-4b99-ac40-d9d5479abed7"
+>
+</ReqRef><ReqRef
+ Id="3324bf1d-eedf-4227-a95f-86ca4e2d72e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d0d69a02-d43f-46cd-94dd-18de7005d8e3"
+>
+</ReqRef><ReqRef
+ Id="53747e4e-7f05-4bf8-9573-a743730e9af0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b7219f3e-abbb-4b5c-81ca-7e9aa29ce5f0"
+>
+</ReqRef><ReqRef
+ Id="752dcbf7-d97c-4790-bac1-1fc62dbf66f1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67c73332-6f54-4391-8e65-e7f8a8103e1c"
+>
+</ReqRef><ReqRef
+ Id="a7df0f1f-2d5f-4baa-b656-9ddbc4393074"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a61a4334-934a-4e20-ae18-7652e25c3b48"
+>
+</ReqRef><ReqRef
+ Id="d9803061-6365-4307-896d-2019de665b23"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ff880f2c-5909-409e-b570-bb633ebfc79c"
+>
+</ReqRef><ReqRef
+ Id="758b6d57-bd6b-465f-b091-3477da12be7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="42b0abe5-841e-4aab-9644-7f4dacc8826f"
+>
+</ReqRef><ReqRef
+ Id="68a7df3c-ca07-4adf-ac06-12ba8e631b5e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e4e526d-f0fc-4a31-bb10-3d7d4fde29e7"
+>
+</ReqRef><ReqRef
+ Id="d40be57e-365b-4f3a-ad26-7ff1d347c5f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c7bb4f41-996e-4873-935c-a685787d1b2e"
+>
+</ReqRef><ReqRef
+ Id="8bb7feaf-24fe-4d1a-9775-87e913521f1d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b7b3e636-9810-4a31-b14b-90f2881dad72"
+>
+</ReqRef><ReqRef
+ Id="91521e6e-52aa-4c7b-bb7f-957007e8cee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7aa0b7de-eb25-47c9-b660-eab39b80215b"
+>
+</ReqRef><ReqRef
+ Id="04376925-d0f1-494f-bbdf-2723a7d3b9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7a0a23e3-7ae2-4b76-bf54-b09c26cddc9e"
+>
+</ReqRef><ReqRef
+ Id="c3e16444-1771-45e4-aed8-a538b89ed2b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="85ae2cea-7f3e-42d6-a6d6-05056ce3af4e"
+>
+</ReqRef><ReqRef
+ Id="b0ca9451-479b-42b3-93a6-3c7089a0b7be"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d814031d-7cc9-43ed-b340-7183c2b83847"
+>
+</ReqRef><ReqRef
+ Id="2a18f48f-66f4-459f-bda8-f71f367705d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e77f4a4-2177-4fb5-9ec0-250e07e24d2e"
+>
+</ReqRef><ReqRef
+ Id="aef89c33-3eb6-459c-901c-72a521999db9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7f97188d-01b0-4f66-bc1b-ebbd28d4a1ad"
+>
+</ReqRef><ReqRef
+ Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ea5adb18-0e8d-47aa-a071-9105d92d39e4"
+>
+</ReqRef><ReqRef
+ Id="2acfcc15-b52e-4162-a72e-a4ff1e9f43e1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e28087ca-d953-4e41-b024-9f85c5bce80a"
+>
+</ReqRef><ReqRef
+ Id="da9f0886-9eda-4e06-91e4-41094a7a488f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="676e419f-9d90-4fd2-adb5-56a41fb9a790"
+>
+</ReqRef><ReqRef
+ Id="0b314991-9ddf-4e48-bbbc-ef8083339ea7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63643c2f-81ca-4c86-b679-830fabe94fbb"
+>
+</ReqRef><ReqRef
+ Id="cc65b517-2625-4019-bbbf-8b6f317ae84f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="063ebed9-f5e9-4dd8-b9e9-f615e94edbf4"
+>
+</ReqRef><Comment>Determines whether the Balise Group is valid.</Comment>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="a2cf2a85-43c7-4136-a201-15fc7b20e5ad"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Do not check Balise Group Message consistency"
+ Guid="7d28d2fd-9a56-430d-9a12-8837ad47df2d"
+>
+<PreConditions>
+<PreCondition
+ Guid="57cf162d-1c63-4ecb-8091-b1a895c0094f"
+>NOT ShouldCheckBGMessageConsistency(aBaliseGroup)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="772170b2-3d80-45ac-a1cd-17674feb3356"
+>
+<Expression>Kernel.Modes.Shunting.BGIsExpected(aBaliseGroup)
+  AND  
+Kernel.Modes.StaffResponsible.BGIsExpected(aBaliseGroup)
+  AND  
+NOT InconsistentContent(aBaliseGroup)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="260"
+ Y="500"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ShouldCheckBGMessageConsistency"
+ Guid="88aaf483-aa04-46a7-974f-66c8dd153dd9"
+>
+<ReqRef
+ Id="c3e16444-1771-45e4-aed8-a538b89ed2b3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c3972e5-45fd-406e-a142-2a3469b15c2f"
+>
+</ReqRef><ReqRef
+ Id="b0ca9451-479b-42b3-93a6-3c7089a0b7be"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4e71fac0-b4fd-4b34-9e27-8fb8f77881cb"
+>
+</ReqRef><ReqRef
+ Id="2a18f48f-66f4-459f-bda8-f71f367705d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8011d324-d576-423c-b391-1d426ac87186"
+>
+</ReqRef><ReqRef
+ Id="4136ec87-79ff-4195-88fa-8beaba67f4d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da8c0f29-df82-4800-ae83-8da292a8ab25"
+>
+</ReqRef><Comment>Indicates whether it is necessary to check the contents of the received balise message before handling them.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="33332f3b-6725-45f9-8359-e814504b769c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Unlinked balise group"
+ Guid="c61f0ab7-0532-40cd-a583-c852c6548283"
+>
+<PreConditions>
+<PreCondition
+ Guid="7444adf0-3c4a-4308-9805-1277c005f8d4"
+>NOT Linking.BGIsLinked( aBaliseGroup )</PreCondition></PreConditions>
+<Expression>Kernel.ActiveFunctions.CheckUnlinkedBGMessage()</Expression>
+</Case><Case
+ Name="Linking is not used"
+ Guid="553054e5-492e-48fb-bae0-5b6dc6f4b5f3"
+>
+<PreConditions>
+<PreCondition
+ Guid="66670e88-fae0-4539-8528-54f5a0e3aa59"
+>NOT BTM.Linking.LinkingApplicable()
+  OR  
+NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Expression>Kernel.ActiveFunctions.CheckBGMessageIfNotLinking()</Expression>
+</Case><Case
+ Name="Linking is used"
+ Guid="92341a32-c3fc-4bf4-97d3-27e83de4241d"
+>
+<Expression>Kernel.ActiveFunctions.CheckBGMessageIfLinking()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.M_MCOUNT"
+ Cacheable="TRUE"
+ Default=""
+ X="370"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BGM_MCOUNT"
+ Guid="92c7afe7-4312-43dc-895b-83398317885e"
+>
+<ReqRef
+ Id="44ee1586-bb5c-42b3-b64d-c63e870d4d0e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a542252-5ed4-4c4f-bcd2-8cf008e65181"
+>
+</ReqRef><ReqRef
+ Id="5b83898b-9d38-4194-ba39-282256776162"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b19e98b-24d0-477a-8a2c-0627590e9816"
+>
+</ReqRef><ReqRef
+ Id="ff4a7424-8900-4f28-bd9d-78e5d8d68a96"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c73dec3-a299-4bc8-8cd6-1add7609a0ad"
+>
+</ReqRef><ReqRef
+ Id="8df559d7-4427-47e1-8a05-f0f049023f96"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9aba8498-a10c-4488-a059-ee074882dfd0"
+>
+</ReqRef><Comment>Returns the current balise group&apos;s M_MCOUNT value by taking the first one that</Comment>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="b8faa176-d548-471e-8c00-d3ddaced3062"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="b6221c53-5616-4adf-a085-1fad71644c39"
+>
+<Expression>(FIRST X IN aBaliseGroup | (X.Telegram.M_MCOUNT != 255 AND X.Telegram.M_MCOUNT != 254)).Telegram.M_MCOUNT</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="InconsistentContent"
+ Guid="4533c25d-5e47-40ee-b5e6-2270939f00f7"
+>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="5ca5ab67-ddfb-4c7b-9051-79951adc867e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="1b67b148-634f-4dda-9262-21a9e15d1b00"
+>
+<Expression>BaliseGroupIncomplete(aBaliseGroup)
+  OR  
+IncorrectValuesInMessage(aBaliseGroup)
+  OR  
+InconsistentMessageCounters(aBaliseGroup)
+  OR  
+InconsistentIdentifiers(aBaliseGroup)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="270"
+ Y="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DuplicatedBaliseIsUseable"
+ Guid="6ec5401f-9f2e-4c64-b301-dd0a209f5157"
+>
+<ReqRef
+ Id="79632341-1718-4a2e-b6d6-dbdd628d9fa2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e1ba64b-7291-4cab-9d2a-67f4ed8317a6"
+>
+</ReqRef><ReqRef
+ Id="d60a5fe4-0902-42e6-bb3b-2580bb9112a0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d619ef1-a56b-4640-bcc1-7773921ce729"
+>
+</ReqRef><ReqRef
+ Id="c714f3fb-5bad-4115-8fd3-588a1387795d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bac410b0-09a4-49c8-95fa-a78dbf87da5c"
+>
+</ReqRef><ReqRef
+ Id="3fab5e71-23cc-47ba-ab1f-f945dfe4ed39"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="421647a9-919d-4755-a1ae-a33daa434784"
+>
+</ReqRef><ReqRef
+ Id="6df398cf-cf5e-4d82-81d0-2f1cf9a373dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d64e889-327b-41fc-8ee4-d9fb6f4e2e39"
+>
+</ReqRef><ReqRef
+ Id="2cc818c4-64df-4750-9f06-829e7ed446d8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="256947b5-10a8-4aa0-bf41-88496d2635c6"
+>
+</ReqRef><Comment>Determines whether the information in a duplicated balise can</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="Balise"
+ Guid="0c7a658a-a2b8-42df-925e-d11dda5d31b1"
+>
+</Parameter><Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="543ab2cc-8183-4ff3-897d-c0483d8526a5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Orientation known, directional information in balise"
+ Guid="dd225fe6-f3f0-4de4-bcc4-1bba6fd0fd06"
+>
+<PreConditions>
+<PreCondition
+ Guid="7eb5830f-91b5-438b-b3b1-c9c98a7860e7"
+>Balise.Sequence1 != []
+  AND  
+THERE_IS X IN Balise.Sequence1 | (Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Nominal  OR  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Reverse)
+  AND  
+BGOrientation(aBaliseGroup) != OrientationEnum.Unknown</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="All information valid for both directions"
+ Guid="bb8a5edf-3d78-478c-9b40-8419b7dca32d"
+>
+<PreConditions>
+<PreCondition
+ Guid="7da6c3c5-4e47-49e8-9df7-23241484e700"
+>Balise.Sequence1 != []
+  AND  
+FORALL X IN Balise.Sequence1 | (Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) == Messages.Q_DIR.Both_directions)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="No directional info, nor info for both directions"
+ Guid="e75160c7-9683-4aea-aa2a-cd1307200da5"
+>
+<PreConditions>
+<PreCondition
+ Guid="5b875a8a-3354-48d1-8692-eb9629dc8e22"
+>Balise.Sequence1 == []
+  OR  
+FORALL X IN Balise.Sequence1 | 
+  (
+  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) != Messages.Q_DIR.Both_directions
+   AND 
+  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) != Messages.Q_DIR.Nominal
+   AND 
+  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) != Messages.Q_DIR.Reverse
+  )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Only info to be used outside of ERTMS/ETCS"
+ Guid="0df1de30-0ad5-45c1-abfe-f84fae25312e"
+>
+<PreConditions>
+<PreCondition
+ Guid="66a1fed0-37c3-40ab-a96a-abce6764238a"
+>Balise.Sequence1 != []
+  AND  
+FORALL X IN Balise.Sequence1 | Available(X.TRACK_TO_TRAIN.DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Info outside ERTMS/ETCS or valid for both directions"
+ Guid="fb6ea15f-32f5-4d40-a680-387c431526ae"
+>
+<PreConditions>
+<PreCondition
+ Guid="bb2c4ca9-56a0-411b-889a-f34195e35221"
+>Balise.Sequence1 != []
+  AND  
+FORALL X IN Balise.Sequence1 | 
+  (
+  Available(X.TRACK_TO_TRAIN.DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM)
+   OR 
+  Messages.PACKET.TRACK_TO_TRAIN.GetQ_DIR(X.TRACK_TO_TRAIN) != Messages.Q_DIR.Both_directions
+  )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3d14782b-0469-4fe8-8f6e-25ccc33ec535"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="InconsistentIdentifiers"
+ Guid="a178a7af-d037-4dca-8515-263cbbea7df0"
+>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="a3e4b8aa-9791-43ac-b922-0b1b5e431b4a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="22a3e75c-0718-4425-b136-071e1b99bfe7"
+>
+<Expression>LET firstBalise &lt;- (FIRST X IN aBaliseGroup).Telegram
+ IN
+
+THERE_IS balise IN aBaliseGroup | 
+(
+  balise.Telegram.NID_C != firstBalise.NID_C
+    OR  
+  balise.Telegram.NID_BG != firstBalise.NID_BG
+)</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

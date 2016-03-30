@@ -212,7 +212,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
  Guid="cf061e0e-d4c3-4801-88b0-96d5c524d68f"
 >Kernel.TrainPosition.Position.DataState != DataStateEnum.Valid</PreCondition><PreCondition
  Guid="0ca7d233-bdf6-43af-a526-44ca5aca513a"
->NOT Available( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+>NOT Available( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Nominal"
@@ -495,9 +495,9 @@ In SL mode, the front and rear ends of the train are considered to be the front 
 <PreConditions>
 <PreCondition
  Guid="ebb63de6-5d6c-42ea-863c-cc45b2035c0b"
->Available ( BTM.LRBG )
+>Available ( BTM.LRBG.LRBG )
   AND  
-BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
+BTM.LRBG.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5de6dbe1-ecc5-4386-8dc0-d09a5a6a49de"
@@ -512,7 +512,7 @@ BTM.LRBG.NID != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="5234c501-b995-48d0-a954-656e018b210f"
->BTM.LRBG == EMPTY</PreCondition><PreCondition
+>BTM.LRBG.LRBG == EMPTY</PreCondition><PreCondition
  Guid="f7740abf-4293-414b-840d-342933b94656"
 >Kernel.TrainPosition.Position.DataState != DataStateEnum.Invalid</PreCondition></PreConditions>
 <Actions>
@@ -1356,7 +1356,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <PreConditions>
 <PreCondition
  Guid="d424a96a-5c7d-4c07-b419-e3cf71806b66"
->BTM.BGLocationReference.Position.Position - BTM.LRBG.Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
+>BTM.BGLocationReference.Position.Position - BTM.LRBG.LRBG.Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b9ea2e9d-59d1-4ef8-88df-d51843437f9e"
@@ -1375,6 +1375,34 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 >Kernel.MA.MA.Sections &lt;- Kernel.MA.RelocatedSections(aDistance)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update Linking distance"
+ Guid="10b8b0b3-3617-4619-8230-72f85d64b33b"
+>
+<Comment>Reduces the distance to the first linking by the provided amount.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update Linking distance"
+ Guid="c93296cd-e02f-4a0d-bebc-b8c6555e866d"
+>
+<PreConditions>
+<PreCondition
+ Guid="a11fd75a-8d3f-4356-8de1-7d9a679c2355"
+>BTM.Linking.LinkingApplicable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="82720ada-f9c7-4f80-b0e4-af09d32c991f"
+>BTM.Linking.CurrentLinking().Distance &lt;- BaseTypes.OffsetDistance(
+    aDistance =&gt; BTM.Linking.CurrentLinking().Distance,
+    aOffset =&gt; aDistance
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

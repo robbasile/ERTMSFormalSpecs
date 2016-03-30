@@ -43,7 +43,7 @@
  Guid="a4062622-7196-4987-a701-8f633aa50e8c"
 >Direction == ConfidenceIntervalEnum.L_DOUBTOVER</PreCondition><PreCondition
  Guid="464df18d-7b2c-436a-9855-6f3905c0e644"
->Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+>Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
 <Expression>Kernel.TrainPosition.ConfidenceInterval.AdditionalOverReadingAmount() + BTM.BGLocationAccuracy()</Expression>
 </Case><Case
  Name="L_DOUBTUNDER"
@@ -54,7 +54,7 @@
  Guid="15dab7dc-f1af-4522-90fe-38af65015a6d"
 >Direction == ConfidenceIntervalEnum.L_DOUBTUNDER</PreCondition><PreCondition
  Guid="b935f27b-ca19-4a1f-b41c-9c394b5292c5"
->Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
+>Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
 <Expression>Kernel.TrainPosition.ConfidenceInterval.AdditionalUnderReadingAmount() + BTM.BGLocationAccuracy()</Expression>
 </Case></Cases>
 </Function><Function
@@ -81,8 +81,8 @@
 <PreConditions>
 <PreCondition
  Guid="bf63bcb5-640b-4ea3-85a2-7f124cb8b521"
->Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
-<Expression>Odometry.Accuracy.D_ora - BTM.UnlinkedBGPosition.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+>Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ora - BTM.LRBG.UnlinkedBGPosition.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -108,8 +108,8 @@
 <PreConditions>
 <PreCondition
  Guid="8114b656-f83d-4a49-afd0-b1866968871a"
->Available ( BTM.UnlinkedBGPosition )</PreCondition></PreConditions>
-<Expression>Odometry.Accuracy.D_ura - BTM.UnlinkedBGPosition.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+>Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ura - BTM.LRBG.UnlinkedBGPosition.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -141,8 +141,8 @@
 <PreConditions>
 <PreCondition
  Guid="8527f2e2-1984-4e3b-a84b-2bd0ca0266eb"
->Available ( BTM.LRBG )</PreCondition></PreConditions>
-<Expression>Odometry.Accuracy.D_ora - BTM.LRBG.Position.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+>Available ( BTM.LRBG.LRBG )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ora - BTM.LRBG.LRBG.Position.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
 </Case><Case
  Name="LRBG not available"
  Guid="5bd63ae7-8fb9-428d-a8f9-85e010bebd02"
@@ -179,8 +179,8 @@
 <PreConditions>
 <PreCondition
  Guid="a5bf58bf-8a8e-4e6c-878e-f193ff367c6d"
->Available ( BTM.LRBG )</PreCondition></PreConditions>
-<Expression>Odometry.Accuracy.D_ura - BTM.LRBG.Position.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+>Available ( BTM.LRBG.LRBG )</PreCondition></PreConditions>
+<Expression>Odometry.Accuracy.D_ura - BTM.LRBG.LRBG.Position.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
 </Case><Case
  Name="LRBG not available"
  Guid="addf63ba-ab75-44ea-b08b-f5b1ce8c87d1"

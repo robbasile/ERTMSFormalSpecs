@@ -8099,7 +8099,7 @@ Furthermore, this allows to avoid getting a LRBG when the position is unknown</C
 <Expression>False</Expression>
 </Case></Cases>
 </Function><Function
- Type="BTM.BaliseGroupStruct"
+ Type="BTM.LRBG.BaliseGroupStruct"
  Default=""
  X="770"
  Y="660"
@@ -8171,8 +8171,8 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="942b0799-95b7-48c9-a1ba-8c03e7af3545"
->BTM.LRBG.NID == NID_LRBG</PreCondition></PreConditions>
-<Expression>BTM.LRBG</Expression>
+>BTM.LRBG.LRBG.NID == NID_LRBG</PreCondition></PreConditions>
+<Expression>BTM.LRBG.LRBG</Expression>
 </Case><Case
  Name="It is a previous LRBG"
  Guid="fb72a5f8-a44a-4bd9-bd84-c7fd617ced06"
@@ -8180,11 +8180,11 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="b059f21c-aea9-4227-8b5a-b1f3ed28e7d2"
->THERE_IS X IN BTM.PreviousBaliseGroups | (
+>THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | (
   X.IsLRBG
     AND  
   X.BaliseGroup.NID == NID_LRBG )</PreCondition></PreConditions>
-<Expression>(FIRST X IN BTM.PreviousBaliseGroups | (
+<Expression>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | (
   X.IsLRBG
     AND  
   X.BaliseGroup.NID == NID_LRBG ) ).BaliseGroup</Expression>

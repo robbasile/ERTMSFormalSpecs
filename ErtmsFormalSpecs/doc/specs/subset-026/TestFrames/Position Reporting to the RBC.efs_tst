@@ -75,12 +75,12 @@
  Guid="31fbaf4f-9d27-4e50-b1ed-a109e920b652"
 >EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="e9871358-4844-4298-b4de-55163af19aa7"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation=&gt;OrientationEnum.Nominal,
@@ -94,7 +94,7 @@
   }
 ]</Action><Action
  Guid="c23afd9c-b296-4b29-be4a-254bc3161d8b"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -200,8 +200,8 @@
  Guid="83979dcd-82f7-4812-a5ac-29443f04f8f1"
 >Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="bde98291-8992-4ea4-b5a1-f9edcd3b0db3"
->BTM.LRBG &lt;- 
-BTM.BaliseGroupStruct {
+>BTM.LRBG.LRBG &lt;- 
+BTM.LRBG.BaliseGroupStruct {
     NID=&gt;1290,
     Orientation=&gt;OrientationEnum.Nominal,
     Position=&gt;
@@ -220,7 +220,7 @@ BTM.BaliseGroupStruct {
  Guid="8833e0b1-601f-4285-8ef4-3333c1c5487e"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="403911ab-0d51-4410-8c3a-bfae07053550"
->BTM.PreviousBaliseGroups &lt;- []</Action><Action
+>BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
  Guid="163edf17-60e3-417f-a1b6-3a879d608cc0"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition &lt;- OrientationEnum.Reverse</Action><Action
  Guid="3752c954-d70f-47ba-94fd-e8a3416e93a7"
@@ -304,8 +304,8 @@ MinSafeRearEnd =&gt; 1356.0,
 DataState =&gt; DataStateEnum.Valid
 }</Action><Action
  Guid="88e295f7-a74d-49f1-bbb8-d0e779ce31f0"
->BTM.LRBG &lt;- 
-BTM.BaliseGroupStruct {
+>BTM.LRBG.LRBG &lt;- 
+BTM.LRBG.BaliseGroupStruct {
     NID=&gt;1296,
     Orientation =&gt; OrientationEnum.Unknown,
     Position=&gt;
@@ -324,12 +324,12 @@ BTM.BaliseGroupStruct {
  Guid="76b83567-976d-48b8-a571-e1c3ccf58bbf"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Reverse</Action><Action
  Guid="bb10f44b-f092-4e16-b804-72fe3318c729"
->BTM.PreviousBaliseGroups &lt;-
+>BTM.LRBG.PreviousBaliseGroups &lt;-
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID =&gt; 1292,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -470,12 +470,12 @@ BTM.BaliseGroupStruct {
  Guid="7e3a3563-bf85-4713-90f5-97f7973dcd15"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="9899a347-02fb-4694-b6ed-91467957c29a"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -489,7 +489,7 @@ BTM.BaliseGroupStruct {
   }
 ]</Action><Action
  Guid="a680cd01-f6a7-44c9-8e17-26723eac2fda"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -545,7 +545,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="fccf9a73-9b08-45ba-9e1d-6aff4a2b1c8d"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="a4bd55fb-44d7-485b-b1d5-a0976f1b407a"
 >Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
@@ -603,7 +603,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="702a7136-e3eb-4b02-85fb-9473952781ed"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="31e18d34-b5ea-4f4c-ba56-32b0d57790e0"
 >EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
 </SubStep></SubSteps>
@@ -711,12 +711,12 @@ BTM.BaliseGroupStruct {
  Guid="7a5dce40-c822-4549-92f0-f8c685e0e0d4"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="63c1cb25-4516-45a4-beac-84c61589adae"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -730,7 +730,7 @@ BTM.BaliseGroupStruct {
   }
 ]</Action><Action
  Guid="569f6c9b-01ec-4958-a9fd-3a736d812b1f"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -811,7 +811,7 @@ BTM.BaliseGroupStruct {
  Guid="323e9303-ae11-4fca-b521-3508170f4bb3"
 >Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="233cf61a-410d-4041-8334-35cd92e048de"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="068c5a8f-14fb-438c-b69a-a40daee0f409"
 >Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
@@ -874,7 +874,7 @@ BTM.BaliseGroupStruct {
  Guid="7b713c91-6f2f-410d-97ee-20d0908d0ff4"
 >Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Action><Action
  Guid="ccc18ffa-adb0-47e4-8438-8524305ea45e"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -987,12 +987,12 @@ BTM.BaliseGroupStruct {
  Guid="a59a3be1-b97a-4f95-947c-a9e45da2eb8e"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="10642a13-d924-4be4-99dd-1d30b59462b5"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -1006,7 +1006,7 @@ BTM.BaliseGroupStruct {
   }
 ]</Action><Action
  Guid="2ef382ce-a8bc-4e2b-b957-ee50044bcce2"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -1064,7 +1064,7 @@ BTM.BaliseGroupStruct {
  Guid="9303b9f8-0582-4c26-8031-e056b5a71b57"
 >Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
  Guid="ad73cc1f-5804-4204-a1a7-c4129d51dd93"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="aab3b2ec-5a40-43a6-80f9-bb37f4aebee3"
 >Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
@@ -1134,7 +1134,7 @@ BTM.BaliseGroupStruct {
  Guid="73146a7e-9a98-4b10-b9d2-6612f0f05845"
 >Kernel.TrainIntegrity.TrainIntegrity.Status &lt;- Messages.Q_LENGTH.No_train_integrity_information_available</Action><Action
  Guid="d49c76a9-d278-44bb-8796-a2ea6570de9a"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1223,7 +1223,7 @@ BTM.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="4eefbe8e-a88c-4cda-84a4-0b2e1b1233c2"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -1262,12 +1262,12 @@ BTM.BaliseGroupStruct {
  Guid="dadc9bfb-c265-4c53-b13f-fc5e0603928b"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="86afaa39-7c55-4c44-8b3e-59a297cc53b1"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -1327,7 +1327,7 @@ BTM.BaliseGroupStruct {
  Guid="c07c4094-1f28-4074-98f3-8eae751e0253"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L3</Action><Action
  Guid="94cedd99-5f90-4d18-b65e-52a85cd11b91"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="f655c118-6d30-4c6a-b8bb-a8fe8ff8c58b"
 >Kernel.Level.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
@@ -1390,7 +1390,7 @@ BTM.BaliseGroupStruct {
  Guid="d3af1d14-fa28-41ea-87f2-6c478be9d64a"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L3</Action><Action
  Guid="a0fccbd3-d4ca-40e2-9153-c840153118df"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1497,12 +1497,12 @@ BTM.BaliseGroupStruct {
  Guid="75f6b2f0-2991-4896-93a4-dffda12a0048"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="9a923b8f-60a1-4705-bd5d-908fa83d2f32"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -1516,7 +1516,7 @@ BTM.BaliseGroupStruct {
   }
 ]</Action><Action
  Guid="9e4bfd52-2b63-4127-960f-4cbbcc85c9f7"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -1582,7 +1582,7 @@ BTM.BaliseGroupStruct {
  Guid="d1dd5a45-f87b-48b4-a540-6e16c1590f4e"
 >Testing.SetFSMode(False)</Action><Action
  Guid="11467f6b-4a4b-4df2-a039-e180b004f85d"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1643,7 +1643,7 @@ BTM.BaliseGroupStruct {
  Guid="f3d0043d-66ff-4f9f-8c20-1dcea9cdf097"
 >Testing.SetFSMode(False)</Action><Action
  Guid="c89b631b-a335-49ff-ba6a-99c8e5ca609c"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1756,12 +1756,12 @@ BTM.BaliseGroupStruct {
  Guid="1033b5fd-3844-46a8-81fc-f6b4cd2a70e4"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="d6053e85-c7a0-438b-94e6-a0c3ff2bc04e"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -1775,7 +1775,7 @@ BTM.BaliseGroupStruct {
   }
 ]</Action><Action
  Guid="7693cf89-196d-4f18-a171-d9634e7f3cfe"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -1840,7 +1840,7 @@ BTM.BaliseGroupStruct {
  Guid="9cc21e3b-9a54-4055-beca-14c2e3281855"
 >Testing.SetFSMode(False)</Action><Action
  Guid="8132c408-9e25-4c2d-8778-13e33e6390b2"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="bf79e872-20d2-4eeb-91a9-6967cdfc402e"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="7114d584-5a3a-4683-bf67-ce189de1cf01"
@@ -1915,7 +1915,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1401.0</Expectation></Expe
  Guid="543c8f13-fba3-406d-8b79-0d0a7c543275"
 >Testing.SetFSMode(False)</Action><Action
  Guid="d5199541-80d6-4a04-a7cc-29634043cd8e"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="6104f737-52ea-4ade-94c2-aea070daeacd"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="971102fb-b906-49b7-905b-776ebe3dcc74"
@@ -2018,7 +2018,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Actions>
 <Action
  Guid="4e88ef75-4c2f-408a-a00b-290b0c78cd09"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="72bf49f6-0999-435a-9c35-ac320b23e22a"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="1e74f389-a3e1-475c-966a-16ddb9ab28e7"
@@ -2089,7 +2089,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Actions>
 <Action
  Guid="6c5a45d3-ced2-4677-9325-093d678842a1"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="d8efa9d2-092f-4388-83f3-7e357f6a87c1"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="6656d992-b93b-45d5-9ce4-79f5766169ce"
@@ -2254,7 +2254,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Actions>
 <Action
  Guid="9ef9349d-ac42-45e2-b750-1a98b02c3bca"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="5235835e-1e92-4fd8-a21f-2d9780c8f7e0"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
@@ -2332,7 +2332,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2001.0</Expectation><Expec
 <Actions>
 <Action
  Guid="5ee0a24f-1773-4e64-95f2-a6508ab14c86"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="d589a96f-306f-4fd6-b591-3e5f8af38053"
 >EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
@@ -2464,12 +2464,12 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="1b3401f5-c25f-41e2-b345-a9badf14e9da"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="ee3ea01c-3a52-45fd-a91d-d2330c2f828b"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -2483,7 +2483,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
   }
 ]</Action><Action
  Guid="d6a830b4-c9df-498e-9685-45002fcc9cf3"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -2588,12 +2588,12 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="a45985a2-de8a-4836-a8c0-afe98f3258da"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition &lt;- OrientationEnum.Nominal</Action><Action
  Guid="155e7a02-648f-4ff5-ba8e-4c8184bb9790"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -2607,7 +2607,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
   }
 ]</Action><Action
  Guid="11ae978c-aed2-4ea0-add9-a757a94207ad"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -2716,12 +2716,12 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="0206f140-913b-4f80-ac4a-d54859f575a5"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="88ec6fbd-d87a-4109-b463-6764bc464201"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -2735,7 +2735,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
   }
 ]</Action><Action
  Guid="5a5f7d0f-78af-45ef-8589-2b1c7da93264"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -2828,12 +2828,12 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="66a47578-0ad3-4bb2-8984-8ee6adcd3fc0"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Reverse</Action><Action
  Guid="d0e545ee-efe3-44fd-b435-f4b5154e447f"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -2849,7 +2849,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="06723666-721c-4eef-be05-31e560695dc9"
 >Odometry.Accuracy.D_ora &lt;- 20.0</Action><Action
  Guid="7456411e-13fa-44ed-bccf-52473373f9fe"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -2969,12 +2969,12 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="69f2eb83-11a2-4954-818b-9c5cdfeda8f4"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="55b29ddf-6a4a-4b26-a8e4-e227320d2b52"
->BTM.PreviousBaliseGroups &lt;- 
+>BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
-  BTM.PreviousBaliseGroupStruct
+  BTM.LRBG.PreviousBaliseGroupStruct
   {
     IsLRBG =&gt; True,
-    BaliseGroup =&gt; BTM.BaliseGroupStruct
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
     {
       NID=&gt;9614,
       Orientation =&gt; OrientationEnum.Nominal,
@@ -2988,7 +2988,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
   }
 ]</Action><Action
  Guid="3936a5bf-89ce-4cc2-90ff-8ad214d34660"
->BTM.LRBG&lt;- BTM.BaliseGroupStruct{
+>BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
   NID=&gt;9616,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -3046,7 +3046,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="e6674f51-bc62-42f2-b4fb-0b8e4269f5de"
 >Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
  Guid="84496997-1fbe-446f-b193-7e95a20f8284"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -3104,7 +3104,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="e706dd17-708a-4c85-9a37-17cc1437b58e"
 >Odometry.EstimatedSpeed &lt;- 1.0</Action><Action
  Guid="e35a5177-6f8a-463e-93e0-2294fc982de6"
->BTM.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
+>BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"

@@ -302,7 +302,7 @@
  Guid="3e91abd5-3a13-4581-8363-06a3d09b7c71"
 >Kernel.ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
 <Expression>Kernel.GeographicalPosition.ApplicableItem.Location +
-BTM.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableItem.ReferenceBG ) - Kernel.GeographicalPosition.ApplicableItem.Offset</Expression>
+BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableItem.ReferenceBG ) - Kernel.GeographicalPosition.ApplicableItem.Offset</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="2f4846d6-134d-4c5b-a4ea-c1f5f01f87ff"
@@ -341,7 +341,7 @@ BTM.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableIte
 <PreConditions>
 <PreCondition
  Guid="24ef9169-9d08-49be-8ca9-d675c1282a7d"
->NOT THERE_IS X IN BTM.PreviousBaliseGroups |X.BaliseGroup.NID == aBG</PreCondition></PreConditions>
+>NOT THERE_IS X IN BTM.LRBG.PreviousBaliseGroups |X.BaliseGroup.NID == aBG</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="The balise has already been passed but is single and no linking"
@@ -350,7 +350,7 @@ BTM.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableIte
 <PreConditions>
 <PreCondition
  Guid="837ba973-2270-434d-a170-3a3de07c862d"
->(FIRST X IN BTM.PreviousBaliseGroups | X.BaliseGroup.NID == aBG).IsSingle</PreCondition><PreCondition
+>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID == aBG).IsSingle</PreCondition><PreCondition
  Guid="b9707add-be46-4c2d-91d3-bf29675d068a"
 >NOT BTM.Linking.LinkingApplicable()</PreCondition></PreConditions>
 <Expression>False</Expression>
@@ -389,9 +389,9 @@ BTM.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableIte
  Name="Value"
  Guid="95cb3527-3a65-4152-9dc6-cf073e588e5c"
 >
-<Expression>THERE_IS X IN BTM.PreviousBaliseGroups | X.BaliseGroup.NID == anItem.ReferenceBG
+<Expression>THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID == anItem.ReferenceBG
   AND
-BTM.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Offset</Expression>
+BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Offset</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

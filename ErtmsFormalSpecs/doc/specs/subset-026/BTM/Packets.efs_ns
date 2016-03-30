@@ -1,0 +1,474 @@
+<NameSpace
+ X="40"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="Packets"
+ Guid="a3a09cf2-49aa-4205-8e92-aca81ed58b5d"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Default=""
+ X="480"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideRevAreaPacketToHandle"
+ Guid="849bf35a-7622-45ba-bf86-281e2aa818a0"
+>
+<Comment>Given a Reversing Area Information packet, returns this packet if it is available and can be handled and returns EMPTY otherwise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Name="aPacket"
+ Guid="2c53e7e1-aaef-4da0-b23f-81b73f52cb3d"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="73c3d6e3-046f-425f-86c1-bde46a971a87"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is available"
+ Guid="8e78f827-b5c7-491a-8b00-32731ca2f936"
+>
+<PreConditions>
+<PreCondition
+ Guid="7f2f5be6-a2f3-4bc4-a457-ebe771773c8c"
+>RevAreaPacketAvailable(
+    aPacket =&gt; aPacket,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition></PreConditions>
+<Expression>aPacket</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="c25c99d4-9ae0-4d79-9ad3-0f4ce1a17553"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Default=""
+ X="370"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideRevSupPacketToHandle"
+ Guid="becae289-1edb-41fe-babe-b5f1e1e06ed1"
+>
+<Comment>Given a Reversing Supervision Information packet, returns this packet if it is available and can be handled and returns EMPTY otherwise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="4f1e17e0-eacf-4d74-84a6-711f77b5748a"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="08aa4c85-c5a5-4ff3-b0f1-5df9db94c1d5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is available"
+ Guid="23e02682-1557-4ae3-8164-1c8268cf06ed"
+>
+<PreConditions>
+<PreCondition
+ Guid="786ceabc-42e9-40a6-b5d9-f055f8ebd612"
+>RevSupPacketAvailable(
+    aPacket =&gt; aPacket,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition></PreConditions>
+<Expression>aPacket</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="a179ccb3-80cd-4f31-bd09-739522d2dc78"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="480"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RevAreaPacketAvailable"
+ Guid="e1c305f1-2233-4bdd-b0a7-f7220d350f40"
+>
+<Comment>Indicates whether a Reversing Area Information packet is available.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Message"
+ Name="aPacket"
+ Guid="91b32c95-09fc-462c-8c90-3e708016c9f6"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="1320b56c-5533-4c1b-8cf5-5fbb918b23d6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is not empty"
+ Guid="5f593ccb-9b54-4fd9-a6ce-83aa65678fc8"
+>
+<PreConditions>
+<PreCondition
+ Guid="e14e7585-37e2-4bea-adeb-fcf857a7fdac"
+>aPacket != EMPTY</PreCondition></PreConditions>
+<Expression>ConsiderBTMPacket (
+    PacketOrientation =&gt; aPacket.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)
+  AND
+Kernel.AcceptInformation.ReversingAreaInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="128113f1-00a9-4011-b2d9-031940921a40"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="480"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RevSupPacketAvailable"
+ Guid="2d41eb1a-3aca-4e2c-aa04-117a1ba896ae"
+>
+<Comment>Indicates whether a Reversing Supervision Information packet is available.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Message"
+ Name="aPacket"
+ Guid="43232690-9816-4ca1-947c-dfb3ba7c55d3"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="ec0a83cf-adf6-40fa-ac32-39092c86462f"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="The packet is not empty"
+ Guid="d7b4d836-06d2-49c7-b877-e0c9518838d7"
+>
+<PreConditions>
+<PreCondition
+ Guid="aea590da-9233-4091-bdaa-7e129f1a1909"
+>aPacket != EMPTY</PreCondition></PreConditions>
+<Expression>ConsiderBTMPacket (
+    PacketOrientation =&gt; aPacket.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)
+  AND
+Kernel.AcceptInformation.ReversingSupervisionInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6d166964-7ab0-476a-af1d-63ddca1fcd88"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.SubStructure1"
+ Default=""
+ X="40"
+ Y="320"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="ModeProfileOfTelegram"
+ Guid="56402f8b-c1d4-41d4-af27-16d374cf98af"
+>
+<ReqRef
+ Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="890e771b-b580-439d-8c68-c8f2fdc19879"
+>
+</ReqRef><Comment>Provides the mode profile sent in the balise telegram, if any.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="364edc85-1964-448c-91cc-e4750682c605"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c37b381a-04e7-4dc2-ba26-6fd4c86d5d81"
+>
+<Expression>FIRST X IN aTelegram.Sequence1 | X.TRACK_TO_TRAIN.MODE_PROFILE  != EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.SubStructure1"
+ Default=""
+ X="370"
+ Y="260"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="MAOfTelegram"
+ Guid="93fca8b1-bdc9-42c4-ae84-3f961d540f93"
+>
+<ReqRef
+ Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="05e60619-cf07-4bf6-b3e5-894ac1958f33"
+>
+</ReqRef><Comment>Provides the movement authority sent in the balise telegram, if any.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="c6038b4e-df19-4246-a1cd-61f2ace4a7c1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="4ee689aa-f596-4543-b312-4d096e591647"
+>
+<Expression>FIRST X IN aTelegram.Sequence1 | X.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY  != EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.SubStructure1"
+ Default=""
+ X="370"
+ Y="260"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="LevelOfTelegram"
+ Guid="47d1ae3c-f078-4b9c-8546-ec99aa2eb7fe"
+>
+<ReqRef
+ Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9ad9e1d-af84-4050-911d-da61b6a7dab1"
+>
+</ReqRef><ReqRef
+ Id="b5196e2e-7094-49d5-ac1b-4bcf4821fd9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bfa8324f-35b7-4d34-be47-4b566324a022"
+>
+</ReqRef><Comment>Provides the movement authority sent in the balise telegram, if any.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="606dcfbd-d473-4366-b518-8f62001ac86d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="acfb6c3c-937f-4a13-ba33-761f58569317"
+>
+<Expression>FIRST X IN aTelegram.Sequence1 | X.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER != EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="200"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="ConsiderBTMPacket"
+ Guid="dd01bcbc-e748-427d-a352-41a5eff3f636"
+>
+<ReqRef
+ Id="84a3e716-7b2f-4eb0-93b4-872e90faf619"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="677c3283-928f-487a-b70b-5d93061ef40b"
+>
+</ReqRef><ReqRef
+ Id="1918ec5c-54a5-4240-8cd2-5f860383b37c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="760f2b91-f167-4914-976b-34e4434be317"
+>
+</ReqRef><ReqRef
+ Id="b997b70b-691d-427f-8512-361a510200ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d1a27bf-31c4-4f92-b111-4896d53461b5"
+>
+</ReqRef><ReqRef
+ Id="8cde1181-2190-4ab0-bba8-82047564e48b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="44aebfce-d0ba-417c-854a-97eca234c442"
+>
+</ReqRef><ReqRef
+ Id="b0c8610c-cc5b-424b-9f13-59254ed991bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72277804-c35c-4eb0-a7f5-6d8762eb58ce"
+>
+</ReqRef><ReqRef
+ Id="082b9d97-81b9-4995-87a2-07e6e31bd2d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ceef2a99-20be-46d1-94bc-da30e82a6dd6"
+>
+</ReqRef><ReqRef
+ Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0baaa13d-730d-413e-b76e-c64599e61e5c"
+>
+</ReqRef><ReqRef
+ Id="bd668bbe-6aea-492e-a1bb-5683e651c453"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78bda153-aac1-4291-98c3-2befac265518"
+>
+</ReqRef><ReqRef
+ Id="9ffb7f56-2bd6-43f5-8def-6aac968df073"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26941921-eb8c-4dbe-a375-afbb3ad5d54a"
+>
+</ReqRef><ReqRef
+ Id="e40c0b71-8a09-48e2-afa1-209598ab1a8a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="854e687d-1e69-415d-aefd-db6b4f24ab98"
+>
+</ReqRef><ReqRef
+ Id="1491cc62-39cf-4aac-9887-c6a659e8f015"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a11ae52-4e7d-4af0-9eb5-1c804ed0869d"
+>
+</ReqRef><ReqRef
+ Id="09b7fcaa-8fd0-4fe9-8eed-a4c1fee31c2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="496efc07-24d1-4398-890e-4ab1014e0451"
+>
+</ReqRef><ReqRef
+ Id="6649ff98-11a8-49c6-8b46-6c93216ad250"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5906fdfd-0717-477f-b70a-c8c7b2d15bc6"
+>
+</ReqRef><ReqRef
+ Id="24a635be-ba49-419a-8cc5-c37817d23f66"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6308d2b1-fb90-444c-8ca2-58d518981235"
+>
+</ReqRef><Comment>Returns true if the packet has to be considered, that is 
+  - if the packet is available (hence its orientation is also available),
+  - this is not an infill information, or the infill transmission media is available on-board and 
+  - its information is valid for the current orientation of the train or for both directions). 
+If the train direction is unknown, this function returns true only if the packet&apos;s information if valid for both directions.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.Q_DIR"
+ Name="PacketOrientation"
+ Guid="d715d88e-2743-4b56-9099-d4f21cdb9c34"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="95d39f6b-2411-4065-9457-7c6d0e6c73ba"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Empty orientation"
+ Guid="a74508a2-aed1-4cc4-9e6e-a2a30fcccc99"
+>
+<PreConditions>
+<PreCondition
+ Guid="177c2d52-1519-43c6-bdba-f47ef81b1e79"
+>NOT Available ( PacketOrientation )</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Train position unknown"
+ Guid="6ef69ff5-4ba0-4be0-aefc-526ba8ce03bc"
+>
+<PreConditions>
+<PreCondition
+ Guid="86aff26d-9d64-4966-aac1-a41e04d16e27"
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Expression>PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
+</Case><Case
+ Name="Infill information but no infill transmission media"
+ Guid="6afeb3c0-afbb-40ca-bd6b-e2bcb2619c8d"
+>
+<PreConditions>
+<PreCondition
+ Guid="91243480-4428-4ba5-93ca-e72252c044da"
+>Kernel.Infill.Data != EMPTY AND NOT Kernel.Infill.InfillTransmissionMediaAvailable</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="8ecc0b19-4add-4c5e-82e5-c56868836734"
+>
+<Expression>PacketOrientation == EFSOrientationConverter(MessageOrientation)
+  OR
+PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
+</Case></Cases>
+</Function><Function
+ Type="StoredBaliseStruct"
+ Default=""
+ X="270"
+ Y="160"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DuplicateBalise"
+ Guid="185af630-3a5c-4817-a76e-ed6e4fc4a6cd"
+>
+<Comment>Provides the duplicating balise.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="Balise"
+ Guid="cb60f42e-ec5d-4bd1-bf65-7828af051dd5"
+>
+</Parameter><Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="9d9693b8-d98a-4f99-8603-019fdb355fbf"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Duplicate of the next balise"
+ Guid="dd0197e0-8d6a-4de3-8644-0111e1919e32"
+>
+<PreConditions>
+<PreCondition
+ Guid="eff994b4-3615-45a8-aa7b-0f8ebe6856c6"
+>Balise.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group</PreCondition></PreConditions>
+<Expression>FIRST X IN aBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG + 1</Expression>
+</Case><Case
+ Name="Duplicate of the previous balise"
+ Guid="49c7ee14-4263-4343-a897-558b4e36f7d6"
+>
+<PreConditions>
+<PreCondition
+ Guid="fcdc7999-90e2-4d29-adf7-6ce07cd84427"
+>Balise.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group</PreCondition></PreConditions>
+<Expression>FIRST X IN aBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG - 1</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

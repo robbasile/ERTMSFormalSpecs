@@ -186,7 +186,7 @@
 >
 </ReqRef><Comment>Contains the previous value of session state in order to know if that value has changed.</Comment>
 </StructureElement><StructureElement
- TypeName="BTM.BaliseGroupStruct"
+ TypeName="BTM.LRBG.BaliseGroupStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -393,7 +393,7 @@
 >
 </ReqRef><Comment>The position of the last position report.</Comment>
 </StructureElement><StructureElement
- TypeName="BTM.BaliseGroupStruct"
+ TypeName="BTM.LRBG.BaliseGroupStruct"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
@@ -888,7 +888,7 @@ Kernel.TrainIntegrity.TrainIntegrity.Status in [
 <PreCondition
  Guid="b153b35e-09e0-4864-b33e-ec4dd02d2cc0"
 >Kernel.ActiveFunctions.ReportPosition_BGPassage()</PreCondition></PreConditions>
-<Expression>EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG
+<Expression>EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG
   AND
 EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Valid</Expression>
 </Case><Case
@@ -1095,9 +1095,9 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
  Guid="95b790d2-b1f1-40e6-808f-05b60c4e9d13"
 >
 <Expression>(
-    BTM.LRBG.Orientation != OrientationEnum.Unknown
+    BTM.LRBG.LRBG.Orientation != OrientationEnum.Unknown
         OR
-    BTM.PreviousLRBG() != EMPTY
+    BTM.LRBG.PreviousLRBG() != EMPTY
 )
     AND
 (
@@ -1304,13 +1304,13 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 <PreConditions>
 <PreCondition
  Guid="f21e89a9-9a6b-412d-97ad-c87d8656875f"
->BTM.LRBG.Orientation != OrientationEnum.Unknown</PreCondition></PreConditions>
+>BTM.LRBG.LRBG.Orientation != OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
 {
     POSITION_REPORT=&gt; Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        NID_LRBG =&gt; BTM.LRBG.NID,
+        NID_LRBG =&gt; BTM.LRBG.LRBG.NID,
         D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
@@ -1332,14 +1332,14 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 <PreConditions>
 <PreCondition
  Guid="f8dcdf38-e6ba-4440-a046-60992b0d3b5e"
->Available(BTM.PreviousLRBG())</PreCondition></PreConditions>
+>Available(BTM.LRBG.PreviousLRBG())</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
 {
     POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS=&gt;Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Message
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        NID_LRBG =&gt; BTM.LRBG.NID,
-        NID_PRVLRBG =&gt; Messages.NID_PRVBG ( BTM.PreviousLRBG().NID ),
+        NID_LRBG =&gt; BTM.LRBG.LRBG.NID,
+        NID_PRVLRBG =&gt; Messages.NID_PRVBG ( BTM.LRBG.PreviousLRBG().NID ),
         D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
@@ -1362,7 +1362,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
     POSITION_REPORT=&gt; Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        NID_LRBG =&gt; BTM.LRBG.NID,
+        NID_LRBG =&gt; BTM.LRBG.LRBG.NID,
         D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
@@ -3038,11 +3038,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="ae6c8ef1-2194-4108-a559-adccefd1179a"
->EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG</PreCondition></PreConditions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e19bb715-6e05-4bc2-a5dc-f0842d91b312"
->EURORADIO.PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG</Action></Actions>
+>EURORADIO.PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG.LRBG</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

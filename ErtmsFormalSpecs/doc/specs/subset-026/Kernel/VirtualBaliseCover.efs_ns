@@ -175,6 +175,109 @@
     Increment =&gt; MessageTypes.TimeResolution(Time) * 24.0 * 60.0 * 60.0
 )</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="150"
+ Y="400"
+ Width="100"
+ Height="50"
+ Name="IgnoreBG"
+ Guid="3e36ae08-6aee-4dde-bd80-a71cb1a3feed"
+>
+<ReqRef
+ Id="325f20da-5bb8-48c5-8709-2d85152d43f7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa138dd7-e411-4b8c-bf04-972c8bc9abca"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="53112c55-42de-4cb3-9dd8-2c923f85ef8c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Do not manage VBCs"
+ Guid="3090922d-7964-41f7-bf70-7c7e52e3c466"
+>
+<PreConditions>
+<PreCondition
+ Guid="816eeb83-e07e-471a-8951-e4565130140c"
+>NOT ActiveFunctions.ManageVirtualBaliseCovers()</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="No VBCs"
+ Guid="6ca1f77b-e0ef-4b86-999c-b2cd1f574af9"
+>
+<PreConditions>
+<PreCondition
+ Guid="f4dead97-4c9f-46a5-a59e-e34277cc8fab"
+>VirtualBaliseCovers.DataState not in [DataStateEnum.Valid]</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Balise group does not contain VBC marker"
+ Guid="c899cc87-05ae-45e9-9552-ed2015daef17"
+>
+<PreConditions>
+<PreCondition
+ Guid="6cc30ab5-725e-4cf1-b6ba-a87242067191"
+>NOT Available( VBCMarkerOfBG(aBaliseGroup) )</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="VBC marker of BG is in VBCs"
+ Guid="d2dc7560-3b1d-412e-92b6-1a9951c8ae84"
+>
+<Expression>THERE_IS vbc IN VirtualBaliseCovers.VBCs | (
+  vbc.Marker.Marker == VBCMarkerOfBG(aBaliseGroup).NID_VBCMK
+    AND  
+  vbc.Marker.Area == (FIRST X IN aBaliseGroup).Telegram.NID_C
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.PACKET.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER.Message"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="VBCMarkerOfBG"
+ Guid="aea0113d-d7e3-42a2-b56d-a2a024e9351c"
+>
+<Parameters>
+<Parameter
+ Type="BTM.BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="b8a99811-cce7-412d-ac96-a3dd9c47e0ba"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No VBC marker"
+ Guid="9f3acac9-0c42-4044-876d-3df1cf4f6c43"
+>
+<PreConditions>
+<PreCondition
+ Guid="490a8f4e-1c49-4bbb-8fc7-f3693a6629fe"
+>NOT THERE_IS X IN aBaliseGroup |
+(
+  THERE_IS Y IN X.Telegram.Sequence1 |
+    Available( Y.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER )
+)</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="Value"
+ Guid="ae6f7928-85f4-471d-b92e-b8d2b13f343f"
+>
+<Expression>(FIRST X IN 
+  (FIRST X IN aBaliseGroup | 
+    (THERE_IS Y IN X.Telegram.Sequence1 |
+      Available( Y.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER )
+    )
+  ).Telegram.Sequence1
+).TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_MARKER</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -344,6 +447,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove all mismatched country identifiers"
  Guid="86e560b6-c03e-40bd-afdc-f075ff069013"
@@ -360,7 +465,7 @@
 <Actions>
 <Action
  Guid="ef331960-2419-4f15-9ea8-c4fdb56c6c7f"
->REMOVE ALL X.Marker.Area == NID_C IN VirtualBaliseCovers.VBCs</Action></Actions>
+>REMOVE ALL X.Marker.Area != NID_C IN VirtualBaliseCovers.VBCs</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

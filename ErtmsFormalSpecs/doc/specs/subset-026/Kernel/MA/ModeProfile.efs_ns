@@ -394,15 +394,6 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 >aProfile.Location + BaseTypes.LengthToDistance ( aProfile.Length ) &lt;= aLocation</PreCondition></PreConditions>
 <Expression>aProfile</Expression>
 </Case><Case
- Name="Infill location after profile"
- Guid="08f4ee9b-8d33-44a9-ad8d-4dd9164faa6b"
->
-<PreConditions>
-<PreCondition
- Guid="11207bb5-7d97-4421-baaa-83868e35318a"
->aLocation &lt;= aProfile.Location</PreCondition></PreConditions>
-<Expression>EMPTY</Expression>
-</Case><Case
  Name="Infill location inside profile"
  Guid="64c1a003-f722-4380-8ac3-35d56678e659"
 >
@@ -410,7 +401,7 @@ aProfile.Mode == ModeEnum.ModeProfile.LS</PreCondition></PreConditions>
 {
     AcknLength =&gt; aProfile.AcknLength,
     Location =&gt; aProfile.Location,
-    Length =&gt; aLocation - aProfile.Location,
+    Length =&gt; BaseTypes.DistanceToLength(aLocation - aProfile.Location),
     Mode =&gt; aProfile.Mode,
     Speed =&gt; aProfile.Speed,
     SupervisionQualifier =&gt; aProfile.SupervisionQualifier
@@ -1227,6 +1218,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Remove mode profile beyond the given location"
@@ -1250,7 +1243,7 @@ IN
 <Actions>
 <Action
  Guid="ca7c34df-e127-4393-a18b-a4fac6c5288e"
->Kernel.MA.ModeProfile.Profile &lt;- MAP Kernel.MA.ModeProfile.Profile USING X IN Kernel.MA.ModeProfile.KeepTheProfileAccordingToLocation
+>Kernel.MA.ModeProfile.Profile &lt;- MAP Kernel.MA.ModeProfile.Profile | X.Location &lt; aLocation USING X IN Kernel.MA.ModeProfile.KeepTheProfileAccordingToLocation
 (
   aProfile =&gt; X,
   aLocation =&gt; aLocation
@@ -1280,6 +1273,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Hide acknowledgements of the elements that will be removed"
  Guid="35c577e8-2979-4dfd-a336-91a13af0047c"
@@ -1314,6 +1309,8 @@ ON
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove the elements"
  Guid="d893ed86-8908-430e-9ce9-b2f6b33eda50"

@@ -1,0 +1,375 @@
+<NameSpace
+ X="150"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="MissedBalises"
+ Guid="3e64cf58-54c3-4ecb-9b11-b58b149bb443"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="StoredBaliseStruct"
+ Default=""
+ X="400"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MissedBalise"
+ Guid="6323d562-2733-4469-9a0c-1c15df96e5d1"
+>
+<Comment>The missed balise of the current balise group. It is added to the collection CurrentBaliseGroup and marked as missed so that the group can be handled.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="eeabbf9a-243f-42c8-b7fc-808f58aaee57"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="88fa3cb0-bfd1-4b65-9d2b-2086ce6b0d03"
+>
+<Expression>LET refBalise &lt;- (FIRST X IN aBaliseGroup).Telegram
+
+IN
+BTM.StoredBaliseStruct{
+    Telegram =&gt; Messages.EUROBALISE.Message{
+        Q_UPDOWN =&gt; refBalise.Q_UPDOWN,
+        M_VERSION =&gt; refBalise.M_VERSION,
+        Q_MEDIA =&gt; refBalise.Q_MEDIA,
+        N_PIG =&gt; MissedBalise_N_PIG(aBaliseGroup),
+        N_TOTAL =&gt; refBalise.N_TOTAL,
+        M_DUP =&gt; 0,
+        M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+        NID_C =&gt; refBalise.NID_C,
+        NID_BG =&gt; refBalise.NID_BG,
+        Q_LINK =&gt; refBalise.Q_LINK,
+        Sequence1 =&gt; [],
+        BitField =&gt; &apos;&apos;
+    },
+    Missed =&gt; True
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.N_PIG"
+ Default=""
+ X="510"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MissedBalise_N_PIG"
+ Guid="190b351a-a22f-4dae-bffa-f62ce58a886c"
+>
+<Comment>The position of the missed balise in the current balise group.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="f73d44bf-315b-4083-9db7-a577e9ca4214"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Nominal"
+ Guid="b9a0af5e-6abb-41b5-9af9-4b8e15f3b2b1"
+>
+<PreConditions>
+<PreCondition
+ Guid="e527dd06-8d8f-4ac9-aef1-75fbcae88607"
+>BGOrientation(aBaliseGroup) == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>LastReceivedBalise(aBaliseGroup).N_PIG + 1</Expression>
+</Case><Case
+ Name="Reverse"
+ Guid="96841db8-5eee-4ccf-985d-c60ea87e31ab"
+>
+<PreConditions>
+<PreCondition
+ Guid="dccafee7-8c97-4e55-92e7-b52211cda954"
+>BGOrientation(aBaliseGroup) == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>LastReceivedBalise(aBaliseGroup).N_PIG + 1</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.EUROBALISE.Message"
+ Default=""
+ X="620"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="LastReceivedBalise"
+ Guid="9ef93e95-2da0-499b-a6c2-0030f99004f7"
+>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="b781767b-69b8-4d5b-9b22-d9a7cf3eacb7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="2e6decc7-fdec-435b-b129-84f2dee4f761"
+>
+<PreConditions>
+<PreCondition
+ Guid="4c090882-353f-4098-b440-b8c9891dc115"
+>aBaliseGroup != []</PreCondition></PreConditions>
+<Expression>(LAST X IN aBaliseGroup).Telegram</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ef128bdb-0cd2-4921-816b-e5ca1f9e2899"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="150"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="FillMissedBalises"
+ Guid="e99e41d9-f8d3-423a-bd04-a0b2aabc3987"
+>
+<Comment>Adds up to 5 balises to the current balise group that were missed.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill first balise"
+ Guid="d1322e8e-c3f8-4c67-87ac-9003f5349526"
+>
+<Comment>Add one missed balise.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill first balise"
+ Guid="1406740e-f54c-42ce-8f23-93b168bfbfc0"
+>
+<PreConditions>
+<PreCondition
+ Guid="9fd64923-94f0-464b-82e9-a6243ada4bc6"
+>MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
+ AND 
+MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="269ffc58-b53a-4182-9558-421f80084683"
+>INSERT
+MissedBalises.MissedBalise(CurrentBaliseGroup)
+IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill second balise"
+ Guid="a0da1e9c-c7d5-4eb7-9b9b-ebac967f1369"
+>
+<Comment>Add a second missed balise.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill second balise"
+ Guid="e9f30030-5ed6-4527-941c-669ddc889dfd"
+>
+<PreConditions>
+<PreCondition
+ Guid="3800c011-d0cf-4915-bef9-99ef9ea72e9a"
+>MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
+ AND 
+MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d3c9bdd5-859e-40a0-bdb2-694159fc5769"
+>INSERT
+MissedBalises.MissedBalise(CurrentBaliseGroup)
+IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill third balise"
+ Guid="2dfea6f6-0814-4645-8606-e89b86d3c723"
+>
+<Comment>Add a third missed balise.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill third balise"
+ Guid="72694f04-4aca-4a24-9258-f7cc6cebeccc"
+>
+<PreConditions>
+<PreCondition
+ Guid="a200c8cf-88fa-4abe-8ca8-4b4dd1572ce7"
+>MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
+ AND 
+MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="810c1cad-4be1-483a-8474-bb40d256d36f"
+>INSERT
+MissedBalises.MissedBalise(CurrentBaliseGroup)
+IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill fourth balise"
+ Guid="17a638e7-97ca-4d0b-ba69-1e3b711354e1"
+>
+<Comment>Add a fourth missed balise.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill fourth balise"
+ Guid="3cb99b92-c0cb-4ade-b353-2a71042c3ff9"
+>
+<PreConditions>
+<PreCondition
+ Guid="0cb9b3ad-9837-4d08-afac-2ba347c89a90"
+>MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
+ AND 
+MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a9da04e6-a71a-4157-a364-9a9315fc5433"
+>INSERT
+MissedBalises.MissedBalise(CurrentBaliseGroup)
+IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill fifth balise"
+ Guid="ef79f102-ef8e-4586-9445-56a3c94b89a4"
+>
+<Comment>Add a fifth missed balise.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Fill fifth balise"
+ Guid="f297aedf-3482-4714-b468-810ba4bba120"
+>
+<PreConditions>
+<PreCondition
+ Guid="5ec57daa-1517-4d77-93ca-325a3c78f44c"
+>MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG + 1
+ AND 
+MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_PIG != BTM.UpdatedReceivedMessage(BTM.Message).N_PIG - 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9402818a-0fb2-4a36-a5a8-e417a291cc7b"
+>INSERT
+MissedBalises.MissedBalise(CurrentBaliseGroup)
+IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="BaseTypes.Distance"
+ DefaultValue="12.0"
+ VariableMode="Constant"
+ X="930"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MaxDistBetweenBalises"
+ Guid="7adda4ab-61a3-476d-bc72-847fb2c849ec"
+>
+<ReqRef
+ Id="9ffea548-e5d0-44d0-bd31-a689cd75d05b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="287db3e5-c003-44f7-b6f9-7ebcdff8ad05"
+>
+</ReqRef><Comment>The maximum distance between consecutive balises in the same balise group.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Distance"
+ DefaultValue=""
+ VariableMode="Internal"
+ X="930"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PrevBalisePosition"
+ Guid="a32948b1-dcc2-465c-8d69-ce4d370d4ed1"
+>
+<Comment>Keeps the position of the last seen balise in the current group.</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Verification"
+ X="40"
+ Y="270"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max distance between Balises exceeded"
+ Guid="7e6a9210-0745-4b37-b68f-e2ec8da372b0"
+>
+<Comment>When the previously detected Balise&apos;s position was further in rear of the train than the maximum distance between Balises, the following Balise in the group is missed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Max distance exceeded"
+ Guid="03c505ea-2a74-4a49-a39a-49e282af800b"
+>
+<PreConditions>
+<PreCondition
+ Guid="2de86d72-0f6d-4b93-b0b6-31b88a21e1a4"
+>BTM.CurrentBaliseGroup != []</PreCondition><PreCondition
+ Guid="bcbaf299-4fb5-4823-af9f-f2b1a74d1582"
+>Odometry.NominalDistance &gt; PrevBalisePosition + MissedBalises.MaxDistBetweenBalises</PreCondition><PreCondition
+ Guid="9ef66ef6-b578-4d26-b7c7-bc7dab3ace1c"
+>NOT Available(BTM.UpdatedReceivedMessage(BTM.Message))</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ba00487e-7656-41a0-9bd0-98cb43c0ceec"
+>INSERT MissedBalises.MissedBalise(CurrentBaliseGroup) 
+IN BTM.CurrentBaliseGroup</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>
