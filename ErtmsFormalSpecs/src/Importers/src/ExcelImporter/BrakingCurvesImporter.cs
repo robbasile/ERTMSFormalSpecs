@@ -188,7 +188,7 @@ namespace Importers.ExcelImporter
                 aSubStep.AddModelElement(odometryInitialization);
 
                 TestAction LRBGInitialization = new TestAction();
-                LRBGInitialization.ExpressionText = "BTM.LRBG <- BTM.BaliseGroupStruct\n" +
+                LRBGInitialization.ExpressionText = "BTM.LRBG.LRBG <- BTM.LRBG.BaliseGroupStruct\n" +
                                                     "    {\n" +
                                                     "    NID => 0,\n" +
                                                     "    Orientation => Default.OrientationEnum.Nominal,\n" +
