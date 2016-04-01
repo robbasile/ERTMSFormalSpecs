@@ -1213,7 +1213,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="8e4e8741-f67b-46ff-a5e6-fcfa1ce7192f"
->EURORADIO.TracksideOrderedSessionReceived(Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT)</Action></Actions>
+>EURORADIO.RBCConnection.Contact.TracksideOrderedSessionReceived(Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Radio Network registration available"
@@ -1247,7 +1247,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="29555d56-e93d-4b03-bcd8-cd57ddaba9f7"
->EURORADIO.RadioNetworkRegistrationReceived ( aPacket=&gt;Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION )</Action></Actions>
+>EURORADIO.Terminal.RadioNetworkRegistrationReceived ( aPacket=&gt;Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Conditional Level Transition Order available"
@@ -1936,7 +1936,7 @@ True</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="e9f7503a-a201-4ce0-be40-99cef91b92ba"
->EURORADIO.HasActiveSession()</PreCondition><PreCondition
+>EURORADIO.Terminal.HasActiveSession()</PreCondition><PreCondition
  Guid="afc8b3ae-0a5f-413b-a613-0d8145a1c32f"
 >Kernel.LevelTransition.LevelTransitionToProcess != EMPTY
   AND
@@ -1948,7 +1948,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="8b6b13bc-da05-493a-8895-bd58979b488e"
->EURORADIO.CurrentRBCConnection().SendMARequest
+>EURORADIO.RBCConnection.CurrentRBCConnection().SendMARequest
 (
     aReason =&gt; Messages.Q_MARQSTREASON.TAF_up_to_level_2_3_transition_location,
     aPacket =&gt; Messages.PACKET.TRAIN_TO_TRACK.LEVEL_2_3_TRANSITION_INFORMATION.Message
@@ -2002,7 +2002,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05bdf5ca-1d21-43e2-bb2e-7ef9acba75c3"
->EURORADIO.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
+>EURORADIO.RBCConnection.RBCHandover.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Danger for Shunting Information available"
@@ -3490,7 +3490,7 @@ ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGrou
 <PreConditions>
 <PreCondition
  Guid="1ab6b030-5011-4880-9827-8285d95422cf"
->EURORADIO.SafeRadioConnectionAvailable()</PreCondition><PreCondition
+>EURORADIO.RBCConnection.SafeRadioConnectionAvailable()</PreCondition><PreCondition
  Guid="e9f371b8-3016-4d71-afad-73cc64ced5e8"
 >NOT Linking.BGIsLinked(aBaliseGroup)
   OR  
@@ -3520,11 +3520,11 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
  Guid="1b712eb9-748d-46bf-8c8d-c27d38cd9233"
 >Linking.BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
  Guid="ef730bb5-0b67-4d71-b150-1292cafb0287"
->EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a799a8d5-87d6-44ca-89ee-51fdaf8c1bda"
->EURORADIO.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.PositionReport.InconsistentMessageTypeEnum.LinkedBalise</Action></Actions>
+>EURORADIO.Messages.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.Messages.PositionReport.InconsistentMessageTypeEnum.LinkedBalise</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Unlinked BG"
@@ -3536,11 +3536,11 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
  Guid="65edcb1c-73ff-444e-a73a-95910c623c13"
 >NOT Linking.BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
  Guid="8fef0a34-9077-40dd-b45b-32573ed3e43a"
->EURORADIO.CurrentRBCConnection().SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="799a57f6-ac42-4626-a3a5-fd1e9fba2324"
->EURORADIO.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.PositionReport.InconsistentMessageTypeEnum.UnlinkedBalise</Action></Actions>
+>EURORADIO.Messages.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.Messages.PositionReport.InconsistentMessageTypeEnum.UnlinkedBalise</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

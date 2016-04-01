@@ -1,6 +1,6 @@
 <NameSpace
- X="910"
- Y="540"
+ X="10"
+ Y="310"
  Width="100"
  Height="50"
  Name="PositionReport"
@@ -11,7 +11,7 @@
 </NameSpaces>
 <Enumerations>
 <Enum
- Default="EURORADIO.PositionReport.PositionReportSpecialMoment.DoNotSend"
+ Default="EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.DoNotSend"
  X="190"
  Y="100"
  Width="100"
@@ -478,7 +478,7 @@
 <Function
  Type="Boolean"
  Default=""
- X="340"
+ X="270"
  Y="360"
  Width="100"
  Height="50"
@@ -504,15 +504,15 @@
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_RBCEstablished()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.HasActiveSession != EURORADIO.HasActiveSession()
+PositionReport.PositionReportEventsTracker.HasActiveSession != Terminal.HasActiveSession()
   AND
-EURORADIO.HasActiveSession()</Expression>
+Terminal.HasActiveSession()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="120"
- Y="360"
+ X="600"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -566,7 +566,7 @@ EURORADIO.HasActiveSession()</Expression>
 >Kernel.ActiveFunctions.ReportPosition_LevelChangeTrackside()
   OR  
 Kernel.ActiveFunctions.ReportPostion_LevelChangeDriver()</PreCondition></PreConditions>
-<Expression>EURORADIO.PositionReport.PositionReportEventsTracker.Level != Kernel.Level.Value.Value</Expression>
+<Expression>PositionReport.PositionReportEventsTracker.Level != Kernel.Level.Value.Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="daa2ea14-3ee5-4755-9a57-6e76d4e73460"
@@ -576,7 +576,7 @@ Kernel.ActiveFunctions.ReportPostion_LevelChangeDriver()</PreCondition></PreCond
 </Function><Function
  Type="Boolean"
  Default=""
- X="780"
+ X="710"
  Y="300"
  Width="100"
  Height="50"
@@ -597,14 +597,14 @@ Kernel.ActiveFunctions.ReportPostion_LevelChangeDriver()</PreCondition></PreCond
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_LossOfTrainIntegrity()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status
+PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status
   AND
 Kernel.TrainIntegrity.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity_lost</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="450"
+ X="380"
  Y="360"
  Width="100"
  Height="50"
@@ -651,12 +651,12 @@ Kernel.TrainIntegrity.TrainIntegrity.Status == Messages.Q_LENGTH.Train_integrity
 >
 <Expression>Kernel.ActiveFunctions.ReportPositionWhenModeChanges()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
+PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="450"
+ X="380"
  Y="300"
  Width="100"
  Height="50"
@@ -684,7 +684,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 <PreCondition
  Guid="9d029d2f-9487-47e8-95f0-a91ab6441c3e"
 >Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
-<Expression>Kernel.DateAndTime.CurrentTime &gt;= EURORADIO.PositionReport.LastPositionReport.Time + EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval AND EURORADIO.PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid AND EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval != 0.0</Expression>
+<Expression>Kernel.DateAndTime.CurrentTime &gt;= PositionReport.LastPositionReport.Time + PositionReport.PositionReportParameters.Values.TimeInterval AND PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid AND PositionReport.PositionReportParameters.Values.TimeInterval != 0.0</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="96a9f43e-de36-45eb-890e-808641155109"
@@ -694,7 +694,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 </Function><Function
  Type="Boolean"
  Default=""
- X="670"
+ X="600"
  Y="300"
  Width="100"
  Height="50"
@@ -723,12 +723,12 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
  Guid="ded1f57a-2222-476e-9e6a-7f7b23864b98"
 >Kernel.ActiveFunctions.ReportPosition_RBCRequest()</PreCondition></PreConditions>
 <Expression>(
-  Odometry.NominalDistance &gt;= (EURORADIO.PositionReport.LastPositionReport.Position + EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval)
+  Odometry.NominalDistance &gt;= (PositionReport.LastPositionReport.Position + PositionReport.PositionReportParameters.Values.DistanceInterval)
 )
   AND  
-(EURORADIO.PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid)
+(PositionReport.PositionReportParameters.DataState == DataStateEnum.Valid)
   AND  
-(EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Unknown)</Expression>
+(PositionReport.PositionReportParameters.Values.DistanceInterval != BaseTypes.Distance.Unknown)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="e6f3fb27-51a4-4dd5-b8db-26b3ba5c437a"
@@ -738,7 +738,7 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 </Function><Function
  Type="Boolean"
  Default=""
- X="670"
+ X="600"
  Y="360"
  Width="100"
  Height="50"
@@ -757,12 +757,12 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
  Name="Value"
  Guid="d39cbac2-cb23-4eef-a013-bccca1716554"
 >
-<Expression>EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReport.PositionReportSpecialMoment.Now</Expression>
+<Expression>PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReport.PositionReportSpecialMoment.Now</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="560"
+ X="490"
  Y="300"
  Width="100"
  Height="50"
@@ -788,14 +788,14 @@ EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</Expres
 >
 <Expression>Kernel.ActiveFunctions.ReportPositionAtStandstill()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.Speed != Odometry.TrainSpeed()
+PositionReport.PositionReportEventsTracker.Speed != Odometry.TrainSpeed()
   AND
 Odometry.TrainIsAtStandstill()</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
  Default=""
- X="560"
+ X="490"
  Y="360"
  Width="100"
  Height="50"
@@ -821,7 +821,7 @@ Odometry.TrainIsAtStandstill()</Expression>
 >
 <Expression>Kernel.ActiveFunctions.ReportPosition_DriverConfirmedIntegrity()
   AND
-EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status
+PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status
   AND 
 Kernel.TrainIntegrity.TrainIntegrity.Status in [
   Messages.Q_LENGTH.Train_integrity_confirmed_by_driver,
@@ -831,8 +831,8 @@ Kernel.TrainIntegrity.TrainIntegrity.Status in [
 </Function><Function
  Type="Boolean"
  Default=""
- X="230"
- Y="360"
+ X="710"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -860,8 +860,8 @@ Kernel.TrainIntegrity.TrainIntegrity.Status in [
 </Function><Function
  Type="Boolean"
  Default=""
- X="10"
- Y="360"
+ X="380"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -888,9 +888,9 @@ Kernel.TrainIntegrity.TrainIntegrity.Status in [
 <PreCondition
  Guid="b153b35e-09e0-4864-b33e-ec4dd02d2cc0"
 >Kernel.ActiveFunctions.ReportPosition_BGPassage()</PreCondition></PreConditions>
-<Expression>EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG
+<Expression>PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG
   AND
-EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Valid</Expression>
+PositionReport.PositionReportParameters.DataState != DataStateEnum.Valid</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="0f9d38fb-f497-4c5c-8bed-35b92e101ebb"
@@ -900,7 +900,7 @@ EURORADIO.PositionReport.PositionReportParameters.DataState != DataStateEnum.Val
 </Function><Function
  Type="Boolean"
  Default=""
- X="340"
+ X="270"
  Y="300"
  Width="100"
  Height="50"
@@ -946,7 +946,7 @@ NOT Kernel.LevelTransition.LevelTransitionOrder.PositionReportSent
   AND  
 Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.RearEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min )
   AND  
-(FIRST X IN Kernel.LevelTransition.LevelTransitionOrder.LevelAndLength | Kernel.LevelTransition.AvailableForUse( Level=&gt; X.TRLevel )).TRLevel.Value in [Default.LevelEnum.L0, Default.LevelEnum.L1, Default.LevelEnum.LNTC]</Expression>
+Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Default.LevelEnum.L0, Default.LevelEnum.L1, Default.LevelEnum.LNTC]</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="98ba03b3-cf73-4ff8-b6d5-089b900a0c07"
@@ -956,8 +956,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Boolean"
  Default=""
- X="120"
- Y="300"
+ X="710"
+ Y="360"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -980,8 +980,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Boolean"
  Default=""
- X="10"
- Y="300"
+ X="380"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1101,27 +1101,27 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 )
     AND
 (
-    EURORADIO.PositionReport.SendReportDueToStandstillReached() OR 
-    EURORADIO.PositionReport.SendReportDueToModeChange() OR 
-    EURORADIO.PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() OR 
-    EURORADIO.PositionReport.SendReportDueToLossOfTrainIntegrityDetected() OR 
-    EURORADIO.PositionReport.SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd() OR 
-    EURORADIO.PositionReport.SendReportDueToLevelChange() OR 
-    EURORADIO.PositionReport.SendReportDueToCommunicationSessionIsEstablished() OR 
-    EURORADIO.PositionReport.SendReportDueToLRBGCompliantBGPassed() OR 
-    EURORADIO.PositionReport.SendReportDueToPositionReportDistanceReached() OR 
-    EURORADIO.PositionReport.SendReportDueToPositionReportSpecialMoment() OR
-    EURORADIO.PositionReport.SendReportDueToPositionReportSpecialLocationReached() OR
-    EURORADIO.PositionReport.SendReportDueToPositionReportTimeReached()  OR 
-    EURORADIO.PositionReport.SendReportDueToNotConsistentMessageReceived()
+    PositionReport.SendReportDueToStandstillReached() OR 
+    PositionReport.SendReportDueToModeChange() OR 
+    PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() OR 
+    PositionReport.SendReportDueToLossOfTrainIntegrityDetected() OR 
+    PositionReport.SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd() OR 
+    PositionReport.SendReportDueToLevelChange() OR 
+    PositionReport.SendReportDueToCommunicationSessionIsEstablished() OR 
+    PositionReport.SendReportDueToLRBGCompliantBGPassed() OR 
+    PositionReport.SendReportDueToPositionReportDistanceReached() OR 
+    PositionReport.SendReportDueToPositionReportSpecialMoment() OR
+    PositionReport.SendReportDueToPositionReportSpecialLocationReached() OR
+    PositionReport.SendReportDueToPositionReportTimeReached()  OR 
+    PositionReport.SendReportDueToNotConsistentMessageReceived()
 
 )</Expression>
 </Case></Cases>
 </Function><Function
  Type="PositionReportSpecialMoment"
  Default=""
- X="340"
- Y="420"
+ X="380"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1169,8 +1169,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message"
  Default=""
- X="450"
- Y="420"
+ X="490"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1283,7 +1283,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; Messages.NID_LRBG.Unknown,
-        D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
+        D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
@@ -1311,7 +1311,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; BTM.LRBG.LRBG.NID,
-        D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
+        D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
@@ -1340,7 +1340,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; BTM.LRBG.LRBG.NID,
         NID_PRVLRBG =&gt; Messages.NID_PRVBG ( BTM.LRBG.PreviousLRBG().NID ),
-        D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
+        D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval ( ConfidenceIntervalEnum.L_DOUBTOVER ), scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
@@ -1363,7 +1363,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
         NID_LRBG =&gt; BTM.LRBG.LRBG.NID,
-        D_LRBG =&gt; EURORADIO.PositionReport.FillDistance(),
+        D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
         L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
@@ -1381,8 +1381,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Messages.Q_STATUS"
  Default=""
- X="230"
- Y="420"
+ X="600"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1432,8 +1432,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="MessageTypes.Distance"
  Default=""
- X="10"
- Y="420"
+ X="710"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1470,7 +1470,7 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Boolean"
  Default=""
- X="120"
+ X="270"
  Y="420"
  Width="100"
  Height="50"
@@ -1499,8 +1499,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="BaseTypes.Time"
  Default=""
- X="670"
- Y="420"
+ X="600"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1544,8 +1544,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="780"
- Y="420"
+ X="710"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1597,8 +1597,8 @@ Kernel.LevelTransition.LevelTransitionOrder.Location &lt; Kernel.TrainPosition.R
 </Function><Function
  Type="Boolean"
  Default=""
- X="230"
- Y="300"
+ X="490"
+ Y="420"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1632,8 +1632,8 @@ PositionReport.PositionReportParameters.Values.SpecialLocations == []</PreCondit
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="560"
- Y="420"
+ X="270"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1645,7 +1645,7 @@ PositionReport.PositionReportParameters.Values.SpecialLocations == []</PreCondit
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fd2ea972-bbf0-4c15-b4c4-7211c4605b12"
 >
-</ReqRef><Comment>Converts the incremental ditances to the special locations for sending a position report, received in the POSITION_REPORT_PARAMETERS packet, to absolute distances.</Comment>
+</ReqRef><Comment>Converts the incremental distances to the special locations for sending a position report, received in the POSITION_REPORT_PARAMETERS packet, to absolute distances.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.PACKET.TRACK_TO_TRAIN.POSITION_REPORT_PARAMETERS.SubStructure1"
@@ -1687,8 +1687,8 @@ SUM SpecialLocations | Before(
 </Function><Function
  Type="EURORADIO.TrainData.TrainEndEnum"
  Default=""
- X="780"
- Y="360"
+ X="490"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1736,8 +1736,8 @@ SUM SpecialLocations | Before(
 </Function><Function
  Type="Boolean"
  Default=""
- X="1"
- Y="661"
+ X="270"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1780,8 +1780,8 @@ SUM SpecialLocations | Before(
 </Function></Functions>
 <Procedures>
 <Procedure
- X="340"
- Y="480"
+ X="10"
+ Y="300"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1832,13 +1832,13 @@ SUM SpecialLocations | Before(
 <Actions>
 <Action
  Guid="bb7d9795-fec8-42f3-a619-fb767260a89d"
->ValidateInformation(EURORADIO.PositionReport.PositionReportParameters)</Action><Action
+>ValidateInformation(PositionReport.PositionReportParameters)</Action><Action
  Guid="f3e0c810-5538-4ebf-b190-2e4fa7161c79"
->EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- PositionReport.ConvertT_CYCLOCToTime ( Packet.T_CYCLOC )</Action><Action
+>PositionReport.PositionReportParameters.Values.TimeInterval &lt;- PositionReport.ConvertT_CYCLOCToTime ( Packet.T_CYCLOC )</Action><Action
  Guid="bbed578f-bec0-45d5-a457-6c3e192bcb6b"
->EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- PositionReport.ConvertD_CYCLOCToDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
+>PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- PositionReport.ConvertD_CYCLOCToDistance ( Packet.D_CYCLOC, Packet.Q_SCALE)</Action><Action
  Guid="89290f52-e348-42cd-abb6-f2b2841c62fb"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReport.ERTMSSpecialMomentConverter(Packet.M_LOC)</Action><Action
+>PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReport.ERTMSSpecialMomentConverter(Packet.M_LOC)</Action><Action
  Guid="3156f7b5-5a53-41f5-98c4-ad13723fc669"
 >PositionReport.PositionReportParameters.Values.SpecialLocations
  &lt;- 
@@ -1852,8 +1852,8 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="120"
- Y="480"
+ X="10"
+ Y="360"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1922,11 +1922,11 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 <PreConditions>
 <PreCondition
  Guid="bde030ab-df0b-41a4-8990-fc29342a1b91"
->EURORADIO.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+>RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5e69bff3-886e-4b37-9fb0-0dfd85564b16"
->VersionManagement.UpdateOperatedSystemVersion(EURORADIO.SecondaryRBCConnection())</Action></Actions>
+>VersionManagement.UpdateOperatedSystemVersion(RBCConnection.SecondaryRBCConnection())</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1949,9 +1949,9 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 <Actions>
 <Action
  Guid="89164f10-4804-45f9-b404-1ba1447d422b"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 1</Action><Action
+>PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 1</Action><Action
  Guid="7a5a51e3-0abe-4698-93ed-043abb09e4d1"
->EURORADIO.CurrentRBCConnection().SendPositionReport()</Action></Actions>
+>RBCConnection.CurrentRBCConnection().SendPositionReport()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1972,11 +1972,11 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 <PreConditions>
 <PreCondition
  Guid="7e956f6c-dace-46c8-908e-f325396dda0e"
->EURORADIO.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+>RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d0ab71e1-786d-4e01-9233-28f40c29267a"
->EURORADIO.SecondaryRBCConnection().SendPositionReport()</Action></Actions>
+>RBCConnection.SecondaryRBCConnection().SendPositionReport()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2002,13 +2002,13 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 <PreConditions>
 <PreCondition
  Guid="ddfadecd-e648-4e13-8408-4325274abb95"
->EURORADIO.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+>RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6b42c60f-a5af-4051-9bc2-4ed9a4530448"
->EURORADIO.Terminal1.RBCConnection.IsMainConnection &lt;- NOT EURORADIO.Terminal1.RBCConnection.IsMainConnection</Action><Action
+>Terminal.Terminal1.RBCConnection.IsMainConnection &lt;- NOT Terminal.Terminal1.RBCConnection.IsMainConnection</Action><Action
  Guid="adfa2013-2b5f-4f01-9977-c806d55f77ab"
->EURORADIO.Terminal2.RBCConnection.IsMainConnection &lt;- NOT EURORADIO.Terminal2.RBCConnection.IsMainConnection</Action></Actions>
+>Terminal.Terminal2.RBCConnection.IsMainConnection &lt;- NOT Terminal.Terminal2.RBCConnection.IsMainConnection</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2028,7 +2028,7 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Handle messages receved from the Accepting RBC"
+ Name="Handle messages received from the Accepting RBC"
  Guid="e676e181-4c24-4827-82dc-4411348519f0"
 >
 <PreConditions>
@@ -2037,21 +2037,21 @@ MAP Packet.Sequence1 USING X IN PositionReport.PositionReportSpecialLocation{
 <Action
  Guid="d8885373-70e7-414c-a68c-046684b5afc4"
 >APPLY
-  EURORADIO.RemoveAcknOfTrainDataFromMessage( aMessage =&gt; X )
+  Messages.RemoveAcknOfTrainDataFromMessage( aMessage =&gt; X )
 ON
-  EURORADIO.MessagesToHandle</Action><Action
+  Messages.MessagesToHandle</Action><Action
  Guid="6ea871df-0227-4589-bad1-f3714cb01665"
 >APPLY
-  EURORADIO.ProcessIncomingMessages( aMessage =&gt; X )
+  Messages.ProcessIncomingMessages( aMessage =&gt; X )
 ON
-  EURORADIO.MessagesToHandle</Action><Action
+  Messages.MessagesToHandle</Action><Action
  Guid="1d4538da-c21e-436a-80d7-72bfdba26f72"
->EURORADIO.MessagesToHandle &lt;- []</Action></Actions>
+>Messages.MessagesToHandle &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="230"
- Y="480"
+ X="120"
+ Y="300"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2094,15 +2094,15 @@ ON
 <PreConditions>
 <PreCondition
  Guid="e082201c-84ad-4853-91fb-329f7fb6a7b1"
->EURORADIO.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+>RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="35b07ffe-860e-42d4-98bd-0a84888dd618"
->EURORADIO.SecondaryRBCConnection().SendPositionReport()</Action><Action
+>RBCConnection.SecondaryRBCConnection().SendPositionReport()</Action><Action
  Guid="11e2aab1-4355-4fc4-be65-995e9d79f494"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC + 1</Action><Action
+>PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- PositionReport.NumberOfReportsSentToHandingOverRBC + 1</Action><Action
  Guid="10b43a01-1386-4f3f-b773-a520fe5bdd33"
->EURORADIO.PositionReport.SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>RBCConnection.RBCHandover.SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Only one RBC connection is available"
@@ -2114,16 +2114,16 @@ ON
 <Actions>
 <Action
  Guid="4e660aad-b808-4b8f-af10-18728cbb118c"
->EURORADIO.CurrentRBCConnection().SendPositionReport()</Action><Action
+>RBCConnection.CurrentRBCConnection().SendPositionReport()</Action><Action
  Guid="98ee005b-0814-4319-b1f3-3ac3f5840ced"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC + 1</Action><Action
+>PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- PositionReport.NumberOfReportsSentToHandingOverRBC + 1</Action><Action
  Guid="42025d97-0b92-40d7-97ee-d7e5a5385fde"
->EURORADIO.PositionReport.SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>RBCConnection.RBCHandover.SecondRBCHandoverPositionReportTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="10"
- Y="480"
+ X="120"
+ Y="360"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2205,11 +2205,11 @@ ON
 <PreConditions>
 <PreCondition
  Guid="c0cd5727-43a9-490a-adb3-b7ab7cfac417"
->EURORADIO.PositionReport.SendReportNow()</PreCondition></PreConditions>
+>SendReportNow()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="caed2442-a4dd-49e2-9bb4-55a01c80b907"
->EURORADIO.CurrentRBCConnection().SendPositionReport()</Action></Actions>
+>RBCConnection.CurrentRBCConnection().SendPositionReport()</Action></Actions>
 <SubRules>
 <Rule
  Priority="UpdateOUT"
@@ -2235,11 +2235,11 @@ ON
 <PreConditions>
 <PreCondition
  Guid="a9c9c62a-a1ff-45f5-8f47-71e4e1b756dd"
->EURORADIO.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+>RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="44e5a4e8-73a9-4879-9844-f4bf9665e010"
->EURORADIO.SecondaryRBCConnection().SendPositionReport()</Action></Actions>
+>RBCConnection.SecondaryRBCConnection().SendPositionReport()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -2364,34 +2364,6 @@ ON
 >
 </ReqRef><Comment>Indicates the number of sent position report repetitions.</Comment>
 </Variable><Variable
- Type="BaseTypes.Distance"
- DefaultValue="BaseTypes.Distance.Unknown"
- VariableMode="Internal"
- X="870"
- Y="180"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="RBCTransitionLocation"
- Guid="97a617dd-10c7-4bb5-b80a-041544ca0de1"
->
-<ReqRef
- Id="67f28124-01be-4b0b-ae62-e6274818f522"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1f7ae591-86b1-4030-b01b-bf668e2f7a42"
->
-</ReqRef><ReqRef
- Id="83fd016d-a290-41a0-b91a-d21bdb12a3d1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="868c740c-a2c8-432e-b9ca-8a55c8cb739b"
->
-</ReqRef><ReqRef
- Id="8d7f7c64-ed35-4ee2-a511-68029a576144"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9ff0ec4d-25ae-4543-85fb-63c732c79b73"
->
-</ReqRef><Comment>Location of the transition to the accepting RBC.</Comment>
-</Variable><Variable
  Type="Integer"
  DefaultValue="0"
  VariableMode="Internal"
@@ -2414,36 +2386,12 @@ ON
  Guid="0220b530-97e4-4192-b39a-d5a9408d3ce8"
 >
 </ReqRef><Comment>Indicates the number of position reports that were already sent to the Handing Over RBC.</Comment>
-</Variable><Variable
- Type="BaseTypes.Time"
- DefaultValue="0.0"
- VariableMode="Internal"
- X="1020"
- Y="180"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="SecondRBCHandoverPositionReportTime"
- Guid="d3f80e0c-a75b-40d5-aceb-27f16bfaee58"
->
-<ReqRef
- Id="d8eba2a2-5b1e-4e5f-878d-ead661e95e50"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3ec06c7b-091e-489e-9d6c-50810f4d881e"
->
-</ReqRef><ReqRef
- Id="17777577-ec39-4845-8347-17b8ec4c74d4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="951b89fb-97c0-48d6-b02e-46e1a8f3b97b"
->
-</ReqRef><Comment>Indicates the time when the second position report to the Handing Over RBC was sent.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
  Priority="Processing"
  X="10"
- Y="570"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2536,11 +2484,11 @@ ON
 <PreConditions>
 <PreCondition
  Guid="8759fa6c-ccb2-4799-901c-da387590d178"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC == 0
+>PositionReport.NumberOfReportsSentToHandingOverRBC == 0
   AND
-Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &gt;= RBCConnection.RBCHandover.RBCTransitionLocation</PreCondition><PreCondition
  Guid="8ddbf2b5-1a20-4b70-abcd-734965454ea6"
->EURORADIO.PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>RBCConnection.RBCHandover.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="9180eede-7378-46a7-8bf8-a4dc3cd4677c"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition><PreCondition
  Guid="bf6d684f-be16-497f-820c-8e5022f7fa57"
@@ -2548,12 +2496,12 @@ Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEn
 <Actions>
 <Action
  Guid="daf467de-6386-457f-8555-9fbf8706549b"
->EURORADIO.PositionReport.SendFirstRBCHandoverPositionReport()</Action></Actions>
+>PositionReport.SendFirstRBCHandoverPositionReport()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  X="120"
- Y="570"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2642,17 +2590,17 @@ Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEn
 <PreConditions>
 <PreCondition
  Guid="2e4c2276-a2dd-4f4c-8fcb-9857d72cb4c8"
->EURORADIO.PositionReport.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+>RBCConnection.RBCHandover.RBCTransitionLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
  Guid="9e01e492-5354-4383-a8cf-c25c076c9526"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC == 1
+>PositionReport.NumberOfReportsSentToHandingOverRBC == 1
   AND
-Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Min ) &gt;= EURORADIO.PositionReport.RBCTransitionLocation</PreCondition><PreCondition
+Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Min ) &gt;= RBCConnection.RBCHandover.RBCTransitionLocation</PreCondition><PreCondition
  Guid="3c744592-d68e-46b8-bcab-764b7e40c095"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c6ff4dc-2494-496b-b9bf-11fe670cc4b7"
->EURORADIO.PositionReport.SendSecondRBCHandoverPositionReport()</Action></Actions>
+>PositionReport.SendSecondRBCHandoverPositionReport()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handing Over RBC has sent an order to terminate the session"
@@ -2662,13 +2610,13 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="56ed0c09-a13a-456e-b5ed-fc884e8b4f3f"
->EURORADIO.OrderToTerminateHandingOverRBCIsReceived()</PreCondition><PreCondition
+>RBCConnection.RBCHandover.OrderToTerminateHandingOverRBCIsReceived()</PreCondition><PreCondition
  Guid="85df0276-9b30-495c-b2f1-717a0afd4934"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="56171646-7f3d-4717-8553-731700087a4f"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
+>PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No order to terminate the session received from Handing Over RBC before the timeout =&gt; send a new position report."
@@ -2683,17 +2631,17 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="b18ba555-56bf-429c-8587-9d2262a83d58"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
+>PositionReport.NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
  Guid="bb5277e0-aa5c-48e6-a9b9-1ef76c7ff93a"
->EURORADIO.PositionReport.SecondRBCHandoverPositionReportTime + EURORADIO.TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>RBCConnection.RBCHandover.SecondRBCHandoverPositionReportTime + RBCConnection.TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="aa7bc635-025b-4bfa-b27c-d05d3984511b"
->EURORADIO.PositionReport.NumberOfSentReportRepetitions &lt; EURORADIO.NumberOfMessageRepetitions</PreCondition><PreCondition
+>PositionReport.NumberOfSentReportRepetitions &lt; RBCConnection.NumberOfMessageRepetitions</PreCondition><PreCondition
  Guid="cb496351-7929-4a7e-ab9a-14bf9a5bdbf8"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2dd104eb-cbba-403c-96ba-4318538874a7"
->EURORADIO.PositionReport.SendSecondRBCHandoverPositionReport()</Action></Actions>
+>PositionReport.SendSecondRBCHandoverPositionReport()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No order to terminate the session received from Handing Over RBC, max number of requests reached"
@@ -2708,22 +2656,22 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="2351d843-a038-4af6-af2c-0388a7b3a7cb"
->EURORADIO.PositionReport.NumberOfSentReportRepetitions == EURORADIO.NumberOfMessageRepetitions</PreCondition><PreCondition
+>PositionReport.NumberOfSentReportRepetitions == RBCConnection.NumberOfMessageRepetitions</PreCondition><PreCondition
  Guid="22623cd7-98dd-4219-a3da-8d0a348c1178"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
+>PositionReport.NumberOfReportsSentToHandingOverRBC &gt; 0</PreCondition><PreCondition
  Guid="d30495ba-3762-4c19-96f3-456143f7ae70"
->EURORADIO.PositionReport.SecondRBCHandoverPositionReportTime + EURORADIO.TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+>RBCConnection.RBCHandover.SecondRBCHandoverPositionReportTime + RBCConnection.TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
  Guid="770bd4c3-89dd-445f-b09b-7dc617030f18"
 >Kernel.ActiveFunctions.ManageRBC_RBCHandover()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="17311951-1bd7-40ab-9779-aee39c8727f4"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.CurrentRBCConnection().ConnectionStateSM.Inactive</Action></Actions>
+>RBCConnection.CurrentRBCConnection().ConnectionState &lt;- RBCConnection.CurrentRBCConnection().ConnectionStateSM.Inactive</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
- X="230"
- Y="570"
+ X="10"
+ Y="540"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2766,11 +2714,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="b5b3bdcf-5b20-47eb-a2c1-2cc56eeffb29"
->EURORADIO.PositionReport.PositionReportEventsTracker.HasActiveSession != EURORADIO.HasActiveSession()</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.HasActiveSession != Terminal.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f253a472-4a0b-4830-9daf-dc9f1d297a47"
->EURORADIO.PositionReport.PositionReportEventsTracker.HasActiveSession &lt;- EURORADIO.HasActiveSession()</Action></Actions>
+>PositionReport.PositionReportEventsTracker.HasActiveSession &lt;- Terminal.HasActiveSession()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2793,11 +2741,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="49677e46-1ad5-40a9-af59-160a893d7fa9"
->EURORADIO.PositionReport.PositionReportEventsTracker.Level != Kernel.Level.Value.Value</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.Level != Kernel.Level.Value.Value</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="515acf5a-9876-4a6f-a73b-ca4bf8d4188f"
->EURORADIO.PositionReport.PositionReportEventsTracker.Level &lt;- Kernel.Level.Value.Value</Action></Actions>
+>PositionReport.PositionReportEventsTracker.Level &lt;- Kernel.Level.Value.Value</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2820,11 +2768,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="5db42a2c-f937-4f32-a925-9c7b4f8337fd"
->EURORADIO.PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.Mode != Kernel.Mode</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a40ed2af-fb9d-49e3-a621-997105f90762"
->EURORADIO.PositionReport.PositionReportEventsTracker.Mode &lt;- Kernel.Mode</Action></Actions>
+>PositionReport.PositionReportEventsTracker.Mode &lt;- Kernel.Mode</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2847,11 +2795,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="e9d87099-edc8-4dea-bdd4-ab5fd6b85fae"
->EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.TrainIntegrityStatus != Kernel.TrainIntegrity.TrainIntegrity.Status</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="03674022-99fb-4c9a-913c-c3686ac1025e"
->EURORADIO.PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- Kernel.TrainIntegrity.TrainIntegrity.Status</Action></Actions>
+>PositionReport.PositionReportEventsTracker.TrainIntegrityStatus &lt;- Kernel.TrainIntegrity.TrainIntegrity.Status</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2874,11 +2822,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="4ff8ab1e-553f-4bc5-9e31-9cdf9c890e0a"
->EURORADIO.PositionReport.PositionReportEventsTracker.Speed != Odometry.TrainSpeed()</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.Speed != Odometry.TrainSpeed()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f06ea1a9-ebb0-4f14-89bd-3d61fbc07ba2"
->EURORADIO.PositionReport.PositionReportEventsTracker.Speed &lt;- Odometry.TrainSpeed()</Action></Actions>
+>PositionReport.PositionReportEventsTracker.Speed &lt;- Odometry.TrainSpeed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2901,15 +2849,15 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="01e9965d-e63e-492a-8fd6-d2abb46ca74d"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReport.PositionReportSpecialMoment.Now</PreCondition></PreConditions>
+>PositionReport.PositionReportParameters.Values.SpecialMoment == PositionReport.PositionReportSpecialMoment.Now</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ce1b2dac-1a95-4367-9e31-0328b192cae8"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReport.PositionReportSpecialMoment.DoNotSend</Action><Action
+>PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- PositionReport.PositionReportSpecialMoment.DoNotSend</Action><Action
  Guid="465e9a0b-308d-4a86-a7e3-75ee18e0f703"
->EURORADIO.PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+>PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="6541046c-0889-4cf3-9a50-e0778f68cb93"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
+>PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -2957,11 +2905,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="06f45f9c-043b-4bbc-b95c-80f3dff05f14"
->EURORADIO.PositionReport.SendReportDueToPositionReportTimeReached()</PreCondition></PreConditions>
+>PositionReport.SendReportDueToPositionReportTimeReached()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d52d054b-2c95-4bcb-b1f0-f2cb70ee9265"
->EURORADIO.PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>PositionReport.LastPositionReport.Time &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -2984,11 +2932,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="5dfc878b-69eb-4c7a-bb0e-ce7e410d873a"
->EURORADIO.PositionReport.SendReportDueToPositionReportDistanceReached()</PreCondition></PreConditions>
+>PositionReport.SendReportDueToPositionReportDistanceReached()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="62ca8361-552c-4f8d-a5af-7a2d6bd64455"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
+>PositionReport.LastPositionReport.Position &lt;- Odometry.NominalDistance</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3011,11 +2959,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="9e597c5e-8972-45f9-9d7b-02b17dd66b8c"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC == 2</PreCondition></PreConditions>
+>PositionReport.NumberOfReportsSentToHandingOverRBC == 2</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ba49bc15-c471-41a1-b203-6cf28b8868a4"
->EURORADIO.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
+>PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
@@ -3038,11 +2986,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="ae6c8ef1-2194-4108-a559-adccefd1179a"
->EURORADIO.PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e19bb715-6e05-4bc2-a5dc-f0842d91b312"
->EURORADIO.PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG.LRBG</Action></Actions>
+>PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG.LRBG</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

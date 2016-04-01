@@ -5788,11 +5788,11 @@ SpeedRestrictions =&gt; []
 <Actions>
 <Action
  Guid="8f327b41-2c6d-4ca7-b053-e4101e0376e0"
->EURORADIO.Terminal1 &lt;- EURORADIO.TerminalStruct
+>EURORADIO.Terminal.Terminal1 &lt;- EURORADIO.Terminal.TerminalStruct
 {
   RBCConnection =&gt; EMPTY, 
-  RegistrationState =&gt; EURORADIO.TerminalStruct.RegistrationStateSM.Registered, 
-  RegistrationRequestState =&gt; EURORADIO.RegisteringRequestStruct
+  RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered, 
+  RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct
   {
     RequestState =&gt; Default.RequestEnum.Disabled, 
     Response =&gt; Boolean.False
@@ -5824,7 +5824,7 @@ SpeedRestrictions =&gt; []
 <Actions>
 <Action
  Guid="b4cb92aa-1cd5-49d1-b69e-344862edbad2"
->EURORADIO.Terminal1.RBCConnection &lt;- EURORADIO.RBCStruct
+>EURORADIO.Terminal.Terminal1.RBCConnection &lt;- EURORADIO.RBCConnection.RBCStruct
 {
   MessageIn =&gt; Messages.EURORADIO.MessageIn.Message
   {
@@ -5839,9 +5839,9 @@ SpeedRestrictions =&gt; []
     SystemVersion1 =&gt; EMPTY, 
     BitField =&gt; &apos;&apos;
   }, 
-  ContactData =&gt; EURORADIO.RBCContactStruct
+  ContactData =&gt; EURORADIO.RBCConnection.Contact.RBCContactStruct
   {
-    Id =&gt; EURORADIO.RBCIdStruct
+    Id =&gt; EURORADIO.RBCConnection.Contact.RBCIdStruct
     {
       Country =&gt; 81, 
       Id =&gt; 4549
@@ -5849,10 +5849,10 @@ SpeedRestrictions =&gt; []
     PhoneNumber =&gt; aRBCPhoneNumber, 
     DataState =&gt; Default.DataStateEnum.Invalid
   }, 
-  ConnectionState =&gt; EURORADIO.RBCStruct.ConnectionStateSM.Connected, 
-  SafeRadioConnectionStatus =&gt; EURORADIO.SafeRadioConnectionStatusEnum.ConnectionUp, 
+  ConnectionState =&gt; EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected, 
+  SafeRadioConnectionStatus =&gt; EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp, 
   ContactRBCOrder =&gt; EMPTY, 
-  SessionManagementData =&gt; EURORADIO.SessionManagementStruct
+  SessionManagementData =&gt; EURORADIO.RBCConnection.SessionManagementStruct
   {
     ConnectionRequestIsSent =&gt; Boolean.False, 
     SystemVersion =&gt; VersionManagement.SystemVersionStruct
@@ -5860,7 +5860,7 @@ SpeedRestrictions =&gt; []
       Value =&gt; VersionManagement.SystemVersionEnum.Version2_0, 
       DataState =&gt; Default.DataStateEnum.Valid
     }, 
-    Action =&gt; EURORADIO.ContactActionEnum.Establish, 
+    Action =&gt; EURORADIO.RBCConnection.Contact.ContactActionEnum.Establish, 
     AcknowledgementOfTerminationReceived =&gt; Boolean.False, 
     ConnectionIsEstablished =&gt; Boolean.True, 
     ConnectionRequestIsReceived =&gt; Boolean.False, 
@@ -5869,7 +5869,7 @@ SpeedRestrictions =&gt; []
   LastRequestTime =&gt; 0.0, 
   NumberOfSentRequests =&gt; 0, 
   ConnectionLostTime =&gt; Default.BaseTypes.Time.Infinity, 
-  SpecialCaseSessionEstablishmentReason =&gt; EURORADIO.SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish, 
+  SpecialCaseSessionEstablishmentReason =&gt; EURORADIO.RBCConnection.SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish, 
   IsMainConnection =&gt; Boolean.True, 
   OnboardReference_MessageTimer =&gt; Default.BaseTypes.Time.NA, 
   ContactTimerSupervised =&gt; Boolean.True

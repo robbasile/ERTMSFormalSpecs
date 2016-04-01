@@ -1,0 +1,1390 @@
+<NameSpace
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="Contact"
+ Guid="580fca88-352b-42ec-8a26-316fa4ac631c"
+>
+<NameSpaces>
+</NameSpaces>
+<Enumerations>
+<Enum
+ Default="ContactActionEnum.Establish"
+ X="560"
+ Y="320"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ContactActionEnum"
+ Guid="ea5b0cd8-a7cc-4aca-9390-c8842517ff24"
+>
+<ReqRef
+ Id="c2b39282-833e-4fd4-abd9-3a72c47f0782"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="22f89241-4057-4375-972a-172c9d3b6255"
+>
+</ReqRef><ReqRef
+ Id="afd82aec-eda7-4ec0-8f16-8002a8687ab2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1079e0c0-c6d5-43ed-9d05-cecb7cb27883"
+>
+</ReqRef><Comment>Action to be performed while ordering to contact an RBC.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="Establish"
+ Guid="34fd382e-e4ab-4f91-9e9e-cad2e2a7d21a"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Terminate"
+ Guid="efe01397-7c69-4d63-8eb6-7e646cca2191"
+>
+</EnumValue></Values>
+</Enum><Enum
+ Default="ContactOptionEnum.None"
+ X="410"
+ Y="110"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ContactOptionEnum"
+ Guid="7bab1523-0861-44c9-ad3b-364cd97fcc04"
+>
+<ReqRef
+ Id="369d7ae0-50db-411b-9941-bbe30e354733"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a0c7f339-6f2d-4c73-95b4-8cefbd1020ac"
+>
+</ReqRef><ReqRef
+ Id="40859515-77c4-46aa-96a5-12453cd171a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7dc8e3c5-7a8b-446a-8538-363110bacba6"
+>
+</ReqRef><ReqRef
+ Id="cebfc056-7b96-49d7-a6ff-1fdf0076bb9e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e3e0613-ae98-44ff-a1b3-6f6d8fff01d4"
+>
+</ReqRef><Comment>Indicates how the RBC has to be contacted.</Comment>
+<Values>
+<EnumValue
+ Value="0"
+ Name="ContactLastKnownRBC"
+ Guid="b8d94300-4144-4b52-9852-f37c28d2ee88"
+>
+</EnumValue><EnumValue
+ Value="1"
+ Name="UseOnBoardStoredShortNumber"
+ Guid="69a92fdd-ed20-43d6-b2f5-6dd666092907"
+>
+</EnumValue><EnumValue
+ Value="2"
+ Name="RBCIdAndPhoneNumber"
+ Guid="e2610b4d-3509-49f9-bb90-82315bcfe068"
+>
+</EnumValue><EnumValue
+ Value="3"
+ Name="None"
+ Guid="f802e297-30e5-4034-abee-0707c1f611b9"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
+<Structures>
+<Structure
+ Default=""
+ X="610"
+ Y="110"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RBCContactStruct"
+ Guid="34a7c15c-662b-4a6d-a149-5587a333e7cf"
+>
+<ReqRef
+ Id="f6cda523-6b70-489d-a6dd-e29b33d2a772"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e47b1bf4-8adc-4a5e-b229-064ffd680081"
+>
+</ReqRef><ReqRef
+ Id="aca297a1-7d62-42ac-ab7e-6c8c590c5637"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88537c38-7c30-4bc3-9405-7ba774c41949"
+>
+</ReqRef><Comment>Contains information about the last known RBC.</Comment>
+<StructureElement
+ TypeName="RBCIdStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Id"
+ Guid="99ae12d2-bc9c-4170-a5ac-5ec02a642457"
+>
+<Comment>Identifier of the RBC.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="PhoneNumber"
+ Guid="3367d1e9-5512-45ec-9356-57305e0372d5"
+>
+<ReqRef
+ Id="bc788967-444b-4de1-bb0a-f16853d222c5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d6d24c82-a063-4cef-b362-47bbe9658fe5"
+>
+</ReqRef><ReqRef
+ Id="1f0aabf4-a2c9-46c9-bf2e-0ea221d2f972"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f5ce4030-9bde-40d3-8e1f-fa720987dbf9"
+>
+</ReqRef><Comment>Phone number of the RBC.</Comment>
+</StructureElement><StructureElement
+ TypeName="DataStateEnum"
+ Default="DataStateEnum.Unknown"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DataState"
+ Guid="45de8d20-e175-4ce8-b6a0-8f05a6e55a99"
+>
+<ReqRef
+ Id="1ab51773-764d-4fc1-b533-351222363321"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="63488e79-0657-47bb-92de-056af2ceb3d3"
+>
+</ReqRef><ReqRef
+ Id="a9f86939-1651-4064-9732-2d860f2d28af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d8cbc8f3-4abd-41ed-beb1-724517e301b5"
+>
+</ReqRef><ReqRef
+ Id="a9f86939-1651-4064-9732-2d860f2d28af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="938cf163-1976-4f94-807f-82b13383ffde"
+>
+</ReqRef><Comment>Data state of the contact information.</Comment>
+</StructureElement><Interfaces>
+<StructureRef
+ Name="DataStateInterface"
+ Guid="7c9bc8d5-4182-4caa-aaf9-0d2b465ec60a"
+>
+</StructureRef></Interfaces>
+</Structure><Structure
+ Default=""
+ X="610"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RBCIdStruct"
+ Guid="06bc7e20-822b-4896-a367-bc92333c4911"
+>
+<ReqRef
+ Id="816c0d6e-276a-4016-ad89-124dca81531d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c364a117-eb0c-4552-8ff4-6c780c66f618"
+>
+</ReqRef><Comment>Identity of an RBC.</Comment>
+<StructureElement
+ TypeName="Messages.NID_C"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Country"
+ Guid="05cede5e-c482-41df-9072-e4113ad144b9"
+>
+<Comment>Country of the RBC.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_RBC"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Id"
+ Guid="aa91517d-2240-40b4-bfd9-8878fcc96be9"
+>
+<Comment>Identifier of the RBC.</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="280"
+ Y="110"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AvailableNetworksStruct"
+ Guid="e6849568-73f7-4b28-ae32-8b6bf0058e00"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81bc9c91-72b9-4123-8780-3da0231cb9ab"
+>
+</ReqRef><Comment>Allows to request the list of available and allowed networkds, based on a request to the Mobile Terminal(s).</Comment>
+<StructureElement
+ TypeName="RequestEnum"
+ Default="RequestEnum.Disabled"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RequestState"
+ Guid="92cbb691-f862-4800-bcc1-b1c3201d2980"
+>
+<Comment>Allows to request the list of available and allowed networks.</Comment>
+</StructureElement><StructureElement
+ TypeName="AvailableNetworksCol"
+ Default="[]"
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Networks"
+ Guid="0ed60605-c72c-4461-b890-b564097e7b37"
+>
+<Comment>Collection of available and allowed networks.
+The default value &apos;My very own network&apos; is used as a patch to avoid A29 exit. To remove asap.</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="440"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ContactOrderStruct"
+ Guid="0b20f5b7-2179-44b2-b8c4-19c69efa393a"
+>
+<ReqRef
+ Id="951fc6d8-739b-4bd4-9361-5686840e8b5a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aad52615-8995-411d-beac-095d25210560"
+>
+</ReqRef><ReqRef
+ Id="711a8f6b-f758-4405-bb80-f9b331940c39"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="53323bec-6f3a-4084-adce-0d087292a1ba"
+>
+</ReqRef><ReqRef
+ Id="64296fc8-fe88-499d-b63e-d570a4a39744"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d37b22c1-9b7f-4129-a033-3e1fab068fc5"
+>
+</ReqRef><Comment>Contains information needed to contact an RBC or an RIU.</Comment>
+<StructureElement
+ TypeName="RBCConnection.Contact.RBCIdStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Id"
+ Guid="090d6f31-3d17-41d8-a297-773c0dad4df8"
+>
+<ReqRef
+ Id="cfa25d7e-ba55-4b80-ba0e-931979188cd9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e3ada7b-82db-4b53-aa7f-5bf0c7825f02"
+>
+</ReqRef><ReqRef
+ Id="bf375eb5-37d4-48bc-9e97-ed34696dd18d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a7c2039-8f5c-4b40-863e-1a727356ea4f"
+>
+</ReqRef><ReqRef
+ Id="27b4bef1-4915-47e2-b193-48f7f3daae5c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="278d8f6e-9124-4385-8139-53c90b4599b7"
+>
+</ReqRef><Comment>The identity of the RBC.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="PhoneNumber"
+ Guid="8403992a-5c33-472a-915b-6e9e82f06133"
+>
+<ReqRef
+ Id="e7d678f2-4b9e-4960-818a-8773557c1742"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4093722b-d3f7-4c8e-9f44-3881216778b4"
+>
+</ReqRef><ReqRef
+ Id="1edceb91-f111-4748-af9c-6d142efbb335"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e03d81a-fdd4-4dc8-911c-9b562d20b4e6"
+>
+</ReqRef><ReqRef
+ Id="95aa03b6-4c5a-49a1-ac97-d11d63ebc609"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="944bd39d-7437-4b63-b998-e7cac319656a"
+>
+</ReqRef><Comment>Phone number of the RBC.</Comment>
+</StructureElement><StructureElement
+ TypeName="RBCConnection.Contact.ContactActionEnum"
+ Default="RBCConnection.Contact.ContactActionEnum.Establish"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ActionToPerform"
+ Guid="86ca7945-4cbf-4528-960c-a9062aa3621e"
+>
+<ReqRef
+ Id="c2b39282-833e-4fd4-abd9-3a72c47f0782"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2fb816a0-8a56-460d-a842-d80a533ad336"
+>
+</ReqRef><ReqRef
+ Id="afd82aec-eda7-4ec0-8f16-8002a8687ab2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9540ded4-9a23-491b-95f0-5fd9dc61c7c2"
+>
+</ReqRef><Comment>The action to be performed.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="Boolean.False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="AppliesToSleepingUnits"
+ Guid="4701d82d-24e3-4223-926c-223b4125b649"
+>
+<ReqRef
+ Id="53c901d2-749c-41ce-be89-218897ceff07"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="589b9aa8-6e18-48a6-aab9-eedfa3941ab0"
+>
+</ReqRef><ReqRef
+ Id="bae735db-1bcf-40d2-b035-f39a5663407f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d966b111-ad3c-4937-9f9c-18b07bd04154"
+>
+</ReqRef><Comment>Indicates whether the order applies also to Sleeping units.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="BaseTypes.Distance.Unknown"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="EndOfValidityLocation"
+ Guid="2f3c33db-f3fd-4da4-8bd3-cdc3386b1053"
+>
+<ReqRef
+ Id="8fa3c468-ff7b-4fa4-9f9c-790f481b3f5c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c8fd01a-48f2-42f7-b374-40e507f915ec"
+>
+</ReqRef><ReqRef
+ Id="bb662eea-95fc-427d-8968-9c64c70423fa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d0340bb1-189e-4eac-ac5a-c60f5b47b906"
+>
+</ReqRef><ReqRef
+ Id="3cf876e9-fd29-41a4-a3d3-154e60b988e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="259996a2-b33e-4503-b2c4-95db21aac9cc"
+>
+</ReqRef><Comment>Indicates the location where the contact order has to be removed.</Comment>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="String"
+ Default="[]"
+ X="280"
+ Y="210"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AvailableNetworksCol"
+ Guid="104401a1-8c78-4794-bf19-a0f04f17b077"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8d18e7fe-9416-4292-a792-535d3df5e1e8"
+>
+</ReqRef><Comment>List of available and allowed networks.</Comment>
+</Collection></Collections>
+<Functions>
+<Function
+ Type="RBCContactStruct"
+ Default=""
+ X="150"
+ Y="170"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GetRBCContactInfoForSoM"
+ Guid="50e734b8-332b-4530-bf92-d336fb4e8a00"
+>
+<Comment>Returns the RBC contact information if a terminal is registered. Otherwise returns EMPTY.</Comment>
+<Cases>
+<Case
+ Name="Terminal registered, contact information unknown"
+ Guid="35f30c40-e878-4765-a7cd-73e73dc0b127"
+>
+<PreConditions>
+<PreCondition
+ Guid="b11115a5-266b-47cb-877c-f30a46722281"
+>Terminal.TerminalIsRegistered(Terminal.CurrentTerminal())
+  AND  
+RBCConnection.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="Terminal registered"
+ Guid="0f604a9e-a58e-40a0-bf09-0f8eb4f520ed"
+>
+<PreConditions>
+<PreCondition
+ Guid="87fa35d7-7cae-4d88-84ce-26e032d54e3c"
+>Terminal.TerminalIsRegistered(Terminal.CurrentTerminal())</PreCondition></PreConditions>
+<Expression>RBCConnection.CurrentRBCConnection().ContactData</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="096a5de1-c61c-46fb-b534-6fb65d9d9134"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Contact.ContactActionEnum"
+ Default=""
+ X="150"
+ Y="230"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ConvertActionToPerform"
+ Guid="fcc7735a-3e46-4160-a9cb-7124ea1d73e6"
+>
+<Comment>Converts the value received from the trackside to ContactActionEnum</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.Q_RBC"
+ Name="anAction"
+ Guid="2dc3f1b7-07ef-4192-a904-45caa04da49c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Establish"
+ Guid="ceb08062-d72f-4cf5-877d-121ebb9ea7f9"
+>
+<PreConditions>
+<PreCondition
+ Guid="25b870bb-f06f-4a6d-b140-b8e5998a1b3f"
+>anAction == Messages.Q_RBC.Establish_communication_session</PreCondition></PreConditions>
+<Expression>Contact.ContactActionEnum.Establish</Expression>
+</Case><Case
+ Name="Terminate"
+ Guid="5e2d31e6-1284-446b-bd20-6f8fb35aa180"
+>
+<Expression>Contact.ContactActionEnum.Terminate</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="170"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ConvertAppliesToSleepingUnits"
+ Guid="71777804-f6af-463a-a0cd-be78c7cf123a"
+>
+<Comment>Converts the value indicating if the order applies to sleeping units to boolean</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.Q_SLEEPSESSION"
+ Name="aValue"
+ Guid="95b89cca-bddd-4920-a537-2f4c90e311f0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Applies to sleeping units"
+ Guid="41f4167f-b8bf-4f20-80a1-09bccc192889"
+>
+<PreConditions>
+<PreCondition
+ Guid="7de92c40-a560-4c7c-8c3e-4d25a94f310c"
+>aValue == Messages.Q_SLEEPSESSION.Execute_session_establishment_order</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Doesn&apos;t apply to sleeping units"
+ Guid="8de8ad88-30a2-4af6-b6a2-186d840a815d"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="DMI.RBCContactActionsCol"
+ Default=""
+ X="20"
+ Y="230"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GetDriverActionsForSoM"
+ Guid="20e3b23a-2d80-4bc5-86b9-155e2c5d7fe2"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4fb159ce-833a-4808-8869-1ddce907d864"
+>
+</ReqRef><ReqRef
+ Id="ff5aeaff-49e3-489d-816f-c49fc05bc951"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="254d57b4-6a90-4101-b538-0dfa94ec1240"
+>
+</ReqRef><ReqRef
+ Id="1ab51773-764d-4fc1-b533-351222363321"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31520df7-3467-44cc-9fd4-70c27e579bb3"
+>
+</ReqRef><ReqRef
+ Id="bc8058d6-c833-43cf-93a4-f446a3a326ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="161e14a5-bbec-4d72-8a48-2bdd4e34effc"
+>
+</ReqRef><ReqRef
+ Id="a9f86939-1651-4064-9732-2d860f2d28af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e0a48322-cfee-451f-ad93-61721a92fb93"
+>
+</ReqRef><ReqRef
+ Id="3a73d38c-66b9-4e87-873d-9efe293f0f56"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7f727e19-d682-44f3-aedf-92a6c1c72516"
+>
+</ReqRef><Comment>Provides the possible Driver actions for connecting to an RBC during the Start of Mission procedure.</Comment>
+<Cases>
+<Case
+ Name="No mobile terminal registered"
+ Guid="537376e4-4c71-451c-bcc9-5c0847fd25a5"
+>
+<PreConditions>
+<PreCondition
+ Guid="de47f946-a102-4d92-93ac-58473a186252"
+>NOT Terminal.TerminalIsRegistered(Terminal.CurrentTerminal())</PreCondition></PreConditions>
+<Expression>[DMI.RBCContactActionEnum.ReenterNetworkId]</Expression>
+</Case><Case
+ Name="Invalid RBC-ID/phone number_InvalidLastKnownRB C"
+ Guid="14297389-0b18-4f52-bebe-932e62913e7a"
+>
+<PreConditions>
+<PreCondition
+ Guid="22c7b707-5f14-4975-9670-03f0efee00f8"
+>RBCConnection.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Invalid</PreCondition><PreCondition
+ Guid="718b390d-c952-4fb1-900a-85c566ce024a"
+>Contact.LastKnownRBC.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Expression>[DMI.RBCContactActionEnum.ReenterNetworkId,
+DMI.RBCContactActionEnum.UseEireneShortNumber, DMI.RBCContactActionEnum.RevalidateContactInfo, DMI.RBCContactActionEnum.EnterContactInfo]</Expression>
+</Case><Case
+ Name="Invalid RBC-ID/phone number"
+ Guid="63d1f25a-5bd9-45c5-978e-7fe44ecdf335"
+>
+<PreConditions>
+<PreCondition
+ Guid="cdc11219-5220-4b39-ae2d-a4dc45a10acf"
+>RBCConnection.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Invalid</PreCondition></PreConditions>
+<Expression>[DMI.RBCContactActionEnum.ReenterNetworkId, DMI.RBCContactActionEnum.UseLastStoredNumber, DMI.RBCContactActionEnum.UseEireneShortNumber, DMI.RBCContactActionEnum.RevalidateContactInfo, DMI.RBCContactActionEnum.EnterContactInfo]</Expression>
+</Case><Case
+ Name="Unknown RBC-ID/phone number"
+ Guid="fab42248-c38b-4b63-a0c2-6270b13c8ffb"
+>
+<PreConditions>
+<PreCondition
+ Guid="dd77bcad-0268-4dee-987b-3a77cbd9865c"
+>RBCConnection.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Unknown</PreCondition></PreConditions>
+<Expression>[DMI.RBCContactActionEnum.ReenterNetworkId,  DMI.RBCContactActionEnum.UseEireneShortNumber,  DMI.RBCContactActionEnum.EnterContactInfo]</Expression>
+</Case><Case
+ Name="Valid RBC-ID/phone number"
+ Guid="de7929e2-7d30-48aa-a121-5ffb5b45a2e2"
+>
+<PreConditions>
+<PreCondition
+ Guid="c4dba95e-3474-4ec3-b537-7fb3e625877b"
+>RBCConnection.CurrentRBCConnection().ContactData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Expression>[DMI.RBCContactActionEnum.ReenterNetworkId,  DMI.RBCContactActionEnum.UseEireneShortNumber]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="RBCConnection.RBCStruct"
+ Default=""
+ X="150"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SelectRBCToContact"
+ Guid="edc183ce-4765-4875-9d3a-fcdbb85d8b1d"
+>
+<ReqRef
+ Id="e65aa492-e72e-4bdc-896b-8462bf7b8ea9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="927d2fea-b001-4d8b-b808-bac654cca437"
+>
+</ReqRef><Comment>Selects the RBC to contact according to the communication status. If no terminal is registered, then no RBC can be contacted.</Comment>
+<Cases>
+<Case
+ Name="RBC on terminal 1"
+ Guid="c2516180-752c-4b75-a604-42475c6ea10d"
+>
+<PreConditions>
+<PreCondition
+ Guid="bebfbaf8-71a7-4973-9307-24ea03553705"
+>Terminal.Terminal1 != EMPTY
+  AND
+Terminal.TerminalIsRegistered ( aTerminal=&gt; Terminal.Terminal1 )</PreCondition><PreCondition
+ Guid="7bf2df5d-34de-4d11-bb4e-8236aef07917"
+>Terminal.Terminal2 != EMPTY
+  AND
+Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.NoConnection</PreCondition></PreConditions>
+<Expression>Terminal.Terminal1.RBCConnection</Expression>
+</Case><Case
+ Name="RBC on terminal 2"
+ Guid="f38511fd-a55d-4afb-bb3f-d18237b53299"
+>
+<PreConditions>
+<PreCondition
+ Guid="19f821b0-8ffe-49e3-9f2d-c42d8184b33d"
+>Terminal.Terminal2 != EMPTY
+  AND
+Terminal.TerminalIsRegistered ( aTerminal=&gt; Terminal.Terminal2 )</PreCondition></PreConditions>
+<Expression>Terminal.Terminal2.RBCConnection</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="901f46f5-6f6d-49a8-a397-ade1263afd05"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="20"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SessionIsAlreadyEstablishedWithRequestedRBC"
+ Guid="c4eccae5-0e53-41e7-af15-9608b3f9878d"
+>
+<ReqRef
+ Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26d3911c-cdb4-4242-8981-7159f2405edd"
+>
+</ReqRef><Comment>Indicates if the session is already established with the requested RBC.
+
+It can only return false if there is no open session or if the last known RBC has to be contacted and the id of the currenly connected RBC corresponds to the last known RBC id.</Comment>
+<Parameters>
+<Parameter
+ Type="Contact.RBCIdStruct"
+ Name="newId"
+ Guid="ed1875f0-7d41-4f59-bed4-5c0381adcbad"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No open session"
+ Guid="bdb5d993-9c32-4855-adcf-db92b3936ac0"
+>
+<PreConditions>
+<PreCondition
+ Guid="8455685c-d8f8-43ba-96b6-445565f557cb"
+>AllSessionsClosed()</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Session is open"
+ Guid="40a342f5-b51c-445d-85e3-d59075550cf3"
+>
+<Expression>RBCConnection.CurrentRBCConnection().ContactData.Id == newId</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="280"
+ Y="440"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TracksideOrderedSessionReceived"
+ Guid="aa947d6d-5ed0-4cb9-9175-d6bbf385946c"
+>
+<ReqRef
+ Id="af0db000-6b09-4a25-b01b-439fa27cbc6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dc771ca-4061-4cb2-adb7-816a3d7b329e"
+>
+</ReqRef><ReqRef
+ Id="18318a83-420a-41a7-b3eb-e4e67f1e3f97"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1b0f107-721b-4cd0-8df4-da9d7387b4bf"
+>
+</ReqRef><ReqRef
+ Id="e4addba5-4948-4054-b3dc-0e7eeabd6768"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03c225c5-d245-4024-9654-d3747c342eb4"
+>
+</ReqRef><ReqRef
+ Id="8f6d9e5c-7082-4ff4-b968-cfe98c4ad1d5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b3b29469-b9c6-4889-bd66-97da50bdf142"
+>
+</ReqRef><ReqRef
+ Id="cbb3ad4b-7d33-4161-b151-347463291135"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5905ab6a-8237-48f0-b89c-af1a47571cce"
+>
+</ReqRef><ReqRef
+ Id="bd6563bc-06fe-447b-8afc-e210141cc921"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c464c89d-30b2-4d2c-961e-095a783058d7"
+>
+</ReqRef><ReqRef
+ Id="058ba686-ff06-4bed-b616-68b4fb4ea7fd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ac6e8ae-bd31-46ed-b594-c90e4b81b94e"
+>
+</ReqRef><Comment>Handles reception of session management packet from the trackside. The procedure calls ContactRBC procedure with order computed from the received information.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Message"
+ Name="Packet"
+ Guid="d3881c83-afc8-4e4b-aaa6-e10fc539514f"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle trackside order"
+ Guid="432c07cc-89ff-4dc7-aa9f-e8aacd9867d0"
+>
+<Comment>Handles reception of session management packet from the trackside. The rule calls ContactRBC procedure wich order computed from the received information.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="No terminal registered"
+ Guid="e8077b47-cddf-451a-967a-543bb5984da0"
+>
+<ReqRef
+ Id="00910a19-7134-4f24-a20b-6c88aa996ff1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e39c131-4847-4cb8-b888-25c5778a78ac"
+>
+</ReqRef><Comment>If no mobile terminal is registered, the order from the trackside is ignored.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="74c2dd30-5ea7-4f91-8d3a-52d704636cac"
+>SelectRBCToContact() == EMPTY</PreCondition></PreConditions>
+<Actions>
+</Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Contact information provided by the packet"
+ Guid="a1967dcf-c7b2-477d-a589-c2dc4de30508"
+>
+<ReqRef
+ Id="cebfc056-7b96-49d7-a6ff-1fdf0076bb9e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a0571a8-3af1-44b4-8760-c3e5cb384074"
+>
+</ReqRef><ReqRef
+ Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dee3a696-b7b0-48b7-a1bf-8b75e04cb6a2"
+>
+</ReqRef><Comment>If the contact information is provided by the packet (no special values in NID_RBC or NID_RADIO), then the order can be created with these values.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7b666480-3ecb-4c96-8c61-ffca7307d3f0"
+>Packet.NID_RBC != Messages.NID_RBC.contact_last_known_RBC</PreCondition><PreCondition
+ Guid="cfb7f6d4-38c4-4b3c-8c66-f6f85d58f314"
+>Packet.NID_RADIO != &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
+ Guid="fc75e5ff-9626-40d5-b7c2-9ea806fb6023"
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC
+(
+  newId =&gt; Contact.RBCIdStruct
+  {
+    Country =&gt; Packet.NID_C,
+    Id =&gt; Packet.NID_RBC
+  }
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a6ebac2e-aa73-4d15-b591-4cdeeb13852b"
+>RBCConnection.ManageRBCConnection
+(
+    anOrder =&gt; ContactOrderStruct
+    {
+        Id =&gt; RBCConnection.Contact.RBCIdStruct
+        {
+            Country =&gt; Packet.NID_C,
+            Id =&gt; Packet.NID_RBC
+        },
+        PhoneNumber =&gt; Packet.NID_RADIO,
+        ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
+        AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
+    }
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Contact last known RBC"
+ Guid="83b37f06-70a4-46e7-8c47-7c7d23261d65"
+>
+<ReqRef
+ Id="369d7ae0-50db-411b-9941-bbe30e354733"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f252f718-1e31-4681-b313-39faa0912928"
+>
+</ReqRef><ReqRef
+ Id="31fff3ff-41dc-41fb-9f2e-b43b04a91e5e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9bd57e09-46a8-4e53-9d23-73a2713355ad"
+>
+</ReqRef><ReqRef
+ Id="69dc4eed-7cae-45b6-adbb-58b2b1ac6edd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="61312243-54c8-4f97-8fba-9d4e9873d62c"
+>
+</ReqRef><ReqRef
+ Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aebe376c-a6c3-4656-b792-a9f1386bc6ad"
+>
+</ReqRef><Comment>If the packet asks to contact the last known RBC and this information is available, then it is used to create to order. Otherwise the order is ignored.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3b4b580e-3c79-489d-a09a-403729e158a8"
+>Packet.NID_RBC == Messages.NID_RBC.contact_last_known_RBC</PreCondition><PreCondition
+ Guid="ed774a24-cf60-4ff7-a891-167c4f37b771"
+>Contact.LastKnownRBC != EMPTY</PreCondition><PreCondition
+ Guid="643dd1e5-247c-445a-9d5b-4e180783a3ae"
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
+>RBCConnection.ManageRBCConnection
+(
+    anOrder =&gt; ContactOrderStruct
+    {
+        Id =&gt; RBCConnection.Contact.RBCIdStruct
+        {
+            Country =&gt; Contact.LastKnownRBC.Id.Country,
+            Id =&gt; Contact.LastKnownRBC.Id.Id
+        },
+        PhoneNumber =&gt; RBCConnection.Contact.LastKnownRBC.PhoneNumber,
+        ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
+        AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
+    }
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Use on-board stored short number"
+ Guid="851df2b3-550c-43a1-a88a-4e153544c8bf"
+>
+<ReqRef
+ Id="40859515-77c4-46aa-96a5-12453cd171a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8a3656cd-43f6-42e7-8d65-fa07d75ecd3f"
+>
+</ReqRef><ReqRef
+ Id="f8152593-9f99-41a4-9ae8-b51e619e6ece"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f68f5f4-47cd-4fdc-b805-884a22003510"
+>
+</ReqRef><ReqRef
+ Id="5f82380a-e109-4aba-90d2-9062db8ac675"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="22b090a3-8bd5-4a4c-b5bd-c7de0e0dba4b"
+>
+</ReqRef><ReqRef
+ Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a9bccd46-4c22-4999-b7ae-5cc2435b6ef4"
+>
+</ReqRef><Comment>If the packet asks to use the short number, then the order is created from the RBC id provided by the packet + the short number stored on-board.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="22232e5b-8c7d-4811-8464-469786240a65"
+>Packet.NID_RADIO == &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
+ Guid="5d34872a-e00b-4a6c-9a22-783bc78f4dea"
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC
+(
+  newId =&gt; Contact.RBCIdStruct
+  {
+    Country =&gt; Packet.NID_C,
+    Id =&gt; Packet.NID_RBC
+  }
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="81f8e818-3b94-4484-9cb1-2ae9a62240e9"
+>RBCConnection.ManageRBCConnection
+(
+    anOrder =&gt; ContactOrderStruct
+    {
+        Id =&gt; RBCConnection.Contact.RBCIdStruct
+        {
+            Country =&gt; Packet.NID_C,
+            Id =&gt; Packet.NID_RBC
+        },
+        PhoneNumber =&gt; RBCConnection.Contact.ShortNumber,
+        ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
+        AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
+    }
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="150"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ContactLastKnownRBC"
+ Guid="10e3697a-0ec7-4f85-883b-9aad915a848c"
+>
+<Comment>Convenience procedure. Used notably for automatic connections to RBC.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set RBC to connect to"
+ Guid="2c968e28-f004-4324-9b04-8dfc26b1f9b7"
+>
+<Comment>Sets the RBC to contact to LastKnown</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Set RBC to connect to"
+ Guid="83f6775f-df1c-4d1c-b053-d56b6ea41ca1"
+>
+<PreConditions>
+<PreCondition
+ Guid="a4fc4dd9-e300-4474-b3c5-c7a5eccfd6d7"
+>Contact.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="165ff882-a702-4d40-8bd3-19c8fb8ad7e7"
+>SetNextRBCToContact(Contact.LastKnownRBC)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Open session"
+ Guid="f9f43fe9-2c50-4476-ad4b-22c7f0b15d8f"
+>
+<Comment>Open the RBC session</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Open session"
+ Guid="ba8d5344-0da2-4e81-8a41-5250332bb0b2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bbb13c9c-e661-4afb-b3d6-5294b4ffdde2"
+>OpenRBCSession()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="150"
+ Y="440"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OpenRBCSession"
+ Guid="1e3e4aab-936d-4b3e-90d0-c39dfa476afa"
+>
+<ReqRef
+ Id="410ad67d-6b5a-46f5-9694-35e5954fcb65"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="882474cc-7ade-45b2-a1e4-47af0e562d10"
+>
+</ReqRef><ReqRef
+ Id="becb430f-a4f2-4817-ad08-3672ed05f855"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1ee1871-11f4-4b57-9cd4-1613cfc9d0a7"
+>
+</ReqRef><ReqRef
+ Id="38c25256-da47-4c77-a112-1ee0d724e7f2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="901dd993-3bcc-434d-8e46-9c30a0f49483"
+>
+</ReqRef><ReqRef
+ Id="cae9ea11-6eb1-49b7-b010-183e0c897e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7dd7023d-3484-40f2-9f7a-9fec7e06f1b2"
+>
+</ReqRef><ReqRef
+ Id="49ac5c2f-c76c-4903-a7c8-2a28ea61c09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b50d2cf-d454-4e2d-8869-2f37a9540b3d"
+>
+</ReqRef><Comment>Initiates the contact with the RBC, as requested by ContactOption.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Open RBC session"
+ Guid="96a4a42f-501a-40c4-9a82-8d522f07c55a"
+>
+<Comment>Initiates the contact with the RBC, as requested by ContactOption.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Session is already (being) established with this RBC"
+ Guid="caa5317d-7334-450b-a354-799705c2362d"
+>
+<ReqRef
+ Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="887d02f6-5b47-4eeb-9c9d-b558136b3ec4"
+>
+</ReqRef><Comment>If a session is already (being) established with this RBC, the order is ignored.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="dd160343-60f0-4795-ae66-17e29ea4cd14"
+>Contact.SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.NextRBCToContact.Id )</PreCondition><PreCondition
+ Guid="e53a8b3e-45b3-4818-9fec-1714f34903d0"
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise"
+ Guid="f01fc2bf-5429-4449-a4de-036700e0a472"
+>
+<ReqRef
+ Id="69dc4eed-7cae-45b6-adbb-58b2b1ac6edd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c020d93-6490-4b5e-be20-c6d0443f3740"
+>
+</ReqRef><ReqRef
+ Id="369d7ae0-50db-411b-9941-bbe30e354733"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="06f42b1f-3ae0-42a2-8cee-ca8119a0ce18"
+>
+</ReqRef><Comment>If there is no valid NextRBCToContact stored on-board, the order is ignored.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c12c7ead-1138-41ac-bb3b-164fdeda2b0e"
+>Available(Contact.NextRBCToContact)</PreCondition><PreCondition
+ Guid="b6c9ffbd-a2ff-4991-b04b-891776087408"
+>Kernel.ActiveFunctions.ManageCommunicationSession()</PreCondition><PreCondition
+ Guid="7e21b635-a17f-49e1-affd-2dbf18f4058e"
+>Contact.NextRBCToContact.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2078f218-6c1c-485a-9a00-f77a91524075"
+>RBCConnection.ManageRBCConnection(anOrder =&gt; ContactOrderStruct
+  {
+    Id =&gt; RBCConnection.Contact.NextRBCToContact.Id, 
+    PhoneNumber =&gt; RBCConnection.Contact.NextRBCToContact.PhoneNumber, 
+    ActionToPerform =&gt; RBCConnection.Contact.ContactActionEnum.Establish,
+    AppliesToSleepingUnits =&gt; False,
+    EndOfValidityLocation =&gt; Default.BaseTypes.Distance.Unknown
+  })</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SetLastKnownRBC"
+ Guid="84687064-080e-4666-8f91-e9fdaf8e2892"
+>
+<ReqRef
+ Id="cae9ea11-6eb1-49b7-b010-183e0c897e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="91beeb8d-a44f-4e17-be18-5f3baee6e21f"
+>
+</ReqRef><ReqRef
+ Id="38c25256-da47-4c77-a112-1ee0d724e7f2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="71f97ce8-2068-4594-9979-0142eb19925a"
+>
+</ReqRef><Comment>Once the LastKnownRBC is set, the ContactOption is set to ContactLastKnownRBC so that automatic connection attempts will use the LastKnownRBC info.</Comment>
+<Parameters>
+<Parameter
+ Type="Contact.RBCContactStruct"
+ Name="anRBCContactStruct"
+ Guid="17b772fa-9794-455b-abac-066a8ccf2637"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="SetLastKnownRBC"
+ Guid="ba5e211e-44f9-4f28-a875-d788578bc2c2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SetLastKnownRBC"
+ Guid="71cabbe4-340e-44bc-b17e-ba362648c151"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="1f028f88-cb11-4eb1-b2a4-b944298da071"
+>Contact.LastKnownRBC &lt;- anRBCContactStruct</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="280"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SetNextRBCToContact"
+ Guid="b71c318c-cddc-40e9-8e1a-fb39c85e5581"
+>
+<ReqRef
+ Id="4aa98857-a1f3-4fee-ab3c-0af871807ad8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7f1248ca-2d76-4d0e-ac4a-8b896f38e243"
+>
+</ReqRef><ReqRef
+ Id="aa345d0e-f599-4016-b5b5-c68601d642fb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a526d0f-0216-4153-b6e3-5254e0f48471"
+>
+</ReqRef><Comment>Once the LastKnownRBC is set, the ContactOption is set to ContactLastKnownRBC so that automatic connection attempts will use the LastKnownRBC info.</Comment>
+<Parameters>
+<Parameter
+ Type="Contact.RBCContactStruct"
+ Name="anRBCContactStruct"
+ Guid="472d2d79-3dc8-403d-bc98-dc254cdf9bd8"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="SetNextRBCToContact"
+ Guid="b957481b-fb49-4a16-9cb0-f1ead6ce74d6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SetNextRBCToContact"
+ Guid="4dd4f9e6-5dbb-4706-a879-3dfdee023f6c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0a99c7bd-9e54-4cc3-bd45-d88b216932ed"
+>Contact.NextRBCToContact &lt;- anRBCContactStruct</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="AvailableNetworksStruct"
+ DefaultValue=""
+ VariableMode="InOut"
+ X="280"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AvailableNetworks"
+ Guid="f24775ac-92d1-48d2-8446-fcd2eb8c7467"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="69752379-7c7f-4176-a31b-b10e08129209"
+>
+</ReqRef><Comment>Allows to request the list of available and allowed networks.</Comment>
+</Variable><Variable
+ Type="ContactOptionEnum"
+ DefaultValue="ContactOptionEnum.ContactLastKnownRBC"
+ VariableMode="Internal"
+ X="410"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ContactOption"
+ Guid="81db5f5d-dec8-43d9-9546-57479127847f"
+>
+<ReqRef
+ Id="369d7ae0-50db-411b-9941-bbe30e354733"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="89bfb0f7-0fbc-463d-8559-90146c0c036a"
+>
+</ReqRef><ReqRef
+ Id="40859515-77c4-46aa-96a5-12453cd171a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d790ef37-059b-46c9-98d4-26e098675485"
+>
+</ReqRef><ReqRef
+ Id="cebfc056-7b96-49d7-a6ff-1fdf0076bb9e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a4a5158-6dd4-4d58-a1ac-ed6953f88826"
+>
+</ReqRef><Comment>Indicates how the RBC has to be contacted.</Comment>
+</Variable><Variable
+ Type="RBCContactStruct"
+ DefaultValue=""
+ VariableMode="Internal"
+ X="540"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="LastKnownRBC"
+ Guid="871247fa-7189-4f13-874e-e3466aad155e"
+>
+<ReqRef
+ Id="369d7ae0-50db-411b-9941-bbe30e354733"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9e28c009-2f92-4859-8e59-109fe39db193"
+>
+</ReqRef><ReqRef
+ Id="69dc4eed-7cae-45b6-adbb-58b2b1ac6edd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b16379af-d5c7-4071-815c-245a173d6287"
+>
+</ReqRef><ReqRef
+ Id="31fff3ff-41dc-41fb-9f2e-b43b04a91e5e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d078814-362d-4fc3-8fe8-9c5a20662f9d"
+>
+</ReqRef><Comment>Contains information about the last known RBC.</Comment>
+</Variable><Variable
+ Type="RBCContactStruct"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="670"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="NextRBCToContact"
+ Guid="9296a4c7-97f8-4997-a2b7-8fc4f4f30db1"
+>
+<ReqRef
+ Id="4aa98857-a1f3-4fee-ab3c-0af871807ad8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="10fd5b2d-57fb-46c2-acd5-208f65b1c439"
+>
+</ReqRef><ReqRef
+ Id="aa345d0e-f599-4016-b5b5-c68601d642fb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5141c222-4eb2-4de0-a1bf-89a78d9b79e4"
+>
+</ReqRef><Comment>Will be used to store the contact information of RBC to be presently contacted.</Comment>
+</Variable><Variable
+ Type="ContactOrderStruct"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="150"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RBCContactOrderToRepeat"
+ Guid="d890477f-424a-4de1-a3d6-b794a1bde12c"
+>
+<ReqRef
+ Id="573d0d6d-98df-43fa-8065-22f5dae937f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88e78b40-3606-492a-9021-fd45199aaf6a"
+>
+</ReqRef><Comment>If the first attempt to contact the RBC failed, the corresponding contact order is stored in order to retry contacting the RBC.</Comment>
+</Variable><Variable
+ Type="String"
+ DefaultValue="&apos;&apos;"
+ VariableMode="Internal"
+ X="20"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ShortNumber"
+ Guid="56e3a8ca-da3a-43e8-b3a9-ba7a9a8a6805"
+>
+<ReqRef
+ Id="1563df47-a941-45f8-9388-142278ad7952"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a26a7788-a37b-40ae-8235-4e3f28870b7d"
+>
+</ReqRef><ReqRef
+ Id="f8152593-9f99-41a4-9ae8-b51e619e6ece"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="821540b1-66cb-486b-918d-6cdd79e1c6f9"
+>
+</ReqRef><ReqRef
+ Id="40859515-77c4-46aa-96a5-12453cd171a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="35afd293-b8b4-4acb-9b06-f5ae19225f06"
+>
+</ReqRef><Comment>The short number of the RBC.</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="20"
+ Y="440"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Repeat contact RBC request"
+ Guid="3b4757ee-054d-4c37-b5d2-f437b162bd07"
+>
+<ReqRef
+ Id="573d0d6d-98df-43fa-8065-22f5dae937f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="822b7fa6-8031-42cf-a46c-ec5963cfcd45"
+>
+</ReqRef><Comment>If an order to contact the RBC by on-board was received but the connection couldn&apos;t be established, the request is repeated again.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="An order to contact the RBC is stored"
+ Guid="edb33073-756f-48cb-9763-0e33ca5f0723"
+>
+<PreConditions>
+<PreCondition
+ Guid="61a5462f-dc93-45db-bd21-2c092de05ca3"
+>Available(Contact.RBCContactOrderToRepeat)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b5fbfee4-ca84-4128-9ab3-2edd2f4447ef"
+>ManageRBCConnection( anOrder =&gt; Contact.RBCContactOrderToRepeat )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

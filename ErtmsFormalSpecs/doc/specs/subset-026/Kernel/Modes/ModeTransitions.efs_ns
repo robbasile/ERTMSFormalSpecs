@@ -673,7 +673,7 @@ Kernel.Level.Value.Value in [LevelEnum.L0, LevelEnum.LNTC, LevelEnum.L1]</Expres
   AND
 Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]
   AND  
-Available ( EURORADIO.UpdatedReceivedMessage( EURORADIO.CurrentRBCConnection()).SH_AUTHORISED )</Expression>
+Available ( EURORADIO.Messages.UpdatedReceivedMessage( EURORADIO.RBCConnection.CurrentRBCConnection()).SH_AUTHORISED )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -3547,7 +3547,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="ee94747a-9874-4e1b-b90d-a6cd463f4bb5"
 >Kernel.Mode &lt;- ModeEnum.SB</Action><Action
  Guid="c1fa9ed0-f8e5-4c64-9aae-544df9ed2468"
->EURORADIO.RegisterMobileTerminals ( EURORADIO.LastKnownNetworkId )</Action></Actions>
+>EURORADIO.Terminal.RegisterMobileTerminals ( EURORADIO.Terminal.LastKnownNetworkId )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -3749,7 +3749,7 @@ TIU.NonLeadingPermitted</Expression>
  Guid="5c7cb6fb-f332-4add-94c5-b70199c1263d"
 >DMI.MasterDMI().In_TrainData.InputInformation.Disable()</Action><Action
  Guid="3de38327-49c3-472f-89d1-ad07e9eaa198"
->EURORADIO.ContactLastKnownRBC()</Action></Actions>
+>EURORADIO.RBCConnection.Contact.ContactLastKnownRBC()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -8258,7 +8258,7 @@ Kernel.Modes.ModeTransitions.PrevMode == ModeEnum.SL</PreCondition></PreConditio
 <Actions>
 <Action
  Guid="3fc3fdc4-a55e-460d-b562-e9e19afbc77a"
->EURORADIO.CurrentRBCConnection().SendInitiationOfCommunicationSession()</Action></Actions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().SendInitiationOfCommunicationSession()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

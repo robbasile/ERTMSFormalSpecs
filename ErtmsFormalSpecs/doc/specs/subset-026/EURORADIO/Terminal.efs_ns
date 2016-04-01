@@ -1,0 +1,1303 @@
+<NameSpace
+ X="500"
+ Y="40"
+ Width="100"
+ Height="50"
+ Name="Terminal"
+ Guid="e36fb349-046c-4d72-aac4-b928e223150a"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="90"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TerminalStruct"
+ Guid="d55c89a9-b712-45c6-a15c-1829f68822b8"
+>
+<ReqRef
+ Id="865bbdd6-2010-4869-ab3e-bc538ce5fe4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d479d3a-f46e-441c-92ba-733d4471c6c5"
+>
+</ReqRef><Comment>Represents a mobile terminal.</Comment>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ Implemented="TRUE"
+ Name="Clean up"
+ Guid="a7a5c641-f9f0-4813-9ea4-63b191323610"
+>
+<Comment>Erases the previous value of registration request sent.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Clean up"
+ Guid="6cdf394b-5ffd-4007-96bd-eeab3500fefa"
+>
+<PreConditions>
+<PreCondition
+ Guid="daa5316d-ac57-4417-88bb-cbc142397970"
+>RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="67bdc697-5152-42c0-875d-a9a1b7fd2d46"
+>RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Disabled</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="HandleAcceptingRBCContactOrder"
+ Guid="1ad3468d-3948-45b2-8534-a90249aa39c1"
+>
+<ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d954bc9b-2623-491a-aeb7-4c5ceb83ae79"
+>
+</ReqRef><ReqRef
+ Id="68a814aa-d977-4ba8-8329-54aaaec00081"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="346c29df-1e86-42c4-b577-bd9e6ceb60f3"
+>
+</ReqRef><ReqRef
+ Id="8f6d9e5c-7082-4ff4-b968-cfe98c4ad1d5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e2c99cdb-988d-4f02-a73c-cace5a083e70"
+>
+</ReqRef><ReqRef
+ Id="cbb3ad4b-7d33-4161-b151-347463291135"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c523ec19-4cc6-4a2f-a223-3084657c7455"
+>
+</ReqRef><ReqRef
+ Id="bd6563bc-06fe-447b-8afc-e210141cc921"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa6116c0-4827-4516-a86d-37555b6e410a"
+>
+</ReqRef><Comment>Handles previously received order to contact an Accepting RBC</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle Accepting RBC contact order"
+ Guid="836c38bd-df22-4138-bbd9-2cfe1237d810"
+>
+<Comment>The contact order is transmitted to the RBC.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Accepting RBC contact order"
+ Guid="caa4d84b-1b31-4ec4-a38f-c677a9724dbd"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f8407011-1eed-4334-9e92-d8c9a1b3e94f"
+>RBCConnection.ContactRBCOrder &lt;- AcceptingRBCContactOrder</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update the RBC connection status"
+ Guid="c906f67a-230f-4e70-a79b-4405da449b2e"
+>
+<Comment>Handles the RBC connection status, according to the number of available terminals.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Two terminals available"
+ Guid="dacc0763-beee-4447-a2c4-39114c973015"
+>
+<Comment>If two terminals are availabe on-board, the Accepting RBC connection will not be considered as the main RBC connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8a0b9aeb-ff66-47bc-8993-95beee9fd5e0"
+>Terminal.Terminal1 != EMPTY</PreCondition><PreCondition
+ Guid="157b04a8-81e8-4fec-b45e-b89db1feff76"
+>Terminal.Terminal2 != EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5b7db2c9-656a-459c-a3ba-3fd1220b6bd9"
+>RBCConnection.IsMainConnection &lt;- False</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Only one terminal available"
+ Guid="78720a30-687d-4cfd-a9b3-aebbcb32b1eb"
+>
+<ReqRef
+ Id="a42dcba0-6408-4385-8868-72b8e5a73a50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="499af2b5-0ed5-4ef0-b190-4cec056e010f"
+>
+</ReqRef><ReqRef
+ Id="ec004cb5-feae-45f5-beb7-9cd81eef4c9c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2858cd9-8cf6-4528-83c8-2dae62e7e0f2"
+>
+</ReqRef><Comment>If only the current terminal is available, then it will remain the main connection.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="adc8e47d-8ad7-4808-a160-f10a3705ada3"
+>RBCConnection.IsMainConnection &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Remove the order"
+ Guid="1a2c44ce-1ac0-4765-b082-57bb655e5cdd"
+>
+<Comment>Once the order has been handled, it is removed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Remove the order"
+ Guid="89c26baa-932a-47a4-b3ed-8ec500493c9e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a05dfa06-931f-401a-86d9-29afcc82063a"
+>AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="220"
+ Y="900"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ResetRegistrationStateSMAndRegister"
+ Guid="d350e2ac-bc56-4b36-a24f-d6a8bc66af49"
+>
+<ReqRef
+ Id="07af900f-f07f-4018-abe3-bab8be32b2a9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a37cfb33-89a5-490b-8116-d6e93003de18"
+>
+</ReqRef><ReqRef
+ Id="e0778e14-e6ea-4f06-8c69-56236250b636"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b87ed868-f960-48c3-91a2-44e8bd93c8fe"
+>
+</ReqRef><ReqRef
+ Id="68a814aa-d977-4ba8-8329-54aaaec00081"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="62e13287-9274-4a10-a8d9-61bc43743daf"
+>
+</ReqRef><ReqRef
+ Id="9f6c605e-3f76-4367-a7a4-7f4fa458ef67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acf5fff6-c2c1-4942-9f14-cfbc91462662"
+>
+</ReqRef><ReqRef
+ Id="dcc51a42-0407-4ab9-855a-55dc04e2ce4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ccb5fde5-2b51-4838-82b0-b9adb86d4ab8"
+>
+</ReqRef><ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a7c5bd59-b00c-4d77-b69d-b4029a7261c1"
+>
+</ReqRef><Comment>The procedure starts the registering of the provided mobile terminal to the provided network, except if the terminal is already registered to the provided netword.</Comment>
+<Parameters>
+<Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="e87cbc10-8580-4bf6-b693-a86c31134b3b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Register a terminal"
+ Guid="e516dbd5-4acd-486c-9834-992ad3cfad91"
+>
+<ReqRef
+ Id="fc32fb41-1c57-4753-a923-fe676aabf35d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="98711b81-9e6c-4e8d-b7fe-f10d346bccba"
+>
+</ReqRef><Comment>Requests the registering of the provided mobile terminal to the provided network, if it is not already registered to that network.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Register"
+ Guid="cbfd45b9-bf06-425c-8c44-df597f0f3cbd"
+>
+<PreConditions>
+<PreCondition
+ Guid="2e61b99c-8683-4040-8fab-78a11e0ea11a"
+>NOT
+(
+  THIS.RegistrationState in TerminalStruct.RegistrationStateSM.Registered
+    AND
+  THIS.NetworkId == aNetworkId
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c47132cf-3f4d-4a06-9fcd-2c032a0104d5"
+>THIS.NetworkId &lt;- &apos;&apos;</Action><Action
+ Guid="96b3c678-84b0-4d67-949a-b1b9875d16f6"
+>THIS.RegistrationRequestState.Response &lt;- False</Action><Action
+ Guid="490a35a6-043f-4a5b-b79f-616b2b906f3e"
+>THIS.RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="2bd9f770-4284-492c-bfce-076f3a3933fd"
+>THIS.RegistrationState &lt;- TerminalStruct.RegistrationStateSM.NotRegistered</Action><Action
+ Guid="cb5b6cd3-3863-4ab9-91a9-2dda18617be6"
+>THIS.NetworkIdToRegister &lt;- aNetworkId</Action><Action
+ Guid="90b0a548-226b-4bf1-b54e-6f0cae7bc962"
+>THIS.RegistrationOrderIsReceived &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Id"
+ Guid="94afdc00-ee3b-416f-a426-21fea264a34c"
+>
+<Comment>Identifier of the mobile terminal.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="NetworkId"
+ Guid="a38f3a7d-5646-4e2c-9bf3-7329e3d2d746"
+>
+<Comment>Identifier of the network.</Comment>
+</StructureElement><StructureElement
+ TypeName="RBCConnection.RBCStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="RBCConnection"
+ Guid="0af6403f-d522-46ef-ae39-17e5433e5c02"
+>
+<Comment>RBC connected on this terminal.</Comment>
+</StructureElement><StructureElement
+ TypeName="TerminalStruct.RegistrationStateSM"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="RegistrationState"
+ Guid="d3a02124-c1af-448b-9925-2d693ae4c23c"
+>
+<Comment>Current state of registration of the terminal.</Comment>
+</StructureElement><StructureElement
+ TypeName="RegisteringRequestStruct"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ Name="RegistrationRequestState"
+ Guid="e54404f3-0fbf-432d-ae9d-d9cef9d49d41"
+>
+<Comment>Set to True when the mobile terminal was succesfully registered.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="RegistrationOrderIsReceived"
+ Guid="24785dd8-cf71-4f1e-b851-d1636061acba"
+>
+<Comment>Indicates if an order to register the mobile terminal has been received.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="NetworkIdToRegister"
+ Guid="44ce713d-dc37-4cd2-8042-0d7087e19d7d"
+>
+<Comment>Indicates which is the id of the network that has to be registered.</Comment>
+</StructureElement><StructureElement
+ TypeName="RBCConnection.Contact.ContactOrderStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="AcceptingRBCContactOrder"
+ Guid="9ef3a8be-10fe-410b-9cca-5f87ffffa450"
+>
+<Comment>In case of RBC/RBC handover including Radio Network border crossing, the registration to the new radio network has to be completed before the transition order is transmitted to the on-board. This element stores that order and transmits it once the terminal is registered.</Comment>
+</StructureElement><StateMachines>
+<StateMachine
+ Default="TerminalStruct.RegistrationStateSM.NotRegistered"
+ Implemented="TRUE"
+ Name="RegistrationStateSM"
+ Guid="67db97c6-7141-4e02-b661-ddca7847fe17"
+>
+<Comment>Represents the possible states of registering of mobile terminals.</Comment>
+<States>
+<State
+ X="70"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="NotRegistered"
+ Guid="a7ea90ef-b040-4d71-a9e9-e24df229eef5"
+>
+<Comment>Initial state: the mobile terminal is not registered</Comment>
+<StateMachine
+ Implemented="TRUE"
+ Guid="df983598-b3b9-457b-a1d5-566901b957e1"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Registration order is received"
+ Guid="beafd460-f29a-4e33-84a4-555c89a79170"
+>
+<Comment>If a registration order has been received, a request to register terminal is sent and the system goes to Registering state.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Registration order is received"
+ Guid="7df57111-c014-46f5-9c21-22d1c682901e"
+>
+<ReqRef
+ Id="4aa98857-a1f3-4fee-ab3c-0af871807ad8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f45b1a7b-a61b-4e25-91d5-96d6da4375bd"
+>
+</ReqRef><ReqRef
+ Id="aa345d0e-f599-4016-b5b5-c68601d642fb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad2432a5-4b3f-4b67-bb43-08e82d0ad932"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="ad7f21b5-0b7e-44df-92f1-1a7e950f69b6"
+>RegistrationOrderIsReceived</PreCondition><PreCondition
+ Guid="17000d60-a63d-4a8d-87a0-47828aabccfe"
+>EstablishCommunicationSession()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9e7d5d30-f543-42e0-a83f-36e13134cba0"
+>THIS &lt;- TerminalStruct.RegistrationStateSM.Registering</Action><Action
+ Guid="7ef1e2fe-d075-4c5b-becf-9767795c2a0e"
+>RegistrationRequestState.RequestState &lt;- RequestEnum.Request</Action><Action
+ Guid="03529777-8a74-4e2a-94dc-699b28efc826"
+>RegistrationOrderIsReceived &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</StateMachine></State><State
+ X="370"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Registering"
+ Guid="0bc71bd3-f982-452e-b883-81975aa5f9ed"
+>
+<Comment>When an order to register the mobile terminal is received, it is in registering state</Comment>
+<StateMachine
+ Implemented="TRUE"
+ Guid="0d150d6b-3421-4277-8d94-8eadf4911f0d"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Registration confirmed"
+ Guid="bc3769ca-433a-431f-9f52-a8bcc56bc688"
+>
+<Comment>When the registration to the network has been confirmed, the system goes to Registered state.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Registration confirmed"
+ Guid="1161b101-0f1d-468b-b5bc-3ce06b2625e6"
+>
+<PreConditions>
+<PreCondition
+ Guid="bd93048d-c524-419d-900c-9922b8ace478"
+>RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition><PreCondition
+ Guid="da51b472-503a-4b81-8f6b-7a8b44fa039e"
+>RegistrationRequestState.Response == True</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6df5355e-80ab-4d30-9c50-07679b269768"
+>THIS &lt;- TerminalStruct.RegistrationStateSM.Registered</Action><Action
+ Guid="fc9c3c1f-c4be-4231-949b-288450751e54"
+>NetworkId &lt;- NetworkIdToRegister</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</StateMachine></State><State
+ X="670"
+ Y="100"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Registered"
+ Guid="b9d68c28-a04f-46a1-93f9-10dde8bbb604"
+>
+<Comment>When the registration confirmation is received, the mobile network is in registered state</Comment>
+<StateMachine
+ Implemented="TRUE"
+ Guid="f4eb8fe7-c356-4800-96ff-ac657fbcd4c7"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle registration order and Accepting RBC contact order"
+ Guid="56426945-901b-44ba-9d61-d2a52a9c235d"
+>
+<ReqRef
+ Id="9f6c605e-3f76-4367-a7a4-7f4fa458ef67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8b3f5bf-0756-4503-b92b-40aa7e757ae4"
+>
+</ReqRef><ReqRef
+ Id="efe0a2e1-60d1-4ead-b9be-018ab45d680c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8093e127-4a44-427d-bd03-7259ca779ae8"
+>
+</ReqRef><ReqRef
+ Id="cbb3ad4b-7d33-4161-b151-347463291135"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d855d27-e15b-4c37-9046-f2a19f825d7f"
+>
+</ReqRef><ReqRef
+ Id="bd6563bc-06fe-447b-8afc-e210141cc921"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="071ad0a8-fb80-4bee-ab49-2dcc89fa9331"
+>
+</ReqRef><Comment>If an order to register to a network is received from the trackside, when it is ignored if a safe radio connection is being set-up or a communication session is already established.
+
+Once the communication session is terminated and the safe radio connection is released, the radio network registration will be initiated for the requested network.
+
+Note: a safe radio connection can only be set-up when the RBC connection is in state Connecting or Connected.
+
+After that, if an order to contact an Accepting RBC was received, it will be handled.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Registration order is received"
+ Guid="00fe2530-9466-43d0-a4ea-93ff0660ebec"
+>
+<ReqRef
+ Id="fc32fb41-1c57-4753-a923-fe676aabf35d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2bc826f-5bbc-465a-9345-7adec40ad738"
+>
+</ReqRef><ReqRef
+ Id="2faeb97f-3af1-456a-b8c7-70c5bfa05105"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6f9085d8-6845-452d-9ad9-37afe7463d20"
+>
+</ReqRef><ReqRef
+ Id="0717ecbb-ac03-4120-9e37-d836facf9136"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc99c28c-a112-4dc1-b005-ff770e16b8a1"
+>
+</ReqRef><ReqRef
+ Id="faeb3c32-a982-46f8-b780-09e1573916e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bfac7475-249d-4f29-8980-1d21c1096d3c"
+>
+</ReqRef><ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c1127ba-470c-42b3-ac17-34480f6bbdeb"
+>
+</ReqRef><ReqRef
+ Id="dcc51a42-0407-4ab9-855a-55dc04e2ce4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70803c4a-a5f0-48d9-9141-9b8fe4177bfe"
+>
+</ReqRef><Comment>First, if a registration order is received, register to the network.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="750af1cd-78f4-49b1-912d-21c46b11e6fe"
+>RegistrationOrderIsReceived</PreCondition><PreCondition
+ Guid="b0ae7084-c070-4a83-88ad-3044024b465c"
+>RBCConnection.ConnectionState not in [ RBCConnection.RBCStruct.ConnectionStateSM.Connecting, RBCConnection.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="065155db-ddc9-4232-a264-ba308cf6546f"
+>THIS &lt;- TerminalStruct.RegistrationStateSM.Registering</Action><Action
+ Guid="16d4c11f-71c2-438c-aed7-a3050f42a226"
+>RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Request</Action><Action
+ Guid="6b794970-4b5b-4735-93d3-112b10af6e7d"
+>RegistrationOrderIsReceived &lt;- False</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle Accepting RBC contact order"
+ Guid="8adcc888-e57c-41cd-86bf-55d7042f0cd0"
+>
+<ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="84188ebf-17d5-4d9f-af9e-cea78f940fcb"
+>
+</ReqRef><ReqRef
+ Id="68a814aa-d977-4ba8-8329-54aaaec00081"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55faf8cb-1a8f-49df-91d7-aeb2a9339f39"
+>
+</ReqRef><ReqRef
+ Id="e0778e14-e6ea-4f06-8c69-56236250b636"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="364ca9b0-c9f4-4354-aca1-f01cb935ceba"
+>
+</ReqRef><ReqRef
+ Id="cbb3ad4b-7d33-4161-b151-347463291135"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="60884001-8a7a-4a17-bde2-475f6c5da3d5"
+>
+</ReqRef><ReqRef
+ Id="8f6d9e5c-7082-4ff4-b968-cfe98c4ad1d5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6818a035-eb09-4add-98b0-4a4693c7bf30"
+>
+</ReqRef><ReqRef
+ Id="bd6563bc-06fe-447b-8afc-e210141cc921"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="92e3130d-16e9-419b-b79a-34dfd890a656"
+>
+</ReqRef><Comment>If no registration order is received but an order to contact an Accepting RBC has been received, the Accepting RBC is contacted.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6609a8b2-f994-43be-92b5-da74987f9e89"
+>AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
+ Guid="794b5113-e251-4f4a-8dc9-b8188f7513d9"
+>RBCConnection.ConnectionState not in [ RBCConnection.RBCStruct.ConnectionStateSM.Connecting, RBCConnection.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4c9bfa8e-9202-472b-bf80-8e30b3ea5552"
+>HandleAcceptingRBCContactOrder()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</StateMachine></State></States>
+</StateMachine></StateMachines>
+</Structure><Structure
+ Default=""
+ X="90"
+ Y="250"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RegisteringRequestStruct"
+ Guid="aea700ad-b19c-4974-80b6-5d22976aca39"
+>
+<Comment>Structure to store the request of registration to a terminal : its state and response.</Comment>
+<StructureElement
+ TypeName="RequestEnum"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RequestState"
+ Guid="1674a4ba-821f-42ff-af95-0dd3e0e5d109"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Response"
+ Guid="88f080df-f16a-4dd8-b0d7-d15c99981800"
+>
+<Comment>Contains the answer to the registration request.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="360"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TerminalIsRegistered"
+ Guid="3bd20f4e-148d-4de7-89af-efb974a82094"
+>
+<Comment>Indicates if the provided terminal is registered.</Comment>
+<Parameters>
+<Parameter
+ Type="Terminal.TerminalStruct"
+ Name="aTerminal"
+ Guid="12711288-b128-4515-ac14-d0435e91c454"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="fbe56933-1e1c-4565-830d-b4da4c31441b"
+>
+<Expression>aTerminal != EMPTY
+  AND
+aTerminal.RegistrationState in Terminal.TerminalStruct.RegistrationStateSM.Registered</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Terminal.TerminalStruct"
+ Default=""
+ X="360"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SecondaryTerminal"
+ Guid="844d4dfe-8658-4309-a26a-3711661d3127"
+>
+<Comment>Provides the secondary terminal (for the accepting RBC).</Comment>
+<Cases>
+<Case
+ Name="Terminal 1"
+ Guid="2bdfbf19-8183-4aef-ab24-51d07be5739c"
+>
+<PreConditions>
+<PreCondition
+ Guid="88f2d542-cfca-4d41-8d1f-74771f9e6d33"
+>CurrentTerminal() == Terminal.Terminal2</PreCondition></PreConditions>
+<Expression>Terminal.Terminal1</Expression>
+</Case><Case
+ Name="Terminal 2"
+ Guid="e9ac46b6-3db7-4f01-bb9e-70510c2ca4d4"
+>
+<Expression>Terminal.Terminal2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="470"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RegistrationStatus"
+ Guid="9cd9e082-0ccc-4be4-ac5f-207a724911a6"
+>
+<Comment>Checks whether an answer to the registration request was provided.</Comment>
+<Cases>
+<Case
+ Name="AnswerReceived"
+ Guid="b72bae4c-f483-4e08-9c28-6b2cf2ca6801"
+>
+<PreConditions>
+<PreCondition
+ Guid="9560d358-50ba-4019-aebd-3c00c8619157"
+>CurrentTerminal().RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Default"
+ Guid="67a14467-48f0-4dc2-b67d-4878a8b5a8f6"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="470"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RegistrationAnswer"
+ Guid="307c1f2e-a545-46f3-bf4e-ef6c28767a21"
+>
+<Comment>Checks whether the an answer to the request was provided and give it, otherwise returns False.</Comment>
+<Cases>
+<Case
+ Name="AnswerReceived"
+ Guid="e6f5f504-32e8-4b22-a0d4-6b7b21c5bb85"
+>
+<PreConditions>
+<PreCondition
+ Guid="becf8991-6253-4b25-acd5-f7165f4ca79c"
+>CurrentTerminal().RegistrationRequestState.RequestState == RequestEnum.Response</PreCondition></PreConditions>
+<Expression>CurrentTerminal().RegistrationRequestState.Response</Expression>
+</Case><Case
+ Name="Default"
+ Guid="78c9048a-28e4-4e3d-b564-5a4bb8e8c709"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Terminal.TerminalStruct"
+ Default=""
+ X="250"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CurrentTerminal"
+ Guid="1578f217-c304-4c22-98c7-cb41f87ae7b7"
+>
+<Comment>Provides the current terminal.</Comment>
+<Cases>
+<Case
+ Name="Connection opened on terminal 1"
+ Guid="688a99fe-65fa-4958-83a1-fd990459de79"
+>
+<PreConditions>
+<PreCondition
+ Guid="c3452b29-ef21-4a6f-88bd-7ae9c80cd9da"
+>Terminal.Terminal1.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+<Expression>Terminal.Terminal1</Expression>
+</Case><Case
+ Name="Connection opened on terminal 2"
+ Guid="909b1669-a4a2-4bb4-a8f8-ad28926921a0"
+>
+<PreConditions>
+<PreCondition
+ Guid="fb0f7a9d-b7ff-43e8-80d1-cb8b82186a20"
+>Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+<Expression>Terminal.Terminal2</Expression>
+</Case><Case
+ Name="Terminal 2 is not registered"
+ Guid="cdd75c3d-6b70-4b5c-a649-53a129d44fbc"
+>
+<PreConditions>
+<PreCondition
+ Guid="32745b2d-c50e-46dd-96a8-b56db9fb8695"
+>NOT Terminal.TerminalIsRegistered ( Terminal.Terminal2 )</PreCondition></PreConditions>
+<Expression>Terminal.Terminal1</Expression>
+</Case><Case
+ Name="Terminal 2 is registered"
+ Guid="66f6b667-960f-4fec-b6ee-96b6cf589e21"
+>
+<Expression>Terminal.Terminal2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="470"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OneMobileTerminalIsAvailable"
+ Guid="e31f0ce4-5ca7-4615-9f01-e835968b6bb2"
+>
+<ReqRef
+ Id="d88669ab-b014-4a92-b565-0f1e46f40945"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ea3d211-ac31-4faa-8ba9-4587b570b2aa"
+>
+</ReqRef><Comment>Indicates if at least one terminal is available.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8a425b2a-af9b-4a02-9cbc-8d1d15189bb3"
+>
+<Expression>Terminal.Terminal1 != EMPTY
+  OR
+Terminal.Terminal2 != EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="360"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EstablishCommunicationSession"
+ Guid="cc4f4bfd-00bb-4541-a811-7d04769f9382"
+>
+<ReqRef
+ Id="4aa98857-a1f3-4fee-ab3c-0af871807ad8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2de0df57-ffa5-45fb-a62c-8a1d3498619d"
+>
+</ReqRef><ReqRef
+ Id="49ac5c2f-c76c-4903-a7c8-2a28ea61c09c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae8519af-3c8e-4135-8b65-54a072f5fe25"
+>
+</ReqRef><ReqRef
+ Id="72a514b1-acd2-473d-a39b-87d8f86f1624"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f45a4e2d-0cc3-4c93-88ad-1e1262803e9a"
+>
+</ReqRef><Comment>Is true if the on-board should establish a communication session.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="afd88ff5-02a2-4f63-a8f6-443811e90293"
+>
+<Expression>Kernel.ActiveFunctions.ManageCommunicationSession()
+  AND  
+Kernel.Mode not in [ModeEnum.SH, ModeEnum.PS]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="250"
+ Y="420"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MobileTerminalRegisteredToNetwork"
+ Guid="af2b63fd-7a74-4d0c-9dd5-640bccd97f2c"
+>
+<ReqRef
+ Id="65314800-5286-475e-b755-60e19e8cb01d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86dca3f3-96a5-4716-aab2-e171d185f8eb"
+>
+</ReqRef><ReqRef
+ Id="25c7ba02-1985-488d-b506-b24eef2b11b4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21560c78-c017-4f92-82b7-164ed6fbfc5a"
+>
+</ReqRef><ReqRef
+ Id="ff5aeaff-49e3-489d-816f-c49fc05bc951"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ffddbae-852a-4c6a-b270-2c53874223d9"
+>
+</ReqRef><Comment>Indicates if at least one mobile terminal is registered to a Radio Network.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="8d5b3f0d-e99a-4b78-a893-b7f25eb488a9"
+>
+<Expression>Terminal.Terminal1.RegistrationState in Terminal.TerminalStruct.RegistrationStateSM.Registered
+  OR
+Terminal.Terminal2.RegistrationState in Terminal.TerminalStruct.RegistrationStateSM.Registered</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="250"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HasActiveSession"
+ Guid="7b48d082-5d7b-4d27-8757-6e110b3f9f7d"
+>
+<ReqRef
+ Id="a2f8c5d0-9029-4c1f-b5bf-fee1dca550f7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d7366702-ff1d-4278-b4d6-ab392caaab2b"
+>
+</ReqRef><ReqRef
+ Id="f4b1a027-643a-48c1-a840-1735e19ae661"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1585da45-384c-4bb1-8d20-801a20e325b3"
+>
+</ReqRef><ReqRef
+ Id="58b99381-a184-4b10-8c25-d125705b5194"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="267a1a1e-4342-4fb3-8e7e-2665a3bbf0de"
+>
+</ReqRef><ReqRef
+ Id="0a55611b-2936-44a8-89fb-8b7fa083a761"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="89286c79-15e3-4d68-8bcc-c7bef8ead11d"
+>
+</ReqRef><Comment>Indicates if a communication session is established with an RBC.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="10904d1f-8fc9-4d89-a374-c156b560a9fe"
+>
+<Expression>Terminal.Terminal1.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Connected
+  OR
+Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Connected</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="20"
+ Y="340"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RadioNetworkRegistrationReceived"
+ Guid="0b3f4004-daf2-4f22-a675-61269508d61e"
+>
+<ReqRef
+ Id="865bbdd6-2010-4869-ab3e-bc538ce5fe4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f1efa44-e607-4495-a768-a7e92c45951a"
+>
+</ReqRef><ReqRef
+ Id="031d12f5-b1df-4716-9eda-a3495861e160"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2188301b-ce9b-461c-be01-a945fc88e97d"
+>
+</ReqRef><ReqRef
+ Id="68a814aa-d977-4ba8-8329-54aaaec00081"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36e920c8-9a91-4d15-83c4-9402d1c70f6d"
+>
+</ReqRef><ReqRef
+ Id="e0778e14-e6ea-4f06-8c69-56236250b636"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1c00597-b875-43be-a6b1-b9727c36bf78"
+>
+</ReqRef><ReqRef
+ Id="9f6c605e-3f76-4367-a7a4-7f4fa458ef67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc235dda-70f6-4e15-b17d-83882a1010c6"
+>
+</ReqRef><ReqRef
+ Id="dcc51a42-0407-4ab9-855a-55dc04e2ce4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b7b3e488-4174-403c-9eab-07cabf6e2618"
+>
+</ReqRef><ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bc40c72d-0651-46df-9b81-ede406c9b2b5"
+>
+</ReqRef><ReqRef
+ Id="fc32fb41-1c57-4753-a923-fe676aabf35d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffa87291-19d7-49b9-86de-124c42e0c5ec"
+>
+</ReqRef><Comment>Handles reception of network registration order received from the trackside.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.Message"
+ Name="aPacket"
+ Guid="9770ebbd-df05-4fdc-800f-a32ef4ebd176"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle radio network registration"
+ Guid="51e0899c-678f-4938-8150-70c6f5208527"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle radio network registration"
+ Guid="925227fc-89b7-43b1-886e-679d77350bf4"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="847054a6-9b00-4448-832a-5edaa16863c2"
+>RegisterMobileTerminals ( aPacket.NID_MN )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="410"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RegisterMobileTerminals"
+ Guid="51a30ec7-ce1f-46f1-a57c-72cb7965af62"
+>
+<ReqRef
+ Id="0d0678a7-632a-4a9e-9a4a-87d46d1383b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="98d92943-9b78-430b-a271-7935c2cb0a2f"
+>
+</ReqRef><ReqRef
+ Id="865bbdd6-2010-4869-ab3e-bc538ce5fe4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="384307ff-cbf9-4473-b59e-a03b4fa28aa9"
+>
+</ReqRef><ReqRef
+ Id="9f6c605e-3f76-4367-a7a4-7f4fa458ef67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="053892f7-7928-480d-8a24-b7dfdd54ae64"
+>
+</ReqRef><ReqRef
+ Id="dcc51a42-0407-4ab9-855a-55dc04e2ce4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03093ed4-945f-40bc-8369-806a295db5c7"
+>
+</ReqRef><ReqRef
+ Id="68a814aa-d977-4ba8-8329-54aaaec00081"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a52ee743-0de6-4d9f-86b6-2606224cf76c"
+>
+</ReqRef><ReqRef
+ Id="e0778e14-e6ea-4f06-8c69-56236250b636"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae2c75eb-5575-4a11-82ff-caec0db0bd2a"
+>
+</ReqRef><ReqRef
+ Id="dba4721e-ecc7-46a8-945a-ca408198338c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d02b08e-4621-48ca-9ca0-53130eac81ef"
+>
+</ReqRef><ReqRef
+ Id="fc32fb41-1c57-4753-a923-fe676aabf35d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d437a7b-af72-4620-a9df-d2ca2686e1cb"
+>
+</ReqRef><ReqRef
+ Id="573d0d6d-98df-43fa-8065-22f5dae937f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0bbe939d-9ee9-4f15-8ddf-731a12b94c96"
+>
+</ReqRef><Comment>Registers the mobile terminals to a radio network.</Comment>
+<Parameters>
+<Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="06100028-08c1-4f2b-9385-ab9e1edc17bc"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Register terminals"
+ Guid="86956c33-030e-4d1f-8f75-ab22dffbfcdd"
+>
+<Comment>If the provided id is valid or the last known nework id is valid, then the mobile terminals are registered.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Provided id is valid"
+ Guid="615728d0-acd8-40e3-94ea-aebf1f7bfc01"
+>
+<Comment>If the provided id is valid, it is used to register the terminals.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e65e63b1-fd62-4950-b031-05d1d1109e1c"
+>aNetworkId != &apos;&apos;</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="78ee6641-812f-4c2a-afbe-b0e4ada5e038"
+>Terminal.Terminal1.ResetRegistrationStateSMAndRegister
+(
+    aNetworkId
+)</Action><Action
+ Guid="32182ac6-6175-40d8-b9ba-e83cb3c402b7"
+>Terminal.Terminal2.ResetRegistrationStateSMAndRegister
+(
+    aNetworkId
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise, use the default Radio Network id"
+ Guid="c02b6e39-340c-4bf8-a4fd-910b6087bc05"
+>
+<ReqRef
+ Id="5e068e1e-2be5-45b6-b9eb-d1151df93748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9092e686-fa55-4fa2-93f9-8086146ec060"
+>
+</ReqRef><Comment>Otherwise the default Radio Network id is used.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="301efa69-de1e-4a8d-a59f-c0c7afcbe928"
+>Terminal.DefaultRadioNetworkId != &apos;&apos;</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="25c3fc69-9b60-4bb1-a2d1-b74d2cd381a9"
+>Terminal.Terminal1.ResetRegistrationStateSMAndRegister
+(
+    Terminal.DefaultRadioNetworkId
+)</Action><Action
+ Guid="5442134a-9062-458e-a3e8-adf01cbfa296"
+>Terminal.Terminal2.ResetRegistrationStateSMAndRegister
+(
+    Terminal.DefaultRadioNetworkId
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update last known network id"
+ Guid="bfb78b5e-119a-4e09-af0e-35138fc12848"
+>
+<ReqRef
+ Id="9bf96521-7fd6-4183-ab61-1276d48d3996"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6901fdd4-16ee-4f98-bee3-2fea0d726482"
+>
+</ReqRef><Comment>The received network id is memorized in order to be able to use it when the on-board equipment is powered-on.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Update last known network id"
+ Guid="908aae06-faac-4683-acfa-a0943eeb9c8f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e1e7e813-961e-4771-8bdc-7606677f8c40"
+>Terminal.LastKnownNetworkId &lt;- aNetworkId</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="TerminalStruct"
+ DefaultValue="TerminalStruct{
+}"
+ VariableMode="InOut"
+ X="20"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Terminal1"
+ Guid="b9169f5f-b1a9-481e-8d17-7b9aee24c60e"
+>
+<ReqRef
+ Id="865bbdd6-2010-4869-ab3e-bc538ce5fe4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94da1534-d4e2-409f-94e9-6c7efcd8d7b5"
+>
+</ReqRef><Comment>First terminal struct.</Comment>
+</Variable><Variable
+ Type="TerminalStruct"
+ DefaultValue=""
+ VariableMode="InOut"
+ X="160"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Terminal2"
+ Guid="14bc979c-299e-41a1-b18b-77e58ca89e59"
+>
+<ReqRef
+ Id="865bbdd6-2010-4869-ab3e-bc538ce5fe4b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e9b5735-16ad-4ad3-89ff-7df9a6f5141b"
+>
+</ReqRef><Comment>Second mobile terminal.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="300.0"
+ VariableMode="Constant"
+ X="470"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MaxTimeToMaintainACommunicationSession"
+ Guid="50a37fad-675b-4798-af5d-2505564629c5"
+>
+<ReqRef
+ Id="b2ce7f07-bb0c-45fb-b2f9-3a864e344795"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c113b3d1-f0fd-4952-80a2-1dd8ac647e44"
+>
+</ReqRef><ReqRef
+ Id="308624ea-ea91-4451-b8c4-1cfbc9094f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="345f10c0-f724-4b20-947a-b2f0437727c0"
+>
+</ReqRef><Comment>Maximum time to maintain a communication session in case of failed re-connection attempts.</Comment>
+</Variable><Variable
+ Type="String"
+ DefaultValue="&apos;&apos;"
+ VariableMode="Internal"
+ X="470"
+ Y="140"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="LastKnownNetworkId"
+ Guid="4c27382c-64a2-4c88-8d58-ff66b400ad51"
+>
+<ReqRef
+ Id="9bf96521-7fd6-4183-ab61-1276d48d3996"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e601cf1c-a807-4f9a-a762-522cf4cf6d78"
+>
+</ReqRef><Comment>The last received Radio Network identity.</Comment>
+</Variable><Variable
+ Type="String"
+ DefaultValue="&apos;Default&apos;"
+ VariableMode="Internal"
+ X="310"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DefaultRadioNetworkId"
+ Guid="2899d0b5-6c7a-4333-b3c0-d5226c93ec7e"
+>
+<ReqRef
+ Id="5e068e1e-2be5-45b6-b9eb-d1151df93748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8b46767d-0979-4a7a-9437-5ca9d5f363ac"
+>
+</ReqRef><ReqRef
+ Id="5e068e1e-2be5-45b6-b9eb-d1151df93748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aa7dc0c0-dce3-4fb0-9217-e463d4e2fc72"
+>
+</ReqRef><Comment>Gives the values of the default radio network, to be used when no Radio Network identity was received from trackside or from driver.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="60.0"
+ VariableMode="Constant"
+ X="310"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DelayToDisconnect"
+ Guid="54e67e1e-4418-45f2-a157-15b133a322f1"
+>
+<ReqRef
+ Id="3289a3d9-cf40-4752-80d6-cdf4b8e86c34"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec8b8c72-983c-4056-97ad-5046cead56ac"
+>
+</ReqRef><Comment>Delay from the application of the M_NVCONTACT reaction (applied when the onboard does not receive any new consistent messages from the RBC after a period T_NVCONTACT) to release of the safe radio connection.</Comment>
+</Variable></Variables>
+</NameSpace>

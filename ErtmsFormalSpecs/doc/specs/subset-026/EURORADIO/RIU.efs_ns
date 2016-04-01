@@ -1,0 +1,115 @@
+<NameSpace
+ X="380"
+ Y="40"
+ Width="100"
+ Height="50"
+ Name="RIU"
+ Guid="0e46bc1e-f523-4064-b0a6-269c0b245bad"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="10"
+ Y="110"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RIUStruct"
+ Guid="b15198c3-238e-44cf-bd78-8b40d48ea78f"
+>
+<ReqRef
+ Id="64296fc8-fe88-499d-b63e-d570a4a39744"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="17bba8ad-3761-4af8-8daf-f79e39a3b371"
+>
+</ReqRef><Comment>Represents one instance of the communication with RIU.</Comment>
+<StructureElement
+ TypeName="RBCConnection.Contact.ContactOrderStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ContactRIUOrder"
+ Guid="c3e64fd7-0dd2-4223-92a2-d1329120f4ae"
+>
+<Comment>Provides the order to contact the RIU, if any.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Id"
+ Guid="a69353b2-8731-4f5b-aeb0-cb1b2109d29b"
+>
+<Comment>Identifier of the RIU.</Comment>
+</StructureElement></Structure></Structures>
+<Procedures>
+<Procedure
+ X="160"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ContactRIU"
+ Guid="7d0b4122-12aa-4a02-83f7-9d7e322bfa8a"
+>
+<ReqRef
+ Id="64296fc8-fe88-499d-b63e-d570a4a39744"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1610f43-4036-4fca-9eef-bd1d8216dfa5"
+>
+</ReqRef><Comment>Allows to establish/terminate the communication session with an RIU.</Comment>
+<Parameters>
+<Parameter
+ Type="RBCConnection.Contact.ContactOrderStruct"
+ Name="Order"
+ Guid="b9ea4cb2-277a-4de4-863a-f74f28a202a2"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Contact RIU"
+ Guid="41b28c18-f309-4e57-8d84-85c6374626b2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Contact RIU"
+ Guid="908bf858-c395-40d2-8235-08a1bc78e393"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d73c602a-7643-4127-a75a-809495d5acbb"
+>EURORADIO.RIU.RIU.ContactRIUOrder &lt;- Order</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="RIUStruct"
+ DefaultValue=""
+ VariableMode="InOut"
+ X="10"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RIU"
+ Guid="65546b18-9082-469d-85f1-2f2a2c945818"
+>
+<ReqRef
+ Id="64296fc8-fe88-499d-b63e-d570a4a39744"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0bfec18e-8a2f-4476-a678-ac8e9ed363cb"
+>
+</ReqRef><Comment>RIU connection.</Comment>
+</Variable></Variables>
+</NameSpace>

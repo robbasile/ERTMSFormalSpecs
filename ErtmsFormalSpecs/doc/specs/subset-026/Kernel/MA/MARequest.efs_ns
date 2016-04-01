@@ -211,6 +211,216 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 (Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( V =&gt; Kernel.MRSP.V_MRSP() ))</Expression>
 </Case></Cases>
 </Function></Functions>
+<Procedures>
+<Procedure
+ X="140"
+ Y="590"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MARequestParametersReceived"
+ Guid="3bdf5b74-b267-4f2f-a3b8-3167dff3cf81"
+>
+<ReqRef
+ Id="b74d1689-f942-4e2a-abdb-aa241f4f117f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3cb894fb-932b-4391-8954-8801db9865b1"
+>
+</ReqRef><ReqRef
+ Id="8e7007f5-0fea-404a-b7eb-50db12d09f31"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="66a6926c-9728-4beb-adac-aad01a7c9a74"
+>
+</ReqRef><ReqRef
+ Id="b67273e4-3130-454e-8325-67246db078fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0a343ae-844d-48ca-8a2a-49d7aae4cca5"
+>
+</ReqRef><ReqRef
+ Id="1684f6ad-c7c2-42db-b17b-b3b24f030364"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54464bfe-6c0a-46fe-80c3-f7ef5172d48c"
+>
+</ReqRef><ReqRef
+ Id="05cf6799-8b56-48cb-9adc-a464323c5a84"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50aa7b37-3201-4bc4-beb2-0c261666819a"
+>
+</ReqRef><ReqRef
+ Id="ecd0acf3-52c6-488c-a1d4-ed1e35869e6f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fb4205b0-4dec-4e92-84b2-6ab04f42c918"
+>
+</ReqRef><ReqRef
+ Id="62880846-6786-43c3-84fe-79a4b98b3fd8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4590bb2-86a9-49c9-9932-842834ff2092"
+>
+</ReqRef><Comment>Handles reception of MA request parameters.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY_REQUEST_PARAMETERS.Message"
+ Name="Packet"
+ Guid="e05bfa6e-1820-488c-83bd-22448ff3b138"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Store the new parameters"
+ Guid="4f4c9412-ebd3-447b-9eb3-bdfc0fa01dfa"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store the time values"
+ Guid="2c7c39f7-e8f5-4942-bb23-f347779f6b17"
+>
+<Comment>First, replace the previous values by the values received from the packet.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="320b109a-792e-416d-bbba-d48ea2c1833b"
+>Kernel.MA.MARequest.MARequestParameters &lt;- Kernel.MA.MARequest.MARequestParametersStruct
+{
+    PreindicationLocationTime =&gt; MessageTypes.TimeResolution( time =&gt; Packet.T_MAR ),
+    SectionTimerTime =&gt; MessageTypes.TimeResolution( time =&gt; Packet.T_TIMEOUTRQST ),
+    RepetitionTime =&gt; MessageTypes.TimeResolution( time =&gt; Packet.T_CYCRQST )
+}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle special values"
+ Guid="ca982596-2da7-42ea-a6a2-a42145830eed"
+>
+<Comment>Then, store the special values indicating which MA request parameters are applicable.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Store the pre-indication location handling"
+ Guid="0c0ee582-cb6f-4ace-b45a-2dd21540dc3d"
+>
+<Comment>The special value 255 for T_MAR indicates that there is no MA request triggering with regards to the pre-indication location.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Pre-indication location has to be handled"
+ Guid="737e7870-a1f7-4b54-a1fe-69223e8b8c01"
+>
+<Comment>Pre-indication location has to be handled for MA requests.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5e204e62-c4fe-490d-9a1b-e5938a2190c8"
+>Packet.T_MAR != 255</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="30f9257a-8ea3-4ecc-8601-24c70ff492d7"
+>Kernel.MA.MARequest.MARequestParameters.HandlePreindicationLocation &lt;- True</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Pre-indication location has not to be handled"
+ Guid="7524805a-63de-4539-9370-da3ef41336f7"
+>
+<Comment>Pre-indication location has not to be handled for MA requests.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="18636c9f-9aaa-4ff5-8c27-049f405a5abf"
+>Kernel.MA.MARequest.MARequestParameters.HandlePreindicationLocation &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Store the timeouts handling"
+ Guid="f96ad77b-e4c5-43f9-99b5-834422430ef2"
+>
+<Comment>The special value 1023 for T_TIMEOUTRSQT indicates that there is no MA request triggering with regards to the sections timeouts.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Timeouts have to be handled"
+ Guid="dbe503b6-3453-4df6-a8ce-ba4b3449fa19"
+>
+<Comment>Timeouts have to be handled for MA requests.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2455541d-8ac7-408b-be9a-5f05a4817771"
+>Packet.T_TIMEOUTRQST != 1023</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6ba53e46-8e54-4dc0-bf70-f290747fac02"
+>Kernel.MA.MARequest.MARequestParameters.HandleTimeouts &lt;- True</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Timeouts have not to be handled"
+ Guid="ef14cf5a-a35d-4ce6-a465-70d38c44c5b0"
+>
+<Comment>Timeouts have not to be handled for MA requests.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="68f887a6-fb71-4685-92d2-ea6e3dbda166"
+>Kernel.MA.MARequest.MARequestParameters.HandleTimeouts &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Store the repetition handling"
+ Guid="7d401cbf-73df-4768-ad07-446d774f07cc"
+>
+<Comment>The special value 255 for T_CYCRQST indicates that there is no MA request repetition.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Requests have to be repeated"
+ Guid="e196364a-ac50-4cb1-bf76-bab2e5b5637b"
+>
+<Comment>The MA requests have to be repeated.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ee06d8a0-da11-4df4-8c6e-b2aaa0f16630"
+>Packet.T_CYCRQST != 255</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c7436dc7-bf48-4b23-92f3-88f26cacf70c"
+>Kernel.MA.MARequest.MARequestParameters.HandleRepetitions &lt;- True</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Requests have not to be repeated"
+ Guid="e539fe7d-00dc-4497-b787-fc9aa78f5fb5"
+>
+<Comment>The MA requests have not to be repeated.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="90d2fcd9-38c9-4dc2-8519-b67f724b95ae"
+>Kernel.MA.MARequest.MARequestParameters.HandleRepetitions &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 <Variables>
 <Variable
  Type="BaseTypes.Time"
@@ -320,7 +530,7 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <Actions>
 <Action
  Guid="58a5e02d-bea3-48dd-9228-d97c67fae1e5"
->EURORADIO.CurrentRBCConnection().SendMARequest
+>EURORADIO.RBCConnection.CurrentRBCConnection().SendMARequest
 (
     aReason =&gt; Kernel.MA.MARequest.MARequestParameters.Reason,
     aPacket =&gt; EMPTY
@@ -395,7 +605,7 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <Actions>
 <Action
  Guid="abb36a2d-bc88-48e0-961e-c1eb5f58e19c"
->EURORADIO.CurrentRBCConnection().SendMARequest
+>EURORADIO.RBCConnection.CurrentRBCConnection().SendMARequest
 (
     aReason =&gt; Messages.Q_MARQSTREASON.Time_before_reaching_pre_indication_location_for_the_EOA_LOA_reached,
     aPacket =&gt; EMPTY
@@ -441,7 +651,7 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <Actions>
 <Action
  Guid="3c9a6e23-bdb4-41fb-9f85-d007c79c450e"
->EURORADIO.CurrentRBCConnection().SendMARequest
+>EURORADIO.RBCConnection.CurrentRBCConnection().SendMARequest
 (
     aReason =&gt; Messages.Q_MARQSTREASON.Time_before_a_section_timer_LOA_speed_timer_expires_reached,
     aPacket =&gt; EMPTY

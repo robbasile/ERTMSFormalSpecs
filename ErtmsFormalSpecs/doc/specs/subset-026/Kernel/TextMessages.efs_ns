@@ -4129,15 +4129,15 @@ IN
 <PreConditions>
 <PreCondition
  Guid="0f28add5-2175-464e-82c3-2af39cc45dfd"
->EURORADIO.HasActiveSession()</PreCondition><PreCondition
+>EURORADIO.Terminal.HasActiveSession()</PreCondition><PreCondition
  Guid="506b011c-7dba-4b8b-a03f-cc57d1fb0f0b"
->EURORADIO.CurrentRBCConnection().ContactData.Id.Id == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_RBC</PreCondition><PreCondition
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.Id.Id == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_RBC</PreCondition><PreCondition
  Guid="c860e5cf-4b89-4000-8af1-ad07763f9720"
->EURORADIO.CurrentRBCConnection().ContactData.Id.Country == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_C</PreCondition></PreConditions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.Id.Country == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_C</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="98639b6d-8ac7-441b-9816-4b6404835d3b"
->EURORADIO.CurrentRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Check the handing over RBC"
@@ -4147,15 +4147,15 @@ IN
 <PreConditions>
 <PreCondition
  Guid="d34fec77-c273-4b0e-bed3-2a3008534b50"
->EURORADIO.HasActiveSession()</PreCondition><PreCondition
+>EURORADIO.Terminal.HasActiveSession()</PreCondition><PreCondition
  Guid="91489dbc-5e98-4a6a-a4ba-6a9fea3af535"
->EURORADIO.SecondaryRBCConnection().ContactData.Id.Id == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_RBC</PreCondition><PreCondition
+>EURORADIO.RBCConnection.SecondaryRBCConnection().ContactData.Id.Id == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_RBC</PreCondition><PreCondition
  Guid="e462e0e0-3f7c-4f00-a85c-464901b044f9"
->EURORADIO.SecondaryRBCConnection().ContactData.Id.Country == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_C</PreCondition></PreConditions>
+>EURORADIO.RBCConnection.SecondaryRBCConnection().ContactData.Id.Country == DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.NID_C</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a4f5b195-c601-4015-97fd-fe549562c7be"
->EURORADIO.SecondaryRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
+>EURORADIO.RBCConnection.SecondaryRBCConnection().SendTextMessageAcknowledgedByDriver( aTextId =&gt; DMI.MasterDMI().In_AcknOfFixedTextInformation.Message.ReportInformation.TextId )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

@@ -40,9 +40,9 @@
 <PreConditions>
 <PreCondition
  Guid="9c02cc43-a540-4721-8b6a-cef7e39b98b6"
->Available (  EURORADIO.CurrentRBCConnection() .MessageOut )</PreCondition></PreConditions>
-<Expression>Available (  EURORADIO.CurrentRBCConnection() .MessageOut.SystemVersion1 ) OR
-Available (  EURORADIO.CurrentRBCConnection() .MessageOut.SystemVersion2 )</Expression>
+>Available (  EURORADIO.RBCConnection.CurrentRBCConnection() .MessageOut )</PreCondition></PreConditions>
+<Expression>Available (  EURORADIO.RBCConnection.CurrentRBCConnection() .MessageOut.SystemVersion1 ) OR
+Available (  EURORADIO.RBCConnection.CurrentRBCConnection() .MessageOut.SystemVersion2 )</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="bbf3b85a-20c8-48d5-9487-cece71998843"
@@ -110,9 +110,9 @@ Available (  EURORADIO.CurrentRBCConnection() .MessageOut.SystemVersion2 )</Expr
 >INSERT Messages.JRU.MESSAGE.Message {
      TO_RBC =&gt; Messages.JRU.MESSAGE.TO_RBC.Message {
          HEADER =&gt; Header.CreateHeader(10),
-         NID_C =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Country,
-         NID_RBC =&gt; EURORADIO.CurrentRBCConnection().ContactData.Id.Id,
-         TELEGRAM =&gt; EURORADIO.CurrentRBCConnection().MessageOut 
+         NID_C =&gt; EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.Id.Country,
+         NID_RBC =&gt; EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.Id.Id,
+         TELEGRAM =&gt; EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut 
     } 
 } IN Messages</Action></Actions>
 </RuleCondition></Conditions>

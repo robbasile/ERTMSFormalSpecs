@@ -37,7 +37,7 @@
  Name="NewMessageFromRbc"
  Guid="111025cc-1188-4e45-9ce5-45c1886af469"
 >
-<Expression>Available ( EURORADIO.UpdatedMessageIn(EURORADIO.CurrentRBCConnection() ).SystemVersion2 )</Expression>
+<Expression>Available ( EURORADIO.Messages.UpdatedMessageIn(EURORADIO.RBCConnection.CurrentRBCConnection() ).SystemVersion2 )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -100,11 +100,11 @@
 <Action
  Guid="e1f2ded8-4429-4898-a56e-f09f2d31508d"
 >INSERT Messages.JRU.MESSAGE.Message {
-     FROM_RBC =&gt; LET connection =&gt; EURORADIO.CurrentRBCConnection() IN Messages.JRU.MESSAGE.FROM_RBC.Message{
+     FROM_RBC =&gt; LET connection =&gt; EURORADIO.RBCConnection.CurrentRBCConnection() IN Messages.JRU.MESSAGE.FROM_RBC.Message{
          HEADER =&gt; Header.CreateHeader(9),
          NID_C =&gt; connection.ContactData.Id.Country,
          NID_RBC =&gt; connection.ContactData.Id.Id,
-         TELEGRAM =&gt; EURORADIO.UpdatedReceivedMessage(connection) 
+         TELEGRAM =&gt; EURORADIO.Messages.UpdatedReceivedMessage(connection) 
     } 
 } IN Messages</Action></Actions>
 </RuleCondition></Conditions>

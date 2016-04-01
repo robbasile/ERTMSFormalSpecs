@@ -71,9 +71,9 @@
  Guid="3a78741a-8457-41dd-8856-fc4f64ee2151"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="bfb2858f-1892-446f-ab75-08dd612598c1"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="31fbaf4f-9d27-4e50-b1ed-a109e920b652"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="e9871358-4844-4298-b4de-55163af19aa7"
 >BTM.LRBG.PreviousBaliseGroups &lt;- 
 [
@@ -190,9 +190,9 @@
 <Actions>
 <Action
  Guid="b52d0f52-beff-40f2-bc47-f8b614bd47e7"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.PositionReport.PositionReportSpecialMoment.Now</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.Now</Action><Action
  Guid="1a998e53-2f71-4cf3-95b9-967b6a302ef9"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="27362baa-d101-46f4-ae90-1c689c534af5"
 >Kernel.TrainIntegrity.TrainIntegrity.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="8c44c0e7-2bbd-42ae-a778-7330a4a2ac85"
@@ -237,43 +237,43 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="f32345c9-9104-499c-952c-2dbd7cff4f17"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="34e983c3-a400-4b77-8788-5bee10d807b3"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="01dce192-9e10-4f39-9e75-75633ee78ac4"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e8c67f9e-a169-4eb9-9161-064540ae00e3"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.D_LRBG == 2500 - 1030</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.D_LRBG == 2500 - 1030</Expectation><Expectation
  Kind="Instantaneous"
  Guid="eaab4971-297c-4639-8b79-07e32986ce86"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.L_DOUBTOVER == 12</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.L_DOUBTOVER == 12</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e50ff18a-eb04-418c-92a3-310be6450f72"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.L_DOUBTUNDER == 12</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.L_DOUBTUNDER == 12</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dd307bbe-5dcc-4e33-ad5d-15d2847985cd"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.NID_LRBG == 1290</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.NID_LRBG == 1290</Expectation><Expectation
  Kind="Instantaneous"
  Guid="6999052e-72ef-47e2-9161-6c89c72c5603"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_DIRLRBG == Messages.Q_DIRLRBG.Nominal</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_DIRLRBG == Messages.Q_DIRLRBG.Nominal</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9b5c620f-ba9c-4dfb-89fb-f11099a474d4"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_DIRTRAIN == Messages.Q_DIRTRAIN.Nominal</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_DIRTRAIN == Messages.Q_DIRTRAIN.Nominal</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a79ac0d4-5832-4c22-a6e9-dbc9a308e0b2"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_DLRBG == Messages.Q_DLRBG.Reverse</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_DLRBG == Messages.Q_DLRBG.Reverse</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3b5d6d34-12ec-41db-82a8-23140f307131"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.V_TRAIN == 17</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.V_TRAIN == 17</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4d05b008-1d67-44a8-a168-369a711be5d4"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Messages.Q_LENGTH.Train_integrity_confirmed_by_driver</Expectation><Expectation
  Kind="Instantaneous"
  Guid="912408d4-2a3e-41ed-8ca1-948f9fbbcf8a"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.L_TRAININT == 114</Expectation></Expectations>
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.L_TRAININT == 114</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -294,9 +294,9 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="f85fb25b-43e8-48d5-884b-979ea5b65297"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.PositionReport.PositionReportSpecialMoment.Now</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.Now</Action><Action
  Guid="56927abd-a8cd-4a6b-9cee-630c128ab113"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="d70befad-4ee7-4168-9673-32e4c747222c"
 >Kernel.TrainIntegrity.TrainIntegrity &lt;- Kernel.TrainIntegrity.TrainIntegrityStruct{
 Status =&gt; Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device,
@@ -358,46 +358,46 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="1737286a-c4fb-49c4-9ba1-2b5a32011560"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="fd55ebf8-2a40-468b-a01e-5938f1be825d"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="755581a6-30e1-4d1f-b92c-84dbadbe3ace"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b765ae95-bab1-4258-bb93-61344230e674"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.D_LRBG == 2600 - 1050</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.D_LRBG == 2600 - 1050</Expectation><Expectation
  Kind="Instantaneous"
  Guid="12e4892b-d99e-412f-9ed8-d9948e067b59"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_DOUBTOVER == 12</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_DOUBTOVER == 12</Expectation><Expectation
  Kind="Instantaneous"
  Guid="65cbba4c-c8aa-4831-8a31-b339231f735c"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_DOUBTUNDER ==12</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_DOUBTUNDER ==12</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9ffad76b-c417-4b39-a95e-6e30ea025195"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.NID_LRBG == 1296</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.NID_LRBG == 1296</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9759d5c1-f856-4cd7-8064-7c40544f205c"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_DIRLRBG == Messages.Q_DIRLRBG.Reverse</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_DIRLRBG == Messages.Q_DIRLRBG.Reverse</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b9f34bf7-8ee2-4850-a428-b3c87d282883"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_DIRTRAIN == Messages.Q_DIRTRAIN.Nominal</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_DIRTRAIN == Messages.Q_DIRTRAIN.Nominal</Expectation><Expectation
  Kind="Instantaneous"
  Guid="499a14ee-2fee-4e12-b46b-0fa50488f8f9"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_DLRBG == Messages.Q_DLRBG.Reverse</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_DLRBG == Messages.Q_DLRBG.Reverse</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c76efcbe-bb6d-4b29-a0f1-98559c81b082"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.V_TRAIN == 17</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.V_TRAIN == 17</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b702f845-506c-48ed-8e41-f027fd4ffb9b"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Messages.Q_LENGTH.Train_integrity_confirmed_by_integrity_monitoring_device</Expectation><Expectation
  Kind="Instantaneous"
  Guid="167d8b38-73a7-48f8-a47e-b07a6a38501b"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_TRAININT == 194</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.L_TRAININT == 194</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b8505486-0026-4254-8aa4-c734e2b42556"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.NID_PRVLRBG == 1292</Expectation></Expectations>
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.NID_PRVLRBG == 1292</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -456,7 +456,7 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="655d067a-c038-4afc-b01c-df00f5f73742"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="7ddd14e3-892f-4a2d-877d-46ed82b1aba3"
 >Odometry.Accuracy.D_ura &lt;- 15.0</Action><Action
  Guid="7409ff14-b988-450d-85f9-80b1db12a5f0"
@@ -568,21 +568,21 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="dca11b1c-98cb-4931-8a39-2ee2ed5d5c19"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="0fd0d68d-e4ed-462a-bfe7-b86c03997ee8"
->EURORADIO.PositionReport.SendReportDueToCommunicationSessionIsEstablished() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToCommunicationSessionIsEstablished() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="ae956de2-9d73-49d8-966c-61a4f8f7b0e7"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="396dee64-7857-4260-b831-5b40cfaaae38"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="7a25efd2-7a80-4420-aafc-ef7bd41a6dcf"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -605,7 +605,7 @@ BTM.LRBG.BaliseGroupStruct {
  Guid="702a7136-e3eb-4b02-85fb-9473952781ed"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="31e18d34-b5ea-4f4c-ba56-32b0d57790e0"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -626,21 +626,21 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="8c6f1db1-0fbc-4fd0-9a85-88b8c1589a99"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  Guid="3349b443-60b6-4387-b706-81b041db2d94"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="ae0abaad-ca22-472c-b3d7-1a116e15f931"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="132162ad-5aa5-4bf0-bf2d-ec0ccbf4ce4b"
->EURORADIO.PositionReport.SendReportDueToCommunicationSessionIsEstablished() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToCommunicationSessionIsEstablished() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="236eecce-c10c-4919-be5e-4a1708ed6e66"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -761,9 +761,9 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="826dacb3-7da9-4fd5-ac34-1a1131b6330f"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="f566b380-cd4e-4d44-a6b6-48f1f34ecac7"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -839,19 +839,19 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="ea05789b-9977-4d16-b45e-3f4837b3c0b7"
->EURORADIO.PositionReport.SendReportDueToLossOfTrainIntegrityDetected() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToLossOfTrainIntegrityDetected() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="89444c4b-3307-4976-9c9f-4a1b053e6f73"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="eb3f95d4-6d36-4e7d-833e-b57ca7cff0f0"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dc1e6f8b-5344-486d-a262-6993b8506f0d"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="9b025144-8c48-4458-b1bd-aa67fa09e2cf"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -900,19 +900,19 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="a9068572-0e40-4a8f-9ebc-000fef3f1c68"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dec4e408-db9e-48ac-9133-34b508331fa9"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="aa062d5c-75f7-4c85-95cf-00df02a39dd9"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d980c6e5-37c6-4e89-a91c-34d6a2e68fd0"
->EURORADIO.PositionReport.SendReportDueToLossOfTrainIntegrityDetected() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToLossOfTrainIntegrityDetected() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="155e5c96-90a3-4ebe-a9d8-497345fe3d75"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -971,9 +971,9 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="a1aeb4c0-8f88-4cd5-80cd-d51ffb900a99"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="7f4999dc-6957-46b6-9eaa-b1ed52106a77"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="27d2fa24-6b84-4a48-95ac-9ec175d7807b"
 >Odometry.Accuracy.D_ura &lt;- 17.0</Action><Action
  Guid="0275eb7c-e811-4fb7-a02a-0f3abca651aa"
@@ -1096,22 +1096,22 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="3aa3126a-4d49-463d-8d17-4c84da26f3c2"
->EURORADIO.PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a44d6c3f-9baf-463a-9963-88f9830c98d3"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="12aa25e6-d825-4be3-bdd4-a166d2a3f45b"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4ef4a598-a0cc-4167-b673-3c5382281714"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="747e24fd-a1ba-4712-9bde-25f1e6e5cffb"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="328cc0f7-a8d5-4a4a-8538-2ca0796d2bbd"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT. L_TRAININT == 115</Expectation></Expectations>
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT. L_TRAININT == 115</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1162,22 +1162,22 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="2ac4fcfe-562f-4abf-b463-ccd5a50dc5e3"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Q_LENGTH == Kernel.TrainIntegrity.TrainIntegrity.Status</Expectation><Expectation
  Kind="Instantaneous"
  Guid="455577fc-6f4f-44a2-a5ff-e6705ad3fd9d"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="f6d72e9e-f0a5-4dc0-a7f8-465bcf015191"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="8b3dcdd4-389c-479d-9dc7-eb9fcd652182"
->EURORADIO.PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e73fa3ea-cfa0-49e4-86f0-1e8462e089ee"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="57d6d3ce-e593-4ee5-b157-20e53647298a"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS. L_TRAININT == 113</Expectation></Expectations>
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS. L_TRAININT == 113</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -1246,9 +1246,9 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="f05feb43-6755-414e-bfe6-0d5cc250a562"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="0282f8ce-ced4-417b-ac1d-d7b3f9f48120"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="a7bfd3e8-1da3-44fd-a291-16a7c35c13d1"
 >Odometry.Accuracy.D_ura &lt;- 92.0</Action><Action
  Guid="185ea671-7d33-4c34-8d43-ad657549bb83"
@@ -1355,19 +1355,19 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="38cb3d1d-2bc4-452d-bcbf-c7fa5e978245"
->EURORADIO.PositionReport.SendReportDueToLevelChange() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToLevelChange() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="dee76cf1-c680-4011-b88d-eadb19729ab6"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="396c50d8-1c88-465d-8de5-52f7e52b8209"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="429043da-34de-4979-9b9a-b721480301e1"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.M_LEVEL == EFSLevelConverter(LevelEnum.L2)</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.M_LEVEL == EFSLevelConverter(LevelEnum.L2)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a32aeb75-1330-49fe-bdf4-1cc29103b640"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1416,19 +1416,19 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="e9c2e396-49f0-4efb-811a-5bcc2566c51e"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.M_LEVEL == EFSLevelConverter(LevelEnum.L2)</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.M_LEVEL == EFSLevelConverter(LevelEnum.L2)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="5ecd775e-02c7-4718-a210-0bee005391d1"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="63c144f8-4b03-4ae9-b165-f261ad1e6144"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="ebfe44ee-aed3-4f51-92c0-3f67b9f27719"
->EURORADIO.PositionReport.SendReportDueToLevelChange() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToLevelChange() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e2440a4f-21a0-47ad-8bba-35da0385e7f3"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -1487,9 +1487,9 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="1750a359-941b-4092-b34a-5c78dc9bbfa3"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="3219f141-096b-45a0-b649-ec27528c97c3"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="c1fa59da-6c1c-4129-87b4-130624664f49"
 >Odometry.Accuracy.D_ura &lt;- 38.0</Action><Action
  Guid="78521b7b-146d-427e-ab10-c9154bddf741"
@@ -1608,19 +1608,19 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="aa85be8e-cc57-484a-8c2c-0c3986813168"
->EURORADIO.PositionReport.SendReportDueToModeChange() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToModeChange() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d977d593-92ad-4631-b1ad-1399376b6529"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="7b8659f8-c744-4138-9f10-077b5171840a"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d743f60b-0c4c-408d-a479-34ae2d93f22e"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.M_MODE == EFSModeConverter(ModeEnum.TR)</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT.M_MODE == EFSModeConverter(ModeEnum.TR)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="847444fe-b0bd-4f6d-8ef7-f03a2f89a9dd"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1669,19 +1669,19 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="6d450216-623f-4d98-b9c3-308de8125de4"
->EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.M_MODE == EFSModeConverter(ModeEnum.TR)</Expectation><Expectation
+>EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.M_MODE == EFSModeConverter(ModeEnum.TR)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="f452f2ac-182f-493d-a05c-7bcf8d727997"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="28ec868b-afb5-4b2c-8596-a2b1f06a9142"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="89b518e8-da68-4006-b624-8ceccbb9143e"
->EURORADIO.PositionReport.SendReportDueToModeChange() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToModeChange() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c9075789-ec6d-429e-904b-db5262e45552"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -1740,9 +1740,9 @@ BTM.LRBG.BaliseGroupStruct {
 <Actions>
 <Action
  Guid="8c9a9cc8-26aa-47fd-96a9-55fad4eac210"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="c3bd648c-eeff-4d36-a3bc-7532deb5cd38"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="0aeb0487-d241-44a1-a155-f71992b4c2b2"
 >Odometry.Accuracy.D_ura &lt;- 6.0</Action><Action
  Guid="767c0936-8f04-47bb-80be-6d7fb9e2be9a"
@@ -1785,7 +1785,7 @@ BTM.LRBG.BaliseGroupStruct {
   }
 }</Action><Action
  Guid="5521c114-5d1b-4a17-bd92-d5f6ff171bf3"
->EURORADIO.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().SessionManagementData.ConnectionIsEstablished &lt;- True</Action><Action
  Guid="ebc96cc0-d611-4023-9e6f-31aa7f87f5ec"
 >Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
@@ -1842,15 +1842,15 @@ BTM.LRBG.BaliseGroupStruct {
  Guid="8132c408-9e25-4c2d-8778-13e33e6390b2"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="bf79e872-20d2-4eeb-91a9-6967cdfc402e"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="7114d584-5a3a-4683-bf67-ce189de1cf01"
->EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- 200.0</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- 200.0</Action><Action
  Guid="5b03582c-05d7-4f36-b7a9-e68a2c258861"
->EURORADIO.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
  Guid="7419abf8-75ff-4a36-8faa-b4dc550478f6"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- 700.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position &lt;- 700.0</Action><Action
  Guid="7dcf1f54-8358-4d59-a78f-5b07b099bedf"
->EURORADIO.PositionReport.LastPositionReport.Time &lt;-1200.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt;-1200.0</Action><Action
  Guid="b50b8b55-fa81-4ce9-ab94-5bfb09c00ff8"
 >Odometry.CurrentTime &lt;- 1390.0</Action></Actions>
 </SubStep></SubSteps>
@@ -1878,21 +1878,21 @@ BTM.LRBG.BaliseGroupStruct {
 <Expectation
  Kind="Instantaneous"
  Guid="27861041-0fd7-436c-aeef-060c2ebb1e81"
->EURORADIO.PositionReport.SendReportDueToPositionReportTimeReached() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToPositionReportTimeReached() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="cd7f0b40-ab77-4ea8-b59e-94b0cbf85f62"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="13637a2f-b48e-4295-b25f-7ef6288135f3"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d21177cb-1b09-4ee5-b32c-c0154c80bb22"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c1a62600-0651-4856-8f7c-bcd02402f1db"
->EURORADIO.PositionReport.LastPositionReport.Time &gt;= 1400.0
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &gt;= 1400.0
   AND
-EURORADIO.PositionReport.LastPositionReport.Time &lt; 1401.0</Expectation></Expectations>
+EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt; 1401.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1917,15 +1917,15 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1401.0</Expectation></Expe
  Guid="d5199541-80d6-4a04-a7cc-29634043cd8e"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="6104f737-52ea-4ade-94c2-aea070daeacd"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="971102fb-b906-49b7-905b-776ebe3dcc74"
->EURORADIO.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- 200.0</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.TimeInterval &lt;- 200.0</Action><Action
  Guid="172260c0-b54f-4e88-931d-779a53f72b3a"
->EURORADIO.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
  Guid="297e8f6d-5853-42b6-99d8-aaaeb0691602"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- 800.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position &lt;- 800.0</Action><Action
  Guid="d5ff9aaf-fd47-4c29-84a8-03369cbb799f"
->EURORADIO.PositionReport.LastPositionReport.Time &lt;-1300.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt;-1300.0</Action><Action
  Guid="3286cede-bbf0-4126-a1c6-127025a38697"
 >Odometry.CurrentTime &lt;- 1490.0</Action></Actions>
 </SubStep></SubSteps>
@@ -1953,21 +1953,21 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1401.0</Expectation></Expe
 <Expectation
  Kind="Instantaneous"
  Guid="bba9bba0-18ee-4a5d-90a8-201ab240cbf2"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="46f75059-d3a6-4f0c-8971-e562b6f8ffc1"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="df50aff8-c07e-47b7-953b-d1309a1129b5"
->EURORADIO.PositionReport.SendReportDueToPositionReportTimeReached() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToPositionReportTimeReached() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b5cb1bf4-7f2d-4e62-a6d9-9b83cd136c07"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="f471987a-6343-409b-b51e-b94e41ccafe8"
->EURORADIO.PositionReport.LastPositionReport.Time &gt;= 1500.0
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &gt;= 1500.0
   AND
-EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expectations>
+EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2020,15 +2020,15 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
  Guid="4e88ef75-4c2f-408a-a00b-290b0c78cd09"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="72bf49f6-0999-435a-9c35-ac320b23e22a"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="1e74f389-a3e1-475c-966a-16ddb9ab28e7"
->EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- 100.0</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- 100.0</Action><Action
  Guid="89cf6a16-ba7a-43c4-b415-ee9706f19e2f"
->EURORADIO.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
  Guid="eea086c1-93a9-4ff0-abdb-0609aa071d77"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- 1000.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position &lt;- 1000.0</Action><Action
  Guid="5416704e-1557-46dd-b4ba-e468afb066d0"
->EURORADIO.PositionReport.LastPositionReport.Time &lt;-1200.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt;-1200.0</Action><Action
  Guid="24c8f07a-1b95-410c-aeb3-eaa52ce19ef0"
 >Odometry.NominalDistance &lt;- 1095.0</Action></Actions>
 </SubStep></SubSteps>
@@ -2056,19 +2056,19 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Expectation
  Kind="Instantaneous"
  Guid="05c5753b-88e0-4ff2-ad38-e3120f1c117c"
->EURORADIO.PositionReport.SendReportDueToPositionReportDistanceReached() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToPositionReportDistanceReached() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="39a32ad4-82f7-4b32-8e7b-8f0d1720cf6a"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="7f488930-46e0-4833-be38-4058665d0959"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="353b5895-e863-4407-9be1-608f0918cb6e"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="35315ad2-8c51-4bda-907d-b203cf6d474b"
->EURORADIO.PositionReport.LastPositionReport.Position == 1100.0</Expectation></Expectations>
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position == 1100.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2091,15 +2091,15 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
  Guid="6c5a45d3-ced2-4677-9325-093d678842a1"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="d8efa9d2-092f-4388-83f3-7e357f6a87c1"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="6656d992-b93b-45d5-9ce4-79f5766169ce"
->EURORADIO.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- 100.0</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.DistanceInterval &lt;- 100.0</Action><Action
  Guid="bcf2f8a1-91dd-4d2b-83fa-acf37602ffa8"
->EURORADIO.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.LRBG &lt;- EMPTY</Action><Action
  Guid="33afd080-174c-452a-b510-828bb4a91d80"
->EURORADIO.PositionReport.LastPositionReport.Position &lt;- 1100.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position &lt;- 1100.0</Action><Action
  Guid="97eb463c-583e-42bc-965d-fce8814872ba"
->EURORADIO.PositionReport.LastPositionReport.Time &lt;-1300.0</Action><Action
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt;-1300.0</Action><Action
  Guid="78489c79-0e53-4da7-9e24-a9a1f8f7de38"
 >Odometry.NominalDistance &lt;- 1195.0</Action></Actions>
 </SubStep></SubSteps>
@@ -2127,19 +2127,19 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Expectation
  Kind="Instantaneous"
  Guid="9528a546-4ca5-4b35-b2e7-b3e9998d805d"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="1980ba61-bb78-42f0-879f-4dba47aa5634"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4b61be89-8ef7-495a-b8db-bf218d9e1440"
->EURORADIO.PositionReport.SendReportDueToPositionReportDistanceReached() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToPositionReportDistanceReached() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="03cef278-ec7d-4e66-ab63-e35f858d2dfe"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="cde3662a-0b5f-43a1-8d0d-f7ac99e2c3b0"
->EURORADIO.PositionReport.LastPositionReport.Position == 1100.0</Expectation></Expectations>
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position == 1100.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2256,7 +2256,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
  Guid="9ef9349d-ac42-45e2-b750-1a98b02c3bca"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="5235835e-1e92-4fd8-a21f-2d9780c8f7e0"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2277,9 +2277,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Actions>
 <Action
  Guid="62a42d62-00db-495d-869c-3be44f1d33e4"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="c3311d3a-ab31-46e5-a6c5-927a698dbe54"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.PositionReport.PositionReportSpecialMoment.Now</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.Now</Action><Action
  Guid="3fe9e972-f30a-4b3f-86b9-d23d533f3500"
 >Odometry.NominalDistance &lt;- 1300.0</Action><Action
  Guid="d35db19e-7bb0-4475-b830-6391e7fd9c07"
@@ -2288,30 +2288,30 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 1501.0</Expectation></Expe
 <Expectation
  Kind="Instantaneous"
  Guid="54aa8542-5ce5-4f0e-bcde-e39386894806"
->EURORADIO.PositionReport.SendReportDueToPositionReportSpecialMoment() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToPositionReportSpecialMoment() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="297ec06b-79f7-4e21-9952-befa991091ea"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="57f60b5c-7e86-4ab7-af06-356909ef7388"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="87a8f6b2-567c-4049-9c53-967daf5dfe37"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="ccde5bc9-d9aa-45c9-88df-4f48396d3e04"
->EURORADIO.PositionReport.LastPositionReport.Position == 1300.0</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position == 1300.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="e72000ee-85eb-47df-b324-6d32dd9aae9d"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == EURORADIO.PositionReport.PositionReportSpecialMoment.DoNotSend</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.SpecialMoment == EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.DoNotSend</Expectation><Expectation
  Kind="Instantaneous"
  Guid="7e50af8b-e2dc-463a-90bf-79d713a9a565"
->EURORADIO.PositionReport.LastPositionReport.Time &gt;= 2000.0
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &gt;= 2000.0
   AND
-EURORADIO.PositionReport.LastPositionReport.Time &lt; 2001.0</Expectation><Expectation
+EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt; 2001.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="84618ac2-36ee-4463-8874-fe52b694a384"
->EURORADIO.PositionReport.SendReportDueToSpecialMomentNow() == True</Expectation></Expectations>
+>EURORADIO.Messages.PositionReport.SendReportDueToSpecialMomentNow() == True</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2334,7 +2334,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2001.0</Expectation><Expec
  Guid="5ee0a24f-1773-4e64-95f2-a6508ab14c86"
 >BTM.LRBG.LRBG.Orientation &lt;- OrientationEnum.Unknown</Action><Action
  Guid="d589a96f-306f-4fd6-b591-3e5f8af38053"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Unknown</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -2355,9 +2355,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2001.0</Expectation><Expec
 <Actions>
 <Action
  Guid="157b5e13-d58a-479f-92f2-62b6c9355e8a"
->EURORADIO.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="0728c79b-26bc-4266-8643-55f0f58affc1"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.PositionReport.PositionReportSpecialMoment.Now</Action><Action
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.SpecialMoment &lt;- EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.Now</Action><Action
  Guid="aee70cb4-23e2-446d-883c-6acc49525298"
 >Odometry.NominalDistance &lt;- 1400.0</Action><Action
  Guid="a9ab38b5-edd5-46d7-b982-0f2e43f8fd50"
@@ -2366,30 +2366,30 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2001.0</Expectation><Expec
 <Expectation
  Kind="Instantaneous"
  Guid="a8f15b9f-1c00-46c9-95f2-a5cf082ffdbf"
->EURORADIO.PositionReport.SendReportDueToSpecialMomentNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToSpecialMomentNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d122103a-6b48-4a63-9733-ccc87a25dba8"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="a59d68e4-cb76-45db-8b02-99cafbc7d113"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="1ec09252-340e-4648-8bb3-85031ab8b566"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="8b9c10ef-bd79-40b2-95c0-09740d2755b9"
->EURORADIO.PositionReport.LastPositionReport.Position == 1400.0</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.LastPositionReport.Position == 1400.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="abbcbf32-0a7c-4974-adba-44d013aec35f"
->EURORADIO.PositionReport.PositionReportParameters.Values.SpecialMoment == EURORADIO.PositionReport.PositionReportSpecialMoment.DoNotSend</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.PositionReportParameters.Values.SpecialMoment == EURORADIO.Messages.PositionReport.PositionReportSpecialMoment.DoNotSend</Expectation><Expectation
  Kind="Instantaneous"
  Guid="53e5e60a-7e44-436c-aae3-9221e29b5f87"
->EURORADIO.PositionReport.LastPositionReport.Time &gt;= 2400.0
+>EURORADIO.Messages.PositionReport.LastPositionReport.Time &gt;= 2400.0
   AND
-EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expectation
+EURORADIO.Messages.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="7ae77fe2-9eea-4df8-bff8-7bb1b804be0f"
->EURORADIO.PositionReport.SendReportDueToPositionReportSpecialMoment() == True</Expectation></Expectations>
+>EURORADIO.Messages.PositionReport.SendReportDueToPositionReportSpecialMoment() == True</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -2448,9 +2448,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
 <Actions>
 <Action
  Guid="e158fbc4-6e8f-4bec-9358-32b88b9e216d"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="a360b83c-d391-47cb-b323-65c0e24c056b"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="91e68e20-284f-4ce2-8017-661e3111f9d3"
 >Odometry.Accuracy.D_ura &lt;- 14.0</Action><Action
  Guid="ef48e6e0-c052-49ef-b12a-4132362a855a"
@@ -2574,9 +2574,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
 <Actions>
 <Action
  Guid="602e6619-7e83-46a1-b03a-b83aeb9cc339"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="f0d8b850-5685-49a6-b915-830fe5b4045a"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="edb22096-4a2c-40b1-a39f-951e5fa9c4f9"
 >Odometry.Accuracy.D_ura &lt;- 41.0</Action><Action
  Guid="ddaebd37-2a44-4246-a50e-d79ff24f6b44"
@@ -2702,9 +2702,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
 <Actions>
 <Action
  Guid="cc2cdf91-d0b0-4199-adf9-1f2c4eafc2b1"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="8c7250ec-4717-41be-bc6a-679240f8e71d"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="261fe1cc-175b-4e1f-bdc9-ee6cf58e8277"
 >Odometry.Accuracy.D_ura &lt;- 1084.0</Action><Action
  Guid="cde9d196-c894-4302-9cca-ff1deb46e497"
@@ -2861,7 +2861,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="78367b80-af50-4392-bd5b-f9ace760c75d"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition &lt;- OrientationEnum.Nominal</Action><Action
  Guid="20cd5627-9ffd-4d5c-8e30-c3be442b5245"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="8e2087a4-aecc-4733-840d-a6a7a3dfdc5d"
 >Odometry.Accuracy.D_ura &lt;- 22.0</Action><Action
  Guid="b46882f3-b36f-4526-a6d3-8ba3e984ddb7"
@@ -2869,7 +2869,7 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
  Guid="1ae569a3-18be-4baa-8a57-a2567ea7304f"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection &lt;- OrientationEnum.Reverse</Action><Action
  Guid="b5707176-a6e9-4f1d-b14f-b5c2b9272c3c"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="98c11fe3-2e78-4746-be90-5c364fb97213"
 >Odometry.NominalDistance &lt;- 1080.0</Action></Actions>
 </SubStep></SubSteps>
@@ -2953,9 +2953,9 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
 <Actions>
 <Action
  Guid="0f6f8d7b-da6f-48a8-a4c9-deea5b1aab81"
->EURORADIO.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCStruct.ConnectionStateSM.Connected</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
  Guid="a1fec4bd-3f25-4e8d-9d3d-6d670929e746"
->EURORADIO.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
+>EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="6a9b5742-8dc1-45fb-8647-059fc4e5ca3a"
 >Odometry.Accuracy.D_ura &lt;- 11.0</Action><Action
  Guid="a18c44cb-32c9-410b-83c1-0d7000ea4097"
@@ -3072,16 +3072,16 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
 <Expectation
  Kind="Instantaneous"
  Guid="c4b9f5eb-f62b-4832-8145-78d4485091f1"
->EURORADIO.PositionReport.SendReportDueToStandstillReached() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToStandstillReached() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b5f36c4e-d647-47b7-a7cc-8bf1e0c09af2"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="7fda1913-a40e-4f26-a1c3-22c458c8699f"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3662d537-bfb9-41fe-bb86-ee6fd562f5ea"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -3130,16 +3130,16 @@ EURORADIO.PositionReport.LastPositionReport.Time &lt; 2401.0</Expectation><Expec
 <Expectation
  Kind="Instantaneous"
  Guid="2b0fc3b8-8cdd-424b-87fa-aa12150b879f"
->Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
+>Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS)</Expectation><Expectation
  Kind="Instantaneous"
  Guid="8995077a-5c94-455c-ad72-0027a4c42461"
->EURORADIO.PositionReport.SendReportNow() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportNow() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="bf018ce2-9b49-4f80-8713-9a749373933e"
->EURORADIO.PositionReport.SendReportDueToStandstillReached() == True</Expectation><Expectation
+>EURORADIO.Messages.PositionReport.SendReportDueToStandstillReached() == True</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3a82bf41-f424-46dc-bbd8-c9adef56a9ee"
->NOT Available(EURORADIO.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
+>NOT Available(EURORADIO.RBCConnection.CurrentRBCConnection().MessageOut.SystemVersion2.TRAIN_POSITION_REPORT.POSITION_REPORT.POSITION_REPORT)</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

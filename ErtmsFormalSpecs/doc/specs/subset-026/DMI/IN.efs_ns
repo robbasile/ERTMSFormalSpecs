@@ -69,7 +69,7 @@
  Guid="6f929bf6-4cae-4324-9cc4-cb3773da8e8d"
 >Level.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
  Guid="816bea88-f7c1-4116-8b88-2ca3a0ad554b"
->NOT EURORADIO.HasActiveSession()</PreCondition></PreConditions>
+>NOT EURORADIO.Terminal.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ab3a7c56-6494-4ac2-996a-69f8ec134060"
@@ -310,7 +310,7 @@
 <Actions>
 <Action
  Guid="2548d8a1-13a3-497b-b2a5-b625dbd4fe7f"
->EURORADIO.ContactLastKnownRBC()</Action></Actions>
+>EURORADIO.RBCConnection.Contact.ContactLastKnownRBC()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -4483,7 +4483,7 @@
  Guid="a000b112-bba9-48c3-9b52-df06dfab5f0c"
 >
 </Parameter><Parameter
- Type="EURORADIO.RBCContactStruct"
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
  Name="anRBCContactInformation"
  Guid="a66a2fc2-d14a-4580-b1bd-4f9b330de6e5"
 >
@@ -4536,7 +4536,7 @@
 <Comment>Asks the driver to select the network id from the proposed list.</Comment>
 <Parameters>
 <Parameter
- Type="EURORADIO.AvailableNetworksCol"
+ Type="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
  Name="aNetworks"
  Guid="232764cf-c5a5-469e-b627-ff46ad4cbf3a"
 >
@@ -4590,7 +4590,7 @@
  Guid="a23afc14-ef22-410e-b35f-f03456e879d8"
 >
 </Parameter><Parameter
- Type="EURORADIO.RBCContactStruct"
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
  Name="anRBCContactInformation"
  Guid="ca478237-9cc3-4f67-bafc-464f85ec32db"
 >
@@ -4652,12 +4652,12 @@
 </ReqRef><Comment>If the networks are available, the driver should be presented the RadioNetworkID screen (hence the value of DriversSelectedAction) with the list of networks.</Comment>
 <Parameters>
 <Parameter
- Type="EURORADIO.RBCContactStruct"
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
  Name="anRBCContactInformation"
  Guid="ecf31d79-b149-43db-ae28-5a95ab907b0d"
 >
 </Parameter><Parameter
- Type="EURORADIO.AvailableNetworksCol"
+ Type="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
  Name="aAvailableNetworks"
  Guid="b8a93d20-62d7-40f4-b6d9-4cb3735923a5"
 >
@@ -4719,7 +4719,7 @@
 </ReqRef><Comment>If the driver push the RadioNetworkID button, the RBCActionChoice screen should be presented to him with no proposed actions.</Comment>
 <Parameters>
 <Parameter
- Type="EURORADIO.RBCContactStruct"
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
  Name="anRBCContactInformation"
  Guid="a03ed026-9c60-4f63-898e-e7b0c515e8c7"
 >
@@ -4786,12 +4786,12 @@
  Guid="0db44be5-2bba-44df-9ac8-8011dc380da6"
 >
 </Parameter><Parameter
- Type="EURORADIO.RBCContactStruct"
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
  Name="anRBCContactInformation"
  Guid="9199b460-af07-4d9d-a54c-31ab0e172113"
 >
 </Parameter><Parameter
- Type="EURORADIO.AvailableNetworksCol"
+ Type="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
  Name="aAvailableNetworks"
  Guid="3ed47925-85b8-4ebc-9337-f31dcddd1e26"
 >
@@ -4908,8 +4908,8 @@
  Guid="2f490d6a-dfe4-4bd1-9301-d836fd05f39b"
 >ProposedActions &lt;- []</Action><Action
  Guid="c4838377-7ccf-4ee1-8307-53172a855db1"
->RBCContactInformation &lt;- EURORADIO.RBCContactStruct{
-Id =&gt; EURORADIO.RBCIdStruct{
+>RBCContactInformation &lt;- EURORADIO.RBCConnection.Contact.RBCContactStruct{
+Id =&gt; EURORADIO.RBCConnection.Contact.RBCIdStruct{
     Country =&gt; 0,
     Id =&gt; 0
 },
@@ -4930,7 +4930,7 @@ DataState =&gt; DataStateEnum.Invalid
 >
 <Comment>Request status</Comment>
 </StructureElement><StructureElement
- TypeName="EURORADIO.RBCContactStruct"
+ TypeName="EURORADIO.RBCConnection.Contact.RBCContactStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4958,7 +4958,7 @@ DataState =&gt; DataStateEnum.Invalid
 >
 <Comment>Actions that are proposed to the driver for entering of the RBC contact information.</Comment>
 </StructureElement><StructureElement
- TypeName="EURORADIO.AvailableNetworksCol"
+ TypeName="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
  Default="[]"
  Mode="Internal"
  Implemented="TRUE"

@@ -373,7 +373,7 @@
 </ReqRef><Comment>Returns the system version from the given RBC struct.</Comment>
 <Parameters>
 <Parameter
- Type="EURORADIO.RBCStruct"
+ Type="EURORADIO.RBCConnection.RBCStruct"
  Name="aRBCStruct"
  Guid="951c3777-60c4-4325-b9ad-7a5b76c63b9a"
 >
@@ -541,7 +541,7 @@
 This is the default rule which will be called at the beginning of each cycle, before message treatment. It is also called at two special occasions: while setting the level to 2/3 and during handover. It is assumed that these two occasions cannot occure at the same cycle.</Comment>
 <Parameters>
 <Parameter
- Type="EURORADIO.RBCStruct"
+ Type="EURORADIO.RBCConnection.RBCStruct"
  Name="aRBCStruct"
  Guid="f12b6f60-5268-4b76-b966-bcbb4a52cd69"
 >
@@ -594,7 +594,7 @@ This is the default rule which will be called at the beginning of each cycle, be
 <PreConditions>
 <PreCondition
  Guid="f76a62f0-d77b-4018-aa99-96093e88b094"
->EURORADIO.HasActiveSession()</PreCondition><PreCondition
+>EURORADIO.Terminal.HasActiveSession()</PreCondition><PreCondition
  Guid="65599b14-1722-4c08-9d68-3e13ae3b192e"
 >Available(aRBCStruct.SessionManagementData.SystemVersion.Value)</PreCondition><PreCondition
  Guid="48db0e3f-d4e4-4941-9f9f-fb3ebdd1552f"
@@ -627,7 +627,7 @@ This is the default rule which will be called at the beginning of each cycle, be
 <PreConditions>
 <PreCondition
  Guid="65600d3c-0a97-4f0f-9fa8-52a983f3ee21"
->(NOT EURORADIO.HasActiveSession()) OR Kernel.Level.Value.Value in [Default.LevelEnum.L0, Default.LevelEnum.L1, Default.LevelEnum.LNTC]</PreCondition><PreCondition
+>(NOT EURORADIO.Terminal.HasActiveSession()) OR Kernel.Level.Value.Value in [Default.LevelEnum.L0, Default.LevelEnum.L1, Default.LevelEnum.LNTC]</PreCondition><PreCondition
  Guid="44bd8d3a-e60a-464d-8b85-6725268b47fe"
 >Available(BTM.Message.SystemVersion1) OR Available(BTM.Message.SystemVersion2)</PreCondition></PreConditions>
 <Actions>
