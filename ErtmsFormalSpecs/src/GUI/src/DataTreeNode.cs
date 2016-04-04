@@ -632,7 +632,7 @@ namespace GUI
         protected void SearchAndReplace(object sender, EventArgs e)
         {
             SearchAndReplaceWindow dialog = new SearchAndReplaceWindow();
-            dialog.ShowDialog();
+            dialog.ShowDialog(GuiUtils.MdiWindow);
             if (dialog.Result == DialogResult.OK)
             {
                 DataDictionary.Util.DontNotify(() =>
