@@ -1050,13 +1050,15 @@ BGWithinFrame(aBaliseGroup)</PreCondition></PreConditions>
  Name="Current BG linked and announced"
  Guid="54f3f434-61f2-4ee5-9648-c6727de839f9"
 >
-<Expression>(BTM.Linking.LinkingApplicable())
+<Expression>BTM.Linking.LinkingApplicable()
   AND  
-(BGIsLinked(aBaliseGroup))
+BGIsLinked(aBaliseGroup)
   AND  
-( BTM.Linking.BGIdentityIsValid(GetNID_BG(aBaliseGroup))
+(
+  BTM.Linking.BGIdentityIsValid(GetNID_BG(aBaliseGroup))
     OR  
-  BTM.Linking.BGIsUnknownWithRepositioningPacketValidForDirection(aBaliseGroup) )</Expression>
+  BTM.Linking.BGIsUnknownWithRepositioningPacketValidForDirection(aBaliseGroup)
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="LinkingDataStruct"

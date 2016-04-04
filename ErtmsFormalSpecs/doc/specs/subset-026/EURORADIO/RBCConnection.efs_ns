@@ -378,7 +378,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
 <PreConditions>
 <PreCondition
  Guid="2fa270a6-cb59-4b15-a2ed-7a01bfded428"
->Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.CurrentNV().MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram + Terminal.DelayToDisconnect</PreCondition><PreCondition
+>Kernel.DateAndTime.CurrentTime &gt; OnboardReference_MessageTimer + Kernel.NationalValues.CurrentNV().MaxTimeSinceCreationInTheRBCOfLastReceivedTelegram + DelayToDisconnect</PreCondition><PreCondition
  Guid="72bb38b1-b631-4c66-8fc6-c5c562962109"
 >ContactTimerSupervised</PreCondition></PreConditions>
 <Actions>
@@ -919,7 +919,7 @@ Keep the reason for it to be displayed to the driver.</Comment>
     T_TRAIN =&gt; MessageTypes.UnResolveTime( time =&gt; Kernel.DateAndTime.CurrentTime),
     NID_ENGINE =&gt; Kernel.NidEngine,
     POSITION_REPORT =&gt; Messages.PositionReport.CreatePositionReport(),
-    VALIDATED_TRAIN_DATA =&gt; EURORADIO.TrainData.CreateTrainData()
+    VALIDATED_TRAIN_DATA =&gt; Messages.TrainData.CreateTrainData()
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -4424,7 +4424,7 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
  Guid="d8e25a87-d35c-437f-864a-def0637bce1e"
 >NOT SessionManagementData.ConnectionIsEstablished</PreCondition><PreCondition
  Guid="0a7021de-e191-4898-b26d-a0940b487b89"
->ConnectionLostTime + Terminal.MaxTimeToMaintainACommunicationSession &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+>ConnectionLostTime + MaxTimeToMaintainACommunicationSession &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2d58a44a-39a5-4bf5-9712-d9525d21cb8d"
@@ -6046,6 +6046,47 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
  Guid="3d0ce163-1722-4f0e-bd2f-d992faa362ee"
 >
 </ReqRef><Comment>Number of times to try to establish a safe radio connection.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="300.0"
+ VariableMode="Constant"
+ X="950"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MaxTimeToMaintainACommunicationSession"
+ Guid="50a37fad-675b-4798-af5d-2505564629c5"
+>
+<ReqRef
+ Id="b2ce7f07-bb0c-45fb-b2f9-3a864e344795"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c113b3d1-f0fd-4952-80a2-1dd8ac647e44"
+>
+</ReqRef><ReqRef
+ Id="308624ea-ea91-4451-b8c4-1cfbc9094f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="345f10c0-f724-4b20-947a-b2f0437727c0"
+>
+</ReqRef><Comment>Maximum time to maintain a communication session in case of failed re-connection attempts.</Comment>
+</Variable><Variable
+ Type="BaseTypes.Time"
+ DefaultValue="60.0"
+ VariableMode="Constant"
+ X="840"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DelayToDisconnect"
+ Guid="54e67e1e-4418-45f2-a157-15b133a322f1"
+>
+<ReqRef
+ Id="3289a3d9-cf40-4752-80d6-cdf4b8e86c34"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec8b8c72-983c-4056-97ad-5046cead56ac"
+>
+</ReqRef><Comment>Delay from the application of the M_NVCONTACT reaction (applied when the onboard does not receive any new consistent messages from the RBC after a period T_NVCONTACT) to release of the safe radio connection.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule

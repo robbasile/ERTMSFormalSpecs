@@ -1,6 +1,6 @@
 <NameSpace
- X="260"
- Y="40"
+ X="120"
+ Y="310"
  Width="100"
  Height="50"
  Name="TrainData"
@@ -11,7 +11,7 @@
 </NameSpaces>
 <Enumerations>
 <Enum
- Default="EURORADIO.TrainData.TrainEndEnum.MaxSafeFrontEnd"
+ Default="TrainEndEnum.MaxSafeFrontEnd"
  X="90"
  Y="40"
  Width="100"
@@ -97,7 +97,7 @@
 {
     L_PACKET =&gt; 114,
     L_TRAIN =&gt; MessageTypes.UnScaleLength ( length =&gt; Kernel.TrainData.TrainData.Value.TrainLength, scale =&gt; Messages.Q_SCALE._1_m_scaleC ),
-    M_AIRTIGHT =&gt; EURORADIO.TrainData.FillAirtightSystem(),
+    M_AIRTIGHT =&gt; EURORADIO.Messages.TrainData.FillAirtightSystem(),
     M_AXLELOADCAT =&gt; Kernel.TrainData.TrainData.Value.AxleLoadCategory,
     M_LOADINGGAUGE =&gt; Kernel.TrainData.TrainData.Value.LoadingGauge,
     N_AXLE =&gt; Kernel.TrainData.TrainData.Value.AxleNumber,
@@ -106,9 +106,9 @@
     NID_PACKET =&gt; 11,
     V_MAXTRAIN =&gt; MessageTypes.UnResolveSpeed ( speed =&gt; Kernel.TrainData.TrainData.Value.MaximumSpeed, resolution =&gt; 5.0 ),
     N_ITER_0 =&gt; COUNT X IN ( Kernel.TrainData.TrainData.Value.TractionSystems ),
-    Sequence1 =&gt; MAP Kernel.TrainData.TrainData.Value.TractionSystems USING X IN EURORADIO.TrainData.CreateTractionSystem ( X ),
+    Sequence1 =&gt; MAP Kernel.TrainData.TrainData.Value.TractionSystems USING X IN EURORADIO.Messages.TrainData.CreateTractionSystem ( X ),
     N_ITER_1 =&gt; COUNT X IN Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X.Value == LevelEnum.LNTC,
-    Sequence2 =&gt; MAP Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X .Value == LevelEnum.LNTC USING X IN EURORADIO.TrainData.CreateNationalSystem ( X.NTC )
+    Sequence2 =&gt; MAP Kernel.TrainData.TrainData.Value.LevelsSupportedOnBoard | X .Value == LevelEnum.LNTC USING X IN EURORADIO.Messages.TrainData.CreateNationalSystem ( X.NTC )
 }</Expression>
 </Case></Cases>
 </Function><Function
