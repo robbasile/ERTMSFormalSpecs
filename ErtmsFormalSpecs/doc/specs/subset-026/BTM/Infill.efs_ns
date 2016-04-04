@@ -33,6 +33,15 @@ Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="No balise message received"
+ Guid="579e0998-5f81-4e98-ad90-12cf2975aa6f"
+>
+<PreConditions>
+<PreCondition
+ Guid="bc124490-4459-40e2-a267-9dbf459096a0"
+>BTM.CurrentBaliseGroup == []</PreCondition></PreConditions>
+<Expression>[]</Expression>
+</Case><Case
  Name="Infilled packets"
  Guid="daf9e1c6-60ae-41cc-ae5f-77b7bb761760"
 >
@@ -42,10 +51,10 @@ Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram
  Guid="4daecc79-b0e4-4151-bcd8-0c91a60bc5f8"
 >SelectInfill</PreCondition></PreConditions>
 <Expression>MAP CurrentBaliseGroup USING X IN StoredBaliseStruct{
-Telegram =&gt; CutAtFirstInfillPacket(CutAtFirstInfillPacket(
+Telegram =&gt; Infill.CutAtFirstInfillPacket(Infill.CutAtFirstInfillPacket(
     aTelegram =&gt; X.Telegram,
     AfterFirstInfillPacket =&gt; True),
-AfterFirstInfillPacket =&gt;  IsDataDirectionForward(DirectionOfFirstInfillPacket(X.Telegram))
+AfterFirstInfillPacket =&gt; NOT Infill.IsDataDirectionForward(Infill.DirectionOfFirstInfillPacket(X.Telegram))
 ),
 Missed =&gt; X.Missed
 }</Expression>
@@ -73,7 +82,7 @@ Missed =&gt; X.Missed
  Name="InfillReferenceNID"
  Guid="d616b1b9-4d8e-42c1-a4e4-472a334dc8dc"
 >
-<Comment>Get the NIG of the referenced BG. Note : the linking information is not necessarily transmitted by the same balise, hence it has to be recovered another way.</Comment>
+<Comment>Get the NID of the referenced BG. Note : the linking information is not necessarily transmitted by the same balise, hence it has to be recovered another way.</Comment>
 <Cases>
 <Case
  Name="InfillReferenceBG"
@@ -117,10 +126,20 @@ Missed =&gt; X.Missed
 </Parameter></Parameters>
 <Cases>
 <Case
+ Name="Telegram contains no packet"
+ Guid="8dd25b90-41a4-4fe4-8c0e-7e524f7a1900"
+>
+<Comment>If there is no packet in the telegram, simply returns the original telegram.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="fc7fd699-bb83-4cbd-ba12-cd9e314cd023"
+>aTelegram.Sequence1 == []</PreCondition></PreConditions>
+<Expression>aTelegram</Expression>
+</Case><Case
  Name="Packets after first INFILL_LOCATION_REFERENCE packet"
  Guid="0e316a43-9bc3-4f22-95a9-a02fdf61c622"
 >
-<Comment>There is an infill_location_reference packet. Packets after this infill_location_reference are returned.</Comment>
+<Comment>There is an infill_location_reference packet. Packets strictly after this infill_location_reference packet are returned.</Comment>
 <PreConditions>
 <PreCondition
  Guid="38b28c45-a5a6-406c-a047-df4a097b2492"
@@ -144,7 +163,7 @@ Missed =&gt; X.Missed
 Before(
     ExpectedFirst =&gt; FIRST V IN aTelegram.Sequence1 | 
                 Available(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE) ,
-    ExpectedSecond =&gt; X ,
+    ExpectedSecond =&gt; X,
     Collection =&gt; aTelegram.Sequence1 
     )
 )
@@ -155,7 +174,7 @@ USING X,
  Name="Packets before first INFILL_LOCATION_REFERENCE packet"
  Guid="46bcae9b-9a70-423b-8362-7c0ef4adc297"
 >
-<Comment>There is an infill_location_reference packet. Packets before this one are returned.</Comment>
+<Comment>There is an infill_location_reference packet. Packets strickly before this one are returned.</Comment>
 <PreConditions>
 <PreCondition
  Guid="aa6e17c2-b766-43ba-9da9-8f1fa6b18823"
@@ -218,7 +237,7 @@ USING X,
 <PreConditions>
 <PreCondition
  Guid="dec60907-c99e-4299-bef5-e08305f56a49"
->AfterFirstInfillPacket</PreCondition></PreConditions>
+>NOT AfterFirstInfillPacket</PreCondition></PreConditions>
 <Expression>Messages.EUROBALISE.Message
 {
   Q_UPDOWN =&gt; aTelegram.Q_UPDOWN, 
@@ -377,5 +396,53 @@ AND
 IsDataDirectionForward(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)
 )</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="DistanceToInfillReference"
+ Guid="167138b4-94c8-49ab-aaa6-4768af9babfe"
+>
+<Cases>
+<Case
+ Name="Value"
+ Guid="78467c4c-05a7-4d95-bae9-87aee3eae345"
+>
+<Comment>Returns the distance to the infill reference balise group, unknown if it is not linked.</Comment>
+<Expression>BTM.Linking.DistanceToBaliseGroup(BTM.Infill.InfillReferenceNID())</Expression>
+</Case></Cases>
 </Function></Functions>
+<Variables>
+<Variable
+ Type="BaliseGroupMessagesCol"
+ DefaultValue="[]"
+ VariableMode="Internal"
+ X="820"
+ Y="380"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NonInfillTelegrams"
+ Guid="f1f59018-c959-4479-bfc9-3f4935197da5"
+>
+<Comment>This variable holds the messages restricted to non-infilled packets from the current balise group until the complete balise group has been encountered</Comment>
+</Variable><Variable
+ Type="BaliseGroupMessagesCol"
+ DefaultValue="[]"
+ VariableMode="Internal"
+ X="820"
+ Y="380"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InfillTelegrams"
+ Guid="ccafc751-4947-453d-8236-69ca5218fb0d"
+>
+<Comment>This variable holds the messages restricted to infilled packets from the current balise group until the complete balise group has been encountered</Comment>
+</Variable></Variables>
 </NameSpace>

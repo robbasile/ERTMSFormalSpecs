@@ -4163,6 +4163,56 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
 >Kernel.LevelTransition.LTOReceived ( Packet=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="StoreInfillInformation"
+ Guid="87013354-1f38-47e6-84f9-52052a54348c"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Get non-infilled packets"
+ Guid="a23a5349-c5b3-49e8-8030-5f6bbcc51070"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Get non-infill packets"
+ Guid="e06448d5-9346-43b1-a28c-9f81cd3f6107"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="756f04a9-0acc-4ed9-80b1-bd419dadc0e9"
+>BTM.Infill.NonInfillTelegrams &lt;- BTM.Infill.CurrentInfillTelegrams(False)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Get infilled packets"
+ Guid="b7c6279a-1c5f-4a74-82ed-b04bcecc5b15"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Get non-infill packets"
+ Guid="640ca4a9-c120-4394-ab5e-077079f63ab0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="18f0b072-29c9-4fd7-a917-7c61139e785d"
+>BTM.Infill.InfillTelegrams &lt;- BTM.Infill.CurrentInfillTelegrams(True)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -4381,6 +4431,28 @@ CurrentBaliseGroup != []
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
 >BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="0"
+ Y="0"
+ Name="Clear noninfill telegrams"
+ Guid="49bc49ed-89f3-4ec8-947b-52503f1766f4"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Clear infill information"
+ Guid="a459e7e3-a961-4809-b290-11eab17d706f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f7a3e862-03ec-4a45-ba04-48c003584034"
+>BTM.Infill.NonInfillTelegrams &lt;- []</Action><Action
+ Guid="d147ea0d-7a04-4b96-8daf-b478a6377131"
+>BTM.Infill.InfillTelegrams &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

@@ -1517,175 +1517,6 @@ BTM.StoredBaliseStruct
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
- Name="Duplicate balise missed, message accepted"
- Guid="f999a54d-d665-4023-8740-227d71cbd3f4"
->
-<TestCases>
-<TestCase
- Name="Initial configuration"
- Guid="c22db42f-a530-4623-b6eb-c1fe23d2da01"
->
-<ReqRef
- Id="0eeafa43-5aca-4a22-b601-8acb4a81c8cd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2fa1298b-2e4b-487a-be76-a90d19098b16"
->
-</ReqRef><Steps>
-<Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup"
- Guid="efa7c73b-c1d6-4c2f-9b31-cf0584fd6943"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1 - Initialize test environment"
- Guid="dd655a8c-1968-4635-8b06-d088f3655cc5"
->
-<Actions>
-<Action
- Guid="f777f5ff-7ce6-49d6-a2e5-bdc5452e967a"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.FS
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Set linking"
- Guid="5a68e61b-68d6-478d-85a6-3652e3ea8cd7"
->
-<Actions>
-<Action
- Guid="81e0c746-4f0c-4dea-8822-0a6c3cc43aff"
->BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
-    LocationAccuracy =&gt; 10.0,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
-    Distance =&gt; 100.0,
-    BaliseGroupIdentifier =&gt; 1532
-}]</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Reception of the first balise"
- Guid="becff723-e552-4684-bb7a-4815a66b6afd"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="10db4a4e-0c7f-4fca-88c0-27911c05e4a6"
->
-<Actions>
-<Action
- Guid="4f02eab6-6337-4451-ba9c-47a0169d1965"
->BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
-{
-    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
-    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
-    N_PIG =&gt; Messages.N_PIG._1C,
-    N_TOTAL =&gt; Messages.N_TOTAL._3_balises_in_groupC,
-    M_DUP =&gt; Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group,
-    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
-    NID_C =&gt; 85,
-    NID_BG =&gt; 1532,
-    Q_LINK =&gt; Messages.Q_LINK.Linked,
-    Sequence1 =&gt; 
-    [
-        Messages.EUROBALISE.SubStructure1
-        {
-            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
-            {
-                VIRTUAL_BALISE_COVER_ORDER =&gt; Messages.PACKET.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER.Message
-                {
-                    NID_PACKET =&gt; 6,
-                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
-                    L_PACKET =&gt; 0,
-                    Q_VBCO =&gt; Messages.Q_VBCO.Set_the_Virtual_Balise_cover,
-                    NID_VBCMK =&gt; 53,
-                    NID_C =&gt; 85,
-                    T_VBC =&gt; 6
-                }
-            }
-        }, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
-    ],
-    BitField =&gt; &apos;&apos;
-}</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="e9820094-7f22-4afa-b765-dc0531f37e06"
->COUNT X IN BTM.CurrentBaliseGroup == 1</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="fcf3e4a7-d053-4b1e-be93-8f92be9a6f77"
->Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs == []</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="No reception of the second balise, messsage still handled"
- Guid="270c0dd3-38ce-4d99-a75f-0f2f4c43ddf7"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="9c286725-7794-41b0-a11f-ce5679acb151"
->
-<Actions>
-<Action
- Guid="a219b5bc-66a0-448f-b16a-21bec9b010e9"
->BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message{
-    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
-    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
-    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
-    N_PIG =&gt; Messages.N_PIG._3C,
-    N_TOTAL =&gt; Messages.N_TOTAL._3_balises_in_groupC,
-    M_DUP =&gt; Messages.M_DUP.No_duplicates,
-    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
-    NID_C =&gt; 85,
-    NID_BG =&gt; 1532,
-    Q_LINK =&gt; Messages.Q_LINK.Linked,
-    Sequence1 =&gt; [],
-    BitField =&gt; &apos;&apos;
-}</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="c1410cea-d6cf-40eb-ba20-dc71de1c9e8c"
->THERE_IS X IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
  Name="Balise reception, unlinked BG with information to do SR -&gt; FS"
  Guid="17be7778-793c-4a80-9899-c9806bee2276"
 >
@@ -1879,6 +1710,175 @@ BitField =&gt; &apos;&apos;
  DeadLine="1"
  Guid="8b2ed750-0c67-4ae8-92e8-cd9ecd4cb7c2"
 >Kernel.Mode == ModeEnum.FS</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Duplicate balise missed, message accepted"
+ Guid="f999a54d-d665-4023-8740-227d71cbd3f4"
+>
+<TestCases>
+<TestCase
+ Name="Initial configuration"
+ Guid="c22db42f-a530-4623-b6eb-c1fe23d2da01"
+>
+<ReqRef
+ Id="0eeafa43-5aca-4a22-b601-8acb4a81c8cd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2fa1298b-2e4b-487a-be76-a90d19098b16"
+>
+</ReqRef><Steps>
+<Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="efa7c73b-c1d6-4c2f-9b31-cf0584fd6943"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1 - Initialize test environment"
+ Guid="dd655a8c-1968-4635-8b06-d088f3655cc5"
+>
+<Actions>
+<Action
+ Guid="f777f5ff-7ce6-49d6-a2e5-bdc5452e967a"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 100.0,
+    aMode =&gt; ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2 - Set linking"
+ Guid="5a68e61b-68d6-478d-85a6-3652e3ea8cd7"
+>
+<Actions>
+<Action
+ Guid="81e0c746-4f0c-4dea-8822-0a6c3cc43aff"
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
+    LocationAccuracy =&gt; 10.0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+    Distance =&gt; 100.0,
+    BaliseGroupIdentifier =&gt; 1532
+}]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Reception of the first balise"
+ Guid="becff723-e552-4684-bb7a-4815a66b6afd"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="10db4a4e-0c7f-4fca-88c0-27911c05e4a6"
+>
+<Actions>
+<Action
+ Guid="4f02eab6-6337-4451-ba9c-47a0169d1965"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._1C,
+    N_TOTAL =&gt; Messages.N_TOTAL._3_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.This_balise_is_a_duplicate_of_the_next_balise__seen_in_the_nominal_direction_of_the_balise_group,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 1532,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; 
+    [
+        Messages.EUROBALISE.SubStructure1
+        {
+            TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+            {
+                VIRTUAL_BALISE_COVER_ORDER =&gt; Messages.PACKET.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER.Message
+                {
+                    NID_PACKET =&gt; 6,
+                    Q_DIR =&gt; Messages.Q_DIR.Nominal,
+                    L_PACKET =&gt; 0,
+                    Q_VBCO =&gt; Messages.Q_VBCO.Set_the_Virtual_Balise_cover,
+                    NID_VBCMK =&gt; 53,
+                    NID_C =&gt; 85,
+                    T_VBC =&gt; 6
+                }
+            }
+        }, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+    ],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e9820094-7f22-4afa-b765-dc0531f37e06"
+>COUNT X IN BTM.CurrentBaliseGroup == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fcf3e4a7-d053-4b1e-be93-8f92be9a6f77"
+>Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs == []</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="No reception of the second balise, messsage still handled"
+ Guid="270c0dd3-38ce-4d99-a75f-0f2f4c43ddf7"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step1"
+ Guid="9c286725-7794-41b0-a11f-ce5679acb151"
+>
+<Actions>
+<Action
+ Guid="a219b5bc-66a0-448f-b16a-21bec9b010e9"
+>BTM.Message.SystemVersion2  &lt;- Messages.EUROBALISE.Message{
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION =&gt; Messages.M_VERSION.Version_1_1__introduced_in_SRS_3_0_0,
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise,
+    N_PIG =&gt; Messages.N_PIG._3C,
+    N_TOTAL =&gt; Messages.N_TOTAL._3_balises_in_groupC,
+    M_DUP =&gt; Messages.M_DUP.No_duplicates,
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group,
+    NID_C =&gt; 85,
+    NID_BG =&gt; 1532,
+    Q_LINK =&gt; Messages.Q_LINK.Linked,
+    Sequence1 =&gt; [],
+    BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c1410cea-d6cf-40eb-ba20-dc71de1c9e8c"
+>THERE_IS X IN Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
