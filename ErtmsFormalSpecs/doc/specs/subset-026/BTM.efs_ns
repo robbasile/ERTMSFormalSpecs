@@ -859,6 +859,11 @@ The relevant procedure is called to store and handle the data contained in the p
  Name="MessageOrientation"
  Guid="671540ca-c9a8-4a2c-9c97-169becba5b2d"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="1f7dc1ec-11a8-4b68-b8b7-8ab540849b2c"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -927,7 +932,7 @@ The relevant procedure is called to store and handle the data contained in the p
  Guid="250427e6-8ddb-431d-a76d-b4432281374f"
 >Linking.LinkingProfileReceived(
     Packet =&gt; Packet.TRACK_TO_TRAIN.LINKING,
-    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+    aDistanceFromRef =&gt; aDistance
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -967,7 +972,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="2719277d-f12f-479c-8278-abb173a2d862"
->Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repositioning Information available"
@@ -1054,7 +1059,7 @@ The relevant procedure is called to store and handle the data contained in the p
  Guid="f8e04781-7b14-4460-bedf-dfcad86bfaf6"
 >Kernel.TrackDescription.Gradient.GradientProfileReceived(
     Packet =&gt; Packet.TRACK_TO_TRAIN.GRADIENT_PROFILE,
-    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+    aDistanceFromRef =&gt; aDistance
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -1099,7 +1104,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="e20f018d-a037-46f0-a3ad-a27b7eb1d05f"
->Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Change of traction system available"
@@ -1140,7 +1145,7 @@ The relevant procedure is called to store and handle the data contained in the p
  Guid="0720e95d-207d-40f6-9fb3-40fbbf1628f7"
 >Kernel.TrackDescription.TrackConditions.TractionSystems.HandleTractionSystemProfile(
     Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, 
-    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+    aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Change of allowed current consumption available"
@@ -1179,7 +1184,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="f3afa4bc-a50e-4fbb-818c-4f503b306e90"
->Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; aDistance)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Session Management available"
@@ -1359,7 +1364,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="d6ca9514-566f-4887-a3f1-0764c122aa72"
->Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Permitted Braking Distance Information available"
@@ -1403,7 +1408,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="a7bf6d39-8ef9-4f76-b5e1-4b42aae162ea"
->Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction available"
@@ -1446,7 +1451,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="c77c6a04-53bc-449e-b9d8-d1ccaa963ef5"
->Kernel.TSR.TemporarySpeedRestrictionsProfileReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TSR.TemporarySpeedRestrictionsProfileReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction Revocation available"
@@ -1519,7 +1524,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="a8168c14-8dea-4896-9b29-5f71ec706278"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleBMMTrackConditionProfile( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleBMMTrackConditionProfile( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition available"
@@ -1563,7 +1568,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="b347e32c-19e6-4ec5-8505-a3bae2deeed2"
->Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Condition Station Platforms available"
@@ -1602,7 +1607,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="e37299ce-6e60-4015-9897-e33c8b3ca56c"
->Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; aDistance)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Route Suitability Data available"
@@ -1646,7 +1651,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="17d0d98e-1746-417e-b3d1-a0409a79647c"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Plain text message available"
@@ -1690,7 +1695,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="7713bd12-2bc6-49fa-ab02-d4c7ff500cb1"
->Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Fixed text message available"
@@ -1734,7 +1739,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="1db0e5a3-813a-47ec-82c2-e6aa26ebb770"
->Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Adhesion factor available"
@@ -1788,7 +1793,7 @@ The relevant procedure is called to store and handle the data contained in the p
 <Actions>
 <Action
  Guid="962f5801-f0a9-42c3-a4c0-6ea2c50f0797"
->Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Geographical Position Information available"
@@ -1863,7 +1868,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="961a9459-5891-48f0-8de2-eddc845ec82f"
->Kernel.LX.LXReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.LX.LXReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Ahead Free up to level 2/3 transition location available"
@@ -2002,7 +2007,7 @@ True</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05bdf5ca-1d21-43e2-bb2e-7ef9acba75c3"
->EURORADIO.RBCConnection.RBCHandover.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation())</Action></Actions>
+>EURORADIO.RBCConnection.RBCHandover.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; aDistance)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Danger for Shunting Information available"
@@ -2198,7 +2203,7 @@ Packets.ConsiderBTMPacket(
         aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION,
         MessageOrientation =&gt; MessageOrientation
     ),
-  aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+  aDistanceFromRef =&gt; aDistance
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -2338,119 +2343,14 @@ Packets.ConsiderBTMPacket(
  Name="MessageOrientation"
  Guid="cc8333ee-b612-45d4-a877-4b2dce380272"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="dc0e7899-07fe-4c5d-b58e-71e5c9feb626"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Clear mode profile if MA received"
- Guid="843333de-ec8d-428b-8030-16cf2ddff736"
->
-<ReqRef
- Id="74a25803-8c28-4708-b506-55a76bd8bc21"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5e05338d-e93e-4b29-8cdd-fb151214b19c"
->
-</ReqRef><Comment>On reception of a new MA, the previously stored mode profile has to be deleted.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Clear mode profile if MA received"
- Guid="e44a7aeb-06b0-41ca-b5de-6a1c63e40993"
->
-<PreConditions>
-<PreCondition
- Guid="dffaadac-5831-46c5-bf77-91ce6270c379"
->THERE_IS X IN Message.Sequence1 | ( Available ( X.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY ) OR Available ( X.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY ) )</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Test infill availability"
- Guid="cad4ecb6-47fd-4aba-963c-2aa797d1e4d1"
->
-<ReqRef
- Id="2a495f6e-680c-4def-a6b5-d8bcd1f41a9d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b862888b-2f98-4b53-aefc-fddd796395f3"
->
-</ReqRef><ReqRef
- Id="413303d1-7e96-41b7-a03e-3a9d6380e93a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="73e1bed3-4929-4685-8b11-0443395b7727"
->
-</ReqRef><Comment>If the infill information is available, then the mode profil has to be deleted only beyond the reference location of the infill information. Otherwise, the entire mode profile is deleted.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Infill available, before MA"
- Guid="11f4f9e8-af21-4088-9785-72b6d7de5354"
->
-<Comment>If the infill information is available, then the mode profil has to be deleted only beyond the reference location of the infill information.</Comment>
-<PreConditions>
-<PreCondition
- Guid="fc87ca94-5038-495f-bb98-55cc12ef4807"
->THERE_IS X IN Message.Sequence1 | Available ( X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE )</PreCondition><PreCondition
- Guid="03414bc7-ad55-43ad-b88a-7e491d0760d6"
->Before
-(
-    ExpectedFirst=&gt; FIRST X IN Message.Sequence1 | Available ( X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE ),
-    ExpectedSecond=&gt; FIRST X IN Message.Sequence1 | ( Available ( X.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY ) OR Available ( X.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY ) ),
-    Collection=&gt; Message.Sequence1
-)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="840d737c-0711-45fa-aa7c-6d7614ac52b5"
->Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation 
-(
-  aLocation =&gt; BTM.Linking.DistanceToBaliseGroup
-  (
-    (
-      FIRST X IN Message.Sequence1 | Available
-        (
-          X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE
-        )
-    ).TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.NID_BG
-  )
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Infill available, after MA"
- Guid="78820e91-8f55-4038-84e6-c0149d7833b1"
->
-<Comment>If an infill packet is available, but is situated after the MA packet, the MA packet is not considered to be sent by infill =&gt; the previous information is deleted.</Comment>
-<PreConditions>
-<PreCondition
- Guid="150d01b7-c7c8-40f9-82e9-d1683cc8c103"
->THERE_IS X IN Message.Sequence1 | Available ( X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="43a9100d-2063-4f03-968c-58d689ab3e26"
->Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="No infill available"
- Guid="5bec5fe9-140e-4dce-9b69-67f9a5aa7de3"
->
-<Comment>If no infill information is available, the previous mode profile is deleted.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="53fff272-02d3-4959-ab47-d2fcffd42bb3"
->Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="0"
  Y="0"
@@ -2496,7 +2396,8 @@ Packets.ConsiderBTMPacket(
 >APPLY HandlePacket(
   Packet=&gt;X, 
   NID_BG=&gt;Message.NID_BG,
-  MessageOrientation =&gt; MessageOrientation
+  MessageOrientation =&gt; MessageOrientation,
+  aDistance =&gt; aDistance
 ) 
 ON Message.Sequence1</Action><Action
  Guid="b3c6e5e0-e2f2-45cb-8684-a9a4a0596fbe"
@@ -3104,173 +3005,21 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Guid="4018c3e8-4735-4dee-9448-f1974ecaeef9"
 >Linking.ConsiderBaliseMessage( aBaliseGroup )</PreCondition></PreConditions>
 <Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle Level Transition Order in balise telegrams"
- Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
->
-<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle level transition order packet in balise telegrams"
- Guid="ef4783a5-3854-483a-8f53-38b1d9e72164"
->
-<ReqRef
- Id="c858a6b4-4d06-4efa-83f0-ac640ef8c373"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0e4ea8db-5735-48ad-b453-daa31396cfc8"
->
-</ReqRef><PreConditions>
-</PreConditions>
-<Actions>
 <Action
- Guid="2ee57ad5-960b-4923-b510-882802803ed1"
->APPLY HandleLTOPacket(
-    aPacket =&gt; Packets.LevelOfTelegram(X.Telegram),
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
-) ON aBaliseGroup</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle general packets in balise telegrams"
- Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
->
-<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle general packets in balise telegrams"
- Guid="e7516273-ac16-4172-b145-c531401e38e3"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
->APPLY HandleTelegram( Message =&gt; X.Telegram, MessageOrientation =&gt; BGOrientation(aBaliseGroup) ) ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Inform driver if message contains the default balise information"
- Guid="be70b65b-0e74-4a34-962a-f92f146bf80d"
->
-<ReqRef
- Id="2a940406-f81d-432f-bdd6-c0e58ba44bd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d4f2255-bb8d-4158-9c75-a2c7ecaf5042"
->
-</ReqRef><Comment>If any packet contains default balise information, inform the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Message contains default balise information"
- Guid="943f01e2-9679-4524-9ee7-838f59c39f99"
->
-<ReqRef
- Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7e8724cc-a785-4971-9cf7-fcfcfeadb124"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="5d040986-926c-4036-9c26-980d15c5393d"
->THERE_IS telegram IN aBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8622ac62-4d7c-438c-bd38-586c990410ff"
->INSERT
-  Kernel.TextMessages.PlainTextMessageStruct
-  {
-    Text =&gt; &apos;Default balise information received.&apos;
-  }
-IN
-  Kernel.TextMessages.PlainTextMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle MA packet in balise telegrams"
- Guid="8bf64490-ce74-42a8-aa77-fcbf0d2bf6c9"
->
-<Comment>Then, handle the movement authority packet.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle MA packet in balise messages"
- Guid="ae268b7a-92cb-4598-bc02-a2f04005d973"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="2b02118c-1658-46b1-bae6-dc0ff97ec611"
->APPLY HandleMAPacket
-(
-    aPacket =&gt; Packets.MAOfTelegram ( X.Telegram ) ,
-    NID_BG =&gt; X.Telegram.NID_BG,
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
-)
-ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup  )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle Mode Profile packet in balise telegram"
- Guid="0df23762-fca4-4e00-9a26-27caab55459e"
->
-<ReqRef
- Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7b907baf-4341-4167-b523-4aae1850c852"
->
-</ReqRef><ReqRef
- Id="6f370d19-a99b-404b-9718-80331a17d9d4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="211eb7c7-66d8-48d5-9e32-d1658184c3de"
->
-</ReqRef><Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle Mode Profile packet in balise telegram"
- Guid="5f12ad32-9f33-4855-a8a7-0406c9644f44"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="42ecabaf-6fb9-4cf2-887a-2b6158ff1c6b"
->APPLY HandleModeProfilePacket
-(
-    aPacket =&gt; Packets.ModeProfileOfTelegram ( X.Telegram ),
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
-)
-ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+ Guid="3d481a20-2d80-4cf9-a8c0-967a6519da7a"
+><Comment>Non-Infill packets</Comment>
+HandleConsistentMessage(
+    aBaliseGroup =&gt; aBaliseGroup,
+    selectInfillPackets =&gt; False,
+    aDistance =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() 
+)</Action><Action
+ Guid="176cf6e5-9522-4e29-bad2-45603dfa58c9"
+><Comment>Infill packets</Comment>
+HandleConsistentMessage(
+    aBaliseGroup =&gt; aBaliseGroup,
+    selectInfillPackets =&gt; True,
+    aDistance =&gt; Infill.DistanceToInfillReference()
+)</Action></Actions>
 </RuleCondition><RuleCondition
  Name="The BG is not consistent"
  Guid="8324c201-d04f-4c0b-9379-3944df24ac68"
@@ -3999,6 +3748,11 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  Name="MessageOrientation"
  Guid="f5a802a6-50c3-47e8-b28a-192dd20faa27"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="7bbc3d95-a499-4d0b-9ca2-411f2f1809f0"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -4073,7 +3827,7 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
     GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(
     Messages =&gt; BTM.CurrentBaliseGroup
     ),
-    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+    aDistanceFromRef =&gt; aDistance
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -4109,6 +3863,11 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  Type="Default.OrientationEnum"
  Name="MessageOrientation"
  Guid="37a31b76-3eb4-4bd8-8bde-11a046350429"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="a3fa14e7-eab9-4886-906d-a34d4e9c3db7"
 >
 </Parameter></Parameters>
 <Rules>
@@ -4160,57 +3919,290 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
 <Actions>
 <Action
  Guid="b24735ff-a130-4d30-8fe1-8cb69420ff6b"
->Kernel.LevelTransition.LTOReceived ( Packet=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() )</Action></Actions>
+>Kernel.LevelTransition.LTOReceived ( Packet=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; aDistance)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
+ X="150"
+ Y="370"
  Width="100"
  Height="50"
- Name="StoreInfillInformation"
- Guid="87013354-1f38-47e6-84f9-52052a54348c"
+ Name="HandleConsistentMessage"
+ Guid="f800b718-c1c5-4270-b280-bc814a553449"
 >
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="selectInfillPackets"
+ Guid="193014b8-4ed7-484f-9049-729b8c6be5e3"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="d536133d-7f09-4400-a22b-a718712c7ace"
+>
+</Parameter><Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="9fb354e6-3bf1-42ca-8be7-5f10705eb6b1"
+>
+</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
- Name="Get non-infilled packets"
- Guid="a23a5349-c5b3-49e8-8030-5f6bbcc51070"
+ Implemented="TRUE"
+ Name="Handle Level Transition Order in balise telegrams"
+ Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
 >
+<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="Get non-infill packets"
- Guid="e06448d5-9346-43b1-a28c-9f81cd3f6107"
+ Implemented="TRUE"
+ Name="Handle level transition order packet in balise telegrams"
+ Guid="ef4783a5-3854-483a-8f53-38b1d9e72164"
 >
-<PreConditions>
+<ReqRef
+ Id="c858a6b4-4d06-4efa-83f0-ac640ef8c373"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e4ea8db-5735-48ad-b453-daa31396cfc8"
+>
+</ReqRef><PreConditions>
 </PreConditions>
 <Actions>
 <Action
- Guid="756f04a9-0acc-4ed9-80b1-bd419dadc0e9"
->BTM.Infill.NonInfillTelegrams &lt;- BTM.Infill.CurrentInfillTelegrams(False)</Action></Actions>
+ Guid="2ee57ad5-960b-4923-b510-882802803ed1"
+>APPLY HandleLTOPacket(
+    aPacket =&gt; Packets.LevelOfTelegram(
+        Infill.CurrentInfillTelegram(
+            selectInfill =&gt; selectInfillPackets, 
+            aTelegram =&gt; X.Telegram)
+         ),
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aDistance =&gt; aDistance
+) ON aBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  X="0"
  Y="0"
- Name="Get infilled packets"
- Guid="b7c6279a-1c5f-4a74-82ed-b04bcecc5b15"
+ Implemented="TRUE"
+ Name="Clear mode profile"
+ Guid="843333de-ec8d-428b-8030-16cf2ddff736"
+>
+<ReqRef
+ Id="74a25803-8c28-4708-b506-55a76bd8bc21"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5e05338d-e93e-4b29-8cdd-fb151214b19c"
+>
+</ReqRef><ReqRef
+ Id="2a495f6e-680c-4def-a6b5-d8bcd1f41a9d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="97826179-bdde-4b4e-8abd-830754d61041"
+>
+</ReqRef><ReqRef
+ Id="413303d1-7e96-41b7-a03e-3a9d6380e93a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ea6272d-693d-4454-8053-be46bf1f2925"
+>
+</ReqRef><Comment>On reception of a new MA, the previously stored mode profile has to be deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Clear mode profile if MA received"
+ Guid="e44a7aeb-06b0-41ca-b5de-6a1c63e40993"
+>
+<PreConditions>
+<PreCondition
+ Guid="d1b129b9-3710-484a-a016-43785cf9051e"
+><Comment>Check for the presence of an MA packet within infill or non-infill packets depending on the selectInfillPackets parameter.</Comment>
+THERE_IS X IN aBaliseGroup | (THERE_IS V IN Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram).Sequence1 | ( Available ( V.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY ) OR Available ( V.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY ) ))</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="MA packet available"
+ Guid="e0157cf8-5a4a-4793-9350-acf28037c283"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="Get non-infill packets"
- Guid="640ca4a9-c120-4394-ab5e-077079f63ab0"
+ Name="Infill MA"
+ Guid="15714707-69ca-42cc-896d-c5d145bdea7a"
+>
+<PreConditions>
+<PreCondition
+ Guid="197e5eb7-ca0d-49fc-80ef-f9a9c61c8aa9"
+>selectInfillPackets</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="840d737c-0711-45fa-aa7c-6d7614ac52b5"
+><Comment>In this case, &apos;aDistance&apos; will be the distance to the infill reference location.</Comment>
+Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation 
+(
+  aDistance
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Non Infill MA"
+ Guid="7a2dc097-6738-4924-93b5-ea2506a1f22e"
+>
+<PreConditions>
+<PreCondition
+ Guid="d8706bcf-8b81-4e20-975f-d383d003ebcc"
+>NOT selectInfillPackets</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="53fff272-02d3-4959-ab47-d2fcffd42bb3"
+>Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle general packets in balise telegrams"
+ Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
+>
+<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle general packets in balise telegrams"
+ Guid="e7516273-ac16-4172-b145-c531401e38e3"
 >
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
- Guid="18f0b072-29c9-4fd7-a917-7c61139e785d"
->BTM.Infill.InfillTelegrams &lt;- BTM.Infill.CurrentInfillTelegrams(True)</Action></Actions>
+ Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
+>APPLY HandleTelegram( Message =&gt; Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram), 
+MessageOrientation =&gt; BGOrientation(aBaliseGroup),
+aDistance =&gt; aDistance ) ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Inform driver if message contains the default balise information"
+ Guid="be70b65b-0e74-4a34-962a-f92f146bf80d"
+>
+<ReqRef
+ Id="2a940406-f81d-432f-bdd6-c0e58ba44bd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d4f2255-bb8d-4158-9c75-a2c7ecaf5042"
+>
+</ReqRef><Comment>If any packet contains default balise information, inform the driver.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Message contains default balise information"
+ Guid="943f01e2-9679-4524-9ee7-838f59c39f99"
+>
+<ReqRef
+ Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e8724cc-a785-4971-9cf7-fcfcfeadb124"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="5d040986-926c-4036-9c26-980d15c5393d"
+>THERE_IS telegram IN aBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8622ac62-4d7c-438c-bd38-586c990410ff"
+>INSERT
+  Kernel.TextMessages.PlainTextMessageStruct
+  {
+    Text =&gt; &apos;Default balise information received.&apos;
+  }
+IN
+  Kernel.TextMessages.PlainTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle MA packet in balise telegrams"
+ Guid="8bf64490-ce74-42a8-aa77-fcbf0d2bf6c9"
+>
+<Comment>Then, handle the movement authority packet.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle MA packet in balise messages"
+ Guid="ae268b7a-92cb-4598-bc02-a2f04005d973"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2b02118c-1658-46b1-bae6-dc0ff97ec611"
+>APPLY HandleMAPacket
+(
+    aPacket =&gt; Packets.MAOfTelegram ( X.Telegram ) ,
+    NID_BG =&gt; X.Telegram.NID_BG,
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
+)
+ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup  )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle Mode Profile packet in balise telegram"
+ Guid="0df23762-fca4-4e00-9a26-27caab55459e"
+>
+<ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b907baf-4341-4167-b523-4aae1850c852"
+>
+</ReqRef><ReqRef
+ Id="6f370d19-a99b-404b-9718-80331a17d9d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="211eb7c7-66d8-48d5-9e32-d1658184c3de"
+>
+</ReqRef><Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Mode Profile packet in balise telegram"
+ Guid="5f12ad32-9f33-4855-a8a7-0406c9644f44"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="42ecabaf-6fb9-4cf2-887a-2b6158ff1c6b"
+>APPLY HandleModeProfilePacket
+(
+    aPacket =&gt; Packets.ModeProfileOfTelegram  
+    ( 
+          Infill.CurrentInfillTelegram(
+             selectInfill =&gt; False,
+             aTelegram =&gt;  X.Telegram )
+    ),
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aDistance =&gt; aDistance
+)
+ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -4431,28 +4423,6 @@ CurrentBaliseGroup != []
 <Action
  Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
 >BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="CleanUp"
- X="0"
- Y="0"
- Name="Clear noninfill telegrams"
- Guid="49bc49ed-89f3-4ec8-947b-52503f1766f4"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="Clear infill information"
- Guid="a459e7e3-a961-4809-b290-11eab17d706f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="f7a3e862-03ec-4a45-ba04-48c003584034"
->BTM.Infill.NonInfillTelegrams &lt;- []</Action><Action
- Guid="d147ea0d-7a04-4b96-8daf-b478a6377131"
->BTM.Infill.InfillTelegrams &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>

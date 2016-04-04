@@ -11,7 +11,7 @@
 </NameSpaces>
 <Functions>
 <Function
- Type="BTM.BaliseGroupMessagesCol"
+ Type="Messages.EUROBALISE.Message"
  Default=""
  X="480"
  Y="200"
@@ -19,7 +19,7 @@
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="CurrentInfillTelegrams"
+ Name="CurrentInfillTelegram"
  Guid="345f7dc8-70e7-45e7-88c8-015a916f201e"
 >
 <Comment>This function extracts the infill (or non-infill) packets of the CurrentBaliseGroup. It returns a collection of StoredBaliseStructs whose length is the same as the original one. Returned StoredBaliseStruct.Telegram.Sequence1 may be empty if the original BaliseGroupMessage contains no infill packet.
@@ -27,8 +27,13 @@ Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram
 <Parameters>
 <Parameter
  Type="Boolean"
- Name="SelectInfill"
+ Name="selectInfill"
  Guid="a410b36f-98ba-4ff1-ba24-ec7d724893d2"
+>
+</Parameter><Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="aTelegram"
+ Guid="149b456c-98a9-466b-a155-d25b228cb4ed"
 >
 </Parameter></Parameters>
 <Cases>
@@ -39,8 +44,8 @@ Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram
 <PreConditions>
 <PreCondition
  Guid="bc124490-4459-40e2-a267-9dbf459096a0"
->BTM.CurrentBaliseGroup == []</PreCondition></PreConditions>
-<Expression>[]</Expression>
+>aTelegram == EMPTY</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
 </Case><Case
  Name="Infilled packets"
  Guid="daf9e1c6-60ae-41cc-ae5f-77b7bb761760"
@@ -49,26 +54,20 @@ Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram
 <PreConditions>
 <PreCondition
  Guid="4daecc79-b0e4-4151-bcd8-0c91a60bc5f8"
->SelectInfill</PreCondition></PreConditions>
-<Expression>MAP CurrentBaliseGroup USING X IN StoredBaliseStruct{
-Telegram =&gt; Infill.CutAtFirstInfillPacket(Infill.CutAtFirstInfillPacket(
-    aTelegram =&gt; X.Telegram,
+>selectInfill</PreCondition></PreConditions>
+<Expression>CutAtFirstInfillPacket(CutAtFirstInfillPacket(
+    aTelegram =&gt; aTelegram,
     AfterFirstInfillPacket =&gt; True),
-AfterFirstInfillPacket =&gt; NOT Infill.IsDataDirectionForward(Infill.DirectionOfFirstInfillPacket(X.Telegram))
-),
-Missed =&gt; X.Missed
-}</Expression>
+AfterFirstInfillPacket =&gt; NOT Infill.IsDataDirectionForward(Infill.DirectionOfFirstInfillPacket(aTelegram))
+)</Expression>
 </Case><Case
  Name="Non-Infilled packets"
  Guid="0339a595-8979-4935-9b10-ac89032a1a69"
 >
-<Expression>MAP CurrentBaliseGroup USING X IN StoredBaliseStruct{
-Telegram =&gt; CutAtFirstInfillPacket(
-    aTelegram =&gt; X.Telegram,
+<Expression>CutAtFirstInfillPacket(
+    aTelegram =&gt; aTelegram,
     AfterFirstInfillPacket =&gt; False
-),
-Missed =&gt; X.Missed
-}</Expression>
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.NID_BG"
@@ -307,7 +306,7 @@ Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOC
 <Parameters>
 <Parameter
  Type="Messages.Q_DIR"
- Name="aMessageDirection"
+ Name="aDataDirection"
  Guid="25e65e8c-13e1-4a0a-9761-7940afccd3a5"
 >
 </Parameter></Parameters>
@@ -316,16 +315,7 @@ Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOC
  Name="Value"
  Guid="7cb3b1e6-b505-4a89-a3cd-ef5cb90fbdc3"
 >
-<PreConditions>
-<PreCondition
- Guid="d122e037-cc76-42f8-a81c-debfdb602108"
->(aDataDirection == DataDirectionEnum.Nominal AND BGOrientation(CurrentBaliseGroup) == OrientationEnum.Nominal) OR (aDataDirection == DataDirectionEnum.Reverse AND BGOrientation(CurrentBaliseGroup) == OrientationEnum.Reverse)</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="db7a9ca8-7ae8-46fa-b541-8bc194cfd622"
->
-<Expression>False</Expression>
+<Expression>aDataDirection == EFSOrientationConverter(BGOrientation(CurrentBaliseGroup))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.EUROBALISE.Message"
@@ -415,34 +405,4 @@ IsDataDirectionForward(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)
 <Expression>BTM.Linking.DistanceToBaliseGroup(BTM.Infill.InfillReferenceNID())</Expression>
 </Case></Cases>
 </Function></Functions>
-<Variables>
-<Variable
- Type="BaliseGroupMessagesCol"
- DefaultValue="[]"
- VariableMode="Internal"
- X="820"
- Y="380"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="NonInfillTelegrams"
- Guid="f1f59018-c959-4479-bfc9-3f4935197da5"
->
-<Comment>This variable holds the messages restricted to non-infilled packets from the current balise group until the complete balise group has been encountered</Comment>
-</Variable><Variable
- Type="BaliseGroupMessagesCol"
- DefaultValue="[]"
- VariableMode="Internal"
- X="820"
- Y="380"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="InfillTelegrams"
- Guid="ccafc751-4947-453d-8236-69ca5218fb0d"
->
-<Comment>This variable holds the messages restricted to infilled packets from the current balise group until the complete balise group has been encountered</Comment>
-</Variable></Variables>
 </NameSpace>
