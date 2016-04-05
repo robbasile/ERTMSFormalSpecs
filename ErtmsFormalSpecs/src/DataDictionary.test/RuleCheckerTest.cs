@@ -99,5 +99,28 @@ namespace DataDictionary.test
             Assert.False(HasMessagePart(action6, "structure should not be used to reference an instance"));
             Assert.False(HasMessagePart(action7, "structure should not be used to reference an instance"));
         }
+
+        /// <summary>
+        ///     Tests that APPLY statements can be applied on result of function calls
+        /// </summary>
+        [Test]
+        public void TestApplyOnFunctionCall()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+            Collection collection = CreateCollection(nameSpace, "Col", "Integer", 10);
+            Function f = CreateFunction(nameSpace, "f", "Col");
+            Procedure p = CreateProcedure(nameSpace, "P");
+            Parameter param = CreateParameter(p, "x", "Integer");
+
+            RuleCondition condition = CreateRuleAndCondition(nameSpace, "Test");
+            Action action1 = CreateAction(condition, "APPLY P(X) ON f()");
+
+            RuleCheckerVisitor visitor = new RuleCheckerVisitor(dictionary);
+            visitor.visit(nameSpace);
+
+            Assert.Null(ErrorMessage(action1));
+        }
+
     }
 }
