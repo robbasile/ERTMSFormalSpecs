@@ -1774,15 +1774,7 @@ USING X IN
  Name="Otherwise"
  Guid="604836d9-ccc9-41e8-b9d5-a815ab25a7f2"
 >
-<Expression>Kernel.Infill.Data == EMPTY
-  OR
-  (
-    Kernel.Infill.Data != EMPTY
-      AND
-    Kernel.Mode in [ ModeEnum.FS, ModeEnum.LS ] 
-      AND
-    BTM.Linking.DistanceToBaliseGroup ( Kernel.Infill.Data.NID_BG ) != BaseTypes.Distance.Unknown
-  )</Expression>
+<Expression>True</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -2895,6 +2887,8 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 <Rules>
 <Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle new MA"
@@ -2916,18 +2910,21 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 <Actions>
 <Action
  Guid="c6a9825b-4180-4447-a067-78ee2400685c"
->Kernel.MA.UpdateMA
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the boolean parameter isInfillMA.</Comment>
+Kernel.MA.UpdateMA
 (
     Packet =&gt; Kernel.MA.ConvertMALvl2or3_to_MALvl1 ( Packet ),
-    NID_BG =&gt; NID_BG,
     SectionStartTimer =&gt; SectionStartTimer,
-    aDistanceFromRef =&gt; aDistanceFromRef
+    aDistanceFromRef =&gt; aDistanceFromRef,
+    isInfillMA =&gt; False
 )</Action><Action
  Guid="3e4d5ecc-98c0-4000-9d12-5b63e89e74c7"
 >Kernel.MA.MAIsAccepted &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Exit override"
  Guid="b017fc6d-6cf9-4e6e-8669-bcbb31cafac5"
@@ -3035,19 +3032,21 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
  Guid="463fa7cb-d178-49da-8089-4913f650d73d"
 >
 </Parameter><Parameter
- Type="Messages.NID_BG"
- Name="NID_BG"
- Guid="284e8fa0-176d-49b0-850c-13427e6769ec"
->
-</Parameter><Parameter
  Type="BaseTypes.Distance"
  Name="aDistanceFromRef"
  Guid="61481ee2-2442-47b8-b858-47aac732fa15"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="isInfillMA"
+ Guid="ec3e87ff-099b-405d-80bc-4f2e452b938c"
 >
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Store information"
  Guid="59782eb8-89ce-4ed7-a9e4-be2e7479b21f"
@@ -3101,9 +3100,9 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 >Kernel.MA.UpdateMA
 (
     Packet =&gt; Packet,
-    NID_BG =&gt; NID_BG,
     SectionStartTimer =&gt; Kernel.MA.MATimers.CurrentBGTimeOfPassage,
-    aDistanceFromRef =&gt; aDistanceFromRef
+    aDistanceFromRef =&gt; aDistanceFromRef,
+    isInfillMA =&gt; isInfillMA
 )</Action><Action
  Guid="f8a42f47-6bf7-4155-9ad4-52eb896fbff6"
 >Kernel.MA.SignallingRelatedSpeedRestriction.Value &lt;- MessageTypes.SpeedResolution ( speed =&gt; Packet.V_MAIN, resolution =&gt; 5.0 )</Action><Action
@@ -3115,6 +3114,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Train trip order"
  Guid="cfbd968f-f68f-4cd6-85c8-9bfc46c1f134"
@@ -3143,7 +3144,7 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
  Guid="24fa9f46-1301-47de-99ce-2c32073aec79"
 >Packet.V_MAIN == 0</PreCondition><PreCondition
  Guid="e0d4c189-2d3a-447c-847b-21b748321d56"
->Kernel.Infill.Data == EMPTY</PreCondition></PreConditions>
+>isInfillMA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="430affa2-f9d2-4aa8-9feb-f862786a55c4"
@@ -3151,6 +3152,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Exit override"
  Guid="ff43d19a-fa07-4aa5-b6aa-e05ff5f114d0"
@@ -3255,11 +3258,6 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
  Guid="a470a1bd-758c-46c3-8b3f-f995e79d1f7a"
 >
 </Parameter><Parameter
- Type="Messages.NID_BG"
- Name="NID_BG"
- Guid="64a6d581-678f-43a5-9cde-ce68d2052fdd"
->
-</Parameter><Parameter
  Type="BaseTypes.Time"
  Name="SectionStartTimer"
  Guid="2e880274-ffee-4f27-b59e-f1d655b920d1"
@@ -3268,6 +3266,11 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
  Type="BaseTypes.Distance"
  Name="aDistanceFromRef"
  Guid="f2c9e396-d6e8-43f5-a7ce-d70256f67dd5"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="isInfillMA"
+ Guid="37476e9e-cee4-4fd1-8305-eb8bd8328d21"
 >
 </Parameter></Parameters>
 <Rules>
@@ -3461,13 +3464,13 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1e6e687c-5882-4108-bab0-9fc4a8b43011"
->Kernel.Infill.Data != EMPTY</PreCondition></PreConditions>
+>isInfillMA</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="72e4e499-b2a3-4def-8b72-ed0903b42191"
 >Kernel.MA.UpdateSectionsForInfill
 (
-    InfillDistance =&gt; BTM.Linking.DistanceToBaliseGroup ( Kernel.Infill.Data.NID_BG ),
+    InfillDistance =&gt; aDistanceFromRef,
     Packet =&gt; Packet,
     SectionStartTimer =&gt; SectionStartTimer
 )</Action></Actions>
@@ -4437,6 +4440,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Add end section to the list of sections"
@@ -4473,6 +4478,8 @@ IN Kernel.MA.MA.Sections</Action><Action
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Remove sections after infill location"

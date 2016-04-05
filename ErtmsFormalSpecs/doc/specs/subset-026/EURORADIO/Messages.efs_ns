@@ -2332,10 +2332,12 @@ Messages.RevSupPacketAvailable(
 <Actions>
 <Action
  Guid="ecfaf44c-80b0-4fa6-b1f1-d6dfaa991828"
->APPLY 
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infilledLinking parameter.</Comment>
+APPLY 
   BTM.Linking.LinkingProfileReceived(
     Packet =&gt; X.LINKING,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.GENERAL_MESSAGE.NID_LRBG) )
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.GENERAL_MESSAGE.NID_LRBG) ,
+    infilledLinking =&gt; False)
 ON
   aMessage.GENERAL_MESSAGE.Sequence1 | (
     Available(X.LINKING)
@@ -2359,10 +2361,12 @@ ON
 <Actions>
 <Action
  Guid="4a346f7c-0664-47a4-be1f-7144c1c432e6"
->APPLY 
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infilledLinking parameter.</Comment>
+APPLY 
   BTM.Linking.LinkingProfileReceived(
     Packet =&gt; X.LINKING,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) )
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MOVEMENT_AUTHORITY.NID_LRBG),
+    infilledLinking =&gt; False )
 ON 
   aMessage.MOVEMENT_AUTHORITY.Sequence1 | (
     Available(X.LINKING)
@@ -2386,10 +2390,12 @@ ON
 <Actions>
 <Action
  Guid="92d85109-6e4e-40ca-af96-c6bbcc9c9133"
->APPLY 
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infilledLinking parameter.</Comment>
+APPLY 
   BTM.Linking.LinkingProfileReceived(
     Packet =&gt; X.LINKING,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG) )
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG),
+    infilledLinking =&gt; False )
 ON 
   aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | (
     Available(X.LINKING)
@@ -2413,10 +2419,12 @@ ON
 <Actions>
 <Action
  Guid="103d17ab-78e1-499a-a5f3-2ae782ee0b76"
->APPLY 
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infilledLinking parameter.</Comment>
+APPLY 
   BTM.Linking.LinkingProfileReceived(
     Packet =&gt; X.LINKING,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.INFILL_MA.NID_LRBG) )
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.INFILL_MA.NID_LRBG),
+    infilledLinking =&gt; False )
 ON 
   aMessage.INFILL_MA.Sequence1 | (
     Available(X.LINKING)
@@ -3015,7 +3023,8 @@ ON
 <Actions>
 <Action
  Guid="1d0407c6-42f3-4cd3-9dbd-5721ca7faffe"
->Kernel.MA.ModeProfile.ModeProfileReceived (
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infillModeProfile parameter.</Comment>
+Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; (FIRST X IN aMessage.MOVEMENT_AUTHORITY.Sequence1 | (
   Available ( X.MODE_PROFILE )
     AND  
@@ -3025,7 +3034,8 @@ ON
 )
 ).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MOVEMENT_AUTHORITY.NID_LRBG) 
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MOVEMENT_AUTHORITY.NID_LRBG),
+    infillModeProfile =&gt; False 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
@@ -3161,7 +3171,8 @@ ON
 <Actions>
 <Action
  Guid="42923357-d030-4973-8f7e-66c4c0796d02"
->Kernel.MA.ModeProfile.ModeProfileReceived (
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infillModeProfile parameter.</Comment>
+Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; (FIRST X IN aMessage.REQUEST_TO_SHORTEN_MA.Sequence1 | (
   Available ( X.MODE_PROFILE )
     AND  
@@ -3171,7 +3182,8 @@ ON
 )
 ).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.REQUEST_TO_SHORTEN_MA.NID_LRBG) 
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.REQUEST_TO_SHORTEN_MA.NID_LRBG),
+    infillModeProfile =&gt; False 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -4234,7 +4246,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <Actions>
 <Action
  Guid="6fc1e57f-7584-4af7-b92a-c41bcf7f6e58"
->Kernel.MA.ModeProfile.ModeProfileReceived (
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infillModeProfile parameter.</Comment>
+Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; (FIRST X IN aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | (
   Available ( X.MODE_PROFILE )
     AND  
@@ -4244,7 +4257,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 )
 ).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG)
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.MA_WITH_SHIFTED_LOCATION_REFERENCE.NID_LRBG),
+    infillModeProfile =&gt; False
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -5186,7 +5200,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 <Actions>
 <Action
  Guid="3913ccf6-bc3b-423b-a4da-7742b09c8e22"
->Kernel.MA.ModeProfile.ModeProfileReceived (
+><Comment>EURORADIO Infill is out of scope. Should this change, adapt the infillModeProfile parameter.</Comment>
+Kernel.MA.ModeProfile.ModeProfileReceived (
     Packet =&gt; (FIRST X IN aMessage.INFILL_MA.Sequence1 | (
   Available ( X.MODE_PROFILE )
     AND  
@@ -5195,7 +5210,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
         NID_LRBG =&gt; aMessage.INFILL_MA.NID_LRBG)
 )).MODE_PROFILE,
     GenericLSMarker =&gt; False,
-    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.INFILL_MA.NID_LRBG) 
+    aDistanceFromRef =&gt; DistanceFromCurrentLRBG(aMessage.INFILL_MA.NID_LRBG),
+    infillModeProfile =&gt; False 
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule

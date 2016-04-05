@@ -810,10 +810,17 @@ USING X IN
  Name="aDistanceFromRef"
  Guid="798b3d9e-24be-4f30-81d1-326708b557d4"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="infillModeProfile"
+ Guid="02ac3899-d455-46d3-a261-4dbba4ab3780"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add first profile"
  Guid="e66d71f8-c387-4ceb-bd8c-7ccf4fbcb946"
@@ -841,11 +848,14 @@ USING X IN
     Q_MAMODE =&gt; Packet.Q_MAMODE,
     Q_SCALE =&gt; Packet.Q_SCALE,
     GenericLSMarker =&gt; GenericLSMarker,
-    aDistanceFromRef =&gt; aDistanceFromRef
+    aDistanceFromRef =&gt; aDistanceFromRef,
+    infillModeProfile =&gt; infillModeProfile
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add following profiles"
  Guid="76413865-dfc6-4396-8fe8-64ecedc67e8f"
@@ -874,7 +884,8 @@ USING X IN
         Q_MAMODE =&gt; X.Q_MAMODE,
         Q_SCALE =&gt; Packet.Q_SCALE,
         GenericLSMarker =&gt; GenericLSMarker,
-        aDistanceFromRef =&gt; aDistanceFromRef
+        aDistanceFromRef =&gt; aDistanceFromRef,
+        infillModeProfile =&gt; infillModeProfile
     )
 ON
     Packet.Sequence1</Action></Actions>
@@ -997,10 +1008,17 @@ ON
  Name="aDistanceFromRef"
  Guid="1491706d-2a22-4aef-b53a-4c5a2a44e44f"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="infillModeProfile"
+ Guid="c594098e-409d-4c94-ab99-b31b02d3f828"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Add new profile"
@@ -1023,7 +1041,7 @@ ON
 <PreConditions>
 <PreCondition
  Guid="022da320-6f5e-4431-a3a7-861e2096f6ac"
->Kernel.Infill.Data != EMPTY</PreCondition><PreCondition
+>infillModeProfile</PreCondition><PreCondition
  Guid="33384be8-0555-4b72-b9bc-a85b6064dffe"
 >M_MAMODE == Messages.M_MAMODE.Shunting</PreCondition></PreConditions>
 <Actions>
@@ -1033,7 +1051,7 @@ ON
     Kernel.MA.ModeProfile.ModeProfileStruct
     {
         AcknLength =&gt; MessageTypes.QScaleLength ( length =&gt; L_ACKMAMODE, scale =&gt; Q_SCALE ),
-        Location =&gt; Location + BTM.Linking.DistanceToBaliseGroup ( Infill.Data.NID_BG ),
+        Location =&gt; Location + BTM.Infill.DistanceToInfillReference(),
         Length =&gt; BaseTypes.Length.NA,
         Mode =&gt; ERTMS_To_EFS_Mode ( M_MAMODE ),
         Speed =&gt; MessageTypes.SpeedResolution ( speed =&gt; V_MAMODE, resolution =&gt; 5.0 ),
@@ -1081,7 +1099,7 @@ IN
 <PreConditions>
 <PreCondition
  Guid="f1684bcc-f007-401f-a563-b5b2c938adb4"
->Kernel.Infill.Data != EMPTY</PreCondition></PreConditions>
+>infillModeProfile</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fd905e47-15f3-4a3f-905a-8ef2acd85169"
@@ -1089,7 +1107,7 @@ IN
     Kernel.MA.ModeProfile.ModeProfileStruct
     {
         AcknLength =&gt; MessageTypes.QScaleLength ( length =&gt; L_ACKMAMODE, scale =&gt; Q_SCALE ),
-        Location =&gt; Location + BTM.Linking.DistanceToBaliseGroup ( Infill.Data.NID_BG ),
+        Location =&gt; Location + BTM.Infill.DistanceToInfillReference(),
         Length =&gt; MessageTypes.QScaleLength ( length =&gt; L_MAMODE, scale =&gt; Q_SCALE ),
         Mode =&gt; ERTMS_To_EFS_Mode ( M_MAMODE ),
         Speed =&gt; GetSpeedResolution(V_MAMODE),
@@ -1100,6 +1118,8 @@ IN
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="LS - No marker received"
  Guid="40e7e378-9c53-4324-814a-7d12e2560ca6"
@@ -1153,6 +1173,8 @@ IN
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="LS - No marker received"
  Guid="7e15adcd-7f7c-4123-86ba-b239dc562ac3"

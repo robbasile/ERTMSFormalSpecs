@@ -1475,6 +1475,11 @@ LinkingApplicable()</Expression>
  Name="aDistanceFromRef"
  Guid="c8c62761-d16e-4fb2-8e60-7a2674346a05"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="infilledLinking"
+ Guid="158b95c8-e7ed-41c0-8d0d-ceb7561a28e3"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -1509,7 +1514,7 @@ LinkingApplicable()</Expression>
 <PreConditions>
 <PreCondition
  Guid="16d28157-dce0-492f-a815-20adf48b5991"
->Kernel.Infill.Data == EMPTY</PreCondition></PreConditions>
+>NOT infilledLinking</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f4ed0c9f-1c84-4195-bc54-3ce40d23cbb2"
@@ -1536,7 +1541,7 @@ LinkingApplicable()</Expression>
 <Action
  Guid="739997f0-0a9a-42ec-8b3b-8856cdc14a17"
 >BTM.Linking.Linkings &lt;- MAP BTM.Linking.Linkings | NOT Before(
-    ExpectedFirst=&gt;BTM.Linking.GetLinkingFromNidBG(Kernel.Infill.Data.NID_BG),
+    ExpectedFirst=&gt;BTM.Linking.GetLinkingFromNidBG(BTM.Infill.InfillReferenceNID()),
     ExpectedSecond=&gt;X,
     Collection=&gt;BTM.Linking.Linkings
 )

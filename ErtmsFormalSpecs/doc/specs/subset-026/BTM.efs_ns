@@ -864,6 +864,11 @@ The relevant procedure is called to store and handle the data contained in the p
  Name="aDistance"
  Guid="1f7dc1ec-11a8-4b68-b8b7-8ab540849b2c"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="infilledPacket"
+ Guid="38815ef9-8e60-40b1-817b-646f5d98a194"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -932,7 +937,8 @@ The relevant procedure is called to store and handle the data contained in the p
  Guid="250427e6-8ddb-431d-a76d-b4432281374f"
 >Linking.LinkingProfileReceived(
     Packet =&gt; Packet.TRACK_TO_TRAIN.LINKING,
-    aDistanceFromRef =&gt; aDistance
+    aDistanceFromRef =&gt; aDistance,
+    infilledLinking =&gt; infilledPacket
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -2044,47 +2050,6 @@ True</PreCondition></PreConditions>
 >Kernel.Modes.Shunting.DangerForShuntingReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Infill available"
- Guid="8e2593a0-4d11-4587-9407-2b308ebfcce2"
->
-<ReqRef
- Id="787a1a8f-0541-405d-a3f2-4e318b090e90"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="50466cf2-d78d-4a5a-9dbe-42f762d9cfa7"
->
-</ReqRef><ReqRef
- Id="672b9145-06ca-49f0-b871-3a074024a15a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="84551284-2d26-4c00-bbe7-c5766cad07fc"
->
-</ReqRef><ReqRef
- Id="041247c0-323f-4ba8-8e1f-5b5a3232d83b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="40c37b43-b142-4a45-bf63-f0b684dba908"
->
-</ReqRef><ReqRef
- Id="f06259b6-d59f-4a89-bfb0-45036e0d87bb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b39e5af6-5351-4a3f-9bb9-1568cc2def60"
->
-</ReqRef><Comment>Handles Infill packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="b66421ab-9225-4b66-9b32-ae12ae206ffc"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="124373f0-52fa-477e-883b-90d40f969d31"
->Kernel.Infill.InfillTransmissionMediaAvailable</PreCondition><PreCondition
- Guid="9fd621d8-93b5-4c1b-8cf6-18589d0f2f00"
->Kernel.AcceptInformation.InfillLocationReference( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="ea30ca4a-effe-4d43-9d7d-d40dfd84ca89"
->Kernel.Infill.InfillReceived ( Packet.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
  Name="Stop if in Staff Responsible received"
  Guid="c81a37f3-9453-49af-8106-2a112ae51ef0"
 >
@@ -2348,6 +2313,11 @@ Packets.ConsiderBTMPacket(
  Name="aDistance"
  Guid="dc0e7899-07fe-4c5d-b58e-71e5c9feb626"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="infilledTelegram"
+ Guid="4db520ae-99f8-4c8e-b7fb-ab0e38d5c739"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -2397,7 +2367,8 @@ Packets.ConsiderBTMPacket(
   Packet=&gt;X, 
   NID_BG=&gt;Message.NID_BG,
   MessageOrientation =&gt; MessageOrientation,
-  aDistance =&gt; aDistance
+  aDistance =&gt; aDistance,
+  infilledPacket =&gt; infilledTelegram
 ) 
 ON Message.Sequence1</Action><Action
  Guid="b3c6e5e0-e2f2-45cb-8684-a9a4a0596fbe"
@@ -2783,14 +2754,19 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  Guid="54997a24-4291-4c2b-af79-ec289b4ffc8f"
 >
 </Parameter><Parameter
- Type="Messages.NID_BG"
- Name="NID_BG"
- Guid="cc8b1b6c-e14e-4007-9bcc-6d4feeaab3c2"
->
-</Parameter><Parameter
  Type="Default.OrientationEnum"
  Name="MessageOrientation"
  Guid="f266d08f-d744-4949-9f34-0ad3ffdecbc8"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="28f3e211-5dd0-4454-8adf-9a5baec94782"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="isInfillMA"
+ Guid="92996336-8304-47e1-aa8e-0c2f17eadda8"
 >
 </Parameter></Parameters>
 <Rules>
@@ -2854,8 +2830,8 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 >Kernel.MA.MALvl1ProfileReceived
 (
     Packet =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY,
-    NID_BG =&gt; NID_BG,
-    aDistanceFromRef =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation()
+    aDistanceFromRef =&gt; aDistance,
+    isInfillMA =&gt; isInfillMA
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -2998,12 +2974,32 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Name="BG is consistent"
  Guid="385c1e4d-686d-4cc1-9bc4-e533fb51231a"
 >
+<Comment>Handle infill and non-infill packets if the message is consistent.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8a814b2e-b51c-4ac6-bab1-5cc0fa14f4f7"
 >MessageConsistency.IsConsistent( aBaliseGroup )</PreCondition><PreCondition
  Guid="4018c3e8-4735-4dee-9448-f1974ecaeef9"
 >Linking.ConsiderBaliseMessage( aBaliseGroup )</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Handle non-infill packets"
+ Guid="44cdb1c8-4513-49f0-ba2f-c9be84c73dcf"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle non-infill packets"
+ Guid="026cf257-7e72-44d5-bf0a-8a78a5f02ad5"
+>
+<PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="3d481a20-2d80-4cf9-a8c0-967a6519da7a"
@@ -3012,7 +3008,63 @@ HandleConsistentMessage(
     aBaliseGroup =&gt; aBaliseGroup,
     selectInfillPackets =&gt; False,
     aDistance =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() 
-)</Action><Action
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Handle infill packets"
+ Guid="d034cf04-641f-4f41-9197-f8a57b7631b9"
+>
+<ReqRef
+ Id="b997b70b-691d-427f-8512-361a510200ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df17bc02-6413-448d-81fb-0437b31311fb"
+>
+</ReqRef><ReqRef
+ Id="041247c0-323f-4ba8-8e1f-5b5a3232d83b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3c9c8069-dc3d-45a2-adf3-7360d58e8e0f"
+>
+</ReqRef><ReqRef
+ Id="f06259b6-d59f-4a89-bfb0-45036e0d87bb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9add16de-ffe3-4e16-8636-f71e244b35cc"
+>
+</ReqRef><ReqRef
+ Id="082b9d97-81b9-4995-87a2-07e6e31bd2d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f8fdc7e-2db8-4e8e-b32b-7fc20f1e97dd"
+>
+</ReqRef><ReqRef
+ Id="299e44cd-9a5e-4f38-8721-bad782668787"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b1f52ff4-d47d-47eb-a057-4e7869e673f6"
+>
+</ReqRef><ReqRef
+ Id="672b9145-06ca-49f0-b871-3a074024a15a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="069d5d00-1195-4706-ba43-c13116930875"
+>
+</ReqRef><ReqRef
+ Id="787a1a8f-0541-405d-a3f2-4e318b090e90"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12973630-2100-4590-a024-a5abae2c0967"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle infill packets"
+ Guid="e33a0c94-6acb-49c5-971d-b8071b957e64"
+>
+<PreConditions>
+<PreCondition
+ Guid="3ce39148-512f-4fcb-8130-eaded6856317"
+>Kernel.Infill.AccepBTMtInfill()</PreCondition></PreConditions>
+<Actions>
+<Action
  Guid="176cf6e5-9522-4e29-bad2-45603dfa58c9"
 ><Comment>Infill packets</Comment>
 HandleConsistentMessage(
@@ -3020,6 +3072,8 @@ HandleConsistentMessage(
     selectInfillPackets =&gt; True,
     aDistance =&gt; Infill.DistanceToInfillReference()
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Name="The BG is not consistent"
  Guid="8324c201-d04f-4c0b-9379-3944df24ac68"
@@ -3753,6 +3807,11 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  Name="aDistance"
  Guid="7bbc3d95-a499-4d0b-9ca2-411f2f1809f0"
 >
+</Parameter><Parameter
+ Type="Boolean"
+ Name="infillModeProfile"
+ Guid="44fb10ad-44f8-45f5-b1bc-b3d8ac0f2e1a"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -3827,7 +3886,8 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
     GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(
     Messages =&gt; BTM.CurrentBaliseGroup
     ),
-    aDistanceFromRef =&gt; aDistance
+    aDistanceFromRef =&gt; aDistance,
+    infillModeProfile =&gt; infillModeProfile
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -4086,7 +4146,10 @@ Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation
  Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
 >APPLY HandleTelegram( Message =&gt; Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram), 
 MessageOrientation =&gt; BGOrientation(aBaliseGroup),
-aDistance =&gt; aDistance ) ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
+aDistance =&gt; aDistance,
+infilledTelegram =&gt; selectInfillPackets
+ ) 
+ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4154,9 +4217,13 @@ IN
  Guid="2b02118c-1658-46b1-bae6-dc0ff97ec611"
 >APPLY HandleMAPacket
 (
-    aPacket =&gt; Packets.MAOfTelegram ( X.Telegram ) ,
-    NID_BG =&gt; X.Telegram.NID_BG,
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
+    aPacket =&gt; Packets.MAOfTelegram ( 
+         Infill.CurrentInfillTelegram(
+            selectInfill =&gt; selectInfillPackets,
+            aTelegram =&gt; X.Telegram )) ,
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aDistance =&gt; aDistance,
+    isInfillMA =&gt; selectInfillPackets
 )
 ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup  )</Action></Actions>
 </RuleCondition></Conditions>
@@ -4196,11 +4263,12 @@ ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGrou
     aPacket =&gt; Packets.ModeProfileOfTelegram  
     ( 
           Infill.CurrentInfillTelegram(
-             selectInfill =&gt; False,
+             selectInfill =&gt; selectInfillPackets,
              aTelegram =&gt;  X.Telegram )
     ),
     MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
-    aDistance =&gt; aDistance
+    aDistance =&gt; aDistance,
+    infillModeProfile =&gt; selectInfillPackets
 )
 ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
 </RuleCondition></Conditions>
@@ -4366,12 +4434,7 @@ TODO: functionnalize this</Comment>
  Name="Clean up received balise"
  Guid="027c7622-f051-4f14-b4db-c9cc9b6487ff"
 >
-<ReqRef
- Id="299e44cd-9a5e-4f38-8721-bad782668787"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="396410a3-bfa4-4b05-898b-ee479d120e88"
->
-</ReqRef><Comment>After processing the new telegram its content is deleted.</Comment>
+<Comment>After processing the new telegram its content is deleted.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -4389,8 +4452,6 @@ Available(Message.SystemVersion2)</PreCondition></PreConditions>
 <Action
  Guid="55b1daa4-5af4-4eac-af28-8e10152fc2c2"
 >Message.SystemVersion2 &lt;- EMPTY</Action><Action
- Guid="7da08b97-ae8e-47fd-9114-27a1f90cc66e"
->Kernel.Infill.Data &lt;- EMPTY</Action><Action
  Guid="aa76230d-c79f-456c-95ac-adda5c0403e8"
 >Message.SystemVersion1 &lt;- EMPTY</Action></Actions>
 <SubRules>

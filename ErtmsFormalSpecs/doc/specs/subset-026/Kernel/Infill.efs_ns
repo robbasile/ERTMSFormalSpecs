@@ -9,91 +9,41 @@
 >
 <NameSpaces>
 </NameSpaces>
-<Procedures>
-<Procedure
- X="70"
- Y="170"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="InfillReceived"
- Guid="caaee2cc-ae2d-44eb-b71d-534d0264beed"
->
-<ReqRef
- Id="299e44cd-9a5e-4f38-8721-bad782668787"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="feada224-3f7c-460d-8875-1f1294415eb5"
->
-</ReqRef><Comment>Stores the infill information received from the trackside.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Message"
- Name="Packet"
- Guid="dcebfcd1-5e63-41cb-9f2c-7710c47593bf"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="UpdateInfill"
- Guid="83218b1a-89c5-48a2-8eaf-02b84fce61c6"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="UpdateInfill"
- Guid="6c0d8476-ac94-4a6e-820c-69022643f894"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="23a68de7-a41d-4547-8dea-9faccfcb08cb"
->Kernel.Infill.Data &lt;- Kernel.BaliseGroup
-{
-    NID_BG =&gt; Packet.NID_BG,
-    NewCountry =&gt; Q_NEWCOUNTRY_To_Bool ( Packet.Q_NEWCOUNTRY ),
-    NID_C =&gt; Packet.NID_C
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure></Procedures>
-<Variables>
-<Variable
- Type="Kernel.BaliseGroup"
- DefaultValue="EMPTY"
- VariableMode="Internal"
- X="70"
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="330"
  Y="20"
  Width="100"
  Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="Data"
- Guid="b04bd19e-f910-4ad1-abcd-a4c60d7202c9"
+ Name="AccepBTMtInfill"
+ Guid="d6678199-d62c-40d6-ad0b-11021cd63ba8"
 >
 <ReqRef
- Id="082b9d97-81b9-4995-87a2-07e6e31bd2d0"
+ Id="b997b70b-691d-427f-8512-361a510200ab"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d6f3d8ef-b187-4e00-bc59-33f7389fadec"
+ Guid="246e9004-47b2-4e63-91b9-2c8569f8d7b4"
 >
 </ReqRef><ReqRef
- Id="041247c0-323f-4ba8-8e1f-5b5a3232d83b"
+ Id="672b9145-06ca-49f0-b871-3a074024a15a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="00678690-ae17-4a24-82fd-6a612c046377"
+ Guid="11666f99-5011-42b3-ae66-9ee38afdde57"
 >
-</ReqRef><ReqRef
- Id="f06259b6-d59f-4a89-bfb0-45036e0d87bb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="61784517-1068-454a-b3ab-f50692ea6503"
+</ReqRef><Cases>
+<Case
+ Name="Value"
+ Guid="b941c8c3-182f-43ef-9c5f-2d0a64c76740"
 >
-</ReqRef><Comment>Indicates the infill location reference.</Comment>
-</Variable><Variable
+<Expression>Kernel.AcceptInformation.InfillLocationReference( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
+      AND
+BTM.Infill.DistanceToInfillReference() != BaseTypes.Distance.Unknown
+      AND
+Kernel.Infill.InfillTransmissionMediaAvailable</Expression>
+</Case></Cases>
+</Function></Functions>
+<Variables>
+<Variable
  Type="Boolean"
  DefaultValue="Boolean.True"
  VariableMode="Internal"

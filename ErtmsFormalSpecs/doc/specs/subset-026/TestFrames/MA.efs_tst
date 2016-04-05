@@ -75,12 +75,12 @@
 >Kernel.MA.MA != EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="97c9e324-a095-47c9-a3f7-4524b33b01f2"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
+ Guid="eae317a6-7ae5-45d6-923f-8fb33979158d"
+>Kernel.MA.MA.EndSection.Length == 4500.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="eae317a6-7ae5-45d6-923f-8fb33979158d"
->Kernel.MA.MA.EndSection.Length == 4500.0</Expectation></Expectations>
+ Guid="4ea12c2f-69ab-45fb-b965-bc1ed10905bc"
+>BTM.Infill.InfillReferenceNID() == Messages.NID_BG.NID_UNKNOWN</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -108,7 +108,7 @@
     M_VERSION=&gt;32,
     Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
     N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
+    N_TOTAL=&gt;1,
     M_DUP=&gt;Messages.M_DUP.No_duplicates,
     M_MCOUNT=&gt;4,
     NID_C=&gt;140,
@@ -146,7 +146,7 @@
                     T_LOA=&gt;200,
                     N_ITER=&gt;0,
                     Sequence1=&gt;[],
-                    L_ENDSECTION=&gt;1000,
+                    L_ENDSECTION=&gt;200,
                     Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
                     T_SECTIONTIMER=&gt;0,
                     D_SECTIONTIMERSTOPLOC=&gt;0,
@@ -179,21 +179,44 @@ Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction
 }
 IN
 BTM.Linking.Linkings</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="2"
+ Guid="05db1cfc-c011-4781-a341-98792551a9ef"
+>BTM.Infill.InfillReferenceNID() == 2126</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="2"
+ Guid="22ddf7a4-2b7a-4b15-85b9-cffad06d4147"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2"
  Guid="acbc57b7-6a44-44d8-98a1-3c4d2627a6f7"
 >
+<Actions>
+<Action
+ Guid="0371c3af-ff86-4c5b-9568-0ed13147f9c4"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+    Q_UPDOWN=&gt; Messages.Q_UPDOWN.Up_link_telegram,
+    M_VERSION=&gt;32,
+    Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
+    N_PIG=&gt;1,
+    N_TOTAL=&gt;1,
+    M_DUP=&gt;Messages.M_DUP.No_duplicates,
+    M_MCOUNT=&gt;4,
+    NID_C=&gt;140,
+    NID_BG=&gt;2125,
+    Q_LINK=&gt;Messages.Q_LINK.Unlinked,
+    Sequence1=&gt;[]
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="78dd55fc-9f8c-4d19-bc83-f2dd53b29f4d"
 >Kernel.Mode == ModeEnum.OS</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="848ccabd-2c2e-471d-8a40-7efae5620ca4"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="23c2c07d-7c7b-4680-a27a-cdb03382926c"
@@ -315,12 +338,12 @@ BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="0395614f-47fc-4fc4-a480-6a6159274687"
->Kernel.Infill.Data != EMPTY</Expectation><Expectation
+ Guid="aebd2505-da71-4cc3-9fe6-6e91d922dfac"
+>Kernel.Infill.AccepBTMtInfill()</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="6551ed0e-58bc-4397-a3e1-21fb3067e840"
->Kernel.Infill.Data.NID_BG == 2126</Expectation></Expectations>
+ Guid="949efa04-987f-4523-b5d0-6b55cdfcbdc4"
+>BTM.Infill.InfillReferenceNID() == 2126</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step3 - check expectations"
@@ -489,7 +512,7 @@ BTM.Linking.Linkings</Action></Actions>
     M_VERSION=&gt;32,
     Q_MEDIA=&gt;Messages.Q_MEDIA.Balise,
     N_PIG=&gt;0,
-    N_TOTAL=&gt;0,
+    N_TOTAL=&gt;1,
     M_DUP=&gt;Messages.M_DUP.No_duplicates,
     M_MCOUNT=&gt;4,
     NID_C=&gt;140,
@@ -547,6 +570,16 @@ BTM.Linking.Linkings</Action></Actions>
          }
                 ]
 }</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="2"
+ Guid="df28f9b2-5663-43b7-ad7f-b3718edb5865"
+>BTM.Infill.InfillReferenceNID() == 2126</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="2"
+ Guid="2906594a-81bb-417e-851f-c17a0cf5aaf5"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2"
@@ -554,10 +587,6 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <Expectations>
 <Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="d1c6ec46-56f6-436c-8cf7-27a97dd43dbc"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="d5e1c764-8358-40ca-886e-ed6cf735ae46"
@@ -637,8 +666,6 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <Actions>
 <Action
- Guid="690069b3-72aa-405c-93ae-1bc1771979d6"
->Kernel.Infill.Data &lt;- EMPTY</Action><Action
  Guid="937b5cd3-2dcc-40f0-8cf7-47d517315d38"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
@@ -650,16 +677,16 @@ BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="9d824544-ebde-4d0f-8196-77bdaf699c72"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
  Guid="4d54e3e7-df02-4bbb-9764-5198507b8707"
 >Kernel.MA.MA != EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="b6677a0f-4668-464b-9d2d-bd976c05df72"
->Kernel.MA.MA.Sections == []</Expectation></Expectations>
+>Kernel.MA.MA.Sections == []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="cde59c1c-c9b4-44c4-a93c-014122aa31a2"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -1000,8 +1027,6 @@ BTM.Linking.Linkings</Action></Actions>
 >
 <Actions>
 <Action
- Guid="ca5f22dd-b138-44dd-b950-d049a10239db"
->Kernel.Infill.Data &lt;- EMPTY</Action><Action
  Guid="884fac6e-cd36-4ae3-9f1b-2585f79d6607"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep><SubStep
@@ -1013,16 +1038,16 @@ BTM.Linking.Linkings</Action></Actions>
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="b1bb463e-09b6-471f-9208-115b174ea2b0"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
  Guid="aa7a5a68-a80c-4352-b441-682c8cfcbc4e"
 >Kernel.MA.MA != EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="85f3ee83-db2d-4bf8-a358-1baea4c9a4cf"
->Kernel.MA.MA.Sections == []</Expectation></Expectations>
+>Kernel.MA.MA.Sections == []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c830cb08-e4cd-4a78-b49f-c703ba5b7a37"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -4515,12 +4540,16 @@ V_STATIC =&gt; 0
 >Kernel.MA.MA.Sections == []</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="1d745bc0-21e7-4db7-9667-35f04b88b8da"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
+ Guid="9d28c9b3-a791-481d-aa0f-836cb208dbce"
+>Kernel.MA.MA.EndSection.Length == 4500.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="9d28c9b3-a791-481d-aa0f-836cb208dbce"
->Kernel.MA.MA.EndSection.Length == 4500.0</Expectation></Expectations>
+ Guid="13632ae6-c8a8-46f3-a1e9-ef99b70487ec"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0c5a0d83-7713-454e-9c06-fae7f1568091"
+>BTM.Infill.InfillReferenceNID() == Messages.NID_BG.NID_UNKNOWN</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -5050,12 +5079,16 @@ V_STATIC =&gt; 0
 >Kernel.MA.MA.Sections == []</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="db49fde4-cd8d-4e42-9a34-63a6f4d01b86"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
+ Guid="785b851d-ac96-4c7f-9086-7f0041166107"
+>Kernel.MA.MA.EndSection.Length == 4500.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="785b851d-ac96-4c7f-9086-7f0041166107"
->Kernel.MA.MA.EndSection.Length == 4500.0</Expectation></Expectations>
+ Guid="cf86b073-533d-44bc-8fda-5b1d66985f7e"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="de6552a8-419b-4ffd-a618-578569740859"
+>BTM.Infill.InfillReferenceNID() == Messages.NID_BG.NID_UNKNOWN</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
@@ -5530,16 +5563,20 @@ V_STATIC =&gt; 0
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
- Guid="706d93a5-7dcf-4088-9f9c-6e6748cf08ec"
->Kernel.Infill.Data == EMPTY</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
  Guid="2ceed9ce-edc3-4853-9cea-9ce817a41d14"
 >Kernel.MA.MA != EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6e6868de-b208-47eb-acd2-17e7abfcebb0"
->Kernel.MA.MA.EndSection.Length == 4500.0</Expectation></Expectations>
+>Kernel.MA.MA.EndSection.Length == 4500.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e6e7c540-8dfa-4a8f-8ecb-ada7bda27db2"
+>NOT Kernel.Infill.AccepBTMtInfill()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d91f9962-86e7-45c4-b3e3-4ebf86abfc22"
+>BTM.Infill.InfillReferenceNID() == Messages.NID_BG.NID_UNKNOWN</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  IO="NA"
