@@ -63,15 +63,18 @@ namespace DataDictionary.Interpreter
                 if (RightPart != null && !(RightPart is Procedure))
                 {
                     RuleCondition ruleCondition = LeftPart as RuleCondition;
-                    if (ruleCondition != null && ruleCondition.PreConditions.Count > 0)
+                    if (ruleCondition != null)
                     {
-                        if (RightPart == EfsSystem.Instance.BoolType.True)
+                        if (ruleCondition.PreConditions.Count > 0)
                         {
-                            retVal = "SATISFIED " + retVal;
-                        }
-                        else
-                        {
-                            retVal = "NOT APPLICABLE " + retVal;
+                            if (RightPart == EfsSystem.Instance.BoolType.True)
+                            {
+                                retVal = "SATISFIED " + retVal;
+                            }
+                            else
+                            {
+                                retVal = "NOT APPLICABLE " + retVal;
+                            }
                         }
                     }
                     else
