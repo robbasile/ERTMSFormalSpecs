@@ -18,12 +18,22 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="CurrentInfillTelegram"
  Guid="345f7dc8-70e7-45e7-88c8-015a916f201e"
 >
-<Comment>This function extracts the infill (or non-infill) packets of the CurrentBaliseGroup. It returns a collection of StoredBaliseStructs whose length is the same as the original one. Returned StoredBaliseStruct.Telegram.Sequence1 may be empty if the original BaliseGroupMessage contains no infill packet.
-Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram, one for each direction. This function returns only infilled packet for the forward direction.</Comment>
+<ReqRef
+ Id="d0998160-1f71-42dd-b9e9-ca9b69a73225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a42e29d-825d-46c6-bab1-ab10d9cd6fcc"
+>
+</ReqRef><Comment>This function extracts the infill (or non-infill) packets of the 
+CurrentBaliseGroup. It returns a collection of StoredBaliseStructs whose
+ length is the same as the original one. Returned 
+StoredBaliseStruct.Telegram.Sequence1 may be empty if the original 
+BaliseGroupMessage contains no infill packet.
+Note that there may be at most two INFILL_LOCATION_REFERENCE packet per 
+telegram, one for each direction. This function returns only infilled packet 
+for the forward direction.</Comment>
 <Parameters>
 <Parameter
  Type="Boolean"
@@ -50,7 +60,12 @@ Note that there may be at most two INFILL_LOCATION_REFERENCE packet per telegram
  Name="Infilled packets"
  Guid="daf9e1c6-60ae-41cc-ae5f-77b7bb761760"
 >
-<Comment>If the first INFILL_LOCATION_REFERENCE packet gives infill information for the forward direction, the second, if any, can give information for the backward direction only. Hence one must in this case consider packets in between the two infill packets. On the other hand, if the first gives infill information for the reverse orientation, one must consider packets after the second infill_location_reference packet.</Comment>
+<Comment>If the first INFILL_LOCATION_REFERENCE packet gives infill information for 
+the forward direction, the second, if any, can give information for the 
+backward direction only. Hence one must in this case consider packets in 
+between the two infill packets. On the other hand, if the first gives infill 
+information for the reverse orientation, one must consider packets after the 
+second infill_location_reference packet.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4daecc79-b0e4-4151-bcd8-0c91a60bc5f8"
@@ -77,11 +92,25 @@ AfterFirstInfillPacket =&gt; NOT Infill.IsDataDirectionForward(Infill.DirectionO
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="InfillReferenceNID"
  Guid="d616b1b9-4d8e-42c1-a4e4-472a334dc8dc"
 >
-<Comment>Get the NID of the referenced BG. Note : the linking information is not necessarily transmitted by the same balise, hence it has to be recovered another way.</Comment>
+<ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d14b228-985e-474d-b752-de0ea25b51f7"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="33baf702-1e58-48ac-a1fd-9cac365aaebb"
+>
+</ReqRef><ReqRef
+ Id="55512f96-4453-4790-88cb-a4324c3a4a22"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a198a735-40d2-4196-a705-40c3dad4e0e8"
+>
+</ReqRef><Comment>Get the NID of the referenced BG. Note : the linking information is not necessarily transmitted by the same balise, hence it has to be recovered another way.</Comment>
 <Cases>
 <Case
  Name="InfillReferenceBG"
@@ -106,11 +135,15 @@ AfterFirstInfillPacket =&gt; NOT Infill.IsDataDirectionForward(Infill.DirectionO
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="CutAtFirstInfillPacket"
  Guid="ab3f4922-57f0-46a2-aeed-95e630fa0032"
 >
-<Comment>Convenience function. Returns a balise telegram containing packets located after or before the first infill_location_reference packet encountered in aTelegram.Sequence1.</Comment>
+<ReqRef
+ Id="d0998160-1f71-42dd-b9e9-ca9b69a73225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b5e89f2-337f-458f-a206-9566e6740768"
+>
+</ReqRef><Comment>Convenience function. Returns a balise telegram containing packets located after or before the first infill_location_reference packet encountered in aTelegram.Sequence1.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.EUROBALISE.Message"
@@ -261,11 +294,15 @@ USING X,
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="DirectionOfFirstInfillPacket"
  Guid="f9a3b3a2-b695-4143-ac57-933e8dfe50bd"
 >
-<Comment>Gives the direction of validity of the infill packet w.r.t. the balise group orientation.</Comment>
+<ReqRef
+ Id="d0998160-1f71-42dd-b9e9-ca9b69a73225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76f720fa-9697-4c9e-8f6a-10bd477bfdc6"
+>
+</ReqRef><Comment>Gives the direction of validity of the infill packet w.r.t. the balise group orientation.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.EUROBALISE.Message"
@@ -298,11 +335,15 @@ Available(X.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE)).TRACK_TO_TRAIN.INFILL_LOC
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="IsDataDirectionForward"
  Guid="d4e7d286-ca38-42ae-8fae-7363b22e4ca2"
 >
-<Comment>Tells whether the infill information concerns forward movements and hence should be considered.</Comment>
+<ReqRef
+ Id="d0998160-1f71-42dd-b9e9-ca9b69a73225"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c376876d-1ff4-4e8e-b9b8-56a4071996db"
+>
+</ReqRef><Comment>Tells whether the infill information concerns forward movements and hence should be considered.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.Q_DIR"
@@ -394,11 +435,20 @@ IsDataDirectionForward(V.TRACK_TO_TRAIN.INFILL_LOCATION_REFERENCE.Q_DIR)
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="DistanceToInfillReference"
  Guid="167138b4-94c8-49ab-aaa6-4768af9babfe"
 >
-<Comment>Returns the distance to the infill reference balise group, unknown if it is not linked.</Comment>
+<ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="932c1b02-523b-41f7-81be-af53b62e7a11"
+>
+</ReqRef><ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="625e80d8-f70e-4857-8ea6-a4cd48db954e"
+>
+</ReqRef><Comment>Returns the distance to the infill reference balise group, unknown if it is not linked.</Comment>
 <Cases>
 <Case
  Name="Value"

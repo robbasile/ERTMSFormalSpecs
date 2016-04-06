@@ -2314,14 +2314,21 @@ Packets.ConsiderBTMPacket(
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="HandleTelegram"
  Guid="99858b9d-1417-47df-8644-63e0b422c4ff"
 >
-<Comment>Handles a new complete balise group message (when all its balise messages have been received). There are several steps:
+<ReqRef
+ Id="f0ea8f90-356c-47de-a7fd-4827ae488f00"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa0d04f8-14f6-4f19-a3a7-3bc3330b1215"
+>
+</ReqRef><Comment>Handles a new complete balise group message (when all its balise messages have been received). There are several steps:
 - Test if the new BG is linked and has to be considered as a new LRBG
 - If the new BG is not linked and is marked as unlinked, its information has to be considered
-- After that all the packets of this BG are handled</Comment>
+- After that all the packets of this BG are handled
+
+Some generic packets need to know whether they are infilled or not 
+(e.g. Linking), hence the infilledTelegram parameter.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.EUROBALISE.Message"
@@ -2910,12 +2917,14 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Accept new LRBG"
  Guid="06a5b621-57e9-427f-a37d-7bd25694070c"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Accept new LRBG"
  Guid="dd2a3189-bf7c-4f77-87b4-c6fe12c32c97"
 >
@@ -2952,6 +2961,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Ignore the BG due to its virtual balise cover marker"
  Guid="de484aaa-a0a9-4b55-8dca-db7cc86d398d"
 >
@@ -3013,9 +3023,11 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Handle non-infill packets"
  Guid="44cdb1c8-4513-49f0-ba2f-c9be84c73dcf"
 >
+<Comment>Handle non-infill packets of a consistent message.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -3039,6 +3051,7 @@ HandleConsistentMessage(
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Handle infill packets"
  Guid="d034cf04-641f-4f41-9197-f8a57b7631b9"
 >
@@ -3077,14 +3090,25 @@ HandleConsistentMessage(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="12973630-2100-4590-a024-a5abae2c0967"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><ReqRef
+ Id="5f3132e8-fb36-491a-b7e8-7e237d362383"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67430e31-2ada-4604-8f01-838ea93b9996"
+>
+</ReqRef><Comment>Handle infill packets of a consistent message if conditions for such a handling are satified (mode, level, linked infill reference).</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
  Name="Handle infill packets"
  Guid="e33a0c94-6acb-49c5-971d-b8071b957e64"
 >
-<PreConditions>
+<ReqRef
+ Id="df7e22ad-c4c2-425f-a515-c1a3f4424969"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="62da968a-e65b-4c9c-93b6-fee2f99c0680"
+>
+</ReqRef><PreConditions>
 <PreCondition
  Guid="3ce39148-512f-4fcb-8130-eaded6856317"
 >Kernel.Infill.AccepBTMtInfill()</PreCondition></PreConditions>
@@ -3100,6 +3124,7 @@ HandleConsistentMessage(
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="The BG is not consistent"
  Guid="8324c201-d04f-4c0b-9379-3944df24ac68"
 >
@@ -3112,12 +3137,14 @@ HandleConsistentMessage(
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Message consistency error"
  Guid="98a41f19-30c0-4d94-9625-28853a8db3ed"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Message consistency error"
  Guid="a0281245-2a56-4524-b725-06956c928557"
 >
@@ -3378,6 +3405,7 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Unexpected balise group in SR"
  Guid="c2cd2dfc-7468-4668-8397-8974febbe40f"
 >
@@ -3389,6 +3417,7 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Unexpected balise group in SR"
  Guid="c44f30b4-3bff-498e-a43a-202343160468"
 >
@@ -3455,6 +3484,7 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Unexpected balise group in SH"
  Guid="c932b8c3-9773-4418-9a68-4dcd2a64b2fd"
 >
@@ -3466,6 +3496,7 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Unexpected balise group in SH"
  Guid="e7abda65-9d6a-40d0-95a4-d37a44db0a24"
 >
@@ -3534,6 +3565,7 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Handle linking"
  Guid="7681408a-254e-4253-b89f-a000390d57d7"
 >
@@ -3669,6 +3701,7 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Handle linking error"
  Guid="107baf8b-a752-4b4b-bf2f-a259a5c03735"
 >
@@ -3681,6 +3714,7 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Linking error"
  Guid="fa1264fd-d06b-43fd-b8be-fc0ee36a9ffa"
 >
@@ -4012,9 +4046,16 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  Y="370"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="HandleConsistentMessage"
  Guid="f800b718-c1c5-4270-b280-bc814a553449"
 >
+<ReqRef
+ Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="57f88de2-990f-44d3-991a-1909b344d05f"
+>
+</ReqRef><Comment>Handle the consistent message. It is called twice. Once on non-infill packets, once on infill packets.</Comment>
 <Parameters>
 <Parameter
  Type="Boolean"
@@ -4041,7 +4082,7 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  Name="Handle Level Transition Order in balise telegrams"
  Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
 >
-<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
+<Comment>First, handle the LevelTransitionOrder packets in all the telegrams.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -4092,7 +4133,17 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8ea6272d-693d-4454-8053-be46bf1f2925"
 >
-</ReqRef><Comment>On reception of a new MA, the previously stored mode profile has to be deleted.</Comment>
+</ReqRef><ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="338c7e89-32fe-495e-ab8e-24ce2eac1f5b"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8321d3b2-218c-406e-a5c5-f55df74207a9"
+>
+</ReqRef><Comment>On reception of a new MA, the previously stored mode profile has to be deleted unless the new MA is an infill MA in which case only that part of the mode profile which is beyond the infill reference location should be deleted.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -4112,15 +4163,19 @@ THERE_IS X IN aBaliseGroup | (THERE_IS V IN Infill.CurrentInfillTelegram(selectI
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="MA packet available"
  Guid="e0157cf8-5a4a-4793-9350-acf28037c283"
 >
+<Comment>Delete ModeProfile or part of it depending on whther the new MA is infilled or not.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Infill MA"
  Guid="15714707-69ca-42cc-896d-c5d145bdea7a"
 >
+<Comment>Delete ModeProfile beyond infill location reference.</Comment>
 <PreConditions>
 <PreCondition
  Guid="197e5eb7-ca0d-49fc-80ef-f9a9c61c8aa9"
@@ -4134,9 +4189,11 @@ Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation
   aDistance
 )</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Non Infill MA"
  Guid="7a2dc097-6738-4924-93b5-ea2506a1f22e"
 >
+<Comment>Delete ModeProfile.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d8706bcf-8b81-4e20-975f-d383d003ebcc"
@@ -4156,7 +4213,9 @@ Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation
  Name="Handle general packets in balise telegrams"
  Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
 >
-<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams.</Comment>
+<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams. Some generic packets 
+need to know whether they are infilled or not (e.g. Linking), hence the 
+infilledTelegram parameter.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -4227,7 +4286,22 @@ IN
  Name="Handle MA packet in balise telegrams"
  Guid="8bf64490-ce74-42a8-aa77-fcbf0d2bf6c9"
 >
-<Comment>Then, handle the movement authority packet.</Comment>
+<ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a19ddb8b-c51f-40ee-be8e-1b46188a2170"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="867638d8-ef8f-425d-9c86-1dbd606aacc8"
+>
+</ReqRef><ReqRef
+ Id="f0ea8f90-356c-47de-a7fd-4827ae488f00"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffa78bcb-296a-4072-a140-c57067760098"
+>
+</ReqRef><Comment>Then, handle the movement authority packet.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -4269,6 +4343,16 @@ ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGrou
  Id="6f370d19-a99b-404b-9718-80331a17d9d4"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="211eb7c7-66d8-48d5-9e32-d1658184c3de"
+>
+</ReqRef><ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d70821fe-7e49-4550-a19b-6ee04572ec30"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3575957d-8238-4e1c-bc07-57ce9f8d2f8d"
 >
 </ReqRef><Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
 <SubRules></SubRules>
