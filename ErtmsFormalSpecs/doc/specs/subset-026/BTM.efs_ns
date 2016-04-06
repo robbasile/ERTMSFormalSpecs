@@ -824,6 +824,31 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
 >
 <Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="620"
+ Y="560"
+ Width="100"
+ Height="50"
+ Name="BaliseReadError"
+ Guid="802a040c-307e-495a-a5c9-05b53f7ba580"
+>
+<ReqRef
+ Id="5ebc8464-ea72-426f-9d36-3891fb49f575"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="3e9d5fcf-ebca-45bf-8a67-ce3e6bb97302"
+>
+</ReqRef><Comment>Indicates that a balise read error should be reported</Comment>
+<Cases>
+<Case
+ Name="Always"
+ Guid="43bb182b-245e-4e20-b607-bc21da881507"
+>
+<Expression>InconsistentBaliseGroupReceived 
+OR  
+UnreadableBaliseReceived</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
