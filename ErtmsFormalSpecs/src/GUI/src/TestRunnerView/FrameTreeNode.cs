@@ -266,8 +266,18 @@ namespace GUI.TestRunnerView
 
             if (!executeTestsOperation.Dialog.Canceled)
             {
+                // Counts the number of subsequences that have been executed
+                int count = 0;
+                foreach (SubSequence subSequence in Item.SubSequences)
+                {
+                    if (subSequence.getCompleted())
+                    {
+                        count += 1;
+                    }
+                }
+
                 MessageBox.Show(
-                    Item.SubSequences.Count + " sub sequence(s) executed, " + executeTestsOperation.Failed +
+                    count + " sub sequence(s) executed, " + executeTestsOperation.Failed +
                     " sub sequence(s) failed.\n" + runtimeErrors + "Test duration : " +
                     Math.Round(executeTestsOperation.Span.TotalSeconds) + " seconds", "Execution report");
             }
