@@ -4299,6 +4299,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Handles display of information relative to the MRSP.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="b49cd65e-aa70-4703-a030-395768d6c1d9"
@@ -4312,6 +4314,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="90fd9169-822d-4620-b731-27b42a590c6f"
@@ -4365,6 +4369,8 @@ THIS.MRSP &lt;- MAP Discontinuities(Kernel.SpeedAndDistanceMonitoring.PermittedS
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="478da91b-3722-4227-841d-3938873f84c8"
@@ -5629,6 +5635,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Handles display of the LSSMA.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="b902fcd2-5a44-425d-91d1-0c0ae27f67ef"
@@ -5644,6 +5652,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="22339978-dfba-4ad7-8701-4472a5e57933"
@@ -5683,6 +5693,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="49707a0f-5010-4cda-8b08-6d82409e57a3"
@@ -5709,6 +5721,113 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="7e0b18c1-3fb6-4827-89d9-d60537148fee"
 >
 <Comment>The LSSMA</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="EndOfMAStruct"
+ Guid="38655870-05c7-4ebb-9457-b14424083de5"
+>
+<ReqRef
+ Id="9e8f1bbf-b554-4622-9b8a-21683a9737d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c2c8657-0fdb-4c60-9b17-7c0cf930631d"
+>
+</ReqRef><Comment>According to the DMI spec, the PASP should be displayed &apos;...within the movement of authority...&apos;. This struct provides the location of the end of the MA to the DMI.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="73d7db33-8bbf-4a7c-8cfb-8a0aef3191f6"
+>
+<ReqRef
+ Id="9e8f1bbf-b554-4622-9b8a-21683a9737d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="509ed7ba-7180-4510-b5c3-b0b499564940"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="751cd335-5368-4a95-a902-a32fdcd667b9"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="e08b0031-ff83-4b14-95d2-270674692690"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6476b1dc-f3f9-4485-8674-1f5cf00570a1"
+>MRSPAvailable()</PreCondition><PreCondition
+ Guid="b1dec60a-b35f-4a92-9e78-e00c518d3b0e"
+>Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
+  OR  
+Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()
+  OR  
+Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
+ Guid="8c096365-9059-45e5-916b-b97260d8ae05"
+>Available(Kernel.MA.MA)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bc41a2fd-4920-46b2-9b58-f61942eac6ee"
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="63fa2b1b-a805-4e1d-9a9c-c81b7502c63d"
+><Comment>Provides the list of targets to be displayed on the planning area. Since their position has to be updated according to the current position of the train, the front end position is substracted from the location of each target (with minimum allowed value 0).</Comment>
+THIS.EndOfMA &lt;- Kernel.MA.EndOfMA()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="bc8f07f0-82be-4329-b2ab-33169fca7c1b"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="72a1ed21-2b1e-4b3d-bb4f-35aa41e1dbd8"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="88f3f4c2-53b5-4f12-8978-385668c50e8d"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Name="EndOfMA"
+ Guid="b0f80c1b-87fb-4cd5-b409-d990d61911bf"
+>
+<Comment>Provides the distance to the end of the Movement Authority.</Comment>
+</StructureElement><StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="645f9e9f-ab93-489a-928b-79fae202d089"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
 </StructureElement></Structure></Structures>
 <Functions>
 <Function
