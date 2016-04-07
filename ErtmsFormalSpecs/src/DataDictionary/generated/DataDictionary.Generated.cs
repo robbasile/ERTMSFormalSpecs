@@ -26093,6 +26093,7 @@ public partial class Step
 {
 public  override  bool find(Object search){
 if (search is String ) {
+if(getDistance().CompareTo((String) search) == 0)return true;
 if(getDescription().CompareTo((String) search) == 0)return true;
 if(getObsoleteComment().CompareTo((String) search) == 0)return true;
 if(getUserComment().CompareTo((String) search) == 0)return true;
@@ -26115,11 +26116,11 @@ public  void setTCS_Order(int v) {
 }
 
 
-private  int aDistance;
+private   string  aDistance;
 
-public  int getDistance() { return aDistance;}
+public   string  getDistance() { return aDistance;}
 
-public  void setDistance(int v) {
+public  void setDistance( string  v) {
   aDistance = v;
   __setDirty(true);
   NotifyControllers(null);
@@ -26675,7 +26676,7 @@ public Step()
 {
 Step obj = this;
 aTCS_Order=(0);
-aDistance=(0);
+aDistance=(null);
 aDescription=(null);
 aObsoleteComment=(null);
 aUserComment=(null);
@@ -26857,7 +26858,7 @@ ctxt.acceptString ("</SubSteps>");
 // End enclosed
 ctxt.skipWhiteSpace();
 // Optional Enclosed
-if (ctxt.lookAheadOpeningTag("<Messsages")){
+if (ctxt.lookAheadOpeningTag("<Messages")){
 ctxt.skipWhiteSpace();
 fl1395 = true ; 
 while (fl1395) { // BeginLoop 
@@ -26889,7 +26890,7 @@ ctxt.skipWhiteSpace();
 } // -- monomorphic Loop
 // EndRepeat
 ctxt.skipWhiteSpace();
-ctxt.acceptString ("</Messsages>");
+ctxt.acceptString ("</Messages>");
 } // If
 } // If
 // End enclosed
@@ -27161,7 +27162,7 @@ ctxt.fail ("Duplicate attribute: Distance");
 } // If
 fl1409 = true ; 
 quoteChar = ctxt.acceptQuote();
-this.setDistance(ctxt.fetchInteger());
+this.setDistance((acceptor.lAcceptPcData(ctxt,-1, quoteChar, XmlBContext.WS_PRESERVE)));
 ctxt.accept(quoteChar);
 ctxt.skipWhiteSpace();
 break;
@@ -27325,7 +27326,7 @@ if (!fl1408){
 this.setTCS_Order(0);
 } // If
 if (!fl1409){
-this.setDistance(0);
+this.setDistance("0");
 } // If
 if (!fl1410){
 this.setIO(acceptor.ST_IO.StIO_NA);
@@ -27398,7 +27399,7 @@ acceptor.unParsePcData(pw, this.getTCS_Order());
 pw.Write('"');
 pw.Write('\n');
 } // If
-if (this.getDistance() != 0){
+if (this.getDistance() != null){
 pw.Write(" Distance=\"");
 acceptor.unParsePcData(pw, this.getDistance());
 pw.Write('"');
@@ -27541,12 +27542,12 @@ pw.Write('\n');
 // Unparsing Enclosed
 // Testing for empty content: Messages
 if (countMessages() > 0){
-pw.Write("<Messsages>");
+pw.Write("<Messages>");
 pw.Write('\n');
 // Unparsing Repeat
 // Unparsing repetition
 unParse(pw, this.getMessages(), false, "<DBMessage", "</DBMessage>");
-pw.Write("</Messsages>");
+pw.Write("</Messages>");
 // Father is not a mixed
 pw.Write('\n');
 } // If

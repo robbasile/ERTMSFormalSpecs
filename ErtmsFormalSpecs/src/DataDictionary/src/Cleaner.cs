@@ -542,6 +542,10 @@ namespace DataDictionary
         /// <param name="visitSubNodes"></param>
         public override void visit(Generated.Step obj, bool visitSubNodes)
         {
+          if ( obj.getDistance() != null )
+          {
+            obj.setDistance(obj.getDistance().Trim());
+          }
           if ( obj.getDescription() != null )
           {
             obj.setDescription(obj.getDescription().Trim());

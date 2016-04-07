@@ -234,7 +234,7 @@ namespace Importers
                     Step initializeTrainDataStep = (Step) acceptor.getFactory().createStep();
                     
                     initializeTrainDataStep.setTCS_Order(0);
-                    initializeTrainDataStep.setDistance(0);
+                    initializeTrainDataStep.setDistance("0");
                     initializeTrainDataStep.setDescription("Initialize train data");
                     initializeTrainDataStep.setTranslationRequired(true);
                     testCase.appendSteps(initializeTrainDataStep);
@@ -242,7 +242,7 @@ namespace Importers
                     Step defaultValuesStep = (Step) acceptor.getFactory().createStep();
                     
                     defaultValuesStep.setTCS_Order(0);
-                    defaultValuesStep.setDistance(0);
+                    defaultValuesStep.setDistance("0");
                     defaultValuesStep.setDescription("Set default values");
                     defaultValuesStep.setTranslationRequired(true);
                     testCase.appendSteps(defaultValuesStep);
@@ -250,7 +250,7 @@ namespace Importers
                     Step manualSetupStep = (Step) acceptor.getFactory().createStep();
                     
                     manualSetupStep.setTCS_Order(0);
-                    manualSetupStep.setDistance(0);
+                    manualSetupStep.setDistance("0");
                     manualSetupStep.setDescription("Manual setup test sequence");
                     manualSetupStep.setTranslationRequired(false);
                     testCase.appendSteps(manualSetupStep);
@@ -282,7 +282,7 @@ namespace Importers
                 {
                     object[] items = dataRow.ItemArray;
                     int order = (int) items[0];
-                    int distance = (int) items[1];
+                    string distance = (string) items[1];
                     int feature = (int) items[2];
                     int testCaseNr = (int) items[3];
                     string stepType = items[4] as string;

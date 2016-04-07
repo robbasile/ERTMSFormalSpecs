@@ -186,7 +186,7 @@ namespace DataDictionary
         public override void visit(Step obj, bool visitSubNodes)
         {
             obj.setTCS_Order(0);
-            obj.setDistance(0);
+            obj.setDistance("0");
             obj.setIO(acceptor.ST_IO.StIO_NA);
             obj.setLevelIN(acceptor.ST_LEVEL.StLevel_NA);
             obj.setLevelOUT(acceptor.ST_LEVEL.StLevel_NA);

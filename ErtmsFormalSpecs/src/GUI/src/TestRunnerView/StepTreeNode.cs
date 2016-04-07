@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Generated;
@@ -87,10 +88,13 @@ namespace GUI.TestRunnerView
             /// </summary>
             [Category("Subset76")]
             // ReSharper disable once UnusedMember.Local
-            public int Distance
+            public double Distance
             {
-                get { return Item.getDistance(); }
-                set { Item.setDistance(value); }
+                get { return double.Parse(Item.getDistance()); }
+                set
+                {
+                    Item.setDistance(value.ToString(CultureInfo.InvariantCulture));
+                }
             }
 
             /// <summary>

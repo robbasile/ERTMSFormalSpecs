@@ -3357,9 +3357,9 @@ namespace DataDictionary.Compare
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "TCS_Order", other.getTCS_Order().ToString(), obj.getTCS_Order().ToString()) );
             }
-            if ( obj.getDistance() != other.getDistance() )
+            if ( !CompareUtil.canonicalStringEquality(obj.getDistance(), other.getDistance()) )
             {
-                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Distance", other.getDistance().ToString(), obj.getDistance().ToString()) );
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Distance", other.getDistance(), obj.getDistance()) );
             }
             if ( !CompareUtil.canonicalStringEquality(obj.getDescription(), other.getDescription()) )
             {
@@ -13661,6 +13661,10 @@ namespace DataDictionary.Compare
         {
             searchReferencesParagraph (obj, searchString, occurences);
 
+            if ( obj.getDistance() != null && obj.getDistance().Contains (searchString) ) 
+            {
+                occurences.Add ( obj );
+            }
             if ( obj.getDescription() != null && obj.getDescription().Contains (searchString) ) 
             {
                 occurences.Add ( obj );
