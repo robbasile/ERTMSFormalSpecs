@@ -15,8 +15,9 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Functions;
-using DataDictionary.Specification;
+using DataDictionary.Generated;
+using Function = DataDictionary.Functions.Function;
+using Paragraph = DataDictionary.Specification.Paragraph;
 
 namespace GUI.EditorView
 {
@@ -59,7 +60,17 @@ namespace GUI.EditorView
                 }
                 else
                 {
-                    setChangeHandler(null);
+                    Step step = DisplayedModel as Step;
+                    if (step != null)
+                    {
+                        SyntaxHighlight = false;
+                        AutoComplete = false;
+                        setChangeHandler(new StepTextChangeHandler(step));
+                    }
+                    else
+                    {
+                        setChangeHandler(null);
+                    }
                 }
             }
 

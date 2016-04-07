@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
@@ -39,24 +38,6 @@ namespace GUI.Report
         }
 
         /// <summary>
-        ///     Gives the list of all the controls of the form
-        ///     (situated on the main form or on its group box)
-        /// </summary>
-        public ArrayList AllControls
-        {
-            get
-            {
-                ArrayList retVal = new ArrayList();
-
-                retVal.AddRange(Controls);
-                retVal.AddRange(GrB_Options.Controls);
-
-                return retVal;
-            }
-        }
-
-
-        /// <summary>
         ///     Creates a report config with user's choices
         /// </summary>
         /// <param name="sender"></param>
@@ -64,12 +45,6 @@ namespace GUI.Report
         private void Btn_CreateReport_Click(object sender, EventArgs e)
         {
             _reportHandler.Name = "Findings report";
-
-            _reportHandler.addQuestions = CB_ShowQuestions.Checked;
-            _reportHandler.addComments = CB_ShowComments.Checked;
-            _reportHandler.addBugs = CB_ShowBugs.Checked;
-            _reportHandler.addReviewed = CB_Reviewed.Checked;
-            _reportHandler.addNotReviewed = CB_NotReviewed.Checked;
 
             Hide();
 
@@ -88,10 +63,6 @@ namespace GUI.Report
                 _reportHandler.FileName = saveFileDialog.FileName;
                 TxtB_Path.Text = _reportHandler.FileName;
             }
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
         }
     }
 }

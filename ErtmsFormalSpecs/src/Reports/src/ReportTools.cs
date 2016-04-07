@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 
@@ -142,7 +143,7 @@ namespace Reports
         /// <param name="text"></param>
         public void AddParagraph(string text)
         {
-            if (text != null)
+            if (!String.IsNullOrEmpty(text))
             {
                 section.AddParagraph(text, "Normal");
             }
@@ -228,7 +229,7 @@ namespace Reports
             int elementCount = 0;
             foreach (string data in rowData)
             {
-                if (data != null && !data.Equals(""))
+                if (!string.IsNullOrEmpty(data))
                 {
                     elementCount += 1;
                 }
@@ -276,6 +277,15 @@ namespace Reports
             }
 
             return lastRow;
+        }
+
+        /// <summary>
+        /// Sets the shading color of the last row
+        /// </summary>
+        /// <param name="color"></param>
+        public void SetLastRowColor(Color color)
+        {
+            lastRow.Shading.Color = color;
         }
 
         /// <summary>
