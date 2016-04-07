@@ -28,7 +28,7 @@ namespace Reports.Specs
         public SpecCoverageReportHandler(Dictionary dictionary)
             : base(dictionary)
         {
-            createFileName("SpecificationCoverageReport");
+            CreateFileName("SpecificationCoverageReport");
             AddSpecification = false;
             ShowFullSpecification = false;
             AddCoveredParagraphs = false;

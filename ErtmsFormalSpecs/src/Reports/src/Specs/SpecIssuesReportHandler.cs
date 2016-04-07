@@ -28,7 +28,7 @@ namespace Reports.Specs
         public SpecIssuesReportHandler(Dictionary dictionary)
             : base(dictionary)
         {
-            createFileName("SpecificationIssuesReport");
+            CreateFileName("SpecificationIssuesReport");
             AddSpecIssues = false;
             AddDesignChoices = false;
             AddInformationNeeded = false;

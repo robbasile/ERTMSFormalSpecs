@@ -47,7 +47,7 @@ namespace Reports.ERTMSAcademy
         public ERTMSAcademyReportHandler(Dictionary dictionary)
             : base(dictionary)
         {
-            createFileName("ERTMSAcademyReport");
+            CreateFileName("ERTMSAcademyReport");
         }
 
         /// <summary>

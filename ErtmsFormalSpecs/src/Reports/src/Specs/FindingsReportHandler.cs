@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Globalization;
+using DataDictionary;
 using DataDictionary.Generated;
 using MigraDoc.DocumentObjectModel;
 using Utils;
@@ -46,7 +47,7 @@ namespace Reports.Specs
         public FindingsReportHandler(Dictionary dictionary)
             : base(dictionary)
         {
-            createFileName("FindingsReport");
+            CreateFileName("FindingsReport");
         }
 
         public override Document BuildDocument()
@@ -61,11 +62,23 @@ namespace Reports.Specs
                 }
             };
 
+            // Apply translation rule to get the spec issues from the translated steps
+            MarkingHistory.PerformMark(() =>
+            {
+                foreach (Frame frame in Dictionary.Tests)
+                {
+                    frame.Translate();
+                }
+            });
+
+            // Fill the report
             Report = new FindingsReport(retVal);
+            Report.AddSubParagraph("Subset-076 Analysis report");
             CreateIntroduction();
             CreateTestSequenceReport();
             CreateFindingsReport();
- 
+            Report.CloseSubParagraph();
+
             return retVal;
         }
 
@@ -180,20 +193,16 @@ namespace Reports.Specs
                             {
                                 foreach (ReqRef reqRef in step.Requirements)
                                 {
+                                    string name = testCase.Name;
+
                                     if (step.getTCS_Order() != 0)
                                     {
-                                        Report.AddRow(
-                                            "Step  " + step.getTCS_Order().ToString(CultureInfo.InvariantCulture),
-                                            reqRef.Paragraph.Text);
+                                        name += " Step  " + step.getTCS_Order().ToString(CultureInfo.InvariantCulture);
                                     }
-                                    else
-                                    {
-                                        // The step does not come from the Access database (for instance, it has been created 
-                                        // manually to handle a specific error), reference the enclosing test case instead.
-                                        Report.AddRow(
-                                            testCase.Name,
-                                            reqRef.Paragraph.Text);
-                                    }
+
+                                    Report.AddRow(
+                                        name,
+                                        reqRef.Paragraph.Text);
 
                                     Report.SetLastRowColor(Colors.IndianRed);
                                 }

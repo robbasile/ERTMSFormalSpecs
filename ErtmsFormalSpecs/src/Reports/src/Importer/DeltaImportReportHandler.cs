@@ -37,7 +37,7 @@ namespace Reports.Importer
         public DeltaImportReportHandler(Dictionary aDictionary, Document importResult, string baseFileName)
             : base(aDictionary)
         {
-            createFileName(baseFileName);
+            CreateFileName(baseFileName);
             ImportResult = importResult;
         }
 

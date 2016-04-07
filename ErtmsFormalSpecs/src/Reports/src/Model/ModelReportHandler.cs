@@ -25,7 +25,7 @@ namespace Reports.Model
         public ModelReportHandler(Dictionary aDictionary)
             : base(aDictionary)
         {
-            createFileName("ModelReport");
+            CreateFileName("ModelReport");
             AddRanges = false;
             AddRangesDetails = false;
             AddEnumerations = false;

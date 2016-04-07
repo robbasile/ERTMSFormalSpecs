@@ -35,8 +35,8 @@ namespace Reports
         /// <summary>
         ///     Creates the full file name from a given title
         /// </summary>
-        /// <param name="fileName">Name of the report</param>
-        protected void createFileName(string title)
+        /// <param name="title">Name of the report</param>
+        protected void CreateFileName(string title)
         {
             string reportPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string dateString = String.Format("{0:D4}-{1:D2}-{2:D2}",
@@ -51,10 +51,10 @@ namespace Reports
         /// <summary>
         ///     Constructor
         /// </summary>
-        public ReportHandler(Dictionary dictionary)
+        protected ReportHandler(Dictionary dictionary)
         {
             Name = "Report";
-            createFileName("Report");
+            CreateFileName("Report");
             Dictionary = dictionary;
         }
 
@@ -63,7 +63,6 @@ namespace Reports
         /// <summary>
         ///     Generates the file in the background thread
         /// </summary>
-        /// <param name="arg"></param>
         public override void ExecuteWork()
         {
             Document document = BuildDocument();
@@ -102,16 +101,19 @@ namespace Reports
         ///     Produces the .pdf corresponding to the book, according to user's choices
         ///     specified in the report config
         /// </summary>
-        /// <param name="aBook">The book to be created</param>
+        /// <param name="document">The document to be created</param>
         /// <returns></returns>
         protected bool GenerateOutputFile(Document document)
         {
+            // ReSharper disable once RedundantAssignment
             bool retVal = false;
 
             try
             {
-                PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always);
-                pdfRenderer.Document = document;
+                PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer(false, PdfFontEmbedding.Always)
+                {
+                    Document = document
+                };
                 pdfRenderer.RenderDocument();
                 pdfRenderer.PdfDocument.Save(FileName);
 
@@ -122,6 +124,7 @@ namespace Reports
                 throw  new Exception("Cannot render document.", e);
             }
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             return retVal;
         }
     }

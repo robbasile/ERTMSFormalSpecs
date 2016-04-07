@@ -27,7 +27,7 @@ namespace Reports.Model
         public FunctionalAnalysisReportHandler(Dictionary aDictionary)
             : base(aDictionary)
         {
-            createFileName("FunctionalAnalysisReport");
+            CreateFileName("FunctionalAnalysisReport");
         }
 
         /// <summary>

@@ -73,7 +73,7 @@ namespace Reports.Tests
 
         private void init()
         {
-            createFileName("DynamicTestCoverageReport");
+            CreateFileName("DynamicTestCoverageReport");
 
             AddFrames = false;
             AddActivatedRulesInFrames = false;
