@@ -25,6 +25,7 @@ using Frame = DataDictionary.Tests.Frame;
 using Paragraph = DataDictionary.Specification.Paragraph;
 using ReferencesParagraph = DataDictionary.ReferencesParagraph;
 using ReqRef = DataDictionary.ReqRef;
+using RequirementSet = DataDictionary.Specification.RequirementSet;
 using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
 using SubStep = DataDictionary.Tests.SubStep;
@@ -114,6 +115,11 @@ namespace Reports.Specs
             public int Issues { get; private set; }
 
             /// <summary>
+            /// The number of blocking issues found
+            /// </summary>
+            public int BlockingIssues { get; private set; }
+
+            /// <summary>
             /// Constructor
             /// </summary>
             public Counter()
@@ -121,8 +127,14 @@ namespace Reports.Specs
                 Actions = 0;
                 Checks = 0;
                 Issues = 0;
+                BlockingIssues = 0;
             }
 
+            /// <summary>
+            /// Counts the changes and the expectations
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
             public override void visit(DataDictionary.Generated.SubStep obj, bool visitSubNodes)
             {
                 SubStep subStep = obj as SubStep;
@@ -136,6 +148,11 @@ namespace Reports.Specs
                 base.visit(obj, visitSubNodes);
             }
 
+            /// <summary>
+            /// Counts the issues and the blocking issues 
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <param name="visitSubNodes"></param>
             public override void visit(DataDictionary.Generated.ReferencesParagraph obj, bool visitSubNodes)
             {
                 ReferencesParagraph referencesParagraph = obj as ReferencesParagraph;
@@ -143,6 +160,24 @@ namespace Reports.Specs
                 if (referencesParagraph != null)
                 {
                     Issues += referencesParagraph.Requirements.Count;
+
+                    foreach (ReqRef reqRef in referencesParagraph.Requirements)
+                    {
+                        bool blocking = false;
+                        foreach (DataDictionary.Specification.RequirementSetReference reference in reqRef.Paragraph.RequirementSetReferences)
+                        {
+                            RequirementSet requirementSet = reference.Ref;
+                            while (requirementSet != null && !blocking)
+                            {
+                                blocking = requirementSet.Name.Equals("Blocking");
+                                requirementSet = requirementSet.Enclosing as RequirementSet;
+                            }
+                        }
+                        if (blocking)
+                        {
+                            BlockingIssues += 1;
+                        }
+                    }
                 }
 
                 base.visit(obj, visitSubNodes);
@@ -169,13 +204,31 @@ namespace Reports.Specs
                 {
                     Counter counter = new Counter();
                     counter.visit(subSequence, true);
-                   
+
+                    string status = "Ongoing";
+                    Color color = Colors.Orange;
+                    if (counter.BlockingIssues > 0)
+                    {
+                        status = "Invalid";
+                        color = Colors.Red;
+                    }
+                    else
+                    {
+                        if (subSequence.getCompleted())
+                        {
+                            status = "Completed";
+                            color = Colors.Green;
+                        }
+                    }
+
                     Report.AddRow(
                         subSequence.Name, 
                         counter.Actions.ToString(CultureInfo.InvariantCulture),
                         counter.Checks.ToString(CultureInfo.InvariantCulture),
                         counter.Issues.ToString(CultureInfo.InvariantCulture),
-                        subSequence.getCompleted() ? "Completed": "Ongoing");
+                        status);
+
+                    Report.lastRow.Cells[4].Shading.Color = color;
 
                     if (counter.Issues > 0)
                     {

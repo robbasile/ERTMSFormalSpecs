@@ -43,7 +43,7 @@ namespace Reports
         /// <summary>
         ///     The last row built in the table
         /// </summary>
-        protected Row lastRow { get; set; }
+        public Row lastRow { get; set; }
 
         /// <summary>
         ///     The current paragraph level
