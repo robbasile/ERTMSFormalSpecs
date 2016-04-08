@@ -294,6 +294,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Start Override"
@@ -367,6 +369,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Store supervision information"
  Guid="17531b5d-625e-4e86-a896-bcdcc2ec28f8"
@@ -496,7 +500,9 @@
 
   OR  
 
-Kernel.Mode == ModeEnum.SH</PreCondition></PreConditions>
+Kernel.Mode == ModeEnum.SH</PreCondition><PreCondition
+ Guid="f5cd0d99-700a-416f-b13d-2f33fea9650a"
+>NOT DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="bab8de6a-7a28-4649-98e6-e6e684ccc6f2"
