@@ -1846,7 +1846,6 @@ namespace GUI
                 }
                 LongMessageForm textPresentation = new LongMessageForm {richTextBox1 = {Text = result}};
                 textPresentation.Show();
-                //MessageBox.Show(this, result, "Found files", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
