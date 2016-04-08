@@ -16,18 +16,18 @@
 
 using MigraDoc.DocumentObjectModel;
 
-namespace Reports.Specs
+namespace Reports.Specs.SubSet76
 {
     /// <summary>
     /// Handles specific S76 related functionalities while creating the corresponding report
     /// </summary>
-    internal class FindingsReport : ReportTools
+    internal class Subseet76Report : ReportTools
     {
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="document"></param>
-        public FindingsReport(Document document)
+        public Subseet76Report(Document document)
             : base(document)
         {
         }

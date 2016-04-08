@@ -19,12 +19,13 @@ using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
 using Reports.Specs;
+using Reports.Specs.SubSet76;
 
 namespace GUI.Report
 {
     public partial class FindingsReport : Form
     {
-        private readonly FindingsReportHandler _reportHandler;
+        private readonly Subseet76ReportHandler _reportHandler;
 
         /// <summary>
         ///     Constructor
@@ -33,7 +34,7 @@ namespace GUI.Report
         public FindingsReport(Dictionary dictionary)
         {
             InitializeComponent();
-            _reportHandler = new FindingsReportHandler(dictionary);
+            _reportHandler = new Subseet76ReportHandler(dictionary);
             TxtB_Path.Text = _reportHandler.FileName;
         }
 

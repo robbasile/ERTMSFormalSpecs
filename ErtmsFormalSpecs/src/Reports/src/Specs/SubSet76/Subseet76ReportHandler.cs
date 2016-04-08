@@ -14,9 +14,9 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Globalization;
 using DataDictionary;
-using DataDictionary.Generated;
 using MigraDoc.DocumentObjectModel;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -25,27 +25,25 @@ using Frame = DataDictionary.Tests.Frame;
 using Paragraph = DataDictionary.Specification.Paragraph;
 using ReferencesParagraph = DataDictionary.ReferencesParagraph;
 using ReqRef = DataDictionary.ReqRef;
-using RequirementSet = DataDictionary.Specification.RequirementSet;
 using Specification = DataDictionary.Specification.Specification;
 using Step = DataDictionary.Tests.Step;
-using SubStep = DataDictionary.Tests.SubStep;
 using SubSequence = DataDictionary.Tests.SubSequence;
 using TestCase = DataDictionary.Tests.TestCase;
 
-namespace Reports.Specs
+namespace Reports.Specs.SubSet76
 {
-    public class FindingsReportHandler : ReportHandler
+    public class Subseet76ReportHandler : ReportHandler
     {
         /// <summary>
         /// The findings report currently being built
         /// </summary>
-        FindingsReport Report { get; set; }
+        Subseet76Report Report { get; set; }
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="dictionary">The dictionary holding the S76 issues and S76 test sequences</param>
-        public FindingsReportHandler(Dictionary dictionary)
+        public Subseet76ReportHandler(Dictionary dictionary)
             : base(dictionary)
         {
             CreateFileName("FindingsReport");
@@ -73,7 +71,7 @@ namespace Reports.Specs
             });
 
             // Fill the report
-            Report = new FindingsReport(retVal);
+            Report = new Subseet76Report(retVal);
             Report.AddSubParagraph("Subset-076 Analysis report");
             CreateIntroduction();
             CreateTestSequenceReport();
@@ -95,95 +93,15 @@ namespace Reports.Specs
         }
 
         /// <summary>
-        /// Counts the number of items (actions, expectations, ...) in part of the subtree
+        /// Provides the string representation of a percentage between two values
         /// </summary>
-        private class Counter : Visitor
+        /// <param name="number"></param>
+        /// <param name="totalNumber"></param>
+        /// <returns></returns>
+        private string Percent(int number, int totalNumber)
         {
-            /// <summary>
-            /// The number of actions (changes) in the sequence
-            /// </summary>
-            public int Actions { get; private set; }
-
-            /// <summary>
-            /// The number of expectations in the sequence
-            /// </summary>
-            public int Checks { get; private set; }
-
-            /// <summary>
-            /// The number of issues found
-            /// </summary>
-            public int Issues { get; private set; }
-
-            /// <summary>
-            /// The number of blocking issues found
-            /// </summary>
-            public int BlockingIssues { get; private set; }
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            public Counter()
-            {
-                Actions = 0;
-                Checks = 0;
-                Issues = 0;
-                BlockingIssues = 0;
-            }
-
-            /// <summary>
-            /// Counts the changes and the expectations
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <param name="visitSubNodes"></param>
-            public override void visit(DataDictionary.Generated.SubStep obj, bool visitSubNodes)
-            {
-                SubStep subStep = obj as SubStep;
-
-                if (subStep != null)
-                {
-                    Actions += subStep.Actions.Count;
-                    Checks += subStep.Expectations.Count;
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
-
-            /// <summary>
-            /// Counts the issues and the blocking issues 
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <param name="visitSubNodes"></param>
-            public override void visit(DataDictionary.Generated.ReferencesParagraph obj, bool visitSubNodes)
-            {
-                ReferencesParagraph referencesParagraph = obj as ReferencesParagraph;
-
-                if (referencesParagraph != null)
-                {
-                    Issues += referencesParagraph.Requirements.Count;
-
-                    foreach (ReqRef reqRef in referencesParagraph.Requirements)
-                    {
-                        bool blocking = false;
-                        foreach (DataDictionary.Specification.RequirementSetReference reference in reqRef.Paragraph.RequirementSetReferences)
-                        {
-                            RequirementSet requirementSet = reference.Ref;
-                            while (requirementSet != null && !blocking)
-                            {
-                                blocking = requirementSet.Name.Equals("Blocking");
-                                requirementSet = requirementSet.Enclosing as RequirementSet;
-                            }
-                        }
-                        if (blocking)
-                        {
-                            BlockingIssues += 1;
-                        }
-                    }
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
+            return Math.Round(number*100/(double)totalNumber) + " %";
         }
-
 
         /// <summary>
         /// Creates the section which describes the translated test and the result of application of those tests on the model
@@ -193,6 +111,31 @@ namespace Reports.Specs
             Report.AddSubParagraph("Sub sequence report");
             Report.AddParagraph(
                 "This section presents the sub sequences that have been translated and applied on the Subset-026 model, along with their execution result and the issues found in the test sequence definition.");
+            Report.AddParagraph("The following table presents summarises the test sequences that have been analysed, along with the number of issues found.");
+
+            Counter counter = new Counter();
+            counter.visit(Dictionary, true);
+
+            Report.AddTable(new []{"", "Count", "Ratio"}, new []{100,35, 35});
+            Report.AddRow(
+                "Imported sequences", 
+                counter.SubSequences.ToString(CultureInfo.InvariantCulture), 
+                Percent(counter.SubSequences, 800));
+
+            Report.AddRow(
+                "Sequence analysis completed", 
+                counter.CompletedSubSequences.Count.ToString(CultureInfo.InvariantCulture),
+                Percent(counter.CompletedSubSequences.Count, counter.SubSequences));
+
+            Report.AddRow(
+                "Invalid sequences",
+                counter.BlockingSubSequences.Count.ToString(CultureInfo.InvariantCulture),
+                Percent(counter.BlockingSubSequences.Count, counter.SubSequences));
+
+            Report.AddRow(
+                "Total number of issues found",
+                counter.Issues.ToString(CultureInfo.InvariantCulture),
+                Math.Round(counter.Issues/(double)counter.SubSequences).ToString(CultureInfo.InvariantCulture));
 
             Report.AddSubParagraph("Summary");
             Report.AddParagraph("This section summarises the results for each sub sequence");
@@ -202,7 +145,7 @@ namespace Reports.Specs
 
                 foreach (SubSequence subSequence in frame.SubSequences)
                 {
-                    Counter counter = new Counter();
+                    counter = new Counter();
                     counter.visit(subSequence, true);
 
                     string status = "Ongoing";
