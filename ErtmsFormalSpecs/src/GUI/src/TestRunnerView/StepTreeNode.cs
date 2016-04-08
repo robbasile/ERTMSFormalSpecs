@@ -90,7 +90,7 @@ namespace GUI.TestRunnerView
             // ReSharper disable once UnusedMember.Local
             public double Distance
             {
-                get { return double.Parse(Item.getDistance()); }
+                get { return Item.Distance; }
                 set
                 {
                     Item.setDistance(value.ToString(CultureInfo.InvariantCulture));

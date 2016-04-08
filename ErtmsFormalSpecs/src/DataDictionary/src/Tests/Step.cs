@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Globalization;
 using System.IO;
 using DataDictionary.Generated;
 using Utils;
@@ -118,6 +119,15 @@ namespace DataDictionary.Tests
         public SubSequence SubSequence
         {
             get { return EnclosingFinder<SubSequence>.find(this); }
+        }
+
+        /// <summary>
+        ///     The distance at which this step is executed
+        /// </summary>
+        public double Distance
+        {
+            get { return double.Parse(getDistance()); }
+            set { setDistance(value.ToString(CultureInfo.InvariantCulture));}
         }
 
         /// <summary>

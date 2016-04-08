@@ -193,7 +193,7 @@ namespace DataDictionary.Tests.Translations
                     newSubStep.Name = subStep.Name;
                     step.appendSubSteps(newSubStep);
 
-                    if (previousStep != null && previousStep.getDistance() != step.getDistance() && subStepCounter == 1)
+                    if (previousStep != null && previousStep.Distance != step.Distance && subStepCounter == 1)
                     {
                         Action newAct = (Action) acceptor.getFactory().createAction();
                         newAct.ExpressionText = "OdometryInterface.UpdateDistance ( " + step.getDistance() + ".0 )";
