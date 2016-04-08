@@ -25,7 +25,7 @@ using Translation = DataDictionary.Tests.Translations.Translation;
 
 namespace DataDictionary.Tests
 {
-    public class Step : Generated.Step, ITextualExplain
+    public class Step : Generated.Step, ITextualExplain, IEditable
     {
         /// <summary>
         ///     The text displayed for a step that has not been named
@@ -349,5 +349,20 @@ namespace DataDictionary.Tests
                 return retVal;
             }
         }
+
+        /// <summary>
+        /// The text to edit
+        /// </summary>
+        public string Text { get { return getName(); } set { setName(value); } }
+
+        /// <summary>
+        /// No syntax highlighting for this
+        /// </summary>
+        public bool SyntaxHightlight { get { return false; } }
+
+        /// <summary>
+        /// Editable window title
+        /// </summary>
+        public string Title { get { return "Step"; } }    
     }
 }

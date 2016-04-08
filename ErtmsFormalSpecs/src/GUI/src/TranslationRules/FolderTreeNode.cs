@@ -15,6 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using DataDictionary.Types;
@@ -50,6 +51,42 @@ namespace GUI.TranslationRules
         }
 
         /// <summary>
+        /// Compares two nodes to sort them
+        /// </summary>
+        /// <param name="node1"></param>
+        /// <param name="node2"></param>
+        /// <returns></returns>
+        private int CompareNodes(object node1, object node2)
+        {
+            int retVal = -1;
+
+            FolderTreeNode folder1 = node1 as FolderTreeNode;
+            FolderTreeNode folder2 = node2 as FolderTreeNode;
+
+            TranslationTreeNode translation1 = node1 as TranslationTreeNode;
+            TranslationTreeNode translation2 = node2 as TranslationTreeNode;
+
+            if (folder1 != null && translation2 != null)
+            {
+                retVal = -1;
+            }
+            else if (folder2 != null && translation1 != null)
+            {
+                retVal = 1;
+            }
+            else if ( folder1 != null && folder2 != null )
+            {
+                retVal = String.CompareOrdinal(folder1.Text, folder2.Text);
+            }
+            else if (translation1 != null && translation2 != null)
+            {
+                retVal = String.CompareOrdinal(translation1.Text, translation2.Text);
+            }
+
+            return retVal;
+        }
+
+        /// <summary>
         ///     Builds the subnodes of this node
         /// </summary>
         /// <param name="subNodes"></param>
@@ -69,6 +106,8 @@ namespace GUI.TranslationRules
             {
                 subNodes.Add(new TranslationTreeNode(translation, recursive));
             }
+
+            subNodes.Sort(CompareNodes);
         }
 
         /// <summary>

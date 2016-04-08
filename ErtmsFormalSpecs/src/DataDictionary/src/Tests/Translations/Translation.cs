@@ -38,7 +38,7 @@ using StructureElement = DataDictionary.Types.StructureElement;
 
 namespace DataDictionary.Tests.Translations
 {
-    public class Translation : Generated.Translation, ICommentable, ITextualExplain
+    public class Translation : Generated.Translation, ITextualExplain, IEditable
     {
         /// <summary>
         ///     Constructor
@@ -1288,6 +1288,21 @@ namespace DataDictionary.Tests.Translations
                 appendSubSteps(subStep);
             }
         }
+
+        /// <summary>
+        /// The text to edit
+        /// </summary>
+        public string Text { get { return getName(); } set { setName(value); } }
+
+        /// <summary>
+        /// No syntax highlighting for this
+        /// </summary>
+        public bool SyntaxHightlight { get { return false; } }
+
+        /// <summary>
+        /// Editable window title
+        /// </summary>
+        public string Title { get { return "Translation"; } }    
 
         /// <summary>
         ///     Creates a default element

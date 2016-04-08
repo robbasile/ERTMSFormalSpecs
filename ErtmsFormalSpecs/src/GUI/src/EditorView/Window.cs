@@ -156,11 +156,18 @@ namespace GUI.EditorView
         public void setChangeHandler(HandleTextChange handleTextChange)
         {
             _textChangeHandler = handleTextChange;
-            if (_textChangeHandler != null && _textChangeHandler.Instance != null)
+            if (_textChangeHandler != null)
             {
-                Text = _textChangeHandler.IdentifyingMessage + @" " + _textChangeHandler.Instance.FullName;
-                editorTextBox.Instance = _textChangeHandler.Instance;
                 editorTextBox.Enabled = true;
+                if (_textChangeHandler.Instance != null)
+                {
+                    Text = _textChangeHandler.IdentifyingMessage + @" " + _textChangeHandler.Instance.FullName;
+                    editorTextBox.Instance = _textChangeHandler.Instance;
+                }
+                else
+                {
+                    Text = _textChangeHandler.IdentifyingMessage;                    
+                }
             }
             else
             {

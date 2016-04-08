@@ -15,9 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Generated;
 using Function = DataDictionary.Functions.Function;
-using Paragraph = DataDictionary.Specification.Paragraph;
 
 namespace GUI.EditorView
 {
@@ -42,35 +40,26 @@ namespace GUI.EditorView
 
             DisplayedModel = context.Element;
 
-            IExpressionable expressionable = DisplayedModel as IExpressionable;
-            if (expressionable != null && !(expressionable is Function))
+            IEditable editable = DisplayedModel as IEditable;
+            if (editable != null)
             {
-                SyntaxHighlight = true;
-                AutoComplete = true;
-                setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
+                SyntaxHighlight = editable.SyntaxHightlight;
+                AutoComplete = editable.SyntaxHightlight;
+                setChangeHandler(new EditableTextChangeHandler(editable));
+
             }
             else
             {
-                Paragraph paragraph = DisplayedModel as Paragraph;
-                if (paragraph != null)
+                IExpressionable expressionable = DisplayedModel as IExpressionable;
+                if (expressionable != null && !(expressionable is Function))
                 {
-                    SyntaxHighlight = false;
-                    AutoComplete = false;
-                    setChangeHandler(new ParagraphTextChangeHandler(paragraph));
+                    SyntaxHighlight = true;
+                    AutoComplete = true;
+                    setChangeHandler(new ExpressionableTextChangeHandler((ModelElement) expressionable));
                 }
                 else
                 {
-                    Step step = DisplayedModel as Step;
-                    if (step != null)
-                    {
-                        SyntaxHighlight = false;
-                        AutoComplete = false;
-                        setChangeHandler(new StepTextChangeHandler(step));
-                    }
-                    else
-                    {
-                        setChangeHandler(null);
-                    }
+                    setChangeHandler(null);
                 }
             }
 

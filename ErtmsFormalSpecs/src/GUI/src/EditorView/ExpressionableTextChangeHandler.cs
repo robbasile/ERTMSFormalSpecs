@@ -28,8 +28,9 @@ namespace GUI.EditorView
         ///     Constructor
         /// </summary>
         /// <param name="instance"></param>
-        public ExpressionableTextChangeHandler(ModelElement instance)
-            : base(instance, "Expression")
+        /// <param name="title"></param>
+        public ExpressionableTextChangeHandler(ModelElement instance, string title = "Expression")
+            : base(instance, title)
         {
         }
 

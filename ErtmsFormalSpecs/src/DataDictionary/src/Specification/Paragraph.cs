@@ -23,7 +23,7 @@ using Frame = DataDictionary.Tests.Frame;
 
 namespace DataDictionary.Specification
 {
-    public class Paragraph : Generated.Paragraph, IHoldsParagraphs
+    public class Paragraph : Generated.Paragraph, IHoldsParagraphs, IEditable
     {
         private static readonly int A = Char.ConvertToUtf32("a", 0);
 
@@ -205,6 +205,16 @@ namespace DataDictionary.Specification
             }
             set { setText(value); }
         }
+
+        /// <summary>
+        /// No syntax highlighting for this
+        /// </summary>
+        public bool SyntaxHightlight { get { return false; } }
+
+        /// <summary>
+        /// Editable window title
+        /// </summary>
+        public string Title { get { return "Requirement"; } }
 
         public override ArrayList EnclosingCollection
         {

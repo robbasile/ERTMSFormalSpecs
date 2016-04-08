@@ -20,7 +20,7 @@ using Utils;
 
 namespace DataDictionary.Tests.Translations
 {
-    public class SourceText : Generated.SourceText, IExpressionable, ITextualExplain
+    public class SourceText : Generated.SourceText, IExpressionable, ITextualExplain, IEditable
     {
         public ArrayList Comments
         {
@@ -54,7 +54,7 @@ namespace DataDictionary.Tests.Translations
         /// <summary>
         ///     Adds a model element in this model element
         /// </summary>
-        /// <param name="copy"></param>
+        /// <param name="element"></param>
         public override void AddModelElement(IModelElement element)
         {
         }
@@ -112,12 +112,26 @@ namespace DataDictionary.Tests.Translations
             explanation.WriteLine(Name);
             explanation.Indent(2, () =>
             {
-                foreach (SourceTextComment comment in this.Comments)
+                foreach (SourceTextComment comment in Comments)
                 {
                     explanation.Write("COMMENT");
                     explanation.WriteLine(comment.Name);
                 }
             });
         }
-    }
+
+        /// <summary>
+        /// The text to edit
+        /// </summary>
+        public string Text { get { return getName(); } set { setName(value); } }
+
+        /// <summary>
+        /// No syntax highlighting for this
+        /// </summary>
+        public bool SyntaxHightlight { get { return false; } }
+
+        /// <summary>
+        /// Editable window title
+        /// </summary>
+        public string Title { get { return "Source text"; } }    }
 }

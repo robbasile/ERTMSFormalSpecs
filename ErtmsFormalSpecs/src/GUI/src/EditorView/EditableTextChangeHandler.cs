@@ -15,23 +15,27 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary;
-using DataDictionary.Specification;
-using DataDictionary.Tests;
 
 namespace GUI.EditorView
 {
     /// <summary>
     ///     Sets the string value into the right property
     /// </summary>
-    public class StepTextChangeHandler : Window.HandleTextChange
+    public class EditableTextChangeHandler : Window.HandleTextChange
     {
+        /// <summary>
+        /// The element currently being edited
+        /// </summary>
+        IEditable Editable { get; set; }
+
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="instance"></param>
-        public StepTextChangeHandler(ModelElement instance)
-            : base(instance, "Description")
+        public EditableTextChangeHandler(IEditable instance)
+            : base(null, instance.Title)
         {
+            Editable = instance;
         }
 
         /// <summary>
@@ -40,14 +44,7 @@ namespace GUI.EditorView
         /// <returns></returns>
         public override string GetText()
         {
-            string retVal = "";
-            Step step = Instance as Step;
-
-            if (step != null)
-            {
-                retVal = step.getDescription();
-            }
-            return retVal;
+            return Editable.Text;
         }
 
         /// <summary>
@@ -58,16 +55,12 @@ namespace GUI.EditorView
         {
             text = RemoveUselessCharacters(text);
 
-            Step step = Instance as Step;
-            if (step != null)
-            {
-                // We don't care about changes in only \r
-                string originalText = RemoveUselessCharacters(step.getDescription());
+            // We don't care about changes in only \r
+            string originalText = RemoveUselessCharacters(Editable.Text);
 
-                if (originalText != text)
-                {
-                    step.setDescription(text);
-                }
+            if (originalText != text)
+            {
+                Editable.Text = text;
             }
         }
     }
