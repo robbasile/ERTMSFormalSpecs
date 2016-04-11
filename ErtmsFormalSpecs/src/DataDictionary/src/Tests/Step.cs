@@ -363,7 +363,35 @@ namespace DataDictionary.Tests
         /// <summary>
         /// The text to edit
         /// </summary>
-        public string Text { get { return getName(); } set { setName(value); } }
+        public string Text
+        {
+            get
+            {
+                string retVal;
+
+                if (getTCS_Order() == 0)
+                {
+                    retVal = Name;
+                }
+                else
+                {
+                    retVal = getDescription();
+                }
+
+                return retVal;
+            }
+            set
+            {
+                if (getTCS_Order() == 0)
+                {
+                    Name = value;
+                }
+                else
+                {
+                    setDescription(value);
+                }
+            }
+        }
 
         /// <summary>
         /// No syntax highlighting for this
