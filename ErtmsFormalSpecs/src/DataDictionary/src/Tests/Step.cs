@@ -126,7 +126,7 @@ namespace DataDictionary.Tests
         /// </summary>
         public double Distance
         {
-            get { return double.Parse(getDistance()); }
+            get { return double.Parse(getDistance(), CultureInfo.InvariantCulture); }
             set { setDistance(value.ToString(CultureInfo.InvariantCulture));}
         }
 
