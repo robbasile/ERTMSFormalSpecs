@@ -79,14 +79,18 @@ namespace DataDictionary.Tests
 
                 foreach (SubSequence subSequence in SubSequences)
                 {
-                    const bool explain = false;
-                    const bool ensureCompiled = false;
-                    EFSSystem.Runner = new Runner.Runner(subSequence, explain, ensureCompiled, checkForCompatibleChanges);
-                    int testCasesFailed = subSequence.ExecuteAllTestCases(EFSSystem.Runner);
-                    if (testCasesFailed > 0)
+                    if (subSequence.getCompleted())
                     {
-                        subSequence.AddError("Execution failed");
-                        retVal += 1;
+                        const bool explain = false;
+                        const bool ensureCompiled = false;
+                        EFSSystem.Runner = new Runner.Runner(subSequence, explain, ensureCompiled,
+                            checkForCompatibleChanges);
+                        int testCasesFailed = subSequence.ExecuteAllTestCases(EFSSystem.Runner);
+                        if (testCasesFailed > 0)
+                        {
+                            subSequence.AddError("Execution failed");
+                            retVal += 1;
+                        }
                     }
                 }
             }

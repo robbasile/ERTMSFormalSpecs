@@ -21,10 +21,12 @@ using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Tests;
 using GUI.ExcelImport;
+using GUI.LongOperations;
 using GUI.Properties;
 using GUI.Report;
 using GUIUtils;
 using GUIUtils.LongOperations;
+using Utils;
 
 namespace GUI.TestRunnerView
 {
@@ -144,6 +146,50 @@ namespace GUI.TestRunnerView
             }
         }
 
+        private class ApplyRulesOperation : ProgressHandler
+        {
+            /// <summary>
+            ///     The dictionary on which the rules should be applied
+            /// </summary>
+            private Dictionary Dictionary{ get; set; }
+
+            /// <summary>
+            ///     Constructor
+            /// </summary>
+            /// <param name="dictionary"></param>
+            public ApplyRulesOperation(Dictionary dictionary)
+            {
+                Dictionary = dictionary;
+            }
+
+            /// <summary>
+            ///     Perform the work as a background task
+            /// </summary>
+            public override void ExecuteWork()
+            {
+                MarkingHistory.PerformMark(() =>
+                {
+                    FinderRepository.INSTANCE.ClearCache();
+                    foreach (Frame frame in Dictionary.Tests)
+                    {
+                        frame.Translate();
+                    }
+                });
+                RefreshModel.Execute();
+            }
+        }
+        /// <summary>
+        ///     Translates the corresponding sub sequence, according to translation rules
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void TranslateHandler(object sender, EventArgs args)
+        {
+            ApplyRulesOperation applyRulesOperation = new ApplyRulesOperation(Item);
+            ProgressDialog progress = new ProgressDialog("Applying translation rules", applyRulesOperation);
+            progress.ShowDialog(GuiUtils.MdiWindow);
+        }
+        
         /// <summary>
         ///     Handles a run event on this test case
         /// </summary>
@@ -193,6 +239,7 @@ namespace GUI.TestRunnerView
                 new MenuItem("Import braking curves verification set", ImportBrakingCurvesHandler),
                 new MenuItem("Mark as not translatable", DoNotTranslateHandler),
                 new MenuItem("-"),
+                new MenuItem("Apply translation rules", TranslateHandler),
                 new MenuItem("Execute", RunHandler),
                 new MenuItem("Create report", ReportHandler)
             };
