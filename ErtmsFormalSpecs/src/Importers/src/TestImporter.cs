@@ -17,6 +17,7 @@
 using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Globalization;
 using DataDictionary.Generated;
 using DataDictionary.Tests.Translations;
 using DBField = DataDictionary.Tests.DBElements.DBField;
@@ -282,7 +283,7 @@ namespace Importers
                 {
                     object[] items = dataRow.ItemArray;
                     int order = (int) items[0];
-                    string distance = (string) items[1];
+                    string distance = ((int) items[1]).ToString(CultureInfo.InvariantCulture) + ".0";
                     int feature = (int) items[2];
                     int testCaseNr = (int) items[3];
                     string stepType = items[4] as string;
