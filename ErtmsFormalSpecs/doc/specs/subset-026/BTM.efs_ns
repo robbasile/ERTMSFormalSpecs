@@ -174,7 +174,7 @@ b) is just a placeholder for a missed balise.</Comment>
  Height="50"
  Pinned="TRUE"
  Implemented="TRUE"
- Name="BGLocationAccuracy"
+ Name="LRBGLocationAccuracy"
  Guid="82c93aa7-24c7-4c34-ba73-364413bf02cc"
 >
 <ReqRef
@@ -192,22 +192,13 @@ b) is just a placeholder for a missed balise.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="40808470-300c-476e-a373-ad623146adf8"
 >
-</ReqRef><Comment>Gives the value of the Location Accuracy which is determined either by the Linking (if available) or by the corresponding National Value (if applicable) or by the Default Value.</Comment>
+</ReqRef><Comment>Gives the value of the Location Accuracy of the LRBG.</Comment>
 <Cases>
 <Case
  Name="Linking available"
  Guid="66f967b2-9ea2-4470-830c-40f7d1dc1e60"
 >
-<PreConditions>
-<PreCondition
- Guid="fa49fa02-cf11-45fe-ad90-3229a3860cd5"
->Available ( BTM.Linking.CurrentLinking() )</PreCondition></PreConditions>
-<Expression>BTM.Linking.CurrentLinking().LocationAccuracy</Expression>
-</Case><Case
- Name="National or default values"
- Guid="590ee6d2-1a2f-48e2-94f8-abce6c0d7a36"
->
-<Expression>BaseTypes.Length(Kernel.NationalValues.CurrentNV().DefaultLocationAccuracyOfABaliseGroup)</Expression>
+<Expression>BTM.LRBG.LRBG.LocationAccuracy</Expression>
 </Case></Cases>
 </Function><Function
  Type="PositionStruct"
@@ -848,6 +839,54 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
 <Expression>InconsistentBaliseGroupReceived 
 OR  
 UnreadableBaliseReceived</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Length"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="GetBGLocationAccuracy"
+ Guid="12ed50b8-3cd0-4a66-831d-167b47fd9fb7"
+>
+<ReqRef
+ Id="7e712341-8fcf-474b-a20b-d3dc889cf08a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="277b2050-7207-41ce-b6c7-9617d7bac756"
+>
+</ReqRef><ReqRef
+ Id="9e4c5ab1-4454-4b08-9df1-666cf07b17ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="07bd3b42-8fcd-40cc-88e8-d1255f232df3"
+>
+</ReqRef><ReqRef
+ Id="a2fa811d-bd40-4622-98d9-2f0c4c579f2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bc99f1b6-6687-4c9b-8db5-5959026766a2"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="d5421a7a-cc46-45ec-b083-bc663225e9f0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="BG linking information available"
+ Guid="f7528158-4b87-45fd-8c9b-ab238d7f1260"
+>
+<PreConditions>
+<PreCondition
+ Guid="513aa180-a151-4d10-9094-a9f96c541667"
+>(FIRST X IN BTM.Linking.Linkings).BaliseGroupIdentifier == (FIRST V IN aBaliseGroup).Telegram.NID_BG</PreCondition></PreConditions>
+<Expression>(FIRST X IN BTM.Linking.Linkings).LocationAccuracy</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="42586bae-a26c-48e6-83c8-6cfb6984559c"
+>
+<Expression>BaseTypes.Length(Kernel.NationalValues.CurrentNV().DefaultLocationAccuracyOfABaliseGroup)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

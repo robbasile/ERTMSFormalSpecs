@@ -70,6 +70,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5ce0cea6-f421-462c-9e62-f3b5e470f2ca"
 >
+</ReqRef><ReqRef
+ Id="a2fa811d-bd40-4622-98d9-2f0c4c579f2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="189df0ae-6d22-48e2-980d-51084a190da4"
+>
 </ReqRef><Comment>Represents the information about the Last Relevant Balise Group.</Comment>
 <StructureElement
  TypeName="PositionStruct"
@@ -127,12 +132,12 @@
 <Comment>The moment when the balise group was received by the train. Used to retrieve the most recent balise group.</Comment>
 </StructureElement><StructureElement
  TypeName="BaseTypes.Length"
- Default="BaseTypes.Length.NA"
+ Default="12"
  Mode="Internal"
  Name="LocationAccuracy"
  Guid="cf2198d9-b8e3-4042-a830-f28881e15b0d"
 >
-<Comment>Stores the LRBG location accuracy according to linking information or default value.</Comment>
+<Comment>Stores the LRBG location accuracy according to linking information or default value. SHOULD NOT BE HARD CODED.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -547,6 +552,11 @@
  Name="aOrientation"
  Guid="d91f8e16-2cb9-4a3e-b8bb-daa91156d3e8"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Length"
+ Name="aLocationAccuracy"
+ Guid="683634fc-d4a2-4e08-9bd7-42e2b81f7e5d"
+>
 </Parameter></Parameters>
 <Rules>
 <Rule
@@ -625,7 +635,8 @@
   Timestamp =&gt; BGLocationReference.Timestamp,
   NID =&gt; Nid_BG,
   Position =&gt; BGLocationReference.Position,
-  Orientation =&gt; aOrientation
+  Orientation =&gt; aOrientation,
+  LocationAccuracy =&gt; aLocationAccuracy
 }</Action><Action
  Guid="9ea8e191-ce41-4e2f-8bab-49b9a8bbbde8"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- aOrientation</Action><Action
@@ -689,6 +700,21 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4be0e5a1-144c-4987-9970-de1652eaa020"
 >
+</ReqRef><ReqRef
+ Id="a2fa811d-bd40-4622-98d9-2f0c4c579f2b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f61c44c3-9d41-4419-b618-ac730fb9e48e"
+>
+</ReqRef><ReqRef
+ Id="9e4c5ab1-4454-4b08-9df1-666cf07b17ca"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8218c4f-b4b0-403d-9fd2-d02c14fa2e4c"
+>
+</ReqRef><ReqRef
+ Id="7e712341-8fcf-474b-a20b-d3dc889cf08a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b6016e84-f6bb-474d-a81b-3af9d989b4a5"
+>
 </ReqRef><Comment>Verifies if the current balise group is an LRBG candidate (in that case the LRBG is updated) or is unlinked (in that case the information related to the last unlinked balise group is updated). In all the cases the new balise group is stored in the list of previous balise groups.</Comment>
 <SubRules></SubRules>
 <Conditions>
@@ -703,7 +729,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="936076b4-52d1-470d-adbe-5d793f0c72ac"
 >
-</ReqRef><Comment>If the current balise group is a candidate to become a new LRBG, then it is stored as a new LRBG.</Comment>
+</ReqRef><Comment>If the current balise group is a candidate to become a new LRBG, then it is stored as a new LRBG. In such a case, the balise group is linked, hence 
+the linking information regarding the location accuracy is used.</Comment>
 <PreConditions>
 <PreCondition
  Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
@@ -719,7 +746,8 @@
 >BTM.LRBG.HandleNewLRBG(
     Nid_BG =&gt; BG_To_LRBG( GetNID_BG( aBaliseGroup ) ),
     aDistanceFromRef =&gt; DistanceFromReference( Linking.UseLinkingInformation(aBaliseGroup) AND Linking.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
-    aOrientation =&gt; BGOrientation( aBaliseGroup )
+    aOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aLocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
 )</Action><Action
  Guid="eec330f2-bae4-4027-998f-3bed4d222121"
 >INSERT
@@ -730,7 +758,8 @@
           Position =&gt; BGLocationReference.Position,
           NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BGOrientation(aBaliseGroup),
-          Timestamp =&gt; BGLocationReference.Timestamp
+          Timestamp =&gt; BGLocationReference.Timestamp,
+          LocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
       },
       IsLRBG =&gt; Boolean.True,
       IsSingle =&gt; CurrentBGIsSingle()
@@ -752,7 +781,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9c54cb7f-df4a-443d-a868-cd17d0703e68"
 >
-</ReqRef><Comment>Otherwise, if the balise group is unlinked, stores the position of that unlinked balise group, which may be used for position reporting. The balise group is also stored in the list of previous balise groups in case it will be needed for the geographical position reporting.</Comment>
+</ReqRef><Comment>Otherwise, if the balise group is unlinked, stores the position of that unlinked balise group, which may be used for position reporting. The balise group is also stored in the list of previous balise groups in case it will be needed for the geographical position reporting. Furthermore, NationalValues 
+are used for fixing the BG LoacationAccuracy.</Comment>
 <PreConditions>
 <PreCondition
  Guid="1f80f179-74aa-465e-b6d3-e15aba062a97"
@@ -768,7 +798,8 @@
           Position =&gt; BGLocationReference.Position,
           NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BGOrientation(aBaliseGroup),
-          Timestamp =&gt; BGLocationReference.Timestamp
+          Timestamp =&gt; BGLocationReference.Timestamp,
+           LocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
       },
       IsLRBG =&gt; Boolean.False,
       IsSingle =&gt; CurrentBGIsSingle()
@@ -796,7 +827,8 @@
           Position =&gt; BGLocationReference.Position,
           NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BGOrientation(aBaliseGroup),
-          Timestamp =&gt; BGLocationReference.Timestamp
+          Timestamp =&gt; BGLocationReference.Timestamp,
+          LocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
       },
       IsLRBG =&gt; Boolean.False,
       IsSingle =&gt; CurrentBGIsSingle()
