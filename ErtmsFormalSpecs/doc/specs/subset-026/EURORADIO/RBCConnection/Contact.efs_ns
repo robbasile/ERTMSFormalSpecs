@@ -803,14 +803,27 @@ It can only return false if there is no open session or if the last known RBC ha
  Guid="cfb7f6d4-38c4-4b3c-8c66-f6f85d58f314"
 >Packet.NID_RADIO != &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
  Guid="fc75e5ff-9626-40d5-b7c2-9ea806fb6023"
->NOT SessionIsAlreadyEstablishedWithRequestedRBC
+>(NOT SessionIsAlreadyEstablishedWithRequestedRBC
 (
   newId =&gt; Contact.RBCIdStruct
   {
     Country =&gt; Packet.NID_C,
     Id =&gt; Packet.NID_RBC
   }
-)</PreCondition></PreConditions>
+)
+AND
+Packet.Q_RBC == 1)
+OR
+(SessionIsAlreadyEstablishedWithRequestedRBC
+(
+  newId =&gt; Contact.RBCIdStruct
+  {
+    Country =&gt; Packet.NID_C,
+    Id =&gt; Packet.NID_RBC
+  }
+)
+AND
+Packet.Q_RBC == 0)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a6ebac2e-aa73-4d15-b591-4cdeeb13852b"
@@ -861,7 +874,15 @@ It can only return false if there is no open session or if the last known RBC ha
  Guid="ed774a24-cf60-4ff7-a891-167c4f37b771"
 >Contact.LastKnownRBC != EMPTY</PreCondition><PreCondition
  Guid="643dd1e5-247c-445a-9d5b-4e180783a3ae"
->NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )</PreCondition></PreConditions>
+>(NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )
+AND
+Packet.Q_RBC == 1
+)
+OR
+(SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )
+AND
+Packet.Q_RBC == 0
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
@@ -910,14 +931,27 @@ It can only return false if there is no open session or if the last known RBC ha
  Guid="22232e5b-8c7d-4811-8464-469786240a65"
 >Packet.NID_RADIO == &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
  Guid="5d34872a-e00b-4a6c-9a22-783bc78f4dea"
->NOT SessionIsAlreadyEstablishedWithRequestedRBC
+>(NOT SessionIsAlreadyEstablishedWithRequestedRBC
 (
   newId =&gt; Contact.RBCIdStruct
   {
     Country =&gt; Packet.NID_C,
     Id =&gt; Packet.NID_RBC
   }
-)</PreCondition></PreConditions>
+)
+AND
+Packet.Q_RBC == 1)
+OR
+(SessionIsAlreadyEstablishedWithRequestedRBC
+(
+  newId =&gt; Contact.RBCIdStruct
+  {
+    Country =&gt; Packet.NID_C,
+    Id =&gt; Packet.NID_RBC
+  }
+)
+AND
+Packet.Q_RBC == 0)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="81f8e818-3b94-4484-9cb1-2ae9a62240e9"
