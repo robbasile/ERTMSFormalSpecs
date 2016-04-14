@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------------
 
 using System.IO;
-using DataDictionary.Generated;
+using System.Linq;
 using GUIUtils.LongOperations;
 using Importers;
 using Dictionary = DataDictionary.Dictionary;
@@ -25,11 +25,6 @@ namespace GUI.LongOperations
 {
     public class ImportTestDataBaseOperation : BaseLongOperation
     {
-        /// <summary>
-        ///     The name of the frame for the subset 76
-        /// </summary>
-        private const string Subset076 = "Subset-076";
-
         /// <summary>
         ///     The password requireed to access the database
         /// </summary>
@@ -84,29 +79,56 @@ namespace GUI.LongOperations
         /// </summary>
         public override void ExecuteWork()
         {
-            Frame frame = _dictionary.FindFrame(Subset076);
-            if (frame == null)
-            {
-                frame = (Frame) acceptor.getFactory().createFrame();
-                frame.Name = Subset076;
-                _dictionary.appendTests(frame);
-            }
 
             if (ImportMode == Mode.File)
             {
-                TestImporter importer = new TestImporter(FileName, DbPassword);
-                importer.Import(frame, KeepManualTranslations);
+                Frame frame = GetFrame(FileName);
+                if (frame != null)
+                {
+                    TestImporter importer = new TestImporter(FileName, DbPassword);
+                    importer.Import(frame, KeepManualTranslations);
+                }
             }
             else
             {
                 foreach (string fName in Directory.GetFiles(FileName, "*.mdb"))
                 {
-                    TestImporter importer = new TestImporter(fName, DbPassword);
-                    importer.Import(frame, KeepManualTranslations);
+                    Frame frame = GetFrame(fName);
+                    if (frame != null)
+                    {
+                        TestImporter importer = new TestImporter(fName, DbPassword);
+                        importer.Import(frame, KeepManualTranslations);
+                    }
                 }
             }
 
             RefreshModel.Execute();
+        }
+
+        /// <summary>
+        /// Provides the frame according to the sequence file name
+        /// </summary>
+        /// <returns></returns>
+        private Frame GetFrame(string fileName)
+        {
+            Frame frame = null;
+            string[] items = fileName.Split('_');
+
+            if (items.Count() > 1)
+            {
+                string frameName = "Frame " + items[1];
+                frame = _dictionary.FindFrame(frameName);
+                if (frame == null)
+                {
+                    frame = Frame.CreateDefault(_dictionary.Tests);
+                    // Do not use the default subsequence
+                    frame.allSubSequences().Clear();
+                    frame.Name = frameName;
+                    _dictionary.appendTests(frame);
+                }
+            }
+
+            return frame;
         }
     }
 }
