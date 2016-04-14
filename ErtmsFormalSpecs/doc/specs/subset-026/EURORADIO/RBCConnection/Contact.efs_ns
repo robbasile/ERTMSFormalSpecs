@@ -812,7 +812,7 @@ It can only return false if there is no open session or if the last known RBC ha
   }
 )
 AND
-Packet.Q_RBC == 1)
+Packet.Q_RBC == Messages.Q_RBC.Establish_communication_session)
 OR
 (SessionIsAlreadyEstablishedWithRequestedRBC
 (
@@ -823,7 +823,8 @@ OR
   }
 )
 AND
-Packet.Q_RBC == 0)</PreCondition></PreConditions>
+Packet.Q_RBC == Messages.Q_RBC.Terminate_communication_session)
+</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a6ebac2e-aa73-4d15-b591-4cdeeb13852b"
@@ -876,13 +877,14 @@ Packet.Q_RBC == 0)</PreCondition></PreConditions>
  Guid="643dd1e5-247c-445a-9d5b-4e180783a3ae"
 >(NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )
 AND
-Packet.Q_RBC == 1
+Packet.Q_RBC == Messages.Q_RBC.Establish_communication_session
 )
 OR
 (SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )
 AND
-Packet.Q_RBC == 0
-)</PreCondition></PreConditions>
+Packet.Q_RBC == Messages.Q_RBC.Terminate_communication_session
+)
+</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
@@ -940,7 +942,7 @@ Packet.Q_RBC == 0
   }
 )
 AND
-Packet.Q_RBC == 1)
+Packet.Q_RBC == Messages.Q_RBC.Establish_communication_session)
 OR
 (SessionIsAlreadyEstablishedWithRequestedRBC
 (
@@ -951,7 +953,8 @@ OR
   }
 )
 AND
-Packet.Q_RBC == 0)</PreCondition></PreConditions>
+Packet.Q_RBC == Messages.Q_RBC.Terminate_communication_session)
+</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="81f8e818-3b94-4484-9cb1-2ae9a62240e9"
