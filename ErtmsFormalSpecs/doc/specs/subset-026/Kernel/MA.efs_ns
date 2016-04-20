@@ -4819,10 +4819,31 @@ Kernel.MA.SectionStruct{
  Y="630"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="UpdateSignallingRelatedSR"
  Guid="49960606-484d-4126-bdf3-a0acdb37eed7"
 >
-<Comment>Sets the signalling related speed restrictions at reception of an 
+<ReqRef
+ Id="5d3380ae-3cb4-4f42-a7ba-d37280d33119"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f5c7668-5602-4a64-9c34-0f2cf0296232"
+>
+</ReqRef><ReqRef
+ Id="5f3132e8-fb36-491a-b7e8-7e237d362383"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f0bdf7f3-27a6-4c49-bc4b-3fe8c8a64d6a"
+>
+</ReqRef><ReqRef
+ Id="13aed33d-db2d-43fb-a5bf-be02674ae095"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="00407388-38fe-4258-a9a8-582744853a9d"
+>
+</ReqRef><ReqRef
+ Id="6d40cd91-a858-435e-83bf-8b5fd647e114"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c387a8d8-ae22-4c88-b1f6-3854a75c53ac"
+>
+</ReqRef><Comment>Sets the signalling related speed restrictions at reception of an 
 (infill) MA packet.</Comment>
 <Parameters>
 <Parameter
@@ -4846,6 +4867,7 @@ Kernel.MA.SectionStruct{
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Update"
  Guid="356974e4-b713-4385-9f70-4c5bd08d170e"
 >
@@ -4877,6 +4899,7 @@ Kernel.MA.SectionStruct{
         Value =&gt; BaseTypes.Speed.NA
 }</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Infill"
  Guid="ef937fc8-43b7-40d3-805b-66f523ca6683"
 >
@@ -4906,6 +4929,22 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Name="DeleteSignallingRelatedSRBeyondLocation"
  Guid="310cbdc9-d163-4e33-b262-751c191df2e7"
 >
+<ReqRef
+ Id="8cd5d7d8-c20a-4927-9990-dacc4a577a3e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="22a827c7-9966-41bc-a93a-c005a4bc1360"
+>
+</ReqRef><ReqRef
+ Id="bd7dbc99-064a-49f3-95c7-877b33ac0533"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="494927a7-5de0-4362-a249-a8d59c4b7a42"
+>
+</ReqRef><ReqRef
+ Id="69c41e0d-de0a-4c0e-9b6d-32a32fdf13e2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="533e87fe-3076-4795-bddf-5db389ad1ab1"
+>
+</ReqRef><Comment>Delete information beyond a location. Typically used in case of a MA shortening.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
@@ -4918,6 +4957,7 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Delete information beyond location"
  Guid="1132f181-fe84-48b0-af1c-5657da148abc"
 >
@@ -4928,6 +4968,7 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Name="Location is closer than end of non-infill speed restriction"
  Guid="ad808897-deb9-451f-90b7-eeecf0df446b"
 >
+<Comment>If location is closer than non-infill information, infill information completely deleted (set as invalid).</Comment>
 <PreConditions>
 <PreCondition
  Guid="df6abcf9-0922-40fd-a139-bd0bfa9c0f51"
@@ -4943,6 +4984,7 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Name="Otherwise, check for infill speed restriction"
  Guid="4542ead4-75cd-4adf-8ef2-865ee90f3aa3"
 >
+<Comment>Update infill information if needed.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7fcb8a5f-ee56-496b-8ab3-40b737d242f7"
@@ -5062,6 +5104,11 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2944ad0c-ff6e-415b-bf47-5f03f4297c4b"
 >
+</ReqRef><ReqRef
+ Id="5f3132e8-fb36-491a-b7e8-7e237d362383"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b7581368-3011-48f5-91bf-d5508e19ba86"
+>
 </ReqRef><Comment>Represents the signalling related speed restrictions (non-infill). Value = 0 corresponds to train trip.</Comment>
 </Variable><Variable
  Type="MA.MaShorteningHandlerStruct"
@@ -5153,6 +5200,11 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="77f49c5b-af4b-488e-a5cc-df3a02b44ff1"
+>
+</ReqRef><ReqRef
+ Id="5f3132e8-fb36-491a-b7e8-7e237d362383"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="626764fe-19c9-479a-9093-7597c1d578a9"
 >
 </ReqRef><Comment>Represents the signalling related speed restrictions (infill). Value = 0 does not correspond to train trip.</Comment>
 </Variable></Variables>
