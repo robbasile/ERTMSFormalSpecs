@@ -23,6 +23,7 @@ using DataDictionary;
 using DataDictionary.Generated;
 using DataDictionary.Specification;
 using GUI.BoxArrowDiagram;
+using GUI.LongOperations;
 using Utils;
 using Paragraph = DataDictionary.Specification.Paragraph;
 using RequirementSet = DataDictionary.Specification.RequirementSet;
@@ -290,6 +291,7 @@ namespace GUI.RequirementSetDiagram
                 if (model != null)
                 {
                     model.Delete();
+                    RefreshModel.Execute();
                 }
             }
         }
