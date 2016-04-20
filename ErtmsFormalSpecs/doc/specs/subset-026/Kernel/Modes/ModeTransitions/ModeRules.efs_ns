@@ -603,6 +603,8 @@ BGs =&gt; []
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle Signalling related Speed Restriction"
  Guid="6f4c779d-dd4e-4260-8790-367e6127fa1d"
@@ -627,10 +629,12 @@ BGs =&gt; []
 <Actions>
 <Action
  Guid="b6494f93-bf18-406a-b1e6-8c3a007a8004"
->Kernel.MA.SignallingRelatedSpeedRestriction &lt;- Kernel.MA.SignallingRelatedSRStruct{
+>MA.SignallingRelatedSR &lt;- Kernel.MA.SignallingRelatedSRStruct{
 Value =&gt; BaseTypes.Speed.MaxSpeed,
 End =&gt; BaseTypes.Distance.Unknown
-}</Action></Actions>
+}</Action><Action
+ Guid="5755b875-1e5f-4a4d-adfc-5f75c1f628af"
+>MA.InfillSignallingRelatedSR.Validity &lt;- Default.DataStateEnum.Invalid</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

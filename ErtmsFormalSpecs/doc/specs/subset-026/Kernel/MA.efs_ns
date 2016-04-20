@@ -561,8 +561,8 @@ Location stores the previous End of Movement Authority location.</Comment>
 <Comment>Records whether the previous MA was supervising a SvL or has a LOA</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="740"
- Y="520"
+ X="750"
+ Y="570"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -573,6 +573,31 @@ Location stores the previous End of Movement Authority location.</Comment>
  Id="5d3380ae-3cb4-4f42-a7ba-d37280d33119"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="45f287e9-67df-4d6b-b1d4-173ccab6e473"
+>
+</ReqRef><ReqRef
+ Id="5f3132e8-fb36-491a-b7e8-7e237d362383"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bca8be52-5a77-4332-a27d-ffab6ba55efc"
+>
+</ReqRef><ReqRef
+ Id="13aed33d-db2d-43fb-a5bf-be02674ae095"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fb2a3794-e141-4e98-a752-ddd6e2dd413b"
+>
+</ReqRef><ReqRef
+ Id="abebe747-9cb7-4549-9f60-efbcf8ae9583"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="225abe71-66b8-4401-8fea-0340ec8b28e6"
+>
+</ReqRef><ReqRef
+ Id="3cce6f09-5a15-4d2f-b994-461d00a54711"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68a9dddf-c7ea-480d-ac3a-f7dd195496a3"
+>
+</ReqRef><ReqRef
+ Id="e8d016fe-f419-450e-a7e5-261b1035e3cc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8d07ee7e-bfdc-4062-aed4-828df99b09d7"
 >
 </ReqRef><Comment>Represents the signalling related speed restriction.</Comment>
 <StructureElement
@@ -593,6 +618,26 @@ Location stores the previous End of Movement Authority location.</Comment>
  Guid="5eda04d0-93e3-4567-a9e6-994f3d6d565f"
 >
 <Comment>The distance until which the signalling related speed restriction is valid, if any.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="BaseTypes.Distance.Unknown"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Start"
+ Guid="ac92a40a-b664-4a4a-8ac3-cfa0f9363554"
+>
+<Comment>The distance at which the signalling related speed restriction becomes valid, if any. Needed for infill.</Comment>
+</StructureElement><StructureElement
+ TypeName="DataStateEnum"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Validity"
+ Guid="95eb2cfc-0d01-4c95-bb3b-deb5de520cf4"
+>
+<Comment>Used to tell whether information is valid or not. Always valid for the 
+non-infill SR. Validity of infill SR depends on whether infill SR was received or not.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -1011,6 +1056,31 @@ INITIAL_VALUE TargetStruct{
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d81c479c-4f78-4832-95cd-b273f3c38560"
 >
+</ReqRef><ReqRef
+ Id="e8d016fe-f419-450e-a7e5-261b1035e3cc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="83093f8f-42af-4fd7-9988-a601ff1666c5"
+>
+</ReqRef><ReqRef
+ Id="13aed33d-db2d-43fb-a5bf-be02674ae095"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc9fb826-7a46-465a-ab32-6de7e961b836"
+>
+</ReqRef><ReqRef
+ Id="5f3132e8-fb36-491a-b7e8-7e237d362383"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="614817c3-5e06-4b9b-b675-8ad015bb3aef"
+>
+</ReqRef><ReqRef
+ Id="5d3380ae-3cb4-4f42-a7ba-d37280d33119"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="422aec71-279c-4648-9b55-769667008431"
+>
+</ReqRef><ReqRef
+ Id="6d40cd91-a858-435e-83bf-8b5fd647e114"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2d7ed19a-efaf-448c-8621-d5e214252211"
+>
 </ReqRef><Comment>Provides the speed profile due to signalling related speed restrictions. Only applicable for level 1.</Comment>
 <Parameters>
 <Parameter
@@ -1029,8 +1099,8 @@ INITIAL_VALUE TargetStruct{
  Guid="882879c9-2057-45f9-afa8-3b11d5abd62a"
 >Kernel.Level.Value.Value == LevelEnum.L1</PreCondition><PreCondition
  Guid="10848d71-717a-4061-bb58-ba05a566ffb4"
->Kernel.MA.SignallingRelatedSpeedRestriction.End == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
-<Expression>Kernel.MA.SignallingRelatedSpeedRestriction.Value</Expression>
+>SignallingRelatedSR.End == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>SignallingRelatedSR.Value</Expression>
 </Case><Case
  Name="Level 1, before speed restriction end"
  Guid="7744e1bb-1000-449a-ae1c-f49bb21d3391"
@@ -1040,8 +1110,21 @@ INITIAL_VALUE TargetStruct{
  Guid="d2bff3e6-038c-4b12-badc-217bacb1cdff"
 >Kernel.Level.Value.Value == LevelEnum.L1</PreCondition><PreCondition
  Guid="f951c6ec-5896-44d3-b028-65064fc48a8a"
->d &lt; Kernel.MA.SignallingRelatedSpeedRestriction.End</PreCondition></PreConditions>
-<Expression>Kernel.MA.SignallingRelatedSpeedRestriction.Value</Expression>
+>d &lt; SignallingRelatedSR.End</PreCondition></PreConditions>
+<Expression>SignallingRelatedSR.Value</Expression>
+</Case><Case
+ Name="Level 1, before infill speed restriction end"
+ Guid="916dc878-3012-4e92-85c1-21b710b25f0e"
+>
+<PreConditions>
+<PreCondition
+ Guid="6a4e3e80-2caa-4d02-a69f-8c50209e6f32"
+>Kernel.Level.Value.Value == LevelEnum.L1</PreCondition><PreCondition
+ Guid="9179237b-50f6-4b76-92f4-6c7847fd4d1b"
+>InfillSignallingRelatedSR.Validity == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="9124a4c6-fe4a-4eee-98dc-e1104b246f88"
+>d &lt; InfillSignallingRelatedSR.End</PreCondition></PreConditions>
+<Expression>InfillSignallingRelatedSR.Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="b5339113-60a7-4cec-9e60-c156ca255ef5"
@@ -2796,6 +2879,50 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 >
 <Expression>EMPTY</Expression>
 </Case></Cases>
+</Function><Function
+ Type="SignallingRelatedSRStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SignallingRelatedSRFromMAPacket"
+ Guid="22888365-e977-4186-9006-455051f85761"
+>
+<Comment>Convenience function to get the SignallingRelatedSpeedRestrictions from 
+an MA packet.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message"
+ Name="Packet"
+ Guid="b117437e-004f-4adb-9dde-f1cd9cc54aad"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="9b80beed-e173-4ada-bfa5-d005bdc79de7"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="fe603f7c-6d98-4208-a514-0d2d96d66002"
+>
+<Expression>SignallingRelatedSRStruct{
+        End  =&gt; aDistanceFromRef + MessageTypes.QScaleLength(
+            length =&gt; Packet.L_ENDSECTION,
+            scale =&gt; Packet.Q_SCALE
+            ) + SUM Packet.Sequence1 USING X IN MessageTypes.QScaleLength(
+            length =&gt; X.L_SECTION,
+            scale =&gt; Packet.Q_SCALE
+            ),
+        Start =&gt; aDistanceFromRef,
+        Validity =&gt; DataStateEnum.Valid,
+        Value =&gt; MessageTypes.SpeedResolution ( speed =&gt; Packet.V_MAIN, resolution =&gt; 5.0 )
+}</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -3092,7 +3219,11 @@ Kernel.MA.UpdateMA
     isInfillMA =&gt; isInfillMA
 )</Action><Action
  Guid="f8a42f47-6bf7-4155-9ad4-52eb896fbff6"
->Kernel.MA.SignallingRelatedSpeedRestriction.Value &lt;- MessageTypes.SpeedResolution ( speed =&gt; Packet.V_MAIN, resolution =&gt; 5.0 )</Action><Action
+>Kernel.MA.UpdateSignallingRelatedSR(
+    Packet =&gt; Packet,
+    aDistanceFromRef =&gt; aDistanceFromRef,
+    isInfillMA =&gt; isInfillMA
+)</Action><Action
  Guid="80edc04f-5273-4997-8bd5-e5b012a9c650"
 ><Comment>Current BG time of passage becomes section timer start</Comment>
 Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage</Action><Action
@@ -4683,6 +4814,147 @@ Kernel.MA.SectionStruct{
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="860"
+ Y="630"
+ Width="100"
+ Height="50"
+ Name="UpdateSignallingRelatedSR"
+ Guid="49960606-484d-4126-bdf3-a0acdb37eed7"
+>
+<Comment>Sets the signalling related speed restrictions at reception of an 
+(infill) MA packet.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message"
+ Name="Packet"
+ Guid="d987fa47-17f2-4410-9f70-e280af7d7620"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistanceFromRef"
+ Guid="8c0bab01-76c9-4c38-8a82-dadba8037213"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="isInfillMA"
+ Guid="5ba71279-6443-41ee-bbe8-24c35ae01bba"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Update"
+ Guid="356974e4-b713-4385-9f70-4c5bd08d170e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Non infill"
+ Guid="15ef46c6-ebc3-43f7-9dbc-e7e8bacc3149"
+>
+<Comment>At reception of a non-infill MA packet, previous information is deleted.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b36f93dc-5348-4d24-85cf-cfceb47a6bec"
+>NOT isInfillMA</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7e83f232-447c-4143-bdfb-2934f339f701"
+>SignallingRelatedSR &lt;- 
+    SignallingRelatedSRFromMAPacket(
+        Packet =&gt; Packet,
+        aDistanceFromRef =&gt; aDistanceFromRef
+    )</Action><Action
+ Guid="c36e821b-c8d7-4630-96e7-0bba19a48325"
+>InfillSignallingRelatedSR &lt;- SignallingRelatedSRStruct{
+        End  =&gt; BaseTypes.Distance.Unknown,
+        Start =&gt; BaseTypes.Distance.Unknown,
+        Validity =&gt; DataStateEnum.Invalid,
+        Value =&gt; BaseTypes.Speed.NA
+}</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Infill"
+ Guid="ef937fc8-43b7-40d3-805b-66f523ca6683"
+>
+<Comment>At reception of an infill MA, end position of the non-infill 
+SignallingRelatedSR is updated and infill info is set.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4d0d7661-15f1-4efb-bac4-40684a042cf9"
+><Comment>Non infill end position.</Comment>
+SignallingRelatedSR.End &lt;- aDistanceFromRef</Action><Action
+ Guid="a89cc877-fc34-45fb-8dc4-64a4d6d10caf"
+><Comment>Infill info.</Comment>
+InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
+        Packet =&gt; Packet,
+        aDistanceFromRef =&gt; aDistanceFromRef
+    )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DeleteSignallingRelatedSRBeyondLocation"
+ Guid="310cbdc9-d163-4e33-b262-751c191df2e7"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aLocation"
+ Guid="4eea4c07-0ef3-4b2c-b19d-9d7410f6a120"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Delete information beyond location"
+ Guid="1132f181-fe84-48b0-af1c-5657da148abc"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Location is closer than end of non-infill speed restriction"
+ Guid="ad808897-deb9-451f-90b7-eeecf0df446b"
+>
+<PreConditions>
+<PreCondition
+ Guid="df6abcf9-0922-40fd-a139-bd0bfa9c0f51"
+>aLocation &lt; SignallingRelatedSR.End</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2661c9b6-6617-442f-9856-99523952ffc0"
+>SignallingRelatedSR.End &lt;- aLocation</Action><Action
+ Guid="6794acac-84c4-4736-8e78-b2e7b80bf203"
+>InfillSignallingRelatedSR.Validity &lt;- Default.DataStateEnum.Invalid</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Otherwise, check for infill speed restriction"
+ Guid="4542ead4-75cd-4adf-8ef2-865ee90f3aa3"
+>
+<PreConditions>
+<PreCondition
+ Guid="7fcb8a5f-ee56-496b-8ab3-40b737d242f7"
+>InfillSignallingRelatedSR.Validity == DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="f96f4c0a-e657-4def-9f3d-f1b7763bfc76"
+>InfillSignallingRelatedSR.End &gt; aLocation</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2cd4d585-2789-4d80-9212-af78d368827e"
+>InfillSignallingRelatedSR.End &lt;- aLocation</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -4762,12 +5034,12 @@ Kernel.MA.SectionStruct{
  Type="SignallingRelatedSRStruct"
  DefaultValue=""
  VariableMode="Internal"
- X="740"
+ X="750"
  Y="430"
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SignallingRelatedSpeedRestriction"
+ Name="SignallingRelatedSR"
  Guid="59169bbb-dab1-434c-825e-21145fe95855"
 >
 <ReqRef
@@ -4790,7 +5062,7 @@ Kernel.MA.SectionStruct{
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2944ad0c-ff6e-415b-bf47-5f03f4297c4b"
 >
-</ReqRef><Comment>Represents the signalling related speed restriction. Value = 0 corresponds to train trip.</Comment>
+</ReqRef><Comment>Represents the signalling related speed restrictions (non-infill). Value = 0 corresponds to train trip.</Comment>
 </Variable><Variable
  Type="MA.MaShorteningHandlerStruct"
  DefaultValue="EMPTY"
@@ -4850,6 +5122,39 @@ Kernel.MA.SectionStruct{
  Guid="5fc6bf05-3c91-4a93-a067-e93103f0e193"
 >
 </ReqRef><Comment>Indicates if the current estimated front end and max safe front end positions of the train are considered as the EOA and SvL respectively, with no release speed.</Comment>
+</Variable><Variable
+ Type="SignallingRelatedSRStruct"
+ DefaultValue=""
+ VariableMode="Internal"
+ X="630"
+ Y="570"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InfillSignallingRelatedSR"
+ Guid="0c1fcc64-bc0e-4a9f-86dd-d316c9f19b37"
+>
+<ReqRef
+ Id="6d40cd91-a858-435e-83bf-8b5fd647e114"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="36c7da40-8ed0-45d1-9c05-97a587737dc3"
+>
+</ReqRef><ReqRef
+ Id="5d3380ae-3cb4-4f42-a7ba-d37280d33119"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a36b8d52-305b-46aa-abee-5ca5cd835736"
+>
+</ReqRef><ReqRef
+ Id="d949102e-f89b-489f-8acc-cf60824bd0e5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e6c81c74-57d4-4233-9e23-20e9470e128d"
+>
+</ReqRef><ReqRef
+ Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="77f49c5b-af4b-488e-a5cc-df3a02b44ff1"
+>
+</ReqRef><Comment>Represents the signalling related speed restrictions (infill). Value = 0 does not correspond to train trip.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
