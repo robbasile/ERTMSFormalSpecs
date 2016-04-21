@@ -6,6 +6,7 @@
  Name="RAMS"
  Guid="4293ed99-a521-4731-a400-8d2e9c8cae6a"
 >
+<Comment>The handling of both RAMS functions, repositioning and supervision.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Structures>
@@ -85,10 +86,21 @@
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LinkedBGReceived"
  Guid="9288083e-fe36-4dad-ba02-3d147c9c3a1c"
 >
-<Comment>Updates the RAMS Positioning and Supervised BGs due to the reception of a valid linked BG.</Comment>
+<ReqRef
+ Id="6ae42f8d-795c-47e9-8a41-3f4433b18021"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e51f8eb-0064-445d-9888-b70374aa6811"
+>
+</ReqRef><ReqRef
+ Id="59827ecc-eb52-4d61-8c08-58aa70975eea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b684eadf-a981-40f6-ae73-b4e1f6c9137b"
+>
+</ReqRef><Comment>Updates the RAMS Positioning and Supervised BGs due to the reception of a valid linked BG.</Comment>
 <Parameters>
 <Parameter
  Type="BaliseGroupMessagesCol"
@@ -180,7 +192,8 @@ RAMS.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCondition
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2fb217a8-f580-4307-9f8c-a926d8cc7b56"
 >
-</ReqRef><Rules>
+</ReqRef><Comment>Command the service brake when a second repositioning BG is received in the same area.</Comment>
+<Rules>
 <Rule
  Priority="Processing"
  X="0"
@@ -211,9 +224,26 @@ RAMS.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCondition
  Y="70"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="HandleRAMSFunctions"
  Guid="8f9ebf40-c371-4ddd-98f6-785c629feeaf"
 >
+<ReqRef
+ Id="59827ecc-eb52-4d61-8c08-58aa70975eea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7dc16bfc-5ef8-4e25-8af3-537f5bcecad7"
+>
+</ReqRef><ReqRef
+ Id="6ae42f8d-795c-47e9-8a41-3f4433b18021"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ef8c01d2-9eb1-45d5-8411-6dbc7e3c59ae"
+>
+</ReqRef><ReqRef
+ Id="aaa581cb-18a1-43c9-861e-43c4d76ec1fe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0ebeee66-0a6a-4e14-ae75-a9c3cbf993f1"
+>
+</ReqRef><Comment>Update the RAMS functions when a BG is received.</Comment>
 <Parameters>
 <Parameter
  Type="BaliseGroupMessagesCol"
@@ -226,15 +256,18 @@ RAMS.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCondition
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Check RAMS supervision"
  Guid="89a600cb-9d8a-4fba-928d-eee3c8dc408b"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Consistent linked BG received"
  Guid="5f309f7d-b9a0-45d2-8086-4999c2aaec22"
 >
+<Comment>Stop supervising the RAMS functions as soon as a consistent, linked BG is received.</Comment>
 <PreConditions>
 <PreCondition
  Guid="35f4fae2-5f3e-4bbb-b3ea-bbce2acae99c"
@@ -278,8 +311,11 @@ RAMS.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCondition
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
+ X="430"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
  Name="LinkingWindowPassed"
  Guid="d9a2df38-cac4-4237-8100-191dbc56c53f"
 >
@@ -288,11 +324,14 @@ RAMS.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCondition
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="752d3c8e-0f8c-4163-98d4-78ce15e164f7"
 >
-</ReqRef><Rules>
+</ReqRef><Comment>If a linked BG is missed, activates the Supervision function.
+If hte Supervision function was active, triggers the service brake.</Comment>
+<Rules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Track the missed BG"
  Guid="58c2ed29-be5d-4da9-ba92-2c0c1859ace6"
 >
@@ -423,6 +462,7 @@ AntennaDistance( DistanceIntervalEnum.Min ) &gt; RAMS.RAMSRepositioningBG.EndOfW
  Y="150"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="Start RAMS repositioning"
  Guid="b72c1647-f4ee-4f37-be24-f17d14a3e6d6"
 >
@@ -431,9 +471,11 @@ AntennaDistance( DistanceIntervalEnum.Min ) &gt; RAMS.RAMSRepositioningBG.EndOfW
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="7ce47771-ba66-4cd2-9d78-5b8a33a56f27"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>If a repositioning BG, start the RAMS repositioning function.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Supervise the end of the expectation window of the repositioning balise"
  Guid="91eb818c-9a58-4427-b5d5-56968c5890cf"
 >

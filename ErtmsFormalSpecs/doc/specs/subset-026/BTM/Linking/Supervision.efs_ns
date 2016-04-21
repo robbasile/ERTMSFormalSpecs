@@ -6,6 +6,7 @@
  Name="Supervision"
  Guid="074d4ec7-3583-49c9-ae9d-e150da07dd0c"
 >
+<Comment>Functions and procedures related to the supervision of received linking profiles.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Functions>
@@ -255,7 +256,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9aaddcb7-5af4-47ea-bdff-7432fd9c34a3"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Indicates whether the BG should be considered with respect to its linking status and the stored linking information.</Comment>
+<Parameters>
 <Parameter
  Type="BaliseGroupMessagesCol"
  Name="aBaliseGroup"
@@ -691,9 +693,26 @@ Supervision.BGOrientationIsValid(aBaliseGroup)</Expression>
  Y="190"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LinkingIsConsistent"
  Guid="5422b655-df8f-4440-a095-dd0748ea0ef6"
 >
+<ReqRef
+ Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d7682a5-e667-439e-a629-3afb49c05322"
+>
+</ReqRef><ReqRef
+ Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8bc86228-dfae-4ccf-a3ff-79778b0d937f"
+>
+</ReqRef><ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d4107ad-a1da-4e9a-8344-080c08f91342"
+>
+</ReqRef><Comment>Indicates whether the BG is consistent with respect to the linking information.</Comment>
 <Parameters>
 <Parameter
  Type="BaliseGroupMessagesCol"
@@ -728,9 +747,12 @@ ConsiderBGWithLinking(aBaliseGroup)</Expression>
  Y="190"
  Width="100"
  Height="50"
- Name="LinkingUpTo"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="LinkingIsBeforeId"
  Guid="7d0f8223-73b4-4e6d-a849-5a3fcfa7989d"
 >
+<Comment>Indicates whether the provided linking precedes the one corresponding to ID, or is that one.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.NID_BG"
@@ -979,6 +1001,7 @@ IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
  Name="Record the linking error"
  Guid="2aa1a1e8-2182-4be8-b935-27d09423646f"
 >
+<Comment>Keep track of the linking error for recording JRU messages.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1055,12 +1078,15 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Update the next distance, if required"
  Guid="0e04b8d1-e0c3-4229-9d1a-1b364d18b873"
 >
+<Comment>If the linkings are deleted because they were missed, update the distance to the next linking distance.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Update the next distance, if required"
  Guid="6ec0048a-a285-47b8-9676-4ef82f3ad71c"
 >
@@ -1100,7 +1126,7 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
 <Actions>
 <Action
  Guid="f5e1d966-d547-4ac0-9400-f7ab8627a792"
->REMOVE ALL LinkingUpTo(
+>REMOVE ALL LinkingIsBeforeId(
     ID =&gt; ID,
     aLinking =&gt; X
 ) IN BTM.Linking.Linkings</Action></Actions>
@@ -1165,7 +1191,8 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3eb05322-a007-45f3-86bf-1104fee07bfe"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Performs the supervision of the linking profile upon reception of a BG.</Comment>
+<Parameters>
 <Parameter
  Type="BaliseGroupMessagesCol"
  Name="aBaliseGroup"
@@ -1177,6 +1204,7 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="BG is second linking"
  Guid="f743697e-cfb5-42e0-921d-51d93f5325ef"
 >
@@ -1195,9 +1223,11 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="32928e4c-f950-4588-bcd2-8cae601ce9c0"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>If the received BG is the second linked BG, apply the linking reaction of the first linking.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="BG is second linking"
  Guid="fbda93c8-03da-464f-b0e9-cc6f3128da2a"
 >
@@ -1220,6 +1250,7 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
  Name="Handle linking"
  Guid="20a1ec0d-b49f-4925-801f-9447c3480963"
 >
+<Comment>Check and update the linking profile for the received BG.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1265,7 +1296,8 @@ If the BG was passed in the right direction, handle the message. If not, the tra
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1e327fcc-c737-4c06-b92e-abf60ab3d2ce"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>If there is a linking consistency error, apply the linking reaction and stop expecting the BG.</Comment>
+<PreConditions>
 <PreCondition
  Guid="55a61f56-5d3b-4c7d-8122-989e234d8234"
 >NOT IsNoConsistencyError(aBaliseGroup)</PreCondition><PreCondition
@@ -1292,10 +1324,26 @@ If the BG was passed in the right direction, handle the message. If not, the tra
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="LinkingError"
  Guid="7185c19a-664c-4ca4-97d0-2d274812ec06"
 >
-<Comment>Indicates that there was a linking error during this cycle.
+<ReqRef
+ Id="573a4929-1cc3-465b-bd3c-de9f85841744"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6185fc77-0a24-4c3f-9c0a-1d14d1ec7a8c"
+>
+</ReqRef><ReqRef
+ Id="c431121f-eb76-44c2-8d1e-37d182affa45"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0110d0ed-0335-4529-885a-09c76660a9c9"
+>
+</ReqRef><ReqRef
+ Id="21600e54-3c0f-4546-97fb-88261e491c24"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="879b375b-de3f-43e7-adea-95aeb93b7387"
+>
+</ReqRef><Comment>Indicates that there was a linking error during this cycle.
 
 TODO: functionnalise this</Comment>
 </Variable><Variable
@@ -1328,6 +1376,12 @@ TODO: functionnalise this</Comment>
  Name="Clean up linking error"
  Guid="a8255c41-51d6-4a18-b21f-f030e23687a9"
 >
+<ReqRef
+ Id="21600e54-3c0f-4546-97fb-88261e491c24"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ae41418d-94c9-4d97-a770-a49eee77f938"
+>
+</ReqRef><Comment>Clean up th eflag indicating that a Linking error was detected in this cycle.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition

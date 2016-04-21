@@ -6,6 +6,7 @@
  Name="LRBG"
  Guid="0a99062f-7d9e-4aac-a5b2-d4bdd3ae2348"
 >
+<Comment>Procedures for handling new LRBGs and functions for finding previous LRBGs.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Structures>
@@ -134,6 +135,7 @@
  TypeName="BaseTypes.Length"
  Default="12"
  Mode="Internal"
+ Implemented="TRUE"
  Name="LocationAccuracy"
  Guid="cf2198d9-b8e3-4042-a830-f28881e15b0d"
 >
@@ -500,6 +502,7 @@
  Y="200"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="UseLinkingInformation"
  Guid="8b384565-d3f6-4feb-8c55-2059fdfa8bbf"
 >
@@ -695,6 +698,7 @@ Linking.LinkingApplicable()</Expression>
  Name="Update train position according to the new LRBG"
  Guid="6ba95030-7a68-4bfe-9cc3-c4a620278a3d"
 >
+<Comment>All stored information is updated to use the new reference location.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -715,9 +719,21 @@ Linking.LinkingApplicable()</Expression>
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="StoreBGLocation"
  Guid="81c387dd-5ff5-4503-9107-46a6e671edd8"
 >
+<ReqRef
+ Id="675394d7-4475-4a7f-9846-627ae90086d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c439ae62-4913-4cb6-86d8-b06727f9b040"
+>
+</ReqRef><ReqRef
+ Id="3dbd1b48-23b6-40f9-a38e-77df9cc1ed68"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f46f6ebe-1a19-4799-a056-1b3f02303cc8"
+>
+</ReqRef><Comment>Keep the position of the BG&apos;s reference location.</Comment>
 <Parameters>
 <Parameter
  Type="BaliseGroupMessagesCol"
