@@ -657,7 +657,7 @@ namespace Importers.ExcelImporter
             double MAspeedRestriction = (double) (aRange.Cells[4, 2] as Range).Value2;
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.MA.SignallingRelatedSpeedRestriction <- Kernel.MA.SignallingRelatedSRStruct{{\n    Value => {0:0.0},\n    End => {1:0.0}\n}}",
+                    "Kernel.MA.SignallingRelatedSR <- Kernel.MA.SignallingRelatedSRStruct{{\n    Value => {0:0.0},\n    End => {1:0.0}\n}}",
                     MAspeedRestriction, MAdistance));
 
 
