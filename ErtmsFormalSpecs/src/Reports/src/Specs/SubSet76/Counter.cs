@@ -136,17 +136,7 @@ namespace Reports.Specs.SubSet76
 
                 foreach (ReqRef reqRef in referencesParagraph.Requirements)
                 {
-                    bool blocking = false;
-                    foreach (RequirementSetReference reference in reqRef.Paragraph.RequirementSetReferences)
-                    {
-                        RequirementSet requirementSet = reference.Ref;
-                        while (requirementSet != null && !blocking)
-                        {
-                            blocking = requirementSet.Name.Equals("Blocking");
-                            requirementSet = requirementSet.Enclosing as RequirementSet;
-                        }
-                    }
-                    if (blocking)
+                    if (IssueKindUtil.GetKind(reqRef.Paragraph) == IssueKind.Blocking)
                     {
                         BlockingIssues += 1;
                         SubSequence enclosingSubSequence = EnclosingFinder<SubSequence>.find(referencesParagraph, true);

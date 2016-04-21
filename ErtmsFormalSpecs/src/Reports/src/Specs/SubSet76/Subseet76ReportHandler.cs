@@ -182,7 +182,7 @@ namespace Reports.Specs.SubSet76
                                 Report.AddRow(
                                     testCase.Name,
                                     reqRef.Paragraph.Text);
-                                Report.SetLastRowColor(Colors.IndianRed);
+                                Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
                             }
 
                             foreach (Step step in testCase.Steps)
@@ -199,8 +199,7 @@ namespace Reports.Specs.SubSet76
                                     Report.AddRow(
                                         name,
                                         reqRef.Paragraph.Text);
-
-                                    Report.SetLastRowColor(Colors.IndianRed);
+                                    Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
                                 }
                             }
                         }
@@ -287,7 +286,7 @@ namespace Reports.Specs.SubSet76
             foreach (ReqRef reqRef in item.Requirements)
             {
                 Report.AddRow(reqRef.Paragraph.Text);
-                Report.SetLastRowColor(Colors.IndianRed);
+                Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
             }
         }
 
@@ -336,7 +335,7 @@ namespace Reports.Specs.SubSet76
             else
             {
                 Report.AddRow(paragraph.ExpressionText);
-                Report.SetLastRowColor(Colors.LightGray);
+                Report.SetLastRowColor(IssueKindUtil.IssueColor(paragraph));
 
                 if (paragraph.Implementations.Count > 0)
                 {
