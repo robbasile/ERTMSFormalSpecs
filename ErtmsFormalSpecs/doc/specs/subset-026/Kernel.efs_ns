@@ -10340,16 +10340,18 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 >BTM.Linking.LinkingApplicable()
   AND  
 (
-BTM.Linking.ExpectationWindowPassed()
+BTM.Linking.Supervision.ExpectationWindowPassed()
   OR  
-BTM.Linking.RAMSWindowPassed()
+BTM.Linking.RAMS.RAMSWindowPassed()
 )</PreCondition><PreCondition
  Guid="c890d07b-a440-4ec6-ba9a-57aec6e3798e"
 >Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="d3d59ef2-1780-4145-90f8-d8a3cf0dfbcc"
->BTM.Linking.HandleLinkingError(BTM.Linking.LinkingErrorEnum.ExpectationWindowEnd)</Action></Actions>
+>BTM.Linking.Supervision.HandleLinkingError(BTM.Linking.CurrentLinking().BaliseGroupIdentifier)</Action><Action
+ Guid="871081d2-0e3b-4bf5-818c-269a1cdf7f5f"
+>BTM.Linking.RAMS.LinkingWindowPassed()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"

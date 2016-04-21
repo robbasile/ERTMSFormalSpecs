@@ -11,8 +11,8 @@
 <Structures>
 <Structure
  Default=""
- X="690"
- Y="380"
+ X="530"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -56,8 +56,8 @@
 </ReqRef><Comment>Indicates if the that balise group is single or not.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="690"
- Y="480"
+ X="650"
+ Y="280"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -144,8 +144,8 @@
  TypeName="PreviousBaliseGroupStruct"
  MaxSize="8"
  Default="[]"
- X="690"
- Y="300"
+ X="530"
+ Y="100"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -160,8 +160,8 @@
 <Function
  Type="Boolean"
  Default=""
- X="370"
- Y="380"
+ X="150"
+ Y="200"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -242,7 +242,7 @@
 <PreCondition
  Guid="d6f19038-6d40-4e3d-ba91-773dab02a05a"
 >BTM.Linking.LinkingApplicable()</PreCondition></PreConditions>
-<Expression>Linking.BGWithinFrame(aBaliseGroup)</Expression>
+<Expression>Linking.Supervision.BGWithinFrame()</Expression>
 </Case><Case
  Name="Linking not available"
  Guid="c0fbb6a1-646f-4f71-8bbc-322f3a4f4ee9"
@@ -306,8 +306,8 @@
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="150"
- Y="320"
+ X="40"
+ Y="200"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -472,8 +472,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="620"
- Y="160"
+ X="260"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -493,11 +493,55 @@
 >
 <Expression>(FIRST X IN CurrentBaliseGroup).Telegram.N_TOTAL == 0</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="260"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="UseLinkingInformation"
+ Guid="8b384565-d3f6-4feb-8c55-2059fdfa8bbf"
+>
+<ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2184685-1b0f-4ba1-a780-aa705694c0ac"
+>
+</ReqRef><ReqRef
+ Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11095974-5f18-4bba-960e-205b5f3f5c4a"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="033b65ec-0b9b-4204-a4d9-c8a43a9f5d10"
+>
+</ReqRef><Comment>The BG should only be evaluated with reference to the linking information if:
+  1) The BG is marked as linked
+  2) There is linking information stored on-board</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="0c4e2075-0e55-451f-a136-3c141c644ac4"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="fac907e6-9ee1-4c6c-a6ea-23ee99680faa"
+>
+<Expression>Linking.BGIsLinked( aBaliseGroup )
+  AND  
+Linking.LinkingApplicable()</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
- X="820"
- Y="190"
+ X="150"
+ Y="10"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -667,8 +711,8 @@
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
+ X="40"
+ Y="10"
  Width="100"
  Height="50"
  Name="StoreBGLocation"
@@ -745,7 +789,7 @@ the linking information regarding the location accuracy is used.</Comment>
  Guid="3c939d6a-99af-451a-b12d-368fece30c2a"
 >BTM.LRBG.HandleNewLRBG(
     Nid_BG =&gt; BG_To_LRBG( GetNID_BG( aBaliseGroup ) ),
-    aDistanceFromRef =&gt; DistanceFromReference( Linking.UseLinkingInformation(aBaliseGroup) AND Linking.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
+    aDistanceFromRef =&gt; DistanceFromReference( UseLinkingInformation(aBaliseGroup) AND Linking.Supervision.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
     aOrientation =&gt; BGOrientation( aBaliseGroup ),
     aLocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
 )</Action><Action
@@ -843,8 +887,8 @@ are used for fixing the BG LoacationAccuracy.</Comment>
  Type="BaliseGroupStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
- X="690"
- Y="560"
+ X="650"
+ Y="10"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -862,8 +906,8 @@ are used for fixing the BG LoacationAccuracy.</Comment>
  Type="PositionStruct"
  DefaultValue=""
  VariableMode="Internal"
- X="560"
- Y="560"
+ X="410"
+ Y="10"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -882,8 +926,8 @@ are used for fixing the BG LoacationAccuracy.</Comment>
  Type="BaliseGroupsCol"
  DefaultValue="[]"
  VariableMode="Internal"
- X="820"
- Y="300"
+ X="530"
+ Y="10"
  Width="100"
  Height="50"
  Pinned="TRUE"

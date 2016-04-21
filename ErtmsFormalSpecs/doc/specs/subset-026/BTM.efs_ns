@@ -818,8 +818,8 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
 </Function><Function
  Type="Boolean"
  Default=""
- X="620"
- Y="560"
+ X="720"
+ Y="80"
  Width="100"
  Height="50"
  Name="BaliseReadError"
@@ -892,7 +892,7 @@ UnreadableBaliseReceived</Expression>
 <Procedures>
 <Procedure
  X="40"
- Y="490"
+ Y="470"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -2348,7 +2348,7 @@ Packets.ConsiderBTMPacket(
 </Rule></Rules>
 </Procedure><Procedure
  X="150"
- Y="430"
+ Y="410"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -2448,7 +2448,7 @@ ON Message.Sequence1</Action><Action
 </Rule></Rules>
 </Procedure><Procedure
  X="40"
- Y="370"
+ Y="350"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -2799,7 +2799,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </Rule></Rules>
 </Procedure><Procedure
  X="150"
- Y="490"
+ Y="470"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -2908,7 +2908,7 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
 </Rule></Rules>
 </Procedure><Procedure
  X="40"
- Y="430"
+ Y="410"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -3054,7 +3054,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Guid="8a814b2e-b51c-4ac6-bab1-5cc0fa14f4f7"
 >MessageConsistency.IsConsistent( aBaliseGroup )</PreCondition><PreCondition
  Guid="4018c3e8-4735-4dee-9448-f1974ecaeef9"
->Linking.ConsiderBaliseMessage( aBaliseGroup )</PreCondition></PreConditions>
+>Linking.Supervision.ConsiderBaliseMessage( aBaliseGroup )</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3220,7 +3220,7 @@ HandleConsistentMessage(
 <Actions>
 <Action
  Guid="0fec3662-dbbc-49b3-b82f-212da0f1bec2"
->BTM.Linking.ApplyLinkingReaction(Linking.CurrentLinking().Reaction)</Action></Actions>
+>Linking.Supervision.ApplyLinkingReaction(Linking.CurrentLinking().Reaction)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No linking, check for Inhibition of service brake packet"
@@ -3268,7 +3268,7 @@ HandleConsistentMessage(
 <Actions>
 <Action
  Guid="e116e90f-40b7-447f-9f12-239d064059f9"
->BTM.Linking.ApplyLinkingReaction(Linking.CurrentLinking().Reaction)</Action></Actions>
+>Linking.Supervision.ApplyLinkingReaction(Linking.CurrentLinking().Reaction)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3609,258 +3609,38 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
  Guid="7681408a-254e-4253-b89f-a000390d57d7"
 >
 <ReqRef
- Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ed350029-2893-4d2d-b4bd-2a549538e310"
->
-</ReqRef><ReqRef
- Id="2a179500-0c97-46fb-975e-2dda45df541e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="feef88b0-72ec-49cc-83fc-cf26e46c70b0"
->
-</ReqRef><ReqRef
- Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1393c0b1-da8b-4c27-b480-afc6cca11010"
->
-</ReqRef><ReqRef
- Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f9260686-cec4-4068-b6f0-514de4590ef2"
->
-</ReqRef><ReqRef
- Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="44e155c4-b0d1-4b8d-84b3-5fb209eb6945"
->
-</ReqRef><ReqRef
- Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b4aa2b52-d304-4b19-a628-cc161a869c9a"
->
-</ReqRef><ReqRef
- Id="689ab6d6-cac9-4667-86bf-c6be70fefd43"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9c5c7f99-a2fc-42d5-991b-b5b26b399315"
->
-</ReqRef><SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="No linking consistency errors"
- Guid="92ae5112-1d17-470b-8deb-cde67e73ab4e"
->
-<ReqRef
- Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b882ea54-5e4d-475c-98ae-abedd1ae1580"
->
-</ReqRef><ReqRef
- Id="259e3c43-f68a-4c80-8402-32349f27172d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a0da7471-6b82-40bd-b224-abcf72a898ce"
->
-</ReqRef><Comment>Linking consistency is OK
-If the BG was passed in the right direction, handle the message. If not, the train will be tripped (as a mode transition, no need to specify that here)</Comment>
-<PreConditions>
-<PreCondition
- Guid="64a649af-e04e-4e87-9f05-10155fb800fd"
->BTM.Linking.ConsistencyError(aBaliseGroup) == BTM.Linking.LinkingErrorEnum.NoError</PreCondition><PreCondition
- Guid="8a07516f-5e49-4e7f-9fb9-ca69da857f66"
->BTM.Linking.BGOrientationIsValid(aBaliseGroup)</PreCondition><PreCondition
- Guid="ece8fce6-b40d-40dc-bf42-8979cd157cb4"
->BTM.Linking.ConsiderBGWithLinking(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="73f60427-194a-4f61-9082-16f71fa2409d"
->BTM.Linking.StopExpectingBG( GetNID_BG(aBaliseGroup) )</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check balise cross-talk RAMS"
- Guid="84bb496a-8f09-4b15-80be-d4e46aa8e27b"
->
-<ReqRef
  Id="6ae42f8d-795c-47e9-8a41-3f4433b18021"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6a52c330-f335-47a7-9669-8c47a73c9b9d"
->
-</ReqRef><Comment>If the RAMS cross-talk supervision function is active, check the linking. If the balise was linked and is expected in the linking information, delete the supervision information as it is no longer needed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove RAMS if known, linked BG"
- Guid="b2d4afb6-ba51-4ccb-9557-e58bd290d804"
->
-<ReqRef
- Id="848fea93-159f-4a91-8e12-25254251ce91"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9d9a39dd-ce42-4973-b858-899bf41e5a07"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="5c4ec92f-7397-4b1a-8e94-ab0d3f2c56b3"
->BTM.Linking.CurrentLinking().BaliseGroupIdentifier != Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="369dfef1-1fae-4ce2-b6c1-777ef0432e42"
->BTM.Linking.RAMSRepositioningBG &lt;- EMPTY</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check balise reception RAMS"
- Guid="d830518c-e527-4ce2-8aba-7ea17d82d7b7"
->
-<Comment>If the RAMS supervision function is active, check it against the current BG.
-If the IDs match, stop the RAMS supervision.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove RAMS supervision of passed BG"
- Guid="cb55754b-6fb9-4556-a4e0-28de420565c0"
->
-<PreConditions>
-<PreCondition
- Guid="620c93eb-fc20-46b3-aa97-2c6d1ad2a3ab"
->Available(BTM.Linking.RAMSSupervisedBG)
-  AND  
-BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="efaa08c9-62f2-45d9-b68f-3a1da3e29641"
->BTM.Linking.RAMSSupervisedBG &lt;- EMPTY</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Handle linking error"
- Guid="107baf8b-a752-4b4b-bf2f-a259a5c03735"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Linking error"
- Guid="fa1264fd-d06b-43fd-b8be-fc0ee36a9ffa"
->
-<ReqRef
- Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8b4e8821-5eb6-4dc3-a484-ddc9202cce04"
->
-</ReqRef><ReqRef
- Id="2a179500-0c97-46fb-975e-2dda45df541e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="47c7e807-af54-46f7-8aaf-17d45636a345"
->
-</ReqRef><ReqRef
- Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e6095490-ff58-468b-ba4d-80b38e025699"
->
-</ReqRef><ReqRef
- Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="41f5ecb1-f04c-496b-b9f7-c3648f58690d"
->
-</ReqRef><ReqRef
- Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ac45d28e-39d4-43e8-9a65-5b7edb800978"
->
-</ReqRef><ReqRef
- Id="572df3cf-8b3b-4e6d-b78e-c0ff6690a2cb"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="065736ea-5cd3-4376-9dde-418fe8fd4d3a"
->
-</ReqRef><ReqRef
- Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="32ae3bbb-be0b-4e26-9591-55cd7a87824c"
->
-</ReqRef><ReqRef
- Id="2c84de1b-61c3-4555-b485-6b4eae58ae90"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="258edb9a-f159-486b-b35e-351bd694afe8"
->
-</ReqRef><ReqRef
- Id="85c84a18-90d4-4035-90e4-abdba8729120"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="42b3ca4b-373d-4040-9108-68a02e93e590"
->
-</ReqRef><SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="There is an error in the linking consistency of the current BG"
- Guid="eb7ab073-eb3e-4a3f-99bb-2227d1147a1b"
->
-<Comment>If the received, linked BG is the next one expected, its message can still be accepted</Comment>
-<PreConditions>
-<PreCondition
- Guid="55a61f56-5d3b-4c7d-8122-989e234d8234"
->BTM.Linking.ConsistencyError(aBaliseGroup) != BTM.Linking.LinkingErrorEnum.NoError</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="4dd4bc3d-0771-48b0-8b36-200f331fbb16"
->BTM.Linking.HandleConsistencyError(
-    aConsistencyError =&gt; BTM.Linking.ConsistencyError(aBaliseGroup)
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Check RAMS repositioning function"
- Guid="b9dec577-e68c-4cb0-83bc-4e13d56f5bec"
->
-<ReqRef
- Id="6ae42f8d-795c-47e9-8a41-3f4433b18021"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f9eabc81-580c-4d83-b081-34fbb10dd3d3"
+ Guid="9a81f47b-fffd-4f82-a51b-feb367894901"
 >
 </ReqRef><ReqRef
  Id="aaa581cb-18a1-43c9-861e-43c4d76ec1fe"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f0a3dba2-4e71-4107-a0e9-129298deb930"
+ Guid="981f6b86-8da5-488f-910c-0b087133cfe3"
 >
-</ReqRef><Comment>If the received BG is linked but is not present in the linking information while the RAMS cross-talk supervision function is active, active the service brake.</Comment>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Handle linking"
+ Guid="69e81906-e8b8-49ca-a44b-59f593258d7b"
+>
 <PreConditions>
 <PreCondition
- Guid="5777b7bc-699f-45f1-89ed-9f7a10ab06d7"
->Available(BTM.Linking.RAMSRepositioningBG)</PreCondition><PreCondition
- Guid="e1a20219-11e1-4519-8332-9991357825e0"
->THERE_IS message IN aBaliseGroup | 
-(
-  THERE_IS packet IN message.Telegram.Sequence1 |
-    Available(packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION)
-)</PreCondition><PreCondition
- Guid="97e201cd-7e8c-4cd0-9796-d3b94acf3a02"
->Linking.BGIsLinked(aBaliseGroup)</PreCondition></PreConditions>
+ Guid="27f4db94-b15e-406b-9871-3ff2dc472b4b"
+>Linking.BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
+ Guid="5bb87d7c-3388-4c36-985b-5f8ff9cf5425"
+>Linking.LinkingApplicable()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="f7aea1c2-1e1f-4d47-8f36-412e4107ba4b"
->Kernel.HandlingOfAcceptedAndStoredInformation.RAMSSupervisionFunctionLedToServiceBrake &lt;- True</Action><Action
- Guid="294b1490-c94d-4bac-b054-feaef3d222b4"
->Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.RAMSSupervision)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+ Guid="5cefc902-112b-4fb7-9693-d3dbfb3583ff"
+>Linking.Supervision.HandleLinkingSupervision(aBaliseGroup)</Action><Action
+ Guid="88417e53-19d1-45f0-af38-2c175e4fbab2"
+>Linking.RAMS.HandleRAMSFunctions(aBaliseGroup)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
  X="150"
- Y="550"
+ Y="530"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -3991,7 +3771,7 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
 </Rule></Rules>
 </Procedure><Procedure
  X="40"
- Y="550"
+ Y="530"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -4082,7 +3862,7 @@ BTM.Linking.RAMSSupervisedBG.Id == GetNID_BG(aBaliseGroup)</PreCondition></PreCo
 </Rule></Rules>
 </Procedure><Procedure
  X="150"
- Y="370"
+ Y="350"
  Width="100"
  Height="50"
  Implemented="TRUE"

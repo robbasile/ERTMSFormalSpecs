@@ -1,0 +1,1375 @@
+<NameSpace
+ X="10"
+ Y="220"
+ Width="100"
+ Height="50"
+ Name="Supervision"
+ Guid="074d4ec7-3583-49c9-ae9d-e150da07dd0c"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="400"
+ Y="130"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="BGIdentityIsValid"
+ Guid="736c1e29-e6c1-4329-9a11-181c45d8baa8"
+>
+<ReqRef
+ Id="2bc225fc-8bc7-49ee-a452-094ceb010716"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="532def12-426b-48ac-9413-2795373e77f8"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a48c851e-877d-4fad-b7b5-f72c210ad634"
+>
+</ReqRef><ReqRef
+ Id="21a0ae2b-0594-4a82-bcb1-13fdda48901c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="071565c3-97a5-424f-a42e-cbf0777f632c"
+>
+</ReqRef><ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="48985d3b-ea65-4129-a0d4-e89d0093552b"
+>
+</ReqRef><Comment>Verifies that the identifier of the current BG was announced by the linking (or that the linking has announced that the following balise group&apos;s identifier is unknown).</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="aId"
+ Guid="3f391221-3ad4-47da-9c0a-82a5fa92cbdb"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Check linking consistency"
+ Guid="1389d65e-f43e-4c52-bbc2-a0b9bff9a25c"
+>
+<PreConditions>
+<PreCondition
+ Guid="82df884c-19da-40cc-b3b1-5c5365462f5f"
+>Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Expression>THERE_IS X IN Linkings| X.BaliseGroupIdentifier == aId</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="09df7dbf-e9d8-4952-aa0d-0c4b26e9dd18"
+>
+<Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="400"
+ Y="70"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BGIsInExpectationWindow"
+ Guid="bc073612-7beb-4876-ba83-6c868455d95a"
+>
+<ReqRef
+ Id="2a179500-0c97-46fb-975e-2dda45df541e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8695d3e3-6ed2-47a7-9747-1587c5573dec"
+>
+</ReqRef><ReqRef
+ Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f1cb4a21-215c-4362-8104-35596a0894ce"
+>
+</ReqRef><ReqRef
+ Id="7ec28cec-f043-4430-802b-8219033d9a4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c68a93aa-761d-4852-95cf-fec299f4f4c4"
+>
+</ReqRef><Comment>Checks whether the linked BG was found inside its expectation window</Comment>
+<Parameters>
+<Parameter
+ Type="LinkingDataStruct"
+ Name="LinkedBG"
+ Guid="a5522054-89ca-44b5-b236-35449029ff8e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Before expectation window"
+ Guid="15156248-d7f5-45c8-bc33-312c95c69ec8"
+>
+<Comment>The BG location reference is before the start of the linking expectation window</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4b2c047b-90a3-49e7-b4f9-8ff093ea90a3"
+>BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position + BTM.BGLocationReference.Position.UnderReadingAmountOdo &lt; LinkedBG.Distance - LinkedBG.LocationAccuracy</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="After expectation window"
+ Guid="0869f5e3-d8b3-4ac5-bc93-5184d0d0bea6"
+>
+<Comment>The BG location reference is after the start of the linking expectation window</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a13d9a26-6872-475a-b2a5-b2e0d9cf137e"
+>BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &gt; LinkedBG.Distance + LinkedBG.LocationAccuracy</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Inside expectation window"
+ Guid="9515b36a-18f1-4e88-96cb-278e802e919a"
+>
+<Comment>The BG is encountered inside the linking expectation window</Comment>
+<Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="290"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BGOrientationIsValid"
+ Guid="f13ce9c3-8102-404b-9859-179d2c0824fd"
+>
+<ReqRef
+ Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2c593eb4-f871-46d1-a458-2abaee58f52a"
+>
+</ReqRef><ReqRef
+ Id="9ffb7f56-2bd6-43f5-8def-6aac968df073"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6aac8dd4-9edd-47c7-acfb-f7219d224d2f"
+>
+</ReqRef><Comment>Returns True if the announced BG&apos;s orientation matches the expected orientation</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="3657405e-fe1c-4811-af5e-6b9b318e58fa"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e8cfc917-3918-4465-9013-4236335bcc82"
+>
+<Expression>BTM.Linking.CurrentLinking().Orientation == BGOrientation(aBaliseGroup)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="290"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BGWithinFrame"
+ Guid="e4b951d5-e364-4b31-a4e0-c6ad0e6fea3c"
+>
+<ReqRef
+ Id="c534dda4-ea81-40b7-a27b-c229e935a20e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d5dab54-1715-44d8-8a3f-98c74db7452d"
+>
+</ReqRef><ReqRef
+ Id="75b64f27-a0f0-421e-a6c1-37f2dd27860f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="71528ab1-6044-469d-b298-a834a774d51f"
+>
+</ReqRef><ReqRef
+ Id="6edb366e-d115-4216-b96e-7b30170c1b1b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="770da8b0-963b-4b05-9d57-4d7e0e76ccce"
+>
+</ReqRef><ReqRef
+ Id="997012e6-1938-4ed6-b9fe-4a696ee0c30f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f45d8422-4e60-46f0-915f-f9818ea06e4a"
+>
+</ReqRef><ReqRef
+ Id="7ec28cec-f043-4430-802b-8219033d9a4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e152e477-1c03-4d5e-8707-276952ce2016"
+>
+</ReqRef><Comment>Returns true if the current BaliseGroup is linked + stored in our Linking database and within reach of the onboard antenna</Comment>
+<Cases>
+<Case
+ Name="Expectation window for Unknown BG ID"
+ Guid="4a644f5f-09fa-4cf8-868e-62d0f628f3c7"
+>
+<Comment>Implementation of 3.4.4.4.4: Only take into account the end location of the frame for BGs marked as UNKNOWN</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2425f7be-2891-4d2c-a000-e3d04864b4b4"
+>CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
+<Expression>BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &lt;= CurrentLinking().Distance + CurrentLinking().LocationAccuracy</Expression>
+</Case><Case
+ Name="Check the expectation window"
+ Guid="0bfe0cf6-52e4-46b8-a258-00e1f3aa67c4"
+>
+<Expression>Supervision.BGIsInExpectationWindow( FIRST X IN BTM.Linking.Linkings )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="620"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConsiderBaliseMessage"
+ Guid="5924968f-66af-4d9f-93cc-6c0c651f4a2b"
+>
+<ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c99405c-0a1a-4326-ae3b-8f164bbce03f"
+>
+</ReqRef><ReqRef
+ Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4211a098-6b11-44af-92b5-9af48c6c169c"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df625f75-fece-4951-be3a-5aa0fd982d85"
+>
+</ReqRef><ReqRef
+ Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59beb8f8-0607-43c3-b508-942f3e0a13b2"
+>
+</ReqRef><ReqRef
+ Id="370bc14e-630a-4f72-87f6-54e50015825c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9aaddcb7-5af4-47ea-bdff-7432fd9c34a3"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="de4e0601-42b9-473f-b861-4a8a125930d1"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Consider BG with linking"
+ Guid="7dfd9cbc-b631-42eb-8c27-733d4b0c6d28"
+>
+<PreConditions>
+<PreCondition
+ Guid="b8f8f76c-4714-4357-86bb-c4a09571c1ec"
+>BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
+ Guid="63a6024f-238f-41a5-a858-35f93930937d"
+>LinkingApplicable()</PreCondition></PreConditions>
+<Expression>ConsiderBGWithLinking(aBaliseGroup)</Expression>
+</Case><Case
+ Name="Consider BG without linking"
+ Guid="bb9f7d9f-231e-48e3-957d-44fa33c4253d"
+>
+<Expression>ConsiderBGWithoutLinking(aBaliseGroup)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="620"
+ Y="70"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="ConsiderBGWithLinking"
+ Guid="d0a2ce43-1128-4658-89f2-e65df01f1238"
+>
+<ReqRef
+ Id="15cc1ee9-1be0-4256-a588-5dd0831c0f97"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="446a1ac7-d501-45d4-ada5-5b4121de76fd"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b6cb14b-3b77-443c-94b7-8b8b634e8438"
+>
+</ReqRef><ReqRef
+ Id="62aa6f8e-f444-4ed1-90b7-43dc64aa7594"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="819c48ce-8cbf-4305-b83e-f747c8196b4b"
+>
+</ReqRef><ReqRef
+ Id="dc13fa0f-3c6b-42d8-a367-9de75248768d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c12cdcc0-b4fb-4d97-939d-5db6d594f159"
+>
+</ReqRef><Comment>Returns True if the current BG is linked and announced</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="981b6903-ef6c-4a58-8e38-17c0cf967882"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Current BG linked and announced"
+ Guid="54f3f434-61f2-4ee5-9648-c6727de839f9"
+>
+<Expression>BTM.Linking.LinkingApplicable()
+  AND  
+BGIsLinked(aBaliseGroup)
+  AND  
+(
+  Supervision.BGIdentityIsValid(GetNID_BG(aBaliseGroup))
+    OR  
+  BGIsUnknownWithRepositioningPacketValidForDirection(aBaliseGroup)
+)
+  AND  
+BGWithinFrame()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="510"
+ Y="130"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="ConsiderBGWithoutLinking"
+ Guid="4ebe43f9-4084-42e5-9c71-54b4123a39a3"
+>
+<ReqRef
+ Id="22b29a34-8fe5-4ccc-9aec-f79479570714"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5812c72-2df4-4fdd-bc3d-e098685c0fc8"
+>
+</ReqRef><ReqRef
+ Id="45b975c5-6f3a-47c9-9f18-741bdd280f36"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68901a58-e8fa-4e41-b5f7-a31e93997ee5"
+>
+</ReqRef><Comment>Returns True if the train has no linking information or if the current BG is unlinked</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="21c7104a-cfe7-4b08-a96a-c0b8e26504c9"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Linking is not available"
+ Guid="8d2dfd52-2927-4629-86f7-9087a69a8526"
+>
+<Comment>All balises are considered is there is no available linking information</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e040f6c2-c332-4606-a318-5857e2bb8ef9"
+>BTM.Linking.Linkings == []</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Message is Unlinked"
+ Guid="5f8fc683-07db-412a-9260-1227ccc38dd3"
+>
+<PreConditions>
+<PreCondition
+ Guid="36ca612a-201d-450b-971d-11450853b5f9"
+>ConsiderUnlinkedBG(aBaliseGroup)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="da49d6ff-7aea-44fd-b4f4-99a7ef246a31"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="510"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="ConsiderUnlinkedBG"
+ Guid="dfd8d051-1d51-408f-bb7b-11e260f03e0c"
+>
+<ReqRef
+ Id="17cdeaca-a795-4ae1-b38f-adb2b3ece625"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ace0d8a-5450-4e81-a56a-4858fbdf2225"
+>
+</ReqRef><Comment>Special case of ConsiderBG(). Returns true if the current BG is unlinked but has to be considered, nevertheless.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="9512c0f2-0e3f-47fa-b2c4-d55a392fa317"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="7a5fb781-d47d-4183-85ce-e677f5830885"
+>
+<Expression>NOT BGIsLinked(aBaliseGroup)
+  AND
+(COUNT X IN aBaliseGroup) &gt;= 2</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="510"
+ Y="70"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="IsNoConsistencyError"
+ Guid="de79a9cc-73a2-4121-a5ba-eca8a13d75f2"
+>
+<ReqRef
+ Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="496b2144-20a6-48db-8cbc-b2372ae80ee3"
+>
+</ReqRef><ReqRef
+ Id="572df3cf-8b3b-4e6d-b78e-c0ff6690a2cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5b7ed145-02e6-4aa7-b962-a858e2003488"
+>
+</ReqRef><ReqRef
+ Id="7e2eedb2-843c-49cc-baec-39383388af08"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="577f8480-5809-42a0-8da6-54e5f0887cdf"
+>
+</ReqRef><ReqRef
+ Id="2a179500-0c97-46fb-975e-2dda45df541e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4bb41d57-196c-433f-8649-2cd8e44b9ae3"
+>
+</ReqRef><ReqRef
+ Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a6e9ff3-53fb-482c-8669-e7770fc2f217"
+>
+</ReqRef><ReqRef
+ Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0b70602c-61bd-463a-9f13-183f6e08ea24"
+>
+</ReqRef><ReqRef
+ Id="21a0ae2b-0594-4a82-bcb1-13fdda48901c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="22e18a0d-2808-49d0-be62-e0cf4ebba616"
+>
+</ReqRef><ReqRef
+ Id="7ec28cec-f043-4430-802b-8219033d9a4f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd3f8b1f-0d60-42bb-9f46-db9b0c2d1827"
+>
+</ReqRef><ReqRef
+ Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08c35d30-c3b0-49aa-9ed9-47c9cca9967b"
+>
+</ReqRef><Comment>Returns true if there is a linking consistency error with the BG</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="0aae76d7-7b42-411c-96f3-8785055b0b06"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Do not check Linking consistency"
+ Guid="f4ac2675-53c5-4283-a91c-176a224a1377"
+>
+<PreConditions>
+<PreCondition
+ Guid="ce09c9a6-abf0-436c-93bc-dc574f1e6d2c"
+>NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="BG encountered outside expectation window"
+ Guid="f75ed45e-36a7-4447-9107-f0fd905886ed"
+>
+<Comment>The location reference of the linked BG is found outside its expectation window, corresponding to reqs. 3.16.2.3.1.a) and 3.16.2.3.1.b)</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9395d930-3de6-407a-9481-58901353982a"
+>GetNID_BG(aBaliseGroup) == CurrentLinking().BaliseGroupIdentifier
+  AND  
+NOT Supervision.BGWithinFrame()</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Later BG found first"
+ Guid="dba1d2b8-aea3-4fe4-941e-b73d8398de2e"
+>
+<Comment>The detected BG is announced, but it is in the expectation window of a previous announced BG, corresponding to req. 3.16.2.3.1.c)</Comment>
+<PreConditions>
+<PreCondition
+ Guid="eefad305-9f3a-4973-a898-0f076af71e89"
+>(THERE_IS X IN BTM.Linking.Linkings |
+    ( GetNID_BG(aBaliseGroup) == X.BaliseGroupIdentifier)
+)
+  AND  
+
+BGWithinFrame()</PreCondition><PreCondition
+ Guid="d4ff5165-97e9-40c8-9ba8-6d1ba758dc1c"
+>CurrentLinking().BaliseGroupIdentifier != GetNID_BG(aBaliseGroup)</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="dcf583f1-b5ed-4a68-a8eb-3b35040387c8"
+>
+<Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="620"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ExpectationWindowPassed"
+ Guid="f5ae4295-6868-42ae-a35e-09289ccbec8b"
+>
+<ReqRef
+ Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9d16e643-c434-440f-800c-d169384a560a"
+>
+</ReqRef><Comment>Determines if the balise antenna has passed the expectation window of the current linking.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="f0c0f7f7-c037-4ab3-a10b-87115cf305ae"
+>
+<Expression>AntennaDistance ( DistanceIntervalEnum.Min ) &gt; BTM.Linking.CurrentLinking().Distance + BTM.Linking.CurrentLinking().LocationAccuracy</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="400"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="BGIsUnknownWithRepositioningPacketValidForDirection"
+ Guid="f1956475-bc3e-42b6-a350-bba0af01c996"
+>
+<ReqRef
+ Id="e5ef2878-8ec2-4b95-9b91-af8274b231b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2601acf9-4290-4a93-b9e8-08bf7ca23a35"
+>
+</ReqRef><ReqRef
+ Id="15cc1ee9-1be0-4256-a588-5dd0831c0f97"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="88fcfe42-627b-4b9c-b0a7-d1faefab323c"
+>
+</ReqRef><ReqRef
+ Id="efb1d7b7-401e-46ab-93ac-645f2bc80a33"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d5f91ee-cebb-4dad-9338-3d62421061cc"
+>
+</ReqRef><ReqRef
+ Id="81bbc248-7c0b-473e-a3ec-e9178c2ce88d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1712ccf-85aa-470d-bfd3-b771d07df98e"
+>
+</ReqRef><ReqRef
+ Id="62aa6f8e-f444-4ed1-90b7-43dc64aa7594"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e116f214-8a36-47ae-9086-575c7db05195"
+>
+</ReqRef><ReqRef
+ Id="203ab365-30f2-4d89-bf31-72cc5c007972"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da1eb59e-f13c-4a97-b6aa-45b539db349f"
+>
+</ReqRef><ReqRef
+ Id="572df3cf-8b3b-4e6d-b78e-c0ff6690a2cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="05114846-8886-40e7-9147-4b7339d43065"
+>
+</ReqRef><ReqRef
+ Id="21a0ae2b-0594-4a82-bcb1-13fdda48901c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="49a0f15f-753a-4b28-adc4-b971e6631605"
+>
+</ReqRef><Comment>If the current balise group was announced by linking as &quot;unknown&quot;, then it will only be considered if it contains the repositioning information valid for the train orientation.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="5722127e-b1b6-4bc8-bf17-d069a6d25054"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Check linking consistency"
+ Guid="a793ac49-0e4c-4a69-8191-d2bc8465948a"
+>
+<PreConditions>
+<PreCondition
+ Guid="6d48fca6-212c-4d31-bab3-19b6f87595cc"
+>Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Expression>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN
+  AND
+THERE_IS X IN aBaliseGroup | TelegramContainsRepositioningInformation(
+    Message =&gt; X.Telegram,
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup )
+)
+  AND
+Supervision.BGOrientationIsValid(aBaliseGroup)</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="785236bb-e746-4b79-a351-c6484432eced"
+>
+<Expression>True</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="290"
+ Y="70"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="TelegramContainsRepositioningInformation"
+ Guid="9182d2c5-6efd-4550-ab3d-aac0b5fe4935"
+>
+<ReqRef
+ Id="e5ef2878-8ec2-4b95-9b91-af8274b231b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68cae0cf-e2a5-4407-b80c-a08c7537dd8e"
+>
+</ReqRef><Comment>Indicates if a balise telegram provided as parameter contains a packet with repositioning information.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EUROBALISE.Message"
+ Name="Message"
+ Guid="f0bd316f-cdcd-41eb-8a6a-cf4007997b85"
+>
+</Parameter><Parameter
+ Type="Default.OrientationEnum"
+ Name="MessageOrientation"
+ Guid="d8f78a5c-6bad-46b7-ae67-395d3780d3fe"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="efbb6e0b-2160-4e54-acf9-98923bf5abab"
+>
+<Expression>THERE_IS X IN Message.Sequence1 | Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; X.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="400"
+ Y="190"
+ Width="100"
+ Height="50"
+ Name="LinkingIsConsistent"
+ Guid="5422b655-df8f-4440-a095-dd0748ea0ef6"
+>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="6d7bb3ac-d8d7-4559-900e-b8479332b27d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Do not check linking consistency"
+ Guid="45c87ed9-74f2-44f4-8fa8-a7c2c2f7895a"
+>
+<PreConditions>
+<PreCondition
+ Guid="9cac9604-fcdd-4fd3-9078-545a3d1b0e10"
+>NOT Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="8daefee2-9509-4a97-b614-6737dad9f966"
+>
+<Expression>IsNoConsistencyError(aBaliseGroup)
+  AND  
+BGOrientationIsValid(aBaliseGroup)
+  AND  
+ConsiderBGWithLinking(aBaliseGroup)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="290"
+ Y="190"
+ Width="100"
+ Height="50"
+ Name="LinkingUpTo"
+ Guid="7d0f8223-73b4-4e6d-a849-5a3fcfa7989d"
+>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="ID"
+ Guid="a80c7a37-67a0-42c4-8520-93a33b0d6771"
+>
+</Parameter><Parameter
+ Type="LinkingDataStruct"
+ Name="aLinking"
+ Guid="62486a71-6bca-4e18-9b3a-ca6a4e536c10"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No linking with given ID"
+ Guid="4c39c265-284d-4da6-a6d9-0a437367933d"
+>
+<PreConditions>
+<PreCondition
+ Guid="04aa2655-5c9b-4b26-a334-032c7bc5aed3"
+>NOT THERE_IS X IN Linkings | X.BaliseGroupIdentifier == ID</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="4b80fde8-a76a-499f-83f3-dac495aeb156"
+>
+<Expression>aLinking.BaliseGroupIdentifier == ID
+  OR  
+Before(
+    ExpectedFirst =&gt; aLinking,
+    ExpectedSecond =&gt; GetLinkingFromId( ID ),
+    Collection =&gt; Linkings
+)</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="400"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ApplyLinkingReaction"
+ Guid="ef7b2eb1-c570-4db5-9755-940b33b8c20b"
+>
+<ReqRef
+ Id="a58464f1-c74b-420f-ad30-03d671b764c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a3ea2b07-78b0-4192-ab97-c390c4c8ace1"
+>
+</ReqRef><ReqRef
+ Id="e301f9da-607b-45f9-a74b-a6d53cbfc408"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ee75e749-fdd1-4d3f-81e9-d9b59d5d6531"
+>
+</ReqRef><ReqRef
+ Id="277ee440-7786-4aac-8364-7e60a82e94a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b9f45786-2958-420c-afcf-c33d2fde385c"
+>
+</ReqRef><ReqRef
+ Id="52ed2710-9a35-46d3-9d62-825665d41e0d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="49c5522a-b6fb-49dc-8bbc-613c695d5651"
+>
+</ReqRef><ReqRef
+ Id="e529be25-15db-4250-b937-0f076614ae46"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f04a1e81-0815-48c9-9a55-4c43318796fa"
+>
+</ReqRef><ReqRef
+ Id="a0f4b0d4-ee6d-40d4-94b4-05dd94f6bcd2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a3d5ea02-df3f-4278-b953-201d210ede9f"
+>
+</ReqRef><ReqRef
+ Id="00031a80-e9f3-4821-a0a6-1d322a75fa85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46d6aca3-07fd-404f-a004-7479e0e284cf"
+>
+</ReqRef><ReqRef
+ Id="a7df0f1f-2d5f-4baa-b656-9ddbc4393074"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2f3e1348-f97a-4e1f-9af3-9e3586e4831f"
+>
+</ReqRef><ReqRef
+ Id="d40be57e-365b-4f3a-ad26-7ff1d347c5f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="675e8dfd-79eb-499e-9596-e20c4d6deef9"
+>
+</ReqRef><ReqRef
+ Id="11ea7b7f-ac4e-40fe-90ea-b1c4713fac8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b555e6fe-262a-43ba-a4d1-64eb45d9f406"
+>
+</ReqRef><Comment>Applies the linking reaction of the current linking.</Comment>
+<Parameters>
+<Parameter
+ Type="Linking.LinkingReaction"
+ Name="aLinkingReaction"
+ Guid="c41689f1-1eb1-48f2-bde6-d55e1c8c8136"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Apply linking reaction"
+ Guid="f1fe9f61-e172-4e5a-8af9-248c5d841e04"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Apply service brake"
+ Guid="239bf11a-8365-47dc-ae2d-ec17cf099c46"
+>
+<ReqRef
+ Id="52ed2710-9a35-46d3-9d62-825665d41e0d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="95cdd889-a6df-4fd4-8409-67b0edc420e8"
+>
+</ReqRef><ReqRef
+ Id="c41b87f6-3ab7-4925-8ce9-eae8005f051f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d25c34a0-f247-495d-8234-5aeb046a7dab"
+>
+</ReqRef><ReqRef
+ Id="3c5e0f89-6000-4105-b9fb-8015551e56d8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ce24dc2-b803-484d-ad50-a99ebde98a96"
+>
+</ReqRef><ReqRef
+ Id="74a3d82b-9ddd-48fa-af22-e58ec65cf83c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26500a9a-e3b9-4846-a758-9a65b0fe65bf"
+>
+</ReqRef><Comment>Linking reaction: command service brake.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="252f8f77-05b8-42b2-9b28-8f095360190a"
+>aLinkingReaction == BTM.Linking.LinkingReaction.CommandServiceBrake</PreCondition><PreCondition
+ Guid="e86cfb1e-1261-4602-8104-1c5ffa5e0a36"
+>Kernel.Mode != ModeEnum.RV</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bfc6430f-ae00-42e0-8bd9-645cf6379bf4"
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.LinkingInconsistency)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Train trip"
+ Guid="cf494783-6953-4567-9a26-37bdf53bac2e"
+>
+<ReqRef
+ Id="a0f4b0d4-ee6d-40d4-94b4-05dd94f6bcd2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5b039f0e-3e29-4301-b69b-d220ccf918be"
+>
+</ReqRef><ReqRef
+ Id="277ee440-7786-4aac-8364-7e60a82e94a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5fb0a21a-1738-4e14-aa14-125aea73c4e9"
+>
+</ReqRef><Comment>Linking reaction: train trip.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="dc77f423-8ec6-4f72-a26c-5a8f78d45398"
+>aLinkingReaction == BTM.Linking.LinkingReaction.TrainTrip</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ae19ed3a-7f6d-4b56-88d8-3ad85658ff6d"
+>Supervision.TrainTripDueToLinkingInconsistency &lt;- True</Action><Action
+ Guid="14f5f361-4018-437e-aa02-d290a7048a2b"
+>INSERT Kernel.BrakeCommands.EmergencyStopStruct{
+    IsConditional =&gt; False,
+    Id =&gt; 0,
+    StopLocation =&gt; 0.0,
+    Reason =&gt; Kernel.BrakeCommands.BrakeReasonEnum.BaliseGroupMessageInconsistency,
+    StartTime =&gt; Kernel.DateAndTime.Now()
+}
+IN Kernel.BrakeCommands.EmergencyStops</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="620"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HandleLinkingError"
+ Guid="6ec21532-1ddc-4a6e-81f8-749ef96463da"
+>
+<ReqRef
+ Id="a58464f1-c74b-420f-ad30-03d671b764c8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d57e55f-a085-43be-bf91-2bba7177339b"
+>
+</ReqRef><ReqRef
+ Id="e301f9da-607b-45f9-a74b-a6d53cbfc408"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e6d3dc8-dd65-4727-bbf7-01e58c414f9b"
+>
+</ReqRef><ReqRef
+ Id="277ee440-7786-4aac-8364-7e60a82e94a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="34595bf7-d0da-4fc1-96fd-b215075ebcf4"
+>
+</ReqRef><ReqRef
+ Id="52ed2710-9a35-46d3-9d62-825665d41e0d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="91bdbfd2-34e5-4202-90ee-7b96a2db43f5"
+>
+</ReqRef><ReqRef
+ Id="e529be25-15db-4250-b937-0f076614ae46"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b2a0e8e-0483-4c77-bd46-b8ebf8c72509"
+>
+</ReqRef><ReqRef
+ Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="14476290-54b5-47b8-8662-e1632407f417"
+>
+</ReqRef><ReqRef
+ Id="2c84de1b-61c3-4555-b485-6b4eae58ae90"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="289263a4-8987-4c9e-9cc7-6040fef1adfb"
+>
+</ReqRef><Comment>Apply the prescribed reaction if there is a data consistency problem</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="ID"
+ Guid="ca7a7cb5-4d5f-4006-8623-567edaa0cdf8"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Record the linking error"
+ Guid="2aa1a1e8-2182-4be8-b935-27d09423646f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Record the linking error"
+ Guid="435645e9-9453-4805-9b6b-bc48d588cafc"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="624d4830-fadf-45b4-9d45-33ea833b3e51"
+>LinkingError &lt;- True</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Apply linking reaction"
+ Guid="b7705540-c896-4991-ac91-962e6c50429d"
+>
+<Comment>First, apply the linking reaction of the linked BG</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Apply linking reaction"
+ Guid="adf43d45-3eba-4106-b1c7-fede7164a7fb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d25d0a31-77cf-4f0b-afa9-86acd17caaa8"
+>ApplyLinkingReaction(GetLinkingFromId(ID).Reaction)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="290"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="StopExpectingLinkingsUpTo"
+ Guid="daa0e49f-223d-401a-b2e6-4c43a5fed628"
+>
+<ReqRef
+ Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70edeac1-29cf-4a67-a25d-a8bb10e21bd7"
+>
+</ReqRef><ReqRef
+ Id="259e3c43-f68a-4c80-8402-32349f27172d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="34f2596f-54be-4597-bd2c-07f7ad17bc75"
+>
+</ReqRef><Comment>Deletes all linkings up to the provided ID.
+If the ID is not valid (if there are no linkings with the provided ID), nothing is removed from the linkings.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_BG"
+ Name="ID"
+ Guid="2450dcce-e7ee-44d9-93ca-ea4ca2416dcc"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="UpdateNextDistance"
+ Guid="d007ac1f-6132-468d-9274-65c17aa65dae"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Update the next distance, if required"
+ Guid="0e04b8d1-e0c3-4229-9d1a-1b364d18b873"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Update the next distance, if required"
+ Guid="6ec0048a-a285-47b8-9676-4ef82f3ad71c"
+>
+<PreConditions>
+<PreCondition
+ Guid="94d4b3ab-6e2a-4770-9602-39a961f1ef63"
+>UpdateNextDistance</PreCondition><PreCondition
+ Guid="510a244e-ad0f-444e-871b-9f80b98d7497"
+>GetLinkingFromId( ID ) != LAST X IN Linkings</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e340c660-827d-428f-b31a-bd1433093346"
+>(FIRST linking IN Linkings | Before(
+    ExpectedFirst =&gt; GetLinkingFromId( ID ),
+    ExpectedSecond =&gt; linking,
+    Collection =&gt; Linkings
+) ).Distance &lt;- DistanceToBaliseGroup( NextLinking( GetLinkingFromId(ID) ).BaliseGroupIdentifier )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Stop expecting current BG"
+ Guid="662b3dc5-53fd-490d-9fa5-d31299970ac2"
+>
+<Comment>Remove all linkings up to the designated one from the list of linkings.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Stop expecting current BG"
+ Guid="09f3424d-b8ae-43d8-904d-a185c3e22c58"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f5e1d966-d547-4ac0-9400-f7ab8627a792"
+>REMOVE ALL LinkingUpTo(
+    ID =&gt; ID,
+    aLinking =&gt; X
+) IN BTM.Linking.Linkings</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="510"
+ Y="290"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HandleLinkingSupervision"
+ Guid="81c1da4c-117f-4120-9676-560d70feed8f"
+>
+<ReqRef
+ Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37716e7e-5af8-47ae-8c1b-cc1b8bf9ca2b"
+>
+</ReqRef><ReqRef
+ Id="2a179500-0c97-46fb-975e-2dda45df541e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cd90f1ba-7adb-42c4-94d1-b80635cbb4fc"
+>
+</ReqRef><ReqRef
+ Id="d5925ae4-bfc1-4822-9b11-3d735360e691"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="109593e5-4b5f-4646-95dc-d71306ebaa78"
+>
+</ReqRef><ReqRef
+ Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f88aa04a-5456-438f-9383-765b753f9fa3"
+>
+</ReqRef><ReqRef
+ Id="3520c91c-8938-4bdf-b683-bc1fd7071fd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="99c37868-2940-4d55-bc8c-e44bd9135eb9"
+>
+</ReqRef><ReqRef
+ Id="9a35a3cc-6ff3-40a5-b097-b6dd250e24bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2fdbfbc-dad7-47db-a1ec-c884bd90f255"
+>
+</ReqRef><ReqRef
+ Id="689ab6d6-cac9-4667-86bf-c6be70fefd43"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="40b3b472-f439-4c37-95f2-0fdb94e5cf4f"
+>
+</ReqRef><ReqRef
+ Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="881e775b-eafb-4485-815c-2a9c9b3b6bb1"
+>
+</ReqRef><ReqRef
+ Id="259e3c43-f68a-4c80-8402-32349f27172d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f4914d8-d869-4559-96b8-569e8231633f"
+>
+</ReqRef><ReqRef
+ Id="2c84de1b-61c3-4555-b485-6b4eae58ae90"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3eb05322-a007-45f3-86bf-1104fee07bfe"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="1cb04fe7-c1ca-4055-b2a0-2108942ffca2"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="BG is second linking"
+ Guid="f743697e-cfb5-42e0-921d-51d93f5325ef"
+>
+<ReqRef
+ Id="85c84a18-90d4-4035-90e4-abdba8729120"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0ecaa724-6ef0-4044-a3ee-e2f3e9bad7a3"
+>
+</ReqRef><ReqRef
+ Id="0547edfa-b17d-4b79-8cad-2fba135b2d95"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3933b7e4-6d05-4c01-8f8b-99060f2b528b"
+>
+</ReqRef><ReqRef
+ Id="ccf10657-245b-4fe0-a67e-320b3a3acd66"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="32928e4c-f950-4588-bcd2-8cae601ce9c0"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="BG is second linking"
+ Guid="fbda93c8-03da-464f-b0e9-cc6f3128da2a"
+>
+<PreConditions>
+<PreCondition
+ Guid="cea32aea-7ab8-49d8-8259-e7a0687818a4"
+>GetNID_BG(aBaliseGroup) == SecondLinking().BaliseGroupIdentifier</PreCondition><PreCondition
+ Guid="5a8eb29b-8fe5-409f-b6ca-91d73c203502"
+>Kernel.ActiveFunctions.CheckLinkingConsistency()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="83c791f6-e4c5-4fd3-b08d-496e30c40574"
+>ApplyLinkingReaction( CurrentLinking().Reaction )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle linking"
+ Guid="20a1ec0d-b49f-4925-801f-9447c3480963"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="No linking consistency errors"
+ Guid="92ae5112-1d17-470b-8deb-cde67e73ab4e"
+>
+<ReqRef
+ Id="b431b905-df98-4c23-9ff8-3da3b92a7a29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b882ea54-5e4d-475c-98ae-abedd1ae1580"
+>
+</ReqRef><ReqRef
+ Id="259e3c43-f68a-4c80-8402-32349f27172d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a0da7471-6b82-40bd-b224-abcf72a898ce"
+>
+</ReqRef><Comment>Linking consistency is OK
+If the BG was passed in the right direction, handle the message. If not, the train will be tripped (as a mode transition, no need to specify that here)</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ece8fce6-b40d-40dc-bf42-8979cd157cb4"
+>LinkingIsConsistent(aBaliseGroup)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="73f60427-194a-4f61-9082-16f71fa2409d"
+>StopExpectingLinkingsUpTo(
+    ID =&gt; GetNID_BG(aBaliseGroup),
+    UpdateNextDistance =&gt; False
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle linking consistency error"
+ Guid="107baf8b-a752-4b4b-bf2f-a259a5c03735"
+>
+<ReqRef
+ Id="572df3cf-8b3b-4e6d-b78e-c0ff6690a2cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2ea639e0-9915-4d36-9f11-e82e4010fe27"
+>
+</ReqRef><ReqRef
+ Id="85c84a18-90d4-4035-90e4-abdba8729120"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1e327fcc-c737-4c06-b92e-abf60ab3d2ce"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="55a61f56-5d3b-4c7d-8122-989e234d8234"
+>NOT IsNoConsistencyError(aBaliseGroup)</PreCondition><PreCondition
+ Guid="6701442a-19dd-4c60-8ae0-21ab6af19d44"
+>Available( GetLinkingFromId(GetNID_BG(aBaliseGroup)) )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d500b496-dbe7-4910-a496-022d1d5989a4"
+>HandleLinkingError(GetNID_BG(aBaliseGroup))</Action><Action
+ Guid="3b970be0-6e5c-4724-a677-b62094770a38"
+>StopExpectingLinkingsUpTo(
+    ID =&gt; GetNID_BG(aBaliseGroup),
+    UpdateNextDistance =&gt; True
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<Variables>
+<Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="130"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="LinkingError"
+ Guid="7185c19a-664c-4ca4-97d0-2d274812ec06"
+>
+<Comment>Indicates that there was a linking error during this cycle.
+
+TODO: functionnalise this</Comment>
+</Variable><Variable
+ Type="Boolean"
+ DefaultValue="False"
+ VariableMode="Internal"
+ X="20"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="TrainTripDueToLinkingInconsistency"
+ Guid="59b44451-8f40-4f77-9cd0-735dfe0b317b"
+>
+<ReqRef
+ Id="a0f4b0d4-ee6d-40d4-94b4-05dd94f6bcd2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7bd42be7-80a5-4df1-b521-8ca1a2e61a97"
+>
+</ReqRef><Comment>Indicates that the train should be tripped due to a linking consistency error (mode transition condition 17)</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="CleanUp"
+ X="130"
+ Y="230"
+ Width="100"
+ Height="50"
+ Name="Clean up linking error"
+ Guid="a8255c41-51d6-4a18-b21f-f030e23687a9"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Set LinkingError to False"
+ Guid="62bf41dd-0c41-48f9-9360-71747d305b82"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="16ec0ff5-ed38-4f3e-bacd-83a6a765e3d3"
+>Supervision.LinkingError &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="20"
+ Y="230"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CleanUpLinkingReaction"
+ Guid="2e4fbfea-4178-41a0-82bf-73e46d001309"
+>
+<Comment>Resets the values of the linking reaction variable, TrainTripDurToLinkingInconsistency</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Train trip"
+ Guid="98ca2a07-69e4-4b6f-b8e6-110f14c11cd5"
+>
+<PreConditions>
+<PreCondition
+ Guid="b26f3ea3-f8a9-4114-a32d-6de4d08403c6"
+>Supervision.TrainTripDueToLinkingInconsistency</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a4712cfb-db0c-4f4d-bec4-dedbd6e4bb7a"
+>Supervision.TrainTripDueToLinkingInconsistency &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>
