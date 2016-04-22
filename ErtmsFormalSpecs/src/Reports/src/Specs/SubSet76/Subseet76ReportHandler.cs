@@ -133,9 +133,24 @@ namespace Reports.Specs.SubSet76
                 Percent(counter.BlockingSubSequences.Count, counter.SubSequences));
 
             Report.AddRow(
-                "Total number of issues found",
-                counter.Issues.ToString(CultureInfo.InvariantCulture),
-                Math.Round(counter.Issues/(double)counter.SubSequences).ToString(CultureInfo.InvariantCulture));
+                "Blocking issues",
+                counter.Issues[IssueKind.Blocking].ToString(CultureInfo.InvariantCulture));
+            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Blocking));
+
+            Report.AddRow(
+                "Issues",
+                counter.Issues[IssueKind.Issue].ToString(CultureInfo.InvariantCulture));
+            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Issue));
+
+            Report.AddRow(
+                "Questions",
+                counter.Issues[IssueKind.Question].ToString(CultureInfo.InvariantCulture));
+            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Question));
+
+            Report.AddRow(
+                "Comments",
+                counter.Issues[IssueKind.Comment].ToString(CultureInfo.InvariantCulture));
+            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Comment));
 
             Report.AddSubParagraph("Summary");
             Report.AddParagraph("This section summarises the results for each sub sequence");
@@ -150,7 +165,7 @@ namespace Reports.Specs.SubSet76
 
                     string status = "Ongoing";
                     Color color = Colors.Orange;
-                    if (counter.BlockingIssues > 0)
+                    if (counter.Issues[IssueKind.Blocking] > 0)
                     {
                         status = "Invalid";
                         color = Colors.Red;
@@ -164,43 +179,41 @@ namespace Reports.Specs.SubSet76
                         }
                     }
 
+                    int issues = counter.Issues[IssueKind.Blocking] + counter.Issues[IssueKind.Issue];
                     Report.AddRow(
                         subSequence.Name, 
                         counter.Actions.ToString(CultureInfo.InvariantCulture),
                         counter.Checks.ToString(CultureInfo.InvariantCulture),
-                        counter.Issues.ToString(CultureInfo.InvariantCulture),
+                        issues.ToString(CultureInfo.InvariantCulture),
                         status);
 
                     Report.lastRow.Cells[4].Shading.Color = color;
 
-                    if (counter.Issues > 0)
+                    foreach (TestCase testCase in subSequence.TestCases)
                     {
-                        foreach (TestCase testCase in subSequence.TestCases)
+                        foreach (ReqRef reqRef in testCase.Requirements)
                         {
-                            foreach (ReqRef reqRef in testCase.Requirements)
+                            Report.AddRow(
+                                testCase.Name,
+                                reqRef.Paragraph.Text);
+                            Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
+                        }
+
+                        foreach (Step step in testCase.Steps)
+                        {
+                            foreach (ReqRef reqRef in step.Requirements)
                             {
+                                string name = testCase.Name;
+
+                                if (step.getTCS_Order() != 0)
+                                {
+                                    name += " Step  " + step.getTCS_Order().ToString(CultureInfo.InvariantCulture);
+                                }
+
                                 Report.AddRow(
-                                    testCase.Name,
+                                    name,
                                     reqRef.Paragraph.Text);
                                 Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
-                            }
-
-                            foreach (Step step in testCase.Steps)
-                            {
-                                foreach (ReqRef reqRef in step.Requirements)
-                                {
-                                    string name = testCase.Name;
-
-                                    if (step.getTCS_Order() != 0)
-                                    {
-                                        name += " Step  " + step.getTCS_Order().ToString(CultureInfo.InvariantCulture);
-                                    }
-
-                                    Report.AddRow(
-                                        name,
-                                        reqRef.Paragraph.Text);
-                                    Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
-                                }
                             }
                         }
                     }

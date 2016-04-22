@@ -50,12 +50,7 @@ namespace Reports.Specs.SubSet76
         /// <summary>
         /// The number of issues found
         /// </summary>
-        public int Issues { get; private set; }
-
-        /// <summary>
-        /// The number of blocking issues found
-        /// </summary>
-        public int BlockingIssues { get; private set; }
+        public Dictionary<IssueKind, int> Issues { get; private set; }
 
         /// <summary>
         /// The subsequences that are blocked by a blocking issue
@@ -71,8 +66,14 @@ namespace Reports.Specs.SubSet76
             CompletedSubSequences = new HashSet<SubSequence>();
             Actions = 0;
             Checks = 0;
-            Issues = 0;
-            BlockingIssues = 0;
+            Issues = new Dictionary<IssueKind, int>
+            {
+                {IssueKind.Blocking, 0},
+                {IssueKind.Issue, 0},
+                {IssueKind.Comment, 0},
+                {IssueKind.Question, 0}
+            };
+
             BlockingSubSequences = new HashSet<SubSequence>();
         }
 
@@ -132,17 +133,20 @@ namespace Reports.Specs.SubSet76
 
             if (referencesParagraph != null)
             {
-                Issues += referencesParagraph.Requirements.Count;
-
                 foreach (ReqRef reqRef in referencesParagraph.Requirements)
                 {
-                    if (IssueKindUtil.GetKind(reqRef.Paragraph) == IssueKind.Blocking)
+                    IssueKind? kind = IssueKindUtil.GetKind(reqRef.Paragraph);
+                    if (kind != null)
                     {
-                        BlockingIssues += 1;
-                        SubSequence enclosingSubSequence = EnclosingFinder<SubSequence>.find(referencesParagraph, true);
-                        if (enclosingSubSequence != null)
+                        Issues[(IssueKind) kind] += 1;
+                        if (kind == IssueKind.Blocking)
                         {
-                            BlockingSubSequences.Add(enclosingSubSequence);
+                            SubSequence enclosingSubSequence = EnclosingFinder<SubSequence>.find(referencesParagraph,
+                                true);
+                            if (enclosingSubSequence != null)
+                            {
+                                BlockingSubSequences.Add(enclosingSubSequence);
+                            }
                         }
                     }
                 }
