@@ -28,7 +28,11 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     The current time
         /// </summary>
-        public double CurrentTime { get; set; }
+        public double CurrentTime
+        {
+            get { return Runner.Time; }
+            set { Runner.Time = value; }
+        }
 
         /// <summary>
         ///     The list of events handled by this time line
@@ -49,42 +53,39 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Keeps track of step activation
         /// </summary>
-        private Dictionary<SubStep, SubStepActivated> subStepActivationCache =
-            new Dictionary<SubStep, SubStepActivated>();
-
-        internal Dictionary<SubStep, SubStepActivated> SubStepActivationCache
-        {
-            get { return subStepActivationCache; }
-        }
+        internal Dictionary<SubStep, SubStepActivated> SubStepActivationCache { get; private set; }
 
         /// <summary>
         ///     The expectations currently active
         /// </summary>
-        private HashSet<Expect> activeExpectations = new HashSet<Expect>();
+        internal HashSet<Expect> ActiveExpectations { get; private set; }
 
-        public HashSet<Expect> ActiveExpectations
-        {
-            get { return activeExpectations; }
-        }
+        /// <summary>
+        /// The runner for which this time line is built
+        /// </summary>
+        private Runner Runner { get; set; }
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        public EventTimeLine()
+        public EventTimeLine(Runner runner)
         {
+            Runner = runner;
             Events = new List<ModelEvent>();
             Changed = true;
-            CurrentTime = 0;
             MaxNumberOfEvents = 10000;
+
+            ActiveExpectations = new HashSet<Expect>();
+            SubStepActivationCache = new Dictionary<SubStep, SubStepActivated>();
+
         }
 
         /// <summary>
         ///     Adds a new event in the list of events
         /// </summary>
         /// <param name="modelEvent"></param>
-        /// <param name="runner"></param>
         /// <param name="apply">indicates whether the event should be applied on the model</param>
-        public void AddModelEvent(ModelEvent modelEvent, Runner runner, bool apply)
+        public void AddModelEvent(ModelEvent modelEvent, bool apply)
         {
             modelEvent.Time = CurrentTime;
             modelEvent.TimeLine = this;
@@ -92,7 +93,7 @@ namespace DataDictionary.Tests.Runner.Events
             Changed = true;
             if (apply)
             {
-                modelEvent.Apply(runner);
+                modelEvent.Apply(Runner);
             }
         }
 
@@ -165,27 +166,25 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Steps one step backward
         /// </summary>
-        /// <param name="runner"></param>
-        /// <param name="time">the time to step back</param>
-        public void StepBack(Runner runner, double time)
+        public void StepBack()
         {
             Changed = true;
-            CurrentTime = CurrentTime - time;
-            if (CurrentTime < 0)
-            {
-                CurrentTime = 0;
-            }
-
             while (Events.Count > 0)
             {
                 ModelEvent evt = Events.Last();
                 if (evt.Time < CurrentTime)
                 {
+                    CurrentTime = evt.Time;
                     break;
                 }
 
-                evt.RollBack(runner);
+                evt.RollBack(Runner);
                 Events.Remove(evt);
+            }
+
+            if (Events.Count == 0)
+            {
+                CurrentTime = 0.0;
             }
         }
 

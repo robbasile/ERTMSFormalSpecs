@@ -89,12 +89,11 @@ namespace GUI.IPCInterface
         /// <param name="listener">Indicates that the client is a listener</param>
         /// <param name="explain">Indicates that the explain view should be updated according to the scenario execution</param>
         /// <param name="logEvents">Indicates that the events should be logged</param>
-        /// <param name="cycleDuration">The duration (in ms) of an execution cycle</param>
         /// <param name="keepEventCount">The number of events that should be kept in memory</param>
         /// <returns>The client identifier</returns>
         [OperationContract]
         [FaultContract(typeof (EFSServiceFault))]
-        int Connect(bool listener, bool explain, bool logEvents, int cycleDuration, int keepEventCount);
+        int Connect(bool listener, bool explain, bool logEvents, int keepEventCount);
 
         /// <summary>
         ///     Provides the value of a specific variable

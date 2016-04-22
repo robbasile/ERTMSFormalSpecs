@@ -95,7 +95,7 @@ namespace DataDictionary.Tests.Runner.Events
             TimeLine.SubStepActivationCache[SubStep] = this;
             foreach (VariableUpdate update in Updates)
             {
-                TimeLine.AddModelEvent(update, runner, true);
+                TimeLine.AddModelEvent(update, true);
             }
 
             // Store the step corresponding expectations
@@ -124,7 +124,7 @@ namespace DataDictionary.Tests.Runner.Events
 
                 if (addExpectation)
                 {
-                    TimeLine.AddModelEvent(new Expect(expectation, runner.CurrentPriority), runner, true);
+                    TimeLine.AddModelEvent(new Expect(expectation, runner.CurrentPriority), true);
                 }
             }
         }

@@ -27,13 +27,11 @@ using Utils;
 using Action = DataDictionary.Rules.Action;
 using Collection = DataDictionary.Types.Collection;
 using NameSpace = DataDictionary.Types.NameSpace;
-using Rule = DataDictionary.Generated.Rule;
+using Range = DataDictionary.Types.Range;
 using RuleCondition = DataDictionary.Rules.RuleCondition;
 using State = DataDictionary.Constants.State;
 using StateMachine = DataDictionary.Types.StateMachine;
 using Structure = DataDictionary.Types.Structure;
-using Variable = DataDictionary.Generated.Variable;
-using Visitor = DataDictionary.Generated.Visitor;
 
 namespace DataDictionary.Tests.Runner
 {
@@ -60,24 +58,14 @@ namespace DataDictionary.Tests.Runner
         public CacheImpact CacheImpact { get; set; }
 
         /// <summary>
-        ///     The step between two activations
+        /// The time stored in the model
         /// </summary>
-        private double _step = 0.1;
-
-        public double Step
-        {
-            get { return _step; }
-            set { _step = value; }
-        }
+        private IVariable TimeInModel { get; set; }
 
         /// <summary>
         ///     The current time
         /// </summary>
-        public double Time
-        {
-            get { return EventTimeLine.CurrentTime; }
-            set { EventTimeLine.CurrentTime = value; }
-        }
+        public double Time { get; set; }
 
         /// <summary>
         ///     The last time when activation has been performed
@@ -103,7 +91,7 @@ namespace DataDictionary.Tests.Runner
         /// <param name="checkForCompatibleChanges">Indicates that the runner should check that no variables are accessed twice during the same cycle</param>
         public Runner(SubSequence subSequence, bool explain, bool ensureCompilation, bool checkForCompatibleChanges = false)
         {
-            EventTimeLine = new EventTimeLine();
+            EventTimeLine = new EventTimeLine(this);
             SubSequence = subSequence;
             CompletedSubStep = new HashSet<SubStep>();
             EfsSystem.Instance.Runner = this;
@@ -119,17 +107,24 @@ namespace DataDictionary.Tests.Runner
 
             Setup();
             PleaseWait = true;
+
+            Expression expression = new Parser().Expression(subSequence.Dictionary, "Kernel.DateAndTime.CurrentTime");
+            TimeInModel = expression.GetVariable(new InterpretationContext());
+            Range range = TimeInModel.Type as Range;
+            if (range == null || range.getPrecision() != acceptor.PrecisionEnum.aDoublePrecision)
+            {
+                TimeInModel = null;
+            }
         }
 
         /// <summary>
         ///     A simple runner
         /// </summary>
-        public Runner(bool explain, int step = 100, int storeEventCount = 0)
+        public Runner(bool explain, int storeEventCount = 0)
         {
-            EventTimeLine = new EventTimeLine();
+            EventTimeLine = new EventTimeLine(this);
             SubSequence = null;
             CompletedSubStep = new HashSet<SubStep>();
-            Step = step;
             EventTimeLine.MaxNumberOfEvents = storeEventCount;
             EfsSystem.Instance.Runner = this;
             Explain = explain;
@@ -139,91 +134,7 @@ namespace DataDictionary.Tests.Runner
             EfsSystem.Instance.ShouldRebuild = false;
 
             Setup();
-        }
-
-        /// <summary>
-        ///     Sets up all variables before any execution on the system
-        /// </summary>
-        private class Setuper : Visitor
-        {
-            /// <summary>
-            ///     Sets the default values to each variable
-            /// </summary>
-            /// <param name="variable">The variable to set</param>
-            /// <param name="subNodes">Indicates whether sub nodes should be considered</param>
-            public override void visit(Variable variable, bool subNodes)
-            {
-                Variables.Variable var = (Variables.Variable) variable;
-
-                var.Value = var.DefaultValue;
-
-                base.visit(variable, subNodes);
-            }
-
-            /// <summary>
-            ///     Indicates which rules are not active
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <param name="visitSubNodes"></param>
-            public override void visit(Rule obj, bool visitSubNodes)
-            {
-                Rules.Rule rule = obj as Rules.Rule;
-                if (rule != null)
-                {
-                    rule.ActivationPriorities = null;
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
-
-            /// <summary>
-            ///     Clear the cache of all functions
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <param name="visitSubNodes"></param>
-            public override void visit(Function obj, bool visitSubNodes)
-            {
-                Functions.Function function = obj as Functions.Function;
-
-                if (function != null)
-                {
-                    function.ClearCache();
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
-        }
-
-        /// <summary>
-        ///     Initializes the execution time for functions and rules
-        /// </summary>
-        private class ExecutionTimeInitializer : Visitor
-        {
-            public override void visit(Function obj, bool visitSubNodes)
-            {
-                Functions.Function function = obj as Functions.Function;
-
-                if (function != null)
-                {
-                    function.ExecutionCount = 0;
-                    function.ExecutionTimeInMilli = 0L;
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
-
-            public override void visit(Rule obj, bool visitSubNodes)
-            {
-                Rules.Rule rule = obj as Rules.Rule;
-
-                if (rule != null)
-                {
-                    rule.ExecutionCount = 0;
-                    rule.ExecutionTimeInMilli = 0L;
-                }
-
-                base.visit(obj, visitSubNodes);
-            }
+            TimeInModel = null;
         }
 
         /// <summary>
@@ -250,88 +161,12 @@ namespace DataDictionary.Tests.Runner
                 if (SubSequence != null)
                 {
                     Expression expression = SubSequence.Frame.CycleDuration;
+                    // ReSharper disable once UnusedVariable
                     IValue value = expression.GetExpressionValue(new InterpretationContext(SubSequence.Frame), null);
-                    Step = Functions.Function.GetDoubleValue(value);
                 }
 
                 PleaseWait = false;
             });
-        }
-
-        public class Activation
-        {
-            /// <summary>
-            ///     The action to activate
-            /// </summary>
-            public RuleCondition RuleCondition { get; private set; }
-
-            /// <summary>
-            ///     The instance on which the action is applied
-            /// </summary>
-            public IModelElement Instance { get; private set; }
-
-            /// <summary>
-            ///     The explanation why this activation has been performed
-            /// </summary>
-            public ExplanationPart Explanation { get; private set; }
-
-            /// <summary>
-            ///     Constructor
-            /// </summary>
-            /// <param name="ruleCondition">The rule condition which leads to this activation</param>
-            /// <param name="instance">The instance on which this rule condition's preconditions are evaluated to true</param>
-            /// <param name="explanation"></param>
-            public Activation(RuleCondition ruleCondition, IModelElement instance, ExplanationPart explanation)
-            {
-                RuleCondition = ruleCondition;
-                Instance = instance;
-                Explanation = explanation;
-            }
-
-            /// <summary>
-            ///     Indicates that two Activations are the same when they share the action and,
-            ///     if specified, the instance on which they are applied
-            /// </summary>
-            /// <param name="obj"></param>
-            /// <returns></returns>
-            public override bool Equals(object obj)
-            {
-                bool retVal = false;
-
-                Activation other = obj as Activation;
-                if (other != null)
-                {
-                    retVal = RuleCondition.Equals(other.RuleCondition);
-                    if (retVal && Instance != null)
-                    {
-                        if (other.Instance != null)
-                        {
-                            retVal = Instance.Equals(other.Instance);
-                        }
-                        else
-                        {
-                            retVal = false;
-                        }
-                    }
-                }
-                return retVal;
-            }
-
-            /// <summary>
-            ///     The hash code, according to Equal operator.
-            /// </summary>
-            /// <returns></returns>
-            public override int GetHashCode()
-            {
-                int retVal = RuleCondition.GetHashCode();
-
-                if (Instance != null)
-                {
-                    retVal = retVal + Instance.GetHashCode();
-                }
-
-                return retVal;
-            }
         }
 
         /// <summary>
@@ -372,7 +207,28 @@ namespace DataDictionary.Tests.Runner
 
             EventTimeLine.GarbageCollect();
 
-            EventTimeLine.CurrentTime += Step;
+            NextCycle();
+        }
+
+        /// <summary>
+        /// Updates the system to setup next cycle
+        /// </summary>
+        private void NextCycle()
+        {
+            if (TimeInModel != null)
+            {
+                // Use the time in the model for checking deadlines
+                Range range = TimeInModel.Type as Range;
+                if (range != null)
+                {
+                    Time = range.getValueAsDouble(TimeInModel.Value);
+                }
+            }
+            else
+            {
+                // Increase time if it is not taken into account in the model
+                Time += 0.1;
+            }
         }
 
         /// <summary>
@@ -429,7 +285,7 @@ namespace DataDictionary.Tests.Runner
 
             if (priority == acceptor.RulePriority.aCleanUp)
             {
-                EventTimeLine.CurrentTime += Step;
+                NextCycle();
             }
         }
 
@@ -586,7 +442,7 @@ namespace DataDictionary.Tests.Runner
                 {
                     // Register the fact that a rule has been triggered
                     RuleFired ruleFired = new RuleFired(activation, priority);
-                    EventTimeLine.AddModelEvent(ruleFired, this, true);
+                    EventTimeLine.AddModelEvent(ruleFired, true);
                     ExplanationPart changesExplanation = ExplanationPart.CreateSubExplanation(activation.Explanation,
                         "Changes");
 
@@ -597,7 +453,7 @@ namespace DataDictionary.Tests.Runner
                         {
                             VariableUpdate variableUpdate = new VariableUpdate(action, activation.Instance, priority);
                             variableUpdate.ComputeChanges(false, this);
-                            EventTimeLine.AddModelEvent(variableUpdate, this, false);
+                            EventTimeLine.AddModelEvent(variableUpdate, false);
                             ruleFired.AddVariableUpdate(variableUpdate);
                             if (changesExplanation != null)
                             {
@@ -830,7 +686,7 @@ namespace DataDictionary.Tests.Runner
                     {
                         LogInstance = subStep;
                         CacheImpact = new CacheImpact();
-                        EventTimeLine.AddModelEvent(new SubStepActivated(subStep, CurrentPriority), this, true);
+                        EventTimeLine.AddModelEvent(new SubStepActivated(subStep, CurrentPriority), true);
                         ClearCaches();
                     });
 
@@ -887,13 +743,12 @@ namespace DataDictionary.Tests.Runner
                         case acceptor.ExpectationKind.aInstantaneous:
                         case acceptor.ExpectationKind.defaultExpectationKind:
                             // Instantaneous expectation who raised its deadling
-                            EventTimeLine.AddModelEvent(new FailedExpectation(expect, CurrentPriority, null), this, true);
+                            EventTimeLine.AddModelEvent(new FailedExpectation(expect, CurrentPriority, null), true);
                             break;
 
                         case acceptor.ExpectationKind.aContinuous:
                             // Continuous expectation who raised its deadline
-                            EventTimeLine.AddModelEvent(new ExpectationReached(expect, CurrentPriority, null), this,
-                                true);
+                            EventTimeLine.AddModelEvent(new ExpectationReached(expect, CurrentPriority, null), true);
                             break;
                     }
                 }
@@ -914,7 +769,7 @@ namespace DataDictionary.Tests.Runner
                                     {
                                         // An instantaneous expectation who reached its satisfactory condition
                                         EventTimeLine.AddModelEvent(
-                                            new ExpectationReached(expect, priority, explanation), this, true);
+                                            new ExpectationReached(expect, priority, explanation), true);
                                     }
                                     else
                                     {
@@ -929,7 +784,7 @@ namespace DataDictionary.Tests.Runner
                                         {
                                             // An continuous expectation who reached its satisfactory condition
                                             EventTimeLine.AddModelEvent(
-                                                new ExpectationReached(expect, priority, explanation), this, true);
+                                                new ExpectationReached(expect, priority, explanation), true);
                                         }
                                         else
                                         {
@@ -937,7 +792,7 @@ namespace DataDictionary.Tests.Runner
                                             {
                                                 // A continuous expectation who reached a case where it is not satisfied
                                                 EventTimeLine.AddModelEvent(
-                                                    new FailedExpectation(expect, priority, explanation), this, true);
+                                                    new FailedExpectation(expect, priority, explanation), true);
                                             }
                                             else
                                             {
@@ -951,7 +806,7 @@ namespace DataDictionary.Tests.Runner
                                         {
                                             // A continuous expectation who reached a case where it is not satisfied
                                             EventTimeLine.AddModelEvent(
-                                                new FailedExpectation(expect, priority, explanation), this, true);
+                                                new FailedExpectation(expect, priority, explanation), true);
                                         }
                                         else
                                         {
@@ -1148,7 +1003,7 @@ namespace DataDictionary.Tests.Runner
             else
             {
                 CheckExpectationsState(acceptor.RulePriority.aCleanUp);
-                EventTimeLine.CurrentTime += Step;
+                NextCycle();
             }
         }
 
@@ -1158,7 +1013,7 @@ namespace DataDictionary.Tests.Runner
         public void StepBack()
         {
             CacheImpact = new CacheImpact();
-            EventTimeLine.StepBack(this, _step);
+            EventTimeLine.StepBack();
             SynchronizeCompletedSubStepWithTimeLine();
             ClearCaches();
         }
@@ -1232,7 +1087,7 @@ namespace DataDictionary.Tests.Runner
                             {
                                 modelInterpretationFailure.Explanation = modelElement.Explain;
                             }
-                            EventTimeLine.AddModelEvent(modelInterpretationFailure, this, true);
+                            EventTimeLine.AddModelEvent(modelInterpretationFailure, true);
                             break;
 
                         case ElementLog.LevelEnum.Warning:

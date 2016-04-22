@@ -335,7 +335,7 @@ namespace DataDictionary.Rules
         /// <param name="explanation">The explanation part to be filled</param>
         /// <returns>the number of actions that were activated during this evaluation</returns>
         public bool Evaluate(Runner runner, acceptor.RulePriority? priority, IModelElement instance,
-            HashSet<Runner.Activation> activations, ExplanationPart explanation)
+            HashSet<Activation> activations, ExplanationPart explanation)
         {
             bool retVal = false;
 

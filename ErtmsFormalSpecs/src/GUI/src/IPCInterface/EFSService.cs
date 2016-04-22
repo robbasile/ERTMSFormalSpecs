@@ -62,11 +62,6 @@ namespace GUI.IPCInterface
         public bool LogEvents { get; private set; }
 
         /// <summary>
-        ///     The duration (in ms) of an execution cycle
-        /// </summary>
-        public int CycleDuration { get; private set; }
-
-        /// <summary>
         ///     The number of events that should be kept in memory
         /// </summary>
         public int KeepEventCount { get; private set; }
@@ -184,7 +179,6 @@ namespace GUI.IPCInterface
             Connections = new List<ConnectionStatus>();
             Explain = true;
             LogEvents = false;
-            CycleDuration = 100;
             KeepEventCount = 10000;
 
             LastStep = Step.CleanUp;
@@ -253,9 +247,8 @@ namespace GUI.IPCInterface
         /// <param name="listener">Indicates that the client is a listener</param>
         /// <param name="explain">Indicates that the explain view should be updated according to the scenario execution</param>
         /// <param name="logEvents">Indicates that the events should be logged</param>
-        /// <param name="cycleDuration">The duration (in ms) of an execution cycle</param>
         /// <param name="keepEventCount">The number of events that should be kept in memory</param>
-        public int Connect(bool listener, bool explain, bool logEvents, int cycleDuration, int keepEventCount)
+        public int Connect(bool listener, bool explain, bool logEvents, int keepEventCount)
         {
             int clientId;
             try
@@ -264,7 +257,6 @@ namespace GUI.IPCInterface
                 clientId = AddClient (listener);
                 Explain = explain;
                 LogEvents = logEvents;
-                CycleDuration = cycleDuration;
                 KeepEventCount = keepEventCount;
             }
             finally
@@ -569,7 +561,7 @@ namespace GUI.IPCInterface
             {
                 EfsAccess.WaitOne();
                 ClearFunctionCaches(true);
-                EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
+                EfsSystem.Instance.Runner = new Runner(Explain, KeepEventCount);
             }
             finally
             {
@@ -633,7 +625,7 @@ namespace GUI.IPCInterface
 
                 if (efsSystem.Runner == null && !AllListeners)
                 {
-                    EfsSystem.Instance.Runner = new Runner(Explain, CycleDuration, KeepEventCount);
+                    EfsSystem.Instance.Runner = new Runner(Explain, KeepEventCount);
                 }
 
                 return efsSystem.Runner;
@@ -925,7 +917,7 @@ namespace GUI.IPCInterface
                             SyntheticVariableUpdateAction action = new SyntheticVariableUpdateAction(variable,
                                 value.ConvertBack(variable.Type));
                             VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
-                            Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                            Runner.EventTimeLine.AddModelEvent(variableUpdate, true);
                             Runner.ClearCaches();
                         });
                     }
@@ -968,7 +960,7 @@ namespace GUI.IPCInterface
                                 Action action = (Action) acceptor.getFactory().createAction();
                                 action.ExpressionText = statementText;
                                 VariableUpdate variableUpdate = new VariableUpdate(action, null, null);
-                                Runner.EventTimeLine.AddModelEvent(variableUpdate, Runner, true);
+                                Runner.EventTimeLine.AddModelEvent(variableUpdate, true);
                                 Runner.ClearCaches();
                             });
                         }

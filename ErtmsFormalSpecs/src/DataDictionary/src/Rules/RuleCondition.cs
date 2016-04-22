@@ -259,7 +259,7 @@ namespace DataDictionary.Rules
         /// <param name="runner"></param>
         /// <returns>the number of actions that were activated during this evaluation</returns>
         public bool Evaluate(Runner runner, acceptor.RulePriority? priority, IModelElement instance,
-            HashSet<Runner.Activation> activations, ExplanationPart explanation)
+            HashSet<Activation> activations, ExplanationPart explanation)
         {
             bool retVal = false;
 
@@ -281,7 +281,7 @@ namespace DataDictionary.Rules
 
                 if (priority == null || EnclosingRule.getPriority() == priority)
                 {
-                    activations.Add(new Runner.Activation(this, instance, conditionExplanation));
+                    activations.Add(new Activation(this, instance, conditionExplanation));
                 }
             }
             else

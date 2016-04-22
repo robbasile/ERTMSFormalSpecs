@@ -27,7 +27,7 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     The activation that launched this rule condition
         /// </summary>
-        public Runner.Activation Activation { get; private set; }
+        public Activation Activation { get; private set; }
 
         /// <summary>
         ///     The rule condition associated to this rule fired event
@@ -54,7 +54,7 @@ namespace DataDictionary.Tests.Runner.Events
         ///     Constructor
         /// </summary>
         /// <param name="id"></param>
-        public RuleFired(Runner.Activation activation, acceptor.RulePriority priority)
+        public RuleFired(Activation activation, acceptor.RulePriority priority)
             : base(activation.RuleCondition.Name, activation.RuleCondition, priority)
         {
             Activation = activation;
