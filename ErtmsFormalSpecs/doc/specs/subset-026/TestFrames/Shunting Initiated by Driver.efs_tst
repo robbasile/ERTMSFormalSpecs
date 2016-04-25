@@ -2456,18 +2456,24 @@
 >
 <SubSteps>
 <SubStep
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="32a6eddf-7b65-4b9f-9c0a-15b03173a516"
+>
+<Actions>
+<Action
+ Guid="2834dcad-ab58-4b75-a00d-ec106fcaf46c"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="61b73695-3970-41e8-b096-465206a03b43"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1 - Launch ShuntingInitiatedByDriver"
+ Name="Sub-step2 - Launch ShuntingInitiatedByDriver"
  Guid="53790c34-54fe-453d-8c22-ab62247bb9ae"
 >
 <Actions>
 <Action
- Guid="df39a77b-11cf-4976-b47e-cb9103c33ed1"
->Testing.SetSBMode(False)</Action><Action
  Guid="a3db2b1f-d631-4fa8-a56e-ec50ba752d8e"
 >Odometry.EstimatedSpeed &lt;- 0.0</Action><Action
- Guid="7cf0f4af-19f6-4990-b947-a4aecf533841"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="536439a0-29b0-45c0-8258-470ed377056f"
 >DMI.MasterDMI().In_ShuntingRequest.ProvideDriverResponse()</Action></Actions>
 <Expectations>
@@ -2477,7 +2483,7 @@
 >Kernel.HandleModeChange in Kernel.HandleModeChange.ShuntingInitiatedByDriver.S0</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step2 - Go to D020"
+ Name="Sub-step3 - Go to D020"
  Guid="0efb3382-c147-4912-b221-31e3080048ef"
 >
 <Expectations>

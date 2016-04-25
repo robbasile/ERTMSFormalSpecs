@@ -4517,8 +4517,6 @@
 >
 <Actions>
 <Action
- Guid="db195a34-94fe-49c1-b482-f116cebff898"
->DMI.MasterDMI().In_Start.ProvideDriverResponse()</Action><Action
  Guid="16d6bb18-93d0-4ce6-9e98-dc6e2b8556c4"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action><Action
  Guid="b004b822-c4de-479a-bfd4-074bba858441"
@@ -4527,13 +4525,22 @@
 >EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</Action><Action
  Guid="815e8369-5228-449a-8f25-0c92d138128f"
 >Kernel.TrainPosition.Position.DataState&lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Start"
+ Guid="74da8c08-8986-4bc1-ab84-78c90acb0ac7"
+>
+<Actions>
+<Action
+ Guid="de45ed31-bfcc-43dd-84f9-e60046cbfc85"
+>DMI.MasterDMI().In_Start.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
- Guid="d967f554-618b-4a43-b126-fd21ba00d4fd"
+ Guid="ac180e5a-d775-4403-a813-db171179cef3"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.StartOfMission.S24</Expectation><Expectation
  Kind="Instantaneous"
- Guid="dbd02c1c-ed90-425f-9386-fd7e991365ce"
+ Guid="21c11ca8-0949-4240-86ac-4653f3023b44"
 >DMI.MasterDMI().In_Start.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
@@ -4564,8 +4571,6 @@
 >
 <Actions>
 <Action
- Guid="f7b5a17a-7166-4c84-bbf9-f175bacecafd"
->DMI.MasterDMI().In_Start.ProvideDriverResponse()</Action><Action
  Guid="39f6a181-0743-4c9b-93bb-2eed052a939c"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L3</Action><Action
  Guid="b358de43-f8e5-48f0-a731-ca0d25e5f758"
@@ -4574,6 +4579,14 @@
 >Kernel.TrainPosition.Position.DataState&lt;- Default.DataStateEnum.Valid</Action><Action
  Guid="f9be816a-4a50-415b-95a9-212c6e3eb2bf"
 >EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+</SubStep><SubStep
+ Name="Start"
+ Guid="a919b916-ac73-44b0-9767-617da81f4ce0"
+>
+<Actions>
+<Action
+ Guid="f7b5a17a-7166-4c84-bbf9-f175bacecafd"
+>DMI.MasterDMI().In_Start.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -7116,19 +7129,26 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="fbad5d99-4c00-4358-8c0e-18db3052cbb8"
+>
+<Actions>
+<Action
+ Guid="fc78ef77-a052-4b88-aebf-b8c592a1248b"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="d49bde3e-1f84-4e73-8d6a-abe0a8ff435f"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="9e6d850f-b33d-4443-8b02-fa6c5761ad01"
 >
 <Actions>
 <Action
- Guid="14f6ca43-eec3-49b8-8a99-628b940425c7"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="19a6c095-6be1-401e-b08a-ce424950cfdf"
 >DMI.MasterDMI().In_ShuntingRequest.ProvideDriverResponse()</Action><Action
  Guid="6ab8b22e-22da-4836-9a45-75cdc82e2b0b"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L0</Action><Action
- Guid="8e4d8898-9a2d-48e8-bfd6-5d874df8b4de"
->Testing.SetSBMode(False)</Action><Action
  Guid="d507c45c-7386-4e0c-8d19-65bf95a60752"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="038d0a9a-39e3-4cdd-991a-9bbc6d8d9868"
@@ -7162,19 +7182,26 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="43e5419c-024b-4740-bff9-6f6cd536b54c"
+>
+<Actions>
+<Action
+ Guid="dcf005b4-5ce6-46c7-830a-038c1fa76ab3"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="cce9e7be-3e62-4f99-b0ba-e2acb1513c9c"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="c64d8e3f-1ec8-4e8a-b561-7f4ee232d5a7"
 >
 <Actions>
 <Action
- Guid="b517725e-593a-44f5-bd6b-55b987dfdd17"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="64aa2e70-4a10-4f7e-9b48-aa260b3223bf"
 >DMI.MasterDMI().In_ShuntingRequest.ProvideDriverResponse()</Action><Action
  Guid="0e08cd4e-136f-45b7-9fd1-032698e9058f"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
- Guid="0332be9b-18bb-49d4-995e-611c01aa1c82"
->Testing.SetSBMode(False)</Action><Action
  Guid="0e242c97-2f09-4fc4-92f7-694abba05fb3"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action></Actions>
 <Expectations>
@@ -7206,19 +7233,26 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="b0c50852-6f7c-4894-acef-9a4ec4c836b9"
+>
+<Actions>
+<Action
+ Guid="2b557c9e-414f-4be8-bfe2-56a1e8c388c5"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="4e4c6c56-22a7-4384-b2fa-af185e8cac22"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="5da27a33-d2de-4bbe-acf3-16e1c49fe697"
 >
 <Actions>
 <Action
- Guid="4d8cdaf0-79e4-45b3-b08d-a6643bf0774f"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="6ca829f4-b29a-4231-bfa8-e360610b27f2"
 >DMI.MasterDMI().In_ShuntingRequest.ProvideDriverResponse()</Action><Action
  Guid="20495cfe-07d9-426b-9262-c5619f4e090e"
 >Kernel.Level.Value.Value &lt;- LevelEnum.LNTC</Action><Action
- Guid="3e34ceaf-840a-42fd-b630-28044483038f"
->Testing.SetSBMode(False)</Action><Action
  Guid="e8ddc479-b79a-4c24-a55b-633bfa44e150"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="a77718d9-e327-4a5f-bb6b-0d8a832e2b9a"
@@ -7282,19 +7316,26 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="17f90764-02aa-4020-80c8-0b9831742ef6"
+>
+<Actions>
+<Action
+ Guid="ad3b1329-3485-4610-99fe-27ec016a6b82"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="bde99fd1-03b0-4185-98ec-81d0d4cddf88"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
  Guid="122a5826-41e9-4768-807c-053e59837030"
 >
 <Actions>
 <Action
- Guid="5a8d24d8-4a02-4dfa-a6f7-615701ab72dd"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="70e2ade8-89f7-43ce-8c6b-35869ab1b0bb"
 >DMI.MasterDMI().In_NonLeadingRequest.ProvideDriverResponse()</Action><Action
  Guid="97c3ca51-0e58-47c4-8cfc-dc2d176be5ac"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L0</Action><Action
- Guid="26f5c979-0339-4eb2-92c4-5f0489894d9d"
->Testing.SetSBMode(False)</Action><Action
  Guid="82dab40b-384f-43c7-8f2a-db36671d7a44"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="7c79c012-846d-4ea5-b3a2-4220a274059b"
@@ -7334,19 +7375,26 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="f3b3b1e6-aa55-4871-a41d-54d4fea69bc5"
+>
+<Actions>
+<Action
+ Guid="adda8805-cd9f-4aa8-951d-de94ade86ba6"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="129a3b1d-f060-4fee-82ef-1593023b4afc"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
  Guid="0433bcbf-53d3-4a78-9c94-e59ebfb5aa1a"
 >
 <Actions>
 <Action
- Guid="b05ee8a6-76f8-4077-b11c-6e6c2007d022"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="5045c9fb-e8f9-4016-8066-e3ab05a0ea32"
 >DMI.MasterDMI().In_NonLeadingRequest.ProvideDriverResponse()</Action><Action
  Guid="3bf2d7e7-e04a-4376-beb4-d3894703cd1f"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
- Guid="4046678d-3c18-4a6f-98eb-ac9d218495a9"
->Testing.SetSBMode(False)</Action><Action
  Guid="cb064801-20de-412f-8d38-2310f18a9cbc"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="1885b59f-b3b6-443d-82d7-582d7638d805"
@@ -7386,19 +7434,26 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="2ab22f59-b20e-4512-a945-00166133415a"
+>
+<Actions>
+<Action
+ Guid="695ec86e-0834-4ec2-9d2e-103fa8ccb64a"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="01914f67-3fc1-465c-8cf6-8690ec0b26a7"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
  Guid="6df81f30-ea1c-4b69-9198-10f48ba36af5"
 >
 <Actions>
 <Action
- Guid="1d259faa-fb84-4830-b7f7-3273605f0dd1"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="89a8cd4c-9d27-4275-994c-816f3de0757f"
 >DMI.MasterDMI().In_NonLeadingRequest.ProvideDriverResponse()</Action><Action
  Guid="72222194-b196-46cf-9b06-d16499808984"
 >Kernel.Level.Value.Value &lt;- LevelEnum.LNTC</Action><Action
- Guid="ef6f88d7-90b6-4c86-aa1c-21de159b8fc7"
->Testing.SetSBMode(False)</Action><Action
  Guid="8c87d161-7f61-48d4-a873-f69819a9b96d"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="5bf5262f-e9b0-43d3-bf43-eb8245e118c8"
@@ -7438,21 +7493,28 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="79597f92-1ac7-4fbe-be07-e0c9be31238c"
+>
+<Actions>
+<Action
+ Guid="9d70e2f5-8842-40d5-82c9-af407bc7d394"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="bd3e2364-62d1-4c63-a171-f263ff8f95d1"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
  Guid="f8b1facf-3f89-4bc3-8553-d7d9e4f806e7"
 >
 <Actions>
 <Action
- Guid="50bbf155-530f-4ee3-a035-fcfa6b488318"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="4485016d-5a0f-4b21-92c8-bd382c7ad353"
 >DMI.MasterDMI().In_NonLeadingRequest.ProvideDriverResponse()</Action><Action
  Guid="9ede6b22-2427-43af-8bad-ffd968a71cd1"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action><Action
  Guid="43da35f6-1fe7-4b7e-bd35-8c51d7ec51e4"
 >EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.NoConnection</Action><Action
- Guid="02e121e2-6301-44bf-9899-e71e4602788a"
->Testing.SetSBMode(False)</Action><Action
  Guid="863d00b2-7e35-49aa-84e7-bf3b19bfde75"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="a7174096-f09f-478d-a1e6-a65e4bf7662a"
@@ -7492,21 +7554,28 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="e19e461e-d6f6-4123-9494-848532601048"
+>
+<Actions>
+<Action
+ Guid="921a5a0e-5e02-4022-bc93-1b2171d72cb8"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="6d4ea06a-bf5b-4b06-a0b7-1a9266e8f361"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
  Guid="87625fb7-5f03-40c3-8272-326b105f8443"
 >
 <Actions>
 <Action
- Guid="27123528-d830-46f1-bc50-18702857b12a"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="f2629489-c3da-477e-902e-deaa4002d1d3"
 >DMI.MasterDMI().In_NonLeadingRequest.ProvideDriverResponse()</Action><Action
  Guid="a9e8b37a-e985-4b7d-bf77-50c7770e0a9d"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L3</Action><Action
  Guid="683b408d-3c15-4824-a6cd-241138cbd82d"
 >EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnectionStatus &lt;- EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.NoConnection</Action><Action
- Guid="3ca3b408-12cf-47ff-9949-d70efc9c762f"
->Testing.SetSBMode(False)</Action><Action
  Guid="4b07fdce-67ba-42b1-a092-2a4e7ba37781"
 >Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Invalid</Action><Action
  Guid="d9079f4d-e2ac-4519-bc5d-25bac2032001"
@@ -7561,17 +7630,24 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
- Name="Sub-step1"
+ Name="Sub-step1 - Set HandleModeChange and Mode"
+ Guid="afaf4d1d-bf0c-4e69-8bd6-76a1b281c9cb"
+>
+<Actions>
+<Action
+ Guid="546ae5f9-82a1-4783-8068-356f5376f8cc"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
+ Guid="127785cf-1809-4bbf-bfc5-9c01add3bc95"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Sub-step2"
  Guid="3db4f0b3-f42d-41ab-bacd-883034a66d5d"
 >
 <Actions>
 <Action
- Guid="8944547b-69dc-42ee-9020-354203971b17"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.StartOfMission.S10.DriverSelectionRequested</Action><Action
  Guid="fa49b11e-89eb-4cb1-b3f0-1059f297f65c"
->DMI.MasterDMI().In_TrainDataEntryRequest.ProvideDriverResponse()</Action><Action
- Guid="0f75de6b-e3c0-4924-a3c5-75bb93aa0bd1"
->Testing.SetSBMode(False)</Action></Actions>
+>DMI.MasterDMI().In_TrainDataEntryRequest.ProvideDriverResponse()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

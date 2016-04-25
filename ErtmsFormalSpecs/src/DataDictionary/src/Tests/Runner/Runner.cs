@@ -253,7 +253,8 @@ namespace DataDictionary.Tests.Runner
                 }
 
                 List<VariableUpdate> updates = new List<VariableUpdate>();
-                EvaluateActivations(activations, priority, ref updates);
+                EvaluateActivations(activations, priority, updates);
+                CheckUpdatesCompatibility(updates);
                 ApplyUpdates(updates);
                 ClearCaches();
                 CheckExpectationsState(priority);
@@ -428,14 +429,12 @@ namespace DataDictionary.Tests.Runner
         ///     Applies the selected actions and update the system state
         /// </summary>
         /// <param name="activations"></param>
-        /// <param name="updates"></param>
         /// <param name="priority"></param>
+        /// <param name="updates">Provides all the updates that have been evaluated</param>
         public void EvaluateActivations(HashSet<Activation> activations, acceptor.RulePriority priority,
-            ref List<VariableUpdate> updates)
+            List<VariableUpdate> updates)
         {
-            Dictionary<IVariable, Change> changes = new Dictionary<IVariable, Change>();
-            Dictionary<Change, VariableUpdate> traceBack = new Dictionary<Change, VariableUpdate>();
-
+            List<VariableUpdate> currentUpdates = new List<VariableUpdate>();
             foreach (Activation activation in activations)
             {
                 if (activation.RuleCondition.Actions.Count > 0)
@@ -459,57 +458,7 @@ namespace DataDictionary.Tests.Runner
                             {
                                 changesExplanation.SubExplanations.Add(variableUpdate.Explanation);
                             }
-                            updates.Add(variableUpdate);
-
-                            if (CheckForCompatibleChanges)
-                            {
-                                ChangeList actionChanges = variableUpdate.Changes;
-                                if (variableUpdate.Action.Statement is ProcedureCallStatement)
-                                {
-                                    Dictionary<IVariable, Change> procedureChanges = new Dictionary<IVariable, Change>();
-
-                                    foreach (Change change in variableUpdate.Changes.Changes)
-                                    {
-                                        procedureChanges[change.Variable] = change;
-                                    }
-
-                                    actionChanges = new ChangeList();
-                                    foreach (Change change in procedureChanges.Values)
-                                    {
-                                        actionChanges.Add(change, false, this);
-                                    }
-                                }
-
-                                foreach (Change change in actionChanges.Changes)
-                                {
-                                    IVariable variable = change.Variable;
-                                    if (changes.ContainsKey(change.Variable))
-                                    {
-                                        Change otherChange = changes[change.Variable];
-                                        Action otherAction = traceBack[otherChange].Action;
-                                        if (!variable.Type.CompareForEquality(otherChange.NewValue, change.NewValue))
-                                        {
-                                            if (change.CheckForCompatibility() || otherChange.CheckForCompatibility())
-                                            {
-                                                string action1 = ((INamable)action.Enclosing).FullName + " : " +
-                                                                 variableUpdate.Action.FullName;
-                                                string action2 = ((INamable)otherAction.Enclosing).FullName + " : " +
-                                                                 traceBack[otherChange].Action.FullName;
-                                                variableUpdate.Action.AddError(
-                                                    "Simultaneous change of the variable " + variable.FullName + " with different values. Conflit between\n" +
-                                                    action1 + "\n and \n" + action2);
-                                                action.AddError("Conflicting change");
-                                                otherAction.AddError("Conflicting change");
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        changes.Add(change.Variable, change);
-                                        traceBack.Add(change, variableUpdate);
-                                    }
-                                }
-                            }
+                            currentUpdates.Add(variableUpdate);
                         }
                         else
                         {
@@ -520,17 +469,13 @@ namespace DataDictionary.Tests.Runner
             }
 
             // Handles the leave & enter state rules
-            List<VariableUpdate> updatesToProcess = updates;
-            updates = new List<VariableUpdate>();
-
             // Avoid considering twice the same transition
             List<Tuple<State, State>> transitions = new List<Tuple<State, State>>();
 
-            while (updatesToProcess.Count > 0)
+            while (currentUpdates.Count > 0)
             {
                 List<VariableUpdate> newUpdates = new List<VariableUpdate>();
-
-                foreach (VariableUpdate update in updatesToProcess)
+                foreach (VariableUpdate update in currentUpdates)
                 {
                     updates.Add(update);
 
@@ -563,7 +508,74 @@ namespace DataDictionary.Tests.Runner
                     }
                 }
 
-                updatesToProcess = newUpdates;
+                currentUpdates = newUpdates;
+            }
+        }
+
+        /// <summary>
+        /// Checks the compatibility of all updates
+        /// </summary>
+        /// <param name="variableUpdates"></param>
+        private void CheckUpdatesCompatibility(IEnumerable<VariableUpdate> variableUpdates)
+        {
+            if (CheckForCompatibleChanges)
+            {
+                // Holds all changes that have already been processed
+                Dictionary<IVariable, Change> changes = new Dictionary<IVariable, Change>();
+                Dictionary<Change, VariableUpdate> traceBack = new Dictionary<Change, VariableUpdate>();
+
+                foreach (VariableUpdate variableUpdate in variableUpdates)
+                {
+                    Action action = variableUpdate.Action;
+
+                    ChangeList actionChanges = variableUpdate.Changes;
+                    if (variableUpdate.Action.Statement is ProcedureCallStatement)
+                    {
+                        Dictionary<IVariable, Change> procedureChanges = new Dictionary<IVariable, Change>();
+
+                        foreach (Change change in variableUpdate.Changes.Changes)
+                        {
+                            procedureChanges[change.Variable] = change;
+                        }
+
+                        actionChanges = new ChangeList();
+                        foreach (Change change in procedureChanges.Values)
+                        {
+                            actionChanges.Add(change, false, this);
+                        }
+                    }
+
+                    foreach (Change change in actionChanges.Changes)
+                    {
+                        IVariable variable = change.Variable;
+                        if (changes.ContainsKey(change.Variable))
+                        {
+                            Change otherChange = changes[change.Variable];
+                            Action otherAction = traceBack[otherChange].Action;
+                            if (!variable.Type.CompareForEquality(otherChange.NewValue, change.NewValue))
+                            {
+                                if (change.CheckForCompatibility() || otherChange.CheckForCompatibility())
+                                {
+                                    string action1 = ((INamable) action.Enclosing).FullName + " : " +
+                                                     variableUpdate.Action.FullName;
+                                    string action2 = ((INamable) otherAction.Enclosing).FullName + " : " +
+                                                     traceBack[otherChange].Action.FullName;
+                                    variableUpdate.Action.AddError(
+                                        "Simultaneous change of the variable " + variable.FullName +
+                                        " with different values. Conflit between\n" +
+                                        action1 + "\n and \n" + action2);
+                                    action.AddError("Conflicting change");
+                                    otherAction.AddError("Conflicting change");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            changes.Add(change.Variable, change);
+                            traceBack.Add(change, variableUpdate);
+                        }
+                    }
+                }
             }
         }
 
@@ -595,7 +607,7 @@ namespace DataDictionary.Tests.Runner
                         // the priority is not specified for the rule evaluation since
                         // the rules of the enter states have to be executed regardless the priority
                         rule.Evaluate(this, null, variable, newActivations, explanation);
-                        EvaluateActivations(newActivations, priority, ref newUpdates);
+                        EvaluateActivations(newActivations, priority, newUpdates);
                         updates.AddRange(newUpdates);
                     }
 
@@ -635,7 +647,7 @@ namespace DataDictionary.Tests.Runner
                         // the priority is not specified for the rule evaluation since
                         // the rules of the leave states have to be executed regardless the priority
                         rule.Evaluate(this, null, variable, newActivations, explanation);
-                        EvaluateActivations(newActivations, priority, ref newUpdates);
+                        EvaluateActivations(newActivations, priority, newUpdates);
                         updates.AddRange(newUpdates);
                     }
 

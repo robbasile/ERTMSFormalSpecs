@@ -540,7 +540,11 @@ Kernel.HandleModeChange in Kernel.HandleModeChangeSM.StartOfMission.S20</PreCond
  Guid="7cedc0e6-04c9-45f9-8804-e2834014d2b5"
 >Kernel.Mode == ModeEnum.SB</PreCondition><PreCondition
  Guid="9b44bd18-fbe3-42e7-bd19-3d825053d540"
->Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
+ Guid="86021f48-d58b-4186-9ef7-d7b263ce54ec"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</PreCondition><PreCondition
+ Guid="e0d5a14e-afd2-4105-8c13-93a96560dbc1"
+>NOT DMI.MasterDMI().In_OverrideRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="05cd468b-cd97-4e44-8932-f2bcfe89a0d7"
