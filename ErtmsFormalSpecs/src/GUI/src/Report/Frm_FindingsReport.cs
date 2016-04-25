@@ -18,14 +18,16 @@ using System;
 using System.Windows.Forms;
 using DataDictionary;
 using GUIUtils;
-using Reports.Specs;
 using Reports.Specs.SubSet76;
 
 namespace GUI.Report
 {
     public partial class FindingsReport : Form
     {
-        private readonly Subseet76ReportHandler _reportHandler;
+        /// <summary>
+        /// Th report handled
+        /// </summary>
+        private Subseet76ReportHandler ReportHandler { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -34,8 +36,8 @@ namespace GUI.Report
         public FindingsReport(Dictionary dictionary)
         {
             InitializeComponent();
-            _reportHandler = new Subseet76ReportHandler(dictionary);
-            TxtB_Path.Text = _reportHandler.FileName;
+            ReportHandler = new Subseet76ReportHandler(dictionary);
+            TxtB_Path.Text = ReportHandler.FileName;
         }
 
         /// <summary>
@@ -45,11 +47,12 @@ namespace GUI.Report
         /// <param name="e"></param>
         private void Btn_CreateReport_Click(object sender, EventArgs e)
         {
-            _reportHandler.Name = "Findings report";
+            ReportHandler.Name = "Findings report";
+            ReportHandler.IncludeDetails = detailCheckBox.Checked;
 
             Hide();
 
-            ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
+            ProgressDialog dialog = new ProgressDialog("Generating report", ReportHandler);
             dialog.ShowDialog(Owner);
         }
 
@@ -61,8 +64,8 @@ namespace GUI.Report
             };
             if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
             {
-                _reportHandler.FileName = saveFileDialog.FileName;
-                TxtB_Path.Text = _reportHandler.FileName;
+                ReportHandler.FileName = saveFileDialog.FileName;
+                TxtB_Path.Text = ReportHandler.FileName;
             }
         }
     }

@@ -46,6 +46,8 @@ namespace GUI.Report
             this.TxtB_Path = new System.Windows.Forms.TextBox();
             this.Btn_SelectFile = new System.Windows.Forms.Button();
             this.Btn_CreateReport = new System.Windows.Forms.Button();
+            this.detailCheckBox = new System.Windows.Forms.CheckBox();
+            this.subSequenceCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TxtB_Path
@@ -75,11 +77,33 @@ namespace GUI.Report
             this.Btn_CreateReport.UseVisualStyleBackColor = true;
             this.Btn_CreateReport.Click += new System.EventHandler(this.Btn_CreateReport_Click);
             // 
+            // detailCheckBox
+            // 
+            this.detailCheckBox.AutoSize = true;
+            this.detailCheckBox.Location = new System.Drawing.Point(13, 39);
+            this.detailCheckBox.Name = "detailCheckBox";
+            this.detailCheckBox.Size = new System.Drawing.Size(94, 17);
+            this.detailCheckBox.TabIndex = 8;
+            this.detailCheckBox.Text = "Include details";
+            this.detailCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // subSequenceCheckBox
+            // 
+            this.subSequenceCheckBox.AutoSize = true;
+            this.subSequenceCheckBox.Location = new System.Drawing.Point(13, 62);
+            this.subSequenceCheckBox.Name = "subSequenceCheckBox";
+            this.subSequenceCheckBox.Size = new System.Drawing.Size(136, 17);
+            this.subSequenceCheckBox.TabIndex = 9;
+            this.subSequenceCheckBox.Text = "Include sub sequences";
+            this.subSequenceCheckBox.UseVisualStyleBackColor = true;
+            // 
             // FindingsReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 44);
+            this.ClientSize = new System.Drawing.Size(413, 98);
+            this.Controls.Add(this.subSequenceCheckBox);
+            this.Controls.Add(this.detailCheckBox);
             this.Controls.Add(this.Btn_CreateReport);
             this.Controls.Add(this.Btn_SelectFile);
             this.Controls.Add(this.TxtB_Path);
@@ -97,6 +121,8 @@ namespace GUI.Report
         private System.Windows.Forms.TextBox TxtB_Path;
         private System.Windows.Forms.Button Btn_SelectFile;
         private System.Windows.Forms.Button Btn_CreateReport;
+        private System.Windows.Forms.CheckBox detailCheckBox;
+        private System.Windows.Forms.CheckBox subSequenceCheckBox;
 
 
     }

@@ -37,7 +37,12 @@ namespace Reports.Specs.SubSet76
         /// <summary>
         /// The findings report currently being built
         /// </summary>
-        Subseet76Report Report { get; set; }
+        private Subseet76Report Report { get; set; }
+
+        /// <summary>
+        /// Indicates that details should be included in the report
+        /// </summary>
+        public bool IncludeDetails { get; set; }
 
         /// <summary>
         ///     Constructor
@@ -111,53 +116,86 @@ namespace Reports.Specs.SubSet76
             Report.AddSubParagraph("Sub sequence report");
             Report.AddParagraph(
                 "This section presents the sub sequences that have been translated and applied on the Subset-026 model, along with their execution result and the issues found in the test sequence definition.");
-            Report.AddParagraph("The following table presents summarises the test sequences that have been analysed, along with the number of issues found.");
 
             Counter counter = new Counter();
             counter.visit(Dictionary, true);
 
-            Report.AddTable(new []{"", "Count", "Ratio"}, new []{100,35, 35});
+            Report.AddParagraph("The following table presents summarises the test sequences that have been analysed.");
+
+            Report.AddTable(new[] { "", "Description", "Count", "Ratio" }, new[] { 35, 105, 15, 15 });
             Report.AddRow(
-                "Imported sequences", 
-                counter.SubSequences.ToString(CultureInfo.InvariantCulture), 
+                "Imported sequences",
+                "The number of test sequences imported from the Subset-076 Access databases.",
+                counter.SubSequences.ToString(CultureInfo.InvariantCulture),
                 Percent(counter.SubSequences, 800));
 
             Report.AddRow(
-                "Sequence analysis completed", 
+                "Sequence analysis completed",
+                "The number of imported test sequences for which the analysis has been completely executed. The full test has been executed and is successful. We may have fixed several test steps to achieve this objective.",
                 counter.CompletedSubSequences.Count.ToString(CultureInfo.InvariantCulture),
                 Percent(counter.CompletedSubSequences.Count, counter.SubSequences));
 
+            int ongoing = counter.SubSequences - counter.BlockingSubSequences.Count - counter.CompletedSubSequences.Count;
+            Report.AddRow(
+                "Ongoing sequences",
+                "The number of imported test sequences for which analysis is ongoing. No definitive result is provided yet for such test sequences",
+                ongoing.ToString(CultureInfo.InvariantCulture),
+                Percent(ongoing, counter.SubSequences));
+
             Report.AddRow(
                 "Invalid sequences",
+                "The number of sequences that cannot be executed because we found a blocking issue which forbids executing the test completely.",
                 counter.BlockingSubSequences.Count.ToString(CultureInfo.InvariantCulture),
                 Percent(counter.BlockingSubSequences.Count, counter.SubSequences));
 
+            Report.AddParagraph(
+                "The following table categorises the issues found during analysis of the test sequences. ");
+
+            Report.AddTable(new[] { "Issue kind", "Definition", "Count" }, new[] { 35, 105, 30 });
             Report.AddRow(
                 "Blocking issues",
-                counter.Issues[IssueKind.Blocking].ToString(CultureInfo.InvariantCulture));
-            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Blocking));
+                "Blocking issues are issues found in the text sequences that forbid execution of the sequence, for instance a missing message in the sequence definition. " + (IncludeDetails ? "These issues are reported in red." : ""),
+            counter.Issues[IssueKind.Blocking].ToString(CultureInfo.InvariantCulture));
+            if (IncludeDetails)
+            {
+                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Blocking));
+            }
 
             Report.AddRow(
                 "Issues",
+                "Issues are errors detected in the test sequences. The corresponding test has been manually updated to avoid the error and continue execution. " + (IncludeDetails ? "These issues are reported in red." : ""),
                 counter.Issues[IssueKind.Issue].ToString(CultureInfo.InvariantCulture));
-            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Issue));
+            if (IncludeDetails)
+            {
+                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Issue));
+            }
 
             Report.AddRow(
                 "Questions",
+                "Question raised during the test sequence analysis. " + (IncludeDetails ? "These issues are reported in yellow." : ""),
                 counter.Issues[IssueKind.Question].ToString(CultureInfo.InvariantCulture));
-            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Question));
+            if (IncludeDetails)
+            {
+                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Question));
+            }
 
             Report.AddRow(
                 "Comments",
+                "Comments issued during the test sequence analysis. " + (IncludeDetails ? "These issues are reported in green." : ""),
                 counter.Issues[IssueKind.Comment].ToString(CultureInfo.InvariantCulture));
-            Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Comment));
+            if (IncludeDetails)
+            {
+                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Comment));
+            }
 
             Report.AddSubParagraph("Summary");
-            Report.AddParagraph("This section summarises the results for each sub sequence");
+            Report.AddParagraph("This section summarises the results for each sub sequence. The 'Actions' are the number of inputs required to execute the test sequence, and 'Checks' identifies the check points that are verified on the sub sequence. The column issues counts the number of issues (either blocking or non blocking) found during the analysis of the test sequence. The status can take several values");
+            Report.AddListItem("Completed : the analysis of the test sequence is complete and the execution satisfies the constaints defined in the test sequence. ");
+            Report.AddListItem("Ongoing : the analysis of the test sequence is ongoing, no definitive result can be provided yet.");
+            Report.AddListItem("Invalid : a blocking issue has been found while analysing the test sequence. Analysis cannot be completed.");
+            Report.AddTable(new[] { "Subsequence", "Actions", "Checks", "Issues", "Status" }, new[] { 60, 30, 30, 30, 30 });
             foreach (Frame frame in Dictionary.Tests)
             {
-                Report.AddTable(new[] { "Subsequence", "Actions", "Checks", "Issues", "Status" }, new[] { 60, 30, 30, 30, 30 });
-
                 foreach (SubSequence subSequence in frame.SubSequences)
                 {
                     counter = new Counter();
@@ -189,31 +227,34 @@ namespace Reports.Specs.SubSet76
 
                     Report.lastRow.Cells[4].Shading.Color = color;
 
-                    foreach (TestCase testCase in subSequence.TestCases)
+                    if (IncludeDetails)
                     {
-                        foreach (ReqRef reqRef in testCase.Requirements)
+                        foreach (TestCase testCase in subSequence.TestCases)
                         {
-                            Report.AddRow(
-                                testCase.Name,
-                                reqRef.Paragraph.Text);
-                            Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
-                        }
-
-                        foreach (Step step in testCase.Steps)
-                        {
-                            foreach (ReqRef reqRef in step.Requirements)
+                            foreach (ReqRef reqRef in testCase.Requirements)
                             {
-                                string name = testCase.Name;
-
-                                if (step.getTCS_Order() != 0)
-                                {
-                                    name += " Step  " + step.getTCS_Order().ToString(CultureInfo.InvariantCulture);
-                                }
-
                                 Report.AddRow(
-                                    name,
+                                    testCase.Name,
                                     reqRef.Paragraph.Text);
                                 Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
+                            }
+
+                            foreach (Step step in testCase.Steps)
+                            {
+                                foreach (ReqRef reqRef in step.Requirements)
+                                {
+                                    string name = testCase.Name;
+
+                                    if (step.getTCS_Order() != 0)
+                                    {
+                                        name += " Step  " + step.getTCS_Order().ToString(CultureInfo.InvariantCulture);
+                                    }
+
+                                    Report.AddRow(
+                                        name,
+                                        reqRef.Paragraph.Text);
+                                    Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
+                                }
                             }
                         }
                     }
@@ -221,15 +262,18 @@ namespace Reports.Specs.SubSet76
             }
             Report.CloseSubParagraph();
 
-            Report.AddSubParagraph("Detailed sub sequence report");
-            foreach (Frame frame in Dictionary.Tests)
+            if (IncludeDetails)
             {
-                foreach (SubSequence subSequence in frame.SubSequences)
+                Report.AddSubParagraph("Detailed sub sequence report");
+                foreach (Frame frame in Dictionary.Tests)
                 {
-                    CreateSubSequenceDescription(subSequence);
+                    foreach (SubSequence subSequence in frame.SubSequences)
+                    {
+                        CreateSubSequenceDescription(subSequence);
+                    }
                 }
+                Report.CloseSubParagraph();
             }
-            Report.CloseSubParagraph();
 
             Report.CloseSubParagraph();
         }
@@ -308,25 +352,27 @@ namespace Reports.Specs.SubSet76
         /// </summary>
         private void CreateFindingsReport()
         {
-            Report.AddSubParagraph("Findings and comments");
-            Report.AddParagraph(
-                "This section presents the findings and the comments on the test cases. This information has been gathered while translating test sequences as described in the Access database files into executable test sequences and by executing such tests against the Subset-026 model.");
-
-            foreach (Specification specification in Dictionary.Specifications)
+            if (IncludeDetails)
             {
-                foreach (Chapter chapter in specification.Chapters)
+                Report.AddSubParagraph("Findings and comments");
+                Report.AddParagraph(
+                    "This section presents the findings and the comments on the test cases. This information has been gathered while translating test sequences as described in the Access database files into executable test sequences and by executing such tests against the Subset-026 model.");
+
+                foreach (Specification specification in Dictionary.Specifications)
                 {
-                    Report.AddSubParagraph(chapter.Name);
-
-                    foreach (Paragraph paragraph in chapter.Paragraphs)
+                    foreach (Chapter chapter in specification.Chapters)
                     {
-                        DescribeSpecIssue(paragraph);
-                    }
-                    Report.CloseSubParagraph();                    
-                }
-            }
+                        Report.AddSubParagraph(chapter.Name);
 
-            Report.CloseSubParagraph();
+                        foreach (Paragraph paragraph in chapter.Paragraphs)
+                        {
+                            DescribeSpecIssue(paragraph);
+                        }
+                        Report.CloseSubParagraph();
+                    }
+                }
+                Report.CloseSubParagraph();
+            }
         }
 
         /// <summary>
