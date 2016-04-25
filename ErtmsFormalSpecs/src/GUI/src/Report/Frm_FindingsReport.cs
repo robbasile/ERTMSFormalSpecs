@@ -49,6 +49,7 @@ namespace GUI.Report
         {
             ReportHandler.Name = "Findings report";
             ReportHandler.IncludeDetails = detailCheckBox.Checked;
+            ReportHandler.IncludeTestSequencesDetails = subSequenceCheckBox.Checked;
 
             Hide();
 

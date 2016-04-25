@@ -45,6 +45,11 @@ namespace Reports.Specs.SubSet76
         public bool IncludeDetails { get; set; }
 
         /// <summary>
+        /// Indicates that details about each test sequence should be included in the report
+        /// </summary>
+        public bool IncludeTestSequencesDetails { get; set; }
+
+        /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="dictionary">The dictionary holding the S76 issues and S76 test sequences</param>
@@ -262,7 +267,7 @@ namespace Reports.Specs.SubSet76
             }
             Report.CloseSubParagraph();
 
-            if (IncludeDetails)
+            if (IncludeDetails && IncludeTestSequencesDetails)
             {
                 Report.AddSubParagraph("Detailed sub sequence report");
                 foreach (Frame frame in Dictionary.Tests)
