@@ -280,7 +280,7 @@ namespace DataDictionary.RuleCheck
                 Translation translation = EfsSystem.Instance.FindTranslation(step);
                 if (translation == null)
                 {
-                    step.AddRuleCheckMessage(RuleChecksEnum.Translation02, ElementLog.LevelEnum.Warning, 
+                    step.AddRuleCheckMessage(RuleChecksEnum.Translation02, ElementLog.LevelEnum.Warning,
                         "Cannot find translation for this step");
                 }
 
@@ -292,7 +292,7 @@ namespace DataDictionary.RuleCheck
                     {
                         if (step.StepMessages.Count == 0)
                         {
-                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning, 
+                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning,
                                 "Cannot find Balise messages for this step");
                         }
                     }
@@ -303,7 +303,7 @@ namespace DataDictionary.RuleCheck
                     {
                         if (step.StepMessages.Count == 0)
                         {
-                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning, 
+                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning,
                                 "Cannot find Euroloop messages for this step");
                         }
                     }
@@ -312,9 +312,20 @@ namespace DataDictionary.RuleCheck
                     {
                         if (step.StepMessages.Count == 0)
                         {
-                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning, 
+                            step.AddRuleCheckMessage(RuleChecksEnum.Translation03, ElementLog.LevelEnum.Warning,
                                 "Cannot find RBC message for this step");
                         }
+                    }
+                }
+            }
+            else
+            {
+                if (step.TestCase.ContainsTranslations)
+                {
+                    if (step.Requirements.Count == 0 && step.SubSteps.Count > 0)
+                    {
+                        step.AddRuleCheckMessage(RuleChecksEnum.Translation04, ElementLog.LevelEnum.Warning,
+                            "Manual translation for this step should be documented");                        
                     }
                 }
             }

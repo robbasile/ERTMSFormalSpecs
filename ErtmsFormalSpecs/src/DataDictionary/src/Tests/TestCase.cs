@@ -209,5 +209,28 @@ namespace DataDictionary.Tests
                 return retVal;
             }
         }
+
+        /// <summary>
+        /// Indicates that at least one step for this test case requires an automatic translation
+        /// </summary>
+        public bool ContainsTranslations
+        {
+            get
+            {
+                bool retVal = false;
+
+                foreach (Step step in Steps)
+                {
+                    if (step.getTranslationRequired())
+                    {
+                        retVal = true;
+                        break;
+                    }
+                }
+
+                return retVal;
+            } 
+            
+        }
     }
 }

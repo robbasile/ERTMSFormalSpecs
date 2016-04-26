@@ -63,6 +63,7 @@ namespace DataDictionary.RuleCheck
         Translation01,
         Translation02,
         Translation03,
+        Translation04,
         Type01,
         Type02,
         Type03,
