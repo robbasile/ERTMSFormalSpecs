@@ -457,6 +457,49 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 >Balise.M_DUP == Messages.M_DUP.This_balise_is_a_duplicate_of_the_previous_balise__seen_in_the_nominal_direction_of_the_balise_group</PreCondition></PreConditions>
 <Expression>FIRST X IN aBaliseGroup | X.Telegram.N_PIG == Balise.N_PIG - 1</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="DefaultBGInformationReceived"
+ Guid="a5071e5f-5468-4460-aae0-8255f6778a3c"
+>
+<Comment>Indicates that a packet &quot;Default balise information&quot; was received.
+This is a Trackside malfunction, and should be displayed to the driver and recorded in the JRU.</Comment>
+<Parameters>
+<Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="5780f2c8-8dde-453a-9284-71fa2e72a536"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No BG"
+ Guid="2b52fd9e-6b28-4fe6-b96a-b40c215d6b38"
+>
+<PreConditions>
+<PreCondition
+ Guid="0c36d46c-88ec-4d15-a45b-e5889b463ff7"
+>aBaliseGroup == []
+  OR  
+NOT FullBGReceived( aBaliseGroup )</PreCondition></PreConditions>
+<Expression>False</Expression>
+</Case><Case
+ Name="Value"
+ Guid="68c25b87-edc7-421d-8a17-ddff8bf5549f"
+>
+<Expression>THERE_IS aTelegram IN aBaliseGroup |
+(
+  THERE_IS aPacket IN aTelegram.Telegram.Sequence1 |
+  (
+    Available( aPacket.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION )
+  )
+)</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
