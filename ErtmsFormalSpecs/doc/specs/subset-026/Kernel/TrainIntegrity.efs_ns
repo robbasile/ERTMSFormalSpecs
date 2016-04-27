@@ -112,6 +112,15 @@
 </ReqRef><Comment>Calculates the safe train length by subtracting the min safe rear end of the train (taken at the last time the train integrity was confirmed) from the estimated front end.</Comment>
 <Cases>
 <Case
+ Name="Train integrity invalid or unknown"
+ Guid="aec2dc9b-0a9c-4a93-b2f6-e41394b991da"
+>
+<PreConditions>
+<PreCondition
+ Guid="3d151c50-d964-4be4-a993-c38db90fd49b"
+>TrainIntegrity.DataState in [DataStateEnum.Invalid, DataStateEnum.Unknown]</PreCondition></PreConditions>
+<Expression>BaseTypes.Length.NA</Expression>
+</Case><Case
  Name="Front end position unknown"
  Guid="14e283e9-578d-4b06-aa5d-df10c02aaa5c"
 >
@@ -220,6 +229,7 @@ TrainPosition.Position.DataState != DataStateEnum.Valid</PreCondition></PreCondi
 <Variables>
 <Variable
  Type="TrainIntegrityStruct"
+ DefaultValue=""
  VariableMode="Internal"
  X="50"
  Y="40"
