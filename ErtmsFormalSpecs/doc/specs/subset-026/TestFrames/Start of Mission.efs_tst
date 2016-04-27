@@ -3434,7 +3434,13 @@
     aMode =&gt; ModeEnum.SB
 )</Action><Action
  Guid="797ffc7a-cbb0-423b-9858-97ea817033c2"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.NoProcedure</Action><Action
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.NoProcedure</Action></Actions>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="fd426826-8f8e-423e-8628-d369751a7184"
+>
+<Actions>
+<Action
  Guid="bc7147fd-13bd-45aa-b456-c4a434dde3bd"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action></Actions>
 </SubStep></SubSteps>
@@ -6148,9 +6154,7 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
 (
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.SB
-)</Action><Action
- Guid="a66f3d0f-3fac-4bd3-9e51-1c544bc17a36"
->DMI.CabOfDMI ( DMI.DMI1 ).Desk1IsActive &lt;- False</Action></Actions>
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step2"
@@ -6163,7 +6167,9 @@ DMI.MasterDMI().In_ErtmsEtcsLevel.ProvideDriverResponse
  Guid="1270b000-e2b8-49da-a17f-703d25a1a222"
 >DMI.CabOfDMI ( DMI.DMI2 ).Desk1IsActive &lt;- False</Action><Action
  Guid="773098ae-e614-4ecf-898a-1cd924a3419c"
->DMI.DMI1.IsMaster &lt;- Boolean.True</Action></Actions>
+>DMI.DMI1.IsMaster &lt;- Boolean.True</Action><Action
+ Guid="a66f3d0f-3fac-4bd3-9e51-1c544bc17a36"
+>DMI.CabOfDMI ( DMI.DMI1 ).Desk1IsActive &lt;- False</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -10562,16 +10568,6 @@ Value =&gt; LevelEnum.L2
 <Action
  Guid="9154db33-844d-4b05-9f29-48d3281e7b57"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S25</Action><Action
- Guid="0f490d9d-15fe-48f2-a866-5809da287d1e"
->Testing.SetSBMode(False)</Action><Action
- Guid="5c79f87f-5c35-4885-9925-7f3e06fcc7bd"
->Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
-    TargetSpeed =&gt; 0.0,
-    Sections =&gt; [],
-    EndSection =&gt; Kernel.MA.EndSectionStruct{
-        Length =&gt; 1000.0
-    }
-}</Action><Action
  Guid="c0fcaad4-b868-45cb-9e99-c545f0ba5cd8"
 >Kernel.MA.ModeProfile.Profile &lt;- 
 [
@@ -10593,6 +10589,20 @@ Value =&gt; LevelEnum.L2
  Kind="Instantaneous"
  Guid="43a19f27-3050-4ef5-be3e-e0bbd2cebb06"
 >DMI.MasterDMI().In_AcknOfOSMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="5332729b-26dd-45f8-a7af-50b1849962f4"
+>
+<Actions>
+<Action
+ Guid="5c79f87f-5c35-4885-9925-7f3e06fcc7bd"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 1000.0
+    }
+}</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -10668,6 +10678,14 @@ Value =&gt; LevelEnum.L2
 >
 <SubSteps>
 <SubStep
+ Name="SubStep0"
+ Guid="ab86b566-7346-4d78-84ca-c7ec834f7fe9"
+>
+<Actions>
+<Action
+ Guid="0f490d9d-15fe-48f2-a866-5809da287d1e"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="b435e52a-1510-4c67-b7f8-3c6cb83136bc"
@@ -10676,18 +10694,8 @@ Value =&gt; LevelEnum.L2
 <Action
  Guid="6d666c62-086b-45cc-bb10-8d32ff28c999"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S25</Action><Action
- Guid="afc73856-6cfa-4d9b-976c-48f6d00b2bf8"
->Testing.SetSBMode(False)</Action><Action
  Guid="325062a4-3131-4f43-b775-469282329817"
 >Kernel.MissionIsOnGoing &lt;- False</Action><Action
- Guid="49430ad3-aea1-4e0e-be15-8102ef464486"
->Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
-    TargetSpeed =&gt; 0.0,
-    Sections =&gt; [],
-    EndSection =&gt; Kernel.MA.EndSectionStruct{
-        Length =&gt; 1000.0
-    }
-}</Action><Action
  Guid="2e5e3f6e-ebbe-48f7-b232-cdbb867ccbbe"
 >Kernel.MA.ModeProfile.Profile &lt;- 
 [
@@ -10707,6 +10715,20 @@ Value =&gt; LevelEnum.L2
  DeadLine="2"
  Guid="cae070b1-5986-41c2-a997-b4a7e72c2815"
 >DMI.MasterDMI().In_AcknOfLSMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="b418588a-5968-4e58-9241-eabec1d22be9"
+>
+<Actions>
+<Action
+ Guid="49430ad3-aea1-4e0e-be15-8102ef464486"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 1000.0
+    }
+}</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -10783,6 +10805,15 @@ Value =&gt; LevelEnum.L2
 <SubSteps>
 <SubStep
  TimeDelay="NotDelayed"
+ Name="SubStep0"
+ Guid="e6d312a5-8446-4d43-9e09-09948554539a"
+>
+<Actions>
+<Action
+ Guid="88fe2a37-a224-437c-8aa5-98fe8f4f7c56"
+>Testing.SetSBMode(False)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Sub-step1"
  Guid="d7e432ef-2a0d-4452-819e-f1dce3893e73"
 >
@@ -10790,8 +10821,6 @@ Value =&gt; LevelEnum.L2
 <Action
  Guid="3edfc4b7-4128-4ef9-a262-be906a5d7573"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.StartOfMission.S25</Action><Action
- Guid="b28efcd1-e2d7-459f-b920-908c8edfe314"
->Testing.SetSBMode(False)</Action><Action
  Guid="630d26b8-a808-4273-af4a-9a34e6397e15"
 >Kernel.MissionIsOnGoing &lt;- False</Action><Action
  Guid="cf90c26f-ef57-4098-ba58-ca68bc45fb09"
@@ -10821,6 +10850,10 @@ Value =&gt; LevelEnum.L2
  DeadLine="2"
  Guid="a2b3a91b-c4ca-47e0-9e7d-30f03191fa16"
 >DMI.MasterDMI().In_AcknOfSHMode.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="b83bb050-ab2f-4d7b-844d-0cca3bba268e"
+>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"

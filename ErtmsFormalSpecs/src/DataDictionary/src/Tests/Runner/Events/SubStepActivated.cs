@@ -72,13 +72,18 @@ namespace DataDictionary.Tests.Runner.Events
                 {
                     if (action.Statement != null)
                     {
-                        Updates.Add(new VariableUpdate(action, SubStep.Dictionary, runner.CurrentPriority));
+                        VariableUpdate update = new VariableUpdate(action, SubStep.Dictionary, null);
+                        update.ComputeChanges(false, runner);
+                        Updates.Add(update);
                     }
                     else
                     {
                         action.AddError("Cannot parse action statement");
                     }
                 }
+                // TODO : Determine if we want to do this
+                // runner.HandleEnterAndLeaveStateActions(null, Updates);
+                runner.CheckUpdatesCompatibility(Updates);
             }
 
             return retVal;

@@ -53,8 +53,9 @@ namespace DataDictionary.Tests.Runner.Events
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="id"></param>
-        public RuleFired(Activation activation, acceptor.RulePriority priority)
+        /// <param name="activation"></param>
+        /// <param name="priority"></param>
+        public RuleFired(Activation activation, acceptor.RulePriority? priority)
             : base(activation.RuleCondition.Name, activation.RuleCondition, priority)
         {
             Activation = activation;

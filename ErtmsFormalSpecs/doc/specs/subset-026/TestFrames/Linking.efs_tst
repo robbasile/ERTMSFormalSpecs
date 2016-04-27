@@ -55,20 +55,7 @@
 (
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.SB
-)</Action><Action
- Guid="64f3250b-e967-4f1f-98e0-983245897a2f"
->Odometry.NominalDistance &lt;- 0.0</Action><Action
- Guid="813d6313-ae9b-4c98-9f22-6eb6ab591a61"
->BTM.LRBG.LRBG &lt;- EMPTY</Action><Action
- Guid="a727a771-2d3d-4bc0-b137-ce27a449463a"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
- Guid="16f51eee-64cd-4e38-97d8-c0454bdc349b"
->Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- Guid="7b807639-dc27-4734-bfa2-1c8711696d34"
->(COUNT X IN BTM.Linking.Linkings) == 0</Expectation></Expectations>
+)</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="SubStep2"
@@ -77,7 +64,20 @@
 <Actions>
 <Action
  Guid="c54bb59f-314e-4676-9207-0b26b6df0958"
->Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+>Kernel.TrainData.TrainData.DataState &lt;- DataStateEnum.Valid</Action><Action
+ Guid="813d6313-ae9b-4c98-9f22-6eb6ab591a61"
+>BTM.LRBG.LRBG &lt;- EMPTY</Action><Action
+ Guid="a727a771-2d3d-4bc0-b137-ce27a449463a"
+>BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
+ Guid="16f51eee-64cd-4e38-97d8-c0454bdc349b"
+>Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
+ Guid="64f3250b-e967-4f1f-98e0-983245897a2f"
+>Odometry.NominalDistance &lt;- 0.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ Guid="7b807639-dc27-4734-bfa2-1c8711696d34"
+>(COUNT X IN BTM.Linking.Linkings) == 0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"

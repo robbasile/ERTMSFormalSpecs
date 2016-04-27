@@ -431,10 +431,9 @@ namespace DataDictionary.Tests.Runner
         /// <param name="activations"></param>
         /// <param name="priority"></param>
         /// <param name="updates">Provides all the updates that have been evaluated</param>
-        public void EvaluateActivations(HashSet<Activation> activations, acceptor.RulePriority priority,
+        public void EvaluateActivations(HashSet<Activation> activations, acceptor.RulePriority? priority,
             List<VariableUpdate> updates)
         {
-            List<VariableUpdate> currentUpdates = new List<VariableUpdate>();
             foreach (Activation activation in activations)
             {
                 if (activation.RuleCondition.Actions.Count > 0)
@@ -458,7 +457,7 @@ namespace DataDictionary.Tests.Runner
                             {
                                 changesExplanation.SubExplanations.Add(variableUpdate.Explanation);
                             }
-                            currentUpdates.Add(variableUpdate);
+                            updates.Add(variableUpdate);
                         }
                         else
                         {
@@ -468,17 +467,25 @@ namespace DataDictionary.Tests.Runner
                 }
             }
 
-            // Handles the leave & enter state rules
-            // Avoid considering twice the same transition
+            HandleEnterAndLeaveStateActions(priority, updates);
+        }
+
+        /// <summary>
+        /// Complete the 'updates' parameters by considering leave & enter state rules.
+        /// Avoid considering twice the same transition for all updates provided as parameter
+        /// </summary>
+        /// <param name="priority"></param>
+        /// <param name="updates">The variable update list to be completed according to enter and leave actions</param>
+        public void HandleEnterAndLeaveStateActions(acceptor.RulePriority? priority, List<VariableUpdate> updates)
+        {
             List<Tuple<State, State>> transitions = new List<Tuple<State, State>>();
 
+            List<VariableUpdate> currentUpdates = updates;
             while (currentUpdates.Count > 0)
             {
                 List<VariableUpdate> newUpdates = new List<VariableUpdate>();
                 foreach (VariableUpdate update in currentUpdates)
                 {
-                    updates.Add(update);
-
                     foreach (Change change in update.Changes.Changes)
                     {
                         if (change.Variable.Type is StateMachine)
@@ -508,6 +515,7 @@ namespace DataDictionary.Tests.Runner
                     }
                 }
 
+                updates.AddRange(newUpdates);
                 currentUpdates = newUpdates;
             }
         }
@@ -516,7 +524,7 @@ namespace DataDictionary.Tests.Runner
         /// Checks the compatibility of all updates
         /// </summary>
         /// <param name="variableUpdates"></param>
-        private void CheckUpdatesCompatibility(IEnumerable<VariableUpdate> variableUpdates)
+        public void CheckUpdatesCompatibility(IEnumerable<VariableUpdate> variableUpdates)
         {
             if (CheckForCompatibleChanges)
             {
@@ -589,7 +597,7 @@ namespace DataDictionary.Tests.Runner
         /// <param name="variable"></param>
         /// <param name="leaveState"></param>
         /// <param name="enterState"></param>
-        private void HandleEnterState(acceptor.RulePriority priority, List<VariableUpdate> updates, IVariable variable,
+        private void HandleEnterState(acceptor.RulePriority? priority, List<VariableUpdate> updates, IVariable variable,
             State leaveState, State enterState)
         {
             if (!_processedStates.Contains(enterState))
@@ -629,7 +637,7 @@ namespace DataDictionary.Tests.Runner
         /// <param name="variable"></param>
         /// <param name="leaveState"></param>
         /// <param name="enterState"></param>
-        private void HandleLeaveState(acceptor.RulePriority priority, List<VariableUpdate> updates, IVariable variable,
+        private void HandleLeaveState(acceptor.RulePriority? priority, List<VariableUpdate> updates, IVariable variable,
             State leaveState, State enterState)
         {
             if (!_processedStates.Contains(leaveState))
