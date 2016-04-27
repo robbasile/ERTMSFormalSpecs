@@ -736,7 +736,8 @@ It can only return false if there is no open session or if the last known RBC ha
 It is used e.g. in case of a deconnection order reception.
 Note that it checks first if the terminal is not empty and registered. 
 It then checks if the RBCConnection has the rigth ID.
-It DOESN&apos;T check if the connection is established.</Comment>
+It DOESN&apos;T check if the connection is established.
+</Comment>
 <Parameters>
 <Parameter
  Type="Contact.RBCIdStruct"
@@ -756,7 +757,13 @@ It DOESN&apos;T check if the connection is established.</Comment>
  Guid="41d8671c-706a-4292-88bb-e9f7095a17ee"
 >Terminal.TerminalIsRegistered(Terminal.Terminal1)</PreCondition><PreCondition
  Guid="e30ebd2b-2d02-4124-929e-4aaebaaf7668"
->Terminal.Terminal1.RBCConnection.ContactData.Id == aRBCId</PreCondition></PreConditions>
+>Terminal.Terminal1.RBCConnection.ContactData.Id == aRBCId 
+  OR
+(
+Terminal.Terminal1.RBCConnection.ContactData.Id == LastKnownRBC.Id
+  AND
+aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
+)</PreCondition></PreConditions>
 <Expression>Terminal.Terminal1.RBCConnection</Expression>
 </Case><Case
  Name="Terminal2"
@@ -769,7 +776,14 @@ It DOESN&apos;T check if the connection is established.</Comment>
  Guid="ddae22a9-029f-4e23-87f0-dba6eb80144e"
 >Terminal.TerminalIsRegistered(Terminal.Terminal2)</PreCondition><PreCondition
  Guid="d84bd2c7-b509-4d37-a62c-b131c82ca086"
->Terminal.Terminal2.RBCConnection.ContactData.Id == aRBCId</PreCondition></PreConditions>
+>Terminal.Terminal2.RBCConnection.ContactData.Id == aRBCId
+  OR
+(
+Terminal.Terminal2.RBCConnection.ContactData.Id == LastKnownRBC.Id
+  AND
+aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
+)
+</PreCondition></PreConditions>
 <Expression>Terminal.Terminal2.RBCConnection</Expression>
 </Case><Case
  Name="Otherwise"
@@ -900,8 +914,7 @@ It DOESN&apos;T check if the connection is established.</Comment>
     Country =&gt; Packet.NID_C,
     Id =&gt; Packet.NID_RBC
   }
-)
-</PreCondition></PreConditions>
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a6ebac2e-aa73-4d15-b591-4cdeeb13852b"
@@ -952,8 +965,7 @@ It DOESN&apos;T check if the connection is established.</Comment>
  Guid="ed774a24-cf60-4ff7-a891-167c4f37b771"
 >Contact.LastKnownRBC != EMPTY</PreCondition><PreCondition
  Guid="643dd1e5-247c-445a-9d5b-4e180783a3ae"
->NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )
-</PreCondition></PreConditions>
+>NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
@@ -1065,8 +1077,7 @@ RBCConnection.Contact.RBCIdStruct
         ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
         AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
 
-}
-</Action><Action
+}</Action><Action
  Guid="13bb5237-974c-4a3c-86d8-c3ea4aeb8b48"
 >Contact.GetRBCFromId(
 RBCConnection.Contact.RBCIdStruct
