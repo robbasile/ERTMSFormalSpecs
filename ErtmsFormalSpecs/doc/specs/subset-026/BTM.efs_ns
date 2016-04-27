@@ -1290,6 +1290,11 @@ IN BTM.CurrentBaliseGroup</Action></Actions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6e00fab4-71f5-4820-8309-f0d77820a529"
 >
+</ReqRef><ReqRef
+ Id="2a937786-e263-4ac1-b082-05a22e1946c6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c934dd4-1ead-4830-8091-00f6bef21f1e"
+>
 </ReqRef><Comment>Movement authority has to be considered after all other packets of a message have been processed, since some preconditions to accept MA can be transmitted in the same message.
 
 The parameter DistanceFromLRBG is needed for the case when the handled BG will become the new LRBG. All stored distances in the EVC will need to be updated by this distance.</Comment>
@@ -1332,80 +1337,33 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  Name="Handle balise message contents"
  Guid="a4f87515-046e-4620-b2a7-8754b9514ddc"
 >
-<ReqRef
- Id="2acfcc15-b52e-4162-a72e-a4ff1e9f43e1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="918698e5-d3cc-45ac-9a4d-6d9730d38e4b"
->
-</ReqRef><ReqRef
- Id="da9f0886-9eda-4e06-91e4-41094a7a488f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="00c101d8-05d2-4f25-b692-ccaf171d9559"
->
-</ReqRef><ReqRef
- Id="cc65b517-2625-4019-bbbf-8b6f317ae84f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f632cfba-6532-40f8-a1cf-ef3bc5f71248"
->
-</ReqRef><Comment>If the message is consistent, accept the information stored in it.</Comment>
+<Comment>If the message is consistent, accept the information stored in it.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Ignore the BG due to its virtual balise cover marker"
- Guid="de484aaa-a0a9-4b55-8dca-db7cc86d398d"
+ Name="BG is consistent"
+ Guid="385c1e4d-686d-4cc1-9bc4-e533fb51231a"
 >
 <ReqRef
- Id="c9d51e90-7f7e-4c3e-b330-dec4e7a4499d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="35c951a7-5977-4fe5-8d85-af3cae01a386"
->
-</ReqRef><ReqRef
- Id="319c077a-b554-46e1-b263-636a65b5e1e9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fe8e6149-6fd0-4d1a-bd7a-a66917a54634"
->
-</ReqRef><ReqRef
  Id="a28fa2ad-f49b-49e3-b6c9-a96b78f87074"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b1d4fadc-2735-4454-89e2-564d0a8971d8"
+ Guid="7b293436-1077-4f3f-aac1-ce45c3077e00"
 >
 </ReqRef><ReqRef
  Id="2ae792ac-3c8b-4e81-a0b9-fcf10ab3dbdc"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c88ac66c-27cb-42ae-a0fc-cd6c10f1abb7"
+ Guid="e9b79b99-f118-4318-a02c-0bcbb5f75be7"
 >
-</ReqRef><ReqRef
- Id="d9694f89-1162-4ba5-a82c-a37e0df77929"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="87314815-f903-4547-89ae-678f0077ea39"
->
-</ReqRef><ReqRef
- Id="2a937786-e263-4ac1-b082-05a22e1946c6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7b55667b-fc72-48d8-814f-588b64ca0c7c"
->
-</ReqRef><Comment>No action in this case.</Comment>
-<PreConditions>
-<PreCondition
- Guid="0e5497d6-bf54-49ff-b2f8-b67da4304cac"
->Kernel.VirtualBaliseCover.IgnoreBG(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="2e1d9662-6036-4897-a228-37c00a44fe2b"
->Kernel.VirtualBaliseCover.CheckNID_C( GetNID_C(aBaliseGroup) )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="BG is consistent"
- Guid="385c1e4d-686d-4cc1-9bc4-e533fb51231a"
->
-<Comment>Handle infill and non-infill packets if the message is consistent.</Comment>
+</ReqRef><Comment>Handle infill and non-infill packets if the message is consistent.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8a814b2e-b51c-4ac6-bab1-5cc0fa14f4f7"
 >MessageConsistency.IsConsistent( aBaliseGroup )</PreCondition><PreCondition
  Guid="4018c3e8-4735-4dee-9448-f1974ecaeef9"
->Linking.Supervision.ConsiderBaliseMessage( aBaliseGroup )</PreCondition></PreConditions>
+>Linking.Supervision.ConsiderBaliseMessage( aBaliseGroup )</PreCondition><PreCondition
+ Guid="0e5497d6-bf54-49ff-b2f8-b67da4304cac"
+>NOT Kernel.VirtualBaliseCover.IgnoreBG(aBaliseGroup)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -1414,6 +1372,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
  X="0"
  Y="0"
  Implemented="TRUE"
+ Verified="TRUE"
  Name="Handle non-infill packets"
  Guid="44cdb1c8-4513-49f0-ba2f-c9be84c73dcf"
 >
@@ -1422,6 +1381,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ Verified="TRUE"
  Name="Handle non-infill packets"
  Guid="026cf257-7e72-44d5-bf0a-8a78a5f02ad5"
 >
@@ -1431,7 +1391,7 @@ The parameter DistanceFromLRBG is needed for the case when the handled BG will b
 <Action
  Guid="3d481a20-2d80-4cf9-a8c0-967a6519da7a"
 ><Comment>Non-Infill packets</Comment>
-HandleConsistentMessage(
+Packets.HandleConsistentMessage(
     aBaliseGroup =&gt; aBaliseGroup,
     selectInfillPackets =&gt; False,
     aDistance =&gt; BGLocationReference.Position.Position - Kernel.ReferenceLocation() 
@@ -1442,6 +1402,7 @@ HandleConsistentMessage(
  X="0"
  Y="0"
  Implemented="TRUE"
+ Verified="TRUE"
  Name="Handle infill packets"
  Guid="d034cf04-641f-4f41-9197-f8a57b7631b9"
 >
@@ -1490,6 +1451,7 @@ HandleConsistentMessage(
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ Verified="TRUE"
  Name="Handle infill packets"
  Guid="e33a0c94-6acb-49c5-971d-b8071b957e64"
 >
@@ -1506,11 +1468,46 @@ HandleConsistentMessage(
 <Action
  Guid="176cf6e5-9522-4e29-bad2-45603dfa58c9"
 ><Comment>Infill packets</Comment>
-HandleConsistentMessage(
+Packets.HandleConsistentMessage(
     aBaliseGroup =&gt; aBaliseGroup,
     selectInfillPackets =&gt; True,
     aDistance =&gt; Infill.DistanceToInfillReference()
 )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Check NID_C for virtual balise covers"
+ Guid="6e4770b6-c0a2-4ce4-9380-a24249ddd39e"
+>
+<ReqRef
+ Id="c9d51e90-7f7e-4c3e-b330-dec4e7a4499d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8afb2b69-510a-4026-b3b0-ec91eaf056c5"
+>
+</ReqRef><ReqRef
+ Id="319c077a-b554-46e1-b263-636a65b5e1e9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ace5743-f1e9-4397-9061-b4704b4068e2"
+>
+</ReqRef><Comment>Once the message has been decoded, check whether the train has entered a new region. If so, all the old VBCs are deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Verified="TRUE"
+ Name="Check NID_C for virtual balise covers"
+ Guid="8f30cb2e-2858-4669-a0e6-d04d684d41b5"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2e1d9662-6036-4897-a228-37c00a44fe2b"
+>Kernel.VirtualBaliseCover.CheckNID_C( GetNID_C(aBaliseGroup) )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -1518,442 +1515,27 @@ HandleConsistentMessage(
  Name="The BG is not consistent"
  Guid="8324c201-d04f-4c0b-9379-3944df24ac68"
 >
-<Comment>Handle reception on an inconsistent BG.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Message consistency error"
- Guid="98a41f19-30c0-4d94-9625-28853a8db3ed"
+<ReqRef
+ Id="a28fa2ad-f49b-49e3-b6c9-a96b78f87074"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="be118ae9-0939-42f2-9a02-3ef87557b2c3"
 >
-<Comment>If the error is a message consistency error, either apply the mlinking reaction of the service brake.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Message consistency error"
- Guid="a0281245-2a56-4524-b725-06956c928557"
+</ReqRef><ReqRef
+ Id="d9694f89-1162-4ba5-a82c-a37e0df77929"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2e65c1c4-1767-47ac-96b4-b80ee235fab2"
 >
+</ReqRef><Comment>Handle reception on an inconsistent BG.</Comment>
 <PreConditions>
 <PreCondition
- Guid="9a7ebaab-1cb6-4f18-be81-d5d8666bf161"
+ Guid="12a521ef-5e50-4878-b2ee-380a24f8e393"
+>NOT Kernel.VirtualBaliseCover.IgnoreBG(aBaliseGroup)</PreCondition><PreCondition
+ Guid="a88a57c4-c2bb-4053-9f2f-fdd8d93ca6f2"
 >NOT MessageConsistency.IsConsistent( aBaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="cd131c5d-d887-4983-88d3-5f14215398a4"
->InconsistentBaliseGroupReceived &lt;- True</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Apply the linking reaction or the service brake"
- Guid="f540b567-9757-4617-8fb2-1ffbac46844e"
->
-<Comment>If the message is inconsistent, apply the linking reaction (if the BG was linked) or the service brake.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Linked BG, apply the linking reaction"
- Guid="19981dd2-0342-463c-a447-172153432f43"
->
-<Comment>Apply the linkking reaction.</Comment>
-<PreConditions>
-<PreCondition
- Guid="14721962-4414-4fff-9854-c596dbf177bd"
->Linking.BGIsLinked(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0fec3662-dbbc-49b3-b82f-212da0f1bec2"
->Linking.Supervision.ApplyLinkingReaction(Linking.CurrentLinking().Reaction)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="No linking, check for Inhibition of service brake packet"
- Guid="0773b7df-4bca-4564-9ef5-8fdcf72c4da5"
->
-<ReqRef
- Id="9a012f78-f887-493d-bdeb-3fe90b475b44"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="94c587d5-d271-4978-841d-91f4d8adeec7"
->
-</ReqRef><ReqRef
- Id="79632341-1718-4a2e-b6d6-dbdd628d9fa2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0a9686a9-dd4b-46c8-9fbb-1a324595063c"
->
-</ReqRef><ReqRef
- Id="c714f3fb-5bad-4115-8fd3-588a1387795d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f7c940fd-91da-4fc1-8254-7e15fc6b6fca"
->
-</ReqRef><ReqRef
- Id="bc203fe9-a734-483d-acef-f8bc36a5ce00"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2edfa02a-d88d-4256-a9ae-217947b96438"
->
-</ReqRef><ReqRef
- Id="a75f8e41-42b7-4bc1-a2c2-27a5f6e2b0e2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3232392f-a91c-499c-b76d-9dfb71a4b160"
->
-</ReqRef><ReqRef
- Id="edd66dcd-afe0-4315-8892-06477a24808f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b9ee6c4e-b52b-4298-a3fc-a87f05bca9ac"
->
-</ReqRef><Comment>Apply the service brake for an unlinked balise group, unless the BG information includes the packet &quot;Inhibition of the balise group message inconsistency reaction&quot;.</Comment>
-<PreConditions>
-<PreCondition
- Guid="b62df68a-af59-44c2-b28f-677c97e51814"
->NOT THERE_IS balise IN aBaliseGroup | 
-(
-    THERE_IS packet IN balise.Telegram.Sequence1 | 
-        Available(packet.TRACK_TO_TRAIN.INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION) 
-)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e116e90f-40b7-447f-9f12-239d064059f9"
->Linking.Supervision.ApplyLinkingReaction(Linking.CurrentLinking().Reaction)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Delete stored information"
- Guid="1ed17502-7942-4af5-885a-a37977d47cf1"
->
-<Comment>If a message was rejected due to its data consistency, and the service brake is applied, store this information for future shortening of the location based data.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="No linking, BG marked as linked"
- Guid="9a930249-e076-47e8-8d7b-0ebaf3e7f815"
->
-<ReqRef
- Id="ea29ed49-2305-4c0a-9a5f-18be4773caa4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0add2c8e-3b61-49b4-8663-0f9c16c6a9c4"
->
-</ReqRef><Comment>First case: linking is not used on-board and the rejected BG is marked as linked.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d295d0ec-d8e8-4fef-92ae-7e902958d77a"
->Linking.BGIsLinked(aBaliseGroup)</PreCondition><PreCondition
- Guid="cecf9dc1-c9cf-4511-85dd-5fb4e42b0f3f"
->NOT THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_BG(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="6ab93631-fbfd-45db-9678-e65420363e8c"
->Kernel.HandlingOfAcceptedAndStoredInformation.LinkedBGInconsistency_NoLinking &lt;- True</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="No linking, BG marked as unlinked"
- Guid="a5fdd935-9dbb-47a6-867a-cbd671e4c80e"
->
-<ReqRef
- Id="d92c56a7-724f-43e7-846d-86012a4ec60e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e68b5f1c-1948-4754-8beb-f840325d5ef3"
->
-</ReqRef><Comment>Second case: the rejected BG is unlinked.</Comment>
-<PreConditions>
-<PreCondition
- Guid="3c0ea399-4765-47a4-bf81-775189917311"
->NOT THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_BG( aBaliseGroup )</PreCondition><PreCondition
- Guid="fcbdcef4-2c10-4095-839b-c8d711ab5ef8"
->NOT Linking.BGIsLinked( aBaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="23f3af28-61d8-4911-a424-2cb14b1149c6"
->Kernel.HandlingOfAcceptedAndStoredInformation.UnlinkedBGInconsistency &lt;- True</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Linking used"
- Guid="8ec790c6-961c-40ea-afd7-3c26605eb33b"
->
-<ReqRef
- Id="645b4e18-c87b-4cb7-85d9-44ac2e4bf60e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4e61788f-8398-4950-b223-91c62b0115aa"
->
-</ReqRef><Comment>Third case: the rejected message is linked and was present in the linking data.</Comment>
-<PreConditions>
-<PreCondition
- Guid="9e4c8fbc-8558-43d1-b40a-9cc2b58fefa7"
->Linking.BGIsLinked(aBaliseGroup)</PreCondition><PreCondition
- Guid="74ff1606-3978-495d-8928-df9d3fd80853"
->Linking.CurrentLinking().Reaction == BTM.Linking.LinkingReaction.CommandServiceBrake</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="dcc88356-9b44-4c14-908e-20a1f05c099c"
->Kernel.HandlingOfAcceptedAndStoredInformation.LinkingReactionAppliedServiceBrake &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Report error to the RBC"
- Guid="cf3d4157-a6f6-4ed5-9b82-07997153d298"
->
-<ReqRef
- Id="4aa64d47-8749-4bf5-b24e-7831ff609718"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8c15ceb3-2d33-4c9b-85e5-149c146ea5e2"
->
-</ReqRef><ReqRef
- Id="a3885eb8-93e0-4d9c-8084-7fb3d864615a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c4598a32-0452-4045-b9bf-ceb43a8e1aa9"
->
-</ReqRef><ReqRef
- Id="25a9a61a-cb48-4ecc-9297-199f5897d32b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="da224f20-9f09-400d-8305-192f1612a5d6"
->
-</ReqRef><ReqRef
- Id="65c0616d-9c81-42f1-907b-c71e0d73d3ff"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d59abadd-09e6-460c-8762-4a70acf8be97"
->
-</ReqRef><Comment>Report the consistency error to the RBC, if there is a connection.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send position report with error information"
- Guid="812b290e-0841-41bd-97e2-01729a2763f7"
->
-<PreConditions>
-<PreCondition
- Guid="1ab6b030-5011-4880-9827-8285d95422cf"
->EURORADIO.RBCConnection.SafeRadioConnectionAvailable()</PreCondition><PreCondition
- Guid="e9f371b8-3016-4d71-afad-73cc64ced5e8"
->NOT Linking.BGIsLinked(aBaliseGroup)
-  OR  
-THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_BG(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Add error report"
- Guid="56333c3f-2592-43a6-ac62-8d7284716de7"
->
-<Comment>Add the error report to the position report.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Linked BG"
- Guid="65d44a0f-99db-4d1b-923f-f4c158dfe2c1"
->
-<Comment>Linked BG.</Comment>
-<PreConditions>
-<PreCondition
- Guid="1b712eb9-748d-46bf-8c8d-c27d38cd9233"
->Linking.BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
- Guid="ef730bb5-0b67-4d71-b150-1292cafb0287"
->EURORADIO.RBCConnection.CurrentRBCConnection().SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a799a8d5-87d6-44ca-89ee-51fdaf8c1bda"
->EURORADIO.Messages.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.Messages.PositionReport.InconsistentMessageTypeEnum.LinkedBalise</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Unlinked BG"
- Guid="4daecb81-7538-4b24-adeb-8ef97d3f5496"
->
-<Comment>Unlinked BG.</Comment>
-<PreConditions>
-<PreCondition
- Guid="65edcb1c-73ff-444e-a73a-95910c623c13"
->NOT Linking.BGIsLinked( aBaliseGroup )</PreCondition><PreCondition
- Guid="8fef0a34-9077-40dd-b45b-32573ed3e43a"
->EURORADIO.RBCConnection.CurrentRBCConnection().SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="799a57f6-ac42-4626-a3a5-fd1e9fba2324"
->EURORADIO.Messages.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- EURORADIO.Messages.PositionReport.InconsistentMessageTypeEnum.UnlinkedBalise</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Unexpected balise group in SR"
- Guid="c2cd2dfc-7468-4668-8397-8974febbe40f"
->
-<ReqRef
- Id="f7cb96a8-a052-46e7-a159-d08ccb5dac88"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9977b0fd-aeb1-46b5-90a5-273ff98f4f23"
->
-</ReqRef><Comment>If the BG was an unexpected BG in SR, record it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Unexpected balise group in SR"
- Guid="c44f30b4-3bff-498e-a43a-202343160468"
->
-<PreConditions>
-<PreCondition
- Guid="a47c04d5-4689-414f-a8d4-166bb5b49175"
->NOT Kernel.Modes.StaffResponsible.BGIsExpected(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check Override"
- Guid="09461e53-fbd0-411d-bf24-e120886a608a"
->
-<Comment>The actions depoend on whether the Override function is active.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Override active"
- Guid="5719c186-4073-47b5-bf4f-6e0e9d3bf64b"
->
-<ReqRef
- Id="772e0087-dcb8-45bf-a888-56863cd592af"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b7d9cb74-e25e-4b10-85d1-c1b96eec0f87"
->
-</ReqRef><ReqRef
- Id="f8000cfa-0807-4266-8df9-c687e29b4770"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5f3e462e-cc2e-4c47-b1fa-8d46bb271e0b"
->
-</ReqRef><Comment>If Override is active, then the only consequence on the unexpected balise is ending the Override.</Comment>
-<PreConditions>
-<PreCondition
- Guid="99004535-a5d7-4dad-b64c-4b6ccd0e0a0a"
->Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="50b573f5-f985-4c63-a42e-68a3738515a0"
->Kernel.Override.EndOverride()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Otherwise"
- Guid="52c4be68-2cd6-4ce2-b857-cea879dcfd47"
->
-<Comment>Otherwise, the the train will Trip.</Comment>
-<PreConditions>
-<PreCondition
- Guid="e6c3708a-6599-485b-9b48-0b9a8b0301e7"
->NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="da4003ca-f51b-4105-998f-3eb77cbdfcde"
->Kernel.Modes.StaffResponsible.UnexpectedBGPassed&lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Unexpected balise group in SH"
- Guid="c932b8c3-9773-4418-9a68-4dcd2a64b2fd"
->
-<ReqRef
- Id="aef89c33-3eb6-459c-901c-72a521999db9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="134441a7-0776-422a-ba02-59638975391e"
->
-</ReqRef><Comment>If the BG was an unexpected BG in SH, record it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Unexpected balise group in SH"
- Guid="e7abda65-9d6a-40d0-95a4-d37a44db0a24"
->
-<PreConditions>
-<PreCondition
- Guid="1a66017d-8154-4a70-9301-095525ea691d"
->NOT Kernel.Modes.Shunting.BGIsExpected(aBaliseGroup)</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Check Override"
- Guid="4943ad82-27d7-43c4-b277-643868333dfe"
->
-<Comment>The actions depoend on whether the Override function is active.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Override active"
- Guid="6f42a3b6-0413-4061-a5fb-ab1fea4beb13"
->
-<ReqRef
- Id="772e0087-dcb8-45bf-a888-56863cd592af"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d332e7a-6bd1-4a3f-afbb-4273099d0492"
->
-</ReqRef><ReqRef
- Id="f8000cfa-0807-4266-8df9-c687e29b4770"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e94c9171-3088-46d7-b3c7-d192767e41b8"
->
-</ReqRef><Comment>If Override is active, then the only consequence on the unexpected balise is ending the Override.</Comment>
-<PreConditions>
-<PreCondition
- Guid="4d72ed6a-34ed-4ae1-bee2-5d3eee748c56"
->Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a1911e56-0595-4442-9bba-9d751ab62385"
->Kernel.Override.EndOverride()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Otherwise"
- Guid="b6c3eb5c-244e-4a41-8e01-6d3509939a7d"
->
-<Comment>Otherwise, the the train will Trip.</Comment>
-<PreConditions>
-<PreCondition
- Guid="dd9b3225-2527-4b38-b5cc-9e1c9a9aec2c"
->NOT Kernel.Override.OverrideIsActive()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="834b94d2-1cc0-44a6-9de5-016da6df76c4"
->Kernel.Modes.Shunting.UnexpectedBGPassed&lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+ Guid="e4a164cf-1029-4a57-86c8-e867cb3d9497"
+>MessageConsistency.InconsistentBGReceived( aBaliseGroup )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -1993,347 +1575,6 @@ THERE_IS linking IN Linking.Linkings | linking.BaliseGroupIdentifier == GetNID_B
 >Linking.Supervision.HandleLinkingSupervision(aBaliseGroup)</Action><Action
  Guid="88417e53-19d1-45f0-af38-2c175e4fbab2"
 >Linking.RAMS.HandleRAMSFunctions(aBaliseGroup)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="150"
- Y="350"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleConsistentMessage"
- Guid="f800b718-c1c5-4270-b280-bc814a553449"
->
-<ReqRef
- Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="57f88de2-990f-44d3-991a-1909b344d05f"
->
-</ReqRef><Comment>Handle the consistent message. It is called twice. Once on non-infill packets, once on infill packets.</Comment>
-<Parameters>
-<Parameter
- Type="Boolean"
- Name="selectInfillPackets"
- Guid="193014b8-4ed7-484f-9049-729b8c6be5e3"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aDistance"
- Guid="d536133d-7f09-4400-a22b-a718712c7ace"
->
-</Parameter><Parameter
- Type="BaliseGroupMessagesCol"
- Name="aBaliseGroup"
- Guid="9fb354e6-3bf1-42ca-8be7-5f10705eb6b1"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle Level Transition Order in balise telegrams"
- Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
->
-<Comment>First, handle the LevelTransitionOrder packets in all the telegrams.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle level transition order packet in balise telegrams"
- Guid="ef4783a5-3854-483a-8f53-38b1d9e72164"
->
-<ReqRef
- Id="c858a6b4-4d06-4efa-83f0-ac640ef8c373"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0e4ea8db-5735-48ad-b453-daa31396cfc8"
->
-</ReqRef><PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="2ee57ad5-960b-4923-b510-882802803ed1"
->APPLY Packets.HandleLTOPacket(
-    aPacket =&gt; Packets.LevelOfTelegram(
-        Infill.CurrentInfillTelegram(
-            selectInfill =&gt; selectInfillPackets, 
-            aTelegram =&gt; X.Telegram)
-         ),
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
-    aDistance =&gt; aDistance
-) ON aBaliseGroup</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Clear mode profile"
- Guid="843333de-ec8d-428b-8030-16cf2ddff736"
->
-<ReqRef
- Id="74a25803-8c28-4708-b506-55a76bd8bc21"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5e05338d-e93e-4b29-8cdd-fb151214b19c"
->
-</ReqRef><ReqRef
- Id="2a495f6e-680c-4def-a6b5-d8bcd1f41a9d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="97826179-bdde-4b4e-8abd-830754d61041"
->
-</ReqRef><ReqRef
- Id="413303d1-7e96-41b7-a03e-3a9d6380e93a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8ea6272d-693d-4454-8053-be46bf1f2925"
->
-</ReqRef><ReqRef
- Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="338c7e89-32fe-495e-ab8e-24ce2eac1f5b"
->
-</ReqRef><ReqRef
- Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8321d3b2-218c-406e-a5c5-f55df74207a9"
->
-</ReqRef><Comment>On reception of a new MA, the previously stored mode profile has to be deleted unless the new MA is an infill MA in which case only that part of the mode profile which is beyond the infill reference location should be deleted.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Clear mode profile if MA received"
- Guid="e44a7aeb-06b0-41ca-b5de-6a1c63e40993"
->
-<PreConditions>
-<PreCondition
- Guid="d1b129b9-3710-484a-a016-43785cf9051e"
-><Comment>Check for the presence of an MA packet within infill or non-infill packets depending on the selectInfillPackets parameter.</Comment>
-THERE_IS X IN aBaliseGroup | (THERE_IS V IN Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram).Sequence1 | ( Available ( V.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY ) OR Available ( V.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY ) ))</PreCondition></PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="MA packet available"
- Guid="e0157cf8-5a4a-4793-9350-acf28037c283"
->
-<Comment>Delete ModeProfile or part of it depending on whther the new MA is infilled or not.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Infill MA"
- Guid="15714707-69ca-42cc-896d-c5d145bdea7a"
->
-<Comment>Delete ModeProfile beyond infill location reference.</Comment>
-<PreConditions>
-<PreCondition
- Guid="197e5eb7-ca0d-49fc-80ef-f9a9c61c8aa9"
->selectInfillPackets</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="840d737c-0711-45fa-aa7c-6d7614ac52b5"
-><Comment>In this case, &apos;aDistance&apos; will be the distance to the infill reference location.</Comment>
-Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation 
-(
-  aDistance
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Non Infill MA"
- Guid="7a2dc097-6738-4924-93b5-ea2506a1f22e"
->
-<Comment>Delete ModeProfile.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d8706bcf-8b81-4e20-975f-d383d003ebcc"
->NOT selectInfillPackets</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="53fff272-02d3-4959-ab47-d2fcffd42bb3"
->Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle general packets in balise telegrams"
- Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
->
-<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams. Some generic packets 
-need to know whether they are infilled or not (e.g. Linking), hence the 
-infilledTelegram parameter.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle general packets in balise telegrams"
- Guid="e7516273-ac16-4172-b145-c531401e38e3"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
->APPLY Packets.HandleTelegram( Message =&gt; Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram), 
-MessageOrientation =&gt; BGOrientation(aBaliseGroup),
-aDistance =&gt; aDistance,
-infilledTelegram =&gt; selectInfillPackets
- ) 
-ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Inform driver if message contains the default balise information"
- Guid="be70b65b-0e74-4a34-962a-f92f146bf80d"
->
-<ReqRef
- Id="2a940406-f81d-432f-bdd6-c0e58ba44bd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d4f2255-bb8d-4158-9c75-a2c7ecaf5042"
->
-</ReqRef><Comment>If any packet contains default balise information, inform the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Message contains default balise information"
- Guid="943f01e2-9679-4524-9ee7-838f59c39f99"
->
-<ReqRef
- Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7e8724cc-a785-4971-9cf7-fcfcfeadb124"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="5d040986-926c-4036-9c26-980d15c5393d"
->THERE_IS telegram IN aBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8622ac62-4d7c-438c-bd38-586c990410ff"
->INSERT
-  Kernel.TextMessages.PlainTextMessageStruct
-  {
-    Text =&gt; &apos;Default balise information received.&apos;
-  }
-IN
-  Kernel.TextMessages.PlainTextMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle MA packet in balise telegrams"
- Guid="8bf64490-ce74-42a8-aa77-fcbf0d2bf6c9"
->
-<ReqRef
- Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a19ddb8b-c51f-40ee-be8e-1b46188a2170"
->
-</ReqRef><ReqRef
- Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="867638d8-ef8f-425d-9c86-1dbd606aacc8"
->
-</ReqRef><ReqRef
- Id="f0ea8f90-356c-47de-a7fd-4827ae488f00"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ffa78bcb-296a-4072-a140-c57067760098"
->
-</ReqRef><Comment>Then, handle the movement authority packet.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle MA packet in balise messages"
- Guid="ae268b7a-92cb-4598-bc02-a2f04005d973"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="2b02118c-1658-46b1-bae6-dc0ff97ec611"
->APPLY Packets.HandleMAPacket
-(
-    aPacket =&gt; Packets.MAOfTelegram ( 
-         Infill.CurrentInfillTelegram(
-            selectInfill =&gt; selectInfillPackets,
-            aTelegram =&gt; X.Telegram )) ,
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
-    aDistance =&gt; aDistance,
-    isInfillMA =&gt; selectInfillPackets
-)
-ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup  )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle Mode Profile packet in balise telegram"
- Guid="0df23762-fca4-4e00-9a26-27caab55459e"
->
-<ReqRef
- Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7b907baf-4341-4167-b523-4aae1850c852"
->
-</ReqRef><ReqRef
- Id="6f370d19-a99b-404b-9718-80331a17d9d4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="211eb7c7-66d8-48d5-9e32-d1658184c3de"
->
-</ReqRef><ReqRef
- Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d70821fe-7e49-4550-a19b-6ee04572ec30"
->
-</ReqRef><ReqRef
- Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3575957d-8238-4e1c-bc07-57ce9f8d2f8d"
->
-</ReqRef><Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle Mode Profile packet in balise telegram"
- Guid="5f12ad32-9f33-4855-a8a7-0406c9644f44"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="42ecabaf-6fb9-4cf2-887a-2b6158ff1c6b"
->APPLY Packets.HandleModeProfilePacket
-(
-    aPacket =&gt; Packets.ModeProfileOfTelegram  
-    ( 
-          Infill.CurrentInfillTelegram(
-             selectInfill =&gt; selectInfillPackets,
-             aTelegram =&gt;  X.Telegram )
-    ),
-    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
-    aDistance =&gt; aDistance,
-    infillModeProfile =&gt; selectInfillPackets
-)
-ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

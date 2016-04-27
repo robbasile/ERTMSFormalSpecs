@@ -460,8 +460,8 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
 </Function></Functions>
 <Procedures>
 <Procedure
- X="40"
- Y="470"
+ X="240"
+ Y="210"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -522,137 +522,277 @@ The relevant procedure is called to store and handle the data contained in the p
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Linking available"
- Guid="ee5a8bbe-075b-4889-b827-8eb384463824"
+ Name="Adhesion factor available"
+ Guid="d5642e3e-304c-4468-91e2-996697f57585"
 >
 <ReqRef
- Id="a3ce052d-3ac7-4adb-a97c-c53d647cded7"
+ Id="edb711e6-2b8c-4c00-88b8-563ee23ec94b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="729e4e83-d2d2-40f1-8b2e-3414452f81a9"
+ Guid="10b3393f-d736-4af5-baa4-8d492566e0a0"
 >
 </ReqRef><ReqRef
- Id="4ae178ee-6db4-474c-aa88-d5f8bd8ea1d7"
+ Id="115b09d2-66f8-4553-9085-6484d37ec385"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="82c4cc0c-66ea-4a14-b302-490fb733c5a2"
+ Guid="fcd09a16-ff2b-4fd8-8a5f-9398280995f4"
 >
 </ReqRef><ReqRef
- Id="5e8ed861-509f-4d98-8c04-8bea3a8cd6c6"
+ Id="f83a7563-dcc4-4041-8201-a5d79f86a5c0"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c406e150-d303-4dd6-a853-f797e41df06a"
+ Guid="7dc9c887-3bad-458b-8366-67c48f7f9747"
 >
 </ReqRef><ReqRef
- Id="4a52b034-1229-440d-b33c-bd9b65c26dab"
+ Id="ed2472a1-ec6f-4b94-b43e-a0b17ee7080c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e5f46219-8aa8-4efb-909f-5049863aff96"
+ Guid="cbdfafe3-98a1-4e46-87df-3e4056d65c43"
 >
 </ReqRef><ReqRef
- Id="0d145136-9c1d-4c04-bd9a-5987931ed765"
+ Id="7ee3b877-7ff2-4541-aa86-6af70c0cb7c6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c2cd562b-ed41-4e52-aaf4-21994a871464"
+ Guid="03a19c5e-5b39-4b5f-9eb0-7f9546959a7b"
+>
+</ReqRef><ReqRef
+ Id="903134a0-7b20-4b2e-ab42-30cae27fea81"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="72df286c-b028-4f29-be77-e201172cc4a5"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="675acaac-123e-4d0b-84dc-67359475d56f"
+ Guid="9b3dbfb9-ce69-4147-99ce-c77c38d3a2d1"
 >
-</ReqRef><Comment>Handles linking packet, if available.</Comment>
+</ReqRef><Comment>Handles Adhesion Factor packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="740ed4a7-b7cc-46f8-b0c9-dd3a37c4a2c5"
+ Guid="3df15a50-e4cd-4343-8a41-cb8d3cec0b37"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LINKING.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ADHESION_FACTOR.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="04ae732a-d2f6-421d-8ffe-17d22831641d"
->Kernel.AcceptInformation.Linking( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="5a708ddb-07ae-4860-89ce-d0747b1ab121"
+>Kernel.AcceptInformation.AdhesionFactor( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="250427e6-8ddb-431d-a76d-b4432281374f"
->Linking.LinkingProfileReceived(
-    Packet =&gt; Packet.TRACK_TO_TRAIN.LINKING,
-    aDistanceFromRef =&gt; aDistance,
-    infilledLinking =&gt; infilledPacket
-)</Action></Actions>
+ Guid="962f5801-f0a9-42c3-a4c0-6ea2c50f0797"
+>Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="National Values available"
- Guid="4574cd3f-8492-4e0c-a1d8-c04d2324f265"
+ Name="Axle Load Speed Profile available"
+ Guid="f7984559-8457-4272-977c-a4c77df06487"
 >
 <ReqRef
- Id="766f0274-5b6e-4050-a48d-226dccf68782"
+ Id="0bc77f7e-62ac-42cc-bf02-051522a4d11a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8e7814fa-2ca8-4150-ac0f-0e8939d52c32"
+ Guid="a2bfd9db-c889-4bf3-91e1-b1a74acca3ed"
 >
 </ReqRef><ReqRef
- Id="967fe971-b137-4079-b900-5f6c1f5f25ff"
+ Id="6a6eebd7-7178-4712-b7fa-135df10c5a4c"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ba4ae04f-33e3-467c-86c7-c8b361bb570f"
+ Guid="3741a9bd-7bad-48fa-af4e-6a49ba8b3035"
 >
 </ReqRef><ReqRef
- Id="da594ef9-d8e9-4553-af3e-77f9102ec171"
+ Id="a3345820-31df-4b78-835f-d02b8d42d3bc"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="459bf5f8-2273-40d3-8549-3b6d58b7dfd5"
+ Guid="fd48f242-0f6e-42c2-b2b6-a5833d9a5635"
+>
+</ReqRef><ReqRef
+ Id="9e4cc30b-7c23-4202-aa4b-87839eea29a1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a846ead-4f95-4e27-b0f7-c1ccbbf3590f"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="41106ae2-f7bb-4465-b932-78232dc6e469"
+ Guid="dca6b8bc-0668-448b-ab1b-00b3411d6eeb"
 >
-</ReqRef><Comment>Handles National Values packet, if available.</Comment>
+</ReqRef><Comment>Handles Axle Load packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="5ba39e2d-0d86-4404-b853-53b808070955"
+ Guid="7e4e2969-37b5-42c9-be79-a5cabaec81d7"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.NATIONAL_VALUES.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="6f2ee328-827c-4fb1-93da-3d55a15e4fb4"
->Kernel.AcceptInformation.NationalValues( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="0850e212-45c4-447c-ae3b-a10a6ccc2731"
+>Kernel.AcceptInformation.AxleLoadSpeedProfile( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="2719277d-f12f-479c-8278-abb173a2d862"
->Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+ Guid="d6ca9514-566f-4887-a3f1-0764c122aa72"
+>Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Repositioning Information available"
- Guid="36a11ebc-d5b0-4502-aa98-6972b7158392"
+ Name="Conditional Level Transition Order available"
+ Guid="0d362c8e-af10-4435-ab72-0549d5138943"
 >
 <ReqRef
- Id="d68a643a-2faa-429a-a1d6-2724d7c3ccbc"
+ Id="51ddbc44-360a-4339-9b7c-fc91347a5da2"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="165c9b40-d9d0-4661-8b16-be10960d7c80"
+ Guid="0bc128a5-192b-44fe-9d95-5b1cb7d5232d"
 >
 </ReqRef><ReqRef
- Id="62aa6f8e-f444-4ed1-90b7-43dc64aa7594"
+ Id="377cc4cc-52bc-4bc6-8489-759a13078b63"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="680a4c3b-fd19-4bd8-8d77-e450c704f254"
+ Guid="f8f13fbe-4d40-49a7-8358-0d5681997ea5"
 >
-</ReqRef><ReqRef
- Id="08e951b3-e2c5-45bd-a768-68580e2d4307"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6a5c4a18-a8d3-4e4a-ae6b-b79ef9b41293"
->
-</ReqRef><ReqRef
- Id="c786d14c-c637-4877-8d02-28ce94f66515"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="84d2f221-ed2d-4ef1-99f7-9074ef84cb68"
->
-</ReqRef><Comment>Handles Repositioning information packet, if available.</Comment>
+</ReqRef><Comment>Handles Conditionan Level Transition Order packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="a5ae63f6-8d36-44a3-bbd2-212a49b20d81"
+ Guid="7d08f93b-f3cf-41fe-8d7c-ded1a543e64d"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="d86ad34c-f29d-4680-8d17-fef9ba598939"
->BTM.Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition><PreCondition
- Guid="0fa33894-ee64-4a71-b7fb-662d079bb38b"
->Kernel.AcceptInformation.RepositioningInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="d97dda75-aa31-4a67-9b83-9d5f0812eda4"
+>Kernel.AcceptInformation.ConditionalLevelTransitionOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="11ff0426-7369-4b98-8ea9-b7674aadda0c"
->Kernel.MA.RepositioningInformationReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION, DistanceToBG =&gt; DistanceFromReference(True) )</Action></Actions>
+ Guid="edbec74c-90c8-4666-8493-c72753b8e924"
+>Kernel.LevelTransition.CLTOReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Danger for Shunting Information available"
+ Guid="e8ccf594-23b3-4744-b15f-c4b35864e52f"
+>
+<ReqRef
+ Id="7fc85086-374e-4ffb-8cf2-1b9f49820e19"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15a6020a-063d-4e4b-9cff-bf13e794d102"
+>
+</ReqRef><ReqRef
+ Id="48f89af6-963e-401c-b92f-a9358f6df7a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bbaee891-2543-4787-a0ff-b5e598fb457b"
+>
+</ReqRef><ReqRef
+ Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="af8bc229-2270-4e7f-8349-2b622375e36c"
+>
+</ReqRef><Comment>Handles danger for shunting information packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ee3f0441-5064-4305-9a97-cb34fdfcb6ae"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="cd9409cf-f236-4e01-b50f-35db0d073fff"
+>Kernel.AcceptInformation.DangerForSHInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f9fc9537-6eef-4645-990f-5fbf39d7d5be"
+>Kernel.Modes.Shunting.DangerForShuntingReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Default Gradient for TSR available"
+ Guid="18227d52-0953-4a2b-bce9-bb1eb4ee7ea6"
+>
+<ReqRef
+ Id="02d9f252-59e9-4dbb-a7cc-b66f2b96fe25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fe789e53-144f-4e59-bce0-c5694d6ce0c7"
+>
+</ReqRef><ReqRef
+ Id="e7979a56-555a-422e-9a04-9210ecca2b25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="89d8594e-bd6d-487b-b2f1-030bd881ea7b"
+>
+</ReqRef><ReqRef
+ Id="e1e65985-7379-4bca-be54-78d665b5f59b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="74533123-26df-4d3a-8361-7b8b097f09b9"
+>
+</ReqRef><Comment>Handles Default Gradient for TSR packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="547b3821-fa99-449c-83b4-8d095143005d"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="5dc5809b-4774-4887-8dc5-2115747ced74"
+>Kernel.AcceptInformation.DefaultGradientForTSR( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="dd9b765f-3dcf-48d2-bac3-19ee389e9f1a"
+>Kernel.TrackDescription.Gradient.DefaultGradientForTSRReceived ( Packet.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Fixed text message available"
+ Guid="b6057604-414a-41d3-832f-b7d12d856cab"
+>
+<ReqRef
+ Id="85fef952-5e74-4514-b7d4-1c70f23587c0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="acc0c4a9-782b-4c2b-bb9e-bab94186c287"
+>
+</ReqRef><ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02d12123-9562-4dda-a3f9-6397a02aedaa"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="97136d4f-6d25-4064-af7a-d1aa768083b2"
+>
+</ReqRef><ReqRef
+ Id="52943307-1c06-4cc3-94d3-f778ce8dd8d6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4bf50b4c-52b0-4da2-800c-2b9bef9e3258"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6281d087-992c-4f9c-94fd-b93ee85d03c9"
+>
+</ReqRef><Comment>Handles fixed text message packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cfc39b91-6fff-4355-b014-54bb786fdf6d"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="1dc85993-5040-4605-bb00-d6e220f6c2dd"
+>Kernel.AcceptInformation.FixedTextInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1db0e5a3-813a-47ec-82c2-e6aa26ebb770"
+>Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Geographical Position Information available"
+ Guid="58f36235-339e-4d9e-a330-534564370838"
+>
+<ReqRef
+ Id="bfb92914-1319-4a13-bb8f-c623e5f7e53a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b847fa2e-92db-443a-878c-7e801b35892a"
+>
+</ReqRef><ReqRef
+ Id="16e1df6b-c27b-4c82-8dcf-37b394753241"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="18d0aefc-97f4-4a87-99ea-513e747f15ef"
+>
+</ReqRef><ReqRef
+ Id="3f471e44-8594-4731-ba67-b7173dc06106"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f536e705-bca2-45fb-a91f-bf477c1ef940"
+>
+</ReqRef><Comment>Handles Geographical Position packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e7d4f283-e559-4695-af6d-3d536bd9b26f"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="132a1d5d-1ce0-4c2a-a4de-f9c2704da604"
+>Kernel.AcceptInformation.GeographicalPosition( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1c876aff-a87a-4254-9bd2-29322f74ea4b"
+>Kernel.GeographicalPosition.GeographicalPositionReceived ( aPacket=&gt; Packet.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Gradient Profile available"
@@ -746,181 +886,130 @@ The relevant procedure is called to store and handle the data contained in the p
 >Kernel.TrackDescription.StaticSpeedProfile.StaticSpeedProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.INTERNATIONAL_STATIC_SPEED_PROFILE, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Track Condition Change of traction system available"
- Guid="fc4e8dd5-7ad3-4fd2-b44a-13afc089db60"
+ Name="Level Crossing information available"
+ Guid="3ca382d8-714f-4601-a04e-5e6340ece1bb"
 >
 <ReqRef
- Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
+ Id="0f039a3b-873b-484c-913f-292a6031b162"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1d812680-2c70-4fbf-a7a5-33665bb908ad"
+ Guid="dd858604-cb55-4252-87a2-7a1b27172996"
 >
 </ReqRef><ReqRef
- Id="2559c745-3a6f-444a-b3bd-fb143a2a1fc6"
+ Id="8a060a51-4b93-4eb7-aa9b-5b5c264b6820"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e664de52-c95e-45a0-8e42-e3bbcb3d67a1"
+ Guid="ed90fe7b-8bf5-48ae-9e67-71af60a9e0cc"
 >
 </ReqRef><ReqRef
- Id="9221690b-b0bc-4a5c-9307-9de49243cfef"
+ Id="4744429f-fce3-4833-817a-c0cd74ffcd7f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0e26a34c-60d6-4a61-b9ea-9147b49412f4"
+ Guid="9e8d51c7-a816-47a4-bebb-7b8c472c39a6"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d645e84f-c87d-4359-ba28-bae5edf05206"
+ Guid="503c19d5-7218-4650-b01e-cfd61b0975e7"
 >
-</ReqRef><Comment>Handles Track Condition Change of Traction System packet, if available</Comment>
+</ReqRef><Comment>Handles Level Crossing packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="08e11111-2014-42e6-98f6-54a7fe1b3c8e"
+ Guid="e44772b8-5ec5-4de6-9609-3ddde969f874"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="9fda324c-48ab-40d4-a6c3-a266822c2cb5"
->Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="8daf8ed5-ae52-4f28-8c1f-9db08ae5c8ad"
+>Kernel.AcceptInformation.LevelCrossingInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
+  OR
+True</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="0720e95d-207d-40f6-9fb3-40fbbf1628f7"
->Kernel.TrackDescription.TrackConditions.TractionSystems.HandleTractionSystemProfile(
-    Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, 
-    aDistanceFromRef =&gt; aDistance )</Action></Actions>
+ Guid="961a9459-5891-48f0-8de2-eddc845ec82f"
+>Kernel.LX.LXReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Track Condition Change of allowed current consumption available"
- Guid="8448c5a5-bbd8-48f5-ae84-e1b63f672c7d"
+ Name="Level Transition Order available"
+ Guid="5f1e3e65-a3ef-4e80-912c-fb9c02e93e8b"
 >
 <ReqRef
- Id="3b292c0a-1360-49a7-9047-9707757f6e7b"
+ Id="6b26f38c-d98d-4eee-a314-ae6b48256d36"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="190fb223-2c21-4e2f-abdd-bca79a7608e4"
+ Guid="961c810f-337d-47d8-b58d-d30ed7065bdb"
 >
 </ReqRef><ReqRef
- Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
+ Id="3c872475-fbad-4a03-b13a-a6fa51c6a722"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="47ea4e15-5a4d-4581-b3fa-17ea4b4ab0fa"
->
-</ReqRef><ReqRef
- Id="526da681-fc2c-4e56-908e-7d41f5632d7e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fdc21444-3601-465f-bb86-965441d7340d"
+ Guid="25e16a8b-c824-417d-80ce-3dc80c2ae039"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7ba7ed8b-ca2d-425b-a7e1-1c6ff3513492"
+ Guid="4341b2f6-2291-4e80-855a-6d8a37deddc4"
 >
-</ReqRef><Comment>Handles Track Condition Change of allowed current consumption packet, if available</Comment>
+</ReqRef><Comment>Handles Level Transition packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="2ae476f8-85fe-405e-9228-8e0cf7bf9516"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION.Q_DIR,
+ Guid="c699e0e8-5eba-4330-a272-1e0c67473cbc"
+>ConsiderBTMPacket (
+    PacketOrientation=&gt;Packet.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="e320cf30-ddc4-4568-94c4-370dc6fac3e0"
->Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="f3afa4bc-a50e-4fbb-818c-4f503b306e90"
->Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; aDistance)</Action></Actions>
+ Guid="52d75df0-f01e-4f02-878e-11fe1a035ea6"
+>Kernel.LevelTransition.LTOReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; aDistance)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Session Management available"
- Guid="68003d12-e6dc-4138-a684-695bf74a4f41"
+ Name="Linking available"
+ Guid="ee5a8bbe-075b-4889-b827-8eb384463824"
 >
 <ReqRef
- Id="ff45f18e-7a7b-412e-8847-569b6605d632"
+ Id="a3ce052d-3ac7-4adb-a97c-c53d647cded7"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="93a3b5b2-7382-44ed-90cc-739df63b7fb8"
+ Guid="729e4e83-d2d2-40f1-8b2e-3414452f81a9"
 >
 </ReqRef><ReqRef
- Id="af0db000-6b09-4a25-b01b-439fa27cbc6a"
+ Id="4ae178ee-6db4-474c-aa88-d5f8bd8ea1d7"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5f525ce1-f6fd-45db-a9bc-14e85abac630"
+ Guid="82c4cc0c-66ea-4a14-b302-490fb733c5a2"
 >
 </ReqRef><ReqRef
- Id="18318a83-420a-41a7-b3eb-e4e67f1e3f97"
+ Id="5e8ed861-509f-4d98-8c04-8bea3a8cd6c6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="551dbd77-2393-41c7-9fed-40126a123a95"
+ Guid="c406e150-d303-4dd6-a853-f797e41df06a"
 >
-</ReqRef><Comment>Handles Session Management packet, if available.</Comment>
+</ReqRef><ReqRef
+ Id="4a52b034-1229-440d-b33c-bd9b65c26dab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5f46219-8aa8-4efb-909f-5049863aff96"
+>
+</ReqRef><ReqRef
+ Id="0d145136-9c1d-4c04-bd9a-5987931ed765"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c2cd562b-ed41-4e52-aaf4-21994a871464"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="675acaac-123e-4d0b-84dc-67359475d56f"
+>
+</ReqRef><Comment>Handles linking packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="e5602e17-2393-423c-b397-89dcba576dcf"
+ Guid="740ed4a7-b7cc-46f8-b0c9-dd3a37c4a2c5"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LINKING.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="26169b37-911f-4e40-9127-f2f5a4805ea3"
->Kernel.AcceptInformation.SessionManagement( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="04ae732a-d2f6-421d-8ffe-17d22831641d"
+>Kernel.AcceptInformation.Linking( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="8e4e8741-f67b-46ff-a5e6-fcfa1ce7192f"
->EURORADIO.RBCConnection.Contact.TracksideOrderedSessionReceived(Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Radio Network registration available"
- Guid="2b59e652-a400-4d6a-89c2-e13efd458d81"
->
-<ReqRef
- Id="6476afb5-0645-4298-926a-e67147752ddf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b32c1d05-cb39-483f-8534-e688a9e7a3f4"
->
-</ReqRef><ReqRef
- Id="031d12f5-b1df-4716-9eda-a3495861e160"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5aaf0fc4-3913-45e1-ad04-f0030332d4b7"
->
-</ReqRef><ReqRef
- Id="da86aaf7-6b30-4a15-b59d-37e639bcdfc8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e4041e40-e667-4343-ba04-8dda9ee940ec"
->
-</ReqRef><Comment>Handles Radio Network registration packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="7dde0488-8df7-418d-95ee-21082e23dfa7"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="080e884b-999a-43f0-91f0-7d8e8a6b11ec"
->Kernel.AcceptInformation.RadioNetworkRegistration( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="29555d56-e93d-4b03-bcd8-cd57ddaba9f7"
->EURORADIO.Terminal.RadioNetworkRegistrationReceived ( aPacket=&gt;Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Conditional Level Transition Order available"
- Guid="0d362c8e-af10-4435-ab72-0549d5138943"
->
-<ReqRef
- Id="51ddbc44-360a-4339-9b7c-fc91347a5da2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0bc128a5-192b-44fe-9d95-5b1cb7d5232d"
->
-</ReqRef><ReqRef
- Id="377cc4cc-52bc-4bc6-8489-759a13078b63"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f8f13fbe-4d40-49a7-8358-0d5681997ea5"
->
-</ReqRef><Comment>Handles Conditionan Level Transition Order packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="7d08f93b-f3cf-41fe-8d7c-ded1a543e64d"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="d97dda75-aa31-4a67-9b83-9d5f0812eda4"
->Kernel.AcceptInformation.ConditionalLevelTransitionOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="edbec74c-90c8-4666-8493-c72753b8e924"
->Kernel.LevelTransition.CLTOReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.CONDITIONAL_LEVEL_TRANSITION_ORDER )</Action></Actions>
+ Guid="250427e6-8ddb-431d-a76d-b4432281374f"
+>Linking.LinkingProfileReceived(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.LINKING,
+    aDistanceFromRef =&gt; aDistance,
+    infilledLinking =&gt; infilledPacket
+)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="List of balises for SH Area available"
@@ -962,48 +1051,190 @@ The relevant procedure is called to store and handle the data contained in the p
 >Kernel.Modes.Shunting.HandleNewListOfBaliseGroups ( Packet =&gt; Packet.TRACK_TO_TRAIN.LIST_OF_BALISES_FOR_SH_AREA )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Axle Load Speed Profile available"
- Guid="f7984559-8457-4272-977c-a4c77df06487"
+ Name="LSSMA display toggle order available"
+ Guid="693073bb-3954-46f2-a554-5ac6a8f876d7"
 >
 <ReqRef
- Id="0bc77f7e-62ac-42cc-bf02-051522a4d11a"
+ Id="a6eade55-4b84-45f2-a021-fd589f3d1760"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a2bfd9db-c889-4bf3-91e1-b1a74acca3ed"
+ Guid="c179bd82-0773-4e55-af7e-4d2770287dee"
 >
 </ReqRef><ReqRef
- Id="6a6eebd7-7178-4712-b7fa-135df10c5a4c"
+ Id="6eeca2b4-7feb-46e5-9918-59197fd2bd89"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3741a9bd-7bad-48fa-af4e-6a49ba8b3035"
+ Guid="d7a77846-723c-4382-a8af-167818814509"
+>
+</ReqRef><Comment>Handles LSSMA display toggle order packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6849aabe-b0ac-4fbc-8d10-a3200c6580e6"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="7efc1a9f-9602-44bc-9569-71ebb28a94ac"
+>(
+  Kernel.AcceptInformation.LSSMADisplayToggleOffOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
+    AND
+  Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_LSSMA == Messages.Q_LSSMA.Toggle_off
+)
+  OR
+(
+  Kernel.AcceptInformation.LSSMADisplayToggleOnOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
+    AND
+  Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_LSSMA == Messages.Q_LSSMA.Toggle_on
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="004ed3f5-351e-4130-868e-a4960e2b944e"
+>Kernel.Modes.LimitedSupervision.LSSMAToggleReceived(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER,
+    Timestamp =&gt; BTM.BGLocationReference.Timestamp
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="MA Lvl1 available"
+ Guid="d268c47d-602c-4549-aab4-1541c75205f4"
+>
+<ReqRef
+ Id="ab5117d0-92b0-4488-9084-9e07dba02cec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c47a5a53-84ac-4562-9979-531be2defee9"
 >
 </ReqRef><ReqRef
- Id="a3345820-31df-4b78-835f-d02b8d42d3bc"
+ Id="f4723221-15fd-4636-851f-08a437cc18e6"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fd48f242-0f6e-42c2-b2b6-a5833d9a5635"
+ Guid="79026bf6-0003-44dd-80e2-90afc8b8b987"
 >
 </ReqRef><ReqRef
- Id="9e4cc30b-7c23-4202-aa4b-87839eea29a1"
+ Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9a846ead-4f95-4e27-b0f7-c1ccbbf3590f"
+ Guid="22f70d1a-a76e-439c-bdf5-1a10880797ea"
+>
+</ReqRef><ReqRef
+ Id="ab682687-0117-4289-925f-65a6680a3644"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="935b840f-0f34-460d-ad5e-dfeb473503a5"
+>
+</ReqRef><ReqRef
+ Id="20241a08-e360-4144-b573-5a0e657dd9a2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a25dc54-29d3-4938-b92e-fb0f5b37a2c7"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dca6b8bc-0668-448b-ab1b-00b3411d6eeb"
+ Guid="22595e3b-4c44-4777-84e9-d057f61ad1b1"
 >
-</ReqRef><Comment>Handles Axle Load packet, if available.</Comment>
+</ReqRef><Comment>Processes the MA for level 1.</Comment>
 <PreConditions>
 <PreCondition
- Guid="7e4e2969-37b5-42c9-be79-a5cabaec81d7"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE.Q_DIR,
+ Guid="5277d858-f9be-415e-b52c-0e742bb35c08"
+>Packets.ConsiderBTMPacket (
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="0850e212-45c4-447c-ae3b-a10a6ccc2731"
->Kernel.AcceptInformation.AxleLoadSpeedProfile( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="d6ca9514-566f-4887-a3f1-0764c122aa72"
->Kernel.TrackDescription.AxleLoad.AxleLoadProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.AXLE_LOAD_SPEED_PROFILE, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+ Guid="e8f2e263-eb09-49d0-93f3-2f4d98af2694"
+>Kernel.MA.MALvl1ProfileReceived
+(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY,
+    aDistanceFromRef =&gt; aDistance,
+    isInfillMA =&gt; infilledPacket
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Mode Profile"
+ Guid="423c865a-29c8-402c-807e-61b70a9a5867"
+>
+<ReqRef
+ Id="e6b9b34b-5183-45ec-96a2-8eef4909b34c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="19dec718-ae7c-4f9b-bf59-fe5f4a2ce5f5"
+>
+</ReqRef><ReqRef
+ Id="85399986-8b1a-4ee5-ba62-20eb7ca0a3b9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5a8e89a-68af-46b9-8e80-d01bc69509be"
+>
+</ReqRef><ReqRef
+ Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b5a95273-5ea6-47fe-88d7-09f109a361f6"
+>
+</ReqRef><ReqRef
+ Id="2ef2992f-43ce-4f58-abf6-55560cf910bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="be414b46-e05a-49d0-81d0-276ad0fd8fff"
+>
+</ReqRef><ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="60c748c4-6ffd-48db-8256-509ca1d5e9df"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9874877b-cfc0-4e98-b18c-b9bfda371e57"
+>
+</ReqRef><Comment>Handles Mode Profile packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7c611cdb-ccf2-4f3c-a343-9d77f47c5412"
+>ConsiderBTMPacket (
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.MODE_PROFILE.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation )</PreCondition><PreCondition
+ Guid="8d956f8e-378b-482f-bc27-26c54c49af35"
+>Kernel.MA.MAIsAccepted</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2db6933b-ffcd-41fc-b5ab-90177389d406"
+>Kernel.MA.ModeProfile.ModeProfileReceived (
+    Packet =&gt; Packet.TRACK_TO_TRAIN.MODE_PROFILE,
+    GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(BTM.CurrentBaliseGroup),
+    aDistanceFromRef =&gt; aDistance,
+    infillModeProfile =&gt; infilledPacket
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="National Values available"
+ Guid="4574cd3f-8492-4e0c-a1d8-c04d2324f265"
+>
+<ReqRef
+ Id="766f0274-5b6e-4050-a48d-226dccf68782"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8e7814fa-2ca8-4150-ac0f-0e8939d52c32"
+>
+</ReqRef><ReqRef
+ Id="967fe971-b137-4079-b900-5f6c1f5f25ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba4ae04f-33e3-467c-86c7-c8b361bb570f"
+>
+</ReqRef><ReqRef
+ Id="da594ef9-d8e9-4553-af3e-77f9102ec171"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="459bf5f8-2273-40d3-8549-3b6d58b7dfd5"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="41106ae2-f7bb-4465-b932-78232dc6e469"
+>
+</ReqRef><Comment>Handles National Values packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5ba39e2d-0d86-4404-b853-53b808070955"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.NATIONAL_VALUES.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="6f2ee328-827c-4fb1-93da-3d55a15e4fb4"
+>Kernel.AcceptInformation.NationalValues( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2719277d-f12f-479c-8278-abb173a2d862"
+>Kernel.NationalValues.NationalValuesReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.NATIONAL_VALUES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Permitted Braking Distance Information available"
@@ -1048,6 +1279,369 @@ The relevant procedure is called to store and handle the data contained in the p
 <Action
  Guid="a7bf6d39-8ef9-4f76-b5e1-4b42aae162ea"
 >Kernel.TrackDescription.PermittedBrakingDistance.PermittedBrakingDistanceProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.PERMITTED_BRAKING_DISTANCE_INFORMATION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Plain text message available"
+ Guid="ddb5d31a-d42a-4f09-8e82-268f192f63d0"
+>
+<ReqRef
+ Id="cc1f66d4-6eec-4fe4-a302-2e6287ccb3f0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cb6397f1-eaa3-49b2-b6c1-bca940170c53"
+>
+</ReqRef><ReqRef
+ Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c41b327b-3426-4505-8aea-0fda63d12f3d"
+>
+</ReqRef><ReqRef
+ Id="13227255-d959-4724-9371-31427e4538a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="643e7b8b-78b4-4ea4-82fe-b560d0cc0bd1"
+>
+</ReqRef><ReqRef
+ Id="2b4cc227-208a-49c5-8f4c-a566e7eac74b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="885582da-e304-43fe-987a-6e05289ee108"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6fb7ee4f-8ecc-432c-b53f-8871bb7b1493"
+>
+</ReqRef><Comment>Handles plain text message packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d8ba5bcd-8223-429d-8277-f448777e729d"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="4f7c7fe6-236a-4386-aea5-ac1f82161f3a"
+>Kernel.AcceptInformation.PlainTextInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7713bd12-2bc6-49fa-ab02-d4c7ff500cb1"
+>Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Radio Network registration available"
+ Guid="2b59e652-a400-4d6a-89c2-e13efd458d81"
+>
+<ReqRef
+ Id="6476afb5-0645-4298-926a-e67147752ddf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b32c1d05-cb39-483f-8534-e688a9e7a3f4"
+>
+</ReqRef><ReqRef
+ Id="031d12f5-b1df-4716-9eda-a3495861e160"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5aaf0fc4-3913-45e1-ad04-f0030332d4b7"
+>
+</ReqRef><ReqRef
+ Id="da86aaf7-6b30-4a15-b59d-37e639bcdfc8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4041e40-e667-4343-ba04-8dda9ee940ec"
+>
+</ReqRef><Comment>Handles Radio Network registration packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7dde0488-8df7-418d-95ee-21082e23dfa7"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="080e884b-999a-43f0-91f0-7d8e8a6b11ec"
+>Kernel.AcceptInformation.RadioNetworkRegistration( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="29555d56-e93d-4b03-bcd8-cd57ddaba9f7"
+>EURORADIO.Terminal.RadioNetworkRegistrationReceived ( aPacket=&gt;Packet.TRACK_TO_TRAIN.RADIO_NETWORK_REGISTRATION )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="RBC Transition Order available"
+ Guid="70731a0e-ba5f-484f-a027-c4d09e290b80"
+>
+<ReqRef
+ Id="277de94f-c4cd-4612-97ca-ead1fdd29073"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1bc2eb0c-ef5d-4f83-9cb0-c80ca1ee51b0"
+>
+</ReqRef><ReqRef
+ Id="f69899f9-70f7-4f0e-bc95-d9d97964dc81"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4dd1bba-b81d-4621-b98b-0832708d52cf"
+>
+</ReqRef><ReqRef
+ Id="813504ec-6af8-4d96-be72-5e3b6b595a0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bfd9533a-7171-4d80-8b95-5dc0b2eb2741"
+>
+</ReqRef><ReqRef
+ Id="fb5cdb2c-826a-4be7-babf-d16c11e9720c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d9017d87-989b-4dcc-a391-96224434351b"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="74ba226f-d312-4f1a-bfec-9a7f9fef906c"
+>
+</ReqRef><Comment>Handles RBC Transition order packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="61f518c1-008f-4e7d-ac92-f0ede5ce7df0"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="d37ce7be-6772-4045-a266-ec125aa50d15"
+>Kernel.AcceptInformation.RBCTransitionOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="05bdf5ca-1d21-43e2-bb2e-7ef9acba75c3"
+>EURORADIO.RBCConnection.RBCHandover.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; aDistance)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Repositioning Information available"
+ Guid="36a11ebc-d5b0-4502-aa98-6972b7158392"
+>
+<ReqRef
+ Id="d68a643a-2faa-429a-a1d6-2724d7c3ccbc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="165c9b40-d9d0-4661-8b16-be10960d7c80"
+>
+</ReqRef><ReqRef
+ Id="62aa6f8e-f444-4ed1-90b7-43dc64aa7594"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="680a4c3b-fd19-4bd8-8d77-e450c704f254"
+>
+</ReqRef><ReqRef
+ Id="08e951b3-e2c5-45bd-a768-68580e2d4307"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a5c4a18-a8d3-4e4a-ae6b-b79ef9b41293"
+>
+</ReqRef><ReqRef
+ Id="c786d14c-c637-4877-8d02-28ce94f66515"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="84d2f221-ed2d-4ef1-99f7-9074ef84cb68"
+>
+</ReqRef><Comment>Handles Repositioning information packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a5ae63f6-8d36-44a3-bbd2-212a49b20d81"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="d86ad34c-f29d-4680-8d17-fef9ba598939"
+>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition><PreCondition
+ Guid="0fa33894-ee64-4a71-b7fb-662d079bb38b"
+>Kernel.AcceptInformation.RepositioningInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="11ff0426-7369-4b98-8ea9-b7674aadda0c"
+>Kernel.MA.RepositioningInformationReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.REPOSITIONING_INFORMATION, DistanceToBG =&gt; DistanceFromReference(True) )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Reversing Area or Supervision Information available"
+ Guid="8c565102-6dfc-467b-bba2-7bdae0720fa5"
+>
+<ReqRef
+ Id="571b7bcf-500a-4e43-8f4b-dfb64cfd4845"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9eb1fb56-9f26-49ac-b649-a813769429e3"
+>
+</ReqRef><ReqRef
+ Id="54c20a27-60da-4df1-80ba-7ba841d7258f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="03f063a1-d979-44f2-b73a-f4329f61d3ba"
+>
+</ReqRef><ReqRef
+ Id="f3aec789-8e42-4041-befb-bf3d53519577"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86396db2-9bf2-44f1-85b2-981f6ea478da"
+>
+</ReqRef><ReqRef
+ Id="e9d57d91-d39a-4190-841c-fb33c0eeee48"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="506ea474-c557-42c9-941c-3d1555744dfc"
+>
+</ReqRef><ReqRef
+ Id="f32ad7de-67d9-4075-bb38-75a13996ad98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f217554-67f7-4f8b-8222-39736c4f1466"
+>
+</ReqRef><ReqRef
+ Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ee588ecf-e52d-4e87-89b5-7ceb19383b5f"
+>
+</ReqRef><ReqRef
+ Id="46356051-e464-4ceb-b54c-41ef8dc6017f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6f108d26-7bb6-4017-829b-07be0a892e76"
+>
+</ReqRef><ReqRef
+ Id="c93e250c-fc42-406f-9706-6ec7488b8982"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b139424f-252b-4a32-98af-e3f786f4b561"
+>
+</ReqRef><ReqRef
+ Id="690dfc40-042d-4c8d-9e60-17b85d455fd3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11fb4149-95a7-4929-a77a-4e880788cc70"
+>
+</ReqRef><ReqRef
+ Id="f08e576d-1c61-4c2b-b742-29f729a5728f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93584cec-5df3-41f2-a600-5f9b8a06e9b7"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ab221fe7-18d1-4221-8ccd-a994c25d640b"
+>
+</ReqRef><Comment>Handles Reversion Area Information packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="63bcc506-85c0-4763-9549-2f5c4eec0646"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)
+  OR
+Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1ee33c0c-afa3-45e6-af12-67634aef90fc"
+>Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
+(
+    RvAreaPacket =&gt; Packets.ProvideRevAreaPacketToHandle(
+        aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION,
+        MessageOrientation =&gt; MessageOrientation
+    ),
+    RvSupPacket =&gt; Packets.ProvideRevSupPacketToHandle(
+        aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION,
+        MessageOrientation =&gt; MessageOrientation
+    ),
+  aDistanceFromRef =&gt; aDistance
+)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Route Suitability Data available"
+ Guid="44902d7c-8bf5-4dc5-bae9-be190af0d975"
+>
+<ReqRef
+ Id="3eae43ab-6f26-4908-9360-5a8ce0bec069"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d07142e7-5480-42ec-845a-0f490543849f"
+>
+</ReqRef><ReqRef
+ Id="352086ee-e08d-456c-a884-d2ee94aec4e9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="783c6e19-ecb4-43e6-aa0f-e67c79e1b870"
+>
+</ReqRef><ReqRef
+ Id="655cd82d-364d-40cf-9540-62e1d8292f94"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d30b80de-ed78-424d-b01f-acd191b04430"
+>
+</ReqRef><ReqRef
+ Id="21443e68-000d-4c84-b4f4-17c5373d0a4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b54a6043-dcde-4532-aef6-ee05ecce933b"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dc8b01db-2e34-4ff0-adb2-73a51ef3ae5b"
+>
+</ReqRef><Comment>Handles Route Suitability packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="41f1baa5-c1ed-48ea-91a9-de8a5b5fbaef"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="bf657fe9-3da3-47c9-a5c1-642d726973e4"
+>Kernel.AcceptInformation.RouteSuitabilityData( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="17d0d98e-1746-417e-b3d1-a0409a79647c"
+>Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Session Management available"
+ Guid="68003d12-e6dc-4138-a684-695bf74a4f41"
+>
+<ReqRef
+ Id="ff45f18e-7a7b-412e-8847-569b6605d632"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93a3b5b2-7382-44ed-90cc-739df63b7fb8"
+>
+</ReqRef><ReqRef
+ Id="af0db000-6b09-4a25-b01b-439fa27cbc6a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5f525ce1-f6fd-45db-a9bc-14e85abac630"
+>
+</ReqRef><ReqRef
+ Id="18318a83-420a-41a7-b3eb-e4e67f1e3f97"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="551dbd77-2393-41c7-9fed-40126a123a95"
+>
+</ReqRef><Comment>Handles Session Management packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e5602e17-2393-423c-b397-89dcba576dcf"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="26169b37-911f-4e40-9127-f2f5a4805ea3"
+>Kernel.AcceptInformation.SessionManagement( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8e4e8741-f67b-46ff-a5e6-fcfa1ce7192f"
+>EURORADIO.RBCConnection.Contact.TracksideOrderedSessionReceived(Packet.TRACK_TO_TRAIN.SESSION_MANAGEMENT)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Stop if in Staff Responsible received"
+ Guid="c81a37f3-9453-49af-8106-2a112ae51ef0"
+>
+<ReqRef
+ Id="06ef59af-bb51-412c-87ce-d6392fed31d6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ac70e3a-7371-40ea-ac78-1d94399cfe97"
+>
+</ReqRef><ReqRef
+ Id="31fb455b-2925-497c-b09a-b8b9573a81ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc8c6131-376a-4df9-93e9-6fa93fd35002"
+>
+</ReqRef><ReqRef
+ Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fe412d94-645e-4e66-8efd-d7afe571ecda"
+>
+</ReqRef><Comment>Handles stop if in Staff Responsible packet, if available.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f3d31b2a-4feb-4fc0-89e6-2a8af9b05bb0"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="ae3b8881-0559-4f9b-bf45-671195823a70"
+>Kernel.AcceptInformation.StopIfInSRMode( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b3cc9653-78b6-414b-a8a6-81914195a393"
+>Kernel.Modes.StaffResponsible.StopIfInSRReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Temporary Speed Restriction available"
@@ -1125,389 +1719,6 @@ The relevant procedure is called to store and handle the data contained in the p
 <Action
  Guid="e619da6c-cc31-4f62-be09-57e9632df39f"
 >Kernel.TSR.TemporarySpeedRestrictionRevocationReceived ( Packet=&gt;Packet.TRACK_TO_TRAIN.TEMPORARY_SPEED_RESTRICTION_REVOCATION )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Track Condition Big Metal Masses available"
- Guid="ced1a7db-bddb-4b6e-9e46-0ea249622bfd"
->
-<ReqRef
- Id="a013028b-ded7-4e9f-9521-43654f2cb992"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d9fb7cb1-8637-4910-8436-7ce771958686"
->
-</ReqRef><ReqRef
- Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="551e1e38-b27e-4697-9dcc-60e0b422a7d6"
->
-</ReqRef><ReqRef
- Id="32b93913-0b12-48e8-8867-1fabfb0ae322"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a944689a-9002-41e3-bb3c-13734be82b5c"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c465f4c6-dd9e-4e2b-8036-a00e17534e81"
->
-</ReqRef><Comment>Handles Track Condition Big Metal Masses packet, if available</Comment>
-<PreConditions>
-<PreCondition
- Guid="a21202a1-5f8b-4294-a6a7-80d366dcaf78"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="cca34d29-a193-4757-b982-b2b39d7a641d"
->Kernel.AcceptInformation.TrackConditionsBigMetalMasses( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a8168c14-8dea-4896-9b29-5f71ec706278"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleBMMTrackConditionProfile( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Track Condition available"
- Guid="288dd8f6-b8e0-484e-b5d9-84abc3b56c83"
->
-<ReqRef
- Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e9590434-0ba2-4393-9a3d-2d85419aa7f0"
->
-</ReqRef><ReqRef
- Id="ee609856-411d-4bb2-ab88-76b574aa3013"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8c221cd2-82c8-4ea7-932b-460c26f2c972"
->
-</ReqRef><ReqRef
- Id="46ff0663-ed84-4dea-af46-b87941a77c51"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c81bae62-b211-4262-abf9-f2e877c51023"
->
-</ReqRef><ReqRef
- Id="9eb67bec-5e3a-407d-8b6e-e3d49d57e883"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ddcb67aa-989d-4464-87fa-f13ebb021a8b"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5f326508-7a58-433b-a1c0-7d1d5cd9ac10"
->
-</ReqRef><Comment>Handles Track Condition packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="0d34e791-f010-453b-b97f-105cc27ebddb"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="8f322232-1723-481f-85d9-b14c2fde161e"
->Kernel.AcceptInformation.TrackConditionsIncludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b347e32c-19e6-4ec5-8505-a3bae2deeed2"
->Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Track Condition Station Platforms available"
- Guid="848f07ff-38f9-43db-a24b-426c19fd0b9f"
->
-<ReqRef
- Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="86fe59f8-52b0-4db0-ac6a-f2b2dc6a5150"
->
-</ReqRef><ReqRef
- Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fda02217-3575-4818-8aa9-e47e3ef07114"
->
-</ReqRef><ReqRef
- Id="0be2ea06-0c8b-4622-9a32-bd8954c01555"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e1f6383c-4c01-438c-a0ac-2d720dcd42c1"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2b9cdbfd-6403-4fdb-b2ae-100e777439b8"
->
-</ReqRef><Comment>Handles Track Condition Station Platforms packet, if available</Comment>
-<PreConditions>
-<PreCondition
- Guid="c3cf8574-ecaa-4d54-b4cf-cc3262950012"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="7f7b7b5a-c73f-4577-a4be-fd53a96683e6"
->Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="e37299ce-6e60-4015-9897-e33c8b3ca56c"
->Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; aDistance)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Route Suitability Data available"
- Guid="44902d7c-8bf5-4dc5-bae9-be190af0d975"
->
-<ReqRef
- Id="3eae43ab-6f26-4908-9360-5a8ce0bec069"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d07142e7-5480-42ec-845a-0f490543849f"
->
-</ReqRef><ReqRef
- Id="352086ee-e08d-456c-a884-d2ee94aec4e9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="783c6e19-ecb4-43e6-aa0f-e67c79e1b870"
->
-</ReqRef><ReqRef
- Id="655cd82d-364d-40cf-9540-62e1d8292f94"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d30b80de-ed78-424d-b01f-acd191b04430"
->
-</ReqRef><ReqRef
- Id="21443e68-000d-4c84-b4f4-17c5373d0a4e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b54a6043-dcde-4532-aef6-ee05ecce933b"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dc8b01db-2e34-4ff0-adb2-73a51ef3ae5b"
->
-</ReqRef><Comment>Handles Route Suitability packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="41f1baa5-c1ed-48ea-91a9-de8a5b5fbaef"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="bf657fe9-3da3-47c9-a5c1-642d726973e4"
->Kernel.AcceptInformation.RouteSuitabilityData( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="17d0d98e-1746-417e-b3d1-a0409a79647c"
->Kernel.TrackDescription.RouteSuitability.RouteSuitabilityProfileReceived ( Packet.TRACK_TO_TRAIN.ROUTE_SUITABILITY_DATA, aDistanceFromRef =&gt; aDistance )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Plain text message available"
- Guid="ddb5d31a-d42a-4f09-8e82-268f192f63d0"
->
-<ReqRef
- Id="cc1f66d4-6eec-4fe4-a302-2e6287ccb3f0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cb6397f1-eaa3-49b2-b6c1-bca940170c53"
->
-</ReqRef><ReqRef
- Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c41b327b-3426-4505-8aea-0fda63d12f3d"
->
-</ReqRef><ReqRef
- Id="13227255-d959-4724-9371-31427e4538a4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="643e7b8b-78b4-4ea4-82fe-b560d0cc0bd1"
->
-</ReqRef><ReqRef
- Id="2b4cc227-208a-49c5-8f4c-a566e7eac74b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="885582da-e304-43fe-987a-6e05289ee108"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6fb7ee4f-8ecc-432c-b53f-8871bb7b1493"
->
-</ReqRef><Comment>Handles plain text message packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="d8ba5bcd-8223-429d-8277-f448777e729d"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="4f7c7fe6-236a-4386-aea5-ac1f82161f3a"
->Kernel.AcceptInformation.PlainTextInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7713bd12-2bc6-49fa-ab02-d4c7ff500cb1"
->Kernel.TextMessages.PlainTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Fixed text message available"
- Guid="b6057604-414a-41d3-832f-b7d12d856cab"
->
-<ReqRef
- Id="85fef952-5e74-4514-b7d4-1c70f23587c0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="acc0c4a9-782b-4c2b-bb9e-bab94186c287"
->
-</ReqRef><ReqRef
- Id="c3338b70-b8f1-4525-ae95-a94e1b92981b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="02d12123-9562-4dda-a3f9-6397a02aedaa"
->
-</ReqRef><ReqRef
- Id="13227255-d959-4724-9371-31427e4538a4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="97136d4f-6d25-4064-af7a-d1aa768083b2"
->
-</ReqRef><ReqRef
- Id="52943307-1c06-4cc3-94d3-f778ce8dd8d6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4bf50b4c-52b0-4da2-800c-2b9bef9e3258"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6281d087-992c-4f9c-94fd-b93ee85d03c9"
->
-</ReqRef><Comment>Handles fixed text message packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="cfc39b91-6fff-4355-b014-54bb786fdf6d"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="1dc85993-5040-4605-bb00-d6e220f6c2dd"
->Kernel.AcceptInformation.FixedTextInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1db0e5a3-813a-47ec-82c2-e6aa26ebb770"
->Kernel.TextMessages.FixedTextMessageReceived( aPacket =&gt; Packet.TRACK_TO_TRAIN.PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Adhesion factor available"
- Guid="d5642e3e-304c-4468-91e2-996697f57585"
->
-<ReqRef
- Id="edb711e6-2b8c-4c00-88b8-563ee23ec94b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="10b3393f-d736-4af5-baa4-8d492566e0a0"
->
-</ReqRef><ReqRef
- Id="115b09d2-66f8-4553-9085-6484d37ec385"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fcd09a16-ff2b-4fd8-8a5f-9398280995f4"
->
-</ReqRef><ReqRef
- Id="f83a7563-dcc4-4041-8201-a5d79f86a5c0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7dc9c887-3bad-458b-8366-67c48f7f9747"
->
-</ReqRef><ReqRef
- Id="ed2472a1-ec6f-4b94-b43e-a0b17ee7080c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cbdfafe3-98a1-4e46-87df-3e4056d65c43"
->
-</ReqRef><ReqRef
- Id="7ee3b877-7ff2-4541-aa86-6af70c0cb7c6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="03a19c5e-5b39-4b5f-9eb0-7f9546959a7b"
->
-</ReqRef><ReqRef
- Id="903134a0-7b20-4b2e-ab42-30cae27fea81"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="72df286c-b028-4f29-be77-e201172cc4a5"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9b3dbfb9-ce69-4147-99ce-c77c38d3a2d1"
->
-</ReqRef><Comment>Handles Adhesion Factor packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="3df15a50-e4cd-4343-8a41-cb8d3cec0b37"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.ADHESION_FACTOR.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="5a708ddb-07ae-4860-89ce-d0747b1ab121"
->Kernel.AcceptInformation.AdhesionFactor( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="962f5801-f0a9-42c3-a4c0-6ea2c50f0797"
->Kernel.TrackDescription.AdhesionFactors.AdhesionFactorReceived ( Packet.TRACK_TO_TRAIN.ADHESION_FACTOR, aDistanceFromRef =&gt; aDistance )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Geographical Position Information available"
- Guid="58f36235-339e-4d9e-a330-534564370838"
->
-<ReqRef
- Id="bfb92914-1319-4a13-bb8f-c623e5f7e53a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b847fa2e-92db-443a-878c-7e801b35892a"
->
-</ReqRef><ReqRef
- Id="16e1df6b-c27b-4c82-8dcf-37b394753241"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="18d0aefc-97f4-4a87-99ea-513e747f15ef"
->
-</ReqRef><ReqRef
- Id="3f471e44-8594-4731-ba67-b7173dc06106"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f536e705-bca2-45fb-a91f-bf477c1ef940"
->
-</ReqRef><Comment>Handles Geographical Position packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="e7d4f283-e559-4695-af6d-3d536bd9b26f"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="132a1d5d-1ce0-4c2a-a4de-f9c2704da604"
->Kernel.AcceptInformation.GeographicalPosition( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1c876aff-a87a-4254-9bd2-29322f74ea4b"
->Kernel.GeographicalPosition.GeographicalPositionReceived ( aPacket=&gt; Packet.TRACK_TO_TRAIN.GEOGRAPHICAL_POSITION_INFORMATION )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Level Crossing information available"
- Guid="3ca382d8-714f-4601-a04e-5e6340ece1bb"
->
-<ReqRef
- Id="0f039a3b-873b-484c-913f-292a6031b162"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dd858604-cb55-4252-87a2-7a1b27172996"
->
-</ReqRef><ReqRef
- Id="8a060a51-4b93-4eb7-aa9b-5b5c264b6820"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ed90fe7b-8bf5-48ae-9e67-71af60a9e0cc"
->
-</ReqRef><ReqRef
- Id="4744429f-fce3-4833-817a-c0cd74ffcd7f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9e8d51c7-a816-47a4-bebb-7b8c472c39a6"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="503c19d5-7218-4650-b01e-cfd61b0975e7"
->
-</ReqRef><Comment>Handles Level Crossing packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="e44772b8-5ec5-4de6-9609-3ddde969f874"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="8daf8ed5-ae52-4f28-8c1f-9db08ae5c8ad"
->Kernel.AcceptInformation.LevelCrossingInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
-  OR
-True</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="961a9459-5891-48f0-8de2-eddc845ec82f"
->Kernel.LX.LXReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.LEVEL_CROSSING_INFORMATION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Track Ahead Free up to level 2/3 transition location available"
@@ -1605,238 +1816,206 @@ True</PreCondition></PreConditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="RBC Transition Order available"
- Guid="70731a0e-ba5f-484f-a027-c4d09e290b80"
+ Name="Track Condition available"
+ Guid="288dd8f6-b8e0-484e-b5d9-84abc3b56c83"
 >
 <ReqRef
- Id="277de94f-c4cd-4612-97ca-ead1fdd29073"
+ Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1bc2eb0c-ef5d-4f83-9cb0-c80ca1ee51b0"
+ Guid="e9590434-0ba2-4393-9a3d-2d85419aa7f0"
 >
 </ReqRef><ReqRef
- Id="f69899f9-70f7-4f0e-bc95-d9d97964dc81"
+ Id="ee609856-411d-4bb2-ab88-76b574aa3013"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a4dd1bba-b81d-4621-b98b-0832708d52cf"
+ Guid="8c221cd2-82c8-4ea7-932b-460c26f2c972"
 >
 </ReqRef><ReqRef
- Id="813504ec-6af8-4d96-be72-5e3b6b595a0a"
+ Id="46ff0663-ed84-4dea-af46-b87941a77c51"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bfd9533a-7171-4d80-8b95-5dc0b2eb2741"
+ Guid="c81bae62-b211-4262-abf9-f2e877c51023"
 >
 </ReqRef><ReqRef
- Id="fb5cdb2c-826a-4be7-babf-d16c11e9720c"
+ Id="9eb67bec-5e3a-407d-8b6e-e3d49d57e883"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d9017d87-989b-4dcc-a391-96224434351b"
+ Guid="ddcb67aa-989d-4464-87fa-f13ebb021a8b"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="74ba226f-d312-4f1a-bfec-9a7f9fef906c"
+ Guid="5f326508-7a58-433b-a1c0-7d1d5cd9ac10"
 >
-</ReqRef><Comment>Handles RBC Transition order packet, if available.</Comment>
+</ReqRef><Comment>Handles Track Condition packet, if available.</Comment>
 <PreConditions>
 <PreCondition
- Guid="61f518c1-008f-4e7d-ac92-f0ede5ce7df0"
+ Guid="0d34e791-f010-453b-b97f-105cc27ebddb"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="d37ce7be-6772-4045-a266-ec125aa50d15"
->Kernel.AcceptInformation.RBCTransitionOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="8f322232-1723-481f-85d9-b14c2fde161e"
+>Kernel.AcceptInformation.TrackConditionsIncludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="05bdf5ca-1d21-43e2-bb2e-7ef9acba75c3"
->EURORADIO.RBCConnection.RBCHandover.RBCTransitionOrderReceived ( aPacket =&gt;Packet.TRACK_TO_TRAIN.RBC_TRANSITION_ORDER, aDistanceFromRef  =&gt; aDistance)</Action></Actions>
+ Guid="b347e32c-19e6-4ec5-8505-a3bae2deeed2"
+>Kernel.TrackDescription.TrackConditions.General.TrackConditionProfileReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION, aDistanceFromRef =&gt; aDistance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Danger for Shunting Information available"
- Guid="e8ccf594-23b3-4744-b15f-c4b35864e52f"
+ Name="Track Condition Big Metal Masses available"
+ Guid="ced1a7db-bddb-4b6e-9e46-0ea249622bfd"
 >
 <ReqRef
- Id="7fc85086-374e-4ffb-8cf2-1b9f49820e19"
+ Id="a013028b-ded7-4e9f-9521-43654f2cb992"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="15a6020a-063d-4e4b-9cff-bf13e794d102"
+ Guid="d9fb7cb1-8637-4910-8436-7ce771958686"
 >
 </ReqRef><ReqRef
- Id="48f89af6-963e-401c-b92f-a9358f6df7a4"
+ Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bbaee891-2543-4787-a0ff-b5e598fb457b"
+ Guid="551e1e38-b27e-4697-9dcc-60e0b422a7d6"
 >
 </ReqRef><ReqRef
- Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
+ Id="32b93913-0b12-48e8-8867-1fabfb0ae322"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="af8bc229-2270-4e7f-8349-2b622375e36c"
->
-</ReqRef><Comment>Handles danger for shunting information packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="ee3f0441-5064-4305-9a97-cb34fdfcb6ae"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="cd9409cf-f236-4e01-b50f-35db0d073fff"
->Kernel.AcceptInformation.DangerForSHInformation( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="f9fc9537-6eef-4645-990f-5fbf39d7d5be"
->Kernel.Modes.Shunting.DangerForShuntingReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Stop if in Staff Responsible received"
- Guid="c81a37f3-9453-49af-8106-2a112ae51ef0"
->
-<ReqRef
- Id="06ef59af-bb51-412c-87ce-d6392fed31d6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5ac70e3a-7371-40ea-ac78-1d94399cfe97"
->
-</ReqRef><ReqRef
- Id="31fb455b-2925-497c-b09a-b8b9573a81ff"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cc8c6131-376a-4df9-93e9-6fa93fd35002"
->
-</ReqRef><ReqRef
- Id="d932cea7-ce9f-4909-afff-2c36046cea2a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fe412d94-645e-4e66-8efd-d7afe571ecda"
->
-</ReqRef><Comment>Handles stop if in Staff Responsible packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="f3d31b2a-4feb-4fc0-89e6-2a8af9b05bb0"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="ae3b8881-0559-4f9b-bf45-671195823a70"
->Kernel.AcceptInformation.StopIfInSRMode( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b3cc9653-78b6-414b-a8a6-81914195a393"
->Kernel.Modes.StaffResponsible.StopIfInSRReceived( Packet =&gt; Packet.TRACK_TO_TRAIN.STOP_IF_IN_STAFF_RESPONSIBLE )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Reversing Area or Supervision Information available"
- Guid="8c565102-6dfc-467b-bba2-7bdae0720fa5"
->
-<ReqRef
- Id="571b7bcf-500a-4e43-8f4b-dfb64cfd4845"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9eb1fb56-9f26-49ac-b649-a813769429e3"
->
-</ReqRef><ReqRef
- Id="54c20a27-60da-4df1-80ba-7ba841d7258f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="03f063a1-d979-44f2-b73a-f4329f61d3ba"
->
-</ReqRef><ReqRef
- Id="f3aec789-8e42-4041-befb-bf3d53519577"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="86396db2-9bf2-44f1-85b2-981f6ea478da"
->
-</ReqRef><ReqRef
- Id="e9d57d91-d39a-4190-841c-fb33c0eeee48"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="506ea474-c557-42c9-941c-3d1555744dfc"
->
-</ReqRef><ReqRef
- Id="f32ad7de-67d9-4075-bb38-75a13996ad98"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0f217554-67f7-4f8b-8222-39736c4f1466"
->
-</ReqRef><ReqRef
- Id="796923a0-8b8a-4e7b-8af3-43f3398b27dd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ee588ecf-e52d-4e87-89b5-7ceb19383b5f"
->
-</ReqRef><ReqRef
- Id="46356051-e464-4ceb-b54c-41ef8dc6017f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6f108d26-7bb6-4017-829b-07be0a892e76"
->
-</ReqRef><ReqRef
- Id="c93e250c-fc42-406f-9706-6ec7488b8982"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b139424f-252b-4a32-98af-e3f786f4b561"
->
-</ReqRef><ReqRef
- Id="690dfc40-042d-4c8d-9e60-17b85d455fd3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="11fb4149-95a7-4929-a77a-4e880788cc70"
->
-</ReqRef><ReqRef
- Id="f08e576d-1c61-4c2b-b742-29f729a5728f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="93584cec-5df3-41f2-a600-5f9b8a06e9b7"
+ Guid="a944689a-9002-41e3-bb3c-13734be82b5c"
 >
 </ReqRef><ReqRef
  Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ab221fe7-18d1-4221-8ccd-a994c25d640b"
+ Guid="c465f4c6-dd9e-4e2b-8036-a00e17534e81"
 >
-</ReqRef><Comment>Handles Reversion Area Information packet, if available.</Comment>
+</ReqRef><Comment>Handles Track Condition Big Metal Masses packet, if available</Comment>
 <PreConditions>
 <PreCondition
- Guid="63bcc506-85c0-4763-9549-2f5c4eec0646"
+ Guid="a21202a1-5f8b-4294-a6a7-80d366dcaf78"
 >Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)
-  OR
-Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1ee33c0c-afa3-45e6-af12-67634aef90fc"
->Kernel.TrackDescription.ReversingArea.ReversingAreaOrSupervisionInformationReceived
-(
-    RvAreaPacket =&gt; Packets.ProvideRevAreaPacketToHandle(
-        aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_AREA_INFORMATION,
-        MessageOrientation =&gt; MessageOrientation
-    ),
-    RvSupPacket =&gt; Packets.ProvideRevSupPacketToHandle(
-        aPacket =&gt; Packet.TRACK_TO_TRAIN.REVERSING_SUPERVISION_INFORMATION,
-        MessageOrientation =&gt; MessageOrientation
-    ),
-  aDistanceFromRef =&gt; aDistance
-)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Default Gradient for TSR available"
- Guid="18227d52-0953-4a2b-bce9-bb1eb4ee7ea6"
->
-<ReqRef
- Id="02d9f252-59e9-4dbb-a7cc-b66f2b96fe25"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fe789e53-144f-4e59-bce0-c5694d6ce0c7"
->
-</ReqRef><ReqRef
- Id="e7979a56-555a-422e-9a04-9210ecca2b25"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="89d8594e-bd6d-487b-b2f1-030bd881ea7b"
->
-</ReqRef><ReqRef
- Id="e1e65985-7379-4bca-be54-78d665b5f59b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="74533123-26df-4d3a-8361-7b8b097f09b9"
->
-</ReqRef><Comment>Handles Default Gradient for TSR packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="547b3821-fa99-449c-83b4-8d095143005d"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION.Q_DIR,
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES.Q_DIR,
     MessageOrientation =&gt; MessageOrientation
 )</PreCondition><PreCondition
- Guid="5dc5809b-4774-4887-8dc5-2115747ced74"
->Kernel.AcceptInformation.DefaultGradientForTSR( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+ Guid="cca34d29-a193-4757-b982-b2b39d7a641d"
+>Kernel.AcceptInformation.TrackConditionsBigMetalMasses( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="dd9b765f-3dcf-48d2-bac3-19ee389e9f1a"
->Kernel.TrackDescription.Gradient.DefaultGradientForTSRReceived ( Packet.TRACK_TO_TRAIN.DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION )</Action></Actions>
+ Guid="a8168c14-8dea-4896-9b29-5f71ec706278"
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.HandleBMMTrackConditionProfile( Packet.TRACK_TO_TRAIN.TRACK_CONDITION_BIG_METAL_MASSES, aDistanceFromRef =&gt; aDistance )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Track Condition Change of allowed current consumption available"
+ Guid="8448c5a5-bbd8-48f5-ae84-e1b63f672c7d"
+>
+<ReqRef
+ Id="3b292c0a-1360-49a7-9047-9707757f6e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="190fb223-2c21-4e2f-abdd-bca79a7608e4"
+>
+</ReqRef><ReqRef
+ Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="47ea4e15-5a4d-4581-b3fa-17ea4b4ab0fa"
+>
+</ReqRef><ReqRef
+ Id="526da681-fc2c-4e56-908e-7d41f5632d7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fdc21444-3601-465f-bb86-965441d7340d"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ba7ed8b-ca2d-425b-a7e1-1c6ff3513492"
+>
+</ReqRef><Comment>Handles Track Condition Change of allowed current consumption packet, if available</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2ae476f8-85fe-405e-9228-8e0cf7bf9516"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="e320cf30-ddc4-4568-94c4-370dc6fac3e0"
+>Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f3afa4bc-a50e-4fbb-818c-4f503b306e90"
+>Kernel.TrackDescription.TrackConditions.CurrentConsumption.HandleCCTrackConditionProfile( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION, aDistanceFromRef =&gt; aDistance)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Track Condition Change of traction system available"
+ Guid="fc4e8dd5-7ad3-4fd2-b44a-13afc089db60"
+>
+<ReqRef
+ Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1d812680-2c70-4fbf-a7a5-33665bb908ad"
+>
+</ReqRef><ReqRef
+ Id="2559c745-3a6f-444a-b3bd-fb143a2a1fc6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e664de52-c95e-45a0-8e42-e3bbcb3d67a1"
+>
+</ReqRef><ReqRef
+ Id="9221690b-b0bc-4a5c-9307-9de49243cfef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e26a34c-60d6-4a61-b9ea-9147b49412f4"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d645e84f-c87d-4359-ba28-bae5edf05206"
+>
+</ReqRef><Comment>Handles Track Condition Change of Traction System packet, if available</Comment>
+<PreConditions>
+<PreCondition
+ Guid="08e11111-2014-42e6-98f6-54a7fe1b3c8e"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="9fda324c-48ab-40d4-a6c3-a266822c2cb5"
+>Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0720e95d-207d-40f6-9fb3-40fbbf1628f7"
+>Kernel.TrackDescription.TrackConditions.TractionSystems.HandleTractionSystemProfile(
+    Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM, 
+    aDistanceFromRef =&gt; aDistance )</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Track Condition Station Platforms available"
+ Guid="848f07ff-38f9-43db-a24b-426c19fd0b9f"
+>
+<ReqRef
+ Id="dde16995-5fb1-4c80-8c2c-c9294aa46944"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86fe59f8-52b0-4db0-ac6a-f2b2dc6a5150"
+>
+</ReqRef><ReqRef
+ Id="47c59e98-996c-4daa-84b7-bda20f4e45ac"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fda02217-3575-4818-8aa9-e47e3ef07114"
+>
+</ReqRef><ReqRef
+ Id="0be2ea06-0c8b-4622-9a32-bd8954c01555"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e1f6383c-4c01-438c-a0ac-2d720dcd42c1"
+>
+</ReqRef><ReqRef
+ Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b9cdbfd-6403-4fdb-b2ae-100e777439b8"
+>
+</ReqRef><Comment>Handles Track Condition Station Platforms packet, if available</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c3cf8574-ecaa-4d54-b4cf-cc3262950012"
+>Packets.ConsiderBTMPacket(
+    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS.Q_DIR,
+    MessageOrientation =&gt; MessageOrientation
+)</PreCondition><PreCondition
+ Guid="7f7b7b5a-c73f-4577-a4be-fd53a96683e6"
+>Kernel.AcceptInformation.TrackConditionsExcludingSpecialCases( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e37299ce-6e60-4015-9897-e33c8b3ca56c"
+>Kernel.TrackDescription.TrackConditions.StationPlatform.SPTrackConditionProfileReceived ( Packet =&gt; Packet.TRACK_TO_TRAIN.TRACK_CONDITION_STATION_PLATFORMS, aDistanceFromRef =&gt; aDistance)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Virtual Balise Cover Order available"
@@ -1871,53 +2050,11 @@ Packets.ConsiderBTMPacket(
 <Action
  Guid="50f67d89-da94-4bb0-b44b-2f9d06b85685"
 >Kernel.VirtualBaliseCover.VBCReceivedFromBalise( Packet.TRACK_TO_TRAIN.VIRTUAL_BALISE_COVER_ORDER )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="LSSMA display toggle order available"
- Guid="693073bb-3954-46f2-a554-5ac6a8f876d7"
->
-<ReqRef
- Id="a6eade55-4b84-45f2-a021-fd589f3d1760"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c179bd82-0773-4e55-af7e-4d2770287dee"
->
-</ReqRef><ReqRef
- Id="6eeca2b4-7feb-46e5-9918-59197fd2bd89"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d7a77846-723c-4382-a8af-167818814509"
->
-</ReqRef><Comment>Handles LSSMA display toggle order packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="6849aabe-b0ac-4fbc-8d10-a3200c6580e6"
->Packets.ConsiderBTMPacket(
-    PacketOrientation =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition><PreCondition
- Guid="7efc1a9f-9602-44bc-9569-71ebb28a94ac"
->(
-  Kernel.AcceptInformation.LSSMADisplayToggleOffOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
-    AND
-  Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_LSSMA == Messages.Q_LSSMA.Toggle_off
-)
-  OR
-(
-  Kernel.AcceptInformation.LSSMADisplayToggleOnOrder( aSource =&gt; Kernel.AcceptInformation.SourceEnum.BaliseGroup )
-    AND
-  Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER.Q_LSSMA == Messages.Q_LSSMA.Toggle_on
-)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="004ed3f5-351e-4130-868e-a4960e2b944e"
->Kernel.Modes.LimitedSupervision.LSSMAToggleReceived(
-    Packet =&gt; Packet.TRACK_TO_TRAIN.LSSMA_DISPLAY_TOGGLE_ORDER,
-    Timestamp =&gt; BTM.BGLocationReference.Timestamp
-)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="150"
- Y="410"
+ X="130"
+ Y="210"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -2010,340 +2147,363 @@ Some generic packets need to know whether they are infilled or not
   aDistance =&gt; aDistance,
   infilledPacket =&gt; infilledTelegram
 ) 
-ON Message.Sequence1</Action><Action
+ON Message.Sequence1 | 
+(
+  X != MAOfTelegram(Message)
+    AND  
+  X != ModeProfileOfTelegram(Message)
+    AND  
+  X != LevelOfTelegram(Message)
+)</Action><Action
  Guid="b3c6e5e0-e2f2-45cb-8684-a9a4a0596fbe"
 >Kernel.NationalValues.CheckNVValidity( NewNID_C =&gt; Message.NID_C )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="40"
- Y="530"
+ X="20"
+ Y="210"
  Width="100"
  Height="50"
- Pinned="TRUE"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="HandleLTOPacket"
- Guid="cd48daec-c5f9-42d7-948a-b15ddcd6011c"
+ Name="HandleConsistentMessage"
+ Guid="f800b718-c1c5-4270-b280-bc814a553449"
 >
 <ReqRef
- Id="ffdc9150-a628-4750-a762-a41c20c3dd26"
+ Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4dc9d4ef-47ac-4ed6-a943-e7e218800ed6"
+ Guid="57f88de2-990f-44d3-991a-1909b344d05f"
 >
-</ReqRef><ReqRef
+</ReqRef><Comment>Handle the consistent message. It is called twice. Once on non-infill packets, once on infill packets.</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="selectInfillPackets"
+ Guid="193014b8-4ed7-484f-9049-729b8c6be5e3"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="d536133d-7f09-4400-a22b-a718712c7ace"
+>
+</Parameter><Parameter
+ Type="BaliseGroupMessagesCol"
+ Name="aBaliseGroup"
+ Guid="9fb354e6-3bf1-42ca-8be7-5f10705eb6b1"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle Level Transition Order in balise telegrams"
+ Guid="099aa022-31f0-4aae-aa5c-48dc76bdc4cb"
+>
+<ReqRef
  Id="b5196e2e-7094-49d5-ac1b-4bcf4821fd9a"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1dfc093a-539a-4301-abf2-1569bce44645"
+ Guid="56b5d922-3f2f-4e44-ac07-dff89ba10aa0"
 >
-</ReqRef><Comment>This procedure is called for each packet received with a balise telegram.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.EUROBALISE.SubStructure1"
- Name="aPacket"
- Guid="bb22bd3c-f060-4424-b9a6-a0ba1d40d8d6"
->
-</Parameter><Parameter
- Type="Default.OrientationEnum"
- Name="MessageOrientation"
- Guid="37a31b76-3eb4-4bd8-8bde-11a046350429"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aDistance"
- Guid="a3fa14e7-eab9-4886-906d-a34d4e9c3db7"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Handle new packet"
- Guid="072223b9-e474-4cc6-a225-4a2a53ebb625"
->
-<ReqRef
- Id="88930fd0-2a41-48f8-ac88-35d8c1d60f47"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="33bc3f4d-253a-42a6-a167-bf8ab9270acc"
->
-</ReqRef><Comment>We suppose that an element of type Messages.EUROBALISE.SubStructure1 can only contain one field defined, representing a single packet. The rule looks for the first available element and when it is found, calls the corresponding routing to store the received information.</Comment>
+</ReqRef><Comment>First, handle the LevelTransitionOrder packets in all the telegrams.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Level Transition Order available"
- Guid="b63d49ba-6c55-448a-bf8c-f29ffee83011"
+ Name="Handle level transition order packet in balise telegrams"
+ Guid="ef4783a5-3854-483a-8f53-38b1d9e72164"
 >
 <ReqRef
- Id="6b26f38c-d98d-4eee-a314-ae6b48256d36"
+ Id="c858a6b4-4d06-4efa-83f0-ac640ef8c373"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c5379316-9711-4e97-a5e5-4c67722863fe"
+ Guid="0e4ea8db-5735-48ad-b453-daa31396cfc8"
 >
-</ReqRef><ReqRef
- Id="3c872475-fbad-4a03-b13a-a6fa51c6a722"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d6265ba-635d-4bf9-bd06-18570008755f"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="77483f09-10ab-4f8a-a073-c4343999959b"
->
-</ReqRef><Comment>Handles Level Transition packet, if available.</Comment>
-<PreConditions>
-<PreCondition
- Guid="3f3e1ed5-0eeb-4684-80ad-ad9fc77b5a4a"
->Packets.ConsiderBTMPacket (
-    PacketOrientation=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition></PreConditions>
+</ReqRef><PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="b24735ff-a130-4d30-8fe1-8cb69420ff6b"
->Kernel.LevelTransition.LTOReceived ( Packet=&gt;aPacket.TRACK_TO_TRAIN.LEVEL_TRANSITION_ORDER, aDistanceFromRef =&gt; aDistance)</Action></Actions>
+ Guid="2ee57ad5-960b-4923-b510-882802803ed1"
+>APPLY Packets.HandlePacket(
+    Packet =&gt; Packets.LevelOfTelegram(
+        Infill.CurrentInfillTelegram(
+            selectInfill =&gt; selectInfillPackets, 
+            aTelegram =&gt; X.Telegram)
+         ),
+    NID_BG =&gt; GetNID_BG( aBaliseGroup ),
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aDistance =&gt; aDistance,
+    infilledPacket =&gt; selectInfillPackets
+) ON aBaliseGroup</Action></Actions>
 </RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="150"
- Y="470"
- Width="100"
- Height="50"
- Pinned="TRUE"
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
- Name="HandleMAPacket"
- Guid="bdc26224-250c-4d50-8ae8-d9ec84234e3c"
+ Name="Clear mode profile"
+ Guid="843333de-ec8d-428b-8030-16cf2ddff736"
 >
 <ReqRef
- Id="88930fd0-2a41-48f8-ac88-35d8c1d60f47"
+ Id="74a25803-8c28-4708-b506-55a76bd8bc21"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a6f1cbf9-29c8-4649-9b08-544b1339877e"
+ Guid="5e05338d-e93e-4b29-8cdd-fb151214b19c"
 >
 </ReqRef><ReqRef
- Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
+ Id="2a495f6e-680c-4def-a6b5-d8bcd1f41a9d"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b8f11c54-8dc8-4a66-af11-81361ca406bc"
+ Guid="97826179-bdde-4b4e-8abd-830754d61041"
 >
-</ReqRef><Comment>The MA is always considered after all other packets of a message have been processed. This is mandatory to ensure that all preconditions for an MA (which may have been transmitted within this message as well) can be evaluated before the evaluation of the MA.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.EUROBALISE.SubStructure1"
- Name="aPacket"
- Guid="54997a24-4291-4c2b-af79-ec289b4ffc8f"
+</ReqRef><ReqRef
+ Id="413303d1-7e96-41b7-a03e-3a9d6380e93a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ea6272d-693d-4454-8053-be46bf1f2925"
 >
-</Parameter><Parameter
- Type="Default.OrientationEnum"
- Name="MessageOrientation"
- Guid="f266d08f-d744-4949-9f34-0ad3ffdecbc8"
+</ReqRef><ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="338c7e89-32fe-495e-ab8e-24ce2eac1f5b"
 >
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aDistance"
- Guid="28f3e211-5dd0-4454-8adf-9a5baec94782"
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8321d3b2-218c-406e-a5c5-f55df74207a9"
 >
-</Parameter><Parameter
- Type="Boolean"
- Name="isInfillMA"
- Guid="92996336-8304-47e1-aa8e-0c2f17eadda8"
+</ReqRef><Comment>On reception of a new MA, the previously stored mode profile has to be deleted unless the new MA is an infill MA in which case only that part of the mode profile which is beyond the infill reference location should be deleted.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Clear mode profile if MA received"
+ Guid="e44a7aeb-06b0-41ca-b5de-6a1c63e40993"
 >
-</Parameter></Parameters>
-<Rules>
+<PreConditions>
+<PreCondition
+ Guid="d1b129b9-3710-484a-a016-43785cf9051e"
+><Comment>Check for the presence of an MA packet within infill or non-infill packets depending on the selectInfillPackets parameter.</Comment>
+THERE_IS X IN aBaliseGroup | (THERE_IS V IN Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram).Sequence1 | ( Available ( V.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY ) OR Available ( V.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY ) ))</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
  Implemented="TRUE"
- Name="Handle new MA"
- Guid="27f968b8-6c75-4806-a96d-44abe1a92a13"
+ Name="MA packet available"
+ Guid="e0157cf8-5a4a-4793-9350-acf28037c283"
 >
-<Comment>Processes the received information about the movement authority.</Comment>
+<Comment>Delete ModeProfile or part of it depending on whther the new MA is infilled or not.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="MA Lvl1 available"
- Guid="d268c47d-602c-4549-aab4-1541c75205f4"
+ Name="Infill MA"
+ Guid="15714707-69ca-42cc-896d-c5d145bdea7a"
 >
-<ReqRef
- Id="ab5117d0-92b0-4488-9084-9e07dba02cec"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c47a5a53-84ac-4562-9979-531be2defee9"
->
-</ReqRef><ReqRef
- Id="f4723221-15fd-4636-851f-08a437cc18e6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="79026bf6-0003-44dd-80e2-90afc8b8b987"
->
-</ReqRef><ReqRef
- Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="22f70d1a-a76e-439c-bdf5-1a10880797ea"
->
-</ReqRef><ReqRef
- Id="ab682687-0117-4289-925f-65a6680a3644"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="935b840f-0f34-460d-ad5e-dfeb473503a5"
->
-</ReqRef><ReqRef
- Id="20241a08-e360-4144-b573-5a0e657dd9a2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5a25dc54-29d3-4938-b92e-fb0f5b37a2c7"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="22595e3b-4c44-4777-84e9-d057f61ad1b1"
->
-</ReqRef><Comment>Processes the MA for level 1.</Comment>
+<Comment>Delete ModeProfile beyond infill location reference.</Comment>
 <PreConditions>
 <PreCondition
- Guid="5277d858-f9be-415e-b52c-0e742bb35c08"
->Packets.ConsiderBTMPacket (
-    PacketOrientation =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation
-)</PreCondition></PreConditions>
+ Guid="197e5eb7-ca0d-49fc-80ef-f9a9c61c8aa9"
+>selectInfillPackets</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="e8f2e263-eb09-49d0-93f3-2f4d98af2694"
->Kernel.MA.MALvl1ProfileReceived
+ Guid="840d737c-0711-45fa-aa7c-6d7614ac52b5"
+><Comment>In this case, &apos;aDistance&apos; will be the distance to the infill reference location.</Comment>
+Kernel.MA.ModeProfile.DeleteModeProfileBeyondLocation 
 (
-    Packet =&gt; aPacket.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY,
-    aDistanceFromRef =&gt; aDistance,
-    isInfillMA =&gt; isInfillMA
+  aDistance
 )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="150"
- Y="530"
- Width="100"
- Height="50"
- Pinned="TRUE"
+</RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="HandleModeProfilePacket"
- Guid="1944fec5-3bdf-4188-bae3-2f4676823c84"
+ Name="Non Infill MA"
+ Guid="7a2dc097-6738-4924-93b5-ea2506a1f22e"
 >
-<ReqRef
- Id="88930fd0-2a41-48f8-ac88-35d8c1d60f47"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="327fe63c-a58e-45b6-a4f7-aa9e9d058dca"
+<Comment>Delete ModeProfile.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d8706bcf-8b81-4e20-975f-d383d003ebcc"
+>NOT selectInfillPackets</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="53fff272-02d3-4959-ab47-d2fcffd42bb3"
+>Kernel.MA.ModeProfile.Profile &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle general packets in balise telegrams"
+ Guid="afdc7b3a-9acf-4598-a628-bdf218a7beb3"
 >
-</ReqRef><ReqRef
- Id="5fff9a06-3432-4ce9-b8e0-9b36de116805"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="47e771f6-5cb8-418d-8a8f-d306bc4e0969"
+<Comment>First, handle the &quot;non-MA&quot; packets in all the telegrams. Some generic packets 
+need to know whether they are infilled or not (e.g. Linking), hence the 
+infilledTelegram parameter.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle general packets in balise telegrams"
+ Guid="e7516273-ac16-4172-b145-c531401e38e3"
 >
-</ReqRef><ReqRef
- Id="8d9ca13d-bff4-486f-9cb1-dc825fd1b8ab"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="10ed8719-2633-4bac-9d30-818eca542056"
->
-</ReqRef><ReqRef
- Id="e9f9dfc1-5e6c-4920-958e-20889458cdd1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4fc3a6d4-dde6-4b59-8768-f24fd3bab2a2"
->
-</ReqRef><Comment>The mode profile can only be considered after the MA has been procedded, in order to know if it was accepted (otherwise the mode profile is not accepted).</Comment>
-<Parameters>
-<Parameter
- Type="Messages.EUROBALISE.SubStructure1"
- Name="aPacket"
- Guid="5c7546c7-4909-41d5-8d37-9e05094dbc02"
->
-</Parameter><Parameter
- Type="Default.OrientationEnum"
- Name="MessageOrientation"
- Guid="f5a802a6-50c3-47e8-b28a-192dd20faa27"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aDistance"
- Guid="7bbc3d95-a499-4d0b-9ca2-411f2f1809f0"
->
-</Parameter><Parameter
- Type="Boolean"
- Name="infillModeProfile"
- Guid="44fb10ad-44f8-45f5-b1bc-b3d8ac0f2e1a"
->
-</Parameter></Parameters>
-<Rules>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="71fe05ea-2e2a-441e-a4c5-fa8e04162cb8"
+>APPLY Packets.HandleTelegram( Message =&gt; Infill.CurrentInfillTelegram(selectInfillPackets, X.Telegram), 
+MessageOrientation =&gt; BGOrientation(aBaliseGroup),
+aDistance =&gt; aDistance,
+infilledTelegram =&gt; selectInfillPackets
+ ) 
+ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
+<SubRules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
  Implemented="TRUE"
- Name="Handle new Mode Profile"
- Guid="8067cb79-ba71-43b8-b67b-e757bdff0e4d"
+ Name="Inform driver if message contains the default balise information"
+ Guid="be70b65b-0e74-4a34-962a-f92f146bf80d"
 >
 <ReqRef
- Id="2922527c-9e20-48f5-a094-94014ef0aa69"
+ Id="2a940406-f81d-432f-bdd6-c0e58ba44bd7"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0cec26e1-e2c2-492c-a5f0-6d75fe7ab6c5"
+ Guid="6d4f2255-bb8d-4158-9c75-a2c7ecaf5042"
+>
+</ReqRef><Comment>If any packet contains default balise information, inform the driver.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Message contains default balise information"
+ Guid="943f01e2-9679-4524-9ee7-838f59c39f99"
+>
+<ReqRef
+ Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7e8724cc-a785-4971-9cf7-fcfcfeadb124"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="5d040986-926c-4036-9c26-980d15c5393d"
+>THERE_IS telegram IN aBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8622ac62-4d7c-438c-bd38-586c990410ff"
+>INSERT
+  Kernel.TextMessages.PlainTextMessageStruct
+  {
+    Text =&gt; &apos;Default balise information received.&apos;
+  }
+IN
+  Kernel.TextMessages.PlainTextMessages</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle MA packet in balise telegrams"
+ Guid="8bf64490-ce74-42a8-aa77-fcbf0d2bf6c9"
+>
+<ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a19ddb8b-c51f-40ee-be8e-1b46188a2170"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="867638d8-ef8f-425d-9c86-1dbd606aacc8"
+>
+</ReqRef><ReqRef
+ Id="f0ea8f90-356c-47de-a7fd-4827ae488f00"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffa78bcb-296a-4072-a140-c57067760098"
+>
+</ReqRef><Comment>Then, handle the movement authority packet.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle MA packet in balise messages"
+ Guid="ae268b7a-92cb-4598-bc02-a2f04005d973"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2b02118c-1658-46b1-bae6-dc0ff97ec611"
+>APPLY Packets.HandlePacket(
+    Packet =&gt; Packets.MAOfTelegram ( 
+         Infill.CurrentInfillTelegram(
+            selectInfill =&gt; selectInfillPackets,
+            aTelegram =&gt; X.Telegram )),
+    NID_BG =&gt; GetNID_BG(aBaliseGroup) ,
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aDistance =&gt; aDistance,
+    infilledPacket =&gt; selectInfillPackets
+)
+ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup  )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle Mode Profile packet in balise telegram"
+ Guid="0df23762-fca4-4e00-9a26-27caab55459e"
+>
+<ReqRef
+ Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b907baf-4341-4167-b523-4aae1850c852"
 >
 </ReqRef><ReqRef
  Id="6f370d19-a99b-404b-9718-80331a17d9d4"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c8dedcf6-2bea-4a5e-a397-4f5999089794"
+ Guid="211eb7c7-66d8-48d5-9e32-d1658184c3de"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><ReqRef
+ Id="3d5f5d1a-384b-4310-bf6b-e35579ea0ee5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d70821fe-7e49-4550-a19b-6ee04572ec30"
+>
+</ReqRef><ReqRef
+ Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3575957d-8238-4e1c-bc07-57ce9f8d2f8d"
+>
+</ReqRef><Comment>After the MA has been handled, the Mode Profile can eventually be accepted (only if the MA was accepted).</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Handle new Mode Profile"
- Guid="423c865a-29c8-402c-807e-61b70a9a5867"
+ Name="Handle Mode Profile packet in balise telegram"
+ Guid="5f12ad32-9f33-4855-a8a7-0406c9644f44"
 >
-<ReqRef
- Id="e6b9b34b-5183-45ec-96a2-8eef4909b34c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="19dec718-ae7c-4f9b-bf59-fe5f4a2ce5f5"
->
-</ReqRef><ReqRef
- Id="85399986-8b1a-4ee5-ba62-20eb7ca0a3b9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d5a8e89a-68af-46b9-8e80-d01bc69509be"
->
-</ReqRef><ReqRef
- Id="4a580e9d-fd64-4951-b7a4-51530d1469e7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b5a95273-5ea6-47fe-88d7-09f109a361f6"
->
-</ReqRef><ReqRef
- Id="2ef2992f-43ce-4f58-abf6-55560cf910bd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="be414b46-e05a-49d0-81d0-276ad0fd8fff"
->
-</ReqRef><ReqRef
- Id="98b78c68-b649-45c4-9dd8-6bfbf4a8f9c1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="60c748c4-6ffd-48db-8256-509ca1d5e9df"
->
-</ReqRef><ReqRef
- Id="95219ef7-243a-49e7-bc9c-59ebced12f1f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9874877b-cfc0-4e98-b18c-b9bfda371e57"
->
-</ReqRef><Comment>Handles Mode Profile packet, if available.</Comment>
 <PreConditions>
-<PreCondition
- Guid="7c611cdb-ccf2-4f3c-a343-9d77f47c5412"
->Packets.ConsiderBTMPacket (
-    PacketOrientation =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE.Q_DIR,
-    MessageOrientation =&gt; MessageOrientation )</PreCondition><PreCondition
- Guid="8d956f8e-378b-482f-bc27-26c54c49af35"
->Kernel.MA.MAIsAccepted</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
- Guid="2db6933b-ffcd-41fc-b5ab-90177389d406"
->Kernel.MA.ModeProfile.ModeProfileReceived (
-    Packet =&gt; aPacket.TRACK_TO_TRAIN.MODE_PROFILE,
-    GenericLSMarker =&gt; Kernel.Modes.LimitedSupervision.LSMarkerPresent(
-    Messages =&gt; BTM.CurrentBaliseGroup
-    ),
-    aDistanceFromRef =&gt; aDistance,
-    infillModeProfile =&gt; infillModeProfile
-)</Action></Actions>
+ Guid="42ecabaf-6fb9-4cf2-887a-2b6158ff1c6b"
+>APPLY HandlePacket(
+    Packet =&gt; ModeProfileOfTelegram(
+        Infill.CurrentInfillTelegram(
+            selectInfill =&gt; selectInfillPackets,
+            aTelegram =&gt;  X.Telegram )
+        ),
+    NID_BG =&gt; GetNID_BG( aBaliseGroup ),
+    MessageOrientation =&gt; BGOrientation( aBaliseGroup ),
+    aDistance =&gt; aDistance,
+    infilledPacket =&gt; selectInfillPackets
+)
+ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X, aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
