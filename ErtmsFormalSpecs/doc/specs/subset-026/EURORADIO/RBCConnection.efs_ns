@@ -3141,6 +3141,8 @@ SystemVersion1 =&gt; EMPTY
 </ReqRef><Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="RBC contact order received"
  Guid="b1c9e783-f0f5-4d68-8816-a13e44c8b068"
@@ -3237,7 +3239,9 @@ SystemVersion1 =&gt; EMPTY
 <PreConditions>
 <PreCondition
  Guid="d70d315d-97c4-418f-a89b-173190c448b2"
->SessionHasToBeEstablished ( anRBC =&gt; ENCLOSING )</PreCondition></PreConditions>
+>SessionHasToBeEstablished ( anRBC =&gt; ENCLOSING )</PreCondition><PreCondition
+ Guid="031f5534-5356-4623-9c14-c6e7131c811c"
+>Available(Contact.SelectRBCToContact().ContactData)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="30ffcf61-752f-4621-bd06-aae49937b224"
@@ -3251,7 +3255,14 @@ SystemVersion1 =&gt; EMPTY
  Guid="9dfae625-3ff2-425f-898d-c57ff6a75c0a"
 >LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="5c581ac4-b257-4996-8939-15d5aa8232be"
->NumberOfSentRequests &lt;- 1</Action></Actions>
+>NumberOfSentRequests &lt;- 1</Action><Action
+ Guid="890385aa-93d6-49a6-be94-a3fd1d17d4e8"
+>Contact.SelectRBCToContact().ContactData &lt;- Contact.RBCContactStruct
+{
+    Id =&gt; Contact.SelectRBCToContact().ContactRBCOrder.Id,
+    PhoneNumber =&gt; Contact.SelectRBCToContact().ContactRBCOrder.PhoneNumber,
+    DataState =&gt; DataStateEnum.Valid
+}</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5817,14 +5828,7 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
  Guid="fb0c323a-04ee-47a6-86cd-341b24a90ee3"
 >Contact.SelectRBCToContact().ContactRBCOrder &lt;- anOrder</Action><Action
  Guid="b327d97a-1053-46ca-a7eb-480617cdb643"
->Contact.RBCContactOrderToRepeat &lt;- EMPTY</Action><Action
- Guid="890385aa-93d6-49a6-be94-a3fd1d17d4e8"
->Contact.SelectRBCToContact().ContactData &lt;- Contact.RBCContactStruct
-{
-    Id =&gt; anOrder.Id,
-    PhoneNumber =&gt; anOrder.PhoneNumber,
-    DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
+>Contact.RBCContactOrderToRepeat &lt;- EMPTY</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No mobile terminals are registered"
