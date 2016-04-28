@@ -24532,6 +24532,20 @@ public  void setCompleted(bool v) {
 }
 
 
+private  RuleCheckDisabling aRuleCheckDisabling;
+
+public  RuleCheckDisabling getRuleCheckDisabling() { return aRuleCheckDisabling;}
+
+public  void setRuleCheckDisabling(RuleCheckDisabling v) {
+  aRuleCheckDisabling = v;
+  if ( v != null ) { 
+    v.setFather(this);
+  }
+  __setDirty(true);
+  NotifyControllers(null);
+}
+
+
 public SubSequence()
 {
 SubSequence obj = this;
@@ -24547,6 +24561,7 @@ aRBCPhone=(null);
 aTestCases=(null);
 aComment=(null);
 aCompleted=(false);
+aRuleCheckDisabling=(null);
 }
 
 public void copyTo(SubSequence other)
@@ -24564,6 +24579,7 @@ other.aRBCPhone = aRBCPhone;
 other.aTestCases = aTestCases;
 other.aComment = aComment;
 other.aCompleted = aCompleted;
+other.aRuleCheckDisabling = aRuleCheckDisabling;
 }
 
 /// <remarks>This method is used by XMLBooster-generated code
@@ -24650,6 +24666,16 @@ ctxt.acceptString ("</TestCases>");
 } // If
 } // If
 // End enclosed
+// Element Ref : RuleCheckDisabling
+ctxt.skipWhiteSpace();
+// If optional...
+if (ctxt.lookAheadOpeningTag("<RuleCheckDisabling")){
+// Parsing sub element
+this.setRuleCheckDisabling(acceptor.lAccept_RuleCheckDisabling(ctxt,"</RuleCheckDisabling>"));
+setSon(this.getRuleCheckDisabling());
+// Endif optional...
+} // If
+ctxt.skipWhiteSpace();
 ctxt.skipWhiteSpace();
 }
 
@@ -25292,6 +25318,10 @@ pw.Write("</TestCases>");
 pw.Write('\n');
 } // If
 // After Testing for empty content: TestCases
+// Unparsing ElementRef
+if (this.getRuleCheckDisabling() != null){
+unParse(pw, this.getRuleCheckDisabling(),false,"<RuleCheckDisabling","</RuleCheckDisabling>");
+} // If
 }
 public  override  void dispatch(XmlBBaseVisitor v)
 {
@@ -25312,6 +25342,7 @@ public  override void subElements(ArrayList l)
 for (int i = 0; i < countTestCases(); i++) {
   l.Add(getTestCases(i));
 }
+l.Add(this.getRuleCheckDisabling());
 }
 
 }

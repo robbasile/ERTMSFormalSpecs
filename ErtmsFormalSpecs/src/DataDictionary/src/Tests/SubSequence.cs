@@ -20,11 +20,21 @@ using System.Collections.Generic;
 using DataDictionary.Generated;
 using Utils;
 using Comparer = Utils.Comparer;
+using RuleCheckDisabling = DataDictionary.RuleCheck.RuleCheckDisabling;
 
 namespace DataDictionary.Tests
 {
-    public class SubSequence : Generated.SubSequence, IComparable<SubSequence>, ICommentable
+    public class SubSequence : Generated.SubSequence, IComparable<SubSequence>, ICommentable, RuleCheck.IRuleCheckDisabling
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public RuleCheckDisabling Disabling
+        {
+            get { return (RuleCheckDisabling)getRuleCheckDisabling(); }
+            set { setRuleCheckDisabling(value); }
+        }
+        
         /// <summary>
         ///     The comparer
         /// </summary>

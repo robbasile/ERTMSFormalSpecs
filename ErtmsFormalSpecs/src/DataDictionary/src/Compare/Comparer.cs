@@ -3252,6 +3252,17 @@ namespace DataDictionary.Compare
             {
                 diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "Completed", other.getCompleted().ToString(), obj.getCompleted().ToString()) );
             }
+            if ( obj.getRuleCheckDisabling() == null )
+            {
+                if ( other.getRuleCheckDisabling() != null )
+                {
+                    diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "RuleCheckDisabling", "" ) );
+                }
+            }
+            else
+            {
+                compareRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling(), diff );
+            }
         }
 
         /// <summary>
@@ -9771,6 +9782,7 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            ensureGuidRuleCheckDisabling ( obj.getRuleCheckDisabling(), other.getRuleCheckDisabling() );
         }
 
         /// <summary>
@@ -13623,6 +13635,10 @@ namespace DataDictionary.Compare
             if ( obj.getComment() != null && obj.getComment().Contains (searchString) ) 
             {
                 occurences.Add ( obj );
+            }
+            if ( obj.getRuleCheckDisabling() != null )
+            {
+                searchRuleCheckDisabling ( obj.getRuleCheckDisabling(), searchString, occurences );
             }
         }
 

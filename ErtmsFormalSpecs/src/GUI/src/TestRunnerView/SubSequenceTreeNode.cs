@@ -23,6 +23,7 @@ using DataDictionary.Tests.Runner;
 using GUI.LongOperations;
 using GUI.Properties;
 using GUI.Report;
+using GUI.RuleDisabling;
 using GUIUtils;
 using GUIUtils.LongOperations;
 using Utils;
@@ -36,7 +37,7 @@ using Util = DataDictionary.Util;
 
 namespace GUI.TestRunnerView
 {
-    public class SubSequenceTreeNode : ModelElementTreeNode<SubSequence>
+    public class SubSequenceTreeNode : ModelElementTreeNode<SubSequence>, IDisablesRules<SubSequence>
     {
         /// <summary>
         ///     The value editor
@@ -126,6 +127,8 @@ namespace GUI.TestRunnerView
             }
         }
 
+        public DisablesRulesTreeNodeExtension<SubSequence> Disabling { get; set; }
+
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -134,6 +137,7 @@ namespace GUI.TestRunnerView
         public SubSequenceTreeNode(SubSequence item, bool buildSubNodes)
             : base(item, buildSubNodes, null, true)
         {
+            Disabling = new DisablesRulesTreeNodeExtension<SubSequence>(item);
         }
 
         /// <summary>
@@ -144,6 +148,8 @@ namespace GUI.TestRunnerView
         public override void BuildSubNodes(List<BaseTreeNode> subNodes, bool recursive)
         {
             base.BuildSubNodes(subNodes, recursive);
+
+            Disabling.BuildSubNodes(subNodes, recursive);
 
             foreach (TestCase testCase in Item.TestCases)
             {
@@ -366,6 +372,8 @@ namespace GUI.TestRunnerView
             retVal.Insert(9, new MenuItem("Create report", ReportHandler));
             retVal.Insert(10, new MenuItem("-"));
             retVal.Insert(9, new MenuItem("Insert test", InsertTest));
+
+            Disabling.AddMenuItems(retVal);
 
             return retVal;
         }
