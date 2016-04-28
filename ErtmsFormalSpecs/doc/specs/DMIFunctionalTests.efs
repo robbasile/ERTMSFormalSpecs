@@ -45198,7 +45198,13 @@ TRLevel =&gt; LevelDataStruct{
 <Actions>
 <Action
  Guid="ccc2ce53-1f84-4d82-8efe-92ae07c98e24"
->Testing.SetSHMode(False)</Action><Action
+>Testing.SetSHMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Set override active"
+ Guid="6228dd8c-30be-4240-aa22-cf5e591463fd"
+>
+<Actions>
+<Action
  Guid="c35f7f4e-75c1-463e-b7f7-6fe165a04db3"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 <Expectations>
@@ -45284,7 +45290,13 @@ TRLevel =&gt; LevelDataStruct{
 <Actions>
 <Action
  Guid="858a7791-d431-4547-82de-ab5f24c998a4"
->Testing.SetSRMode(False)</Action><Action
+>Testing.SetSRMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Set override active"
+ Guid="4034102f-76c5-42e8-a7bb-9a10fb218022"
+>
+<Actions>
+<Action
  Guid="b227cdab-d3a0-4c40-9597-2c4880d39561"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 <Expectations>
@@ -45398,7 +45410,13 @@ TRLevel =&gt; LevelDataStruct{
 <Actions>
 <Action
  Guid="c68d87ec-2d85-47db-a67f-6512d7ea9600"
->Testing.SetUNMode(False)</Action><Action
+>Testing.SetUNMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Set override active"
+ Guid="1738e73c-8836-45a7-86fe-d620316369b6"
+>
+<Actions>
+<Action
  Guid="70ccd543-ac26-4702-8a86-94b50dd58f90"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 <Expectations>
@@ -45484,7 +45502,13 @@ TRLevel =&gt; LevelDataStruct{
 <Actions>
 <Action
  Guid="c2f4a281-4cd0-43da-a901-f87db3d4a1f3"
->Testing.SetSFMode(False)</Action><Action
+>Testing.SetSFMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Set override active"
+ Guid="d3303107-4f06-46f4-ad45-596cd089b512"
+>
+<Actions>
+<Action
  Guid="c92a81b3-0f96-4320-b429-3c129dcf012d"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 <Expectations>
@@ -45514,7 +45538,13 @@ TRLevel =&gt; LevelDataStruct{
 <Actions>
 <Action
  Guid="0caf4f74-be4c-4d84-af98-51f302db0687"
->Testing.SetISMode(False)</Action><Action
+>Testing.SetISMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Set override active"
+ Guid="caa17234-43e7-46b1-9d32-b038a6d8e21b"
+>
+<Actions>
+<Action
  Guid="a5c72f00-67b8-4283-ab11-6ff0d8ef26a0"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 <Expectations>
@@ -45544,7 +45574,13 @@ TRLevel =&gt; LevelDataStruct{
 <Actions>
 <Action
  Guid="90226ec0-cca0-4523-bf47-60b529256757"
->Testing.SetSNMode(False)</Action><Action
+>Testing.SetSNMode(False)</Action></Actions>
+</SubStep><SubStep
+ Name="Set override active"
+ Guid="861337e3-4785-4cfc-98c6-b08aa1b3130f"
+>
+<Actions>
+<Action
  Guid="7fac1072-1f2a-4119-9676-707ee3464c47"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.Override</Action></Actions>
 <Expectations>
@@ -59685,8 +59721,38 @@ IsAnnouncement =&gt; Boolean.False
 >
 <Actions>
 <Action
- Guid="0a069f12-f201-436f-9d52-82fd2f8a3db0"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+ Guid="61516ba0-2fdf-4128-89e5-e1b2500bb6cd"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -59732,7 +59798,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="d26f234c-9c84-4b90-ae48-5fbf9268886e"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59769,7 +59865,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="0fc96d7c-7999-41e5-bfa9-6f1e2ecdcc5a"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59806,7 +59932,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="73e85a1f-81ae-41a7-9048-e7fabd8cfa01"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59843,7 +59999,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="ebe52b0e-eec6-47d5-98e1-d80ae2c5f9b2"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59880,7 +60066,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="9da5f4dd-2c42-4547-9631-fb56d1e18b1c"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59917,7 +60133,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="16901fe2-469a-4761-982d-6ec364e836cb"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59954,7 +60200,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="2236f926-fe44-4d26-afef-82298c3b09ff"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -59991,7 +60267,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="3bc69a30-a625-4e45-bd3b-11c1626d2c7a"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60028,7 +60334,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="76b85cac-abe1-46a6-b5e7-ffd53899193c"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60065,7 +60401,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="30ff6364-e992-4bca-a9b0-2aa3162fa361"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60102,7 +60468,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="a03b8c80-2d20-4d4a-92d8-f27857ac0aca"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60139,7 +60535,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="5c20a913-ac9b-410e-8ab5-cbfc569bbfb6"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60176,7 +60602,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="381cf999-569f-4af1-b5e6-b8dcdc6b98e0"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60213,7 +60669,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="d976709f-8648-4e1f-be22-6a033b081425"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60250,7 +60736,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="e9ad22fb-86d9-4d74-860b-0326b5fe143d"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60287,7 +60803,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="606311d8-28f9-480a-8f0c-4dba239011c3"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -60324,7 +60870,37 @@ IsAnnouncement =&gt; Boolean.False
 <Actions>
 <Action
  Guid="109d8d42-f15b-44fc-be8c-a3a97e711ff6"
->Kernel.TracksideMalfunctioned &lt;- Boolean.True</Action></Actions>
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; Messages.M_MCOUNT.The_telegram_fits_with_all_telegrams_of_the_same_balise_group, 
+    NID_C =&gt; 81, 
+    NID_BG =&gt; 1753, 
+    Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+    Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+      {
+        TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+        {
+          DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION.Message
+          {
+            NID_PACKET =&gt; 254, 
+            Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+            L_PACKET =&gt; 0
+          }
+        }
+      }], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
