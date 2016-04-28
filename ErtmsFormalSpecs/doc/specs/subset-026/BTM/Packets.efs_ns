@@ -464,10 +464,31 @@ PacketOrientation == Messages.Q_DIR.Both_directions</Expression>
  Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="DefaultBGInformationReceived"
  Guid="a5071e5f-5468-4460-aae0-8255f6778a3c"
 >
-<Comment>Indicates that a packet &quot;Default balise information&quot; was received.
+<ReqRef
+ Id="bc4a8f14-8d10-4de8-a92c-674ccd9bcb00"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="69c74632-ae35-429e-a99d-d0008cc76b95"
+>
+</ReqRef><ReqRef
+ Id="fd86664a-527a-4152-a9b5-793dcc75f1b9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="79272a36-2ddf-4f92-9a66-0cfefff37ade"
+>
+</ReqRef><ReqRef
+ Id="2a940406-f81d-432f-bdd6-c0e58ba44bd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="361aeffa-6a5a-4dc8-a642-8ca8bf169af1"
+>
+</ReqRef><ReqRef
+ Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86448695-4c41-4e18-bf70-268023db3c3d"
+>
+</ReqRef><Comment>Indicates that a packet &quot;Default balise information&quot; was received.
 This is a Trackside malfunction, and should be displayed to the driver and recorded in the JRU.</Comment>
 <Parameters>
 <Parameter
@@ -2402,49 +2423,6 @@ aDistance =&gt; aDistance,
 infilledTelegram =&gt; selectInfillPackets
  ) 
 ON aBaliseGroup | ToBeHandled ( aMessage =&gt; X , aBaliseGroup =&gt; aBaliseGroup )</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Inform driver if message contains the default balise information"
- Guid="be70b65b-0e74-4a34-962a-f92f146bf80d"
->
-<ReqRef
- Id="2a940406-f81d-432f-bdd6-c0e58ba44bd7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d4f2255-bb8d-4158-9c75-a2c7ecaf5042"
->
-</ReqRef><Comment>If any packet contains default balise information, inform the driver.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Message contains default balise information"
- Guid="943f01e2-9679-4524-9ee7-838f59c39f99"
->
-<ReqRef
- Id="5c7f8e6f-d144-42ee-91a5-5bc97116d06d"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7e8724cc-a785-4971-9cf7-fcfcfeadb124"
->
-</ReqRef><PreConditions>
-<PreCondition
- Guid="5d040986-926c-4036-9c26-980d15c5393d"
->THERE_IS telegram IN aBaliseGroup | (THERE_IS packet IN telegram.Telegram.Sequence1 | Available(packet.TRACK_TO_TRAIN.DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION) )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8622ac62-4d7c-438c-bd38-586c990410ff"
->INSERT
-  Kernel.TextMessages.PlainTextMessageStruct
-  {
-    Text =&gt; &apos;Default balise information received.&apos;
-  }
-IN
-  Kernel.TextMessages.PlainTextMessages</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

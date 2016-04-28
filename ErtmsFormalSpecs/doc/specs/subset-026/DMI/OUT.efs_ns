@@ -1528,6 +1528,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Displays plain text information.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="c5a5379e-10c4-479d-b0d2-c815a6a1437d"
@@ -1536,6 +1538,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="a8eaa78f-f047-4d99-a8fb-2f35d678f31e"
@@ -1561,6 +1565,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="1e5c6013-6183-490a-8008-600ad3be7321"
@@ -1569,6 +1575,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the status of the request according to the mode"
  Guid="0c2bf2fa-853b-4496-9d78-130a518cd131"
@@ -3628,13 +3636,40 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="2b61ae18-5788-4962-84b5-3e5fd49fac62"
 >NotificationOfTrainDataChangeFromOtherSourceAvailable()</PreCondition><PreCondition
  Guid="06029d22-bb63-46c1-943d-8a6be085b0af"
->aDataChanged</PreCondition></PreConditions>
+>aDataChanged
+  OR  
+Available( THIS.DisplayStartTime )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="12f9e7a5-3fe2-41c1-8604-7f696c3bb86b"
->THIS.OutputInformation.RequestDisplay()</Action><Action
- Guid="87ebef27-ae9a-458e-9c32-f008f6edc880"
+>THIS.OutputInformation.RequestDisplay()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle start time"
+ Guid="40c085ce-5975-4369-9cf3-fa7f2e4cb3e7"
+>
+<Comment>When the display of the notification starts, record the time.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Record the time at start of display"
+ Guid="05bd20c8-e7ed-485d-aaef-253d2f14e992"
+>
+<PreConditions>
+<PreCondition
+ Guid="5abc0b98-c135-4802-abf5-a6b19b4310b2"
+>NOT Available( THIS.DisplayStartTime )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ed1f9ef8-4dca-4290-94d8-e525c9437930"
 >THIS.DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Hide otherwise"
@@ -3646,7 +3681,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Actions>
 <Action
  Guid="6ee6bb87-fb70-43e2-b3fd-2036e2730589"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
+>THIS.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="54e37166-5b6f-4bc7-9c6d-16622c9f462a"
+>THIS.DisplayStartTime &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
