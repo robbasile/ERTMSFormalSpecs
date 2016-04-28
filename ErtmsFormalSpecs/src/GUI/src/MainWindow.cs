@@ -1038,14 +1038,27 @@ namespace GUI
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Title = "Open test sequence database";
                 openFileDialog.Filter = "Access Files (*.mdb)|*.mdb";
+                openFileDialog.Multiselect = true;
                 if (openFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    string sequenceName = Path.GetFileName(openFileDialog.FileName);
                     bool keepManualTranslations = true;
-                    SubSequence subSequence = dictionary.FindSubSequence(sequenceName);
-                    if (subSequence != null && subSequence.ContainsManualTranslation())
+
+                    bool containsManualTranslation = false;
+                    foreach (string fileName in openFileDialog.FileNames)
                     {
-                        DialogResult dialogResult = MessageBox.Show(this, "Keep manual translations ?", "Manual translations found in " + sequenceName,
+                        string sequenceName = Path.GetFileName(fileName);
+                        SubSequence subSequence = dictionary.FindSubSequence(sequenceName);
+                        if (subSequence != null && subSequence.ContainsManualTranslation())
+                        {
+                            containsManualTranslation = true;
+                            break;
+                        }
+                    }
+
+                    if (containsManualTranslation)
+                    {
+                        DialogResult dialogResult = MessageBox.Show(this, "Keep manual translations ?",
+                            "Manual translations have been found in imported sequences",
                             MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
                         if (dialogResult == DialogResult.No)
                         {
@@ -1057,9 +1070,12 @@ namespace GUI
                         }
                     }
 
-                    ImportTestDataBaseOperation operation = new ImportTestDataBaseOperation(openFileDialog.FileName,
-                        dictionary, ImportTestDataBaseOperation.Mode.File, keepManualTranslations);
-                    operation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Import database");
+                    foreach (string fileName in openFileDialog.FileNames)
+                    {
+                        ImportTestDataBaseOperation operation = new ImportTestDataBaseOperation(fileName,
+                            dictionary, ImportTestDataBaseOperation.Mode.File, keepManualTranslations);
+                        operation.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Import database " + fileName);
+                    }
                 }
             }
         }
