@@ -234,6 +234,11 @@ namespace DataDictionary.RuleCheck
 
             if (subSequence != null)
             {
+                if (!subSequence.getCompleted())
+                {
+                    subSequence.AddRuleCheckMessage(RuleChecksEnum.Test06, ElementLog.LevelEnum.Info, 
+                        "Sequences should be marked as completed to be automatically executed when executing the frame");
+                }
                 if (subSequence.TestCases.Count == 0)
                 {
                     subSequence.AddRuleCheckMessage(RuleChecksEnum.Test01, ElementLog.LevelEnum.Warning, 
@@ -288,7 +293,7 @@ namespace DataDictionary.RuleCheck
                 {
                     // Specific checks for subset-076
                     if ((step.getDescription().IndexOf("balise group", StringComparison.InvariantCultureIgnoreCase) !=
-                         -1) && step.getDescription().Contains("is received"))
+                         -1) && step.getDescription().Contains("is received") )
                     {
                         if (step.StepMessages.Count == 0)
                         {
