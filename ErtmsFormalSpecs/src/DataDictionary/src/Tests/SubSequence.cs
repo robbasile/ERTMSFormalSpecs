@@ -127,12 +127,21 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Translates the sub sequence, according to the tanslation dictionary provided
         /// </summary>
-        public void Translate()
+        /// <returns>False if a blocking issue has been found while translating the subsequence</returns>
+        public bool Translate()
         {
+            bool retVal = false;
+
             foreach (TestCase testCase in TestCases)
             {
-                testCase.Translate();
+                retVal = testCase.Translate();
+                if (retVal)
+                {
+                    break;
+                }
             }
+
+            return retVal;
         }
 
         /// <summary>

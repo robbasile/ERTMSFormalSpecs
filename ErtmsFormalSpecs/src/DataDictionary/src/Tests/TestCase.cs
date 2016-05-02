@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using DataDictionary.Generated;
+using DataDictionary.Tests.Issue;
 using Utils;
 
 namespace DataDictionary.Tests
@@ -68,12 +69,25 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Translates the current step, according to the translation dictionary
         /// </summary>
-        public void Translate()
+        /// <returns>False if a blocking issue has been found while translating the subsequence</returns>
+        public bool Translate()
         {
+            bool retVal = false;
+
             foreach (Step step in Steps)
             {
                 step.Translate();
+
+                Counter counter = new Counter();
+                counter.visit(step);
+                if (counter.Issues[IssueKind.Blocking] != 0)
+                {
+                    retVal = true;
+                    break;
+                }
             }
+
+            return retVal;
         }
 
         /// <summary>
