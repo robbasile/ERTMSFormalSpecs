@@ -22,7 +22,7 @@ namespace DataDictionary.Tests.Issue
     /// <summary>
     /// Counts the number of items (actions, expectations, ...) in part of the subtree
     /// </summary>
-    public class Counter : DataDictionary.Generated.Visitor
+    public class Counter : Generated.Visitor
     {
         /// <summary>
         /// The number of sub sequences found
@@ -79,7 +79,7 @@ namespace DataDictionary.Tests.Issue
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="visitSubNodes"></param>
-        public override void visit(DataDictionary.Generated.SubSequence obj, bool visitSubNodes)
+        public override void visit(Generated.SubSequence obj, bool visitSubNodes)
         {
             SubSequences += 1;
 
@@ -100,7 +100,7 @@ namespace DataDictionary.Tests.Issue
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="visitSubNodes"></param>
-        public override void visit(DataDictionary.Generated.Action obj, bool visitSubNodes)
+        public override void visit(Generated.Action obj, bool visitSubNodes)
         {
             Actions += 1;
 
@@ -112,7 +112,7 @@ namespace DataDictionary.Tests.Issue
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="visitSubNodes"></param>
-        public override void visit(DataDictionary.Generated.Expectation obj, bool visitSubNodes)
+        public override void visit(Generated.Expectation obj, bool visitSubNodes)
         {
             Checks += 1;
 
@@ -124,7 +124,7 @@ namespace DataDictionary.Tests.Issue
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="visitSubNodes"></param>
-        public override void visit(DataDictionary.Generated.ReferencesParagraph obj, bool visitSubNodes)
+        public override void visit(Generated.ReferencesParagraph obj, bool visitSubNodes)
         {
             ReferencesParagraph referencesParagraph = obj as ReferencesParagraph;
 
