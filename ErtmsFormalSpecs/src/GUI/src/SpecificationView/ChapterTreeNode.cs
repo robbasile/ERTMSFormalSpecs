@@ -119,7 +119,10 @@ namespace GUI.SpecificationView
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Paragraph paragraph = paragraphTreeNode.Item;
-                    paragraphTreeNode.Delete();
+                    if (paragraph.EnclosingCollection != null)
+                    {
+                        paragraph.EnclosingCollection.Remove(paragraph);
+                    }
                     Item.appendParagraphs(paragraph);
                 }
             }
