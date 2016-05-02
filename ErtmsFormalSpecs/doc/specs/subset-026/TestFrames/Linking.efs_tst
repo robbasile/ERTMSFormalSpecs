@@ -736,5 +736,481 @@ N_ITER=&gt;0
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Expectation Window"
+ Guid="7b552893-e402-4268-bd3b-f46b70fb6c3b"
+>
+<TestCases>
+<TestCase
+ Name="BG Found At Start Of Window"
+ Guid="8187cd28-3b68-4c3e-9a26-d3874bcbc342"
+>
+<ReqRef
+ Id="ed1304d4-1fee-44f9-97ed-b5cc6591b838"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="764117a0-4ad0-4849-a813-aeeb1b064e7f"
+>
+</ReqRef><ReqRef
+ Id="c534dda4-ea81-40b7-a27b-c229e935a20e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bf3214ad-2cf5-44f6-9f9f-f4790eb50128"
+>
+</ReqRef><Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="4403bde2-8c57-4bb6-8d46-22bc52ef8dfc"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize"
+ Guid="252baf10-df2b-418c-9126-da81695798f0"
+>
+<Actions>
+<Action
+ Guid="94ddab50-1d1b-4308-bed7-010c45dbc9ce"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Linking and Accuracy"
+ Guid="a856e700-dec5-4570-b3ea-7123ebb7e820"
+>
+<Actions>
+<Action
+ Guid="a8bfd4e0-879a-40ed-acb5-f22abbdd1bb3"
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct
+  {
+    LocationAccuracy =&gt; 5.0, 
+    Orientation =&gt; Default.OrientationEnum.Nominal, 
+    Reaction =&gt; BTM.Linking.LinkingReaction.TrainTrip, 
+    Distance =&gt; 500.0, 
+    BaliseGroupIdentifier =&gt; 1337
+  },BTM.Linking.LinkingDataStruct
+  {
+    LocationAccuracy =&gt; 5.0, 
+    Orientation =&gt; Default.OrientationEnum.Nominal, 
+    Reaction =&gt; BTM.Linking.LinkingReaction.TrainTrip, 
+    Distance =&gt; 500.0, 
+    BaliseGroupIdentifier =&gt; 1338
+  },BTM.Linking.LinkingDataStruct
+  {
+    LocationAccuracy =&gt; 5.0, 
+    Orientation =&gt; Default.OrientationEnum.Nominal, 
+    Reaction =&gt; BTM.Linking.LinkingReaction.TrainTrip, 
+    Distance =&gt; 500.0, 
+    BaliseGroupIdentifier =&gt; 1339
+  }]</Action><Action
+ Guid="839e44ab-2cd3-4c4c-9339-c7aaf36ceeb0"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct{
+D_ura =&gt; 5.0,
+D_ora =&gt; 5.0,
+V_ora =&gt; 0.0,
+V_ura =&gt; 0.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Before Detection"
+ Guid="d0a78004-c420-46df-9898-a3b22080a30e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Move"
+ Guid="6b03b9cd-d9da-4e95-92f5-a244ab110c64"
+>
+<Actions>
+<Action
+ Guid="84490ca3-5a4a-41f9-8e64-8709d7aa36ef"
+>Odometry.NominalDistance&lt;- 484.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Linking Still There"
+ Guid="1261b8d6-42ab-455e-9d5d-28b174943b7b"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0bf60086-14fa-4f48-a67b-6ea289880752"
+>BTM.Linking.LinkingApplicable()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="dd81482e-5c24-406d-9a3d-71336e15118d"
+>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == 1337</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Within window"
+ Guid="3d1973ba-5c50-4103-b451-991d01f8485e"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Move"
+ Guid="497215d6-6919-422c-a581-a8385dfd46be"
+>
+<Actions>
+<Action
+ Guid="c3a2a067-9430-4b4d-95af-1e902ae29c16"
+>Odometry.NominalDistance&lt;- 485.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check LRBG"
+ Guid="958721bf-98cd-4bd8-bd19-aa3400208d9d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c3076fad-0be6-4eac-9ac3-3f84c10a3e62"
+>Available(BTM.LRBG.LRBG)</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b0c080f9-e8ca-4870-b57c-991bb9b30b4e"
+>BTM.LRBG.LRBG.NID == 1986</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d319f703-f024-46ce-ac42-07dee03c4411"
+>BTM.AntennaDistance( aPointOfInterest =&gt; Default.DistanceIntervalEnum.Max ) &gt;= BTM.Linking.CurrentLinking().Distance - BTM.Linking.CurrentLinking().LocationAccuracy</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2593a87b-13cc-45a7-b8eb-46e24bc4b22f"
+>BTM.AntennaDistance( aPointOfInterest =&gt; Default.DistanceIntervalEnum.Min ) &lt;= BTM.Linking.CurrentLinking().Distance + BTM.Linking.CurrentLinking().LocationAccuracy</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Detect New BG"
+ Guid="295b7063-b377-4ad6-b86c-5734ff76edc8"
+>
+<Actions>
+<Action
+ Guid="ada2c904-85e2-4cde-aa24-f98fa2bdf079"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; 17, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; 0, 
+    N_TOTAL =&gt; 0, 
+    M_DUP =&gt; 0, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1337, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check LRBG Update"
+ Guid="5c268e54-c73b-4190-b2c8-cddad0e4bfcb"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="da7939d8-cdd4-47d9-a40e-6b7d312814f7"
+>BTM.LRBG.LRBG.NID == 1337</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0ef74ff3-3ac3-47be-bcdc-58f201a79cde"
+>(FIRST X IN BTM.Linking.Linkings).BaliseGroupIdentifier == 1338</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="BG Found At Nominal Location"
+ Guid="e8258357-fc3f-49b1-bebe-603984cd3a53"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Before Detection"
+ Guid="d26f0d06-ce58-4bda-a7ab-7f78a92adb06"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Move"
+ Guid="6871b394-0f68-4c90-b124-3732e14aff30"
+>
+<Actions>
+<Action
+ Guid="35e1b0b8-ca55-4dfd-ba71-539d921a112f"
+>Odometry.NominalDistance&lt;- 984.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Linking Still There"
+ Guid="38973646-1230-45da-a10f-4d8310fc15d9"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7fa0fe02-a764-4d09-b721-3d1d894975c5"
+>BTM.Linking.LinkingApplicable()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="061408a1-5fbb-4afc-a146-00dc8f2bd5f8"
+>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == 1338</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Within Window"
+ Guid="36953046-b8fa-4d52-a748-8746f75a70c6"
+>
+<SubSteps>
+<SubStep
+ Name="Move"
+ Guid="7aba34c0-0225-4247-a587-bb5359be447a"
+>
+<Actions>
+<Action
+ Guid="449a956e-2ca8-43e2-a8e2-8e1bdb0813bf"
+>Odometry.NominalDistance &lt;- 985.0</Action></Actions>
+</SubStep><SubStep
+ Name="Check LRBG"
+ Guid="397da042-c2e7-4449-b8e7-b584ce5a2bd8"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="db491165-fead-42eb-b519-0f882242fbd3"
+>Available(BTM.LRBG.LRBG)</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3cd58ee4-0c33-456e-817c-04090586b18d"
+>BTM.LRBG.LRBG.NID == 1337</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="145260d7-d27a-421a-9e27-1a274f10c565"
+>BTM.AntennaDistance( aPointOfInterest =&gt; Default.DistanceIntervalEnum.Max ) &gt;= BTM.Linking.CurrentLinking().Distance - BTM.Linking.CurrentLinking().LocationAccuracy</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="69f209ad-7fdf-4880-a0fa-696f860605b0"
+>BTM.AntennaDistance( aPointOfInterest =&gt; Default.DistanceIntervalEnum.Min ) &lt;= BTM.Linking.CurrentLinking().Distance + BTM.Linking.CurrentLinking().LocationAccuracy</Expectation></Expectations>
+</SubStep><SubStep
+ Name="Detect New BG"
+ Guid="51cb44e0-1e64-47b6-afaf-fbd33f4b4eca"
+>
+<Actions>
+<Action
+ Guid="e5b38be5-b823-451e-8485-019dae031b6a"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; 17, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; 0, 
+    N_TOTAL =&gt; 0, 
+    M_DUP =&gt; 0, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1338, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ Name="Check LRBG Update"
+ Guid="93401182-bd8c-4109-a26b-d4d96315bca8"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ed4bad59-fda1-458c-9550-13b43b042283"
+>BTM.LRBG.LRBG.NID == 1338</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0e73a189-259b-408e-b1df-1f4989a49cbe"
+>(FIRST X IN BTM.Linking.Linkings).BaliseGroupIdentifier == 1339</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="BG Found At End Of Window"
+ Guid="1a05e0f5-30f4-4e4b-9e1c-02f718cfaa4e"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Before Detection"
+ Guid="81835262-81d9-47b8-8de4-e0708acc528c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Move"
+ Guid="e7f1a926-c63e-4ff3-87f3-0fd3ac0b6603"
+>
+<Actions>
+<Action
+ Guid="34e83e1e-09d6-46d4-922a-635d4afd5899"
+>Odometry.NominalDistance&lt;- 1494.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Linking Still There"
+ Guid="5329a56c-da68-4729-b378-17e91c1addce"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="36fe1351-896b-46dc-a7ae-6527d2619e3c"
+>BTM.Linking.LinkingApplicable()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="391c685b-ef6d-4928-bac0-363d7dd75c3a"
+>BTM.Linking.CurrentLinking().BaliseGroupIdentifier == 1339</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Within Window"
+ Guid="274cf584-f934-47c5-8612-b38672d4cc85"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Move"
+ Guid="41054a85-61c7-42ee-8172-2061f9b3d877"
+>
+<Actions>
+<Action
+ Guid="e01f1938-2682-48e4-9a57-cf0b76feeb9b"
+>Odometry.NominalDistance &lt;- 1495.0</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check LRBG"
+ Guid="13fab980-782d-409a-8a33-1a1dd9f10f9c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2bbb6b91-c85a-4866-8e91-b95f3b877dbe"
+>Available(BTM.LRBG.LRBG)</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3ddb468f-50d2-4f50-835b-e3ca4f59fcfc"
+>BTM.LRBG.LRBG.NID == 1338</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fe1d40b7-30b5-455e-b90f-e8f13f5f5ad1"
+>BTM.AntennaDistance( aPointOfInterest =&gt; Default.DistanceIntervalEnum.Max ) &gt;= BTM.Linking.CurrentLinking().Distance - BTM.Linking.CurrentLinking().LocationAccuracy</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d89a2ca5-3266-41b4-96eb-6576f210fa62"
+>BTM.AntennaDistance( aPointOfInterest =&gt; Default.DistanceIntervalEnum.Min ) &lt;= BTM.Linking.CurrentLinking().Distance + BTM.Linking.CurrentLinking().LocationAccuracy</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Detect New BG"
+ Guid="137af94d-0574-46aa-9741-00c3a9630d1d"
+>
+<Actions>
+<Action
+ Guid="cf4cc39b-f7b8-4675-a842-f13a9dd05fe7"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; 17, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; 0, 
+    N_TOTAL =&gt; 0, 
+    M_DUP =&gt; 0, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1339, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check LRBG Update"
+ Guid="06a34914-c9c0-43cd-bae1-b38c93e839b0"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d3ac5499-2f14-4556-8e56-be1aa21d2374"
+>BTM.LRBG.LRBG.NID == 1339</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ce0811f2-5feb-47e8-a078-661763dea97e"
+>BTM.Linking.Linkings == []</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame>
