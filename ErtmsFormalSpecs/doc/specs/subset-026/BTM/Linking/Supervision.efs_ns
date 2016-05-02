@@ -109,7 +109,8 @@
 <PreConditions>
 <PreCondition
  Guid="4b2c047b-90a3-49e7-b4f9-8ff093ea90a3"
->BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position + BTM.BGLocationReference.Position.UnderReadingAmountOdo &lt; LinkedBG.Distance - LinkedBG.LocationAccuracy</PreCondition></PreConditions>
+>BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position + Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount(BTM.BGLocationReference.Position.UnderReadingAmountOdo) + BTM.LRBG.LRBG.LocationAccuracy
+&lt; LinkedBG.Distance - LinkedBG.LocationAccuracy</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="After expectation window"
@@ -119,7 +120,8 @@
 <PreConditions>
 <PreCondition
  Guid="a13d9a26-6872-475a-b2a5-b2e0d9cf137e"
->BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &gt; LinkedBG.Distance + LinkedBG.LocationAccuracy</PreCondition></PreConditions>
+>(BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position) - (Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount(BTM.BGLocationReference.Position.OverReadingAmountOdo) + BTM.LRBG.LRBG.LocationAccuracy) 
+&gt; LinkedBG.Distance + LinkedBG.LocationAccuracy</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Inside expectation window"

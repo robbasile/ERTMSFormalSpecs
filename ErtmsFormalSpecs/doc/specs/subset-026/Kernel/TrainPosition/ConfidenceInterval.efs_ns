@@ -133,6 +133,13 @@
  Guid="1e4fe908-e118-4bba-9d68-2a282558d90d"
 >
 </ReqRef><Comment>The over reading amount is composed of the error in detection of the balise group location reference and the odometer accuracy, relative to the LRBG (specified by 3.6.4.4), which is obtained by substracting the odometer occuracy saved while passing the LRBG from the absolute odometer accuracy.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Length"
+ Name="aD_ora"
+ Guid="236a257a-5db8-4c4a-bd26-e9ef2a22791b"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="LRBG available"
@@ -142,12 +149,12 @@
 <PreCondition
  Guid="8527f2e2-1984-4e3b-a84b-2bd0ca0266eb"
 >Available ( BTM.LRBG.LRBG )</PreCondition></PreConditions>
-<Expression>Odometry.Accuracy.D_ora - BTM.LRBG.LRBG.Position.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+<Expression>aD_ora - BTM.LRBG.LRBG.Position.OverReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
 </Case><Case
  Name="LRBG not available"
  Guid="5bd63ae7-8fb9-428d-a8f9-85e010bebd02"
 >
-<Expression>Odometry.Accuracy.D_ora + BTM.BGLocationDetectionError</Expression>
+<Expression>aD_ora + BTM.BGLocationDetectionError</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -171,6 +178,13 @@
  Guid="c06fab78-cf31-4801-8d4b-091eb3289040"
 >
 </ReqRef><Comment>The under reading amount is composed of the error in detection of the balise group location reference and the odometer accuracy, relative to the LRBG (specified by 3.6.4.4), which is obtained by substracting the odometer occuracy saved while passing the LRBG from the absolute odometer accuracy.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Length"
+ Name="aD_ura"
+ Guid="a27e1b88-d5c5-4b0f-a0d8-faa987abb721"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="LRBG available"
@@ -180,12 +194,12 @@
 <PreCondition
  Guid="a5bf58bf-8a8e-4e6c-878e-f193ff367c6d"
 >Available ( BTM.LRBG.LRBG )</PreCondition></PreConditions>
-<Expression>Odometry.Accuracy.D_ura - BTM.LRBG.LRBG.Position.UnderReadingAmountOdo + BTM.BGLocationDetectionError</Expression>
+<Expression>aD_ura - BTM.LRBG.LRBG.Position.UnderReadingAmountOdo + BTM.BGLocationDetectionError </Expression>
 </Case><Case
  Name="LRBG not available"
  Guid="addf63ba-ab75-44ea-b08b-f5b1ce8c87d1"
 >
-<Expression>Odometry.Accuracy.D_ura + BTM.BGLocationDetectionError</Expression>
+<Expression>aD_ura + BTM.BGLocationDetectionError</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -232,7 +246,7 @@
 <PreCondition
  Guid="67b1f287-e27b-43b1-9c78-f3744fa8fdbb"
 >Direction == ConfidenceIntervalEnum.L_DOUBTOVER</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount() + BTM.LRBGLocationAccuracy()</Expression>
+<Expression>Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount(Odometry.Accuracy.D_ora) + BTM.LRBGLocationAccuracy()</Expression>
 </Case><Case
  Name="L_DOUBTUNDER"
  Guid="a19a1e59-da54-4197-bccf-081040d859a4"
@@ -241,7 +255,7 @@
 <PreCondition
  Guid="154edbe4-5899-4c83-b4d4-9b248e032553"
 >Direction == ConfidenceIntervalEnum.L_DOUBTUNDER</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount() + BTM.LRBGLocationAccuracy()</Expression>
+<Expression>Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount(Odometry.Accuracy.D_ura) + BTM.LRBGLocationAccuracy()</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
