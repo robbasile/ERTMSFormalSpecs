@@ -516,6 +516,51 @@
 >
 <Expression>THERE_IS Version IN SupportedSystemVersions | MainVersionFromDetailledVersion( aDetailledVersion =&gt; Version ) == MainVersionFromDetailledVersion( aDetailledVersion =&gt; aVersion )</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SystemVersionXIsGreater"
+ Guid="e498f578-45f3-4042-a590-a4d0dac28e41"
+>
+<ReqRef
+ Id="c808a6f7-a4d4-4dad-955f-f538e5cd0f7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8cdb4220-6002-4d10-aa4b-75deaf0d2d9d"
+>
+</ReqRef><Comment>Indicates whether the system version of parameter X1 is greater than the system version of parameter X2.</Comment>
+<Parameters>
+<Parameter
+ Type="SystemVersionEnum"
+ Name="X1"
+ Guid="54e93dcb-2329-4078-8c1f-05beaa930bdb"
+>
+</Parameter><Parameter
+ Type="SystemVersionEnum"
+ Name="X2"
+ Guid="b949159f-2e6e-4d5a-89e8-bea4d7943eb6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="X1 is version 2"
+ Guid="8574147b-e538-4a23-81af-66c1c3d09913"
+>
+<PreConditions>
+<PreCondition
+ Guid="c66dfad0-f7e9-4eac-82fa-2b9e9b16f643"
+>X1 == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
+<Expression>X2 in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="259f1618-37bd-4915-b505-6a0d68337339"
+>
+<Expression>False</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -549,6 +594,8 @@ This is the default rule which will be called at the beginning of each cycle, be
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update Operated System Version"
  Guid="730fc4ff-b184-461e-b5f9-fa4338366191"
@@ -667,7 +714,7 @@ This is the default rule which will be called at the beginning of each cycle, be
 >
 </ReqRef><ReqRef
  Id="2612c929-e684-4b3e-bacd-1b6c90de4b4f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
  Guid="0ac89fa4-0b46-4537-8c11-f6a109c32971"
 >
 </ReqRef><ReqRef

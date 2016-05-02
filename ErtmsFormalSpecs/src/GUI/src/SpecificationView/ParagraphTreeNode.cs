@@ -350,6 +350,25 @@ namespace GUI.SpecificationView
             }
         }
 
+        public void ReplaceA1(object sender, EventArgs args)
+        {
+            if (Item.getId().IndexOf('A') == 0)
+            {
+                string newId = Item.getId().Substring(1);
+                Item.setId(newId);
+            }
+
+            foreach (BaseTreeNode node in Nodes)
+            {
+                ParagraphTreeNode paragraphNode = node as ParagraphTreeNode;
+                if (paragraphNode != null)
+                {
+                    paragraphNode.ReplaceA1(sender, args);
+                }
+            }
+        }
+
+
         /// <summary>
         ///     The menu items for this tree node
         /// </summary>
@@ -364,6 +383,8 @@ namespace GUI.SpecificationView
                 new MenuItem("-"),
                 new MenuItem("Update", FindOrCreateUpdate)
             };
+
+            retVal.Add(new MenuItem("Replace A1 with 1", ReplaceA1));
 
             retVal.AddRange(base.GetMenuItems());
             MenuItem newItem = new MenuItem("Mark as...");
