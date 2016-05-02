@@ -1,0 +1,229 @@
+<NameSpace
+ X="290"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="Messages"
+ Guid="6bdae6f5-56fb-4ac7-8730-b6f2d43963cd"
+>
+<NameSpaces>
+</NameSpaces>
+<Ranges>
+<Range
+ MinValue="0"
+ MaxValue="199"
+ Precision="IntegerPrecision"
+ Default="0"
+ X="10"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="NID_PACKET"
+ Guid="e681177d-4be7-4a4c-b94e-58afbacd91ec"
+>
+<Comment>This is used in each packet, allowing the receiving equipment to identify the data, which follows.</Comment>
+</Range><Range
+ MinValue="0"
+ MaxValue="1888"
+ Precision="IntegerPrecision"
+ Default="0"
+ X="320"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="L_PACKET"
+ Guid="8648c63a-b629-4969-b115-576dfb159952"
+>
+<Comment>L_PACKET indicates the length of the transmitted packet in bits, including NID_PACKET, L_PACKET,
+Q_SCALE (if included) and all other packet variables.
+Units of 1 bit.</Comment>
+</Range><Range
+ MinValue="0"
+ MaxValue="4294967295"
+ Precision="IntegerPrecision"
+ Default="0"
+ X="0"
+ Y="280"
+ Width="100"
+ Height="50"
+ Name="T_ODO"
+ Guid="11d396ca-e1e4-47a6-bd8e-0b4b55298a6b"
+>
+<Comment>Local Reference Time when the odometer data were valid as specified in SUBSET-056 - STM FFFIS Safe Time Layer - chapter 3.4.8.
+Units of 1 ms.</Comment>
+</Range><Range
+ MinValue="-32768"
+ MaxValue="32767"
+ Precision="IntegerPrecision"
+ Default="0"
+ X="170"
+ Y="460"
+ Width="100"
+ Height="50"
+ Name="V_ODO"
+ Guid="fc90034f-e720-4570-9c79-1ba5bb429fbd"
+>
+<Comment>Signed value of a speed provided by the odometer to STM.
+Signed value, units of 1 cm/s.</Comment>
+</Range><Range
+ MinValue="-2147483648"
+ MaxValue="2147483647"
+ Precision="IntegerPrecision"
+ Default="0"
+ X="170"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="D_ODO"
+ Guid="78ffcc4d-5e40-43d1-b107-8e71078effc2"
+>
+<Comment>Signed value of a distance provided by the odometer to STM.
+Signed value, units of 1 cm.
+Subset-058 v. 300, paragraph 8.1.1, 8.1.3, 8.1.4.</Comment>
+</Range><Range
+ MinValue="0"
+ MaxValue="255"
+ Precision="IntegerPrecision"
+ Default="1"
+ X="340"
+ Y="290"
+ Width="100"
+ Height="50"
+ Name="D_RES"
+ Guid="ad5759d6-d1b4-4fe5-b6a1-ae9eaa131b49"
+>
+<Comment>Current distance resolution included in the odometer data transmitted from the ERTMS/ETCS on-board Odometer Function to the STMs.
+Units of 1 cm.</Comment>
+</Range></Ranges>
+<Structures>
+<Structure
+ Default=""
+ X="170"
+ Y="290"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OdometerMulticastMessageStruct"
+ Guid="9f0dce54-50b8-4203-8485-8ef43127557c"
+>
+<ReqRef
+ Id="b774cb9b-3ed7-4270-b69a-b81066add7a1"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="0c2fca9c-5f43-40a4-8b7c-afe4f3f9bd9f"
+>
+</ReqRef><Comment>Represents a message from Odometry, as specified paragraph 7.3.2 of Subset 58 v 300.</Comment>
+<StructureElement
+ TypeName="NID_PACKET"
+ Default="8"
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NID_PACKET"
+ Guid="8d2552e6-a7a9-4fc6-9b0f-c3794526900b"
+>
+<Comment>Packet identifier. Value = 8.</Comment>
+</StructureElement><StructureElement
+ TypeName="L_PACKET"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="L_PACKET"
+ Guid="87a72885-83ac-4b7d-8f34-ae9e7544dacd"
+>
+<Comment>Packet length.</Comment>
+</StructureElement><StructureElement
+ TypeName="V_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="V_MAX"
+ Guid="43a38a7d-e564-4bfb-97c8-8da530587843"
+>
+<Comment>Upper bound of the measured speed.</Comment>
+</StructureElement><StructureElement
+ TypeName="V_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="V_EST"
+ Guid="d3a1a087-af44-44fd-a03f-1c8644b2565b"
+>
+<Comment>Estimated speed value.</Comment>
+</StructureElement><StructureElement
+ TypeName="V_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="V_MIN"
+ Guid="b05c4b90-1700-4d80-8c82-a2daec15ae6b"
+>
+<Comment>Lower bound of the measured speed.</Comment>
+</StructureElement><StructureElement
+ TypeName="D_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="D_MAX"
+ Guid="366938c3-6381-4573-a726-1797f295aa64"
+>
+<Comment>Positive direction side of the confidence interval.</Comment>
+</StructureElement><StructureElement
+ TypeName="D_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="D_EST"
+ Guid="86d325c7-4300-4b3c-b446-62e6c228f149"
+>
+<Comment>Estimated value of distance.</Comment>
+</StructureElement><StructureElement
+ TypeName="D_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="D_MIN"
+ Guid="28355a0f-6d93-40b1-b5a8-d7fa626fcd3f"
+>
+<Comment>Negative direction side of the confidence interval.</Comment>
+</StructureElement><StructureElement
+ TypeName="T_ODO"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="T_ODO"
+ Guid="03f3d1c1-e7fe-4a68-9f72-5ce88e4c9bf9"
+>
+<Comment>Timestamp.</Comment>
+</StructureElement><StructureElement
+ TypeName="D_RES"
+ Default="1"
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="D_RES"
+ Guid="d23f4b5e-b65f-489d-bce6-847418b638c2"
+>
+<Comment>Resolution of distance measurement.</Comment>
+</StructureElement></Structure></Structures>
+<RuleCheckDisabling
+ Guid="e591a544-7222-4cf6-b4fa-418dd74aa035"
+>
+<RuleCheckIdentifier
+ Name="Naming01"
+ Guid="e4c5b569-b5d6-42c8-839a-2dc7ec2ff21d"
+>
+</RuleCheckIdentifier><RuleCheckIdentifier
+ Name="Process01"
+ Guid="36e40e57-97c6-4811-a1e8-5299029f9ffd"
+>
+</RuleCheckIdentifier></RuleCheckDisabling></NameSpace>

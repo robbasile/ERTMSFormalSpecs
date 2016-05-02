@@ -9,148 +9,11 @@
  Guid="eb49e898-2a38-43cf-82a0-17e52883a9ed"
 >
 <NameSpaces>
-</NameSpaces>
-<Ranges>
-<Range
- MinValue="0"
- MaxValue="4294967295"
- Precision="IntegerPrecision"
- Default="0"
- X="10"
- Y="120"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="M_MAXSUMVAR"
- Guid="a1855d02-6183-4cd3-9af5-15c57f90665d"
+<NameSpaceRef
+ Name="Converters"
+ Guid="c81cac09-7dba-4187-b92d-d22b4f057292"
 >
-<Comment>Maximum Sum of Variance.
-Maximum Sum of Variance, adding to the positive movement direction of the confidence interval.</Comment>
-</Range><Range
- MinValue="0"
- MaxValue="4294967295"
- Precision="IntegerPrecision"
- Default="0"
- X="10"
- Y="50"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="M_MINSUMVAR"
- Guid="a21d8338-289c-4491-a326-9f6bbf6933c1"
->
-<Comment>Minimum Sum of Variance.
-Minimum Sum of Variance, adding to the negative movement direction of the confidence interval.</Comment>
-</Range></Ranges>
-<Enumerations>
-<Enum
- Default="Odometry.Q_NOM_ODOEnum.Nominal"
- X="420"
- Y="50"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="Q_NOM_ODOEnum"
- Guid="81dfc5ee-e6bc-429a-86fc-98d118b26076"
->
-<Comment>Nominal odometer qualifier.
-Indicate if the odometer configuration is nominal (all sensors available) or not.</Comment>
-<Values>
-<EnumValue
- Value="1"
- Name="Nominal"
- Guid="0c3d3bf5-e917-4d51-b588-8fa603cc67a6"
->
-</EnumValue><EnumValue
- Value="0"
- Name="NotNominal"
- Guid="6ad94aa6-f74f-4c27-ac0b-94fa4e44a92d"
->
-</EnumValue></Values>
-</Enum><Enum
- Default="Odometry.Q_SAFEDIREnum.NotAmbiguous"
- X="220"
- Y="0"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="Q_SAFEDIREnum"
- Guid="8a9dbd91-ca6d-4265-bf01-a24e7181e7f7"
->
-<Comment>Direction ambiguity.
-Define if the direction information is ambiguous or not.</Comment>
-<Values>
-<EnumValue
- Value="1"
- Name="Ambiguous"
- Guid="30756770-2866-458e-aa99-9e8696ce3a23"
->
-</EnumValue><EnumValue
- Value="0"
- Name="NotAmbiguous"
- Guid="2dac3c72-319c-41fb-9c22-7bec7fb3a24b"
->
-</EnumValue></Values>
-</Enum><Enum
- Default="Odometry.M_K_ETCSEnum.ReservedForNonStaticalModel"
- X="420"
- Y="120"
- Width="100"
- Height="50"
- Pinned="TRUE"
- NeedsRequirement="FALSE"
- Name="M_K_ETCSEnum"
- Guid="58d90229-7cff-4502-932e-f3a5e3f9b751"
->
-<Comment>Confidence level.
-The confidence level (K) is defined as a level of probability that the true position is inside the confidence interval.</Comment>
-<Values>
-<EnumValue
- Value="0"
- Name="ReservedForNonStaticalModel"
- Guid="f8085dab-eefc-4a8a-a3f9-0707c54fd98a"
->
-</EnumValue><EnumValue
- Value="1"
- Name="K_68"
- Guid="acb77a03-42aa-405b-bdef-3fa563041b98"
->
-</EnumValue><EnumValue
- Value="2"
- Name="K_95"
- Guid="49797f47-0b95-4fa5-bcae-97397a42c96e"
->
-</EnumValue><EnumValue
- Value="3"
- Name="K_99_7"
- Guid="37480281-1fbb-45f8-85f6-d1c140972650"
->
-</EnumValue><EnumValue
- Value="4"
- Name="K_99_99"
- Guid="d69c61ab-ca75-45db-83e1-3b04353c377e"
->
-</EnumValue><EnumValue
- Value="5"
- Name="K_99_9999"
- Guid="58ed4160-3626-4076-88d9-305e92cdd442"
->
-</EnumValue><EnumValue
- Value="6"
- Name="K_99_999999"
- Guid="32f60b95-c98d-4f73-9a46-bc17a643fca5"
->
-</EnumValue><EnumValue
- Value="7"
- Name="K_99_99999999"
- Guid="759a6bfc-5c19-4df6-a76c-31c5b59cbf32"
->
-</EnumValue></Values>
-</Enum></Enumerations>
+</NameSpaceRef></NameSpaces>
 <Structures>
 <Structure
  Default=""
@@ -221,194 +84,6 @@ The confidence level (K) is defined as a level of probability that the true posi
  Guid="58c21ffd-cdda-4fd8-81ff-50d005c1f59f"
 >
 </ReqRef><Comment>Speed under reading amount.</Comment>
-</StructureElement></Structure><Structure
- Default=""
- X="220"
- Y="80"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="OdometerMulticastMessageStruct"
- Guid="9f0dce54-50b8-4203-8485-8ef43127557c"
->
-<ReqRef
- Id="b774cb9b-3ed7-4270-b69a-b81066add7a1"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="0c2fca9c-5f43-40a4-8b7c-afe4f3f9bd9f"
->
-</ReqRef><Comment>Represents a message from Odometry, as specified in the Subset 58 v 211.</Comment>
-<StructureElement
- TypeName="BaseTypes.IdentityNumber"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="NID_PACKET"
- Guid="8d2552e6-a7a9-4fc6-9b0f-c3794526900b"
->
-<Comment>Packet identifier. Value = 8.</Comment>
-</StructureElement><StructureElement
- TypeName="MessageTypes.Length"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="L_PACKET"
- Guid="87a72885-83ac-4b7d-8f34-ae9e7544dacd"
->
-<Comment>Packet length.</Comment>
-</StructureElement><StructureElement
- TypeName="Q_SAFEDIREnum"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Q_SAFEDIR"
- Guid="71b3a6ef-f5bc-414b-b53b-aa3938e8c28c"
->
-<Comment>Ambiguous Direction.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="V_MAX"
- Guid="43a38a7d-e564-4bfb-97c8-8da530587843"
->
-<Comment>Upper bound of the measured speed.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="V_NOM"
- Guid="d3a1a087-af44-44fd-a03f-1c8644b2565b"
->
-<Comment>Nominal speed value.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="V_MIN"
- Guid="b05c4b90-1700-4d80-8c82-a2daec15ae6b"
->
-<Comment>Lower bound of the measured speed.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="D_MAX_ACCUM"
- Guid="2a8c1f6e-c898-4c2a-8068-92ecfec0b6ab"
->
-<Comment>Accumulative part in positive movement direction of stochastical confidence interval. Variable not transmitted if M_K_ETCS =0.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="D_MAX"
- Guid="366938c3-6381-4573-a726-1797f295aa64"
->
-<Comment>MAX_ODO, Positive direction side of non-stochastic confidence interval.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="D_NOM"
- Guid="86d325c7-4300-4b3c-b446-62e6c228f149"
->
-<Comment>NOM_ODO, nominal value of distance.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="D_MIN"
- Guid="28355a0f-6d93-40b1-b5a8-d7fa626fcd3f"
->
-<Comment>MIN_ODO, Negative direction side of non-stochastic confidence interval.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="D_MIN_ACCUM"
- Guid="10a2dddf-81e7-4798-ab02-5b74a9fd3b5f"
->
-<Comment>Accumulative part in negative movement direction of stochastical confidence interval. Variable not transmitted if M_K_ETCS =0.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="T_ODO"
- Guid="03f3d1c1-e7fe-4a68-9f72-5ce88e4c9bf9"
->
-<Comment>Timestamp.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="D_RES"
- Guid="d23f4b5e-b65f-489d-bce6-847418b638c2"
->
-<Comment>RES_ODO, resolution of distance (RES_ODO) measurement.</Comment>
-</StructureElement><StructureElement
- TypeName="Q_NOM_ODOEnum"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Q_NOM_ODO"
- Guid="16a7ffd1-6637-403c-aa87-ae69e266541e"
->
-<Comment>Indicate if the odometer configuration is nominal or not.</Comment>
-</StructureElement><StructureElement
- TypeName="M_K_ETCSEnum"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="M_K_ETCS"
- Guid="9f64f90f-a0a1-4b6d-bb04-47c4fefaf57b"
->
-<Comment>The confidence level (K) is defined as a level of probability that the true position is inside the confidence interval.</Comment>
-</StructureElement><StructureElement
- TypeName="Odometry.M_MAXSUMVAR"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="M_MAXSUMVAR"
- Guid="c122fc7f-181e-4cec-833b-acb432d3530b"
->
-<Comment>Maximum Sum of Variance. Variable not transmitted if M_K_ETCS =0.</Comment>
-</StructureElement><StructureElement
- TypeName="Odometry.M_MINSUMVAR"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="M_MINSUMVAR"
- Guid="b512cef3-11f2-460b-a2d0-a327d3b74373"
->
-<Comment>Minimum Sum of Variance. Variable not transmitted if M_K_ETCS =0.</Comment>
 </StructureElement></Structure></Structures>
 <Functions>
 <Function
@@ -581,7 +256,7 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Comment>Stores the message provided by the odometry.</Comment>
 <Parameters>
 <Parameter
- Type="OdometerMulticastMessageStruct"
+ Type="STM.Messages.OdometerMulticastMessageStruct"
  Name="aMessage"
  Guid="c80158b8-7024-4537-9f24-a47f191474b7"
 >
@@ -589,6 +264,8 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="StoreOdometerMessage"
@@ -607,24 +284,24 @@ The confidence level (K) is defined as a level of probability that the true posi
 <Actions>
 <Action
  Guid="b92908d8-bb37-433f-bb12-af688ebed023"
->Odometry.CurrentTime &lt;- aMessage.T_ODO</Action><Action
+>Odometry.CurrentTime &lt;- Converters.TimeConversion(aMessage.T_ODO)</Action><Action
  Guid="ab9780a3-2b2c-4004-aaeb-2efb4c699d69"
->Odometry.NominalDistance &lt;- aMessage.D_NOM</Action><Action
+>Odometry.NominalDistance &lt;- Converters.DistanceConversion(aMessage.D_EST)</Action><Action
  Guid="a7bc8e19-3c2d-40e0-8fcd-019a376526a0"
->Odometry.Accuracy.D_ura &lt;- BaseTypes.DistanceToLength(aMessage.D_MAX - aMessage.D_NOM)</Action><Action
+>Odometry.Accuracy.D_ura &lt;- BaseTypes.DistanceToLength(Converters.DistanceConversion(aMessage.D_MAX - aMessage.D_EST))</Action><Action
  Guid="77e6e519-84b4-4ee9-9090-7bfe385d539a"
->Odometry.Accuracy.D_ora &lt;- BaseTypes.DistanceToLength(aMessage.D_NOM - aMessage.D_MIN)</Action><Action
+>Odometry.Accuracy.D_ora &lt;- BaseTypes.DistanceToLength(Converters.DistanceConversion(aMessage.D_EST - aMessage.D_MIN))</Action><Action
  Guid="63cfd51a-a706-4c38-bf84-6496ef309c84"
->Odometry.EstimatedSpeed &lt;- aMessage.V_NOM</Action><Action
+>Odometry.EstimatedSpeed &lt;- Converters.SpeedConversion(aMessage.V_EST)</Action><Action
  Guid="24d8010e-c271-4470-96c1-5303813aaafe"
 >Odometry.EstimatedAcceleration &lt;- Odometry.CalculateAcceleration(
-    aTime =&gt; aMessage.T_ODO,
-    aSpeed =&gt; aMessage.V_NOM
+    aTime =&gt; Converters.SpeedConversion(aMessage.T_ODO),
+    aSpeed =&gt; Converters.SpeedConversion(aMessage.V_EST)
 )</Action><Action
  Guid="be1750f6-f121-4bb4-9192-25785d00bc32"
->Odometry.Accuracy.V_ora &lt;- aMessage.V_NOM - aMessage.V_MIN</Action><Action
+>Odometry.Accuracy.V_ora &lt;- Converters.SpeedConversion(aMessage.V_EST - aMessage.V_MIN)</Action><Action
  Guid="7a4376a7-9f06-403b-87a3-14f47c6b2890"
->Odometry.Accuracy.V_ura &lt;- aMessage.V_MAX - aMessage.V_NOM</Action></Actions>
+>Odometry.Accuracy.V_ura &lt;- Converters.SpeedConversion(aMessage.V_MAX - aMessage.V_EST)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -671,7 +348,7 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
 >
 <Comment>The current time of the odometry.</Comment>
 </Variable><Variable
- Type="OdometerMulticastMessageStruct"
+ Type="STM.Messages.OdometerMulticastMessageStruct"
  DefaultValue="EMPTY"
  VariableMode="InOut"
  X="220"

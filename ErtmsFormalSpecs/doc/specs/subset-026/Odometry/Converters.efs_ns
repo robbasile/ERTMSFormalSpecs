@@ -1,0 +1,85 @@
+<NameSpace
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="Converters"
+ Guid="9bb1c9c5-01ae-4e21-b1ee-7e66fe5531d6"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="TimeConversion"
+ Guid="d48128c5-0df5-48d5-a125-071197217eb7"
+>
+<Parameters>
+<Parameter
+ Type="STM.Messages.T_ODO"
+ Name="aTime"
+ Guid="adacceba-a697-4b82-80f7-b92753230594"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="a1ac2440-4b6a-49a7-a350-7a4275849d36"
+>
+<Expression>BaseTypes.Time(aTime) / 1000.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="SpeedConversion"
+ Guid="6e5b2789-5c06-4207-be1e-4671ed708c1e"
+>
+<Parameters>
+<Parameter
+ Type="STM.Messages.V_ODO"
+ Name="aSpeed"
+ Guid="1dd374bc-6a00-4dc5-a694-66ed25f88408"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="672032d6-d993-4a80-a201-321f1428d855"
+>
+<Expression>BaseTypes.Speed(aSpeed) * 3.6 / 100.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="DistanceConversion"
+ Guid="a738c56d-e874-489e-b722-bab202d3f64b"
+>
+<Parameters>
+<Parameter
+ Type="STM.Messages.D_ODO"
+ Name="aDistance"
+ Guid="3eae009a-aa35-4b6e-9ed0-edfdc505a42e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="74f232d4-abdd-40f3-a9aa-d0b00d033085"
+>
+<Expression>BaseTypes.Distance(aDistance) / 100.0</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
