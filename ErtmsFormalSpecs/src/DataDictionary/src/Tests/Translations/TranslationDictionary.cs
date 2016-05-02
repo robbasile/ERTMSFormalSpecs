@@ -17,6 +17,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
+using System.Text.RegularExpressions;
 using Utils;
 
 namespace DataDictionary.Tests.Translations
@@ -114,31 +116,36 @@ namespace DataDictionary.Tests.Translations
         }
 
         /// <summary>
-        ///     The cache
+        ///     The cache for texts
         /// </summary>
         private Dictionary<string, Dictionary<string, Translation>> theCache = null;
 
-        public Dictionary<string, Dictionary<string, Translation>> TheCache
-        {
-            get
-            {
-                if (theCache == null)
-                {
-                    theCache = new Dictionary<string, Dictionary<string, Translation>>();
-                    foreach (Folder folder in Folders)
-                    {
-                        StoreTranslationsInFolder(folder);
-                    }
-                    foreach (Translation translation in Translations)
-                    {
-                        storeTranslationInCache(translation);
-                    }
-                }
+        /// <summary>
+        /// The cache for regular expressions
+        /// </summary>
+        private Dictionary<Regex, Dictionary<string, Translation>> theRegularExpressionCache = null;
 
-                return theCache;
+        /// <summary>
+        /// Builds the caches
+        /// </summary>
+        private void BuildCache()
+        {
+            if (theCache == null || theRegularExpressionCache == null)
+            {
+                theCache = new Dictionary<string, Dictionary<string, Translation>>();
+                theRegularExpressionCache = new Dictionary<Regex, Dictionary<string, Translation>>();
+
+                foreach (Folder folder in Folders)
+                {
+                    StoreTranslationsInFolder(folder);
+                }
+                foreach (Translation translation in Translations)
+                {
+                    storeTranslationInCache(translation);
+                }
             }
-            private set { theCache = value; }
         }
+
 
         private void StoreTranslationsInFolder(Folder folder)
         {
@@ -161,13 +168,35 @@ namespace DataDictionary.Tests.Translations
         {
             foreach (SourceText sourceText in translation.SourceTexts)
             {
-                string textDescription = StripText(sourceText.Name);
+                Dictionary<string, Translation> tmp = null;
 
-                Dictionary<string, Translation> tmp;
-                if (!theCache.TryGetValue(textDescription, out tmp))
+                if (sourceText.getRegularExpression())
                 {
-                    tmp = new Dictionary<string, Translation>();
-                    theCache[textDescription] = tmp;
+                    Regex regex = new Regex(sourceText.Name);
+                    foreach (KeyValuePair<Regex, Dictionary<string, Translation>> pair in theRegularExpressionCache)
+                    {
+                        if (pair.Key.ToString() == regex.ToString())
+                        {
+                            tmp = pair.Value;
+                            break;
+                        }                        
+                    }
+
+                    if (tmp == null)
+                    {
+                        tmp = new Dictionary<string, Translation>();
+                        theRegularExpressionCache[regex] = tmp;
+                    }
+                }
+                else
+                {
+                    string textDescription = StripText(sourceText.Name);
+
+                    if (!theCache.TryGetValue(textDescription, out tmp))
+                    {
+                        tmp = new Dictionary<string, Translation>();
+                        theCache[textDescription] = tmp;
+                    }
                 }
 
                 if (sourceText.Comments.Count > 0)
@@ -199,15 +228,57 @@ namespace DataDictionary.Tests.Translations
 
             if (description != null)
             {
-                string text = StripText(description);
-                if (TheCache.ContainsKey(text))
-                {
-                    Dictionary<string, Translation> tmp = TheCache[text];
+                BuildCache();
 
+                Dictionary<string, Translation> tmp = null;
+
+                // Try to find a perfect match
+                string text = StripText(description);
+                if (theCache.ContainsKey(text))
+                {
+                    tmp = theCache[text];
+                }
+
+                if (tmp != null)
+                {
                     string commentValue = StripText(comment);
                     if (!tmp.TryGetValue(commentValue, out retVal))
                     {
                         tmp.TryGetValue(NO_SPECIFIC_COMMENT, out retVal);
+                    }
+                }
+
+                if (retVal == null)
+                {
+                    // Try to find in the regular expressions
+                    foreach (KeyValuePair<Regex, Dictionary<string, Translation>> pair in theRegularExpressionCache)
+                    {
+                        if (pair.Key.IsMatch(description))
+                        {
+                            tmp = pair.Value;
+                        }
+                    }
+
+                    if (tmp != null)
+                    {
+                        string commentValue = StripText(comment);
+                        if (!tmp.TryGetValue(commentValue, out retVal))
+                        {
+                            commentValue = NO_SPECIFIC_COMMENT;
+                            tmp.TryGetValue(commentValue, out retVal);
+                        }
+
+                        if (retVal != null)
+                        {
+                            // Store this result for further use
+                            string textDescription = StripText(description);
+                            if (!theCache.TryGetValue(textDescription, out tmp))
+                            {
+                                tmp = new Dictionary<string, Translation>();
+                                theCache[textDescription] = tmp;
+                            }
+                            tmp[commentValue] = retVal;
+                        }
                     }
                 }
             }
@@ -220,7 +291,8 @@ namespace DataDictionary.Tests.Translations
         /// </summary>
         public void ClearCache()
         {
-            TheCache = null;
+            theCache = null;
+            theRegularExpressionCache = null;
         }
 
         /// <summary>

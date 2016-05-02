@@ -236,6 +236,13 @@ namespace DataDictionary
             base.visit(obj, visitSubNodes);
         }
 
+        public override void visit(SourceText obj, bool visitSubNodes)
+        {
+            obj.setRegularExpression(false);
+
+            base.visit(obj, visitSubNodes);
+        }
+
         public override void visit(Paragraph obj, bool visitSubNodes)
         {
             obj.setGuid("");

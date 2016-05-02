@@ -27,6 +27,12 @@ namespace GUI.TranslationRules
     {
         private class ItemEditor : CommentableEditor
         {
+            // ReSharper disable once UnusedMember.Local
+            public bool UseRegularExpression
+            {
+                get { return Item.getRegularExpression(); }
+                set { Item.setRegularExpression(value); }
+            }
         }
 
         /// <summary>

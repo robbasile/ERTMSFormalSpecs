@@ -713,6 +713,16 @@ namespace DataDictionary.Tests.Translations
                     {
                         Range type = variable.Type as Range;
                         object v = VariableConverter.INSTANCE.Convert(variable.Name, field.Value);
+
+                        string stringValue = v as string;
+                        if (stringValue != null)
+                        {
+                            int intValue;
+                            if (int.TryParse(stringValue, out intValue))
+                            {
+                                v = intValue;                                
+                            }
+                        }
                         variable.Value = new IntValue(type, (int) v);
                         j++;
                     }

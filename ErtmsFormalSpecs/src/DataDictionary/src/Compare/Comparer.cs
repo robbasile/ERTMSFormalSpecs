@@ -4434,6 +4434,10 @@ namespace DataDictionary.Compare
                     }
                 }
             }
+            if ( obj.getRegularExpression() != other.getRegularExpression() )
+            {
+                diff.appendChanges ( new Diff(obj, HistoricalData.Generated.acceptor.ChangeOperationEnum.aChange, "RegularExpression", other.getRegularExpression().ToString(), obj.getRegularExpression().ToString()) );
+            }
         }
 
         /// <summary>
@@ -14915,6 +14919,7 @@ namespace DataDictionary.Compare
             { 
 	            DuplicateNamable (source, target);
 
+                target.setRegularExpression(source.getRegularExpression());
             }	  
         }
 
