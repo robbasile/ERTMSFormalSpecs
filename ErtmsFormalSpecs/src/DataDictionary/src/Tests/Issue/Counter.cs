@@ -15,12 +15,9 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using DataDictionary;
-using DataDictionary.Specification;
-using DataDictionary.Tests;
 using Utils;
 
-namespace Reports.Specs.SubSet76
+namespace DataDictionary.Tests.Issue
 {
     /// <summary>
     /// Counts the number of items (actions, expectations, ...) in part of the subtree

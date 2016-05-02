@@ -17,6 +17,7 @@
 using System;
 using System.Globalization;
 using DataDictionary;
+using DataDictionary.Tests.Issue;
 using MigraDoc.DocumentObjectModel;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -163,7 +164,7 @@ namespace Reports.Specs.SubSet76
             counter.Issues[IssueKind.Blocking].ToString(CultureInfo.InvariantCulture));
             if (IncludeDetails)
             {
-                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Blocking));
+                Report.SetLastRowColor(IssueColor(IssueKind.Blocking));
             }
 
             Report.AddRow(
@@ -172,7 +173,7 @@ namespace Reports.Specs.SubSet76
                 counter.Issues[IssueKind.Issue].ToString(CultureInfo.InvariantCulture));
             if (IncludeDetails)
             {
-                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Issue));
+                Report.SetLastRowColor(IssueColor(IssueKind.Issue));
             }
 
             Report.AddRow(
@@ -181,7 +182,7 @@ namespace Reports.Specs.SubSet76
                 counter.Issues[IssueKind.Question].ToString(CultureInfo.InvariantCulture));
             if (IncludeDetails)
             {
-                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Question));
+                Report.SetLastRowColor(IssueColor(IssueKind.Question));
             }
 
             Report.AddRow(
@@ -190,7 +191,7 @@ namespace Reports.Specs.SubSet76
                 counter.Issues[IssueKind.Comment].ToString(CultureInfo.InvariantCulture));
             if (IncludeDetails)
             {
-                Report.SetLastRowColor(IssueKindUtil.IssueColor(IssueKind.Comment));
+                Report.SetLastRowColor(IssueColor(IssueKind.Comment));
             }
 
             Report.AddSubParagraph("Summary");
@@ -241,7 +242,7 @@ namespace Reports.Specs.SubSet76
                                 Report.AddRow(
                                     testCase.Name,
                                     reqRef.Paragraph.Text);
-                                Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
+                                Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
                             }
 
                             foreach (Step step in testCase.Steps)
@@ -258,7 +259,7 @@ namespace Reports.Specs.SubSet76
                                     Report.AddRow(
                                         name,
                                         reqRef.Paragraph.Text);
-                                    Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
+                                    Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
                                 }
                             }
                         }
@@ -348,7 +349,7 @@ namespace Reports.Specs.SubSet76
             foreach (ReqRef reqRef in item.Requirements)
             {
                 Report.AddRow(reqRef.Paragraph.Text);
-                Report.SetLastRowColor(IssueKindUtil.IssueColor(reqRef.Paragraph));
+                Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
             }
         }
 
@@ -399,7 +400,7 @@ namespace Reports.Specs.SubSet76
             else
             {
                 Report.AddRow(paragraph.ExpressionText);
-                Report.SetLastRowColor(IssueKindUtil.IssueColor(paragraph));
+                Report.SetLastRowColor(IssueColor(paragraph));
 
                 if (paragraph.Implementations.Count > 0)
                 {
@@ -417,6 +418,41 @@ namespace Reports.Specs.SubSet76
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Provides the color associated to the issue kind
+        /// </summary>
+        /// <param name="issue"></param>
+        /// <returns></returns>
+        public static Color IssueColor(Paragraph issue)
+        {
+            return IssueColor(IssueKindUtil.GetKind(issue));
+        }
+
+        /// <summary>
+        /// Provides the color associated to the issue kind
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <returns></returns>
+        public static Color IssueColor(IssueKind? kind)
+        {
+            Color retVal = Colors.IndianRed;
+
+            if (kind == IssueKind.Comment)
+            {
+                retVal = Colors.LightGreen;
+            }
+            else if (kind == IssueKind.Question)
+            {
+                retVal = Colors.LightGoldenrodYellow;
+            }
+            else if (kind == null)
+            {
+                retVal = Colors.Transparent;
+            }
+
+            return retVal;
         }
     }
 }

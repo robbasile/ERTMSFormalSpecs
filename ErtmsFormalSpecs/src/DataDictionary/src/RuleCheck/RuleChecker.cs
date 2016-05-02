@@ -21,6 +21,7 @@ using System.Linq;
 using DataDictionary.Generated;
 using DataDictionary.Interpreter;
 using DataDictionary.Interpreter.Statement;
+using DataDictionary.Tests.Issue;
 using DataDictionary.Types;
 using DataDictionary.Values;
 using DataDictionary.Variables;
@@ -236,8 +237,13 @@ namespace DataDictionary.RuleCheck
             {
                 if (!subSequence.getCompleted())
                 {
-                    subSequence.AddRuleCheckMessage(RuleChecksEnum.Test06, ElementLog.LevelEnum.Info, 
-                        "Sequences should be marked as completed to be automatically executed when executing the frame");
+                    Counter counter = new Counter();
+                    counter.visit(obj);
+                    if (counter.Issues[IssueKind.Blocking] == 0)
+                    {
+                        subSequence.AddRuleCheckMessage(RuleChecksEnum.Test06, ElementLog.LevelEnum.Info,
+                            "Sequences should be marked as completed to be automatically executed when executing the frame");
+                    }
                 }
                 if (subSequence.TestCases.Count == 0)
                 {

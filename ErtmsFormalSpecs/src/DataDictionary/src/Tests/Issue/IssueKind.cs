@@ -15,10 +15,8 @@
 // ------------------------------------------------------------------------------
 
 using DataDictionary.Specification;
-using MigraDoc.DocumentObjectModel;
-using Paragraph = DataDictionary.Specification.Paragraph;
 
-namespace Reports.Specs.SubSet76
+namespace DataDictionary.Tests.Issue
 {
     /// <summary>
     /// Identifies the kind of issue
@@ -79,41 +77,6 @@ namespace Reports.Specs.SubSet76
                 {
                     break;
                 }
-            }
-
-            return retVal;
-        }
-
-        /// <summary>
-        /// Provides the color associated to the issue kind
-        /// </summary>
-        /// <param name="issue"></param>
-        /// <returns></returns>
-        public static Color IssueColor(Paragraph issue)
-        {
-            return IssueColor(GetKind(issue));
-        }
-
-        /// <summary>
-        /// Provides the color associated to the issue kind
-        /// </summary>
-        /// <param name="kind"></param>
-        /// <returns></returns>
-        public static Color IssueColor(IssueKind? kind)
-        {
-            Color retVal = Colors.IndianRed;
-
-            if (kind == IssueKind.Comment)
-            {
-                retVal = Colors.LightGreen;
-            }
-            else if (kind == IssueKind.Question)
-            {
-                retVal = Colors.LightGoldenrodYellow;
-            }
-            else if (kind == null)
-            {
-                retVal = Colors.Transparent;
             }
 
             return retVal;
