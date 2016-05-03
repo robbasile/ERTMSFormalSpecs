@@ -4567,14 +4567,12 @@ If the train position is invalid, delete the stored position.</Comment>
 </ReqRef><Comment>Transition to TR.</Comment>
 <PreConditions>
 <PreCondition
- Guid="954fed36-ba42-4e41-947a-70d721e3c8cb"
->Condition49() OR Condition52() OR Condition65()</PreCondition></PreConditions>
+ Guid="a9dd1e2a-da82-4bc0-a5aa-c7373b7bad1e"
+>Condition49() OR 
+Condition52() OR 
+Condition65()</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="6aa2cd3b-3475-4776-8e2b-42601bdef416"
->Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="1792e4b9-7ba6-469d-8ed1-6b648d805376"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4627,8 +4625,33 @@ If the train position is invalid, delete the stored position.</Comment>
 >Condition65()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="f481dfb8-8917-4547-8a16-cfea5287b12d"
+ Guid="a4956b04-e84d-4b16-90a6-ec8b14de8c19"
 >Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="00e194bf-0339-4cff-a095-3b052d8bbc48"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="4d6468d8-7d79-4f0e-b737-a930c7340fe2"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6aa2cd3b-3475-4776-8e2b-42601bdef416"
+>Kernel.Mode &lt;- ModeEnum.TR</Action><Action
+ Guid="1792e4b9-7ba6-469d-8ed1-6b648d805376"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4827,11 +4850,7 @@ Condition65() OR
 Condition66() OR 
 Condition69()</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="98497e5d-445a-4bab-bbf4-b6400148078d"
->Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="24c59973-f236-4d49-8e22-69740b3f5554"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4928,6 +4947,31 @@ Condition69()</PreCondition></PreConditions>
 <Action
  Guid="02931fc8-af0a-4134-b26e-abea20cb5ee3"
 >Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.FrontEndRearOfSSPOrGradient</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="f6eaaeb4-ce67-4f1c-af8b-82c7bd9a7ece"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="c90e6bec-bfff-426a-8e3c-2e64cd9283f9"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="c8624373-cdd3-446c-b989-92fad45c50a7"
+>Kernel.Mode &lt;- ModeEnum.TR</Action><Action
+ Guid="d012256f-1661-4504-b667-c8a72c2ecf58"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -5477,11 +5521,7 @@ Condition65() OR
 Condition66() OR 
 Condition69()</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="5d3b8533-1fe2-4229-80a7-43e869507125"
->Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="73e838aa-c6d9-4acc-873d-73387e38f461"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -5578,6 +5618,31 @@ Condition69()</PreCondition></PreConditions>
 <Action
  Guid="0c28ed0f-9c71-4fae-a1a0-f37f4bee3a4d"
 >Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.FrontEndRearOfSSPOrGradient</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="c95d2981-4e0d-4e60-abb9-549fba42f364"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="a6fb6761-89a8-437a-b5ed-667bef0ba565"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="03ab1fff-37fb-421d-ae46-0e2379874fae"
+>Kernel.Mode &lt;- ModeEnum.TR</Action><Action
+ Guid="8a47645c-8db8-42cd-9090-bfabc3d9e244"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6053,11 +6118,7 @@ Condition36() OR
 Condition54() OR 
 Condition65()</PreCondition></PreConditions>
 <Actions>
-<Action
- Guid="30aae68f-aef1-4144-996d-e9b36ffa866d"
->Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="271c7794-55ab-42a0-a07a-0550e0e2d6a1"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -6154,6 +6215,31 @@ Condition65()</PreCondition></PreConditions>
 <Action
  Guid="1ced4bd6-3ff3-41de-afd4-802e8d413477"
 >Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="f5033ac8-329a-40c5-9b75-76c39a0969f1"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="b33ac320-dc8f-44c1-9bd6-af72b99ac6a7"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="299ab252-10ac-4667-a181-8e675ea4565f"
+>Kernel.Mode &lt;- ModeEnum.TR</Action><Action
+ Guid="4c9f2873-5396-49e9-94c2-c6ef9c36a122"
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -6558,13 +6644,140 @@ Condition65()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="1acdfc30-8e69-4cf3-acda-37c28507dfe3"
->Kernel.Modes.ModeTransitions.Condition12() OR Kernel.Modes.ModeTransitions.Condition16() OR Kernel.Modes.ModeTransitions.Condition17() OR Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition41() OR Kernel.Modes.ModeTransitions.Condition65() OR Kernel.Modes.ModeTransitions.Condition66() OR Kernel.Modes.ModeTransitions.Condition69()</PreCondition></PreConditions>
+>Condition12() OR 
+Condition16() OR 
+Condition17() OR 
+Condition18() OR 
+Condition20() OR 
+Condition41() OR 
+Condition65() OR 
+Condition66() OR 
+Condition69()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="4b5aa3c8-f1ad-46e0-9064-c3421f4a353e"
+>
+<Comment>Specify the trip reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Overpass EOA/LOA"
+ Guid="c995c047-f3aa-4b8b-99fb-7af17b710707"
+>
+<Comment>Overpass EOA/LOA</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0bd33c29-6daa-43e0-ab1a-58132fcadcc0"
+>Condition12() OR Condition16()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="c2096ab8-a3d6-44c6-8dcc-f5da22096232"
+ Guid="973da89a-7fea-43f4-9a03-60f037d1b405"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OverpassEOAorLOA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linking reaction"
+ Guid="ebfeb7c3-25bf-4bfc-ac8b-16358c49d476"
+>
+<Comment>Linking reaction</Comment>
+<PreConditions>
+<PreCondition
+ Guid="73917956-84fd-44b5-95a3-db28fb912a57"
+>Condition17() OR Condition66()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="90d1cfa7-4fd4-4507-b29b-637996476675"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.LinkingReaction</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Trackside order"
+ Guid="208e1ebf-0a3e-412c-92d5-b0e5930d0ed9"
+>
+<Comment>Trackside order</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2485c53b-e20d-4f79-9515-9ed83a2275c8"
+>Condition18() OR Condition20()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d34a21a3-96c8-4060-b714-32ef1d3144f3"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="EURORADIO Max time between message exceeded"
+ Guid="1d5dd465-7963-4a18-b3c5-d5e211fe17e3"
+>
+<Comment>EURORADIO Max time between message exceeded</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2cbab21a-6bf5-4b8e-80cc-546c3c321327"
+>Condition41()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ad2e7b5e-2f25-43c3-a0f8-3a3546d8ae1d"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.EURORADIOMaxTimeBetweenMessageExceeded</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Invalid balise version"
+ Guid="0b0ce0a0-d792-4cfa-93c6-be4506af723e"
+>
+<Comment>Invalid balise version</Comment>
+<PreConditions>
+<PreCondition
+ Guid="77e4ce4c-efab-455b-8f2a-991267d260be"
+>Condition65()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="76249c81-16e1-48f5-80b0-55671d3c1a19"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Front end in rear of the SSP or Gradient"
+ Guid="921e763b-0879-4e5f-bcb9-4e4deff68068"
+>
+<Comment>Front end in rear of the SSP or Gradient</Comment>
+<PreConditions>
+<PreCondition
+ Guid="07d2eeaa-0962-431f-92f8-1e926e7606ad"
+>Condition69()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="faf3e26f-5470-4296-88ee-1704b898c757"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.FrontEndRearOfSSPOrGradient</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="ef4f1aef-5566-4de8-996e-abc3d7ec3da9"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="af52e706-bb5e-4809-a883-9b2f677a9b4f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ca501143-d7d6-4534-9ae6-964d164292aa"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="bb532e41-aaa3-41d4-994a-145d365de736"
+ Guid="48ebf807-405f-4901-9ef9-7f30063360bd"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="OS -&gt; SB"
@@ -7220,13 +7433,92 @@ Condition65()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="880598c3-df04-4ec2-add1-3ed98931ab98"
->Kernel.Modes.ModeTransitions.Condition67() OR Kernel.Modes.ModeTransitions.Condition39() OR Kernel.Modes.ModeTransitions.Condition20()</PreCondition></PreConditions>
+>Condition67() OR 
+Condition39() OR 
+Condition20()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="c205c4c9-a694-42ca-a59d-966514942764"
+>
+<Comment>Specify the trip reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Trip ordered by trackside"
+ Guid="d7cdb12f-6c95-416d-8e99-b490ec17b1cf"
+>
+<Comment>Trip ordered by trackside</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6c5cd4fb-78e6-4e54-9d18-78b8aa25402c"
+>Condition67()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="082ef426-2891-4e8c-95de-e6d644d806b8"
+ Guid="27394781-b5c8-4d7a-b113-9289fa4c4ee0"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="No MA"
+ Guid="41463aab-a433-4a96-9d31-59c76e0d1daf"
+>
+<Comment>No MA</Comment>
+<PreConditions>
+<PreCondition
+ Guid="253e961a-aea5-4d59-b24b-e380d58215d3"
+>Condition39()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d6804b12-f220-414b-a9db-21bd8dfe005d"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OverpassEOAorLOA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Trackside order"
+ Guid="4d3020f5-e1e4-4da1-8961-62bb4aabfc04"
+>
+<Comment>Trackside order</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7a2cd4de-8d85-41f2-a0ba-8f5283a8271d"
+>Condition20()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2709cc7e-1f29-4b72-9470-18432b5a6b17"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="fdce5637-1746-4e9b-9c6e-0e64e6f2544f"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="10e12030-213e-4a92-87fb-3abf46ea19f4"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7ce6aec0-0048-40db-b33c-031568c18ddf"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="eaad072e-80af-41ca-8af4-04d4a47f82be"
+ Guid="93b0cc46-1569-48d9-844a-35f31476cdc8"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="UN -&gt; SB"
@@ -8307,13 +8599,108 @@ Condition65()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="933b3f5f-4666-41b5-8fd4-bf7d2c47f2b6"
->Kernel.Modes.ModeTransitions.Condition67() OR Kernel.Modes.ModeTransitions.Condition39() OR Kernel.Modes.ModeTransitions.Condition38() OR Kernel.Modes.ModeTransitions.Condition35() OR Kernel.Modes.ModeTransitions.Condition20()</PreCondition></PreConditions>
+>Condition67() OR 
+Condition39() OR 
+Condition38() OR 
+Condition35() OR 
+Condition20()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="20fb89a7-047f-4776-a26a-4409c7e4652f"
+>
+<Comment>Specify the trip reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Trip ordered by trackside"
+ Guid="b198a225-e4ff-4146-b3cb-403a5c720884"
+>
+<Comment>Trip ordered by trackside</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f66f6ac1-b8f7-418b-83fa-3848af27abdb"
+>Condition67()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="bb9c8a03-3951-4332-9066-55dc76dd7dd5"
+ Guid="a5a289d7-082a-453f-bbd3-7c87e9894a63"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="No MA"
+ Guid="7158473a-ac70-4d03-adad-d3ee345f878d"
+>
+<Comment>No MA</Comment>
+<PreConditions>
+<PreCondition
+ Guid="36a989c6-e1a5-4c1c-bce7-3357daa9f2e8"
+>Condition39()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0ffb75a6-47cd-4ff8-9908-3a28547e2b8b"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OverpassEOAorLOA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Trackside order"
+ Guid="cb679112-8ab3-435c-a31a-91890792dcb2"
+>
+<Comment>Trackside order</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e81bb34f-5e99-41a4-a83f-472e84055912"
+>Condition20()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="06d374ef-2636-4d6e-9a85-d26c37c380b5"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="National trip"
+ Guid="57dca527-eb4c-4ce8-967f-e33f87c38210"
+>
+<Comment>National trip</Comment>
+<PreConditions>
+<PreCondition
+ Guid="afe2a5b9-0cdd-4efc-8f04-a41dffe645fb"
+>Condition38() OR Condition35()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="492ac718-c4aa-4458-a596-809d867c8dea"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.TripOrderedByNationalSystem</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="0de54a59-34e4-44fb-9e63-074b361374c3"
+>
+<Comment>Switches to TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch to TR"
+ Guid="d3e31524-0018-491c-b040-3992f7c11689"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="78e02f9b-5ca6-4829-b6ab-3e05d10c32f3"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
- Guid="bd612182-aaca-4f0f-b48b-e56b91045f94"
+ Guid="4c9e2e1e-d905-46e0-a632-1f2ac397e01a"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SN -&gt; SB"
