@@ -1,9 +1,8 @@
 <NameSpace
- X="130"
- Y="80"
+ X="20"
+ Y="180"
  Width="100"
  Height="50"
- Hidden="TRUE"
  Pinned="TRUE"
  Name="ModeTransitions"
  Guid="19ea2d70-2e6d-45f4-9d4f-bf0d09e19e4c"
@@ -3682,7 +3681,9 @@ TIU.NonLeadingPermitted</Expression>
  Guid="6bd2c59a-d001-444e-abad-375c759f1a6c"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
  Guid="742fe7d2-5e50-49c4-b328-8c87d39a2fc6"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+>Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action><Action
+ Guid="64b127df-9606-4b7e-9fc7-f41fcee7e325"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SB -&gt; SL"
@@ -4567,13 +4568,69 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="954fed36-ba42-4e41-947a-70d721e3c8cb"
->Kernel.Modes.ModeTransitions.Condition49() OR Kernel.Modes.ModeTransitions.Condition52() OR Kernel.Modes.ModeTransitions.Condition65()</PreCondition></PreConditions>
+>Condition49() OR Condition52() OR Condition65()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6aa2cd3b-3475-4776-8e2b-42601bdef416"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
  Guid="1792e4b9-7ba6-469d-8ed1-6b648d805376"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="74adedf0-1ac0-4910-a4fc-4ee8787e43a7"
+>
+<Comment>Specify the Trip reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Stop if in Shunting"
+ Guid="c4971760-f5e1-4451-b6c5-1efb95faa74b"
+>
+<Comment>Stop if in Shunting</Comment>
+<PreConditions>
+<PreCondition
+ Guid="81487b03-ceca-48e3-843a-80050d9aea99"
+>Condition49()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ee23b4f8-cbe6-4483-9508-88cdcceee4d7"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.StopIfInShunting</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Unexpected BG"
+ Guid="f4e3fdbf-720e-470c-835f-00a973a83dcc"
+>
+<Comment>Unexpected Balise Group</Comment>
+<PreConditions>
+<PreCondition
+ Guid="211d1bc2-2b90-4f35-a1da-55028967f995"
+>Condition52()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c8e317fb-3331-4c27-b4ba-a774c6fb407a"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.UnexpectedBG</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Invalid balise version"
+ Guid="4597eaf9-37d9-4d23-af71-1a8e753147b7"
+>
+<Comment>Invalid balise version</Comment>
+<PreConditions>
+<PreCondition
+ Guid="727cdd0b-4684-4765-9a07-f3fb8b872c1c"
+>Condition65()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f481dfb8-8917-4547-8a16-cfea5287b12d"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH -&gt; SB"
@@ -4760,13 +4817,119 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="7a25fda4-c429-4fde-8b17-6923aff1259a"
->Kernel.Modes.ModeTransitions.Condition12() OR Kernel.Modes.ModeTransitions.Condition16() OR Kernel.Modes.ModeTransitions.Condition17() OR Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition41() OR Kernel.Modes.ModeTransitions.Condition65() OR Kernel.Modes.ModeTransitions.Condition66() OR Kernel.Modes.ModeTransitions.Condition69()</PreCondition></PreConditions>
+>Condition12() OR 
+Condition16() OR 
+Condition17() OR 
+Condition18() OR 
+Condition20() OR 
+Condition41() OR 
+Condition65() OR 
+Condition66() OR 
+Condition69()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="98497e5d-445a-4bab-bbf4-b6400148078d"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
  Guid="24c59973-f236-4d49-8e22-69740b3f5554"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="e6aa117a-aaf6-43a2-afe9-9b80a8e421ce"
+>
+<Comment>Specify the trip reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Overpass EOA/LOA"
+ Guid="a1c48e6f-b7b7-4a3e-abdb-a615e6e849d5"
+>
+<Comment>Overpass EOA/LOA</Comment>
+<PreConditions>
+<PreCondition
+ Guid="966a26af-5983-4599-8cf4-11616f161791"
+>Condition12() OR Condition16()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="90939073-3f72-40f4-9007-4f411c19535e"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OverpassEOAorLOA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linking reaction"
+ Guid="283f005a-e572-459a-bbfc-7ee09dfd31b9"
+>
+<Comment>Linking reaction</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2324f3cb-e015-4615-a766-11316b840000"
+>Condition17() OR Condition66()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="01c0f8ed-12ba-442a-8c51-d7813c5f21f4"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.LinkingReaction</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Trackside order"
+ Guid="69b68d92-1e3c-4e5d-be5f-eafea9166dc4"
+>
+<Comment>Trackside order</Comment>
+<PreConditions>
+<PreCondition
+ Guid="75a93ffa-eb7d-4e21-9fa7-3f1e650782af"
+>Condition18() OR Condition20()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0b2a4a1a-4417-41d8-95b9-2fb5407c87f3"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="EURORADIO Max time between message exceeded"
+ Guid="df0c5870-47e6-4269-9118-932868dafa95"
+>
+<Comment>EURORADIO Max time between message exceeded</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a1bc77ec-36f4-4e96-89f2-a814e322e9ec"
+>Condition41()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="489bdb8d-f0e4-4a8e-a0f6-5ec58b69de40"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.EURORADIOMaxTimeBetweenMessageExceeded</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Invalid balise version"
+ Guid="ec7da354-1762-4d97-a9ab-737d0c770847"
+>
+<Comment>Invalid balise version</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b5555e33-8f78-4b81-b145-4c375e297ae6"
+>Condition65()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1b742e62-f23e-40fd-a82a-b7ed9287ed2b"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Front end in rear of the SSP or Gradient"
+ Guid="c809b05a-bd53-4ae7-9856-b86d8d4fc2b1"
+>
+<Comment>Front end in rear of the SSP or Gradient</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9d27ff56-b17b-4817-9c83-6e0f25981d75"
+>Condition69()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="02931fc8-af0a-4134-b26e-abea20cb5ee3"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.FrontEndRearOfSSPOrGradient</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="FS -&gt; SB"
@@ -5304,13 +5467,119 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="02bc785b-12ce-4f94-8304-b9adf4b48440"
->Kernel.Modes.ModeTransitions.Condition12() OR Kernel.Modes.ModeTransitions.Condition16() OR Kernel.Modes.ModeTransitions.Condition17() OR Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition41() OR Kernel.Modes.ModeTransitions.Condition65() OR Kernel.Modes.ModeTransitions.Condition66() OR Kernel.Modes.ModeTransitions.Condition69()</PreCondition></PreConditions>
+>Condition12() OR 
+Condition16() OR 
+Condition17() OR 
+Condition18() OR 
+Condition20() OR 
+Condition41() OR 
+Condition65() OR 
+Condition66() OR 
+Condition69()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="5d3b8533-1fe2-4229-80a7-43e869507125"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
  Guid="73e838aa-c6d9-4acc-873d-73387e38f461"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="8a65ab9d-2d6a-4576-b6ca-758ef39afe52"
+>
+<Comment>Specify the reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Overpass EOA/LOA"
+ Guid="e7a40c4a-e282-48e8-8a2e-a8bfb61b3fd4"
+>
+<Comment>Overpass EOA/LOA</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4c7bec96-defb-4cc5-a9be-3075c727b3ad"
+>Condition12() OR Condition16()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c48b4ba2-414c-4d48-94fe-620105d11bbc"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OverpassEOAorLOA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Linking reaction"
+ Guid="57083f8c-200f-4802-8dbe-eeef693d3d98"
+>
+<Comment>Linking reaction</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c59d1d57-3d5b-4e7f-beb8-8cf0ba550634"
+>Condition17() OR Condition66()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3e875b20-ef53-48fc-991e-56508006b6d0"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.LinkingReaction</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Trackside order"
+ Guid="780f5d34-0cc5-4e4e-83c5-968bd6fdc7d3"
+>
+<Comment>Trackside order</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ffe5010a-3b9a-4167-a393-3d6df369abae"
+>Condition18() OR Condition20()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="68eb23da-2ea8-4005-8539-bd5ecb65ba58"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="EURORADIO Max time between message exceeded"
+ Guid="9385e092-98b8-4443-8cfe-9dd4c4413ca3"
+>
+<Comment>EURORADIO Max time between message exceeded</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9522e846-26e3-45c2-ba70-43aab484c763"
+>Condition41()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="332e5b07-7b27-4831-ac89-a49e3a5c7827"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.EURORADIOMaxTimeBetweenMessageExceeded</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Invalid balise version"
+ Guid="d68d3491-53cf-4104-8e32-d969a2cb56ee"
+>
+<Comment>Invalid balise version</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4a72b91e-0b37-42a2-88e5-3180d53f9fbf"
+>Condition65()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="424cac2a-a003-4f10-88d8-9452963ea964"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Front end in rear of the SSP or Gradient"
+ Guid="5185fd02-98c1-47d0-885c-61b6e0e27e84"
+>
+<Comment>Front end in rear of the SSP or Gradient</Comment>
+<PreConditions>
+<PreCondition
+ Guid="287d0019-4090-447f-a442-8b7bba5634bf"
+>Condition69()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0c28ed0f-9c71-4fae-a1a0-f37f4bee3a4d"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.FrontEndRearOfSSPOrGradient</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="LS -&gt; SB"
@@ -5776,13 +6045,117 @@ If the train position is invalid, delete the stored position.</Comment>
 <PreConditions>
 <PreCondition
  Guid="344fb8e9-d99f-42e1-a146-e7ced133f1a0"
->Kernel.Modes.ModeTransitions.Condition18() OR Kernel.Modes.ModeTransitions.Condition20() OR Kernel.Modes.ModeTransitions.Condition42() OR Kernel.Modes.ModeTransitions.Condition43() OR Kernel.Modes.ModeTransitions.Condition36() OR Kernel.Modes.ModeTransitions.Condition54() OR Kernel.Modes.ModeTransitions.Condition65()</PreCondition></PreConditions>
+>Condition18() OR 
+Condition20() OR 
+Condition42() OR 
+Condition43() OR 
+Condition36() OR 
+Condition54() OR 
+Condition65()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="30aae68f-aef1-4144-996d-e9b36ffa866d"
 >Kernel.Mode &lt;- ModeEnum.TR</Action><Action
  Guid="271c7794-55ab-42a0-a07a-0550e0e2d6a1"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.TrainTrip</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Specify the reason"
+ Guid="06b04e1a-3bda-41e9-8a84-a8485ef7c3f5"
+>
+<Comment>Specify the reason</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Trackside order"
+ Guid="3cf3102f-5089-403f-9c97-68312d4c4937"
+>
+<Comment>Trackside order</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9125b4d0-3119-4225-bde1-517079534d43"
+>Condition18() OR Condition20()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4e41380b-1962-4a6a-bd05-70a28d8a1a79"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Front end passes the SR distance"
+ Guid="66a68767-e2a2-48cd-9856-91d2622ca8af"
+>
+<Comment>Front end passes the SR distance</Comment>
+<PreConditions>
+<PreCondition
+ Guid="22039ae9-8219-4d2f-a0d2-7f3f6286195e"
+>Condition42()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="43afdd31-63c6-4445-a3f9-90dfd2e224b6"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.FrontEndPassesSRDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Overpass EOA/LOA"
+ Guid="14e2a52e-53c0-483d-8a54-6b38c37fbb68"
+>
+<Comment>Overpass EOA/LOA</Comment>
+<PreConditions>
+<PreCondition
+ Guid="536a1614-4ffe-4491-9513-b13693808c1c"
+>Condition43()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e6c88391-c945-485a-9137-3148e51de859"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OverpassEOAorLOA</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Unexpected balise group"
+ Guid="44a05712-6e3a-4d1f-96aa-26049735a7b3"
+>
+<Comment>Unexpected balise group</Comment>
+<PreConditions>
+<PreCondition
+ Guid="90571b44-e2fb-4c9f-8666-80128600216d"
+>Condition36()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="48fadef2-bb0d-4763-95c7-21b7eb2c5bfa"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.UnexpectedBaliseGroup</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Ordered by trackside"
+ Guid="d9570de3-e546-455d-bcd6-aedfc66df2d5"
+>
+<Comment>Ordered by trackside</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ce8ff532-b153-4692-b5d8-3cc9f31be3d3"
+>Condition54()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="acce7d05-12e9-460b-8115-fd53630eeec2"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.OrderFromTrackside</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Invalid balise version"
+ Guid="e971677c-371c-45b1-9da6-5a1c3cafe790"
+>
+<Comment>Invalid balise version</Comment>
+<PreConditions>
+<PreCondition
+ Guid="227e338c-d611-470f-bfbf-8eeee260fc86"
+>Condition65()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1ced4bd6-3ff3-41de-afd4-802e8d413477"
+>Modes.Trip.TripReason &lt;- Modes.Trip.TripReasonEnum.InvalidBaliseVersion</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SR -&gt; SB"

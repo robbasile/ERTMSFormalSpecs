@@ -1,0 +1,142 @@
+<NameSpace
+ X="350"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="Trip"
+ Guid="9068c878-f249-409f-a5c5-5e9658fc1b55"
+>
+<Comment>Namespace related to the TR mode</Comment>
+<NameSpaces>
+</NameSpaces>
+<Enumerations>
+<Enum
+ Default="Kernel.Modes.Trip.TripReasonEnum.None"
+ X="60"
+ Y="30"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TripReasonEnum"
+ Guid="51bb5a2a-eccb-41e0-b7ce-d3726725e4ac"
+>
+<ReqRef
+ Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2b231b04-6ede-47d0-880f-6f4802afaefc"
+>
+</ReqRef><Comment>Provides the reason of a Trip</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="None"
+ Guid="9f65efee-79f3-4c8b-9ad8-5979a832f437"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="StopIfInShunting"
+ Guid="ac69e0a3-f75d-40b1-9524-b8dfe6441a13"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="UnexpectedBG"
+ Guid="e209cc48-6cf4-446d-876f-3c5d49d62006"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="InvalidBaliseVersion"
+ Guid="2a3f658f-299d-44bc-92e0-9de9827457ca"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="OverpassEOAorLOA"
+ Guid="fa3d3e34-fefe-45a0-9774-42f867a80bbc"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="LinkingReaction"
+ Guid="ca4a67a4-2fe0-41af-b93b-f29881c41038"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="OrderFromTrackside"
+ Guid="17a128b5-83d2-4626-b94d-86801532cb26"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="EURORADIOMaxTimeBetweenMessageExceeded"
+ Guid="2af5f2fb-a163-48d2-b02e-82c0ee42af92"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="FrontEndRearOfSSPOrGradient"
+ Guid="923ad2e3-7c81-47dd-9ce8-a51b48ee4e78"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="FrontEndPassesSRDistance"
+ Guid="0911e4bb-e81b-49f7-b021-4f918c18b651"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="UnexpectedBaliseGroup"
+ Guid="6d40f26f-2087-4d2d-be2a-8e19ea06064c"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
+<Variables>
+<Variable
+ Type="TripReasonEnum"
+ VariableMode="Internal"
+ X="60"
+ Y="130"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TripReason"
+ Guid="a8ebfa53-d131-4e1c-a4e6-0a413541cc35"
+>
+<ReqRef
+ Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3c00383c-488c-4051-8c2e-0684612a7cfd"
+>
+</ReqRef><Comment>The reason of the TR mode</Comment>
+</Variable></Variables>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="20"
+ Y="220"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Clean trip reason when not in TR mode"
+ Guid="994785c8-f51a-4c74-99b3-6c5490aaa1ce"
+>
+<ReqRef
+ Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3109fca4-55e4-4d6b-bff2-05df475398bc"
+>
+</ReqRef><Comment>Cleans up the Trip reason when no more in TR mode</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Clean trip reason when not in TR mode"
+ Guid="6fc6bda3-74f0-4e83-a9b7-9c980ff64442"
+>
+<PreConditions>
+<PreCondition
+ Guid="67658366-19b5-4fe1-8c01-5f37fc6f3173"
+>Mode != ModeEnum.TR</PreCondition><PreCondition
+ Guid="13b30f65-687c-4692-a703-73341e8fb0e7"
+>TripReason != TripReasonEnum.None</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a7122fb6-5a01-4c96-9b39-37dfac8eaae3"
+>TripReason &lt;- TripReasonEnum.None</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</NameSpace>

@@ -1195,18 +1195,6 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="5e5a849b-5a45-4b32-b1fa-d74d3b1303e9"
 >
 </ReqRef><Comment>Requests to display the corresponding information</Comment>
-<Parameters>
-<Parameter
- Type="Kernel.BrakeCommands.EmergencyStopsCol"
- Name="aReasons"
- Guid="1c80bc76-35ec-4d87-9998-d6a3b0a48f28"
->
-</Parameter><Parameter
- Type="Boolean"
- Name="aTrainTripped"
- Guid="8375c4de-4c0e-45db-b6fa-2df2b1665a75"
->
-</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1227,17 +1215,13 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <PreConditions>
 <PreCondition
  Guid="e51e35e5-61a7-43e2-96e4-00e09b0507b7"
->TripReasonAvailable()</PreCondition><PreCondition
- Guid="3817c75d-5d39-4e3c-8cf1-10ee1ca90db9"
->aTrainTripped
-  AND  
-THERE_IS X IN aReasons</PreCondition></PreConditions>
+>TripReasonAvailable()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="42e147cb-8693-4572-b0e8-39e4df8bb560"
 >THIS.OutputInformation.RequestDisplay()</Action><Action
  Guid="65b41d3f-e4e0-4c36-9305-9b7d2998a325"
->THIS.Reason &lt;- (FIRST X IN aReasons).Reason</Action></Actions>
+>THIS.Reason &lt;- Kernel.Modes.Trip.TripReason</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -1301,7 +1285,7 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="ff369b12-8507-481f-a9c7-c9314092b2d2"
 >
 </StructureElement><StructureElement
- TypeName="Kernel.BrakeCommands.BrakeReasonEnum"
+ TypeName="Kernel.Modes.Trip.TripReasonEnum"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"

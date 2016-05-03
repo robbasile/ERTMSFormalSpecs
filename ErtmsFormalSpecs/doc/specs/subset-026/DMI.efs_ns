@@ -282,6 +282,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display train running number screen"
  Guid="39f6b879-3d7e-41b5-b5b9-088a04cfd65b"
@@ -303,6 +305,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Initiate request according to train running number data state"
  Guid="3b1486ed-bfd2-4a04-a0ad-792d673a21b4"
@@ -369,6 +373,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display level screen"
  Guid="8bb2e49a-49e0-4d99-ad2d-86d3a5613ab9"
@@ -390,6 +396,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Initiate request according to level data state"
  Guid="b49fb632-65f1-42d7-bf85-21b76cbe1dc0"
@@ -555,6 +563,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display virtual balise cover screen"
  Guid="47d2272f-f41c-4659-899e-fd50a13f0b08"
@@ -2833,10 +2843,7 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Actions>
 <Action
  Guid="48f95f20-f99a-4aaa-8e47-8f9f99170f66"
->THIS.Out_TripReason.Display(
-    aTrainTripped =&gt; Kernel.Mode in [ModeEnum.TR],
-    aReasons =&gt; Kernel.BrakeCommands.EmergencyStops
-)</Action></Actions>
+>THIS.Out_TripReason.Display()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
