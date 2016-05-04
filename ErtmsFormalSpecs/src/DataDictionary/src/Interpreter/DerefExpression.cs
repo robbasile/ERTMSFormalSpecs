@@ -292,7 +292,7 @@ namespace DataDictionary.Interpreter
                 if ((aNamable is NameSpace) ||
                     (aNamable is Structure))
                 {
-                    retVal = Arguments [i].IsInstance ();
+                    retVal = Arguments[i].IsInstance ();
                     break;
                 }
             }

@@ -122,5 +122,25 @@ namespace DataDictionary.test
             Assert.Null(ErrorMessage(action1));
         }
 
+        /// <summary>
+        ///     Tests that APPLY statements can be applied on result of function calls
+        /// </summary>
+        [Test]
+        public void TestEnclosing()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace = CreateNameSpace(dictionary, "N1");
+            Structure structure = CreateStructure(nameSpace, "S");
+            StructureElement element = CreateStructureElement(structure, "E", "Integer");
+            StateMachine stateMachine = CreateStateMachine(structure, "SM");
+            RuleCondition condition = CreateRuleAndCondition(stateMachine, "Cond");
+            PreCondition preCondition = CreatePreCondition(condition, "ENCLOSING.E == 0");
+
+            RuleCheckerVisitor visitor = new RuleCheckerVisitor(dictionary);
+            visitor.visit(nameSpace);
+
+            Assert.Null(ErrorMessage(preCondition));
+        }
+
     }
 }

@@ -55,7 +55,7 @@ namespace DataDictionary.Interpreter
         /// <returns></returns>
         public bool IsInstance()
         {
-            return Image == ThisKeyword || Ref is IVariable;
+            return Image == ThisKeyword || Image == EnclosingKeyword || Ref is IVariable;
         }
 
         /// <summary>
