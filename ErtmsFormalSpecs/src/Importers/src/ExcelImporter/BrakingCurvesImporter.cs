@@ -629,7 +629,12 @@ namespace Importers.ExcelImporter
 
 
             /* Initializing the train position location accuracy */
-            double LocationAccuracy = (double) (aRange.Cells[2, 7] as Range).Value2;
+            double LocationAccuracy = 0.0;
+            object LocationAccuracyValue = (aRange.Cells[2, 7] as Range).Value2;
+            if (LocationAccuracyValue != null)
+            {
+                LocationAccuracy = (double)LocationAccuracyValue;
+            }
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
                     "BTM.BGLocationDetectionError <- {0:0.0}",
