@@ -237,13 +237,8 @@ namespace DataDictionary.RuleCheck
             {
                 if (!subSequence.getCompleted())
                 {
-                    Counter counter = new Counter();
-                    counter.visit(obj);
-                    if (counter.Issues[IssueKind.Blocking] == 0)
-                    {
-                        subSequence.AddRuleCheckMessage(RuleChecksEnum.Test06, ElementLog.LevelEnum.Info,
-                            "Sequences should be marked as completed to be automatically executed when executing the frame");
-                    }
+                    subSequence.AddRuleCheckMessage(RuleChecksEnum.Test06, ElementLog.LevelEnum.Info,
+                        "Sequences should be marked as completed to be automatically executed when executing the frame");
                 }
                 if (subSequence.TestCases.Count == 0)
                 {
