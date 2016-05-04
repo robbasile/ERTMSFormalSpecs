@@ -19,6 +19,7 @@ using System.Globalization;
 using DataDictionary;
 using DataDictionary.Tests.Issue;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using Utils;
 using Chapter = DataDictionary.Specification.Chapter;
 using Dictionary = DataDictionary.Dictionary;
@@ -230,19 +231,31 @@ namespace Reports.Specs.SubSet76
                         counter.Checks.ToString(CultureInfo.InvariantCulture),
                         issues.ToString(CultureInfo.InvariantCulture),
                         status);
+                    Row sequenceRow = Report.lastRow;
+                    sequenceRow.Cells[4].Shading.Color = color;
 
-                    Report.lastRow.Cells[4].Shading.Color = color;
+                    // Provide the comment, if any
+                    if (!string.IsNullOrEmpty(subSequence.Comment))
+                    {
+                        Report.AddRow(subSequence.Comment, "", "", "", "");
+                        Report.SetLastRowColor(color);
+                        Report.lastRow.Cells[0].MergeRight = 3;
+                        sequenceRow.Cells[4].MergeDown += 1;
+                    }
 
                     if (IncludeDetails)
                     {
+                        // Provide the test cases and the steps related to this test sequence
                         foreach (TestCase testCase in subSequence.TestCases)
                         {
                             foreach (ReqRef reqRef in testCase.Requirements)
                             {
                                 Report.AddRow(
                                     testCase.Name,
-                                    reqRef.Paragraph.Text);
+                                    reqRef.Paragraph.Text, "", "", "");
                                 Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
+                                Report.lastRow.Cells[1].MergeRight = 2;
+                                sequenceRow.Cells[4].MergeDown += 1;
                             }
 
                             foreach (Step step in testCase.Steps)
@@ -258,8 +271,10 @@ namespace Reports.Specs.SubSet76
 
                                     Report.AddRow(
                                         name,
-                                        reqRef.Paragraph.Text);
+                                        reqRef.Paragraph.Text, "", "", "");
                                     Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
+                                    Report.lastRow.Cells[1].MergeRight = 2;
+                                    sequenceRow.Cells[4].MergeDown += 1;
                                 }
                             }
                         }
