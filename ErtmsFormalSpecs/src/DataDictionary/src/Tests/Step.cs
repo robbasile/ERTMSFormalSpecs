@@ -18,6 +18,7 @@ using System.Collections;
 using System.Globalization;
 using System.IO;
 using DataDictionary.Generated;
+using DataDictionary.Tests.Issue;
 using Utils;
 using DBMessage = DataDictionary.Tests.DBElements.DBMessage;
 using SourceText = DataDictionary.Tests.Translations.SourceText;
@@ -162,26 +163,40 @@ namespace DataDictionary.Tests
         ///     Translates the current step according to the translation dictionary
         ///     Removes all preconditions, actions and expectations
         /// </summary>
-        public void Translate()
+        /// <returns>False if no error where found while translating this step</returns>
+        public bool Translate()
         {
-            if (getTranslationRequired())
-            {
-                Util.DontNotify(() =>
-                {
-                    SubSteps.Clear();
+            bool retVal = false;
 
-                    Translation translation = EFSSystem.FindTranslation(this);
-                    if (translation != null)
-                    {
-                        translation.UpdateStep(this);
-                        setTranslated(true);
-                    }
-                    else
-                    {
-                        AddWarning("Cannot find translation for this step");
-                    }
-                });
+            Counter counter = new Counter();
+            counter.visit(this);
+            if (counter.Issues[IssueKind.Blocking] != 0)
+            {
+                retVal = true;
             }
+            else
+            {
+                if (getTranslationRequired())
+                {
+                    Util.DontNotify(() =>
+                    {
+                        SubSteps.Clear();
+
+                        Translation translation = EFSSystem.FindTranslation(this);
+                        if (translation != null)
+                        {
+                            translation.UpdateStep(this);
+                            setTranslated(true);
+                        }
+                        else
+                        {
+                            AddWarning("Cannot find translation for this step");
+                        }
+                    });
+                }
+            }
+
+            return retVal;
         }
 
         /// <summary>

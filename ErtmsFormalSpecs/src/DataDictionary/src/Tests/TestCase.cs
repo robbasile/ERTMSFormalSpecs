@@ -76,13 +76,10 @@ namespace DataDictionary.Tests
 
             foreach (Step step in Steps)
             {
-                step.Translate();
+                retVal = step.Translate();
 
-                Counter counter = new Counter();
-                counter.visit(step);
-                if (counter.Issues[IssueKind.Blocking] != 0)
+                if (retVal)
                 {
-                    retVal = true;
                     break;
                 }
             }
