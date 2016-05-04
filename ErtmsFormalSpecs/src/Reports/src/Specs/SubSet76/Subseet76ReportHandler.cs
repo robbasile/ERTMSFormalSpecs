@@ -112,7 +112,7 @@ namespace Reports.Specs.SubSet76
         /// <returns></returns>
         private string Percent(int number, int totalNumber)
         {
-            return Math.Round(number*100/(double)totalNumber) + " %";
+            return Math.Round(number*100/(double)totalNumber) + "% (" + number + "/" + totalNumber + ")";
         }
 
         /// <summary>
@@ -138,22 +138,36 @@ namespace Reports.Specs.SubSet76
 
             Report.AddRow(
                 "Sequence analysis completed",
-                "The number of imported test sequences for which the analysis has been completely executed. The full test has been executed and is successful. We may have fixed several test steps to achieve this objective.",
+                "The number of imported test sequences for which the analysis has been completely executed.",
                 counter.CompletedSubSequences.Count.ToString(CultureInfo.InvariantCulture),
                 Percent(counter.CompletedSubSequences.Count, counter.SubSequences));
+            Report.lastRow.Cells[0].MergeDown = 2;
 
-            int ongoing = counter.SubSequences - counter.BlockingSubSequences.Count - counter.CompletedSubSequences.Count;
+            Report.AddRow(
+                "",
+                "The full test has been executed and is successful. We may have fixed several test steps to achieve this objective.",
+                counter.CompleteAndValid.Count.ToString(CultureInfo.InvariantCulture),
+                Percent(counter.CompleteAndValid.Count, counter.CompletedSubSequences.Count));
+
+            Report.AddRow(
+                "",
+                "A blocking issue has been found while analyzing the sub sequence, however, all steps before that issue have been successfully executed.",
+                counter.CompleteAndBlocking.Count.ToString(CultureInfo.InvariantCulture),
+                Percent(counter.CompleteAndBlocking.Count, counter.CompletedSubSequences.Count));
+
             Report.AddRow(
                 "Ongoing sequences",
                 "The number of imported test sequences for which analysis is ongoing. No definitive result is provided yet for such test sequences",
-                ongoing.ToString(CultureInfo.InvariantCulture),
-                Percent(ongoing, counter.SubSequences));
+                counter.OngoingSubSequences.Count.ToString(CultureInfo.InvariantCulture),
+                Percent(counter.OngoingSubSequences.Count, counter.SubSequences));
+            Report.lastRow.Cells[0].MergeDown = 1;
 
             Report.AddRow(
-                "Invalid sequences",
-                "The number of sequences that cannot be executed because we found a blocking issue which forbids executing the test completely.",
-                counter.BlockingSubSequences.Count.ToString(CultureInfo.InvariantCulture),
-                Percent(counter.BlockingSubSequences.Count, counter.SubSequences));
+                "",
+                "A blocking issue has been found while analyzing the sub sequence, but analysis is still ongoing.",
+                counter.OngoingAndBlocking.Count.ToString(CultureInfo.InvariantCulture),
+                Percent(counter.OngoingAndBlocking.Count, counter.OngoingSubSequences.Count));
+
 
             Report.AddParagraph(
                 "The following table categorises the issues found during analysis of the test sequences. ");
@@ -199,8 +213,7 @@ namespace Reports.Specs.SubSet76
             Report.AddParagraph("This section summarises the results for each sub sequence. The 'Actions' are the number of inputs required to execute the test sequence, and 'Checks' identifies the check points that are verified on the sub sequence. The column issues counts the number of issues (either blocking or non blocking) found during the analysis of the test sequence. The status can take several values");
             Report.AddListItem("Completed : the analysis of the test sequence is complete and the execution satisfies the constaints defined in the test sequence. ");
             Report.AddListItem("Ongoing : the analysis of the test sequence is ongoing, no definitive result can be provided yet.");
-            Report.AddListItem("Invalid : a blocking issue has been found while analysing the test sequence. Analysis cannot be completed.");
-            Report.AddTable(new[] { "Subsequence", "Actions", "Checks", "Issues", "Status" }, new[] { 60, 30, 30, 30, 30 });
+            Report.AddTable(new[] { "Subsequence", "Blocking issues", "Issues", "Questions", "Comments", "Status" }, new[] { 60, 23, 23, 23, 23, 28 });
             foreach (Frame frame in Dictionary.Tests)
             {
                 foreach (SubSequence subSequence in frame.SubSequences)
@@ -210,37 +223,29 @@ namespace Reports.Specs.SubSet76
 
                     string status = "Ongoing";
                     Color color = Colors.Orange;
-                    if (counter.Issues[IssueKind.Blocking] > 0)
+                    if (subSequence.getCompleted())
                     {
-                        status = "Invalid";
-                        color = Colors.Red;
-                    }
-                    else
-                    {
-                        if (subSequence.getCompleted())
-                        {
-                            status = "Completed";
-                            color = Colors.Green;
-                        }
+                        status = "Completed";
+                        color = Colors.Green;
                     }
 
-                    int issues = counter.Issues[IssueKind.Blocking] + counter.Issues[IssueKind.Issue];
                     Report.AddRow(
-                        subSequence.Name, 
-                        counter.Actions.ToString(CultureInfo.InvariantCulture),
-                        counter.Checks.ToString(CultureInfo.InvariantCulture),
-                        issues.ToString(CultureInfo.InvariantCulture),
+                        subSequence.Name,
+                        counter.Issues[IssueKind.Blocking].ToString(CultureInfo.InvariantCulture),
+                        counter.Issues[IssueKind.Issue].ToString(CultureInfo.InvariantCulture),
+                        counter.Issues[IssueKind.Question].ToString(CultureInfo.InvariantCulture),
+                        counter.Issues[IssueKind.Comment].ToString(CultureInfo.InvariantCulture),
                         status);
                     Row sequenceRow = Report.lastRow;
-                    sequenceRow.Cells[4].Shading.Color = color;
+                    sequenceRow.Cells[5].Shading.Color = color;
 
                     // Provide the comment, if any
                     if (!string.IsNullOrEmpty(subSequence.Comment))
                     {
-                        Report.AddRow(subSequence.Comment, "", "", "", "");
+                        Report.AddRow(subSequence.Comment, "", "", "", "", "");
                         Report.SetLastRowColor(color);
                         Report.lastRow.Cells[0].MergeRight = 3;
-                        sequenceRow.Cells[4].MergeDown += 1;
+                        sequenceRow.Cells[5].MergeDown += 1;
                     }
 
                     if (IncludeDetails)
@@ -252,10 +257,10 @@ namespace Reports.Specs.SubSet76
                             {
                                 Report.AddRow(
                                     testCase.Name,
-                                    reqRef.Paragraph.Text, "", "", "");
+                                    reqRef.Paragraph.Text, "", "", "", "");
                                 Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
-                                Report.lastRow.Cells[1].MergeRight = 2;
-                                sequenceRow.Cells[4].MergeDown += 1;
+                                Report.lastRow.Cells[1].MergeRight = 3;
+                                sequenceRow.Cells[5].MergeDown += 1;
                             }
 
                             foreach (Step step in testCase.Steps)
@@ -271,10 +276,10 @@ namespace Reports.Specs.SubSet76
 
                                     Report.AddRow(
                                         name,
-                                        reqRef.Paragraph.Text, "", "", "");
+                                        reqRef.Paragraph.Text, "", "", "", "");
                                     Report.SetLastRowColor(IssueColor(reqRef.Paragraph));
-                                    Report.lastRow.Cells[1].MergeRight = 2;
-                                    sequenceRow.Cells[4].MergeDown += 1;
+                                    Report.lastRow.Cells[1].MergeRight = 3;
+                                    sequenceRow.Cells[5].MergeDown += 1;
                                 }
                             }
                         }
