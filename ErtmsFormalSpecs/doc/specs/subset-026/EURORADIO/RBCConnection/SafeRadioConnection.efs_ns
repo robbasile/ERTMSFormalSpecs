@@ -1,0 +1,147 @@
+<NameSpace
+ X="250"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="SafeRadioConnection"
+ Guid="42c042f2-132f-4540-a6fd-849aacf7ce86"
+>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="SafeRadioConnectionStruct"
+ Guid="2848b172-4ada-4de7-995a-4608082c3c0d"
+>
+<StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ConnectionLostTime"
+ Guid="d86fbc28-bf85-4e5a-af79-2137ad0751e1"
+>
+<ReqRef
+ Id="308624ea-ea91-4451-b8c4-1cfbc9094f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2fb8ed15-5aa3-49bf-9b22-53d86b89aae0"
+>
+</ReqRef><ReqRef
+ Id="cd18a937-9dc2-456d-bee7-a61bcd564e32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54b058ba-2130-451d-9219-0522297724ca"
+>
+</ReqRef><Comment>Stores the time when the safe radio connection has been lost.</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="LastRequestTime"
+ Guid="40e6ba54-d9c4-498d-88f2-2ffb1157f4aa"
+>
+<ReqRef
+ Id="4d7758a5-c99b-4537-8da4-a51b99dafd40"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bab219e0-b46d-46fd-be2a-82ffdd8f005b"
+>
+</ReqRef><ReqRef
+ Id="f9f81d1e-22c3-429b-b29b-0c828790dce4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="767ac768-3af2-4dda-a34e-567d3ec88d66"
+>
+</ReqRef><ReqRef
+ Id="dc7b33b5-d923-42f3-be12-580edb475353"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ee51afb8-0e5a-4f32-8ea4-caafa9b45e04"
+>
+</ReqRef><Comment>Indicates the last time when a request to establish or terminate the communication session with the RBC was sent.</Comment>
+</StructureElement><StructureElement
+ TypeName="Integer"
+ Default="0"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="NumberOfSentRequests"
+ Guid="03f193b2-8aea-4f04-b805-1de34a4398f8"
+>
+<ReqRef
+ Id="f9f81d1e-22c3-429b-b29b-0c828790dce4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aac10df8-63e1-42d5-9335-efaf72d6b142"
+>
+</ReqRef><Comment>Number of sent requests, that can be:
+- establishing of  a safe radio connection
+- termination the communication session</Comment>
+</StructureElement><StructureElement
+ TypeName="SpecialCaseSessionEstablishmentReasonEnum"
+ Default="SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="SpecialCaseSessionEstablishmentReason"
+ Guid="19025708-2326-463f-8934-0ac263dc7feb"
+>
+<Comment>If a communication session has to be established, this variable indicates why it has to be estabilshed.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="ConnectionIsEstablished"
+ Guid="1c04490a-d03a-492b-81ec-bbf9c60fd7db"
+>
+<ReqRef
+ Id="1ead58b3-f05d-46bd-b3f8-bc0a16010cdd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f940401-02b0-4101-bebd-18261582bd51"
+>
+</ReqRef><Comment>Set to true if the safe radio connection is set-up.</Comment>
+</StructureElement><StructureElement
+ TypeName="Contact.ContactActionEnum"
+ Default="Contact.ContactActionEnum.Establish"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="Action"
+ Guid="ccb009cb-f504-4789-b154-dcf7169abe80"
+>
+<ReqRef
+ Id="5b9e9eb3-ffa4-47c2-a6f5-9fa6efc58ffe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cc4d43f5-fdaf-432f-b1ce-5ce2683a1250"
+>
+</ReqRef><ReqRef
+ Id="e094e23a-bd94-4440-8632-705782494f35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f747573-7ad6-42a6-8ce9-98b7458029d7"
+>
+</ReqRef><Comment>Indicates if the safe radio connection has to be established or released.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Incoming"
+ Implemented="TRUE"
+ Name="ConnectionRequestIsReceived"
+ Guid="a6d33ff5-d083-45be-83a3-68ff4212ed87"
+>
+<ReqRef
+ Id="484b41b4-a894-43b4-9ee4-a7227ddfd3aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae52e345-9015-4eda-b625-9434ac9440d0"
+>
+</ReqRef><Comment>This variable is set to True when the on-board requests the establishment of communication session.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="Boolean.False"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ConnectionRequestIsSent"
+ Guid="3da0a1c7-ca89-43ab-9597-09b7adf15b15"
+>
+<Comment>Set to True when a request to establish a safe radio connection has to be sent.</Comment>
+</StructureElement></Structure></Structures>
+</NameSpace>

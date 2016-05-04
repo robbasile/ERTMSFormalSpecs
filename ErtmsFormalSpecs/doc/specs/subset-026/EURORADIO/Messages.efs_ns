@@ -67,7 +67,7 @@
 >aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition><PreCondition
  Guid="61706c4c-00c8-497f-9455-3ab19998360f"
 >aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
-<Expression>aRBC.MessageIn</Expression>
+<Expression>aRBC.Data.MessageIn</Expression>
 </Case><Case
  Name="SystemVersion1"
  Guid="6cbaa36d-e7ce-404a-9651-13301db09ffd"
@@ -79,9 +79,9 @@
  Guid="f9cc1307-7563-446d-ac74-b1e5ae9b3406"
 >aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
 <Expression>Messages.EURORADIO.MessageIn.Message{
-SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.MessageIn.SystemVersion1),
+SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.Data.MessageIn.SystemVersion1),
 SystemVersion1 =&gt; EMPTY,
-Priority =&gt; aRBC.MessageIn.Priority
+Priority =&gt; aRBC.Data.MessageIn.Priority
 }</Expression>
 </Case><Case
  Name="Transmission of system version V2"
@@ -93,8 +93,8 @@ Priority =&gt; aRBC.MessageIn.Priority
  Guid="7abd061d-5394-4064-9d64-0d4e2f38f8a9"
 >aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
  Guid="d0419429-ecfa-4baf-aaff-8e8bf1472064"
->aRBC.MessageIn.SystemVersion1 == EMPTY</PreCondition></PreConditions>
-<Expression>aRBC.MessageIn</Expression>
+>aRBC.Data.MessageIn.SystemVersion1 == EMPTY</PreCondition></PreConditions>
+<Expression>aRBC.Data.MessageIn</Expression>
 </Case><Case
  Name="Transmission of system version V1"
  Guid="8a1aede6-afdc-4711-98b7-c0ea9ce124eb"
@@ -104,11 +104,11 @@ Priority =&gt; aRBC.MessageIn.Priority
  Guid="554b3e0f-b9c6-4ea2-9cde-99bd87d7b888"
 >aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
  Guid="3712036e-fe02-4c6e-a064-7b7928fd3058"
->aRBC.MessageIn.SystemVersion2 == EMPTY</PreCondition></PreConditions>
+>aRBC.Data.MessageIn.SystemVersion2 == EMPTY</PreCondition></PreConditions>
 <Expression>Messages.EURORADIO.MessageIn.Message{
-SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.MessageIn.SystemVersion1),
+SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.Data.MessageIn.SystemVersion1),
 SystemVersion1 =&gt; EMPTY,
-Priority =&gt; aRBC.MessageIn.Priority
+Priority =&gt; aRBC.Data.MessageIn.Priority
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -576,7 +576,7 @@ Furthermore, this allows to avoid getting a LRBG when the position is unknown</C
 <PreConditions>
 <PreCondition
  Guid="da1cad06-8c2a-45fc-8c4e-4404ecd814ef"
->aRBC.MessageIn.Priority == Messages.EURORADIO.MessagePriorityEnum.High</PreCondition></PreConditions>
+>aRBC.Data.MessageIn.Priority == Messages.EURORADIO.MessagePriorityEnum.High</PreCondition></PreConditions>
 <Expression>Available(Messages.UpdatedReceivedMessage(aRBC).CONDITIONAL_EMERGENCY_STOP)
   OR  
 Available(Messages.UpdatedReceivedMessage(aRBC).UNCONDITIONAL_EMERGENCY_STOP)</Expression>

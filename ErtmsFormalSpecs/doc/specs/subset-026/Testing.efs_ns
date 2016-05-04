@@ -5856,7 +5856,21 @@ SpeedRestrictions =&gt; []
  Guid="b4cb92aa-1cd5-49d1-b69e-344862edbad2"
 >EURORADIO.Terminal.Terminal1.RBCConnection &lt;- EURORADIO.RBCConnection.RBCStruct
 {
-  MessageIn =&gt; Messages.EURORADIO.MessageIn.Message
+  ConnectionState =&gt; EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected,
+  ContactData =&gt; EURORADIO.RBCConnection.Contact.RBCContactStruct
+  {
+    Id =&gt; EURORADIO.RBCConnection.Contact.RBCIdStruct
+    {
+      Country =&gt; 81, 
+      Id =&gt; 4549
+    }, 
+    PhoneNumber =&gt; aRBCPhoneNumber, 
+    DataState =&gt; Default.DataStateEnum.Invalid
+  },
+  ContactRBCOrder =&gt; EMPTY,
+  ContactTimerSupervised =&gt; Boolean.True,
+  Data =&gt; EURORADIO.RBCConnection.Data.DataStruct{
+    MessageIn =&gt; Messages.EURORADIO.MessageIn.Message
   {
     SystemVersion2 =&gt; EMPTY, 
     SystemVersion1 =&gt; EMPTY, 
@@ -5868,41 +5882,30 @@ SpeedRestrictions =&gt; []
     SystemVersion2 =&gt; EMPTY, 
     SystemVersion1 =&gt; EMPTY, 
     BitField =&gt; &apos;&apos;
-  }, 
-  ContactData =&gt; EURORADIO.RBCConnection.Contact.RBCContactStruct
-  {
-    Id =&gt; EURORADIO.RBCConnection.Contact.RBCIdStruct
-    {
-      Country =&gt; 81, 
-      Id =&gt; 4549
-    }, 
-    PhoneNumber =&gt; aRBCPhoneNumber, 
-    DataState =&gt; Default.DataStateEnum.Invalid
-  }, 
-  ConnectionState =&gt; EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected, 
-  SafeRadioConnectionStatus =&gt; EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp, 
-  ContactRBCOrder =&gt; EMPTY, 
-  SessionManagementData =&gt; EURORADIO.RBCConnection.SessionManagementStruct
-  {
-    ConnectionRequestIsSent =&gt; Boolean.False, 
+  }
+  },
+  IsMainConnection =&gt; Boolean.True,
+  OnboardReference_MessageTimer =&gt; Default.BaseTypes.Time.NA,
+  SafeRadioConnection =&gt; EURORADIO.RBCConnection.SafeRadioConnection.SafeRadioConnectionStruct{
+    Action =&gt; EURORADIO.RBCConnection.Contact.ContactActionEnum.Establish,
+    ConnectionIsEstablished =&gt; Boolean.True, 
+    ConnectionLostTime =&gt; Default.BaseTypes.Time.Infinity, 
+    ConnectionRequestIsReceived =&gt; Boolean.False, 
+    ConnectionRequestIsSent =&gt; Boolean.False,
+    LastRequestTime =&gt; 0.0,
+    NumberOfSentRequests =&gt; 0,
+    SpecialCaseSessionEstablishmentReason =&gt; EURORADIO.RBCConnection.SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish
+},  
+  SafeRadioConnectionStatus =&gt; EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp,
+  SessionManagementData =&gt; EURORADIO.RBCConnection.SessionManagement.SessionManagementStruct{
+    AcknowledgementOfTerminationReceived =&gt; Boolean.False,
+    InitiationOfACommunicationSessionReceived =&gt; Boolean.False,
     SystemVersion =&gt; VersionManagement.SystemVersionStruct
     {
       Value =&gt; VersionManagement.SystemVersionEnum.Version2_0, 
       DataState =&gt; Default.DataStateEnum.Valid
-    }, 
-    Action =&gt; EURORADIO.RBCConnection.Contact.ContactActionEnum.Establish, 
-    AcknowledgementOfTerminationReceived =&gt; Boolean.False, 
-    ConnectionIsEstablished =&gt; Boolean.True, 
-    ConnectionRequestIsReceived =&gt; Boolean.False, 
-    InitiationOfACommunicationSessionReceived =&gt; Boolean.False
-  }, 
-  LastRequestTime =&gt; 0.0, 
-  NumberOfSentRequests =&gt; 0, 
-  ConnectionLostTime =&gt; Default.BaseTypes.Time.Infinity, 
-  SpecialCaseSessionEstablishmentReason =&gt; EURORADIO.RBCConnection.SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish, 
-  IsMainConnection =&gt; Boolean.True, 
-  OnboardReference_MessageTimer =&gt; Default.BaseTypes.Time.NA, 
-  ContactTimerSupervised =&gt; Boolean.True
+    }
+}
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
