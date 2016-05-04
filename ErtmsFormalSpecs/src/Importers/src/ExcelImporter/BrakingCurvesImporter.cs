@@ -91,7 +91,6 @@ namespace Importers.ExcelImporter
                     Frame newFrame = new Frame();
                     newFrame.Name = FrameName;
                     newFrame.setCycleDuration("Kernel.CycleDuration");
-                    TheDictionary.AddModelElement(newFrame);
 
                     SubSequence newSubSequence = new SubSequence();
                     newSubSequence.Name = FrameName;
@@ -135,6 +134,10 @@ namespace Importers.ExcelImporter
                     aTestCase.NeedsRequirement = false;
                     newSubSequence.AddModelElement(aTestCase);
                     verifyOutputForTrains(trainIsGamma, aTestCase, workbook);
+
+                    // Finally, add the created frame to the dictionary
+                    // This is done at the end to avoid saving a faulty or incomplete frame
+                    TheDictionary.AddModelElement(newFrame);
                 }
                 catch (Exception e)
                 {
