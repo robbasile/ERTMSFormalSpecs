@@ -365,6 +365,8 @@ Keep the reason for it to be displayed to the driver.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Restart connection after radio silence"
  Guid="ae11d585-832b-4f57-ac07-856b1534bf33"
@@ -1778,7 +1780,7 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="3d5afa42-b712-4474-af54-81ae258173b2"
 >DeleteInformation(SessionManagementData.SystemVersion)</Action><Action
  Guid="ff4c1c3d-36bb-4e52-ae97-a17eabff757a"
->IsMainConnection &lt;- True</Action><Action
+>IsMainConnection &lt;- False</Action><Action
  Guid="f86651e7-1ebb-49de-8053-907c88f5741d"
 >SafeRadioConnection.NumberOfSentRequests &lt;- 0</Action><Action
  Guid="ad53ed1b-1620-494b-99fb-a6e01d551bda"
@@ -3061,7 +3063,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Comment>The safe radio connection status.</Comment>
 </StructureElement><StateMachines>
 <StateMachine
- Default="RBCStruct.ConnectionStateSM.Inactive"
+ Default="NoConnection"
  Implemented="TRUE"
  Name="ConnectionStateSM"
  Guid="d82fd57c-5e3b-49a3-9588-9ba0c3633131"
@@ -3069,8 +3071,8 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Comment>Handles the different processes of the connection according to its current state.</Comment>
 <States>
 <State
- X="180"
- Y="70"
+ X="410"
+ Y="390"
  Width="100"
  Height="200"
  Implemented="TRUE"
@@ -3087,7 +3089,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="d1823063-a016-46e0-bac5-177d727e15bb"
 >
-</ReqRef><Comment>No connection is established.</Comment>
+</ReqRef><Comment>No connection is established yet or even establishing but contact information are known and a connection order is possibly stored.</Comment>
 <StateMachine
  Implemented="TRUE"
  Guid="691e3286-67ef-4b68-b4c9-5aa0ce8e8788"
@@ -3194,34 +3196,48 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Name="RBC contact order received"
  Guid="16010e1f-582d-4673-a08f-e652d867206d"
 >
-<Comment>The time of initialisation of the requset is stored in ConnectionLostTime, in order to update the Safe Radio Connection status if the connection is not established within the time defined by ConnectionStatusTimer.</Comment>
+<Comment>The contact information is stored and the ContactRBCOrder is then emptied, leaving room for new contact orders.</Comment>
 <PreConditions>
 <PreCondition
- Guid="d70d315d-97c4-418f-a89b-173190c448b2"
->SessionHasToBeEstablished ( anRBC =&gt; ENCLOSING )</PreCondition><PreCondition
+ Guid="0af76169-2f9e-403e-8a82-af9926f584af"
+>SessionEstablishmentOrderIsReceived(anRBC =&gt; ENCLOSING)</PreCondition><PreCondition
  Guid="031f5534-5356-4623-9c14-c6e7131c811c"
 >Available(Contact.SelectRBCToContact().ContactData)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="30ffcf61-752f-4621-bd06-aae49937b224"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Connecting</Action><Action
- Guid="0435a548-28e2-45b2-b8f8-0711b2fc3498"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action><Action
- Guid="5c7318a3-3c2a-4a71-85c0-c1617d2d9134"
->SafeRadioConnection.Action &lt;- Contact.ContactActionEnum.Establish</Action><Action
- Guid="36c208cd-4fdb-4529-aac3-4806d371c8a8"
->SafeRadioConnection.ConnectionLostTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
- Guid="9dfae625-3ff2-425f-898d-c57ff6a75c0a"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
- Guid="5c581ac4-b257-4996-8939-15d5aa8232be"
->SafeRadioConnection.NumberOfSentRequests &lt;- 1</Action><Action
  Guid="890385aa-93d6-49a6-be94-a3fd1d17d4e8"
 >Contact.SelectRBCToContact().ContactData &lt;- Contact.RBCContactStruct
 {
     Id =&gt; Contact.SelectRBCToContact().ContactRBCOrder.Id,
     PhoneNumber =&gt; Contact.SelectRBCToContact().ContactRBCOrder.PhoneNumber,
     DataState =&gt; DataStateEnum.Valid
-}</Action></Actions>
+}</Action><Action
+ Guid="8d1dd9c3-a710-4f27-9175-f92f71104997"
+>ContactRBCOrder &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Session has to be reestablished"
+ Guid="5bd6e680-ac1d-4fc5-a59e-fc21ee558109"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Session has to be reestablished"
+ Guid="77bdfa2b-997b-44ae-b8f0-f4349f3e8208"
+>
+<PreConditions>
+<PreCondition
+ Guid="d70d315d-97c4-418f-a89b-173190c448b2"
+>SessionHasToBeReEstablished ( anRBC =&gt; ENCLOSING )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b2239fea-4ba1-41af-80b6-61edccb8506e"
+>THIS &lt;- RBCStruct.ConnectionStateSM.Connecting</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3252,50 +3268,34 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
- Implemented="TRUE"
- Name="Establishment of communication session requested by trackside"
- Guid="078e4aad-f6a1-48b9-999f-df3808876be3"
+ X="0"
+ Y="0"
+ Name="Updates safe radio connection status"
+ Guid="de17b0fa-5386-4ec5-bb06-45f38aa4eb73"
 >
-<ReqRef
- Id="484b41b4-a894-43b4-9ee4-a7227ddfd3aa"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="20784d49-0f83-447f-ab8b-bdb43f2465bf"
->
-</ReqRef><ReqRef
- Id="db4463dc-26c1-4af3-a988-31083e546a4c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bccfede5-1b36-4e0c-84c4-d59ef50c0188"
->
-</ReqRef><ReqRef
- Id="f070a20f-9665-470d-80ce-363bfa6c264a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="526f1300-ff99-4b0d-94ec-7f06e23068f4"
->
-</ReqRef><ReqRef
- Id="bf253010-f30e-4baf-a159-2b5214063f79"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c39a1ce0-2cc7-4a90-a708-caa018244a67"
->
-</ReqRef><Comment>If the trackisde requests the establishment of communication session, the on-board sets up the safe radio connection and waits for the message Initiation of communication session from the trackside.</Comment>
+<Comment>The time of initialisation of the requset is stored in ConnectionLostTime, in order to update the Safe Radio Connection status if the connection is not established within the time defined by ConnectionStatusTimer.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Implemented="TRUE"
- Name="Establishment of communication session requested by trackside"
- Guid="50e554d4-aa95-4f7e-896c-80aa749af607"
+ Name="Updates safe radio connection status"
+ Guid="8a993ea6-5cda-42b3-bbda-3ef61f5e3e6a"
 >
 <PreConditions>
 <PreCondition
- Guid="7646887d-9f41-46be-afc8-7baa48bad286"
->SafeRadioConnection.ConnectionRequestIsReceived</PreCondition></PreConditions>
+ Guid="2984116d-70c9-4445-b3b5-e5fe1ddfa031"
+>SessionHasToBeEstablished( anRBC =&gt;  ENCLOSING)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="acac9f9a-a9de-4efe-b716-f52130488da8"
->THIS &lt;- RBCStruct.ConnectionStateSM.Connecting.HandleRequestFromTrackside</Action><Action
- Guid="ecf1a755-d1fb-4123-82de-4e8d7e3dad23"
->SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action><Action
- Guid="e0c9fd6f-6e95-44d9-99ad-07fb09da4ad3"
->SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+ Guid="5c7318a3-3c2a-4a71-85c0-c1617d2d9134"
+>SafeRadioConnection.Action &lt;- Contact.ContactActionEnum.Establish</Action><Action
+ Guid="36c208cd-4fdb-4529-aac3-4806d371c8a8"
+>SafeRadioConnection.ConnectionLostTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="0435a548-28e2-45b2-b8f8-0711b2fc3498"
+>SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action><Action
+ Guid="9dfae625-3ff2-425f-898d-c57ff6a75c0a"
+>SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="5c581ac4-b257-4996-8939-15d5aa8232be"
+>SafeRadioConnection.NumberOfSentRequests &lt;- 1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
@@ -3309,31 +3309,10 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 >
 <Comment>Simply reinitializes the communication information since one may end in this state after a connection attempt.</Comment>
 <SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Set SafeRadioConnectionValue to its default"
- Guid="497aff36-096c-4d2d-a61b-bc70413b412f"
->
-<ReqRef
- Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4bb4cdf7-1931-417e-beb1-60286392babd"
->
-</ReqRef><Comment>In case the connection setup failed, e.g. due to an incompatible system version, the connection should terminate and the DMI contact information reset.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="e0953ffe-802e-499b-a1b6-d26ec4df3289"
->ReinitializeCommunicationInformation()</Action><Action
- Guid="c364a08a-b7c7-4511-87e0-c1742b7c98ba"
->DMI.MasterDMI().In_RBCContactInformation.Reset()</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
- X="800"
- Y="70"
+ X="830"
+ Y="80"
  Width="100"
  Height="200"
  Implemented="TRUE"
@@ -3574,7 +3553,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="1605f95a-cc99-4637-90f6-f944c5374c37"
 >
-</ReqRef><Comment>If the request has to be repeated but the maximum number of requests is already reached, RBC declares that the setup has failed and goes to inactive state.</Comment>
+</ReqRef><Comment>If the request has to be repeated but the maximum number of requests is already reached, RBC declares that the setup has failed and goes to NoConnection state.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4932a3e3-358f-4a69-b034-4dadf129cf89"
@@ -3582,7 +3561,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="947cdfdd-e42c-4684-9dd1-65abb983fad5"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action><Action
  Guid="d6469a14-111f-45b4-846e-e000f91ba652"
 >SafeRadioConnection.NumberOfSentRequests &lt;- 0</Action><Action
  Guid="dc483daa-7b07-4ae9-8b43-cbd205d1883a"
@@ -3630,7 +3609,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="2f2121c0-547a-4f28-920b-c73ac9de628c"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3681,7 +3660,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="b71b573b-1f53-4f37-97b5-3ea811c3a2c3"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3783,7 +3762,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="7857191c-725b-4d50-9197-8c15c1d2f16a"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3957,7 +3936,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="ea8b7978-d9c8-42c9-a1a1-339aea7eb022"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action><Action
  Guid="53aed77c-69b4-4844-84ca-aeb33f10a498"
 >SendNoCompatibleVersionSupported()</Action></Actions>
 </RuleCondition></Conditions>
@@ -4056,7 +4035,7 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 <Actions>
 <Action
  Guid="005fe0c4-14fe-4ed1-8754-5011041d3708"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action><Action
  Guid="01701ac8-5a57-4ab9-9aa1-ebfd9312b3ff"
 >ContactRBCOrder &lt;- EMPTY</Action><Action
  Guid="3581cdfd-d9c1-4aa5-aea5-5f76e8d5af3b"
@@ -4153,8 +4132,8 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
- X="810"
- Y="430"
+ X="830"
+ Y="690"
  Width="100"
  Height="80"
  Implemented="TRUE"
@@ -4663,6 +4642,8 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Order to contact an RBC is received"
  Guid="0f45f74c-edd2-48e5-af53-1c74c195841c"
@@ -4760,8 +4741,8 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
- X="180"
- Y="430"
+ X="70"
+ Y="690"
  Width="100"
  Height="80"
  Implemented="TRUE"
@@ -4952,20 +4933,36 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Name="Reinitialize the connection"
  Guid="090f9484-817d-4f1f-9d22-ad80023e9c9d"
 >
-<Comment>Reset the connection to Inactive</Comment>
+<Comment>Either definitevely stops the connections or start a new one if an order says so.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Name="Initialize another connection"
+ Guid="b044a82f-57e1-4422-b09b-00f755b86f14"
+>
+<Comment>Starts a new conection if an order says so.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3d4a4765-c32e-4a65-9b3d-f5c366efb620"
+>ContactRBCOrder != EMPTY</PreCondition><PreCondition
+ Guid="17c5379d-3ba3-417d-87f6-32fa5211b7d0"
+>ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="27aedddd-4241-4cbf-a710-c8cf01fddeae"
+>THIS &lt;- ConnectionStateSM.Inactive</Action></Actions>
+</RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Reinitialize the connection"
+ Name="Terminate the connection"
  Guid="f6d6e83f-628c-4460-806b-ccc1d0d2bfda"
 >
+<Comment>Stops connections.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
  Guid="0e6a150a-9710-4bde-adfa-d6a1377c193e"
->THIS &lt;- ConnectionStateSM.Inactive</Action></Actions>
+>THIS &lt;- ConnectionStateSM.NoConnection</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -4990,24 +4987,160 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Name="Reinitialize the connection"
  Guid="d7f216d4-d204-4e8e-b7b4-0ab67fbf50c8"
 >
-<Comment>Reset the connection to Inactive</Comment>
+<Comment>Either definitevely stops the connections or start a new one if an order says so.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Name="Initialize another connection"
+ Guid="2558d797-4518-4e50-b9ce-0b581147d7dd"
+>
+<Comment>Starts a new conection if an order says so.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b40e8d99-3e1e-492e-951f-9fd95f48ff34"
+>ContactRBCOrder != EMPTY</PreCondition><PreCondition
+ Guid="5adec7ae-0a2f-4e04-b219-67039a9f77d7"
+>ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ee8e5c98-fabc-4a58-aa70-dd623125f0bc"
+>THIS &lt;- ConnectionStateSM.Inactive</Action></Actions>
+</RuleCondition><RuleCondition
  Implemented="TRUE"
- Name="Reinitialize the connection"
+ Name="Terminate the connection"
  Guid="5cc2e965-6582-4bcf-b286-4909c77cdb1c"
 >
+<Comment>Stops connections.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
  Guid="de1dc071-6e0e-41a4-8fbb-37d5cea64de8"
->THIS &lt;- ConnectionStateSM.Inactive</Action></Actions>
+>THIS &lt;- ConnectionStateSM.NoConnection</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
-</StateMachine></State></States>
+</StateMachine></State><State
+ X="70"
+ Y="90"
+ Width="100"
+ Height="200"
+ Name="NoConnection"
+ Guid="ff6ddab3-eaa9-438a-afe1-7857a527449b"
+>
+<Comment>No connection information has been received.</Comment>
+<StateMachine
+ Guid="a1c08b9c-08d5-4ee9-aade-6157497ae1f6"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="RBC contact order received"
+ Guid="807ab4c0-9871-49fa-888f-f135cd0a6439"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="RBC contact order received"
+ Guid="d3a86366-2c10-4115-9cd2-389e7e0a496c"
+>
+<PreConditions>
+<PreCondition
+ Guid="7be48796-5303-41fb-b2e8-a0863e00aa83"
+>ContactRBCOrder != EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6ce06581-586d-494d-b603-29713593bb40"
+>THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Establishment of communication session requested by trackside"
+ Guid="078e4aad-f6a1-48b9-999f-df3808876be3"
+>
+<ReqRef
+ Id="484b41b4-a894-43b4-9ee4-a7227ddfd3aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="20784d49-0f83-447f-ab8b-bdb43f2465bf"
+>
+</ReqRef><ReqRef
+ Id="db4463dc-26c1-4af3-a988-31083e546a4c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bccfede5-1b36-4e0c-84c4-d59ef50c0188"
+>
+</ReqRef><ReqRef
+ Id="f070a20f-9665-470d-80ce-363bfa6c264a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="526f1300-ff99-4b0d-94ec-7f06e23068f4"
+>
+</ReqRef><ReqRef
+ Id="bf253010-f30e-4baf-a159-2b5214063f79"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c39a1ce0-2cc7-4a90-a708-caa018244a67"
+>
+</ReqRef><ReqRef
+ Id="529343f5-9881-4318-8dcc-53dade4fe1df"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="26e882e9-db8b-4fa7-926f-deb6d5b4a45d"
+>
+</ReqRef><Comment>If the trackisde requests the establishment of communication session, the on-board sets up the safe radio connection and waits for the message Initiation of communication session from the trackside.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Establishment of communication session requested by trackside"
+ Guid="50e554d4-aa95-4f7e-896c-80aa749af607"
+>
+<Comment>In this case, no contact information is received from the the trackside, hence attempts by the onboard to reestablish the lost connection are doomed.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7646887d-9f41-46be-afc8-7baa48bad286"
+>SafeRadioConnection.ConnectionRequestIsReceived</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="acac9f9a-a9de-4efe-b716-f52130488da8"
+>THIS &lt;- RBCStruct.ConnectionStateSM.Connecting.HandleRequestFromTrackside</Action><Action
+ Guid="ecf1a755-d1fb-4123-82de-4e8d7e3dad23"
+>SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action><Action
+ Guid="e0c9fd6f-6e95-44d9-99ad-07fb09da4ad3"
+>SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</StateMachine><EnterAction>
+<Rule
+ Priority="Processing"
+ Name="Enter action"
+ Guid="57e886f4-7bd1-411d-b752-85d4cb2efe05"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Set SafeRadioConnectionValue to its default"
+ Guid="497aff36-096c-4d2d-a61b-bc70413b412f"
+>
+<ReqRef
+ Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4bb4cdf7-1931-417e-beb1-60286392babd"
+>
+</ReqRef><Comment>In case the connection setup failed, e.g. due to an incompatible system version, the connection should terminate and the DMI contact information reset.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e0953ffe-802e-499b-a1b6-d26ec4df3289"
+>ReinitializeCommunicationInformation()</Action><Action
+ Guid="c364a08a-b7c7-4511-87e0-c1742b7c98ba"
+>DMI.MasterDMI().In_RBCContactInformation.Reset()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></EnterAction>
+</State></States>
 </StateMachine></StateMachines>
 </Structure></Structures>
 <Functions>
@@ -5061,7 +5194,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="SessionHasToBeEstablished"
+ Name="SessionHasToBeReEstablished"
  Guid="5038c7fd-eeb6-4629-878c-aa6f52c39063"
 >
 <ReqRef
@@ -5099,18 +5232,6 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Establishment order is received"
- Guid="d9f492df-d0da-4799-98d2-f92e8dab335b"
->
-<Comment>First case: an order to establish the communication session is received</Comment>
-<PreConditions>
-<PreCondition
- Guid="88494b47-b4df-49dd-9cac-c8aeaad524e3"
->anRBC.ContactRBCOrder != EMPTY
-  AND
-anRBC.ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
  Name="Establish session due to loss of safe radio connection"
  Guid="23a1d6c0-14c5-4f08-ae93-3f738cc84c23"
 >
@@ -5382,9 +5503,9 @@ RBCConnection.SecondaryRBCConnection().SafeRadioConnectionStatus != RBCConnectio
  Name="Value"
  Guid="570d8238-c486-4d19-bd40-02645a6b780e"
 >
-<Expression>Terminal.Terminal1.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Inactive
+<Expression>Terminal.Terminal1.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.NoConnection
   AND
-Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Inactive</Expression>
+Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.NoConnection</Expression>
 </Case></Cases>
 </Function><Function
  Type="VersionManagement.SystemVersionEnum"
@@ -5434,6 +5555,104 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
  Guid="f4f56c58-c98b-415b-b10f-834a43d8bdb0"
 >aVersion == Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0</PreCondition></PreConditions>
 <Expression>VersionManagement.SystemVersionEnum.Version2_0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="580"
+ Y="420"
+ Width="100"
+ Height="50"
+ Name="SessionEstablishmentOrderIsReceived"
+ Guid="29499d5e-fa26-4d49-a920-45fbaed77748"
+>
+<Parameters>
+<Parameter
+ Type="RBCConnection.RBCStruct"
+ Name="anRBC"
+ Guid="622cc75a-813a-415f-9133-d9e77dc524f2"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Establishment order is received"
+ Guid="d9f492df-d0da-4799-98d2-f92e8dab335b"
+>
+<Comment>First case: an order to establish the communication session is received</Comment>
+<PreConditions>
+<PreCondition
+ Guid="88494b47-b4df-49dd-9cac-c8aeaad524e3"
+>anRBC.ContactRBCOrder != EMPTY
+  AND
+anRBC.ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="9239d5ec-4cd4-4883-8c1b-e9c4630633ce"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="470"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SessionHasToBeEstablished"
+ Guid="89c9ff94-64e4-49f0-8427-8b9e22239199"
+>
+<ReqRef
+ Id="a9881801-963e-4a33-98f1-1962fc249f4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94f36c2c-6864-44ef-bce1-dc0f58ed770e"
+>
+</ReqRef><ReqRef
+ Id="e36dd5fc-81ea-4253-8535-4e5b4afd1b54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="593b36dc-2b8d-4b19-b4ff-64934e7b1d28"
+>
+</ReqRef><ReqRef
+ Id="752d0832-7cfa-4424-96f7-d3fbb447a20e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6974d69e-486b-48b3-b5c4-fd955d16cff9"
+>
+</ReqRef><ReqRef
+ Id="1be02ad3-ca38-452c-a795-e398d991b2da"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="463c7477-ccb3-4a4d-919f-c69b74e83822"
+>
+</ReqRef><ReqRef
+ Id="fbaaf410-a59f-40cd-b972-aa1e84116831"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5a0d3d19-7a22-459d-a263-d469c23c4a35"
+>
+</ReqRef><Comment>Indicates if a communication session has to be established.</Comment>
+<Parameters>
+<Parameter
+ Type="RBCConnection.RBCStruct"
+ Name="anRBC"
+ Guid="5dcd96f4-f537-4293-9b5e-52b8e6a50e73"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Session has to be established"
+ Guid="88734fac-2519-40b9-805e-97bf8de72d76"
+>
+<PreConditions>
+<PreCondition
+ Guid="551f9b2b-c551-4c98-91c1-c422b384f91e"
+>SessionEstablishmentOrderIsReceived(anRBC)
+  OR
+SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5dd2df99-4a44-4bae-9625-89869a853eae"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
