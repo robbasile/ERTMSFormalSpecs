@@ -215,7 +215,9 @@ namespace GUI.ModelDiagram.Boxes
                                 }
                                 else
                                 {
-                                    size = GuiUtils.Graphics.MeasureString(str, part.Font, location, StringFormat.GenericTypographic);                                    
+                                    StringFormat sf = StringFormat.GenericTypographic;
+                                    sf.FormatFlags = StringFormatFlags.MeasureTrailingSpaces;
+                                    size = GuiUtils.Graphics.MeasureString(str, part.Font, location, sf);                                    
                                 }
 
                                 graphics.DrawString(str, part.Font, new SolidBrush(part.Color), location.X, location.Y);
