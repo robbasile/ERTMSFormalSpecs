@@ -1394,5 +1394,53 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
  Guid="6cd45745-93fd-462e-a9a2-fba632fb6219"
 >DMI.MasterDMI().In_AcknOfLevelTransition.InitiateRequest( aLevel =&gt; Kernel.LevelTransition.LevelTransitionToProcess.TRLevel )</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="Level transition available at standstill"
+ Guid="b33707d7-a979-442b-8878-13a70b47489a"
+>
+<ReqRef
+ Id="4cfe03c5-9038-4784-ad96-4ccf981c6a5f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f4b6f183-0de7-4ed5-869d-641111c11858"
+>
+</ReqRef><ReqRef
+ Id="cead20b2-bf19-49cf-809c-06c7f4d877d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="09a1b2a8-8f1c-42d4-bee3-b551cacb695c"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Activation"
+ Guid="035fc15c-c9b7-463a-8b87-4216acf1f913"
+>
+<PreConditions>
+<PreCondition
+ Guid="3f11e590-9249-4aef-b658-996de250ed28"
+>Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
+ Guid="5499fbbf-d48d-4ff5-8e42-1e9b67ee7abc"
+>ActiveFunctions.DetermineLevel()</PreCondition><PreCondition
+ Guid="d73f573e-b828-4ff7-b16a-3088529dea6f"
+>Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.StartOfMission</PreCondition><PreCondition
+ Guid="ad09e6ac-415f-45a4-b45d-25073e47f0c5"
+>Kernel.Mode != ModeEnum.SB</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="98ca9aea-e08f-4e14-9d17-ef44012ba8d9"
+>DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InitiateRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Disable"
+ Guid="71842ea4-86bc-489f-90ab-47883ef7a2aa"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
