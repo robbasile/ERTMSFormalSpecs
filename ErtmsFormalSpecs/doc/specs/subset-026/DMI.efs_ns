@@ -191,6 +191,67 @@
  Guid="37260d9a-208e-4e8e-8c9a-1fe9de2fa100"
 >
 </EnumValue></Values>
+</Enum><Enum
+ Default="DMI.DMIConfigurationEnum.SingleDMI"
+ X="420"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DMIConfigurationEnum"
+ Guid="729da93c-bbea-4a43-b282-d0fa27538703"
+>
+<ReqRef
+ Id="839d8340-fe74-4358-8e90-bbcbf37f22e7"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="74c61ebe-14a2-4ea2-87a1-d3ed09656b7a"
+>
+</ReqRef><ReqRef
+ Id="deed4628-97e4-4181-8665-7509256de3fa"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="0bce5d96-8aae-4968-a986-2332b6a28082"
+>
+</ReqRef><ReqRef
+ Id="8ec72be6-e0c4-4144-b5eb-11ce0f95c2f7"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="ebf57ca1-3516-4d5a-a528-040d9954537e"
+>
+</ReqRef><ReqRef
+ Id="1103646b-bce8-434d-989b-512b6d07f522"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="4f05dbc9-2eb4-4570-bd18-a61d5b1caad5"
+>
+</ReqRef><ReqRef
+ Id="0e567e4f-a153-426b-9319-7888b64d642a"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="fcd4dbac-11b2-4cc9-8782-55c7e0aff3c9"
+>
+</ReqRef><ReqRef
+ Id="f4830d74-9f76-4ace-b362-2b7b734f306f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="eb62ca84-c95d-412b-8a16-675bf4b924e5"
+>
+</ReqRef><Comment>Enumeration of the possible DMI configurations:
+  - Only one DMI connected to the ERTMS/ETCS on-board equipment
+  - Two desks in a single cab
+  - Two cabs each containins one desk.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="SingleDMI"
+ Guid="8e5095a2-f7c2-4884-bab8-53c14788e708"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="TwoCabs"
+ Guid="8f8b3737-31b2-4e38-b75f-6c023a018359"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SingleCabTwoDesks"
+ Guid="d51906d1-9c68-4c71-95cd-5f3444573215"
+>
+</EnumValue></Values>
 </Enum></Enumerations>
 <Structures>
 <Structure
@@ -4887,7 +4948,9 @@ Fetches the time from the kernel and adjusts according to the current country id
 <PreConditions>
 <PreCondition
  Guid="fbc67fe9-3aeb-4951-ad44-9f16a2fad0d7"
->NOT ( DMI2.IsMaster )</PreCondition></PreConditions>
+>NOT Available( DMI2 )
+  OR  
+NOT ( DMI2.IsMaster )</PreCondition></PreConditions>
 <Expression>DMI1</Expression>
 </Case><Case
  Name="DMI2"
@@ -5090,7 +5153,7 @@ NOT DeskIsOpen ( DMI2 )</Expression>
  Y="130"
  Width="100"
  Height="50"
- NeedsRequirement="FALSE"
+ Implemented="TRUE"
  Name="DMI1"
  Guid="28ce8946-56a4-49d5-8e04-47c5a0fbfbf1"
 >
@@ -5099,7 +5162,13 @@ NOT DeskIsOpen ( DMI2 )</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f355a778-4037-4b9e-99e7-b3b68aba7cf3"
 >
-</ReqRef></Variable><Variable
+</ReqRef><ReqRef
+ Id="2c8d34f3-2b7a-46a1-8729-ceac3b68ddb1"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="d9286ded-4ab8-431b-b110-5ab8ca683814"
+>
+</ReqRef><Comment>The DMI facing the nominal direction of motion of the train (the direction of increasing distance from the odometry&apos;s point of view).</Comment>
+</Variable><Variable
  Type="DMIStruct"
  DefaultValue=""
  VariableMode="InOut"
@@ -5107,7 +5176,7 @@ NOT DeskIsOpen ( DMI2 )</Expression>
  Y="200"
  Width="100"
  Height="50"
- NeedsRequirement="FALSE"
+ Implemented="TRUE"
  Name="DMI2"
  Guid="e4b10c27-aea8-46de-ab6a-0962b6bd5b65"
 >
@@ -5116,5 +5185,11 @@ NOT DeskIsOpen ( DMI2 )</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fc096183-b1e3-4918-b1b2-40f1dc65ca6c"
 >
-</ReqRef></Variable></Variables>
+</ReqRef><ReqRef
+ Id="2c8d34f3-2b7a-46a1-8729-ceac3b68ddb1"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="4f04b467-9902-41fb-aac0-10de303c73e6"
+>
+</ReqRef><Comment>The DMI facing the reverse direction of motion of the train (the direction of decreasing distance from the odometry&apos;s point of view).</Comment>
+</Variable></Variables>
 </NameSpace>

@@ -17,8 +17,8 @@
 <Structures>
 <Structure
  Default=""
- X="480"
- Y="380"
+ X="370"
+ Y="270"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -89,8 +89,8 @@
 <Function
  Type="Boolean"
  Default=""
- X="600"
- Y="0"
+ X="530"
+ Y="30"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -134,8 +134,8 @@
  Type="BaseTypes.Speed"
  Cacheable="TRUE"
  Default=""
- X="710"
- Y="0"
+ X="640"
+ Y="30"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -168,8 +168,8 @@
  Type="BaseTypes.Acceleration"
  Cacheable="TRUE"
  Default=""
- X="710"
- Y="60"
+ X="640"
+ Y="90"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -201,8 +201,8 @@
 </Function><Function
  Type="BaseTypes.Acceleration"
  Default=""
- X="600"
- Y="60"
+ X="530"
+ Y="90"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -240,11 +240,95 @@
 <Expression>BaseTypes.Acceleration ( aSpeed
 -  Odometry.PreviousSpeed ) / BaseTypes.Acceleration (  aTime - Odometry.PreviousTime)</Expression>
 </Case></Cases>
+</Function><Function
+ Type="OrientationEnum"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="DirectionOfTravel"
+ Guid="f813a170-1687-4d95-8199-5ae90d5ef2df"
+>
+<Cases>
+<Case
+ Name="Do not determine speed"
+ Guid="dd9c6692-7816-4983-bed8-ee92961ac1dd"
+>
+<PreConditions>
+<PreCondition
+ Guid="e7ab286a-f232-45cf-b2d3-1f4d34e569bf"
+>NOT Kernel.ActiveFunctions.DetermineSpeedAccelerationStandstill()</PreCondition></PreConditions>
+<Expression>OrientationEnum.Unknown</Expression>
+</Case><Case
+ Name="Cab A, desk 1 is active"
+ Guid="862df5d6-e382-44b0-9d75-07ae0680adb2"
+>
+<PreConditions>
+<PreCondition
+ Guid="c3d8afa8-4253-4ea5-b485-2a7eca4fcb37"
+>TIU.CabA.Desk1IsActive</PreCondition></PreConditions>
+<Expression>EstimatedSpeedDirection</Expression>
+</Case><Case
+ Name="Another desk is active - nominal direction recorded"
+ Guid="1311e6d8-c411-482a-8b2b-a0f228f92716"
+>
+<PreConditions>
+<PreCondition
+ Guid="94e193da-eb45-4342-845d-58fb37446ed2"
+>TIU.CabA.Desk2IsActive
+  OR  
+TIU.CabB.Desk1IsActive</PreCondition></PreConditions>
+<Expression>ReverseOfOrientation( EstimatedSpeedDirection )</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7794cd57-770c-4948-ab9d-a80b214039c3"
+>
+<Expression>OrientationEnum.Unknown</Expression>
+</Case></Cases>
+</Function><Function
+ Type="OrientationEnum"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="ForwardsDirection"
+ Guid="cb4c5469-a800-4069-bae0-c5cd0a188994"
+>
+<Comment>Provides the current &quot;Forwards&quot; direction, based on the active desk.
+&quot;Nominal&quot; orientation means that the forwards direction is the direction of increasing distance.
+&quot;Reverse&quot; direction is the direction of decreasing distance.</Comment>
+<Cases>
+<Case
+ Name="DMI 1 is master"
+ Guid="11a88fdd-6de0-4de8-a691-9ac2b745d973"
+>
+<PreConditions>
+<PreCondition
+ Guid="2a2f6826-8d52-430e-af7e-51d516f06e26"
+>DMI.DMI1.IsMaster</PreCondition></PreConditions>
+<Expression>OrientationEnum.Nominal</Expression>
+</Case><Case
+ Name="DMI 2 is master"
+ Guid="78719ad3-933b-4001-92b9-a25948ba68c8"
+>
+<PreConditions>
+<PreCondition
+ Guid="fb81e1c5-2406-4941-ba80-433efc5653a5"
+>DMI.DMI2.IsMaster</PreCondition></PreConditions>
+<Expression>OrientationEnum.Reverse</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="313f2a51-5ac1-4b03-b7b6-45ca9a4672b9"
+>
+<Expression>OrientationEnum.Unknown</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
- X="600"
- Y="160"
+ X="530"
+ Y="180"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -301,7 +385,9 @@
  Guid="be1750f6-f121-4bb4-9192-25785d00bc32"
 >Odometry.Accuracy.V_ora &lt;- Converters.SpeedConversion(aMessage.V_EST - aMessage.V_MIN)</Action><Action
  Guid="7a4376a7-9f06-403b-87a3-14f47c6b2890"
->Odometry.Accuracy.V_ura &lt;- Converters.SpeedConversion(aMessage.V_MAX - aMessage.V_EST)</Action></Actions>
+>Odometry.Accuracy.V_ura &lt;- Converters.SpeedConversion(aMessage.V_MAX - aMessage.V_EST)</Action><Action
+ Guid="b2fc9cfb-25af-442e-860b-a147c090c506"
+>EstimatedSpeedDirection &lt;- Converters.DirectionFromSpeed( aSpeed =&gt; aMessage.V_EST )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -316,8 +402,8 @@
     V_ura =&gt; 0.0
 }"
  VariableMode="Internal"
- X="480"
- Y="270"
+ X="370"
+ Y="150"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -338,7 +424,7 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  DefaultValue="0.0"
  VariableMode="Internal"
  X="10"
- Y="270"
+ Y="150"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -352,7 +438,7 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  DefaultValue="EMPTY"
  VariableMode="InOut"
  X="220"
- Y="190"
+ Y="20"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -366,7 +452,7 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  DefaultValue="0.0"
  VariableMode="Internal"
  X="10"
- Y="390"
+ Y="270"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -379,8 +465,8 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  Type="BaseTypes.Speed"
  DefaultValue="0.0"
  VariableMode="Internal"
- X="250"
- Y="270"
+ X="230"
+ Y="150"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -400,8 +486,8 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  Type="BaseTypes.Time"
  DefaultValue="0.0"
  VariableMode="Internal"
- X="140"
- Y="270"
+ X="120"
+ Y="150"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -415,7 +501,7 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  Type="BaseTypes.Speed"
  DefaultValue="0.0"
  VariableMode="Internal"
- X="370"
+ X="230"
  Y="270"
  Width="100"
  Height="50"
@@ -430,8 +516,8 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  Type="BaseTypes.Acceleration"
  DefaultValue="0.0"
  VariableMode="Internal"
- X="140"
- Y="390"
+ X="120"
+ Y="270"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -441,12 +527,28 @@ OdometerAccuracy.UpperBoundConfidenceInterval is obtained by computing Distance.
  Guid="1ca9418b-e14a-434c-85d0-27dd6a0a2690"
 >
 <Comment>The acceleration of the train, computed from its speed and the time.</Comment>
+</Variable><Variable
+ Type="OrientationEnum"
+ VariableMode="Internal"
+ X="10"
+ Y="390"
+ Width="100"
+ Height="50"
+ Name="EstimatedSpeedDirection"
+ Guid="27eeb0ac-0d14-4f49-ad70-9e24e1d17063"
+>
+<Comment>The direction of travel as determined by cab A, desk 1. If another desk (either desk 2 of cab A of the desk in cab B) is open, the model will switch the meanings of Nomianl and Reverse.
+
+This is determined by the sign of the speed received from the odometry:
+  - positive speed is Nominal
+  - negative speed is Reverse
+  - 0 estimated speed is unknown.</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
  Priority="CleanUp"
- X="600"
- Y="270"
+ X="530"
+ Y="280"
  Width="100"
  Height="50"
  Pinned="TRUE"

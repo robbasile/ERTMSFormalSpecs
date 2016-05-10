@@ -2166,6 +2166,50 @@
 >aQ_DIR == Messages.Q_DIR.Spare</PreCondition></PreConditions>
 <Expression>DataDirectionEnum.Unknown</Expression>
 </Case></Cases>
+</Function><Function
+ Type="OrientationEnum"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ReverseOfOrientation"
+ Guid="b25bc723-6dbd-475f-be39-9130c2046b01"
+>
+<Parameters>
+<Parameter
+ Type="OrientationEnum"
+ Name="aOrientation"
+ Guid="af6d9aee-7c77-496a-92c9-c7bad6b54346"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Nominal"
+ Guid="c5adad53-2eb7-41a3-9fa2-5a1529646934"
+>
+<PreConditions>
+<PreCondition
+ Guid="f4dce533-007d-430c-a0f8-f635d90d06d5"
+>aOrientation == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>OrientationEnum.Reverse</Expression>
+</Case><Case
+ Name="Reverse"
+ Guid="4b45902e-d051-4325-93fb-ea549c3c8e71"
+>
+<PreConditions>
+<PreCondition
+ Guid="71481131-c310-4da9-a56c-352bea73b9ef"
+>aOrientation == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>OrientationEnum.Nominal</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="9125f267-bfb6-4a80-a603-a9fc35ccae4c"
+>
+<Expression>aOrientation</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

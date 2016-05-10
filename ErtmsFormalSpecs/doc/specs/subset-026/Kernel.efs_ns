@@ -544,7 +544,13 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="131ccec2-27c3-43de-8c6f-d1677e171ee9"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><ReqRef
+ Id="66a2d6e9-5d31-4089-8066-9551541a07a5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="101ae2f7-001e-4738-bdc1-20857ea59a15"
+>
+</ReqRef><Comment>If there is no current procedure and the mode is SB, then the Start of Mission procedure is initiated when a desk is opened.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -552,10 +558,15 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  Name="StartOfMission Initiation"
  Guid="db607fdc-2bee-4bbf-aa53-6ba171f0ea06"
 >
-<PreConditions>
+<ReqRef
+ Id="e989d863-8cfc-455e-a8bb-4bec3452097c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b94f893-af71-48b2-95b4-27865e05b62f"
+>
+</ReqRef><PreConditions>
 <PreCondition
  Guid="be297a45-8f00-4515-85de-3b074fc79eb4"
->Kernel.Mode == ModeEnum.SB</PreCondition><PreCondition
+>Kernel.Mode in [ModeEnum.SB]</PreCondition><PreCondition
  Guid="b69c599e-b059-495e-89e8-a2e5e3c6aa3d"
 >DMI.DeskIsOpen ( DMI.MasterDMI() )</PreCondition><PreCondition
  Guid="cf68f025-8f89-456d-a84b-72f7305ebd05"
@@ -567,6 +578,8 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="ShuntingInitiatedByDriver Initiation"
  Guid="5808c8df-4c5f-4a0c-9519-f1ff0b669083"
@@ -581,7 +594,11 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="388f5de8-d6ba-42f4-9501-d18e34cf9c50"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Procedure Shunting Initiated by Driver initiated if the conditionas are met:
+  - Train is at standstill
+  - Drive rselected Shunting in the DMI
+  - Current mode is FS, LS, OS, SR, SN, or UN.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -5925,6 +5942,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Loss of open session"
  Guid="6bad3eaf-2f24-4bf6-91d5-36263a6c6158"
@@ -5957,6 +5976,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Allow reenter driver id for states S10 and S20"
  Guid="eecffdff-c38a-4e86-8625-e1b7be52a479"
@@ -5985,6 +6006,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Allow reenter driver id for states S10 and S20"
@@ -6019,6 +6042,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Allow reenter train running number for states S10 and S20"
  Guid="d28a36f2-3019-4425-a860-299d9c9e6bf6"
@@ -6047,6 +6072,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Allow Re-enter train running number"
@@ -6234,6 +6261,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Allow set/remove VBC for states S10 and S20"
  Guid="2a063391-04be-41f1-a550-b50e3a39e750"
@@ -6265,6 +6294,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Allow set/remove VBC for states S10 and S20"
  Guid="df00d4a0-66d3-42ad-b7fc-7c8d812e6fad"
@@ -9076,6 +9107,8 @@ The report is handled in the EURORADIO namespace</Comment>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="D040"
@@ -10388,6 +10421,39 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
  X="0"
  Y="0"
  Implemented="TRUE"
+ Name="Handle TIU inputs"
+ Guid="f23f1962-61c9-4863-a5f1-4db6c89379e9"
+>
+<ReqRef
+ Id="2e3eda46-b060-4164-9dc4-05e853b23a11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="edb9a0b2-1175-45cc-b83c-d4265667223a"
+>
+</ReqRef><ReqRef
+ Id="2716843f-aeab-4fa3-8b17-006bff38ba9a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="971c4583-ff15-4819-8aae-1abfae6b1243"
+>
+</ReqRef><Comment>Handle change of orientation when a desk is opened.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle TIU inputs"
+ Guid="79f6a2fd-d625-4354-8170-09f1a3534a3c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5ea97aa4-1ade-4662-b5b7-53634de602e3"
+>TrainPosition.Orientation.HandleOrientationChange()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle Odometry inputs"
  Guid="e4c388a2-a672-48e4-97a3-b3582fe5de15"
@@ -10944,7 +11010,9 @@ This is done now because the calculation depends on te mode.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5ed9dedc-20d5-4105-9c2a-1f82bd4655d8"
->Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection == Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation</PreCondition></PreConditions>
+>Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection == Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation</PreCondition><PreCondition
+ Guid="399cf8a3-83df-4644-b715-ca164a3bd0d8"
+>Kernel.TrainPosition.Position.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -11374,6 +11442,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add to the list of detected faults"
  Guid="fab41ae2-042b-40e7-88d8-9253b9e59b54"
@@ -11399,6 +11469,8 @@ IN
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Send report to RBC"
  Guid="adcaa786-8665-4068-a8bd-e22e4d823e98"
@@ -11420,6 +11492,8 @@ IN
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Level 2/3, no RBC connection"
  Guid="6f4215d4-b496-48be-a3c3-0402d5130c81"
@@ -11428,6 +11502,11 @@ IN
  Id="189c802e-c2fa-4815-8dc9-f0d5cbee6170"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f4a0d347-9fe4-4735-b409-41c1eb4da916"
+>
+</ReqRef><ReqRef
+ Id="d6f73100-506e-4f75-965b-5329798ae04c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c211c680-e7cc-4240-a683-0a3ffd84811d"
 >
 </ReqRef><Comment>Connect to report the fault in levels 2/3.</Comment>
 <SubRules></SubRules>
@@ -11932,7 +12011,12 @@ IN
  Name="Clean Up"
  Guid="5ede8ba9-0011-4a3b-878f-702096c02b6a"
 >
-<Comment>Performs the cleaning of the information which is not needed by the Kernel anymore.</Comment>
+<ReqRef
+ Id="a0239fb6-709c-4818-9907-463b7c24e661"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="40f90fc0-b33a-44f6-9df1-45edaed53a37"
+>
+</ReqRef><Comment>Performs the cleaning of the information which is not needed by the Kernel anymore.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition

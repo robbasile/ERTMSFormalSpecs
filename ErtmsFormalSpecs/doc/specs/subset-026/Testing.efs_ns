@@ -59,22 +59,11 @@ DMI2 will be the slave and will be connected to the first desk of the CabB.</Com
 </PreConditions>
 <Actions>
 <Action
- Guid="e1ee2cc9-4190-4538-a31b-abec6da6eee2"
->TIU.CabA.Desk1IsActive &lt;- True</Action><Action
- Guid="eb11d587-0237-4dab-9017-68297f3de1ab"
->DMI.DMI1.IsMaster &lt;- True</Action><Action
- Guid="21856a04-ea9e-4f80-b170-359f928e25e2"
->TIU.CabB.Desk1IsActive &lt;- False</Action><Action
- Guid="880fb6ea-f93f-426d-a18f-3cb85df1ab07"
->DMI.DMI2.IsMaster &lt;- False</Action><Action
- Guid="1701afb0-1c92-46ba-9854-71e4cf3da43f"
->DMI.DMI1.Cab &lt;- DMI.CabEnum.CabA</Action><Action
- Guid="fa57a880-158c-4211-964e-7c9419e83669"
->DMI.DMI2.Cab &lt;- DMI.CabEnum.CabB</Action><Action
- Guid="1b5980f5-92fd-4d2c-b57d-9b86789ecdf0"
->DMI.DMI1.Desk &lt;- DMI.CabDeskEnum.Desk1</Action><Action
- Guid="66b762d5-1b65-4766-8a1e-c2ac2170184d"
->DMI.DMI2.Desk &lt;- DMI.CabDeskEnum.Desk1</Action></Actions>
+ Guid="4f5f2a6c-b39d-4982-9c51-4a8a10ec4de5"
+>InitializeDMICabs(
+    aDMIConfiguration =&gt; DMI.DMIConfigurationEnum.TwoCabs,
+    aDMI1IsMaster =&gt; True
+)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5298,6 +5287,8 @@ Kernel.MA.ModeProfile.ModeProfileStruct{
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Initialize BNS"
@@ -5908,6 +5899,202 @@ SpeedRestrictions =&gt; []
     }
 }
 }</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="130"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InitializeDMICabs"
+ Guid="493537b3-74b2-4515-a6bb-90822c5cb3ae"
+>
+<ReqRef
+ Id="deed4628-97e4-4181-8665-7509256de3fa"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="7f1079cb-a9af-4b40-86e4-0f31bf930363"
+>
+</ReqRef><ReqRef
+ Id="839d8340-fe74-4358-8e90-bbcbf37f22e7"
+ SpecId="33a01dd1-de78-4ea3-9e96-a198d1a29277"
+ Guid="3babb536-3ec7-462a-b91d-79d3b240b6fe"
+>
+</ReqRef><ReqRef
+ Id="8ec72be6-e0c4-4144-b5eb-11ce0f95c2f7"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="d08867d8-8723-4884-bfa8-c83e7b71328c"
+>
+</ReqRef><ReqRef
+ Id="1103646b-bce8-434d-989b-512b6d07f522"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="b363d924-122c-4e6c-84b6-8dbe0711adb1"
+>
+</ReqRef><ReqRef
+ Id="0e567e4f-a153-426b-9319-7888b64d642a"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="8f713ddf-7a2e-465b-9950-cecc5056b8d2"
+>
+</ReqRef><ReqRef
+ Id="f4830d74-9f76-4ace-b362-2b7b734f306f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="8cf29556-4b94-4fd9-915d-1e41b066082c"
+>
+</ReqRef><Comment>Initializes the DMI according to the parameters provided.</Comment>
+<Parameters>
+<Parameter
+ Type="DMI.DMIConfigurationEnum"
+ Name="aDMIConfiguration"
+ Guid="ed0a49a8-f713-45fa-acf3-7cae4bbc07a8"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="aDMI1IsMaster"
+ Guid="e60f9b6a-4a4d-4220-8525-34a2e58c135c"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Setup DMI 1"
+ Guid="14f03fe4-d4ec-4c1d-bc2d-0a4a99361145"
+>
+<Comment>Setup the first DMI.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Setup DMI 1 - Cab A"
+ Guid="28bc1d3b-1396-419a-8a78-203c72579eaf"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="bc585b95-3fe5-4e3f-9ad2-92b3f4ed7f3f"
+>DMI.DMI1 &lt;- DMI.DMIStruct
+{
+  PreviousMode =&gt; Default.ModeEnum.Unknown, 
+  IsMaster =&gt; (aDMI1IsMaster OR aDMIConfiguration == DMI.DMIConfigurationEnum.SingleDMI), 
+  DisplayLanguage =&gt; DMI.DisplayLanguageStruct
+  {
+    DataState =&gt; Default.DataStateEnum.Valid, 
+    Value =&gt; Default.LanguageEnum.EN
+  }, 
+  Cab =&gt; DMI.CabEnum.CabA, 
+  Desk =&gt; DMI.CabDeskEnum.Desk1
+}</Action><Action
+ Guid="7264cb79-8a04-4434-a627-a2a7f5a2981e"
+>TIU.CabA.Desk1IsActive &lt;- (aDMI1IsMaster OR aDMIConfiguration == DMI.DMIConfigurationEnum.SingleDMI)</Action><Action
+ Guid="243d51ba-55ad-4b80-b0d3-bc4f71fb5e63"
+>TIU.CabA.IsFittedWithSingleDesk &lt;- aDMIConfiguration in [DMI.DMIConfigurationEnum.SingleDMI, DMI.DMIConfigurationEnum.TwoCabs]</Action><Action
+ Guid="fe45d45e-5e80-47c0-9be5-05bc0c1c6a87"
+>TIU.CabA.VirtualCabAActive &lt;- False</Action><Action
+ Guid="71039f41-4d7e-416d-a8b8-1ebda8991fc4"
+>TIU.CabA.VirtualCabBActive &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Setup DMI 2"
+ Guid="0885e647-3804-45e8-b110-ee8db478c759"
+>
+<Comment>Setup the second DMI, if any.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="DMI 2 - Cab A"
+ Guid="9ae0dae4-5f2f-4143-a973-afd92fe7b2cc"
+>
+<Comment>Cab A has two desks.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e9760b32-ac7d-406c-895a-746be2cd5865"
+>aDMIConfiguration == DMI.DMIConfigurationEnum.SingleCabTwoDesks</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bf238d50-9546-4569-b9d7-0bc781b75b86"
+>DMI.DMI2 &lt;- DMI.DMIStruct
+{
+  PreviousMode =&gt; Default.ModeEnum.Unknown, 
+  IsMaster =&gt; NOT aDMI1IsMaster, 
+  DisplayLanguage =&gt; DMI.DisplayLanguageStruct
+  {
+    DataState =&gt; Default.DataStateEnum.Valid, 
+    Value =&gt; Default.LanguageEnum.EN
+  }, 
+  Cab =&gt; DMI.CabEnum.CabA, 
+  Desk =&gt; DMI.CabDeskEnum.Desk2
+}</Action><Action
+ Guid="0fceec4e-c6e3-4a55-8c20-bc84ce1ad23a"
+>TIU.CabB.Desk1IsActive &lt;- False</Action><Action
+ Guid="44e12cb2-f547-4936-b103-922e597da2dc"
+>TIU.CabB.Desk2IsActive &lt;- False</Action><Action
+ Guid="662914af-64bc-44c6-9be0-28884c83374c"
+>TIU.CabB.VirtualCabAActive &lt;- False</Action><Action
+ Guid="70006806-48a6-4ea8-b0a0-146f92d20d4f"
+>TIU.CabB.VirtualCabBActive &lt;- False</Action><Action
+ Guid="6fc7e4d3-9f04-41fd-a8c4-3872666b1fc8"
+>TIU.CabA.Desk2IsActive &lt;- NOT aDMI1IsMaster</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="DMI 2 - Cab B"
+ Guid="7d6aed49-93cb-4580-88ca-4109cba30b59"
+>
+<Comment>Two cabs, each with one desk.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="eb1308cb-2eb3-42ee-9ebb-e8afb212f0bc"
+>aDMIConfiguration == DMI.DMIConfigurationEnum.TwoCabs</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b74a1c78-750c-49ca-84af-9c8f32a69294"
+>DMI.DMI2 &lt;- DMI.DMIStruct
+{
+  PreviousMode =&gt; Default.ModeEnum.Unknown, 
+  IsMaster =&gt; NOT aDMI1IsMaster, 
+  DisplayLanguage =&gt; DMI.DisplayLanguageStruct
+  {
+    DataState =&gt; Default.DataStateEnum.Valid, 
+    Value =&gt; Default.LanguageEnum.EN
+  }, 
+  Cab =&gt; DMI.CabEnum.CabB, 
+  Desk =&gt; DMI.CabDeskEnum.Desk1
+}</Action><Action
+ Guid="2c7e9d20-3048-4cfc-83e3-ac44fda62219"
+>TIU.CabB.Desk1IsActive &lt;- NOT aDMI1IsMaster</Action><Action
+ Guid="a7e8395d-e98e-45ed-b4d2-b521eead22ed"
+>TIU.CabB.Desk2IsActive &lt;- False</Action><Action
+ Guid="39f2bc37-50d8-4035-822c-7d2f42217301"
+>TIU.CabB.VirtualCabAActive &lt;- False</Action><Action
+ Guid="7f95742e-ebc4-4f01-8cf4-a46d1893bbb7"
+>TIU.CabB.VirtualCabBActive &lt;- False</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Only one DMI"
+ Guid="2725c200-300f-4051-9fd6-e36fcbedfddc"
+>
+<Comment>There is only a single DMI.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3a0c2d1e-0e8c-4a06-b7c1-c8b0cf79791f"
+>DMI.DMI2 &lt;- EMPTY</Action><Action
+ Guid="5642460f-30d8-452f-8008-0e0f0e5fd612"
+>TIU.CabB.Desk1IsActive &lt;- False</Action><Action
+ Guid="d82c3dc3-4cd9-4858-848d-d5222d047fa9"
+>TIU.CabB.Desk2IsActive &lt;- False</Action><Action
+ Guid="88ca6187-6bb9-4ff3-98ff-f509bdd0ce08"
+>TIU.CabB.VirtualCabBActive &lt;- False</Action><Action
+ Guid="42d5c41a-3a3d-4fa5-b1b0-6dbb873704f7"
+>TIU.CabB.VirtualCabAActive &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>

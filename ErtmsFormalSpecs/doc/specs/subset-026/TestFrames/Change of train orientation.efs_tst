@@ -1,0 +1,296 @@
+<Frame
+ CycleDuration="0.1"
+ Name="Change of train orientation"
+ Guid="8c87beaf-4f1d-43cc-b012-95f9bebe2e6c"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Two desks in a single cab"
+ Guid="aacf3cef-1842-4180-a755-96f779af08f9"
+>
+<TestCases>
+<TestCase
+ Name="Change of orientation with two desks in a single cab"
+ Guid="9d52681d-04b3-4393-a233-bb17ac6fff96"
+>
+<ReqRef
+ Id="b3b9e862-f9fe-4c98-a6c0-4393e3ce2340"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b85c21c4-cde8-41c1-ad87-832a2e47d9f7"
+>
+</ReqRef><ReqRef
+ Id="e989d863-8cfc-455e-a8bb-4bec3452097c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="887f5c35-1abc-4bf0-9907-e758fc44eb13"
+>
+</ReqRef><ReqRef
+ Id="2e3eda46-b060-4164-9dc4-05e853b23a11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9982db43-ebac-4f70-9576-69fa513e4e0c"
+>
+</ReqRef><Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Initialize test"
+ Guid="39fc12f8-cc7e-4be9-9794-ef52c15e1cfe"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize test environment"
+ Guid="445953b6-f3a1-455f-a90e-337f49a2176f"
+>
+<Actions>
+<Action
+ Guid="29c989f3-54bd-4cab-b927-a5eda2f67fbe"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup DMI desks"
+ Guid="32ae2eff-d343-4fbe-867c-95580e341d56"
+>
+<Actions>
+<Action
+ Guid="9c61c3b4-7370-4f1a-9dce-9a70f01e8635"
+>Testing.InitializeDMICabs(
+    aDMIConfiguration =&gt; DMI.DMIConfigurationEnum.SingleCabTwoDesks,
+    aDMI1IsMaster =&gt; True
+)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3b5dac2e-5638-4917-82b2-675f1366edc1"
+>DMI.DMI1.IsMaster</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Driver closes active desk"
+ Guid="fa7d4dce-7780-4b07-aa54-beaa92fdd55a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="879a0eeb-5492-4ad6-a270-876308bb5fbb"
+>
+<Actions>
+<Action
+ Guid="7c7f0348-d328-45a4-8c75-884e5c67fb9f"
+>TIU.CabA.Desk1IsActive &lt;- Boolean.False</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="33b17bf4-0af5-4f65-bb38-8e19151a1cd4"
+>Kernel.Mode == ModeEnum.SB</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ CyclePhase="CleanUp"
+ Guid="0ddac161-b680-482d-9c21-0698416d4ad5"
+>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.NoProcedure]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Driver opens the other desk"
+ Guid="11d3073a-3016-4a93-8fe3-98a4f7bd6105"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="ee8bc1bb-b265-4c65-8ec6-18de61ec58ed"
+>
+<Actions>
+<Action
+ Guid="c8c01a45-9f9b-41e1-a07e-23be6461d4ec"
+>TIU.CabA.Desk2IsActive &lt;- Boolean.True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="28317f43-daae-4523-94e4-ad4391721b44"
+>DMI.DMI2.IsMaster</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="bcde61e0-8200-4a1c-81a4-56db60cf4a92"
+>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.S0]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Two cabs"
+ Guid="bff4d083-8be1-4bdf-b3d9-9a1e250c8a4d"
+>
+<TestCases>
+<TestCase
+ Name="Change of orientation with two cabs"
+ Guid="d9b5fdcb-a6cc-4b0e-83bd-ff4342c0b7c0"
+>
+<ReqRef
+ Id="b3b9e862-f9fe-4c98-a6c0-4393e3ce2340"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3769bfdf-d721-48e2-a80b-dc3d62632634"
+>
+</ReqRef><ReqRef
+ Id="e989d863-8cfc-455e-a8bb-4bec3452097c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08ca12ae-d222-4392-a8b5-10f403cd9252"
+>
+</ReqRef><ReqRef
+ Id="2e3eda46-b060-4164-9dc4-05e853b23a11"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f7c30670-dcff-4666-9b67-55f4ab70c3f1"
+>
+</ReqRef><Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Initialize test"
+ Guid="e928b4fd-1870-4e91-973b-6d4b29d4c6ef"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize test environment"
+ Guid="68238279-5d7a-4d98-ae62-c8144b7db117"
+>
+<Actions>
+<Action
+ Guid="67b9da5b-53fc-417e-bdfd-170f62f52ef0"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup DMI desks"
+ Guid="8d8042d9-702d-4128-85f1-5f5949da9ab4"
+>
+<Actions>
+<Action
+ Guid="25b62de5-85ef-4991-9a50-0443394e7d1b"
+>Testing.InitializeDMICabs(
+    aDMIConfiguration =&gt; DMI.DMIConfigurationEnum.TwoCabs,
+    aDMI1IsMaster =&gt; True
+)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7511068d-c62e-4c65-9b6a-2db3709520ff"
+>DMI.DMI1.IsMaster</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Driver closes active desk"
+ Guid="de999907-2f2a-4315-9ee4-35a2073799d5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="4111d858-873b-4e3c-aa99-100925f27622"
+>
+<Actions>
+<Action
+ Guid="416caad9-7e41-4f9a-9f79-440b67ddf8aa"
+>TIU.CabA.Desk1IsActive &lt;- Boolean.False</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="00802c6a-5511-4646-be16-aa28344ff3db"
+>Kernel.Mode == ModeEnum.SB</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ CyclePhase="CleanUp"
+ Guid="c0d8f107-9887-4613-be49-3a9906c08200"
+>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.NoProcedure]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Driver opens the other desk"
+ Guid="c9fd9bec-eabb-4808-9739-3c6d1f8b7597"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="8e3445d9-40f9-4ea8-a2a8-e1d9ce6a6730"
+>
+<Actions>
+<Action
+ Guid="ac7ca834-54f4-42d5-90e4-7d7408c18b1d"
+>TIU.CabB.Desk1IsActive &lt;- Boolean.True</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="09e2f372-255d-4126-87a0-ceddf4834a40"
+>DMI.DMI2.IsMaster</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9ee0f65c-5e11-49a1-880c-1cf381684d00"
+>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.S0]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>
