@@ -134,7 +134,7 @@ namespace Reports.Specs.SubSet76
                 "Imported sequences",
                 "The number of test sequences imported from the Subset-076 Access databases.",
                 counter.SubSequences.ToString(CultureInfo.InvariantCulture),
-                Percent(counter.SubSequences, 800));
+                Percent(counter.SubSequences, 700));
 
             Report.AddRow(
                 "Sequence analysis completed",
@@ -213,7 +213,7 @@ namespace Reports.Specs.SubSet76
             Report.AddParagraph("This section summarises the results for each sub sequence. The 'Actions' are the number of inputs required to execute the test sequence, and 'Checks' identifies the check points that are verified on the sub sequence. The column issues counts the number of issues (either blocking or non blocking) found during the analysis of the test sequence. The status can take several values");
             Report.AddListItem("Completed : the analysis of the test sequence is complete and the execution satisfies the constaints defined in the test sequence. ");
             Report.AddListItem("Ongoing : the analysis of the test sequence is ongoing, no definitive result can be provided yet.");
-            Report.AddTable(new[] { "Subsequence", "Blocking issues", "Issues", "Questions", "Comments", "Status" }, new[] { 60, 23, 23, 23, 23, 28 });
+            Report.AddTable(new[] { "Subsequence", "Blocking issues", "Issues", "Questions", "Comments", "Status" }, new[] { 72, 20, 20, 20, 20, 28 });
             foreach (Frame frame in Dictionary.Tests)
             {
                 foreach (SubSequence subSequence in frame.SubSequences)
@@ -244,7 +244,7 @@ namespace Reports.Specs.SubSet76
                     {
                         Report.AddRow(subSequence.Comment, "", "", "", "", "");
                         Report.SetLastRowColor(color);
-                        Report.lastRow.Cells[0].MergeRight = 3;
+                        Report.lastRow.Cells[0].MergeRight = 4;
                         sequenceRow.Cells[5].MergeDown += 1;
                     }
 
