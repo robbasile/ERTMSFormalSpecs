@@ -1639,6 +1639,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 </ReqRef><Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Driver has selected a level"
  Guid="ed781275-a141-4b80-a95e-b356ffcf3bb1"
@@ -1843,6 +1845,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Select level"
@@ -1920,6 +1924,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Wait until the driver asks to enter/validate the level"
@@ -2278,6 +2284,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle driver&apos;s response"
@@ -2306,6 +2314,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle specific response"
@@ -2459,6 +2469,8 @@ DMI.MasterDMI().In_DriverId.InitiateRequest(
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Offer currently possible actions to the Driver"
@@ -2986,8 +2998,6 @@ NOT (Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3] AND (NOT EURORADIO
 >DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.Disable()</Action><Action
  Guid="7f2044e4-c436-415e-8c17-f6d0fff83823"
 >DMI.MasterDMI().In_TrainDataEntryRequest.InputInformation.Disable()</Action><Action
- Guid="4b6342ca-58ea-4757-b7a1-5841c688ceab"
->DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.Disable()</Action><Action
  Guid="13f8a3cd-351f-496b-895b-c329eee7f562"
 >DMI.MasterDMI().In_NonLeadingRequest.InputInformation.Disable()</Action><Action
  Guid="2e192d4a-bab4-439d-b95b-d9d6cac1ca80"
@@ -3796,6 +3806,8 @@ DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action></A
 </StateMachine><LeaveAction>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Leave action"
  Guid="e070b6e3-269c-4c46-b526-78c9e3e98c6e"
@@ -3860,8 +3872,6 @@ DMI.MasterDMI().Out_TrainIsRejected.OutputInformation.DoNotDisplay()</Action></A
 >DMI.MasterDMI().In_TrainRunningNumberEntryRequest.InputInformation.Disable()</Action><Action
  Guid="e5c29bfe-3fb6-4fbd-b3a2-79267ae2e132"
 >DMI.MasterDMI().In_TrainDataEntryRequest.InputInformation.Disable()</Action><Action
- Guid="1727bba5-110f-4204-b1f2-70bbf289650f"
->DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.Disable()</Action><Action
  Guid="edac98b4-65ce-4af3-bdbf-722b384b1410"
 >DMI.MasterDMI().In_NonLeadingRequest.InputInformation.Disable()</Action><Action
  Guid="ab1200c6-542a-4aa7-b56a-8c4b36759f42"
@@ -4981,6 +4991,8 @@ Available ( EURORADIO.Messages.UpdatedReceivedMessage( EURORADIO.RBCConnection.C
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="E16"
@@ -5022,6 +5034,8 @@ Available ( EURORADIO.Messages.UpdatedReceivedMessage( EURORADIO.RBCConnection.C
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Driver closed the Train Data entry window"
@@ -6279,6 +6293,8 @@ Request driver acknowledgement before starting the mission.</Comment>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Terminal registration failed"
  Guid="30a4e388-0673-4a4f-bcad-3b8fcdeacdaa"
@@ -6304,6 +6320,48 @@ EURORADIO.Terminal.RegistrationAnswer() == False</PreCondition></PreConditions>
 <Action
  Guid="c566634d-b45d-4a63-bb0a-e050725b142a"
 >THIS &lt;- Kernel.HandleModeChangeSM.StartOfMission.A29</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="LevelRequest only allowed in S2, S10 or S20"
+ Guid="b69265de-eb05-46fc-93bb-f1efe8a1b888"
+>
+<ReqRef
+ Id="8208d384-8400-46e8-98be-8183f5b72238"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c30e27d8-e487-4f69-a4f5-4616e1e60915"
+>
+</ReqRef><ReqRef
+ Id="43636c33-c15e-448c-8ae5-10c4fc06a99b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e40e633d-8d5d-4445-8830-24ecc27f6b93"
+>
+</ReqRef><ReqRef
+ Id="1e7f3c89-d89b-4d31-b758-514c92ae3bf1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d171287a-296f-4dd6-9e60-32fba83e82f2"
+>
+</ReqRef><Comment>Rule to insure level entry button is disabled when not in S2, S10 and S20.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Deactivation"
+ Guid="e79bf752-f2e3-4b53-a651-7b09c061285a"
+>
+<PreConditions>
+<PreCondition
+ Guid="9524b02b-eb44-48d0-92e0-73bdf6f0f91a"
+>THIS not in [S2, S10, S20]</PreCondition><PreCondition
+ Guid="5eca887c-35fc-4aab-a4f7-f340222c8532"
+>DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.RequestStatus != RequestEnum.Disabled</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3d1a3d80-8412-4917-90e0-7ce3c4ef09b2"
+>DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -9747,6 +9805,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Name="Check communcation sessions"
  Guid="9f6c5d1a-2206-45cf-ab5a-4e89313e28e1"
 >

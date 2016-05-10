@@ -1400,6 +1400,7 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
  Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="Level transition available at standstill"
  Guid="b33707d7-a979-442b-8878-13a70b47489a"
 >
@@ -1413,10 +1414,11 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="09a1b2a8-8f1c-42d4-bee3-b551cacb695c"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Makes level selection available to driver at standstill. Doesn&apos;t interfere with Start of Mission.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="Activation"
+ Name="Activate"
  Guid="035fc15c-c9b7-463a-8b87-4216acf1f913"
 >
 <PreConditions>
@@ -1426,9 +1428,7 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
  Guid="5499fbbf-d48d-4ff5-8e42-1e9b67ee7abc"
 >ActiveFunctions.DetermineLevel()</PreCondition><PreCondition
  Guid="d73f573e-b828-4ff7-b16a-3088529dea6f"
->Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.StartOfMission</PreCondition><PreCondition
- Guid="ad09e6ac-415f-45a4-b45d-25073e47f0c5"
->Kernel.Mode != ModeEnum.SB</PreCondition></PreConditions>
+>Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.StartOfMission</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="98ca9aea-e08f-4e14-9d17-ef44012ba8d9"
@@ -1438,9 +1438,17 @@ Kernel.LevelTransition.AcknowledgementRequiredForLT( anLTO =&gt; Kernel.LevelTra
  Guid="71842ea4-86bc-489f-90ab-47883ef7a2aa"
 >
 <PreConditions>
-</PreConditions>
+<PreCondition
+ Guid="91663132-1bd6-43ce-b576-6a80cc56fdbc"
+>NOT(Odometry.TrainIsAtStandstill())</PreCondition><PreCondition
+ Guid="52ccb222-96dc-47fd-88aa-0a12944af07e"
+>ActiveFunctions.DetermineLevel()</PreCondition><PreCondition
+ Guid="2468a1b2-2283-495b-a38c-697e91fce926"
+>Kernel.HandleModeChange not in Kernel.HandleModeChangeSM.StartOfMission</PreCondition></PreConditions>
 <Actions>
-</Actions>
+<Action
+ Guid="16290386-9246-4907-8046-5625b5e452fa"
+>DMI.MasterDMI().In_ErtmsEtcsLevelEntryRequest.InputInformation.Disable()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
