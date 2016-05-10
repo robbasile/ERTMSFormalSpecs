@@ -9354,7 +9354,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <Actions>
 <Action
  Guid="2bd48cec-82e1-48cc-b424-d147cceadeb5"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission</Action></Actions>
+>THIS &lt;- EndOfMission</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -9774,7 +9774,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
  Guid="506d51aa-ffb9-4859-8c5f-e8230a898149"
 >
 </ReqRef><StateMachine
- Default="Kernel.HandleModeChangeSM.EndOfMission.HandleStoredData"
+ Default="EndOfMission.HandleStoredData"
  NeedsRequirement="FALSE"
  Guid="4ccf6d96-0cea-4fdf-a8d9-beb8ff7b27b9"
 >
@@ -9830,7 +9830,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="3633e19b-b668-45b2-bdab-c8a2960c36e1"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.HandleRIUConnection</Action></Actions>
+>THIS &lt;- EndOfMission.HandleRIUConnection</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Euroradio session exists"
@@ -9849,7 +9849,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="749dbeb8-66b4-4e90-8f8b-95621be527ee"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.HandleRBCConnections</Action></Actions>
+>THIS &lt;- EndOfMission.HandleRBCConnections</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No communication sessions"
@@ -9871,7 +9871,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="b6df0027-6d02-4732-83b7-04cf8a0659f4"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.ExitState</Action></Actions>
+>THIS &lt;- EndOfMission.ExitState</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -9890,7 +9890,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 >
 </ReqRef><Comment>Handles the temrination of the RBC connection(s).</Comment>
 <StateMachine
- Default="Kernel.HandleModeChangeSM.EndOfMission.HandleRBCConnections.DisconnectPrimaryConnection"
+ Default="EndOfMission.HandleRBCConnections.DisconnectPrimaryConnection"
  Implemented="TRUE"
  Guid="2150b33f-5d47-4d14-9eed-4e50b52b58b8"
 >
@@ -9964,7 +9964,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="f8cdb70f-52fc-4596-8cbd-f9faf1e9fd23"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.HandleRBCConnections.DisconnectSecondaryConnection</Action></Actions>
+>THIS &lt;- EndOfMission.HandleRBCConnections.DisconnectSecondaryConnection</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Otherwise"
@@ -9976,7 +9976,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="a7d0b427-0ada-4944-b8c3-3e665a1577f8"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.ExitState</Action></Actions>
+>THIS &lt;- EndOfMission.ExitState</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -10029,7 +10029,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
  Guid="ee48e81e-a69f-445f-8080-ba952daa3e4e"
 >EURORADIO.RBCConnection.SecondaryRBCConnection().ExecuteEndOfMission()</Action><Action
  Guid="655ec492-bb16-4404-8bf2-5e594a57e5ae"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.ExitState</Action></Actions>
+>THIS &lt;- EndOfMission.ExitState</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
@@ -10095,7 +10095,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="977f4308-39ae-456c-af15-8f71fee34958"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.HandleRBCConnections</Action></Actions>
+>THIS &lt;- EndOfMission.HandleRBCConnections</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No Euroradio session"
@@ -10117,7 +10117,7 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Actions>
 <Action
  Guid="38fe2543-4bcb-4733-bc17-100daa0af254"
->THIS &lt;- Kernel.HandleModeChangeSM.EndOfMission.ExitState</Action></Actions>
+>THIS &lt;- EndOfMission.ExitState</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -10154,6 +10154,8 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Terminate the procedure"
  Guid="71267c79-1ea1-478f-b92f-dbb20f2c623d"
@@ -10173,12 +10175,45 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
 >NOT EURORADIO.Terminal.HasActiveSession()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="dec015ec-e2fa-4393-ab4a-ca4a8e6a72ca"
+ Guid="d97b4749-16f5-43b4-bc88-2621ae594f9b"
 >THIS &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
-</StateMachine></State><State
+</StateMachine><EnterAction>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Enter action"
+ Guid="e4d30cbf-9cce-42fa-9b1d-f533710c8a0d"
+>
+<ReqRef
+ Id="193d2e18-8bfa-43f0-b84d-6e1b1d45a84d"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="bd6ec7fd-1fe2-448e-907c-bf476a3dfb00"
+>
+</ReqRef><Comment>Mission is no longer ongoing when EndOfMission is initiated.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Mission no longer ongoing"
+ Guid="8902152f-862c-4af5-818d-6c53c69b8ec4"
+>
+<ReqRef
+ Id="193d2e18-8bfa-43f0-b84d-6e1b1d45a84d"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="3e11ee7b-c878-4e61-a1c9-be3fe022a0ff"
+>
+</ReqRef><PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ae2911b5-6229-476b-9e68-04743ddb2712"
+>Kernel.MissionIsOnGoing &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></EnterAction>
+</State><State
  X="550"
  Y="690"
  Width="100"
@@ -11689,6 +11724,26 @@ IN
  Id="9055a6b1-6135-49e8-a779-622b3270c280"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8cc1c043-0e11-40f4-b0db-1c4dfdbe6053"
+>
+</ReqRef><ReqRef
+ Id="193d2e18-8bfa-43f0-b84d-6e1b1d45a84d"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="64d01d46-d84a-4789-887a-b4464af7c2fd"
+>
+</ReqRef><ReqRef
+ Id="d27a51c4-55a3-44c2-a184-442af52831fb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7d786f11-135d-4b2e-b01e-720e01a1f8ec"
+>
+</ReqRef><ReqRef
+ Id="57975d77-7335-4135-bac0-954cd1debb67"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="93a3589d-0a51-4f77-9a21-5e7796644dde"
+>
+</ReqRef><ReqRef
+ Id="39941df7-787e-4ef3-839d-a438e01d3964"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c5e55fbf-f9c2-4f9c-9d61-cf44f49e7e2b"
 >
 </ReqRef><Comment>Indicates if the train has started a mission.</Comment>
 </Variable><Variable
