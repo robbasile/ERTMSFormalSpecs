@@ -44,8 +44,9 @@ namespace Reports
                 DateTime.Now.Month,
                 DateTime.Now.Day);
 
-            FileName = Path.Combine(reportPath, dateString + "_" + title + ".pdf");
-            FileName = FileName.Replace(" ", "");
+            FileName = title.Replace(" ", "");
+            FileName = dateString + " - " + FileName + ".pdf";
+            FileName = Path.Combine(reportPath, FileName);
         }
 
         /// <summary>
