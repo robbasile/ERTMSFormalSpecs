@@ -48,6 +48,36 @@ RBCConnection.SecondaryRBCConnection().ContactRBCOrder.ActionToPerform == Contac
   AND
 RBCConnection.CurrentRBCConnection().ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsHandoverOccuringWithTwoTerminals"
+ Guid="785b9955-be1e-47ef-b48c-8c5713d2cc81"
+>
+<ReqRef
+ Id="e65aa492-e72e-4bdc-896b-8462bf7b8ea9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd0d50de-e4b1-469c-a757-a4c0bce62426"
+>
+</ReqRef><Comment>According to 3.5.3.5.2, only one communication session may be established at a time, safe in case of handover 
+when two sessions will be established at the same time provided that two terminals are present.
+We then use the presence and status of the secondary connection to detect a HandOver procedure with two terminals.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="2e436cbc-f518-4e16-bc19-2ad59d342fed"
+>
+<Expression>Available(RBCConnection.SecondaryRBCConnection()) 
+  AND
+RBCConnection.SecondaryRBCConnection().ConnectionState in [RBCConnection.RBCStruct.ConnectionStateSM.Connected, 
+RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
+RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

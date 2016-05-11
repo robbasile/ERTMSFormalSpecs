@@ -177,6 +177,8 @@
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Verification"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Supervise max time between received messages"
  Guid="c5d62060-3b89-489b-be3b-b0b8944f4282"
@@ -254,6 +256,8 @@ If the RBC does not send a consistent message within the period T_NVCONTACT, the
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Apply reaction"
  Guid="9fee50da-35cb-4fef-9b9b-9c3ed89b0277"
@@ -1779,8 +1783,6 @@ DataState =&gt; DataStateEnum.Invalid
 >ContactRBCOrder &lt;- EMPTY</Action><Action
  Guid="3d5afa42-b712-4474-af54-81ae258173b2"
 >DeleteInformation(SessionManagementData.SystemVersion)</Action><Action
- Guid="ff4c1c3d-36bb-4e52-ae97-a17eabff757a"
->IsMainConnection &lt;- False</Action><Action
  Guid="f86651e7-1ebb-49de-8053-907c88f5741d"
 >SafeRadioConnection.NumberOfSentRequests &lt;- 0</Action><Action
  Guid="ad53ed1b-1620-494b-99fb-a6e01d551bda"
@@ -2086,7 +2088,7 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="e865f160-465a-4fa6-bbdf-5c4aa595c910"
 >ConnectionState not in RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
  Guid="3609f99b-b750-45f6-867f-aa05ae489fbd"
->IsMainConnection</PreCondition><PreCondition
+>IsMainConnection(THIS)</PreCondition><PreCondition
  Guid="17ba976d-ce42-46dc-bde1-e8c9dab8a0e3"
 >Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
  Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
@@ -2128,7 +2130,7 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="ced76e36-5c43-4286-9d04-213366e1c8a1"
 >Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
  Guid="13c1cfb4-786f-44c7-ab3b-d1905d1357a7"
->IsMainConnection</PreCondition><PreCondition
+>IsMainConnection(THIS)</PreCondition><PreCondition
  Guid="124fea1a-3ab9-46f0-8558-fed84187bc70"
 >Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
  Guid="47c9872f-d4f9-4b00-a1d9-e7deb93b84b7"
@@ -2165,7 +2167,7 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="463e0b98-b0fb-4545-a160-7e6de88c2d9d"
 >Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &lt; RBCHandover.RBCTransitionLocation</PreCondition><PreCondition
  Guid="91826cfb-7c30-4aa3-b40e-60bf92efdbca"
->NOT IsMainConnection</PreCondition><PreCondition
+>NOT IsMainConnection(THIS)</PreCondition><PreCondition
  Guid="885cc8be-6c21-4bda-af80-c9e89caad95a"
 >Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
  Guid="3ad5497d-99a8-4f54-837f-9d7aef66701b"
@@ -2227,7 +2229,7 @@ DataState =&gt; DataStateEnum.Invalid
 <PreConditions>
 <PreCondition
  Guid="98ea9a9c-2ee4-4e8e-a1df-abd25b493ec0"
->NOT IsMainConnection</PreCondition><PreCondition
+>NOT IsMainConnection(THIS)</PreCondition><PreCondition
  Guid="560e0917-ea2b-4726-bb4f-913cb848a16e"
 >Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
  Guid="314a1df3-6c27-4b22-b69f-1e8281322d0b"
@@ -2987,15 +2989,6 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Guid="1ca4ec93-c578-45ad-bbdb-e44c71c1f9aa"
 >
 <Comment>Data needed to establish a communication session.</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="True"
- Mode="Internal"
- Implemented="TRUE"
- Name="IsMainConnection"
- Guid="444f2d37-dd13-4003-a447-b57d250c6b4a"
->
-<Comment>In case of RBC/RBC handover with two simultaneous connections, this flag indicates which RBC is the main one. In the beginning of the handover the main RBC is the Handing Over RBC, but after the transfer of train supervision to the Accepting RBC, the latter becomes the main RBC.</Comment>
 </StructureElement><StructureElement
  TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.NA"
@@ -4199,7 +4192,7 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
  Guid="2b26b73e-2b41-4741-8f2b-9b3ebe6994aa"
 >Kernel.TrainData.TrainData.DataState == DataStateEnum.Valid</PreCondition><PreCondition
  Guid="1885385a-2aa3-4151-8396-e579fca7bd78"
->IsMainConnection</PreCondition></PreConditions>
+>IsMainConnection(ENCLOSING)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="25272c57-44ec-4c93-9595-68bf6e2fc054"
@@ -4218,7 +4211,7 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 <PreConditions>
 <PreCondition
  Guid="07e657aa-3707-4bda-a4f4-a6d13481015f"
->NOT IsMainConnection</PreCondition><PreCondition
+>NOT IsMainConnection(ENCLOSING)</PreCondition><PreCondition
  Guid="22d43fd5-302a-4983-ae19-6ff1aa829b83"
 >Kernel.Mode not in [ModeEnum.SL, ModeEnum.NL]</PreCondition></PreConditions>
 <Actions>
@@ -5179,7 +5172,6 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
     MessageIn =&gt; Messages.UpdatedMessageIn(aRBC),
     MessageOut =&gt; aRBC.Data.MessageOut
   },
-  IsMainConnection =&gt; aRBC.IsMainConnection, 
   OnboardReference_MessageTimer =&gt; aRBC.OnboardReference_MessageTimer, 
   SafeRadioConnection =&gt; aRBC.SafeRadioConnection,
   SafeRadioConnectionStatus =&gt; aRBC.SafeRadioConnectionStatus,
@@ -5285,7 +5277,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a7c24585-39e3-4a01-9c9a-3fa8956609c4"
 >
-</ReqRef><Comment>Provides the accepting RBC, if any.</Comment>
+</ReqRef><Comment>Provides the secondary RBCConnection, if any. For use in the handover procedure.</Comment>
 <Cases>
 <Case
  Name="RBC1"
@@ -5294,7 +5286,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <PreConditions>
 <PreCondition
  Guid="b6505431-2fc2-4a36-a175-574b65e91b1a"
->NOT Terminal.Terminal1.RBCConnection.IsMainConnection</PreCondition></PreConditions>
+>NOT Terminal.Terminal1.IsMainTerminal</PreCondition></PreConditions>
 <Expression>Terminal.Terminal1.RBCConnection</Expression>
 </Case><Case
  Name="RBC2"
@@ -5303,7 +5295,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <PreConditions>
 <PreCondition
  Guid="079486c9-1e87-4e44-b1fc-f3931340f14c"
->NOT Terminal.Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
+>NOT Terminal.Terminal2.IsMainTerminal</PreCondition></PreConditions>
 <Expression>Terminal.Terminal2.RBCConnection</Expression>
 </Case><Case
  Name="Otherwise"
@@ -5323,24 +5315,23 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Name="CurrentRBCConnection"
  Guid="3f3bd225-5d45-4ad8-a3c3-4b15bd9d11e4"
 >
-<Comment>Provides the current RBC connection. If none of terminals is connected, RBC1 is provided.</Comment>
+<Comment>Provides the current RBC connection as the connection of the current terminal. 
+Note that it is not assumed the terminal is registered.</Comment>
 <Cases>
 <Case
- Name="RBC2"
+ Name="Value"
  Guid="71411cb1-fbc3-4d56-8c9e-a2ac172c6983"
 >
 <PreConditions>
 <PreCondition
- Guid="6acd04d4-6b9c-4314-b8d4-8803db268530"
->Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus != RBCConnection.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
- Guid="c4173ff8-7228-40ee-9259-b9cbbef201ea"
->Terminal.Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
-<Expression>Terminal.Terminal2.RBCConnection</Expression>
+ Guid="bb014a8c-02c8-411f-aead-230ff692fe06"
+>Terminal.CurrentTerminal() != EMPTY</PreCondition></PreConditions>
+<Expression>Terminal.CurrentTerminal().RBCConnection</Expression>
 </Case><Case
- Name="RBC1"
- Guid="721da144-3a02-4f84-8e10-a29715edbe77"
+ Name="Otherwise"
+ Guid="984a77f7-e0b3-47a8-a143-97317303a43b"
 >
-<Expression>Terminal.Terminal1.RBCConnection</Expression>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="String"
@@ -5354,24 +5345,13 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Name="CurrentRBCNetworkId"
  Guid="8ce01381-8495-492b-979b-c3bb8ed31772"
 >
-<Comment>Provides the current RBC networkID.</Comment>
+<Comment>Provides the current RBC networkID as the network Id of the current terminal.</Comment>
 <Cases>
 <Case
- Name="Terminal2"
+ Name="Value"
  Guid="ec8a5191-ca5e-4b2e-86e4-6de7e7880e40"
 >
-<PreConditions>
-<PreCondition
- Guid="a24ed2a7-0e10-43dc-9ba4-556f79636f6e"
->Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus != RBCConnection.SafeRadioConnectionStatusEnum.NoConnection</PreCondition><PreCondition
- Guid="bd995d7a-98b5-43ad-817b-70639db464c9"
->Terminal.Terminal2.RBCConnection.IsMainConnection</PreCondition></PreConditions>
-<Expression>Terminal.Terminal2.NetworkId</Expression>
-</Case><Case
- Name="Terminal1"
- Guid="8db85771-eb95-4342-b74f-adf4cea4c906"
->
-<Expression>Terminal.Terminal1.NetworkId</Expression>
+<Expression>Terminal.CurrentTerminal().NetworkId</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -5653,6 +5633,30 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
  Guid="5dd2df99-4a44-4bae-9625-89869a853eae"
 >
 <Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="IsMainConnection"
+ Guid="fb0e4283-484e-49b8-bda3-98276f6d8ea6"
+>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCConnection.RBCStruct"
+ Name="anRBCConnection"
+ Guid="532a4d28-3827-4e82-b73b-542bf21c8810"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="7a3bec56-7f5e-4e5e-bca0-7ea71e708aef"
+>
+<Expression>anRBCConnection == EURORADIO.RBCConnection.CurrentRBCConnection()</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

@@ -28,6 +28,8 @@
 <Rules>
 <Rule
  Priority="CleanUp"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Clean up"
  Guid="a7a5c641-f9f0-4813-9ea4-63b191323610"
@@ -134,7 +136,7 @@
 <Actions>
 <Action
  Guid="5b7db2c9-656a-459c-a3ba-3fd1220b6bd9"
->RBCConnection.IsMainConnection &lt;- False</Action></Actions>
+>IsMainTerminal &lt;- False</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Only one terminal available"
@@ -156,7 +158,7 @@
 <Actions>
 <Action
  Guid="adc8e47d-8ad7-4808-a160-f10a3705ada3"
->RBCConnection.IsMainConnection &lt;- True</Action></Actions>
+>IsMainTerminal &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -349,6 +351,14 @@
  Guid="9ef3a8be-10fe-410b-9cca-5f87ffffa450"
 >
 <Comment>In case of RBC/RBC handover including Radio Network border crossing, the registration to the new radio network has to be completed before the transition order is transmitted to the on-board. This element stores that order and transmits it once the terminal is registered.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Name="IsMainTerminal"
+ Guid="212af2e8-b723-4e52-a7bf-4f428fe9aa38"
+>
+<Comment>Tells whether the terminal is the main one, i.e. the one to be used for every connection except for handover procedure.</Comment>
 </StructureElement><StateMachines>
 <StateMachine
  Default="TerminalStruct.RegistrationStateSM.NotRegistered"
@@ -473,6 +483,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle registration order and Accepting RBC contact order"
  Guid="56426945-901b-44ba-9d61-d2a52a9c235d"
@@ -767,40 +779,36 @@ aTerminal.RegistrationState in Terminal.TerminalStruct.RegistrationStateSM.Regis
  Name="CurrentTerminal"
  Guid="1578f217-c304-4c22-98c7-cb41f87ae7b7"
 >
-<Comment>Provides the current terminal.</Comment>
+<Comment>Provides the current, i.e. main, terminal. Noth that both terminals CANNOT be 
+set as main at the same time. To avoid problems, use procedure EURORADIO.SetMainTerminal.</Comment>
 <Cases>
 <Case
- Name="Connection opened on terminal 1"
+ Name="Terminal 1"
  Guid="688a99fe-65fa-4958-83a1-fd990459de79"
 >
 <PreConditions>
 <PreCondition
  Guid="c3452b29-ef21-4a6f-88bd-7ae9c80cd9da"
->Terminal.Terminal1.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+>Terminal.Terminal1 != EMPTY
+  AND
+Terminal.Terminal1.IsMainTerminal</PreCondition></PreConditions>
 <Expression>Terminal.Terminal1</Expression>
 </Case><Case
- Name="Connection opened on terminal 2"
- Guid="909b1669-a4a2-4bb4-a8f8-ad28926921a0"
+ Name="Terminal 2"
+ Guid="50d1ad9b-56bd-47e2-b3ba-a015f52dc5bf"
 >
 <PreConditions>
 <PreCondition
- Guid="fb0f7a9d-b7ff-43e8-80d1-cb8b82186a20"
->Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
+ Guid="d2d14467-deca-4b32-9a6b-0afc62ab0c77"
+>Terminal.Terminal2 != EMPTY
+  AND
+Terminal.Terminal2.IsMainTerminal</PreCondition></PreConditions>
 <Expression>Terminal.Terminal2</Expression>
 </Case><Case
- Name="Terminal 2 is not registered"
- Guid="cdd75c3d-6b70-4b5c-a649-53a129d44fbc"
+ Name="Otherwise"
+ Guid="4ee189ed-7288-4bc0-969d-4b32f4885cc4"
 >
-<PreConditions>
-<PreCondition
- Guid="32745b2d-c50e-46dd-96a8-b56db9fb8695"
->NOT Terminal.TerminalIsRegistered ( Terminal.Terminal2 )</PreCondition></PreConditions>
-<Expression>Terminal.Terminal1</Expression>
-</Case><Case
- Name="Terminal 2 is registered"
- Guid="66f6b667-960f-4fec-b6ee-96b6cf589e21"
->
-<Expression>Terminal.Terminal2</Expression>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -940,6 +948,41 @@ Terminal.Terminal2.RegistrationState in Terminal.TerminalStruct.RegistrationStat
 <Expression>Terminal.Terminal1.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Connected
   OR
 Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Connected</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="250"
+ Y="480"
+ Width="100"
+ Height="50"
+ Name="NoTerminalRegistered"
+ Guid="4fc77eaa-02d4-47ba-9c24-b05b6de0349e"
+>
+<ReqRef
+ Id="00910a19-7134-4f24-a20b-6c88aa996ff1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0fd53875-7198-4f65-998d-556a746f45eb"
+>
+</ReqRef><Cases>
+<Case
+ Name="Value"
+ Guid="cf9003d4-f934-4481-ad3e-ee70fd8c65ae"
+>
+<Comment>In case no terminal is registered, connection messages must be refused. 
+This function gives a quick access to this information.</Comment>
+<Expression>(
+Terminal1 == EMPTY
+  OR
+NOT TerminalIsRegistered(Terminal1)
+)
+  AND
+(
+Terminal2 == EMPTY
+  OR
+NOT TerminalIsRegistered(Terminal2)
+
+)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1177,6 +1220,107 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
 >Terminal.LastKnownNetworkId &lt;- aNetworkId</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="130"
+ Y="410"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SetMainTerminal"
+ Guid="6219cbe5-3977-499c-b5b3-17a7118129d0"
+>
+<Parameters>
+<Parameter
+ Type="EURORADIO.Terminal.TerminalStruct"
+ Name="aTerminal"
+ Guid="09b4d05a-dd10-4862-9c58-c8bb9688d0cf"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Sets the main terminal."
+ Guid="9ce457e8-b11b-447c-bf29-b9435630a92d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Terminal1"
+ Guid="fd11e93c-d5df-4238-a011-8c1af821f10a"
+>
+<PreConditions>
+<PreCondition
+ Guid="15825c16-5157-42e4-b965-ea2d24e45fca"
+>aTerminal == EURORADIO.Terminal.Terminal1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="082535bc-4d76-41b4-bc23-80be3aacbc42"
+>EURORADIO.Terminal.Terminal1.IsMainTerminal &lt;- True</Action><Action
+ Guid="a6e5c388-248a-4538-b62c-ac66abb9677f"
+>EURORADIO.Terminal.Terminal2.IsMainTerminal &lt;- False</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Terminal2"
+ Guid="da0a4f96-e5fc-43f2-9fbb-7bc5699b75de"
+>
+<PreConditions>
+<PreCondition
+ Guid="cffa0c7a-f615-4b6f-857d-438995d44f23"
+>aTerminal == EURORADIO.Terminal.Terminal2</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cc8f860a-c260-41b5-be75-7509dee0f059"
+>EURORADIO.Terminal.Terminal2.IsMainTerminal &lt;- True</Action><Action
+ Guid="f3b02c49-79cf-4708-8971-c55205be4a71"
+>EURORADIO.Terminal.Terminal1.IsMainTerminal &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="130"
+ Y="340"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SwitchMainTerminal"
+ Guid="5e949164-2fb2-426e-b218-f39c1e816f46"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="&lt;Rule1&gt;"
+ Guid="403b5346-d004-4e05-be90-fac8eec70ef0"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="From1To2"
+ Guid="b66be759-9fcd-4dcd-9a11-7cdf3e93c1ba"
+>
+<PreConditions>
+<PreCondition
+ Guid="05b3ec9a-3734-491b-b204-b41ffc625825"
+>CurrentTerminal() == Terminal1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4220abea-9ef2-4291-bd53-05bb0ea68baa"
+>SetMainTerminal(Terminal2)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="From2To1"
+ Guid="369d4209-eb38-4bc6-ad55-b2fac08cd11b"
+>
+<PreConditions>
+<PreCondition
+ Guid="620e4e76-2e92-48e2-86a4-847931029155"
+>CurrentTerminal() == Terminal2</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ee6cff26-8509-4c69-901a-97150eb19b34"
+>SetMainTerminal(Terminal1)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
@@ -1259,4 +1403,75 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
 >
 </ReqRef><Comment>Gives the values of the default radio network, to be used when no Radio Network identity was received from trackside or from driver.</Comment>
 </Variable></Variables>
+<Rules>
+<Rule
+ Priority="Verification"
+ X="610"
+ Y="300"
+ Width="100"
+ Height="50"
+ Name="First setting of the main terminal"
+ Guid="16971da8-9cad-4100-a279-715cd510cf06"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="First setting of main terminal"
+ Guid="ad5583c5-8451-4b5b-96d7-db7dfa188fb7"
+>
+<Comment>One terminal has to be set as the main one. It will receive standard, i.e. no handover, connections. 
+Handover procedures will switch the terminals.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c5a341a2-0288-4e64-8d73-c115c3bcff16"
+>Terminal.Terminal1 != EMPTY 
+  AND 
+NOT Terminal.Terminal1.IsMainTerminal</PreCondition><PreCondition
+ Guid="79e5b9bb-1be3-4be0-93be-74656e82f5c0"
+>Terminal.Terminal2 != EMPTY
+  AND 
+NOT Terminal.Terminal2.IsMainTerminal</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5c21afc3-795d-447f-8969-d8d860cb3682"
+>Terminal.SetMainTerminal(Terminal.Terminal1)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="730"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="Ensure CurrentTerminal is the registered one (if any)"
+ Guid="1b2a6809-1494-489a-9824-d7a9a2a63434"
+>
+<ReqRef
+ Id="00910a19-7134-4f24-a20b-6c88aa996ff1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1cb0f983-040f-4f4b-a3db-5ceb8166e524"
+>
+</ReqRef><Comment>The CurrentTerminal is used by default to manage communication sessions. This ensures that if at least 
+one terminal is registered, then the CurrentTerminal is registered.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Switch MainTerminal if needed"
+ Guid="650d983b-c250-4d2e-b92c-dfe822d53ead"
+>
+<PreConditions>
+<PreCondition
+ Guid="816b6b7f-6708-4b6c-959b-b756f1d07760"
+>Available(CurrentTerminal())</PreCondition><PreCondition
+ Guid="b2179998-a60a-4bee-a93a-afeaa23ec9ae"
+>NOT TerminalIsRegistered(CurrentTerminal())</PreCondition><PreCondition
+ Guid="d3bc24d4-ed0e-4a2a-af5d-8079558a1df8"
+>TerminalIsRegistered(SecondaryTerminal())</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9f7810c0-bf5a-48f6-a174-18cef5877b25"
+>SwitchMainTerminal()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace>

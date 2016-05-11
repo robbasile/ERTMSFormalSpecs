@@ -696,9 +696,7 @@ Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus != RBCConnection.Safe
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="26d3911c-cdb4-4242-8981-7159f2405edd"
 >
-</ReqRef><Comment>Indicates if the session is already established with the requested RBC.
-
-It can only return false if there is no open session or if the last known RBC has to be contacted and the id of the currenly connected RBC corresponds to the last known RBC id.</Comment>
+</ReqRef><Comment>Indicates if the session is already established or being established with the requested RBC.</Comment>
 <Parameters>
 <Parameter
  Type="Contact.RBCIdStruct"
@@ -708,19 +706,13 @@ It can only return false if there is no open session or if the last known RBC ha
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="No open session"
- Guid="bdb5d993-9c32-4855-adcf-db92b3936ac0"
+ Name="Value"
+ Guid="0ee633b5-75fd-4323-941a-a8f2c77ba341"
 >
-<PreConditions>
-<PreCondition
- Guid="8455685c-d8f8-43ba-96b6-445565f557cb"
->AllSessionsClosed()</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="Session is open"
- Guid="40a342f5-b51c-445d-85e3-d59075550cf3"
->
-<Expression>RBCConnection.CurrentRBCConnection().ContactData.Id == newId</Expression>
+<Expression>Available(GetRBCConnectionFromId(newId))
+  AND
+GetRBCConnectionFromId(newId).ConnectionState in [RBCConnection.RBCStruct.ConnectionStateSM.Connected, 
+RBCConnection.RBCStruct.ConnectionStateSM.Connecting]</Expression>
 </Case></Cases>
 </Function><Function
  Type="RBCStruct"
@@ -729,7 +721,7 @@ It can only return false if there is no open session or if the last known RBC ha
  Y="440"
  Width="100"
  Height="50"
- Name="GetRBCFromId"
+ Name="GetRBCConnectionFromId"
  Guid="1cc2fd8c-3e6e-4699-a731-20ccec991bd8"
 >
 <Comment>Function used to find an RBC, i.e. the enclosing Terminal and its RBCConnection, from an RBC ID. 
@@ -788,6 +780,79 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
  Guid="32336de9-e56a-4d67-9908-17a30bf538dc"
 >
 <Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="RBCStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="SelectRBCConnectionForSessionManagement"
+ Guid="c72a4504-9172-417c-9369-ba9f19ec50e7"
+>
+<ReqRef
+ Id="e65aa492-e72e-4bdc-896b-8462bf7b8ea9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c9ff7a6a-feba-4914-a6c9-4ee7d46a2c23"
+>
+</ReqRef><ReqRef
+ Id="00910a19-7134-4f24-a20b-6c88aa996ff1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1337b770-9668-47b6-acfe-cd45768f9cc0"
+>
+</ReqRef><Comment>When receiving a connection order, it shall be addressed to the CurrentRBCConnection unless in HandOver procedure with two terminals, 
+the only situation where two sessions may be established at the same time.
+THIS HANDOVER SITUATION HAS TO BE IMPLEMENTED.
+
+When receiving a deconnection order from the trackside, one selects the RBCConnection according to the Id, 
+i.e. the RBCConnection whose stored contact data Id matches the one communicated in the order.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.PACKET.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Message"
+ Name="aSessionManagementPacket"
+ Guid="75938f45-0e76-4136-b4a3-424f925080fb"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No terminal registered : order refused"
+ Guid="64d4928d-2f90-4464-a8c0-53604cfccfef"
+>
+<Comment>Connection order must be refused if no terminal is registered.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="39bd57c8-b909-4eb6-80bf-07a4f0d5aa29"
+>Terminal.NoTerminalRegistered()</PreCondition></PreConditions>
+<Expression>EMPTY</Expression>
+</Case><Case
+ Name="Default connection of the CurrentRBCConnection"
+ Guid="0f62e09a-694c-4995-8238-886be9106df5"
+>
+<Comment>Most of the time, the connection order shall be proceeded by the current connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6c30fc13-0a5c-441f-8a0e-f150302fc98f"
+>NOT RBCHandover.IsHandoverOccuringWithTwoTerminals()</PreCondition><PreCondition
+ Guid="82ca9907-7bea-4b5c-a34b-e4d5a57dfb16"
+>aSessionManagementPacket.Q_RBC == Messages.Q_RBC.Establish_communication_session</PreCondition></PreConditions>
+<Expression>RBCConnection.CurrentRBCConnection()</Expression>
+</Case><Case
+ Name="Deconnection"
+ Guid="d79f3bd4-5ea9-43f2-aae3-d35af6a5de16"
+>
+<Comment>Uses the Id contained in the message to select the RBCConnection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c40238dd-a072-4d1a-8bc4-2997bfc63e5a"
+>aSessionManagementPacket.Q_RBC == Messages.Q_RBC.Terminate_communication_session</PreCondition></PreConditions>
+<Expression>GetRBCConnectionFromId(
+RBCConnection.Contact.RBCIdStruct
+        {
+            Country =&gt; aSessionManagementPacket.NID_C,
+            Id =&gt; aSessionManagementPacket.NID_RBC
+        }
+)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -856,20 +921,33 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Name="Connection"
- Guid="a649cd13-8d7a-4ff9-901a-c6ba339305af"
+ Name="Available RBCConnection"
+ Guid="482d3e4f-4552-404a-81d0-24d07d2b6cbc"
 >
-<ReqRef
- Id="00910a19-7134-4f24-a20b-6c88aa996ff1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f59deb39-4cca-4656-b778-4ab9a7795f36"
->
-</ReqRef><PreConditions>
+<PreConditions>
 <PreCondition
- Guid="12410b13-bbbf-41c3-8dd4-a9d771c4b528"
->Packet.Q_RBC == Messages.Q_RBC.Establish_communication_session</PreCondition><PreCondition
- Guid="74c2dd30-5ea7-4f91-8d3a-52d704636cac"
->SelectRBCToContact() != EMPTY</PreCondition></PreConditions>
+ Guid="b752008d-4f43-4415-bf67-57885cc20f2c"
+>SelectRBCConnectionForSessionManagement(Packet) != EMPTY</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Connection"
+ Guid="4d54b296-9534-4e74-929e-54ce5589e2c5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Connection"
+ Guid="24d85f6b-4db4-47cf-9396-152741645b43"
+>
+<PreConditions>
+<PreCondition
+ Guid="afb5bee8-924f-4acc-8a4e-449918b1cf27"
+>Packet.Q_RBC == Messages.Q_RBC.Establish_communication_session</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -878,33 +956,33 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
  X="0"
  Y="0"
  Name="Contact right RBC"
- Guid="ee091137-a1c3-43f2-ba8c-6abeedd36392"
+ Guid="2a22ad4e-0592-4de5-ad5f-e6b3cf243d7e"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
  Name="Contact information provided by the packet"
- Guid="a1967dcf-c7b2-477d-a589-c2dc4de30508"
+ Guid="e71552f6-784c-4036-a790-d42fb749586d"
 >
 <ReqRef
  Id="cebfc056-7b96-49d7-a6ff-1fdf0076bb9e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0a0571a8-3af1-44b4-8760-c3e5cb384074"
+ Guid="95f68572-8987-4d66-a342-4a9dcc9e4df0"
 >
 </ReqRef><ReqRef
  Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dee3a696-b7b0-48b7-a1bf-8b75e04cb6a2"
+ Guid="82b85d60-75fe-4e47-9eb1-5471d8e8802f"
 >
 </ReqRef><Comment>If the contact information is provided by the packet (no special values in NID_RBC or NID_RADIO), then the order can be created with these values.</Comment>
 <PreConditions>
 <PreCondition
- Guid="7b666480-3ecb-4c96-8c61-ffca7307d3f0"
+ Guid="90129310-e3b3-49a1-9be5-86c8ae4938fe"
 >Packet.NID_RBC != Messages.NID_RBC.contact_last_known_RBC</PreCondition><PreCondition
- Guid="cfb7f6d4-38c4-4b3c-8c66-f6f85d58f314"
+ Guid="20e28afc-d93d-47c9-ae4c-a80fe067bda5"
 >Packet.NID_RADIO != &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
- Guid="fc75e5ff-9626-40d5-b7c2-9ea806fb6023"
+ Guid="5c935eec-48da-4778-93d4-52544789bd9c"
 >NOT SessionIsAlreadyEstablishedWithRequestedRBC
 (
   newId =&gt; Contact.RBCIdStruct
@@ -915,10 +993,8 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
 )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="a6ebac2e-aa73-4d15-b591-4cdeeb13852b"
->RBCConnection.ManageRBCConnection
-(
-    anOrder =&gt; ContactOrderStruct
+ Guid="1207a510-bca7-4146-8cfb-275beb5a7bff"
+>SelectRBCConnectionForSessionManagement(Packet).ContactRBCOrder &lt;- ContactOrderStruct
     {
         Id =&gt; RBCConnection.Contact.RBCIdStruct
         {
@@ -928,48 +1004,45 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
         PhoneNumber =&gt; Packet.NID_RADIO,
         ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
         AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
-    }
-)</Action></Actions>
+    }</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Contact last known RBC"
- Guid="83b37f06-70a4-46e7-8c47-7c7d23261d65"
+ Guid="df639dcd-defb-44b0-85b6-211da66d577c"
 >
 <ReqRef
  Id="369d7ae0-50db-411b-9941-bbe30e354733"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f252f718-1e31-4681-b313-39faa0912928"
+ Guid="2f6ccc43-8d0b-4c40-b47d-d2929b3b0716"
 >
 </ReqRef><ReqRef
  Id="31fff3ff-41dc-41fb-9f2e-b43b04a91e5e"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9bd57e09-46a8-4e53-9d23-73a2713355ad"
+ Guid="673bc91a-0485-4185-87b8-ede145e04ca3"
 >
 </ReqRef><ReqRef
  Id="69dc4eed-7cae-45b6-adbb-58b2b1ac6edd"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="61312243-54c8-4f97-8fba-9d4e9873d62c"
+ Guid="0a2abc08-29e1-4b39-8e1e-f7d38a5d5da4"
 >
 </ReqRef><ReqRef
  Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="aebe376c-a6c3-4656-b792-a9f1386bc6ad"
+ Guid="40898de3-1395-495b-a523-03babcb278e0"
 >
 </ReqRef><Comment>If the packet asks to contact the last known RBC and this information is available, then it is used to create to order. Otherwise the order is ignored.</Comment>
 <PreConditions>
 <PreCondition
- Guid="3b4b580e-3c79-489d-a09a-403729e158a8"
+ Guid="a972ce14-6b89-419e-ba35-be40c8022e78"
 >Packet.NID_RBC == Messages.NID_RBC.contact_last_known_RBC</PreCondition><PreCondition
- Guid="ed774a24-cf60-4ff7-a891-167c4f37b771"
+ Guid="edba46e4-8370-4191-9fab-e614e7790b88"
 >Contact.LastKnownRBC != EMPTY</PreCondition><PreCondition
- Guid="643dd1e5-247c-445a-9d5b-4e180783a3ae"
+ Guid="767454e3-b6ff-4340-ab1b-d77dbe015164"
 >NOT SessionIsAlreadyEstablishedWithRequestedRBC( newId =&gt; Contact.LastKnownRBC.Id )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="21f26d0a-7720-431b-a2c8-aa7386d415c0"
->RBCConnection.ManageRBCConnection
-(
-    anOrder =&gt; ContactOrderStruct
+ Guid="aebe4cb7-b579-4bd4-b3ed-a4344a86bd95"
+>SelectRBCConnectionForSessionManagement(Packet).ContactRBCOrder &lt;-  ContactOrderStruct
     {
         Id =&gt; RBCConnection.Contact.RBCIdStruct
         {
@@ -980,38 +1053,38 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
         ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
         AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
     }
-)</Action></Actions>
+</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Use on-board stored short number"
- Guid="851df2b3-550c-43a1-a88a-4e153544c8bf"
+ Guid="bec102ff-c159-4e8e-a223-f013383c9a14"
 >
 <ReqRef
  Id="40859515-77c4-46aa-96a5-12453cd171a2"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8a3656cd-43f6-42e7-8d65-fa07d75ecd3f"
+ Guid="a6488ba9-7d02-40ca-a3cf-0e5164d8770f"
 >
 </ReqRef><ReqRef
  Id="f8152593-9f99-41a4-9ae8-b51e619e6ece"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1f68f5f4-47cd-4fdc-b805-884a22003510"
+ Guid="3872552e-c7d9-44f5-b8ce-db581c8a5274"
 >
 </ReqRef><ReqRef
  Id="5f82380a-e109-4aba-90d2-9062db8ac675"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="22b090a3-8bd5-4a4c-b5bd-c7de0e0dba4b"
+ Guid="bfff1486-d06e-4b20-8f46-648f1d8d618e"
 >
 </ReqRef><ReqRef
  Id="66543af0-6c4b-46a0-b17f-96ed3e1d37ba"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a9bccd46-4c22-4999-b7ae-5cc2435b6ef4"
+ Guid="b17a9286-87d5-4a55-bfa3-3e2870e8ebf9"
 >
 </ReqRef><Comment>If the packet asks to use the short number, then the order is created from the RBC id provided by the packet + the short number stored on-board.</Comment>
 <PreConditions>
 <PreCondition
- Guid="22232e5b-8c7d-4811-8464-469786240a65"
+ Guid="730df1b6-a940-4a30-b181-77086a1be779"
 >Packet.NID_RADIO == &apos;FFFFFFFFFFFFFFFF&apos;</PreCondition><PreCondition
- Guid="5d34872a-e00b-4a6c-9a22-783bc78f4dea"
+ Guid="c706a62c-527c-4799-b2c3-dc564ffb696b"
 >NOT SessionIsAlreadyEstablishedWithRequestedRBC
 (
   newId =&gt; Contact.RBCIdStruct
@@ -1022,10 +1095,8 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
 )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="81f8e818-3b94-4484-9cb1-2ae9a62240e9"
->RBCConnection.ManageRBCConnection
-(
-    anOrder =&gt; ContactOrderStruct
+ Guid="51af16e0-08c7-4765-8880-f3c496ea2e89"
+>SelectRBCConnectionForSessionManagement(Packet).ContactRBCOrder &lt;- ContactOrderStruct
     {
         Id =&gt; RBCConnection.Contact.RBCIdStruct
         {
@@ -1035,36 +1106,31 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
         PhoneNumber =&gt; RBCConnection.Contact.ShortNumber,
         ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
         AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
-    }
-)</Action></Actions>
+    }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
-</RuleCondition><RuleCondition
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
  Name="Deconnection"
- Guid="3f03a071-7af2-4a6f-b759-581dd66e4740"
+ Guid="b7c59cd3-fbac-4d48-b11c-5af272e3b651"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Deconnection"
+ Guid="44b2618b-4c95-465d-99dc-22805036ec98"
 >
 <PreConditions>
 <PreCondition
- Guid="d5a00791-b3b4-458b-8a25-750079b08326"
->Packet.Q_RBC == Messages.Q_RBC.Terminate_communication_session</PreCondition><PreCondition
- Guid="54d28702-db0b-4aa4-bdc2-0605f8976a8d"
->GetRBCFromId(
-RBCConnection.Contact.RBCIdStruct
-        {
-            Country =&gt; Packet.NID_C,
-            Id =&gt; Packet.NID_RBC
-        }
-) != EMPTY</PreCondition></PreConditions>
+ Guid="659bef6e-5d76-47e9-b866-f76f32817c73"
+>Packet.Q_RBC == Messages.Q_RBC.Terminate_communication_session</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="019a1ed8-31fe-418a-8679-16ec0cbe9e42"
->Contact.GetRBCFromId(
-RBCConnection.Contact.RBCIdStruct
-        {
-            Country =&gt; Packet.NID_C,
-            Id =&gt; Packet.NID_RBC
-        }
-) .ContactRBCOrder &lt;- ContactOrderStruct
+ Guid="c10fb085-0295-45e9-b084-9113f82daa50"
+>SelectRBCConnectionForSessionManagement(Packet).ContactRBCOrder &lt;- ContactOrderStruct
     {
         Id =&gt; RBCConnection.Contact.RBCIdStruct
         {
@@ -1074,23 +1140,9 @@ RBCConnection.Contact.RBCIdStruct
        PhoneNumber =&gt; Packet.NID_RADIO,
         ActionToPerform =&gt; ConvertActionToPerform ( Packet.Q_RBC ),
         AppliesToSleepingUnits =&gt; ConvertAppliesToSleepingUnits ( Packet.Q_SLEEPSESSION)
-
-}</Action><Action
- Guid="13bb5237-974c-4a3c-86d8-c3ea4aeb8b48"
->Contact.GetRBCFromId(
-RBCConnection.Contact.RBCIdStruct
-        {
-            Country =&gt; Packet.NID_C,
-            Id =&gt; Packet.NID_RBC
-        }
-).ContactData &lt;- EURORADIO.RBCConnection.Contact.RBCContactStruct{
-Id =&gt; RBCIdStruct{
-    Country =&gt; Packet.NID_C,
-    Id =&gt; Packet.NID_RBC
-},
-PhoneNumber =&gt; Packet.NID_RADIO,
-DataState =&gt; DataStateEnum.Valid
 }</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
