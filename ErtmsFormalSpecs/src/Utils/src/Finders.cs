@@ -123,8 +123,8 @@ namespace Utils
     /// </summary>
     public class ISubDeclaratorUtils
     {
-        private static Mutex CriticalSection = new Mutex(false);
-
+        public static Mutex CriticalSection = new Mutex(false);
+        
         /// <summary>
         ///     Appends a namable in a dictionary of a sub declarator
         /// </summary>
@@ -132,7 +132,7 @@ namespace Utils
         /// <param name="namable"></param>
         public static void AppendNamable(ISubDeclarator subDeclarator, INamable namable)
         {
-            if (namable != null)
+            if (namable != null && subDeclarator != null && subDeclarator.DeclaredElements != null)
             {
                 if (!Util.isEmpty(namable.Name))
                 {
@@ -161,7 +161,7 @@ namespace Utils
         /// <param name="namable"></param>
         public static void AppendNamable(ISubDeclarator subDeclarator, string name, INamable namable)
         {
-            if (namable != null)
+            if (namable != null && subDeclarator != null && subDeclarator.DeclaredElements != null)
             {
                 CriticalSection.WaitOne();
                 try
@@ -187,27 +187,30 @@ namespace Utils
         /// <param name="retVal"></param>
         public static void Find(ISubDeclarator subDeclarator, string name, List<INamable> retVal)
         {
-            CriticalSection.WaitOne();
-            try
+            if (subDeclarator != null)
             {
-                // Ensure that the declared elements are initialized
-                if (subDeclarator.DeclaredElements == null)
+                CriticalSection.WaitOne();
+                try
                 {
-                    subDeclarator.InitDeclaredElements();
-                }
-
-                if (name != null)
-                {
-                    List<INamable> tmp;
-                    if (subDeclarator.DeclaredElements.TryGetValue(name, out tmp))
+                    // Ensure that the declared elements are initialized
+                    if (subDeclarator.DeclaredElements == null)
                     {
-                        retVal.AddRange(tmp);
+                        subDeclarator.InitDeclaredElements();
+                    }
+
+                    if (name != null)
+                    {
+                        List<INamable> tmp;
+                        if (subDeclarator.DeclaredElements.TryGetValue(name, out tmp))
+                        {
+                            retVal.AddRange(tmp);
+                        }
                     }
                 }
-            }
-            finally
-            {
-                CriticalSection.ReleaseMutex();
+                finally
+                {
+                    CriticalSection.ReleaseMutex();
+                }
             }
         }
 
@@ -221,25 +224,28 @@ namespace Utils
         {
             bool retVal = false;
 
-            CriticalSection.WaitOne();
-            try
+            if (subDeclarator != null)
             {
-                List<INamable> tmp;
-                if (subDeclarator.DeclaredElements.TryGetValue(value.Name, out tmp))
+                CriticalSection.WaitOne();
+                try
                 {
-                    foreach (INamable namable in tmp)
+                    List<INamable> tmp;
+                    if (subDeclarator.DeclaredElements.TryGetValue(value.Name, out tmp))
                     {
-                        if (namable == value)
+                        foreach (INamable namable in tmp)
                         {
-                            retVal = true;
-                            break;
+                            if (namable == value)
+                            {
+                                retVal = true;
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            finally
-            {
-                CriticalSection.ReleaseMutex();
+                finally
+                {
+                    CriticalSection.ReleaseMutex();
+                }
             }
 
             return retVal;

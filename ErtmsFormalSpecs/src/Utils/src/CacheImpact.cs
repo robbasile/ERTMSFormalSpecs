@@ -34,9 +34,17 @@ namespace Utils
         /// </summary>
         public void ClearCaches()
         {
-            foreach (IModelElement modelElement in Impact)
+            ISubDeclaratorUtils.CriticalSection.WaitOne();
+            try
             {
-                modelElement.ClearCache();
+                foreach (IModelElement modelElement in Impact)
+                {
+                    modelElement.ClearCache();
+                }
+            }
+            finally
+            {
+                ISubDeclaratorUtils.CriticalSection.ReleaseMutex();
             }
             Impact.Clear();
         }

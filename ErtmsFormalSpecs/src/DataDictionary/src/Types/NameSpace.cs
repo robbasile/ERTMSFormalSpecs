@@ -217,8 +217,16 @@ namespace DataDictionary.Types
         /// </summary>
         public void ClearCache()
         {
-            cachedVariables = null;
-            DeclaredElements = null;
+            ISubDeclaratorUtils.CriticalSection.WaitOne();
+            try
+            {
+                cachedVariables = null;
+                DeclaredElements = null;
+            }
+            finally
+            {
+                ISubDeclaratorUtils.CriticalSection.ReleaseMutex();
+            }
         }
 
         /// <summary>

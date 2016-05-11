@@ -18,11 +18,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using DataDictionary.Generated;
 using DataDictionary.RuleCheck;
 using DataDictionary.Specification;
-using DataDictionary.src;
 using Utils;
 using XmlBooster;
 using Chapter = DataDictionary.Specification.Chapter;
@@ -63,8 +61,6 @@ namespace DataDictionary
         ///     Used to temporarily store the list of test frames
         /// </summary>
         private ArrayList _savedTests;
-
-        private Mutex CriticalSection { get; set; }
 
         /// <summary>
         ///     Updates the dictionary contents before saving it
@@ -431,7 +427,7 @@ namespace DataDictionary
         /// </summary>
         public void InitDeclaredElements()
         {
-            CriticalSection.WaitOne();
+            ISubDeclaratorUtils.CriticalSection.WaitOne();
             try
             {
                 DeclaredElements = new Dictionary<string, List<INamable>>();
@@ -443,7 +439,7 @@ namespace DataDictionary
             }
             finally
             {
-                CriticalSection.ReleaseMutex();
+                ISubDeclaratorUtils.CriticalSection.ReleaseMutex();
             }
         }
 
@@ -515,7 +511,7 @@ namespace DataDictionary
             {
                 if (_definedTypes == null)
                 {
-                    CriticalSection.WaitOne();
+                    ISubDeclaratorUtils.CriticalSection.WaitOne();
                     try
                     {
                         _definedTypes = new Dictionary<string, Type>();
@@ -550,7 +546,7 @@ namespace DataDictionary
                     }
                     finally
                     {
-                        CriticalSection.ReleaseMutex();
+                        ISubDeclaratorUtils.CriticalSection.ReleaseMutex();
                     }
                 }
 
@@ -563,7 +559,7 @@ namespace DataDictionary
         /// </summary>
         public override void ClearCache()
         {
-            CriticalSection.WaitOne();
+            ISubDeclaratorUtils.CriticalSection.WaitOne();
             try
             {
                 _definedTypes = null;
@@ -573,7 +569,7 @@ namespace DataDictionary
             }
             finally
             {
-                CriticalSection.ReleaseMutex();
+                ISubDeclaratorUtils.CriticalSection.ReleaseMutex();
             }
         }
 
@@ -619,7 +615,7 @@ namespace DataDictionary
             {
                 if (nameSpace != null)
                 {
-                                        CriticalSection.WaitOne();
+                    ISubDeclaratorUtils.CriticalSection.WaitOne();
                     try
                     {
 
@@ -658,7 +654,7 @@ namespace DataDictionary
                     }
                     finally
                     {
-                        CriticalSection.ReleaseMutex();
+                        ISubDeclaratorUtils.CriticalSection.ReleaseMutex();
                     }
                 }
                 else
@@ -698,7 +694,7 @@ namespace DataDictionary
 
             foreach (Rule rule in AllRules)
             {
-                if (rule.FullName.CompareTo(fullName) == 0)
+                if (rule.FullName.Equals(fullName))
                 {
                     retVal = rule;
                     break;
@@ -735,7 +731,6 @@ namespace DataDictionary
         public Dictionary()
         {
             FinderRepository.INSTANCE.Register(this);
-            CriticalSection = new Mutex(false, "Dictionary critical section");
             FilesToDelete = new List <DeleteFilesHandler> ();
         }
 
