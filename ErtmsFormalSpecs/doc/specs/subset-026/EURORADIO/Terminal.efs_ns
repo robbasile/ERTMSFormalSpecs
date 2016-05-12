@@ -6,6 +6,7 @@
  Name="Terminal"
  Guid="e36fb349-046c-4d72-aac4-b928e223150a"
 >
+<Comment>Contains functionalities to handle terminals, terminal registrations.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Structures>
@@ -355,6 +356,7 @@
  TypeName="Boolean"
  Default="False"
  Mode="Internal"
+ Implemented="TRUE"
  Name="IsMainTerminal"
  Guid="212af2e8-b723-4e52-a7bf-4f428fe9aa38"
 >
@@ -956,6 +958,7 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
  Y="480"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="NoTerminalRegistered"
  Guid="4fc77eaa-02d4-47ba-9c24-b05b6de0349e"
 >
@@ -964,13 +967,13 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0fd53875-7198-4f65-998d-556a746f45eb"
 >
-</ReqRef><Cases>
+</ReqRef><Comment>In case no terminal is registered, connection messages must be refused. 
+This function gives a quick access to this information.</Comment>
+<Cases>
 <Case
  Name="Value"
  Guid="cf9003d4-f934-4481-ad3e-ee70fd8c65ae"
 >
-<Comment>In case no terminal is registered, connection messages must be refused. 
-This function gives a quick access to this information.</Comment>
 <Expression>(
 Terminal1 == EMPTY
   OR
@@ -1226,9 +1229,11 @@ NOT TerminalIsRegistered(Terminal2)
  Width="100"
  Height="50"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="SetMainTerminal"
  Guid="6219cbe5-3977-499c-b5b3-17a7118129d0"
 >
+<Comment>Sets the main terminal and ensues the other is no longer &apos;main&apos;.</Comment>
 <Parameters>
 <Parameter
  Type="EURORADIO.Terminal.TerminalStruct"
@@ -1241,15 +1246,20 @@ NOT TerminalIsRegistered(Terminal2)
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Sets the main terminal."
  Guid="9ce457e8-b11b-447c-bf29-b9435630a92d"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Terminal1"
  Guid="fd11e93c-d5df-4238-a011-8c1af821f10a"
 >
+<Comment>Sets Terminal1 as main terminal.</Comment>
 <PreConditions>
 <PreCondition
  Guid="15825c16-5157-42e4-b965-ea2d24e45fca"
@@ -1261,9 +1271,12 @@ NOT TerminalIsRegistered(Terminal2)
  Guid="a6e5c388-248a-4538-b62c-ac66abb9677f"
 >EURORADIO.Terminal.Terminal2.IsMainTerminal &lt;- False</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Terminal2"
  Guid="da0a4f96-e5fc-43f2-9fbb-7bc5699b75de"
 >
+<Comment>Sets Terminal2 as main terminal.</Comment>
 <PreConditions>
 <PreCondition
  Guid="cffa0c7a-f615-4b6f-857d-438995d44f23"
@@ -1282,23 +1295,30 @@ NOT TerminalIsRegistered(Terminal2)
  Width="100"
  Height="50"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="SwitchMainTerminal"
  Guid="5e949164-2fb2-426e-b218-f39c1e816f46"
 >
+<Comment>Switch the main status of the two terminals.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
- Name="&lt;Rule1&gt;"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Switch Main Terminal"
  Guid="403b5346-d004-4e05-be90-fac8eec70ef0"
 >
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="From1To2"
  Guid="b66be759-9fcd-4dcd-9a11-7cdf3e93c1ba"
 >
+<Comment>Terminal2 becomes main terminal.</Comment>
 <PreConditions>
 <PreCondition
  Guid="05b3ec9a-3734-491b-b204-b41ffc625825"
@@ -1308,9 +1328,12 @@ NOT TerminalIsRegistered(Terminal2)
  Guid="4220abea-9ef2-4291-bd53-05bb0ea68baa"
 >SetMainTerminal(Terminal2)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="From2To1"
  Guid="369d4209-eb38-4bc6-ad55-b2fac08cd11b"
 >
+<Comment>Terminal1 becomes main terminal.</Comment>
 <PreConditions>
 <PreCondition
  Guid="620e4e76-2e92-48e2-86a4-847931029155"
@@ -1410,17 +1433,21 @@ NOT TerminalIsRegistered(Terminal2)
  Y="300"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="First setting of the main terminal"
  Guid="16971da8-9cad-4100-a279-715cd510cf06"
 >
+<Comment>One terminal has to be set as the main one. It will receive standard, i.e. no handover, connections. 
+Handover procedures will switch the terminals.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="First setting of main terminal"
  Guid="ad5583c5-8451-4b5b-96d7-db7dfa188fb7"
 >
-<Comment>One terminal has to be set as the main one. It will receive standard, i.e. no handover, connections. 
-Handover procedures will switch the terminals.</Comment>
 <PreConditions>
 <PreCondition
  Guid="c5a341a2-0288-4e64-8d73-c115c3bcff16"

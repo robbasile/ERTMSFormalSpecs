@@ -6,6 +6,7 @@
  Name="Contact"
  Guid="580fca88-352b-42ec-8a26-316fa4ac631c"
 >
+<Comment>Contains the features needed to select the right RBCConnection for connection or deconnection.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Enumerations>
@@ -721,6 +722,8 @@ RBCConnection.RBCStruct.ConnectionStateSM.Connecting]</Expression>
  Y="440"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="GetRBCConnectionFromId"
  Guid="1cc2fd8c-3e6e-4699-a731-20ccec991bd8"
 >
@@ -784,10 +787,11 @@ aRBCId.Id == Messages.NID_RBC.contact_last_known_RBC
 </Function><Function
  Type="RBCStruct"
  Default=""
- X="0"
- Y="0"
+ X="420"
+ Y="360"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="SelectRBCConnectionForSessionManagement"
  Guid="c72a4504-9172-417c-9369-ba9f19ec50e7"
 >
@@ -921,6 +925,8 @@ RBCConnection.Contact.RBCIdStruct
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Available RBCConnection"
  Guid="482d3e4f-4552-404a-81d0-24d07d2b6cbc"
 >
@@ -935,12 +941,17 @@ RBCConnection.Contact.RBCIdStruct
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Connection"
  Guid="4d54b296-9534-4e74-929e-54ce5589e2c5"
 >
+<Comment>Contact order may give the RBCContactInformation in various ways.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Connection"
  Guid="24d85f6b-4db4-47cf-9396-152741645b43"
 >
@@ -955,9 +966,11 @@ RBCConnection.Contact.RBCIdStruct
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Contact right RBC"
  Guid="2a22ad4e-0592-4de5-ad5f-e6b3cf243d7e"
 >
+<Comment>Contact order may give the RBCContactInformation in various ways.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -1113,12 +1126,17 @@ RBCConnection.Contact.RBCIdStruct
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Deconnection"
  Guid="b7c59cd3-fbac-4d48-b11c-5af272e3b651"
 >
+<Comment>For deconnection, the RBCConnection will be selected acording to its Id. See the function SelectRBCConnectionForSessionManagement.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Deconnection"
  Guid="44b2618b-4c95-465d-99dc-22805036ec98"
 >

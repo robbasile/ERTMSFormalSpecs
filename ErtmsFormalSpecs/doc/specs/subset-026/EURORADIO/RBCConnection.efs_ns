@@ -3038,7 +3038,8 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 </StructureElement><StructureElement
  TypeName="Data.DataStruct"
  Default=""
- Mode="Internal"
+ Mode="InOut"
+ Implemented="TRUE"
  Name="Data"
  Guid="aa48f270-d445-4d11-b4ad-b9e4d3a008da"
 >
@@ -3046,6 +3047,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  TypeName="SafeRadioConnection.SafeRadioConnectionStruct"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
  Name="SafeRadioConnection"
  Guid="5ffc5b8b-76ba-47ab-b1c2-7c95e6e69084"
 >
@@ -3218,12 +3220,20 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Session has to be reestablished"
  Guid="5bd6e680-ac1d-4fc5-a59e-fc21ee558109"
 >
+<ReqRef
+ Id="558b2068-001d-4f9f-902b-2cd23fb269d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1119d3a-09f9-4316-a07b-a45ba754921e"
+>
+</ReqRef><Comment>Session might need to be reestablished for various reasons.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Session has to be reestablished"
  Guid="77bdfa2b-997b-44ae-b8f0-f4349f3e8208"
 >
@@ -3274,6 +3284,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Updates safe radio connection status"
  Guid="8a993ea6-5cda-42b3-bbda-3ef61f5e3e6a"
 >
@@ -4391,6 +4402,8 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle safe radio connection status"
  Guid="6bcaa9e4-5510-4317-8477-dd9b27e5beb6"
@@ -5111,6 +5124,9 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </StateMachine><EnterAction>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
  Name="Enter action"
  Guid="57e886f4-7bd1-411d-b752-85d4cb2efe05"
 >
@@ -5547,9 +5563,12 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
  Y="420"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="SessionEstablishmentOrderIsReceived"
  Guid="29499d5e-fa26-4d49-a920-45fbaed77748"
 >
+<Comment>Utility function to tell whether a connection order has been received from the trackside.</Comment>
 <Parameters>
 <Parameter
  Type="RBCConnection.RBCStruct"
@@ -5559,22 +5578,12 @@ Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.Conn
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Establishment order is received"
+ Name="Value"
  Guid="d9f492df-d0da-4799-98d2-f92e8dab335b"
 >
-<Comment>First case: an order to establish the communication session is received</Comment>
-<PreConditions>
-<PreCondition
- Guid="88494b47-b4df-49dd-9cac-c8aeaad524e3"
->anRBC.ContactRBCOrder != EMPTY
+<Expression>anRBC.ContactRBCOrder != EMPTY
   AND
-anRBC.ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="9239d5ec-4cd4-4883-8c1b-e9c4630633ce"
->
-<Expression>False</Expression>
+anRBC.ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -5641,13 +5650,16 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
 </Function><Function
  Type="Boolean"
  Default=""
- X="0"
- Y="0"
+ X="210"
+ Y="180"
  Width="100"
  Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="IsMainConnection"
  Guid="fb0e4283-484e-49b8-bda3-98276f6d8ea6"
 >
+<Comment>Utility function to tells whether the given RBCConnection belongs to the main terminal, hence is the main or current connection.</Comment>
 <Parameters>
 <Parameter
  Type="EURORADIO.RBCConnection.RBCStruct"
