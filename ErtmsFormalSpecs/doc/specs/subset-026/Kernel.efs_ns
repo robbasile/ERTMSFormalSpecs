@@ -10676,7 +10676,10 @@ BTM.Linking.RAMS.RAMSWindowPassed()
  Name="Handle Euroradio inputs: current connection"
  Guid="6a2115bc-b8ee-49c2-809f-4744f6c68146"
 >
-<Comment>Handles the message possibly received by the current RBC connection.</Comment>
+<Comment>Handles the message possibly received by the current RBC connection provided it is available.
+The procedure EURORADIO.RBCConnection.RBCStruct.HandleIncommingMessage will refuse 
+any other message than INITIATION_OF_A_COMMUNICATION_SESSION if its safe radio 
+connection is not established.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -10703,7 +10706,10 @@ BTM.Linking.RAMS.RAMSWindowPassed()
  Name="Handle Euroradio inputs: secondary connection"
  Guid="2e755da5-b35e-4557-a4e3-6661811f7db2"
 >
-<Comment>Handles the message possibly received by the Accepting RBC, if any.</Comment>
+<Comment>Handles the message possibly received by the Accepting RBC, if any.
+The procedure EURORADIO.RBCConnection.RBCStruct.HandleIncommingMessage will refuse 
+any other message than INITIATION_OF_A_COMMUNICATION_SESSION if its safe radio 
+connection is not established.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -11376,6 +11382,31 @@ IN
 >EURORADIO.Messages.ProcessOutgoingMessages()</Action><Action
  Guid="491490c7-2e62-40b0-a706-9dcaeb16e600"
 >EURORADIO.RBCConnection.CurrentRBCConnection().TranslateOutMessage()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Secondary connection available"
+ Guid="e69a9982-9316-41e6-bfd1-7cd846f4e31e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Secondary connection available"
+ Guid="e6d8bfb8-2b51-4046-b97c-84e997f02b66"
+>
+<PreConditions>
+<PreCondition
+ Guid="3e71c2a5-728d-450c-8a29-43f1825d698c"
+>EURORADIO.RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="19a87d33-4393-4f56-bb7d-e7a956ee1b4d"
+>EURORADIO.RBCConnection.SecondaryRBCConnection().TranslateOutMessage()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateOUT"

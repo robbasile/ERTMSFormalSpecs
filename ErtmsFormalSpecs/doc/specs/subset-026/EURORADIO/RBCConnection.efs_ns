@@ -2069,7 +2069,7 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="252fa286-33c9-43a3-a814-aebe342d6794"
 >
 </ReqRef><Comment>Messages from the current RBC connection received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement.
-...</Comment>
+If the safe radio connection is not established, anyother message than INITIATION_OF_A_COMMUNICATION_SESSION will be refused by this procedure.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2094,7 +2094,11 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
 >Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition><PreCondition
  Guid="a5c08762-5545-4f90-9842-d38abbcca45b"
->Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition></PreConditions>
+>Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition><PreCondition
+ Guid="14caeffe-8638-4f07-8ace-65ab1ed0f0ec"
+>SafeRadioConnection.ConnectionIsEstablished 
+  OR 
+Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7ffe8131-5392-4ec9-a32e-1ad7d3cb2dcd"
