@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Types;
 using GUI.Properties;
 using GUIUtils.LongOperations;
 using Utils;
@@ -228,9 +229,15 @@ namespace GUI
                         destinationNode.AcceptDrop(sourceNode);
                         if (Refactor && Settings.Default.AllowRefactor)
                         {
-                            RefactorAndRelocateOperation refactorAndRelocate =
-                                new RefactorAndRelocateOperation(sourceNode.Model as ModelElement);
-                            refactorAndRelocate.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refactoring", false);
+                            NameSpace nameSpace = EnclosingFinder<NameSpace>.find(sourceNode.Model, true);
+                            if (nameSpace != null)
+                            {
+                                // Only apply refactoring when dropping Model Element items
+                                // This is useless for Requirements, and test related elements
+                                RefactorAndRelocateOperation refactorAndRelocate =
+                                    new RefactorAndRelocateOperation(sourceNode.Model as ModelElement);
+                                refactorAndRelocate.ExecuteUsingProgressDialog(GuiUtils.MdiWindow, "Refactoring", false);
+                            }
                         }
                     }
                 }
