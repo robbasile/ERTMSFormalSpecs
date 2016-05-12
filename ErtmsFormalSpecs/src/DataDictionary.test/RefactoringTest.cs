@@ -1,4 +1,5 @@
-﻿using DataDictionary.Constants;
+﻿using System.Security.Cryptography;
+using DataDictionary.Constants;
 using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.Tests;
@@ -536,6 +537,54 @@ namespace DataDictionary.test
             Refactor(structure, "Structure");
 
             Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "THIS.El1 <- True");
+        }
+
+
+        /// <summary>
+        ///     Test that the FIRST x IN expression is correctly relocated
+        /// </summary>
+        [Test]
+        public void TestRefactorFIRST_IN()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "S");
+            CreateStructureElement(structure, "El1", "Boolean");
+            Collection collection = CreateCollection(nameSpace1, "Col", "S", 10);
+            Variable variable = CreateVariable(nameSpace1, "V", "Col");
+            Variable variable2 = CreateVariable(nameSpace1, "B", "Boolean");
+
+            RuleCondition condition1 = CreateRuleAndCondition(nameSpace1, "RuleCondition");
+            CreateAction(condition1, "B <- (FIRST el IN V).El1");
+
+            RefactorAndRelocate(condition1);
+
+            Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "B <- (FIRST el IN V).El1");
+        }
+
+
+        /// <summary>
+        ///     Test that the LAST x IN expression is correctly relocated
+        /// </summary>
+        [Test]
+        public void TestRefactorLAST_IN()
+        {
+            Dictionary dictionary = CreateDictionary("Test");
+            NameSpace nameSpace1 = CreateNameSpace(dictionary, "N1");
+
+            Structure structure = CreateStructure(nameSpace1, "S");
+            CreateStructureElement(structure, "El1", "Boolean");
+            Collection collection = CreateCollection(nameSpace1, "Col", "S", 10);
+            Variable variable = CreateVariable(nameSpace1, "V", "Col");
+            Variable variable2 = CreateVariable(nameSpace1, "B", "Boolean");
+
+            RuleCondition condition1 = CreateRuleAndCondition(nameSpace1, "RuleCondition");
+            CreateAction(condition1, "B <- (FIRST el IN V).El1");
+
+            RefactorAndRelocate(condition1);
+
+            Assert.AreEqual(((Action)condition1.Actions[0]).ExpressionText, "B <- (FIRST el IN V).El1");
         }
     }
 }

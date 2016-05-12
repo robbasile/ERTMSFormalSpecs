@@ -41,7 +41,7 @@ namespace DataDictionary.Interpreter.Refactor
                     if (model is Structure)
                     {
 
-                        if (expression is Call)
+                        if (expression is Call || expression is ListExpression)
                         {
                             // Because this is the return value instead of the target element
                             model = null;
@@ -49,13 +49,23 @@ namespace DataDictionary.Interpreter.Refactor
                         else
                         {
                             UnaryExpression unaryExpression = expression as UnaryExpression;
-                            if (unaryExpression != null && 
-                                unaryExpression.Term != null && 
-                                unaryExpression.Term.Designator != null &&
-                                unaryExpression.Term.Designator.IsPredefined())
+                            if (unaryExpression != null)
                             {
-                                model = null;
-                            }   
+
+                                if (unaryExpression.Term != null &&
+                                    unaryExpression.Term.Designator != null &&
+                                    unaryExpression.Term.Designator.IsPredefined())
+                                {
+                                    // No need to refactor a predefined item
+                                    model = null;
+                                }
+                                else if (unaryExpression.Expression != null)
+                                {
+                                    // No need to change the enclosing parenthesed expression
+                                    // Let's rely on the recursive call 
+                                    model = null;
+                                }
+                            }
                         }
                     }
 
