@@ -88,12 +88,12 @@
 >
 <Comment>Position of the LRBG.</Comment>
 </StructureElement><StructureElement
- TypeName="Messages.NID_LRBG"
+ TypeName="Messages.NID_BG"
  Default=""
  Mode="Internal"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="NID"
+ Name="NID_BG"
  Guid="ccd4df78-86cc-4740-a762-d1a06fe9a782"
 >
 <Comment>The identity number of the LRBG.</Comment>
@@ -140,6 +140,15 @@
  Guid="cf2198d9-b8e3-4042-a830-f28881e15b0d"
 >
 <Comment>Stores the LRBG location accuracy according to linking information or default value. SHOULD NOT BE HARD CODED.</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.NID_C"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="NID_C"
+ Guid="626bef8e-67ae-4202-803f-0bffa118b14f"
+>
+<Comment>The region identifier of the BG&apos;s region.</Comment>
 </StructureElement></Structure></Structures>
 <Collections>
 <Collection
@@ -198,7 +207,9 @@
  Name="Value"
  Guid="a5aa9f87-7420-4311-9766-18d0b6263d7f"
 >
-<Expression>LRBG.NID != BGIdentifier</Expression>
+<Expression>LRBG.NID_BG != BGIdentifier
+  OR  
+LRBG.NID_C != CountryIdentifier</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -337,8 +348,8 @@
 <PreConditions>
 <PreCondition
  Guid="39d378f2-a59c-43bf-9e51-ee9605484628"
->THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID == aBG</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - (FIRST X IN PreviousBaliseGroups | X.BaliseGroup.NID == aBG).BaliseGroup.Position.Position</Expression>
+>THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == aBG</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - (FIRST X IN PreviousBaliseGroups | X.BaliseGroup.NID_BG == aBG).BaliseGroup.Position.Position</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="bbb4368c-06da-4efc-9230-417c0d87f09f"
@@ -585,7 +596,7 @@ Linking.LinkingApplicable()</Expression>
 </ReqRef><Comment>This procedure is used when the train detects a new LRBG, in order to update information relative to its LRBG.</Comment>
 <Parameters>
 <Parameter
- Type="Messages.NID_LRBG"
+ Type="Messages.NID_BG"
  Name="Nid_BG"
  Guid="73175fa3-6e28-4a7d-af6d-805fb341b09c"
 >
@@ -603,6 +614,11 @@ Linking.LinkingApplicable()</Expression>
  Type="BaseTypes.Length"
  Name="aLocationAccuracy"
  Guid="683634fc-d4a2-4e08-9bd7-42e2b81f7e5d"
+>
+</Parameter><Parameter
+ Type="Messages.NID_C"
+ Name="Nid_C"
+ Guid="cc02d314-3474-4b4b-9615-262c83c88b18"
 >
 </Parameter></Parameters>
 <Rules>
@@ -680,7 +696,8 @@ Linking.LinkingApplicable()</Expression>
 >LRBG &lt;- BaliseGroupStruct
 {
   Timestamp =&gt; BGLocationReference.Timestamp,
-  NID =&gt; Nid_BG,
+  NID_BG =&gt; Nid_BG,
+  NID_C =&gt; Nid_C,
   Position =&gt; BGLocationReference.Position,
   Orientation =&gt; aOrientation,
   LocationAccuracy =&gt; aLocationAccuracy
@@ -795,7 +812,7 @@ the linking information regarding the location accuracy is used.</Comment>
 <PreCondition
  Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
 >BTM.LRBG.IsNewBG(
-    BGIdentifier =&gt; BG_To_LRBG(GetNID_BG(aBaliseGroup)),
+    BGIdentifier =&gt; GetNID_BG(aBaliseGroup),
     CountryIdentifier =&gt; GetNID_C(aBaliseGroup)
 )</PreCondition><PreCondition
  Guid="9a0cc237-370c-4dcb-b53c-9bf804dd2a0d"
@@ -804,7 +821,8 @@ the linking information regarding the location accuracy is used.</Comment>
 <Action
  Guid="3c939d6a-99af-451a-b12d-368fece30c2a"
 >BTM.LRBG.HandleNewLRBG(
-    Nid_BG =&gt; BG_To_LRBG( GetNID_BG( aBaliseGroup ) ),
+    Nid_BG =&gt; GetNID_BG( aBaliseGroup ),
+    Nid_C =&gt; GetNID_C( aBaliseGroup ),
     aDistanceFromRef =&gt; DistanceFromReference( UseLinkingInformation(aBaliseGroup) AND Linking.Supervision.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
     aOrientation =&gt; BGOrientation( aBaliseGroup ),
     aLocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
@@ -816,7 +834,8 @@ the linking information regarding the location accuracy is used.</Comment>
       BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
-          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
+          NID_BG =&gt; UpdatedReceivedMessage(Message).NID_BG,
+          NID_C =&gt; UpdatedReceivedMessage(Message).NID_C,
           Orientation =&gt; BGOrientation(aBaliseGroup),
           Timestamp =&gt; BGLocationReference.Timestamp,
           LocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
@@ -856,7 +875,8 @@ are used for fixing the BG LoacationAccuracy.</Comment>
       BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
-          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
+          NID_BG =&gt; UpdatedReceivedMessage(Message).NID_BG,
+          NID_C =&gt; UpdatedReceivedMessage(Message).NID_C,
           Orientation =&gt; BGOrientation(aBaliseGroup),
           Timestamp =&gt; BGLocationReference.Timestamp,
            LocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
@@ -885,7 +905,7 @@ are used for fixing the BG LoacationAccuracy.</Comment>
       BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
       {
           Position =&gt; BGLocationReference.Position,
-          NID =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
+          NID_BG =&gt; BTM.UpdatedReceivedMessage(BTM.Message).NID_BG,
           Orientation =&gt; BGOrientation(aBaliseGroup),
           Timestamp =&gt; BGLocationReference.Timestamp,
           LocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)

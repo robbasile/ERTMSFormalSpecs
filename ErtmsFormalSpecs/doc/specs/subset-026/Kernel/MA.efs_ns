@@ -20,12 +20,24 @@
  Name="MATimers"
  Guid="6c9779cd-cf72-4597-9dc0-b775886c5fe4"
 >
+</NameSpaceRef><NameSpaceRef
+ Name="EOA"
+ Guid="492ced62-33bd-47a7-8d1e-c5e180ba6fa1"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="SvL"
+ Guid="1d8f97c1-998e-4edd-b527-3ecbeb2b800e"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="Sections"
+ Guid="1478a194-b022-4fde-9d9a-8c1f1a085057"
+>
 </NameSpaceRef></NameSpaces>
 <Structures>
 <Structure
  Default=""
- X="320"
- Y="340"
+ X="540"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -92,7 +104,7 @@
 >
 </ReqRef><Comment>The target speed represents the permitted speed at the EOA.</Comment>
 </StructureElement><StructureElement
- TypeName="SectionsCol"
+ TypeName="Sections.SectionsCol"
  Default="[]"
  Mode="Internal"
  Implemented="TRUE"
@@ -153,79 +165,8 @@
 </ReqRef><Comment>The time-out associated to the target speed, if any.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="620"
- Y="340"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SectionStruct"
- Guid="fffdbc4e-3bd3-4ff3-ba88-a499ce5b40d6"
->
-<ReqRef
- Id="4b2c7641-4724-45e9-ac46-acb185e386b0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b1888cc3-7271-4b48-8cf3-c0ab4691b97c"
->
-</ReqRef><ReqRef
- Id="588756eb-1786-4776-86ae-3aaa296881a9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0ee8d9ee-0bc0-46fb-b113-c217a901a62b"
->
-</ReqRef><Comment>Represents a MA section.</Comment>
-<StructureElement
- TypeName="BaseTypes.Length"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Verified="TRUE"
- Name="Length"
- Guid="17b8c47c-897c-4c86-bad5-6d9d3c50dd67"
->
-<ReqRef
- Id="51578cd7-a50a-46d9-b7a5-11e24eee2f49"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6737cb2a-9630-4310-92ba-f52c7707c53b"
->
-</ReqRef><ReqRef
- Id="71df462f-9b71-4b35-add6-5ded11f964a3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a20c83c9-e060-4208-b74b-aee42677a287"
->
-</ReqRef><Comment>Represents the length of the section.</Comment>
-</StructureElement><StructureElement
- TypeName="MATimers.TimeOutStruct"
- Default="EMPTY"
- Mode="Internal"
- Implemented="TRUE"
- Verified="TRUE"
- Name="TimeOut"
- Guid="da427778-9690-4159-86b8-cdbd5be509f4"
->
-<ReqRef
- Id="9e1096f7-cf79-4ff5-8dcf-ac3a8bc775e6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c605f2f6-86b5-44ec-a3c4-eb16909386b1"
->
-</ReqRef><ReqRef
- Id="b4e8a739-839a-4e55-80ab-4cabb887e47b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a2fad3a3-4f2a-487c-8ef9-7c3481580796"
->
-</ReqRef><ReqRef
- Id="3ea65cb2-f46e-4d0e-885e-8ae8c75b4a06"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1e622c10-4067-4b8c-8fdb-bd1ae56d4333"
->
-</ReqRef><ReqRef
- Id="e5896680-5ea9-4749-b01e-599ab85abe84"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b53bfa83-8ecd-4edf-9de1-ff2c5b5a30b1"
->
-</ReqRef><Comment>Represents the section time-out (if no time-out is available for this section, this field is EMPTY).</Comment>
-</StructureElement></Structure><Structure
- Default=""
- X="320"
- Y="470"
+ X="540"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -319,7 +260,7 @@
 >
 </ReqRef><Comment>Represents the length of the section.</Comment>
 </StructureElement><StructureElement
- TypeName="DangerPointStruct"
+ TypeName="SvL.DangerPointStruct"
  Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
@@ -344,7 +285,7 @@
 >
 </ReqRef><Comment>Represents a location beyond the EOA that can be reached by the front end of the train without a risk for a hazardous situation.</Comment>
 </StructureElement><StructureElement
- TypeName="OverlapStruct"
+ TypeName="SvL.OverlapStruct"
  Default="EMPTY"
  Mode="Internal"
  Implemented="TRUE"
@@ -370,156 +311,8 @@
 </ReqRef><Comment>Location beyond the danger point that can be reached by the front end of the train without a risk for a hazardous situation.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="240"
- Y="580"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Verified="TRUE"
- Name="DangerPointStruct"
- Guid="769a9d35-b852-451f-a569-4d9c8e6ff3d9"
->
-<ReqRef
- Id="48fba67a-8f19-4715-92e7-aea531d01881"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6372cfb5-dba2-43a0-9bd4-7a375e65418e"
->
-</ReqRef><ReqRef
- Id="53a5391c-db43-4e26-95c4-26b8316d77a8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="64ea2a16-2ff6-47bf-acf1-4452a25fc488"
->
-</ReqRef><ReqRef
- Id="e249c65e-2618-4df7-b69d-97ced56922b4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c4b96bb7-b6dd-474c-8282-3b44de5d9671"
->
-</ReqRef><Comment>Represents a location beyond the EOA that can be reached by the front end of the train without a risk for a hazardous situation.</Comment>
-<StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="Distance"
- Guid="037019d6-7d4f-4201-9d91-84e885bb225d"
->
-<ReqRef
- Id="1b773b1d-8ba0-43bd-abfb-9c45b0550e35"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5ee7bd93-0843-4f60-a536-299f7068ad93"
->
-</ReqRef><Comment>The distance from end of section to danger point.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default="0.0"
- Mode="Internal"
- Implemented="TRUE"
- Name="ReleaseSpeed"
- Guid="86e7d570-5ee4-450f-b475-3470ed1c4d28"
->
-<ReqRef
- Id="197c8e6f-0fae-4862-be76-b280ffa433d2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="02e23ce3-b9ae-4687-aaa5-d9b7e2414b1b"
->
-</ReqRef><ReqRef
- Id="530b6e5d-9ed2-460a-bc4f-9e158ad1c0b1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6e15efee-d79e-446d-a699-f267fb43432a"
->
-</ReqRef><Comment>The release speed related to danger point.</Comment>
-</StructureElement></Structure><Structure
- Default=""
- X="400"
- Y="580"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Verified="TRUE"
- Name="OverlapStruct"
- Guid="0daae925-12c0-4d85-ad1f-543941dfde02"
->
-<ReqRef
- Id="4777cb40-cb40-4257-8324-c515327a0152"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ae6a370c-ae34-4c44-a20a-156f8789c67b"
->
-</ReqRef><ReqRef
- Id="7fa6af9c-023d-474c-a0f7-8f72181a8fee"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bed6ba69-5c91-40a8-b855-f2ac195753de"
->
-</ReqRef><ReqRef
- Id="e249c65e-2618-4df7-b69d-97ced56922b4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8371dc40-5fdc-4c5a-a7e0-6af1acea5609"
->
-</ReqRef><Comment>Location beyond the danger point that can be reached by the front end of the train without a risk for a hazardous situation.</Comment>
-<StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="Distance"
- Guid="ba3f3265-6ed5-47e3-870b-0a76162d91c2"
->
-<ReqRef
- Id="326cbd94-a19c-4b09-941b-6c0795e922f2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="967dc399-906e-4a55-817c-7e89c5e11817"
->
-</ReqRef><Comment>Distance from end of section to end of overlap.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Distance"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="TimerDistance"
- Guid="5373acc3-c181-4bd3-b641-c8aa2842b202"
->
-<ReqRef
- Id="747d021b-8bdf-43c7-8a0a-a3f568408c72"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5a80fd84-6231-4552-ad65-5ca0b9aef662"
->
-</ReqRef><Comment>Distance from Overlap timer start location to end of section.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Speed"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="ReleaseSpeed"
- Guid="082a1005-689c-489c-8133-2ca4736259ca"
->
-<ReqRef
- Id="197c8e6f-0fae-4862-be76-b280ffa433d2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ac3a9c7a-2e66-4990-89ae-238783bef032"
->
-</ReqRef><ReqRef
- Id="887d1614-89c2-401e-8b28-d47db2b19981"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8cd1e4d4-3257-43a2-b1fd-a3b33feb115b"
->
-</ReqRef><Comment>Release speed related to overlap.</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Time"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Name="TimeOut"
- Guid="e1712786-7eb6-4d7b-a62b-309d3747846c"
->
-<ReqRef
- Id="1a00d073-a908-4fc4-9ec3-4652a955b351"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8926012b-cb08-4444-82d5-ddd1b4a6dea6"
->
-</ReqRef><Comment>The validity time of the overlap.</Comment>
-</StructureElement></Structure><Structure
- Default=""
- X="20"
- Y="580"
+ X="680"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -561,8 +354,8 @@ Location stores the previous End of Movement Authority location.</Comment>
 <Comment>Records whether the previous MA was supervising a SvL or has a LOA</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="750"
- Y="570"
+ X="610"
+ Y="290"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -639,254 +432,12 @@ Location stores the previous End of Movement Authority location.</Comment>
 <Comment>Used to tell whether information is valid or not. Always valid for the 
 non-infill SR. Validity of infill SR depends on whether infill SR was received or not.</Comment>
 </StructureElement></Structure></Structures>
-<Collections>
-<Collection
- TypeName="SectionStruct"
- MaxSize="6"
- Default="[]"
- X="480"
- Y="340"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Verified="TRUE"
- Name="SectionsCol"
- Guid="03331e1a-0a7c-414b-bdf9-0041a6d8266a"
->
-<ReqRef
- Id="173067d8-3484-4ec9-81e4-7275c3374764"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1b0b3079-d9ec-4f0f-b72e-9eca770ecca6"
->
-</ReqRef><ReqRef
- Id="cfc4df94-c1ee-4d42-b8ab-44f37ef4a6ba"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c9a9ed6c-a891-4b6d-9319-51c519b13d14"
->
-</ReqRef><ReqRef
- Id="d701e3bf-8b71-4b6f-84c0-9b64aa641498"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="14420dcd-645e-4886-9f63-380fed6e3f3d"
->
-</ReqRef><Comment>Represents MA sections.</Comment>
-</Collection></Collections>
 <Functions>
 <Function
- Type="TargetStruct"
- Default=""
- X="30"
- Y="10"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Verified="TRUE"
- Name="EOA"
- Guid="5a294ee6-8877-47bf-a4eb-c4de4cd6ab32"
->
-<ReqRef
- Id="e0b44a69-1080-47e9-80b7-b635996f4239"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8c39bc7c-c2d4-4499-a362-8ee8e21088ff"
->
-</ReqRef><ReqRef
- Id="173067d8-3484-4ec9-81e4-7275c3374764"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e5a38aa4-31ff-4e40-af69-8dcfb5a93777"
->
-</ReqRef><ReqRef
- Id="9a2c09f8-7df9-4251-9530-ae098d435bc9"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="10ede9e4-375a-4365-abe2-48b4cd5bbd59"
->
-</ReqRef><ReqRef
- Id="81828a4c-73e2-440d-8353-e050603f323f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="afebc8b3-dc1c-46e1-9ff4-5bb175c491a9"
->
-</ReqRef><ReqRef
- Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f548f182-00ad-499e-8840-eb9b3ea723d0"
->
-</ReqRef><ReqRef
- Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="00f7a85e-236e-4aa7-9eb5-9b959e376ed9"
->
-</ReqRef><ReqRef
- Id="f7dd0ecc-078c-4434-8d46-4ebb4b1f44f2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="32cf65cc-d986-4f33-b2ec-0ac0ec4f71bf"
->
-</ReqRef><ReqRef
- Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dfb1ba4b-b324-4e7f-832b-24466ee392e1"
->
-</ReqRef><ReqRef
- Id="5fd9abb2-0712-4c70-a573-7668ecb3a103"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="c4a0368d-a5f1-480b-9340-9e047f9781f2"
->
-</ReqRef><ReqRef
- Id="f27f67c3-6ff7-425e-8ab3-f3eb40f14326"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="70b19684-f388-4c67-be54-9b1ac8c7ba6e"
->
-</ReqRef><ReqRef
- Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4e3f63c3-1739-4477-99bc-9b907942f5f4"
->
-</ReqRef><ReqRef
- Id="b8339f99-503e-4b4e-a901-758d69ad1139"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d4d5e334-b4b3-4204-b0df-04c4f9fb0841"
->
-</ReqRef><ReqRef
- Id="d2ff8626-b129-41d0-afab-85c0e9977832"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ccc06d69-6491-4564-904d-26cb47363d8a"
->
-</ReqRef><ReqRef
- Id="90d05183-dd5f-471a-929c-200da2581c34"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="422024d8-1c5f-49a1-9d49-25d8221595c5"
->
-</ReqRef><ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8ab72d5e-c5f6-4e16-a4be-1a34fd1c1cec"
->
-</ReqRef><ReqRef
- Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6b53d0eb-bdb5-490c-89de-783b8d245379"
->
-</ReqRef><ReqRef
- Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b14688fc-2cd7-4c81-af03-7bb68a7e73d8"
->
-</ReqRef><ReqRef
- Id="78901f0f-a70f-415d-8d57-e5156f7206d0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="aa86438f-4653-469c-bc01-d56df21c2a04"
->
-</ReqRef><Comment>Gives the target corresponding to the End (or Limit) Of Authority. This is chosen to be the closest target in the EOAs collection</Comment>
-<Cases>
-<Case
- Name="Do not determine the EOA"
- Guid="fe810f55-15f6-412a-9409-20cbc00c2b5f"
->
-<PreConditions>
-<PreCondition
- Guid="75f48500-72d8-4a4b-86ff-6f95103a88c9"
->NOT ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; BaseTypes.Distance.Infinity,
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.EOA
-}</Expression>
-</Case><Case
- Name="Returns the closest EOA"
- Guid="4c10b760-6b33-42af-8b63-16dfab10d6b2"
->
-<Expression>REDUCE EOACollection()
-    USING X IN ClosestTarget(
-    Target1=&gt;X,
-    Target2=&gt;RESULT
-)
-INITIAL_VALUE TargetStruct{
-    Location =&gt; BaseTypes.Distance.Infinity,
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.EOA
-}</Expression>
-</Case></Cases>
-</Function><Function
- Type="SectionStruct"
- Default=""
- X="140"
- Y="10"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CreateEFSSection"
- Guid="299a27b9-4a71-4ca2-927d-54c7d5add5cb"
->
-<ReqRef
- Id="3ea65cb2-f46e-4d0e-885e-8ae8c75b4a06"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e45e8dfb-9ad8-409f-98e0-ea16f9988c29"
->
-</ReqRef><ReqRef
- Id="b796c06e-efd9-4a35-abfc-9983a477fc35"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e6ea834f-b78a-4b78-af3f-ca1a5b14c897"
->
-</ReqRef><ReqRef
- Id="4b2c7641-4724-45e9-ac46-acb185e386b0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="21b9673d-f4b0-4482-b6d3-c5dff9e92190"
->
-</ReqRef><ReqRef
- Id="51578cd7-a50a-46d9-b7a5-11e24eee2f49"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5094fa34-a6ce-437b-9aa9-f45c6cf4929c"
->
-</ReqRef><ReqRef
- Id="b4e8a739-839a-4e55-80ab-4cabb887e47b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4465041e-c387-4430-b633-0c0e741b65ee"
->
-</ReqRef><ReqRef
- Id="e5896680-5ea9-4749-b01e-599ab85abe84"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5349344c-4d0b-4ca3-b3f0-ef2b7d3a431b"
->
-</ReqRef><Comment>Creates an EFSSection from a section received from a balise of RBC (level 1).</Comment>
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.SubStructure1"
- Name="ERTMSSection"
- Guid="41c9e67f-0142-4f8c-bbc7-8380bc60d9fd"
->
-</Parameter><Parameter
- Type="Messages.Q_SCALE"
- Name="Scale"
- Guid="0b75831b-6fa2-4e98-80b8-0b78d1295f41"
->
-</Parameter><Parameter
- Type="BaseTypes.Time"
- Name="SectionStartTimer"
- Guid="7c9adcc0-43e2-4367-9d2a-cb2ce7306602"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="361186d3-3c58-453f-be53-aea46fd7bbe8"
->
-<Expression>Kernel.MA.SectionStruct
-{
-    Length =&gt; MessageTypes.QScaleLength ( length =&gt; ERTMSSection.L_SECTION, scale =&gt; Scale),
-    TimeOut =&gt; CreateSectionTimer(
-        ERTMSSection =&gt; ERTMSSection,
-        SectionStartTimer =&gt; SectionStartTimer,
-        Scale =&gt; Scale
-    )
-}</Expression>
-</Case></Cases>
-</Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.SubStructure1"
  Default=""
- X="250"
- Y="10"
+ X="240"
+ Y="310"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -927,108 +478,10 @@ INITIAL_VALUE TargetStruct{
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="BaseTypes.Distance"
- Default=""
- X="30"
- Y="70"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Verified="TRUE"
- NeedsRequirement="FALSE"
- Name="DangerPointLocation"
- Guid="6b92f0de-4a87-4291-a6a9-248f1326e7e9"
->
-<Comment>Returns the Danger Point location, if any, in the new MA</Comment>
-<Cases>
-<Case
- Name="Danger Point available"
- Guid="f169e84e-11ae-4f9f-b851-937f23e52430"
->
-<PreConditions>
-<PreCondition
- Guid="7efeaf2c-b67d-4232-90aa-091ac69f21f2"
->Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
-<Expression>Kernel.MA.EndOfMA() + Kernel.MA.MA.EndSection.DangerPoint.Distance</Expression>
-</Case><Case
- Name="Danger point not available"
- Guid="c4d696f2-00fb-44bb-9e6e-1eeef034a072"
->
-<Expression>0.0</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Distance"
- Default=""
- X="140"
- Y="70"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Verified="TRUE"
- NeedsRequirement="FALSE"
- Name="OverlapLocation"
- Guid="c6b10ea9-e38f-4c8c-87dc-39e218ace10c"
->
-<Comment>Returns the Overlap location, if any, in the new MA</Comment>
-<Cases>
-<Case
- Name="Overlap available"
- Guid="3bf53b41-9418-4a5c-957b-ab7c691f9f16"
->
-<PreConditions>
-<PreCondition
- Guid="925708df-b37c-401d-8a24-1a988c5dd27b"
->Available ( Kernel.MA.MA.EndSection.Overlap )</PreCondition></PreConditions>
-<Expression>Kernel.MA.EndOfMA() + Kernel.MA.MA.EndSection.Overlap.Distance</Expression>
-</Case><Case
- Name="Overlap not available"
- Guid="f11f62bb-41ff-4755-a94f-be95cf5beea9"
->
-<Expression>0.0</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Length"
- Default=""
- X="250"
- Y="70"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="CurrentSectionLength"
- Guid="ec9777c9-b927-4f35-98c8-6a59a224aac8"
->
-<Comment>Returns the length of the current section (used for distance relocation when a new LRBG is passed).</Comment>
-<Cases>
-<Case
- Name="SectionsAvailable"
- Guid="6a293889-6aa0-41bb-8efa-980636513f25"
->
-<PreConditions>
-<PreCondition
- Guid="fbfb8590-c1b3-499f-ac7e-0ee3010e3001"
->Available ( Kernel.MA.MA )</PreCondition><PreCondition
- Guid="86774d2d-b0d2-450c-b5b2-18a8e71de39b"
->Kernel.MA.MA.Sections != EMPTY</PreCondition></PreConditions>
-<Expression>(FIRST X IN Kernel.MA.MA.Sections).Length</Expression>
-</Case><Case
- Name="EndSection"
- Guid="ad46e6ec-360a-48b9-8b2e-93d340f6a5c5"
->
-<PreConditions>
-<PreCondition
- Guid="e87e2f4b-7885-494e-9e6c-2a02d454fea0"
->Available ( Kernel.MA.MA )</PreCondition></PreConditions>
-<Expression>Kernel.MA.MA.EndSection.Length</Expression>
-</Case></Cases>
-</Function><Function
  Type="BaseTypes.Speed"
  Default=""
- X="30"
- Y="130"
+ X="240"
+ Y="440"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -1133,102 +586,10 @@ INITIAL_VALUE TargetStruct{
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
- Default=""
- X="140"
- Y="130"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="EOASpeedRestriction"
- Guid="74fa2842-40d4-4d71-8890-4cdb2e72bb65"
->
-<ReqRef
- Id="7525f72a-3b46-498c-8c48-1ed3ad888b1a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4db6d01a-bc43-44a3-8dce-1e2bd9a334a6"
->
-</ReqRef><ReqRef
- Id="02854410-9ddb-4b94-993c-b26498a498bf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="68365ea2-8af2-4e3c-b3a5-34c2ae0acf1d"
->
-</ReqRef><ReqRef
- Id="50a11b55-dc19-4427-b0fd-d81384417f79"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="272fbe21-0828-499d-8812-c8e59a9e1cf8"
->
-</ReqRef><ReqRef
- Id="cb22befd-4969-4fdf-9f68-f6b39ec1abe3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2a009b90-46f1-4fd5-a3fb-0c1c2a4a544b"
->
-</ReqRef><ReqRef
- Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2a9303a2-b13b-4eaf-a4bb-222cc6935a64"
->
-</ReqRef><ReqRef
- Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ff8de06c-a0b6-41aa-a1c0-e5c33282eb0e"
->
-</ReqRef><Comment>Provides speed restriction for EOA (if applicable). Used to calculate the SBD curve.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="e97bed42-57ce-407d-94ec-bf6b10d74a88"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="EOA"
- Guid="7c9cf2ee-5868-4b21-85b0-08809d88d4a1"
->
-<PreConditions>
-<PreCondition
- Guid="0b34f057-a897-49ad-8c7c-70b508ae5178"
->Available ( Kernel.MA.MA )</PreCondition><PreCondition
- Guid="2217fe28-281b-4814-8139-79c47dc4b92c"
->Kernel.MA.IsEOA(EOA())</PreCondition><PreCondition
- Guid="bdd0dd49-4e89-48c7-ac0a-a7fabcb2b107"
->Distance &gt;= EOA().Location</PreCondition></PreConditions>
-<Expression>0.0</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="1a14e0bc-fded-4f5f-932e-365d8fe7cf64"
->
-<Expression>BaseTypes.Speed.MaxSpeed</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
  Cacheable="TRUE"
  Default=""
- X="250"
- Y="130"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="EOADefined"
- Guid="29c47ec9-970d-45a3-9828-ffd8555a56b6"
->
-<Comment>Indicates if the end of movement authority is an EOA or a LOA.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="e8cfa57a-9d6e-4848-96dc-49781bb162b5"
->
-<Expression>Available ( Kernel.MA.MA ) AND Kernel.MA.MA.TargetSpeed == 0.0</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Speed"
- Cacheable="TRUE"
- Default=""
- X="30"
- Y="250"
+ X="130"
+ Y="440"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1285,7 +646,7 @@ INITIAL_VALUE TargetStruct{
 <PreConditions>
 <PreCondition
  Guid="61aaf608-32c4-4026-a55c-a9828eaacc69"
->Distance &lt; EOA().Location</PreCondition></PreConditions>
+>Distance &lt; EOA.EOA().Location</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.MaxSpeed</Expression>
 </Case><Case
  Name="After LOA"
@@ -1296,7 +657,7 @@ INITIAL_VALUE TargetStruct{
  Guid="22b40574-308e-4350-b8cc-9b21682fd64e"
 >Kernel.MA.MA.TargetSpeed != 0.0</PreCondition><PreCondition
  Guid="788808e3-5b2d-4dcf-a6ba-96961f01f422"
->EOA().Location &lt;= Distance</PreCondition></PreConditions>
+>EOA.EOA().Location &lt;= Distance</PreCondition></PreConditions>
 <Expression>Kernel.MA.MA.TargetSpeed</Expression>
 </Case><Case
  Name="Otherwise"
@@ -1307,8 +668,8 @@ INITIAL_VALUE TargetStruct{
 </Function><Function
  Type="BaseTypes.Speed"
  Default=""
- X="470"
- Y="130"
+ X="20"
+ Y="370"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1369,268 +730,10 @@ INITIAL_VALUE TargetStruct{
 <Expression>MessageTypes.SpeedResolution ( Speed, 5.0 )</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
- Cacheable="TRUE"
- Default=""
- X="30"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="IsSvL"
- Guid="9ea94bed-895b-412f-8fe7-07424bf7ce80"
->
-<ReqRef
- Id="96719821-5827-4475-bf1c-8200e9c230e4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b504c750-6145-4740-82fc-56b392478824"
->
-</ReqRef><Comment>Indicates if a target is a supervision limit.</Comment>
-<Parameters>
-<Parameter
- Type="TargetStruct"
- Name="aTarget"
- Guid="67dba448-4631-4b0f-8f87-40417ba9fde8"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="d5943e59-55e7-4a4d-85cc-f9ba7ae48a02"
->
-<PreConditions>
-<PreCondition
- Guid="68c98959-5719-4240-adc2-65c6fe2557a9"
->Available( Element =&gt; Kernel.MA.SvL())</PreCondition></PreConditions>
-<Expression>aTarget.Type == TargetTypeEnum.SvL</Expression>
-</Case><Case
- Name="No SvL defined"
- Guid="056f0d64-169b-43ef-91ed-958eba8bc866"
->
-<Expression>False</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Cacheable="TRUE"
- Default=""
- X="140"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="IsEOA"
- Guid="69cecb0a-ba7e-4b67-976e-e176498c9471"
->
-<ReqRef
- Id="96719821-5827-4475-bf1c-8200e9c230e4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f208ef8f-9b2d-44f8-b208-f1db5ea2460c"
->
-</ReqRef><Comment>Indicates if a target is an end of authority.</Comment>
-<Parameters>
-<Parameter
- Type="TargetStruct"
- Name="aTarget"
- Guid="4beac925-e434-459f-bfd5-6120b9bd9bdf"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="EOA defined"
- Guid="36ff1bc9-b2e8-40f8-9dba-2581da012de3"
->
-<PreConditions>
-<PreCondition
- Guid="a7bbbdad-720b-4304-9e62-657988c6fd3f"
->Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Type == TargetTypeEnum.EOA</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="09357f4d-8e1d-4b43-8c43-65824ded4969"
->
-<Expression>False</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="360"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SvL"
- Guid="fca588eb-ce86-4b0e-9bb9-3862a86d1b7d"
->
-<ReqRef
- Id="5fd9abb2-0712-4c70-a573-7668ecb3a103"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="fdedf1f9-8af6-4087-af89-97d0afc363b3"
->
-</ReqRef><ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d0160c1-4d99-42bd-bcfb-d3392fff3dd2"
->
-</ReqRef><ReqRef
- Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="814e716e-9e95-4e83-bdad-952a622b10b4"
->
-</ReqRef><ReqRef
- Id="f7dd0ecc-078c-4434-8d46-4ebb4b1f44f2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3f9caf55-4d11-4e85-a0b3-96f89e0c5d86"
->
-</ReqRef><ReqRef
- Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fdae35fd-66ed-4213-972d-4d4fa173fd1f"
->
-</ReqRef><ReqRef
- Id="dc0bc969-44fc-43da-bc2e-a002f4c15435"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="90aef41c-164a-4d52-bbcb-01f3bfbc5f21"
->
-</ReqRef><ReqRef
- Id="8ab7aafb-d8cf-4c4d-bafc-08a1f658decd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1d4476fa-73ed-408b-a343-c859ac863796"
->
-</ReqRef><ReqRef
- Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2d160eee-83f8-4ffa-9cfe-49642575ae2c"
->
-</ReqRef><ReqRef
- Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0a4050f4-5c34-4cba-9f17-c9c81ddb4c6a"
->
-</ReqRef><ReqRef
- Id="81828a4c-73e2-440d-8353-e050603f323f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="36c29f3f-dcfa-4e5f-8ac8-7bb12ae84336"
->
-</ReqRef><ReqRef
- Id="b8339f99-503e-4b4e-a901-758d69ad1139"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="981ef337-4849-4ca6-8d10-d18e90e32dba"
->
-</ReqRef><ReqRef
- Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="693ed9b4-5e1b-4118-afe4-feebf0feda81"
->
-</ReqRef><ReqRef
- Id="78901f0f-a70f-415d-8d57-e5156f7206d0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c6520627-5bda-4f96-bc18-9c00c01fa3cd"
->
-</ReqRef><Comment>Gives the target corresponding to the Supervision Limit. This is chosen to be the closest target in the SvLs collection</Comment>
-<Cases>
-<Case
- Name="Do not determine the SvL"
- Guid="4e430408-2b95-48a9-93cc-5200954a0f19"
->
-<PreConditions>
-<PreCondition
- Guid="a273465d-bf57-419a-a422-803b1f43f8c7"
->NOT ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition></PreConditions>
-<Expression>EMPTY</Expression>
-</Case><Case
- Name="No SvL"
- Guid="4bdb7a4c-5966-440d-a6da-8633b54baea5"
->
-<PreConditions>
-<PreCondition
- Guid="22e0320c-fbe5-4678-bed0-bd1fc1350ee6"
->NOT Available(MA)</PreCondition></PreConditions>
-<Expression>EMPTY</Expression>
-</Case><Case
- Name="Return the closest SvL"
- Guid="c9018509-c2de-4033-826b-342a2bc196c4"
->
-<Expression>REDUCE SvLCollection()
-    USING X IN ClosestTarget(
-    Target1=&gt;X,
-    Target2=&gt;RESULT
-)
-INITIAL_VALUE SupervisedLocation_EndOfMA()</Expression>
-</Case></Cases>
-</Function><Function
- Type="SectionStruct"
- Default=""
- X="360"
- Y="10"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="ConsiderSectionForInfill"
- Guid="77c23221-fd4d-40bd-9d27-49cf6601b20f"
->
-<ReqRef
- Id="4f9e6037-be46-477d-bbca-3122bd9ad940"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2a3d6b87-9808-4d95-8b3d-079d161344e9"
->
-</ReqRef><ReqRef
- Id="9c420bdc-a561-406b-a479-9d6cbde196a6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="550c0f55-479d-4966-8f64-810ce421a3d8"
->
-</ReqRef><Comment>This function decides if the current section shall be removed when an infill MA is received. There is three possible cases:
- - The section is situated before the infill location, in this case it is kept;
- - The section is situated after the infill location, in this case it is removed;
- - The infill location is situated on the section, in this case the section is cut at the infill location.</Comment>
-<Parameters>
-<Parameter
- Type="SectionStruct"
- Name="aSection"
- Guid="e46ae95a-41f4-40bf-80c2-08e5e7adde30"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="InfillDistance"
- Guid="69faeedf-b0c0-4785-b78e-2e58a659bdbe"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Section before infill distance"
- Guid="89ac38c6-ea08-42d4-870b-6bb755454e01"
->
-<PreConditions>
-<PreCondition
- Guid="446d8d87-a8ca-4443-a6b2-75786ca0a339"
->Kernel.MA.AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance ( aSection.Length ) &lt;= InfillDistance</PreCondition></PreConditions>
-<Expression>aSection</Expression>
-</Case><Case
- Name="Section on infill distance"
- Guid="5be63ab4-2fca-47ef-85d9-85cd1d3fd1f6"
->
-<PreConditions>
-<PreCondition
- Guid="2b237b9f-19a1-4300-b604-e5f799d23204"
->Kernel.MA.AbsoluteDistance ( aSection ) &lt; InfillDistance</PreCondition><PreCondition
- Guid="0b67ce90-36ac-48f6-a81a-77307bf2b355"
->InfillDistance &lt; Kernel.MA.AbsoluteDistance ( aSection ) + BaseTypes.LengthToDistance  ( aSection.Length )</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct
-{
-    Length =&gt; BaseTypes.LengthToDistance ( InfillDistance - AbsoluteDistance ( aSection ) ),
-    TimeOut =&gt; aSection.TimeOut
-}</Expression>
-</Case><Case
- Name="Section after infill distance"
- Guid="293f2c22-0148-4f55-8ed2-5197a5afe514"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
  Type="BaseTypes.Length"
  Default=""
- X="360"
- Y="70"
+ X="20"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1645,7 +748,7 @@ INITIAL_VALUE SupervisedLocation_EndOfMA()</Expression>
 </ReqRef><Comment>Provides the absolute distance (from the LRBG) to the beginning of the given section.</Comment>
 <Parameters>
 <Parameter
- Type="SectionStruct"
+ Type="Sections.SectionStruct"
  Name="aSection"
  Guid="77265b1e-4cf7-4df7-a1d7-5d3621b225c0"
 >
@@ -1664,8 +767,8 @@ USING X IN
 </Function><Function
  Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message"
  Default=""
- X="360"
- Y="130"
+ X="240"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1727,8 +830,8 @@ USING X IN
 </Function><Function
  Type="Boolean"
  Default=""
- X="580"
- Y="70"
+ X="390"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1780,8 +883,8 @@ USING X IN
 </Function><Function
  Type="Boolean"
  Default=""
- X="470"
- Y="70"
+ X="20"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1849,8 +952,8 @@ USING X IN
 </Function><Function
  Type="Boolean"
  Default=""
- X="580"
- Y="10"
+ X="130"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1909,80 +1012,8 @@ USING X IN
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="470"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SectionStartLocation"
- Guid="ee87661a-2b01-46a0-9be2-7aac8b6724c0"
->
-<ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="be688a17-08c2-45ac-860d-4946c45dceb8"
->
-</ReqRef><Comment>Returns the start location of a section of the MA</Comment>
-<Parameters>
-<Parameter
- Type="SectionStruct"
- Name="aSection"
- Guid="c3fe6210-d819-4557-a8c0-2de313092a40"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="65bba70d-e974-4519-b326-f1d8b12a131e"
->
-<Comment>Returns the distance if the section has a time-out</Comment>
-<Expression>BaseTypes.LengthToDistance
-(
-    SUM Kernel.MA.MA.Sections | 
-        Before(
-            ExpectedFirst=&gt;X,
-            ExpectedSecond=&gt;aSection,
-            Collection=&gt;Kernel.MA.MA.Sections
-        )
-    USING X IN X.Length
-)</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Distance"
- Cacheable="TRUE"
- Default=""
- X="250"
- Y="190"
- Width="100"
- Height="50"
- NeedsRequirement="FALSE"
- Name="EndOfMA"
- Guid="f5b47b4a-7787-4424-924d-9691547252f3"
->
-<Comment>Returns the distance to the end of the End Section of the MA</Comment>
-<Cases>
-<Case
- Name="Sections defined"
- Guid="47b85941-c8fc-4e27-ad29-c46207a82db3"
->
-<Comment>The MA has sections</Comment>
-<PreConditions>
-<PreCondition
- Guid="fee6d219-56c8-47c9-b840-bc9541b651d5"
->Available(Kernel.MA.MA.Sections)</PreCondition></PreConditions>
-<Expression>BaseTypes.LengthToDistance ( (SUM Kernel.MA.MA.Sections USING X IN X.Length) + Kernel.MA.MA.EndSection.Length )</Expression>
-</Case><Case
- Name="No sections"
- Guid="da7feeb3-3bc8-4b45-a006-7ffe4b49c1af"
->
-<Comment>There is only an End Section</Comment>
-<Expression>BaseTypes.LengthToDistance(Kernel.MA.MA.EndSection.Length)</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Distance"
- Default=""
- X="580"
- Y="130"
+ X="130"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2009,120 +1040,10 @@ USING X IN
 <Expression>0.0</Expression>
 </Case></Cases>
 </Function><Function
- Type="SectionsCol"
- Default=""
- X="580"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RelocatedSections"
- Guid="d95b4db7-7716-4b40-8a5d-2045455498dc"
->
-<Comment>When the reference location changes (by a certain distance), the sections in the MA need to be recalculated</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="df02a9b9-bdac-465f-a47f-c5af4e50fbe3"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="8c82922c-9f10-4433-adf3-04bd582af2fc"
->
-<Expression>MAP Kernel.MA.MA.Sections | Kernel.MA.IsAfterDistance(X, Distance)
-  USING X IN Kernel.MA.MakeRelocatedSection(X, Distance)</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
- X="800"
+ X="390"
  Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="IsAfterDistance"
- Guid="c845997e-9449-4208-a0c9-3063804c1993"
->
-<Comment>Check that the end of the section is further than the distance</Comment>
-<Parameters>
-<Parameter
- Type="SectionStruct"
- Name="aSection"
- Guid="e9c0973e-2bda-49a4-bd8d-8b25469d6b1d"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="7c259d6c-ba86-4d39-a9fa-403e0cb0db97"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="2d9c3618-569f-4260-b93b-ecd826d333d9"
->
-<Expression>Kernel.MA.SectionStartLocation(aSection) + BaseTypes.LengthToDistance(aSection.Length) &gt; Distance</Expression>
-</Case></Cases>
-</Function><Function
- Type="SectionStruct"
- Default=""
- X="250"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="MakeRelocatedSection"
- Guid="cb565818-cd4f-4c44-a599-87c781003075"
->
-<Comment>Adjusts the length of the section if needed.
-This is used for when a new reference location is received and the MA is relocated to this nex reference location.</Comment>
-<Parameters>
-<Parameter
- Type="SectionStruct"
- Name="aSection"
- Guid="95813a59-766c-4336-830b-b3c083326ab7"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="0d77381d-892c-4be0-b256-adb4bcf4eaf7"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Is the new first section"
- Guid="b5a656f5-558b-4131-a8d6-a61ab01b1d42"
->
-<PreConditions>
-<PreCondition
- Guid="3377ed4c-7c63-4b30-a765-879d60dee192"
->Kernel.MA.SectionStartLocation(aSection) &lt; Distance</PreCondition><PreCondition
- Guid="ec823700-cb99-43ab-9553-ef7bd611d85a"
->Kernel.MA.IsAfterDistance(
-    aSection=&gt;aSection,
-    Distance=&gt;Distance
-)</PreCondition></PreConditions>
-<Expression>Kernel.MA.SectionStruct{
-    Length =&gt; aSection.Length - BaseTypes.DistanceToLength ( Distance - SectionStartLocation(aSection) ),
-    TimeOut =&gt; aSection.TimeOut
-}</Expression>
-</Case><Case
- Name="Is another section"
- Guid="f1575324-1ceb-4946-b4cf-227f99c0b679"
->
-<Expression>aSection</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="360"
- Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2181,709 +1102,10 @@ BaseTypes.LengthToDistance ( aDistanceInterval )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case></Cases>
 </Function><Function
- Type="BaseTypes.Speed"
- Cacheable="TRUE"
- Default=""
- X="140"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="SvLSpeedRestriction"
- Guid="c09b13a8-c006-4b38-9a2d-79bba2d6cf2b"
->
-<Comment>Provides a speed restriction based on the SvL</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="4c792cc1-644f-4b5e-8e8d-29956e2100c7"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="After SvL"
- Guid="cb600d40-75cb-4d27-b606-668e047c32b3"
->
-<PreConditions>
-<PreCondition
- Guid="daa2477a-ebf3-4dee-84db-6c860705b267"
->Distance &gt;= Kernel.MA.SvL().Location</PreCondition></PreConditions>
-<Expression>0.0</Expression>
-</Case><Case
- Name="Before SvL"
- Guid="68888f36-e2f9-4b64-802f-0722fcc4b5d1"
->
-<Expression>BaseTypes.Speed.MaxSpeed</Expression>
-</Case></Cases>
-</Function><Function
- Type="BaseTypes.Speed"
- Default=""
- X="140"
- Y="130"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="LOASpeedRestriction"
- Guid="f8d65fdd-3afd-492f-9f55-4af8e59fecc3"
->
-<ReqRef
- Id="02854410-9ddb-4b94-993c-b26498a498bf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e04d9a9e-0d18-409b-87e3-f1ca2620389e"
->
-</ReqRef><ReqRef
- Id="50a11b55-dc19-4427-b0fd-d81384417f79"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="96a3bca1-6ecd-4d61-8706-67a3d66d6a26"
->
-</ReqRef><ReqRef
- Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="933188c2-7c75-43a7-a8c6-1d2c937986f1"
->
-</ReqRef><ReqRef
- Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dd0bf05b-6f95-4460-8a61-f123dceb6683"
->
-</ReqRef><ReqRef
- Id="68cdb140-3c4e-4bdc-a122-88e2b2e22f7f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="00d30d77-a133-44be-b5a0-f35f87f8af8a"
->
-</ReqRef><ReqRef
- Id="690e9583-3caf-46eb-b721-bed7b3d89e9b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="29e08cbd-8992-40e8-8b49-4aab7ab0f615"
->
-</ReqRef><ReqRef
- Id="78901f0f-a70f-415d-8d57-e5156f7206d0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e5983474-9558-4e0f-8d86-6d274a8405c9"
->
-</ReqRef><Comment>Provides speed restriction for LOA (if applicable). Used to calculate the EBD curve.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="fe1464ab-2dd1-4b82-892a-1babef5b709a"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="After LOA"
- Guid="75a8de46-ee96-4000-8644-e07c0f7dec29"
->
-<PreConditions>
-<PreCondition
- Guid="fdc562b4-07a4-40ae-852f-6ac0cbb391bb"
->Available ( Kernel.MA.MA )</PreCondition><PreCondition
- Guid="599c9a06-029b-4811-8241-f713c12788ef"
->NOT Kernel.MA.IsEOA(EOA())</PreCondition><PreCondition
- Guid="6def6bec-cefd-4905-8d23-2e603f44aef8"
->Distance &gt;= EOA().Location</PreCondition></PreConditions>
-<Expression>Kernel.MA.MA.TargetSpeed</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="32220be7-920f-4a7c-94c9-0ab813a228a6"
->
-<Expression>BaseTypes.Speed.MaxSpeed</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="690"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="IsLOA"
- Guid="b8adb55b-bb40-458d-90f3-46b0bbab0e06"
->
-<ReqRef
- Id="96719821-5827-4475-bf1c-8200e9c230e4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="75190a4e-76da-466e-afc1-c6abf2bccab7"
->
-</ReqRef><Comment>Indicates whether the target is the Limit of Authority.</Comment>
-<Parameters>
-<Parameter
- Type="TargetStruct"
- Name="aTarget"
- Guid="cd7e9cbb-0024-403b-a312-bc5116041a87"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="LOA defined"
- Guid="73958804-b23c-46f7-a0c4-5b82a8fcbb5e"
->
-<PreConditions>
-<PreCondition
- Guid="668d5eea-df0b-4924-a0e6-00866076b288"
->Kernel.MA.MA.TargetSpeed != 0.0</PreCondition></PreConditions>
-<Expression>aTarget.Type == TargetTypeEnum.LOA</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="0d85991e-96d7-4f30-8df5-ac99ec296c1c"
->
-<Expression>False</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="690"
- Y="70"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SupervisedLocation_EndOfMA"
- Guid="881f5966-b28f-429c-8385-e3a61a71266f"
->
-<ReqRef
- Id="dc0bc969-44fc-43da-bc2e-a002f4c15435"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6525902c-f669-406e-a1db-a855bb7b3d57"
->
-</ReqRef><ReqRef
- Id="86d7ebf1-9563-46b7-aa16-3438b5748a12"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3fea6049-92d3-4e46-8532-e5715185b2d9"
->
-</ReqRef><ReqRef
- Id="4ef17641-9a1d-4bc2-8486-61f1ccefa8b7"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7eb218b2-d900-4732-b62c-988f1e1c2040"
->
-</ReqRef><ReqRef
- Id="0ea37cf1-0784-4056-93b3-f14f8d6a586b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8083df23-3111-45aa-ad44-a79782461603"
->
-</ReqRef><ReqRef
- Id="8ab7aafb-d8cf-4c4d-bafc-08a1f658decd"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c57ae58f-0efb-4c87-ae0f-21a3e750be43"
->
-</ReqRef><Comment>Provides the supervised location linked to the end of the MA.</Comment>
-<Cases>
-<Case
- Name="End of MA is LOA"
- Guid="c9432d1b-9417-421a-a90f-90f0e9bcbc51"
->
-<PreConditions>
-<PreCondition
- Guid="e3eaae0a-7486-4ca3-a0ac-a0228ff74c2d"
->NOT Available(MA)
-  OR  
-MA.TargetSpeed &gt; 0.0</PreCondition></PreConditions>
-<Expression>EMPTY</Expression>
-</Case><Case
- Name="Overlap"
- Guid="3e22437f-8b5b-4840-993a-a1e2ea8091dd"
->
-<PreConditions>
-<PreCondition
- Guid="fdcb47e2-3bac-46ca-bb70-9c121f5d362f"
->Available(MA.EndSection.Overlap)</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; OverlapLocation(),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.SvL
-}</Expression>
-</Case><Case
- Name="Danger point"
- Guid="2109c193-ab09-4b9f-b0ce-b68e0c297469"
->
-<PreConditions>
-<PreCondition
- Guid="9a0b66c5-3a7d-478a-bbd2-0d4a4742db14"
->Available(MA.EndSection.DangerPoint)</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; DangerPointLocation(),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.SvL
-}</Expression>
-</Case><Case
- Name="End of MA"
- Guid="460c59a6-8eae-4eed-8072-cdeaf9c8624b"
->
-<Expression>TargetStruct{
-    Location =&gt; EOA().Location,
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.SvL
-}</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="690"
- Y="130"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SupervisedLocation_TimedOutSection"
- Guid="93f877ae-923c-4dad-bf19-dcd6f5b2e9ce"
->
-<ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="405e9d6c-7147-4e1f-b707-62831f5335f9"
->
-</ReqRef><ReqRef
- Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="817359e1-2fca-42a3-b337-867cf16dad15"
->
-</ReqRef><Comment>Provides the supervised location linked to the time out of a section timer.</Comment>
-<Cases>
-<Case
- Name="Timed out section"
- Guid="923c0a84-3048-41fa-b633-47f1eb950bfd"
->
-<PreConditions>
-<PreCondition
- Guid="b63b232b-8a2e-423e-8e74-569777cb27f2"
->Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; Kernel.MA.MATimers.TimeOutSectionStart(),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.SvL
-}</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="84b25762-3bf8-4b3e-b677-8db4dff706ec"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="800"
- Y="130"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SupervisedLocation_TrainFrontEnd"
- Guid="18a5b603-9660-4f4d-a56e-bf32c6696dcc"
->
-<ReqRef
- Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="581886a2-d77c-4d61-b6c4-50aaf7c97516"
->
-</ReqRef><Comment>Provides the supervised location linked to the train front end in the case of a MA shortening.</Comment>
-<Cases>
-<Case
- Name="Consider front end of train as SvL"
- Guid="d015987e-33a4-418f-abf1-1d188ac3537e"
->
-<PreConditions>
-<PreCondition
- Guid="089816d0-4828-45ea-809d-ffcb4adea3b0"
->Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.SvL
-}</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="b5110435-2219-4d9b-ac97-291af4a3d29b"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
- Type="Default.TargetsCol"
- Default=""
- X="800"
- Y="10"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="SvLCollection"
- Guid="1abe99a6-cb3e-4235-ba57-1902e2bf9d89"
->
-<ReqRef
- Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="504a34af-338f-4f0f-a550-b9c1e614a540"
->
-</ReqRef><ReqRef
- Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="45b51600-f687-4ee1-b0db-e15d2a1cd6f7"
->
-</ReqRef><ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9467b595-4903-4e66-88ef-cd4f2d8e2b6f"
->
-</ReqRef><ReqRef
- Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f06b315f-cca6-4690-a04e-aea6d84f20fa"
->
-</ReqRef><ReqRef
- Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bf34e35c-eaaf-41ef-bfda-b89d46c999ab"
->
-</ReqRef><ReqRef
- Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="28042472-7d16-4a45-9032-d97af721a4a1"
->
-</ReqRef><ReqRef
- Id="81828a4c-73e2-440d-8353-e050603f323f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f63e85ce-3736-433f-9626-71056315548d"
->
-</ReqRef><Comment>Finds all possible locations on the track that could be the SvL for the following reasons:
-  - Route unsuitability
-  - Accepted conditional emergency brake command
-  - Mode profile start
-  - Unprotected level crossing
-  - Timed out section
-  - MA shortening causing the front of the train to be considered EOA.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="97f7e6f9-451b-42ca-8dec-b75f82d7388d"
->
-<Expression>[
-  TrackDescription.RouteSuitability.SvL(),
-  ModeProfile.SvL(),
-  SupervisedLocation_TimedOutSection(),
-  LX.SvL(),
-  SupervisedLocation_TrainFrontEnd(),
-  BrakeCommands.SvL()
-]</Expression>
-</Case></Cases>
-</Function><Function
- Type="Default.TargetsCol"
- Default=""
- X="800"
- Y="70"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="EOACollection"
- Guid="0edf6742-0ed1-4470-9d88-f4f01ae75884"
->
-<ReqRef
- Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="da799bdd-efea-42b5-8760-d4d30c006e64"
->
-</ReqRef><ReqRef
- Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2776db82-0856-4315-94b8-7c500f161fda"
->
-</ReqRef><ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2dc49495-0a18-4d48-abe2-1185ebda8a8a"
->
-</ReqRef><ReqRef
- Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="46589119-74c6-4a94-a9e8-1c13611c3dc9"
->
-</ReqRef><ReqRef
- Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8977523e-1c6c-4bc7-b5ee-6540ae677e95"
->
-</ReqRef><ReqRef
- Id="d2ff8626-b129-41d0-afab-85c0e9977832"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4e3ad2fa-c17e-43df-93a9-39a4c1d8d8a3"
->
-</ReqRef><ReqRef
- Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f26844f3-cdb5-4d03-b518-17a76f13497e"
->
-</ReqRef><ReqRef
- Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="50baa1c2-8992-4880-8611-47c8b7781309"
->
-</ReqRef><ReqRef
- Id="81828a4c-73e2-440d-8353-e050603f323f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0828810a-ee4d-43f3-a339-7dc087ffab02"
->
-</ReqRef><Comment>Finds all possible locations on the track that could be the EOA for the following reasons:
-  - Route unsuitability
-  - Accepted conditional emergency brake command
-  - Mode profile start
-  - Unprotected level crossing
-  - Timed out (end) section
-  - End of the movement authority
-  - MA shortening causing the front of the train to be considered EOA
-  - Override supervision.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="48ca4345-45bb-4d8f-875a-5a5823070df5"
->
-<Expression>[
-  Kernel.TrackDescription.RouteSuitability.EOA(),
-  BrakeCommands.EOA(),
-  Kernel.MA.ModeProfile.EOA(),
-  LX.EOA(),
-  EndOfAuthority_TimedOutSection(),
-  EndOfAuthority_EndSectionTimeOut(),
-  EndOfAuthority_EndOfMA(),
-  EndOfAuthority_TrainFrontEnd()
-]</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="470"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="EndOfAuthority_TimedOutSection"
- Guid="f3f4c053-f166-4520-8649-bdb2e13b26e0"
->
-<ReqRef
- Id="8298df3a-f507-437d-a5de-ceceaeedbead"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="656f1da8-0d88-44cb-a09d-ab090707f283"
->
-</ReqRef><ReqRef
- Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4c297fc0-641e-4477-a355-9633298abdd8"
->
-</ReqRef><Comment>Provides the end of authority linked to the time out of a section timer.</Comment>
-<Cases>
-<Case
- Name="Timed out section"
- Guid="b6d4499f-e2d6-451f-862a-60ca6b8b8b82"
->
-<PreConditions>
-<PreCondition
- Guid="e661ac41-d678-4806-b290-3a249f6360fe"
->Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; MATimers.TimeOutSectionStart(),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.EOA
-}</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="74e0c0d1-022a-445c-a8f7-8f3af66917d5"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="690"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="EndOfAuthority_EndSectionTimeOut"
- Guid="dadcf150-7ff0-4993-aec8-bca9d8641009"
->
-<ReqRef
- Id="7e423212-aebc-4610-85f4-e4a25b5e05c4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="dcedc217-a420-49e0-ad89-de0750b0e8f8"
->
-</ReqRef><ReqRef
- Id="f628074f-59c1-494b-b268-4ca4bf339038"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6ca8270c-1996-448e-a029-ac8482bb4da2"
->
-</ReqRef><ReqRef
- Id="c6215fef-5d78-4d0c-bab4-b041b7e0c571"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6671a517-f773-4549-8efd-a8c03f0637f6"
->
-</ReqRef><Comment>Provides the end of authority linked to a time out of the end section timer.</Comment>
-<Cases>
-<Case
- Name="End Section timed out"
- Guid="a96e8b22-a082-48f6-a808-f83d49dc1aa8"
->
-<PreConditions>
-<PreCondition
- Guid="9d31adfc-d1df-44ba-9fe6-2d5ee2420dd2"
->Available(MA)
-  AND  
-Available(MA.EndSection.EndSectionTimeOut)
-  AND  
-Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
-  AND  
-(Kernel.DateAndTime.CurrentTime &gt; Kernel.MA.MATimers.EndSectionTimerStart + Kernel.MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Nom),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.EOA
-}</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="f205bb95-fd7e-4e44-909f-5d558a1be7ea"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="580"
- Y="250"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="EndOfAuthority_EndOfMA"
- Guid="54ada1d0-de04-4959-bc5e-d5fddb3323fa"
->
-<ReqRef
- Id="e0b44a69-1080-47e9-80b7-b635996f4239"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4fd8bb3a-5129-4b2e-8a40-10f8c712eeec"
->
-</ReqRef><ReqRef
- Id="173067d8-3484-4ec9-81e4-7275c3374764"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="570ec2b4-0365-4b7e-a9d7-f7582fb79879"
->
-</ReqRef><Comment>Provides the end of authority at the end of the movement authority.</Comment>
-<Cases>
-<Case
- Name="EOA"
- Guid="4f0b25fe-2cb7-4a9e-ac8d-d32bef2c5a73"
->
-<PreConditions>
-<PreCondition
- Guid="3674cffc-c437-4fcc-bf23-aff74ac24194"
->MA.TargetSpeed == 0.0</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; EndOfMA(),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.EOA
-}</Expression>
-</Case><Case
- Name="LOA"
- Guid="cfb41f38-fe3d-4f61-840a-2001b82d1696"
->
-<Expression>TargetStruct{
-    Location =&gt; EndOfMA(),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; MA.TargetSpeed,
-    Type =&gt; TargetTypeEnum.LOA
-}</Expression>
-</Case></Cases>
-</Function><Function
- Type="TargetStruct"
- Default=""
- X="690"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="EndOfAuthority_TrainFrontEnd"
- Guid="2fd1386c-bd63-485d-80ae-7a7bfb86cad4"
->
-<ReqRef
- Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="51961518-3917-4bc1-a215-290648b95dd0"
->
-</ReqRef><Comment>Retruns the</Comment>
-<Cases>
-<Case
- Name="Consider front end of train as EOA"
- Guid="2c0832e7-7159-4ec8-be59-191e406f9da3"
->
-<PreConditions>
-<PreCondition
- Guid="be419057-d7be-458d-a75e-c5be7603cd33"
->Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
-<Expression>TargetStruct{
-    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom),
-    Length =&gt; BaseTypes.Length.Infinity,
-    Speed =&gt; 0.0,
-    Type =&gt; TargetTypeEnum.EOA
-}</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="dcdb552a-a715-4d98-b1af-5139d6d5bed5"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
- Type="MATimers.TimeOutStruct"
- Default=""
- X="470"
- Y="10"
- Width="100"
- Height="50"
- Name="CreateSectionTimer"
- Guid="81cfab67-e1fe-4b2b-91e3-4c599aa30401"
->
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.SubStructure1"
- Name="ERTMSSection"
- Guid="bc1d8ded-ed4b-48b5-bd50-3163f572d1d6"
->
-</Parameter><Parameter
- Type="BaseTypes.Time"
- Name="SectionStartTimer"
- Guid="7df26278-4191-4555-a2c7-e3c3ada72102"
->
-</Parameter><Parameter
- Type="Messages.Q_SCALE"
- Name="Scale"
- Guid="e7dd4072-4c34-4a1c-b3f3-f2207b0e8006"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Time out available"
- Guid="808777f7-2046-49cd-b2ec-7e1d9cc033c8"
->
-<PreConditions>
-<PreCondition
- Guid="0a772204-e922-463b-8a9a-6a03d5ca620b"
->ERTMSSection.Q_SECTIONTIMER == Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow</PreCondition></PreConditions>
-<Expression>MATimers.TimeOutStruct{
-    Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; ERTMSSection.D_SECTIONTIMERSTOPLOC, scale =&gt; Scale ),
-    TimeOut =&gt; BaseTypes.Time ( ERTMSSection.T_SECTIONTIMER ),
-    TimerStart =&gt; SectionStartTimer
-}</Expression>
-</Case><Case
- Name="No time out"
- Guid="4b352cc9-f274-4f38-92e1-fc7de00f6894"
->
-<Expression>EMPTY</Expression>
-</Case></Cases>
-</Function><Function
  Type="SignallingRelatedSRStruct"
  Default=""
- X="0"
- Y="0"
+ X="20"
+ Y="440"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -2926,8 +1148,8 @@ an MA packet.</Comment>
 </Function></Functions>
 <Procedures>
 <Procedure
- X="860"
- Y="390"
+ X="510"
+ Y="440"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3079,8 +1301,8 @@ Kernel.MA.UpdateMA
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="860"
- Y="510"
+ X="510"
+ Y="380"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3314,8 +1536,8 @@ Kernel.MA.MATimers.LOATimerStart &lt;- Kernel.MA.MATimers.CurrentBGTimeOfPassage
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="970"
- Y="510"
+ X="750"
+ Y="380"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -3428,13 +1650,13 @@ The information about the type of supervised target (SvL or LOA) is also stored,
  Guid="51bdba26-9465-413b-af5e-004242826ec0"
 >Available ( Kernel.MA.MA )
   AND  
-Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
+SvL.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0dab86fc-3cea-42d4-a180-592e92f08cc4"
 >Kernel.MA.ShorteningHandler &lt;- Kernel.MA.MaShorteningHandlerStruct
 {
-    Location =&gt; SvL().Location,
+    Location =&gt; SvL.SvL().Location,
     IsSvL =&gt; True
 }</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3586,7 +1808,7 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="72e4e499-b2a3-4def-8b72-ed0903b42191"
->Kernel.MA.UpdateSectionsForInfill
+>Sections.UpdateSectionsForInfill
 (
     InfillDistance =&gt; aDistanceFromRef,
     Packet =&gt; Packet,
@@ -3602,66 +1824,23 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="fb4606fa-75a1-4722-8be7-4e6c01c72743"
 >
-</ReqRef><Comment>Update sections with regular MA information</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="UpdateINTERNAL"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update sections"
- Guid="27032af7-e786-4520-9d83-9853f7d57eaa"
->
-<ReqRef
+</ReqRef><ReqRef
  Id="cfc4df94-c1ee-4d42-b8ab-44f37ef4a6ba"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="66f6ef21-15cd-4902-b515-d6c89ad1612c"
+ Guid="fd8b0853-9b17-4072-8224-6a1900b7191d"
 >
 </ReqRef><ReqRef
  Id="173067d8-3484-4ec9-81e4-7275c3374764"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fe502f9a-5032-42c4-bce3-ad6b48627296"
+ Guid="8dbbf261-4c4f-4a3a-b3a6-e1a04b1bb2dd"
 >
-</ReqRef><Comment>Replace the current sections with the ones received in Packet</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="SectionsAvailable"
- Guid="b8133cb8-fdf2-4828-9dc8-40dd276f41d9"
->
-<Comment>The packet contains MA sections, map them to MA.Sections</Comment>
+</ReqRef><Comment>Update sections with regular MA information</Comment>
 <PreConditions>
-<PreCondition
- Guid="d4ede40b-9fe9-4e43-970d-e6c57675d9b3"
->Packet.N_ITER != 0</PreCondition></PreConditions>
+</PreConditions>
 <Actions>
 <Action
  Guid="12b90b2e-7d29-48ba-9284-89ff10da7e8f"
->BuildSections(Packet =&gt; Packet , aDistanceFromRef =&gt; aDistanceFromRef, SectionStartTimer =&gt; SectionStartTimer)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="SectionsNotAvailable"
- Guid="a5cc82f2-6a55-4b71-a4bd-db31ffda3b10"
->
-<Comment>The packet only contains an End Section, MA.Sections is empty</Comment>
-<PreConditions>
-<PreCondition
- Guid="90fa6c72-b1aa-4f87-899e-c0ff98eac4f5"
->Packet.N_ITER == 0</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="abac060f-6a4c-4704-a40e-f0ec2245ca72"
->Kernel.MA.MA.Sections &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
+>Sections.BuildSections(Packet =&gt; Packet , aDistanceFromRef =&gt; aDistanceFromRef, SectionStartTimer =&gt; SectionStartTimer)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -3705,7 +1884,12 @@ Kernel.MA.SvL() != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="9925cd9d-52d7-44fd-99e6-fb6ca1dd0635"
->Kernel.MA.MA.EndSection.Length &lt;- MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE )</Action></Actions>
+>Kernel.MA.MA.EndSection.Length &lt;- Sections.EndSectionLengthFromPacket(
+    aEndSectionLength =&gt; MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE ),
+    aDistanceFromRef =&gt; aDistanceFromRef ,
+    aPacketSectionsLength =&gt; MessageTypes.QScaleLength( length =&gt; SUM Packet.Sequence1 USING X IN X.L_SECTION, scale =&gt; Packet.Q_SCALE),
+    aMASectionsLength =&gt; SUM MA.Sections USING X IN X.Length
+)</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -3991,7 +2175,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="97964995-0ab1-4bb4-93bc-94059d238ec4"
->Kernel.MA.MA.EndSection.DangerPoint &lt;- Kernel.MA.DangerPointStruct
+>Kernel.MA.MA.EndSection.DangerPoint &lt;- SvL.DangerPointStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_DP, scale =&gt; Packet.Q_SCALE ),
     ReleaseSpeed =&gt; CreateReleaseSpeed ( Packet.V_RELEASEDP )
@@ -4078,7 +2262,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="1c3b0bf9-cffa-411d-98f9-5d356a986aa2"
->Kernel.MA.MA.EndSection.Overlap &lt;- Kernel.MA.OverlapStruct
+>Kernel.MA.MA.EndSection.Overlap &lt;- SvL.OverlapStruct
 {
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_OL, scale =&gt; Packet.Q_SCALE ),
     ReleaseSpeed =&gt; CreateReleaseSpeed ( Packet.V_RELEASEOL ),
@@ -4168,7 +2352,7 @@ In this case, the EOA should be moved to the train&apos;s current position with 
   AND
 NOT Kernel.MA.ShorteningHandler.IsSvL</PreCondition><PreCondition
  Guid="3bfa1c71-713d-4451-aa50-f311d4f37d5a"
->Available(SvL())</PreCondition></PreConditions>
+>Available(SvL.SvL())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="56a0218a-5e6a-46da-94f5-1773ffcbf281"
@@ -4191,9 +2375,9 @@ NOT Kernel.MA.ShorteningHandler.IsSvL</PreCondition><PreCondition
   AND  
 Kernel.MA.ShorteningHandler.IsSvL</PreCondition><PreCondition
  Guid="f1bbf99a-028e-410b-9fa3-ef08aee2ecb4"
->Available( Kernel.MA.SvL() )
+>Available( SvL.SvL() )
   AND  
-Kernel.MA.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition></PreConditions>
+SvL.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c5a9f8e6-962f-4e24-9a60-4e8aa640da0c"
@@ -4201,179 +2385,8 @@ Kernel.MA.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="970"
- Y="390"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="UpdateSectionsForInfill"
- Guid="25c8f1ca-83e1-4f0d-a2db-7fff0e0f0bb3"
->
-<ReqRef
- Id="9c420bdc-a561-406b-a479-9d6cbde196a6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="7644767a-490e-426e-ac8a-c902d9572d14"
->
-</ReqRef><ReqRef
- Id="d9235eb8-4b37-4376-98fc-a488932db020"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ce66dd99-871f-4658-938e-e02a64d3c4b9"
->
-</ReqRef><ReqRef
- Id="aab59034-edf0-405a-be36-77d7bb4b775a"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f73af415-0314-4a46-8ef8-0d11bfd214ed"
->
-</ReqRef><ReqRef
- Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4c1f06a2-de73-4dd2-83ae-8f00affe359e"
->
-</ReqRef><Comment>This function updates the MA&apos;s sections when an infill MA is received. The following steps are executed:
- - The end section of the previous MA is inserted to the list of the sections;
- - All sections situated after the infill locations are removed (if the infill location is situated in the middle of one of sections, the section is cut at that point);
- - The sections of the infill MA are insterted after the sections of the previous MA.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="InfillDistance"
- Guid="ecde444b-9c8f-441f-b151-190bf4fc52c5"
->
-</Parameter><Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message"
- Name="Packet"
- Guid="eb63bd74-8ab7-4816-a6c2-7f9d9679f8fd"
->
-</Parameter><Parameter
- Type="BaseTypes.Time"
- Name="SectionStartTimer"
- Guid="de8e380d-d4cf-4e28-b3f5-b58648426ca6"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Remove information beyond the infill location"
- Guid="01a20fc7-41d9-4841-b6ab-a349a1d6e470"
->
-<Comment>Merges the end section to the list of the sections and removes the information beyond the infill location.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove information beyond the infill location"
- Guid="3e9280b5-b803-49f0-8c49-f9ef0cd56c1f"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="74a98c79-486c-4f1d-91bc-bcb8e1c6a53e"
->Kernel.MA.CutSections( aLocation =&gt; InfillDistance )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Insert new sections"
- Guid="cc275007-a24c-4052-b8a4-9889e1de0b08"
->
-<Comment>Adds the infill sections to the list of sections.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Insert new sections"
- Guid="ea3fb038-4a0b-46a0-932d-633093c19c71"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="1b412fd4-760c-48a0-b2de-253d03b01b87"
->APPLY Kernel.MA.ExtendSections
-(
-    aSection =&gt; X,
-    Scale =&gt; Packet.Q_SCALE,
-    SectionStartTimer =&gt; SectionStartTimer
-)
-  ON
-Packet.Sequence1</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="970"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="ExtendSections"
- Guid="29055212-109d-4980-9bb9-baf42f12e148"
->
-<ReqRef
- Id="4b2c7641-4724-45e9-ac46-acb185e386b0"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="84cd2f51-3416-4f6e-9ff1-37130af463d1"
->
-</ReqRef><Comment>Adds a MA section from the received movement authority to MA.Sections.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.SubStructure1"
- Name="aSection"
- Guid="36246957-5ff9-4d24-b41b-7e1cdcca5e0c"
->
-</Parameter><Parameter
- Type="Messages.Q_SCALE"
- Name="Scale"
- Guid="d9585381-876e-43a5-83aa-7091db273836"
->
-</Parameter><Parameter
- Type="BaseTypes.Time"
- Name="SectionStartTimer"
- Guid="38e11100-e282-4d18-b010-621073c43a6a"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add new section"
- Guid="ec3aa99d-2f55-4432-8995-772a4330e915"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add new section"
- Guid="6d83e799-2e61-46a1-a8d2-2c9bf71c213c"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="ce0beff9-e9af-4007-a828-33f30bece57b"
->INSERT
-  Kernel.MA.CreateEFSSection
-  (
-    ERTMSSection =&gt; aSection,
-    Scale =&gt; Scale,
-    SectionStartTimer =&gt; SectionStartTimer
-   )
-IN
-  Kernel.MA.MA.Sections</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="860"
- Y="330"
+ X="630"
+ Y="440"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -4463,8 +2476,8 @@ IN
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="970"
- Y="450"
+ X="630"
+ Y="380"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -4483,6 +2496,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Update end section length"
@@ -4506,6 +2521,8 @@ IN
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Remove previous sections"
@@ -4529,100 +2546,8 @@ IN
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="860"
- Y="450"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="CutSections"
- Guid="0a4927bf-a427-4379-9250-1f0fbfc7dcb1"
->
-<ReqRef
- Id="9c420bdc-a561-406b-a479-9d6cbde196a6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e9002275-a0b0-4033-a673-00ab84e51d81"
->
-</ReqRef><ReqRef
- Id="bd3f7106-e2c1-465f-be7e-f47543c5f94b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3df92029-0f59-4084-80d9-8130c25fb96a"
->
-</ReqRef><Comment>Merges the end section with the list of the other sections and removes the end section. Then the information beyond the location provided as parameter is removed. Used when the MA has to be &quot;cut&quot;.</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="aLocation"
- Guid="a7ec0330-6af2-49f4-bfed-ed0c514bfbbc"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add end section to the list of sections"
- Guid="f9af134c-8397-4b23-b84b-c1ccaef19ccd"
->
-<Comment>The end section, if non empty, is added to the list of sections: that allows the automatic handling of all the sections.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add end section to the list of sections"
- Guid="69aefd4b-eae4-47dc-8675-b500ce866345"
->
-<PreConditions>
-<PreCondition
- Guid="a88bffd1-d674-4e7c-b290-12f6021f1d4d"
->Kernel.MA.MA.EndSection.Length &gt; 0.0</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7fb541c1-0d75-45be-a1ef-915b09be7db9"
->INSERT
-Kernel.MA.SectionStruct
-{
-    Length =&gt; MA.EndSection.Length,
-    TimeOut =&gt; MA.EndSection.TimeOut
-}
-IN Kernel.MA.MA.Sections</Action><Action
- Guid="d87b351f-4257-4111-be61-37a790c1dc3b"
->Kernel.MA.MA.EndSection &lt;- Kernel.MA.EndSectionStruct
-{
-  Length =&gt; 0.0
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove sections after infill location"
- Guid="4429c072-6f72-4d1d-887d-5af30552b900"
->
-<Comment>The sections after the infill location are removed (will be replaced by the information from the infill MA).</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove sections after infill location"
- Guid="c6fa7ae4-6313-4793-9c4f-af7d118498a4"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="49f9d3f5-f1b1-4fee-978d-f4804215903f"
->Kernel.MA.MA.Sections &lt;- MAP Kernel.MA.MA.Sections USING X IN Kernel.MA.ConsiderSectionForInfill ( aSection =&gt; X, InfillDistance =&gt; aLocation )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="860"
- Y="570"
+ X="390"
+ Y="380"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -4663,6 +2588,8 @@ IN Kernel.MA.MA.Sections</Action><Action
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove the information beyond the provided location"
  Guid="b54fc61b-5aaa-42f9-8216-24c644f5d062"
@@ -4680,10 +2607,12 @@ IN Kernel.MA.MA.Sections</Action><Action
 <Actions>
 <Action
  Guid="17d95ffc-9842-42a9-833f-8fa10e789cca"
->Kernel.MA.CutSections( aLocation =&gt; aLocation )</Action></Actions>
+>Sections.CutSections( aLocation =&gt; aLocation )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Compute new end section"
  Guid="edc9bda6-4789-4bd7-af11-4106f57d5b52"
@@ -4710,6 +2639,8 @@ IN Kernel.MA.MA.Sections</Action><Action
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove last section"
  Guid="43e7c687-bea2-4715-82ef-a6465a2f42c0"
@@ -4733,90 +2664,8 @@ IN Kernel.MA.MA.Sections</Action><Action
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="970"
- Y="570"
- Width="100"
- Height="50"
- Name="BuildSections"
- Guid="61564c7a-c255-4f7f-afee-b1727d10c7d3"
->
-<Parameters>
-<Parameter
- Type="Messages.PACKET.TRACK_TO_TRAIN.LEVEL_1_MOVEMENT_AUTHORITY.Message"
- Name="Packet"
- Guid="ff5172d9-4248-46ae-8ac3-eb9d2e9476e8"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aDistanceFromRef"
- Guid="3caf5071-f2f9-4a07-9104-52d25de0f99d"
->
-</Parameter><Parameter
- Type="BaseTypes.Time"
- Name="SectionStartTimer"
- Guid="7e2afbac-74d8-4b7a-ab08-b9154adbe6d5"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Name="Build the first section"
- Guid="d790284d-740c-4d6a-bfce-b1dd425d4389"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="Build the first section"
- Guid="21f2432e-29a7-4af0-b05d-54181995d2e9"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="0528c758-2f01-4522-bc68-dd8a85068b50"
->Kernel.MA.MA.Sections &lt;- [
-Kernel.MA.SectionStruct{
-    Length =&gt; aDistanceFromRef + MessageTypes.QScaleLength ( length =&gt; (FIRST X IN Packet.Sequence1).L_SECTION, scale =&gt; Packet.Q_SCALE),
-    TimeOut =&gt; CreateSectionTimer(
-        ERTMSSection =&gt; FIRST X IN Packet.Sequence1,
-        SectionStartTimer =&gt; SectionStartTimer,
-        Scale =&gt; Packet.Q_SCALE
-    )
-}]</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Name="Store the following sections"
- Guid="a7f631a8-389b-452e-8fca-395fd8d482b5"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Name="Store the following sections"
- Guid="fbe4de01-feec-4e37-97fb-9ffcd02eeea4"
->
-<PreConditions>
-<PreCondition
- Guid="8d1951b4-b82e-4d68-a4ea-e63308d59589"
->COUNT X IN Packet.Sequence1 &gt; 1</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5c847fe1-76b8-4971-a64b-919b3337b061"
->Kernel.MA.MA.Sections &lt;- Kernel.MA.MA.Sections + MAP Packet.Sequence1 | (X != FIRST X IN Packet.Sequence1) USING X IN Kernel.MA.CreateEFSSection
-(
-    ERTMSSection =&gt; X,
-    Scale =&gt; Packet.Q_SCALE,
-    SectionStartTimer =&gt; SectionStartTimer
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="860"
- Y="630"
+ X="750"
+ Y="440"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -4921,8 +2770,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
+ X="390"
+ Y="440"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5003,8 +2852,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Type="MA.MAStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
- X="160"
- Y="340"
+ X="380"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5076,8 +2925,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Type="SignallingRelatedSRStruct"
  DefaultValue=""
  VariableMode="Internal"
- X="750"
- Y="430"
+ X="540"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5114,8 +2963,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Type="MA.MaShorteningHandlerStruct"
  DefaultValue="EMPTY"
  VariableMode="Internal"
- X="20"
- Y="470"
+ X="680"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5137,8 +2986,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Type="Boolean"
  DefaultValue="False"
  VariableMode="Internal"
- X="480"
- Y="430"
+ X="810"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5155,8 +3004,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Type="Boolean"
  DefaultValue=""
  VariableMode="Internal"
- X="620"
- Y="430"
+ X="820"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5173,8 +3022,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
  Type="SignallingRelatedSRStruct"
  DefaultValue=""
  VariableMode="Internal"
- X="630"
- Y="570"
+ X="680"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -5211,8 +3060,8 @@ InfillSignallingRelatedSR &lt;- SignallingRelatedSRFromMAPacket(
 <Rules>
 <Rule
  Priority="CleanUp"
- X="970"
- Y="230"
+ X="20"
+ Y="140"
  Width="100"
  Height="50"
  Implemented="TRUE"

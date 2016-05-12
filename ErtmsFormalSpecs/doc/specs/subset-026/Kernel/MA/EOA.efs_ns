@@ -1,0 +1,690 @@
+<NameSpace
+ X="20"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="EOA"
+ Guid="ab1511e8-d77b-40d1-b7c9-4966c10cf2ac"
+>
+<NameSpaces>
+</NameSpaces>
+<Functions>
+<Function
+ Type="TargetStruct"
+ Default=""
+ X="140"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndOfAuthority_EndOfMA"
+ Guid="54ada1d0-de04-4959-bc5e-d5fddb3323fa"
+>
+<ReqRef
+ Id="e0b44a69-1080-47e9-80b7-b635996f4239"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4fd8bb3a-5129-4b2e-8a40-10f8c712eeec"
+>
+</ReqRef><ReqRef
+ Id="173067d8-3484-4ec9-81e4-7275c3374764"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="570ec2b4-0365-4b7e-a9d7-f7582fb79879"
+>
+</ReqRef><Comment>Provides the end of authority at the end of the movement authority.</Comment>
+<Cases>
+<Case
+ Name="EOA"
+ Guid="4f0b25fe-2cb7-4a9e-ac8d-d32bef2c5a73"
+>
+<PreConditions>
+<PreCondition
+ Guid="3674cffc-c437-4fcc-bf23-aff74ac24194"
+>MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; EndOfMA(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case><Case
+ Name="LOA"
+ Guid="cfb41f38-fe3d-4f61-840a-2001b82d1696"
+>
+<Expression>TargetStruct{
+    Location =&gt; EndOfMA(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; Kernel.MA.MA.TargetSpeed,
+    Type =&gt; TargetTypeEnum.LOA
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Default=""
+ X="250"
+ Y="150"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndOfAuthority_EndSectionTimeOut"
+ Guid="dadcf150-7ff0-4993-aec8-bca9d8641009"
+>
+<ReqRef
+ Id="7e423212-aebc-4610-85f4-e4a25b5e05c4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcedc217-a420-49e0-ad89-de0750b0e8f8"
+>
+</ReqRef><ReqRef
+ Id="f628074f-59c1-494b-b268-4ca4bf339038"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6ca8270c-1996-448e-a029-ac8482bb4da2"
+>
+</ReqRef><ReqRef
+ Id="c6215fef-5d78-4d0c-bab4-b041b7e0c571"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6671a517-f773-4549-8efd-a8c03f0637f6"
+>
+</ReqRef><Comment>Provides the end of authority linked to a time out of the end section timer.</Comment>
+<Cases>
+<Case
+ Name="End Section timed out"
+ Guid="a96e8b22-a082-48f6-a808-f83d49dc1aa8"
+>
+<PreConditions>
+<PreCondition
+ Guid="9d31adfc-d1df-44ba-9fe6-2d5ee2420dd2"
+>Available(MA)
+  AND  
+Available(MA.EndSection.EndSectionTimeOut)
+  AND  
+Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
+  AND  
+(Kernel.DateAndTime.CurrentTime &gt; Kernel.MA.MATimers.EndSectionTimerStart + Kernel.MA.MA.EndSection.EndSectionTimeOut.TimeOut)</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Nom),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="f205bb95-fd7e-4e44-909f-5d558a1be7ea"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Default=""
+ X="140"
+ Y="150"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndOfAuthority_TimedOutSection"
+ Guid="f3f4c053-f166-4520-8649-bdb2e13b26e0"
+>
+<ReqRef
+ Id="8298df3a-f507-437d-a5de-ceceaeedbead"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="656f1da8-0d88-44cb-a09d-ab090707f283"
+>
+</ReqRef><ReqRef
+ Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c297fc0-641e-4477-a355-9633298abdd8"
+>
+</ReqRef><Comment>Provides the end of authority linked to the time out of a section timer.</Comment>
+<Cases>
+<Case
+ Name="Timed out section"
+ Guid="b6d4499f-e2d6-451f-862a-60ca6b8b8b82"
+>
+<PreConditions>
+<PreCondition
+ Guid="e661ac41-d678-4806-b290-3a249f6360fe"
+>Available(Kernel.MA.MATimers.TimedOutSection())</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.MA.MATimers.TimeOutSectionStart(),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="74e0c0d1-022a-445c-a8f7-8f3af66917d5"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Default=""
+ X="250"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EndOfAuthority_TrainFrontEnd"
+ Guid="2fd1386c-bd63-485d-80ae-7a7bfb86cad4"
+>
+<ReqRef
+ Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="51961518-3917-4bc1-a215-290648b95dd0"
+>
+</ReqRef><Comment>Retruns the</Comment>
+<Cases>
+<Case
+ Name="Consider front end of train as EOA"
+ Guid="2c0832e7-7159-4ec8-be59-191e406f9da3"
+>
+<PreConditions>
+<PreCondition
+ Guid="be419057-d7be-458d-a75e-c5be7603cd33"
+>Kernel.MA.ConsiderFrontEndAsSvL</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Nom),
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="dcdb552a-a715-4d98-b1af-5139d6d5bed5"
+>
+<Expression>EMPTY</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Distance"
+ Cacheable="TRUE"
+ Default=""
+ X="30"
+ Y="150"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="EndOfMA"
+ Guid="f5b47b4a-7787-4424-924d-9691547252f3"
+>
+<Comment>Returns the distance to the end of the End Section of the MA</Comment>
+<Cases>
+<Case
+ Name="Sections defined"
+ Guid="47b85941-c8fc-4e27-ad29-c46207a82db3"
+>
+<Comment>The MA has sections</Comment>
+<PreConditions>
+<PreCondition
+ Guid="fee6d219-56c8-47c9-b840-bc9541b651d5"
+>Available(Kernel.MA.MA.Sections)</PreCondition></PreConditions>
+<Expression>BaseTypes.LengthToDistance ( (SUM Kernel.MA.MA.Sections USING X IN X.Length) + Kernel.MA.MA.EndSection.Length )</Expression>
+</Case><Case
+ Name="No sections"
+ Guid="da7feeb3-3bc8-4b45-a006-7ffe4b49c1af"
+>
+<Comment>There is only an End Section</Comment>
+<Expression>BaseTypes.LengthToDistance(Kernel.MA.MA.EndSection.Length)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TargetStruct"
+ Default=""
+ X="30"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="EOA"
+ Guid="5a294ee6-8877-47bf-a4eb-c4de4cd6ab32"
+>
+<ReqRef
+ Id="e0b44a69-1080-47e9-80b7-b635996f4239"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c39bc7c-c2d4-4499-a362-8ee8e21088ff"
+>
+</ReqRef><ReqRef
+ Id="173067d8-3484-4ec9-81e4-7275c3374764"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5a38aa4-31ff-4e40-af69-8dcfb5a93777"
+>
+</ReqRef><ReqRef
+ Id="9a2c09f8-7df9-4251-9530-ae098d435bc9"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="10ede9e4-375a-4365-abe2-48b4cd5bbd59"
+>
+</ReqRef><ReqRef
+ Id="81828a4c-73e2-440d-8353-e050603f323f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="afebc8b3-dc1c-46e1-9ff4-5bb175c491a9"
+>
+</ReqRef><ReqRef
+ Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f548f182-00ad-499e-8840-eb9b3ea723d0"
+>
+</ReqRef><ReqRef
+ Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="00f7a85e-236e-4aa7-9eb5-9b959e376ed9"
+>
+</ReqRef><ReqRef
+ Id="f7dd0ecc-078c-4434-8d46-4ebb4b1f44f2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="32cf65cc-d986-4f33-b2ec-0ac0ec4f71bf"
+>
+</ReqRef><ReqRef
+ Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dfb1ba4b-b324-4e7f-832b-24466ee392e1"
+>
+</ReqRef><ReqRef
+ Id="5fd9abb2-0712-4c70-a573-7668ecb3a103"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="c4a0368d-a5f1-480b-9340-9e047f9781f2"
+>
+</ReqRef><ReqRef
+ Id="f27f67c3-6ff7-425e-8ab3-f3eb40f14326"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70b19684-f388-4c67-be54-9b1ac8c7ba6e"
+>
+</ReqRef><ReqRef
+ Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4e3f63c3-1739-4477-99bc-9b907942f5f4"
+>
+</ReqRef><ReqRef
+ Id="b8339f99-503e-4b4e-a901-758d69ad1139"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4d5e334-b4b3-4204-b0df-04c4f9fb0841"
+>
+</ReqRef><ReqRef
+ Id="d2ff8626-b129-41d0-afab-85c0e9977832"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ccc06d69-6491-4564-904d-26cb47363d8a"
+>
+</ReqRef><ReqRef
+ Id="90d05183-dd5f-471a-929c-200da2581c34"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="422024d8-1c5f-49a1-9d49-25d8221595c5"
+>
+</ReqRef><ReqRef
+ Id="8298df3a-f507-437d-a5de-ceceaeedbead"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8ab72d5e-c5f6-4e16-a4be-1a34fd1c1cec"
+>
+</ReqRef><ReqRef
+ Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6b53d0eb-bdb5-490c-89de-783b8d245379"
+>
+</ReqRef><ReqRef
+ Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b14688fc-2cd7-4c81-af03-7bb68a7e73d8"
+>
+</ReqRef><ReqRef
+ Id="78901f0f-a70f-415d-8d57-e5156f7206d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aa86438f-4653-469c-bc01-d56df21c2a04"
+>
+</ReqRef><Comment>Gives the target corresponding to the End (or Limit) Of Authority. This is chosen to be the closest target in the EOAs collection</Comment>
+<Cases>
+<Case
+ Name="Do not determine the EOA"
+ Guid="fe810f55-15f6-412a-9409-20cbc00c2b5f"
+>
+<PreConditions>
+<PreCondition
+ Guid="75f48500-72d8-4a4b-86ff-6f95103a88c9"
+>NOT ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition></PreConditions>
+<Expression>TargetStruct{
+    Location =&gt; BaseTypes.Distance.Infinity,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case><Case
+ Name="Returns the closest EOA"
+ Guid="4c10b760-6b33-42af-8b63-16dfab10d6b2"
+>
+<Expression>REDUCE EOACollection()
+    USING X IN ClosestTarget(
+    Target1=&gt;X,
+    Target2=&gt;RESULT
+)
+INITIAL_VALUE TargetStruct{
+    Location =&gt; BaseTypes.Distance.Infinity,
+    Length =&gt; BaseTypes.Length.Infinity,
+    Speed =&gt; 0.0,
+    Type =&gt; TargetTypeEnum.EOA
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.TargetsCol"
+ Default=""
+ X="30"
+ Y="90"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EOACollection"
+ Guid="0edf6742-0ed1-4470-9d88-f4f01ae75884"
+>
+<ReqRef
+ Id="4f290d49-e10d-41ae-a385-d9a756df04d3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da799bdd-efea-42b5-8760-d4d30c006e64"
+>
+</ReqRef><ReqRef
+ Id="beedf65d-aba6-4017-83dd-0fe57bc88e85"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2776db82-0856-4315-94b8-7c500f161fda"
+>
+</ReqRef><ReqRef
+ Id="8298df3a-f507-437d-a5de-ceceaeedbead"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dc49495-0a18-4d48-abe2-1185ebda8a8a"
+>
+</ReqRef><ReqRef
+ Id="99f97973-e6ed-4507-b864-54ea6e9c0fdf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="46589119-74c6-4a94-a9e8-1c13611c3dc9"
+>
+</ReqRef><ReqRef
+ Id="9c58f727-8611-4480-b6d9-449cb2d8c602"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8977523e-1c6c-4bc7-b5ee-6540ae677e95"
+>
+</ReqRef><ReqRef
+ Id="d2ff8626-b129-41d0-afab-85c0e9977832"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4e3ad2fa-c17e-43df-93a9-39a4c1d8d8a3"
+>
+</ReqRef><ReqRef
+ Id="f2ddac1e-eea7-4f30-ade6-5ace543c21ae"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f26844f3-cdb5-4d03-b518-17a76f13497e"
+>
+</ReqRef><ReqRef
+ Id="6b1f5744-6c85-45eb-a7de-1eba5bad0131"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50baa1c2-8992-4880-8611-47c8b7781309"
+>
+</ReqRef><ReqRef
+ Id="81828a4c-73e2-440d-8353-e050603f323f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0828810a-ee4d-43f3-a339-7dc087ffab02"
+>
+</ReqRef><Comment>Finds all possible locations on the track that could be the EOA for the following reasons:
+  - Route unsuitability
+  - Accepted conditional emergency brake command
+  - Mode profile start
+  - Unprotected level crossing
+  - Timed out (end) section
+  - End of the movement authority
+  - MA shortening causing the front of the train to be considered EOA
+  - Override supervision.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="48ca4345-45bb-4d8f-875a-5a5823070df5"
+>
+<Expression>[
+  Kernel.TrackDescription.RouteSuitability.EOA(),
+  BrakeCommands.EOA(),
+  Kernel.MA.ModeProfile.EOA(),
+  LX.EOA(),
+  MA.EOA.EndOfAuthority_TimedOutSection(),
+  MA.EOA.EndOfAuthority_EndSectionTimeOut(),
+  MA.EOA.EndOfAuthority_EndOfMA(),
+  MA.EOA.EndOfAuthority_TrainFrontEnd()
+]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Cacheable="TRUE"
+ Default=""
+ X="140"
+ Y="10"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="EOADefined"
+ Guid="29c47ec9-970d-45a3-9828-ffd8555a56b6"
+>
+<Comment>Indicates if the end of movement authority is an EOA or a LOA.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="e8cfa57a-9d6e-4848-96dc-49781bb162b5"
+>
+<Expression>Available ( Kernel.MA.MA ) AND Kernel.MA.MA.TargetSpeed == 0.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="140"
+ Y="240"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="EOASpeedRestriction"
+ Guid="74fa2842-40d4-4d71-8890-4cdb2e72bb65"
+>
+<ReqRef
+ Id="7525f72a-3b46-498c-8c48-1ed3ad888b1a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4db6d01a-bc43-44a3-8dce-1e2bd9a334a6"
+>
+</ReqRef><ReqRef
+ Id="02854410-9ddb-4b94-993c-b26498a498bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="68365ea2-8af2-4e3c-b3a5-34c2ae0acf1d"
+>
+</ReqRef><ReqRef
+ Id="50a11b55-dc19-4427-b0fd-d81384417f79"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="272fbe21-0828-499d-8812-c8e59a9e1cf8"
+>
+</ReqRef><ReqRef
+ Id="cb22befd-4969-4fdf-9f68-f6b39ec1abe3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a009b90-46f1-4fd5-a3fb-0c1c2a4a544b"
+>
+</ReqRef><ReqRef
+ Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2a9303a2-b13b-4eaf-a4bb-222cc6935a64"
+>
+</ReqRef><ReqRef
+ Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ff8de06c-a0b6-41aa-a1c0-e5c33282eb0e"
+>
+</ReqRef><Comment>Provides speed restriction for EOA (if applicable). Used to calculate the SBD curve.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="e97bed42-57ce-407d-94ec-bf6b10d74a88"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="EOA"
+ Guid="7c9cf2ee-5868-4b21-85b0-08809d88d4a1"
+>
+<PreConditions>
+<PreCondition
+ Guid="0b34f057-a897-49ad-8c7c-70b508ae5178"
+>Available ( Kernel.MA.MA )</PreCondition><PreCondition
+ Guid="2217fe28-281b-4814-8139-79c47dc4b92c"
+>IsEOA(MA.EOA.EOA())</PreCondition><PreCondition
+ Guid="bdd0dd49-4e89-48c7-ac0a-a7fabcb2b107"
+>Distance &gt;= MA.EOA.EOA().Location</PreCondition></PreConditions>
+<Expression>0.0</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="1a14e0bc-fded-4f5f-932e-365d8fe7cf64"
+>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Cacheable="TRUE"
+ Default=""
+ X="250"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsEOA"
+ Guid="69cecb0a-ba7e-4b67-976e-e176498c9471"
+>
+<ReqRef
+ Id="96719821-5827-4475-bf1c-8200e9c230e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f208ef8f-9b2d-44f8-b208-f1db5ea2460c"
+>
+</ReqRef><Comment>Indicates if a target is an end of authority.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetStruct"
+ Name="aTarget"
+ Guid="4beac925-e434-459f-bfd5-6120b9bd9bdf"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="EOA defined"
+ Guid="36ff1bc9-b2e8-40f8-9dba-2581da012de3"
+>
+<PreConditions>
+<PreCondition
+ Guid="a7bbbdad-720b-4304-9e62-657988c6fd3f"
+>Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
+<Expression>aTarget.Type == TargetTypeEnum.EOA</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="09357f4d-8e1d-4b43-8c43-65824ded4969"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="360"
+ Y="10"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsLOA"
+ Guid="b8adb55b-bb40-458d-90f3-46b0bbab0e06"
+>
+<ReqRef
+ Id="96719821-5827-4475-bf1c-8200e9c230e4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75190a4e-76da-466e-afc1-c6abf2bccab7"
+>
+</ReqRef><Comment>Indicates whether the target is the Limit of Authority.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetStruct"
+ Name="aTarget"
+ Guid="cd7e9cbb-0024-403b-a312-bc5116041a87"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="LOA defined"
+ Guid="73958804-b23c-46f7-a0c4-5b82a8fcbb5e"
+>
+<PreConditions>
+<PreCondition
+ Guid="668d5eea-df0b-4924-a0e6-00866076b288"
+>Kernel.MA.MA.TargetSpeed != 0.0</PreCondition></PreConditions>
+<Expression>aTarget.Type == TargetTypeEnum.LOA</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="0d85991e-96d7-4f30-8df5-ac99ec296c1c"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BaseTypes.Speed"
+ Default=""
+ X="30"
+ Y="240"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="LOASpeedRestriction"
+ Guid="f8d65fdd-3afd-492f-9f55-4af8e59fecc3"
+>
+<ReqRef
+ Id="02854410-9ddb-4b94-993c-b26498a498bf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e04d9a9e-0d18-409b-87e3-f1ca2620389e"
+>
+</ReqRef><ReqRef
+ Id="50a11b55-dc19-4427-b0fd-d81384417f79"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="96a3bca1-6ecd-4d61-8706-67a3d66d6a26"
+>
+</ReqRef><ReqRef
+ Id="5e616edd-93b3-48b1-9e3c-e0c863f4a609"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="933188c2-7c75-43a7-a8c6-1d2c937986f1"
+>
+</ReqRef><ReqRef
+ Id="3db576cb-65c4-4a7c-b6a3-7092c89448db"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd0bf05b-6f95-4460-8a61-f123dceb6683"
+>
+</ReqRef><ReqRef
+ Id="68cdb140-3c4e-4bdc-a122-88e2b2e22f7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="00d30d77-a133-44be-b5a0-f35f87f8af8a"
+>
+</ReqRef><ReqRef
+ Id="690e9583-3caf-46eb-b721-bed7b3d89e9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="29e08cbd-8992-40e8-8b49-4aab7ab0f615"
+>
+</ReqRef><ReqRef
+ Id="78901f0f-a70f-415d-8d57-e5156f7206d0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e5983474-9558-4e0f-8d86-6d274a8405c9"
+>
+</ReqRef><Comment>Provides speed restriction for LOA (if applicable). Used to calculate the EBD curve.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="Distance"
+ Guid="fe1464ab-2dd1-4b82-892a-1babef5b709a"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="After LOA"
+ Guid="75a8de46-ee96-4000-8644-e07c0f7dec29"
+>
+<PreConditions>
+<PreCondition
+ Guid="fdc562b4-07a4-40ae-852f-6ac0cbb391bb"
+>Available ( Kernel.MA.MA )</PreCondition><PreCondition
+ Guid="599c9a06-029b-4811-8241-f713c12788ef"
+>NOT MA.EOA.IsEOA(MA.EOA.EOA())</PreCondition><PreCondition
+ Guid="6def6bec-cefd-4905-8d23-2e603f44aef8"
+>Distance &gt;= MA.EOA.EOA().Location</PreCondition></PreConditions>
+<Expression>Kernel.MA.MA.TargetSpeed</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="32220be7-920f-4a7c-94c9-0ab813a228a6"
+>
+<Expression>BaseTypes.Speed.MaxSpeed</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

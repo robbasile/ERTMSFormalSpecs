@@ -852,7 +852,7 @@ this message the system goes to &quot;Terminating&quot; state.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.NID_LRBG"
- Name="NID_LRBG"
+ Name="aNID_LRBG"
  Guid="0fa624aa-ee93-44cf-857c-c27de72286b9"
 >
 </Parameter></Parameters>
@@ -864,9 +864,9 @@ this message the system goes to &quot;Terminating&quot; state.</Comment>
 <PreConditions>
 <PreCondition
  Guid="d2f37ba5-01af-4ed6-8df7-24aa6cd4fea3"
->NOT Available( NID_LRBG )
+>NOT Available( aNID_LRBG )
   OR  
-NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
+aNID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case><Case
  Name="It is the current LRBG"
@@ -875,7 +875,9 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="942b0799-95b7-48c9-a1ba-8c03e7af3545"
->BTM.LRBG.LRBG.NID == NID_LRBG</PreCondition></PreConditions>
+>BTM.LRBG.LRBG.NID_BG == NID_BGFromNID_LRBG( aNID_LRBG )</PreCondition><PreCondition
+ Guid="4650027b-4700-4286-a2de-cf726eed6d61"
+>BTM.LRBG.LRBG.NID_C == NID_CFromNID_LRBG( aNID_LRBG )</PreCondition></PreConditions>
 <Expression>BTM.LRBG.LRBG</Expression>
 </Case><Case
  Name="It is a previous LRBG"
@@ -887,8 +889,16 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
 >THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | (
   X.IsLRBG
     AND  
-  X.BaliseGroup.NID == NID_LRBG )</PreCondition></PreConditions>
-<Expression>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.IsLRBG AND X.BaliseGroup.NID == NID_LRBG).BaliseGroup</Expression>
+  X.BaliseGroup.NID_BG == NID_BGFromNID_LRBG( aNID_LRBG )
+    AND  
+  X.BaliseGroup.NID_C == NID_CFromNID_LRBG( aNID_LRBG ) )</PreCondition></PreConditions>
+<Expression>(FIRST X IN BTM.LRBG.PreviousBaliseGroups |
+  X.IsLRBG
+    AND  
+  X.BaliseGroup.NID_BG == NID_BGFromNID_LRBG( aNID_LRBG )
+    AND  
+  X.BaliseGroup.NID_C == NID_CFromNID_LRBG( aNID_LRBG )
+).BaliseGroup</Expression>
 </Case><Case
  Name="Othrerwise"
  Guid="b89ec31d-9764-4508-a65a-2727eaeb772e"
@@ -1005,6 +1015,60 @@ NID_LRBG == Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
  Guid="99a91b08-4822-4266-b578-590f6bb62fcd"
 >
 <Expression>Messages.LRBGLocationReference(NID_LRBG) - Kernel.ReferenceLocation()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.NID_BG"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="NID_BGFromNID_LRBG"
+ Guid="8e1c3339-1c1e-40db-9ce8-7be0624bcb53"
+>
+<Comment>The value NID_LRBG is the concatenation of the bit representation of NID_C and NID_BG.
+The 10 first bits of the value are the NID_C, the 14 next ones are the NID_BG.
+To get NID_BG from NID_LRBG, we subtract the (NID_C from NID_LRBG) from NID_LRBG.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_LRBG"
+ Name="aNID_LRBG"
+ Guid="d7d81695-feea-4492-be30-b43d150906dd"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="64993f67-88a7-45c7-a28e-2045f35b9719"
+>
+<Expression>aNID_LRBG - ((2^14) * NID_CFromNID_LRBG( aNID_LRBG ))</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.NID_C"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="NID_CFromNID_LRBG"
+ Guid="6cf6c7c0-4089-45d8-940b-a793cb53d76b"
+>
+<Comment>The value NID_LRBG is the concatenation of the bit representation of NID_C and NID_BG.
+The 10 first bits of the value are the NID_C, the 14 next ones are the NID_BG.
+To get NID_C from NID_LRBG, we divide NID_LRBG by 2^14.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.NID_LRBG"
+ Name="aNID_LRBG"
+ Guid="b266d0ed-c24b-4ba0-838e-18ce5963793c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="aecdfd5b-e894-402e-b0bf-f90ad7f83181"
+>
+<Expression>aNID_LRBG / (2^14)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

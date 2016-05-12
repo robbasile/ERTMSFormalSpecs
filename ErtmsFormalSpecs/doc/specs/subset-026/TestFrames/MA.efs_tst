@@ -1638,7 +1638,8 @@ IN BTM.Linking.Linkings</Action></Actions>
  Guid="f87f5e12-09f6-4e86-97a7-1bf9247bad39"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9626,
+    NID_BG =&gt; 9626,
+    NID_C =&gt; 0,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -1657,7 +1658,8 @@ BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
         UnderReadingAmountOdo =&gt; 0.0,
         OverReadingAmountOdo =&gt; 0.0
     },
-    NID =&gt; 9625,
+    NID_BG =&gt; 9625,
+    NID_C =&gt; 0,
     Orientation =&gt; OrientationEnum.Nominal,
     Timestamp =&gt; DateAndTimeStruct{
         Year =&gt; 2012,
@@ -1682,58 +1684,76 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="afe594ec-0029-4031-bb55-443b4f4f5243"
->EURORADIO.RBCConnection.CurrentRBCConnection().Data.MessageIn  &lt;- Messages.EURORADIO.MessageIn.Message{
-    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+>EURORADIO.RBCConnection.CurrentRBCConnection().Data.MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
+  SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+  {
     MOVEMENT_AUTHORITY =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.Message
     {
-
-    NID_MESSAGE =&gt; 0,
-    L_MESSAGE =&gt; 0,
-    T_TRAIN =&gt; 0,
-    M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
-    NID_LRBG =&gt; 9625,
-    LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
-
+      NID_MESSAGE =&gt; 0, 
+      L_MESSAGE =&gt; 0, 
+      T_TRAIN =&gt; 0, 
+      M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required, 
+      NID_LRBG =&gt; 9625, 
+      LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
       {
-        NID_PACKET =&gt; 15,
-        Q_DIR =&gt; Messages.Q_DIR.Nominal,
-        L_PACKET =&gt; 0,
-        Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        V_LOA =&gt; 0,
-        T_LOA =&gt; 0,
-        N_ITER =&gt; 1,
-        Sequence1 =&gt; [
-
-                 Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
-                 {
-                   L_SECTION =&gt; 100,
-                   Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                   T_SECTIONTIMER =&gt; 0,
-                   D_SECTIONTIMERSTOPLOC =&gt; 0
-                 }
-                                ],
-        L_ENDSECTION =&gt; 1000,
-        Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-        T_SECTIONTIMER =&gt; 0,
-        D_SECTIONTIMERSTOPLOC =&gt; 0,
-        Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information,
-        T_ENDTIMER =&gt; 0,
-        D_ENDTIMERSTARTLOC =&gt; 0,
-        Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.No_danger_point_information,
-        D_DP =&gt; 0,
-        V_RELEASEDP =&gt; 0,
-        Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information,
-        D_STARTOL =&gt; 0,
-        T_OL =&gt; 0,
-        D_OL =&gt; 0,
+        NID_PACKET =&gt; 15, 
+        Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+        L_PACKET =&gt; 0, 
+        Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC, 
+        V_LOA =&gt; 0, 
+        T_LOA =&gt; 0, 
+        N_ITER =&gt; 1, 
+        Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
+          {
+            L_SECTION =&gt; 100, 
+            Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+            T_SECTIONTIMER =&gt; 0, 
+            D_SECTIONTIMERSTOPLOC =&gt; 0
+          }], 
+        L_ENDSECTION =&gt; 1000, 
+        Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+        T_SECTIONTIMER =&gt; 0, 
+        D_SECTIONTIMERSTOPLOC =&gt; 0, 
+        Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+        T_ENDTIMER =&gt; 0, 
+        D_ENDTIMERSTARTLOC =&gt; 0, 
+        Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.No_danger_point_information, 
+        D_DP =&gt; 0, 
+        V_RELEASEDP =&gt; 0, 
+        Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information, 
+        D_STARTOL =&gt; 0, 
+        T_OL =&gt; 0, 
+        D_OL =&gt; 0, 
         V_RELEASEOL =&gt; 0
-       },
-    Sequence1 =&gt; []
-}
-},
-    SystemVersion1 =&gt; EMPTY,
-    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+      }, 
+      Sequence1 =&gt; []
+    }, 
+    SR_AUTHORISATION =&gt; EMPTY, 
+    RECOGNITION_OF_EXIT_FROM_TRIP_MODE =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; EMPTY, 
+    REQUEST_TO_SHORTEN_MA =&gt; EMPTY, 
+    CONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    UNCONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    REVOCATION_OF_EMERGENCY_STOP =&gt; EMPTY, 
+    GENERAL_MESSAGE =&gt; EMPTY, 
+    SH_REFUSED =&gt; EMPTY, 
+    SH_AUTHORISED =&gt; EMPTY, 
+    MA_WITH_SHIFTED_LOCATION_REFERENCE =&gt; EMPTY, 
+    TRACK_AHEAD_FREE_REQUEST =&gt; EMPTY, 
+    INFILL_MA =&gt; EMPTY, 
+    TRAIN_REJECTED =&gt; EMPTY, 
+    RIU_SYSTEM_VERSION =&gt; EMPTY, 
+    INITIATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    TRAIN_ACCEPTED =&gt; EMPTY, 
+    SOM_POSITION_REPORT_CONFIRMED_BY_RBC =&gt; EMPTY, 
+    ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; EMPTY, 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal, 
+  BitField =&gt; &apos;&apos;
 }</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
@@ -1745,11 +1765,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ea6796f4-9fb9-4d60-ab83-24265ee67569"
->BTM.LRBG.LRBG.NID == 9626</Expectation><Expectation
+>BTM.LRBG.LRBG.NID_BG == 9626</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="00abacec-dba0-45c4-913c-ff0f3a8c99d8"
->Kernel.MA.EOA().Location == 600.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Location == 600.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -1773,7 +1793,7 @@ IsSingle =&gt; Boolean.False
  Guid="6d626234-8418-4a27-b2b4-e4511f4be683"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 2120,
+    NID_BG =&gt; 2120,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -1957,12 +1977,13 @@ IsSingle =&gt; Boolean.False
 <Expectation
  Kind="Instantaneous"
  DeadLine="1"
+ CyclePhase="UpdateOUT"
  Guid="b9f599b2-6f26-406b-8a43-1fe9e5a97548"
->BTM.LRBG.LRBG.NID == 2120</Expectation><Expectation
+>BTM.LRBG.LRBG.NID_BG == 2120</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c2e534d5-71b2-4067-9485-ebcefff3de46"
->Kernel.MA.EOA().Location == 1555.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Location == 1555.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -2126,7 +2147,8 @@ IsSingle =&gt; Boolean.False
  Guid="023f1545-0f49-4bb0-ae5b-0e1ea0addb94"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9618,
+    NID_BG =&gt; 9618,
+    NID_C =&gt; 0,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -2144,7 +2166,26 @@ IsSingle =&gt; Boolean.False
     V_ura =&gt; 0.0
 }</Action><Action
  Guid="42b13e57-0608-438f-b8dd-ec4f06523961"
->Odometry.NominalDistance &lt;- 2100.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 2100.0</Action><Action
+ Guid="6ac5e5ca-eca2-4415-b41c-ea58b1f055a0"
+>BTM.LRBG.PreviousBaliseGroups &lt;- [
+  BTM.LRBG.PreviousBaliseGroupStruct{
+BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+{
+    NID_BG =&gt; 9618,
+    NID_C =&gt; 0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Position =&gt; BTM.PositionStruct
+    {
+        OverReadingAmountOdo =&gt; 29.0,
+        Position =&gt; 2000.0,
+        UnderReadingAmountOdo =&gt; 35.0
+    }
+},
+IsLRBG =&gt; Boolean.True,
+IsSingle =&gt; Boolean.False
+}
+]</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -2182,44 +2223,68 @@ IsSingle =&gt; Boolean.False
  Guid="1ec7e962-5603-40a9-9af9-44c74ed279fb"
 >EURORADIO.RBCConnection.CurrentRBCConnection().Data.MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
-    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-        MOVEMENT_AUTHORITY =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.Message{
-            NID_MESSAGE =&gt; 3,
-            L_MESSAGE =&gt; 0,
-            T_TRAIN =&gt; 120,
-            M_ACK =&gt; 0,
-            NID_LRBG =&gt; 9618,
-            LEVEL_2_3_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
-            {
-                NID_PACKET=&gt;8,
-                Q_DIR=&gt;Messages.Q_DIR.Nominal,
-                L_PACKET=&gt;400,
-                Q_SCALE=&gt;Messages.Q_SCALE._10_cm_scaleC,
-                V_LOA=&gt;0,
-                T_LOA=&gt;0,
-                N_ITER=&gt;0,
-                Sequence1=&gt;[],
-                L_ENDSECTION=&gt;800,
-                Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                T_SECTIONTIMER=&gt;0,
-                D_SECTIONTIMERSTOPLOC=&gt;0,
-                Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-                T_ENDTIMER=&gt;0,
-                D_ENDTIMERSTARTLOC=&gt;0,
-                Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.Danger_point_information_to_follow,
-                D_DP=&gt;8400,
-                V_RELEASEDP=&gt;4,
-                Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-                D_STARTOL=&gt;0,
-                T_OL=&gt;0,
-                D_OL=&gt;0,
-                V_RELEASEOL=&gt;0
-                },
-            Sequence1 =&gt; []
-        }
-    },
-    SystemVersion1 =&gt; EMPTY,
-    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+  SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+  {
+    MOVEMENT_AUTHORITY =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.Message
+    {
+      NID_MESSAGE =&gt; 3, 
+      L_MESSAGE =&gt; 0, 
+      T_TRAIN =&gt; 120, 
+      M_ACK =&gt; 0, 
+      NID_LRBG =&gt; 9618, 
+      LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
+      {
+        NID_PACKET =&gt; 8, 
+        Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+        L_PACKET =&gt; 400, 
+        Q_SCALE =&gt; Messages.Q_SCALE._10_cm_scaleC, 
+        V_LOA =&gt; 0, 
+        T_LOA =&gt; 0, 
+        N_ITER =&gt; 0, 
+        Sequence1 =&gt; [], 
+        L_ENDSECTION =&gt; 8000, 
+        Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+        T_SECTIONTIMER =&gt; 0, 
+        D_SECTIONTIMERSTOPLOC =&gt; 0, 
+        Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+        T_ENDTIMER =&gt; 0, 
+        D_ENDTIMERSTARTLOC =&gt; 0, 
+        Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.Danger_point_information_to_follow, 
+        D_DP =&gt; 8400, 
+        V_RELEASEDP =&gt; 4, 
+        Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information, 
+        D_STARTOL =&gt; 0, 
+        T_OL =&gt; 0, 
+        D_OL =&gt; 0, 
+        V_RELEASEOL =&gt; 0
+      }, 
+      Sequence1 =&gt; []
+    }, 
+    SR_AUTHORISATION =&gt; EMPTY, 
+    RECOGNITION_OF_EXIT_FROM_TRIP_MODE =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; EMPTY, 
+    REQUEST_TO_SHORTEN_MA =&gt; EMPTY, 
+    CONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    UNCONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    REVOCATION_OF_EMERGENCY_STOP =&gt; EMPTY, 
+    GENERAL_MESSAGE =&gt; EMPTY, 
+    SH_REFUSED =&gt; EMPTY, 
+    SH_AUTHORISED =&gt; EMPTY, 
+    MA_WITH_SHIFTED_LOCATION_REFERENCE =&gt; EMPTY, 
+    TRACK_AHEAD_FREE_REQUEST =&gt; EMPTY, 
+    INFILL_MA =&gt; EMPTY, 
+    TRAIN_REJECTED =&gt; EMPTY, 
+    RIU_SYSTEM_VERSION =&gt; EMPTY, 
+    INITIATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    TRAIN_ACCEPTED =&gt; EMPTY, 
+    SOM_POSITION_REPORT_CONFIRMED_BY_RBC =&gt; EMPTY, 
+    ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; EMPTY, 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal, 
+  BitField =&gt; &apos;&apos;
 }</Action><Action
  Guid="8de16eb0-20fd-497f-888d-c0f09bb4b471"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
@@ -2405,7 +2470,7 @@ IsSingle =&gt; Boolean.False
  Guid="3f45dd99-97a8-40e1-b84d-3f747e84f616"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9620,
+    NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -2475,10 +2540,10 @@ IsSingle =&gt; Boolean.False
 <Expectation
  Kind="Instantaneous"
  Guid="874298d7-b3f1-42d8-b595-2e673dab943f"
->Kernel.MA.EOA().Location == 1000.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 1000.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c975384d-562c-4c31-86cd-4b037f7b8004"
->Kernel.MA.EOA().Speed == 40.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Speed == 40.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -2510,7 +2575,7 @@ IsSingle =&gt; Boolean.False
         L_MESSAGE =&gt; 0,
         T_TRAIN =&gt; 120,
         M_ACK =&gt; 0,
-        NID_LRBG =&gt; 9618,
+        NID_LRBG =&gt; 2295884,
         LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
         {
             NID_PACKET =&gt; 8,
@@ -2622,10 +2687,10 @@ IsSingle =&gt; Boolean.False
 <Expectation
  Kind="Instantaneous"
  Guid="26468b1a-dae7-4c99-a79e-0f3c781eb085"
->Kernel.MA.EOA().Location == 800.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 800.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4bfc2e05-3f9f-4404-b802-fca0c588b94c"
->Kernel.MA.EOA().Speed == 25.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Speed == 25.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -2784,7 +2849,7 @@ IsSingle =&gt; Boolean.False
  Guid="23d2db07-2bba-4422-9800-22143f00b688"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9622,
+    NID_BG =&gt; 9622,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -2846,7 +2911,7 @@ IsSingle =&gt; Boolean.False
         L_MESSAGE =&gt; 0,
         T_TRAIN =&gt; 120,
         M_ACK =&gt; 0,
-        NID_LRBG =&gt; 9618,
+        NID_LRBG =&gt; 2295884,
         LEVEL_2_3_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
         {
             NID_PACKET=&gt;8,
@@ -3059,7 +3124,7 @@ IsSingle =&gt; Boolean.False
  Guid="bc659084-8e9b-4e47-8c2f-19f0d61908ac"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9624,
+    NID_BG =&gt; 9624,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -3124,7 +3189,7 @@ IsSingle =&gt; Boolean.False
         L_MESSAGE =&gt; 0,
         T_TRAIN =&gt; 120,
         M_ACK =&gt; 0,
-        NID_LRBG =&gt; 9618,
+        NID_LRBG =&gt; 2295884,
         LEVEL_2_3_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
         {
             NID_PACKET=&gt;8,
@@ -3393,7 +3458,8 @@ IsSingle =&gt; Boolean.False
  Guid="d697a6d4-55b4-496e-8e0d-f94a79aa0714"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9626,
+    NID_BG =&gt; 9626,
+    NID_C =&gt; 1,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -3411,7 +3477,24 @@ IsSingle =&gt; Boolean.False
     V_ura =&gt; 0.0
 }</Action><Action
  Guid="c1fffee5-f070-42d7-ace5-cd0cca7bddd7"
->Odometry.NominalDistance &lt;- 4320.0</Action></Actions>
+>Odometry.NominalDistance &lt;- 4320.0</Action><Action
+ Guid="68c23227-a66c-4d07-9ec9-331db523b589"
+>BTM.LRBG.PreviousBaliseGroups &lt;- [
+  BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
+      Position =&gt; BTM.PositionStruct{
+        Position =&gt; 4000.0,
+        UnderReadingAmountOdo =&gt; 12.0,
+        OverReadingAmountOdo =&gt; 11.0
+      },
+      NID_BG =&gt; 9626,
+      Orientation =&gt; OrientationEnum.Nominal,
+      NID_C =&gt; 1
+    },
+    IsLRBG =&gt; Boolean.True,
+    IsSingle =&gt; Boolean.False
+  }
+]</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -3442,7 +3525,7 @@ IsSingle =&gt; Boolean.False
 <Expectation
  Kind="Instantaneous"
  Guid="91132c8a-74f9-4fab-b865-d0af9554d552"
->Kernel.MA.EOA().Location == 1500.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 1500.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="4451f42d-584c-4e32-a56c-a11b581cb192"
 >(FIRST X IN Kernel.MA.MA.Sections).Length == 120.0</Expectation><Expectation
@@ -3457,7 +3540,7 @@ IsSingle =&gt; Boolean.False
 >Available ( ( FIRST X IN Kernel.MA.MA.Sections ).TimeOut )</Expectation><Expectation
  Kind="Instantaneous"
  Guid="400ea3a5-1406-4786-aea7-cd5b05e483f4"
->Kernel.MA.EOA().Speed == 40.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Speed == 40.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -3481,66 +3564,86 @@ IsSingle =&gt; Boolean.False
  Guid="598ba1ac-fc0b-44db-beef-dabbb7a78dd9"
 >EURORADIO.RBCConnection.CurrentRBCConnection().Data.MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
 {
-    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message{
-    MOVEMENT_AUTHORITY =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.Message{
-        NID_MESSAGE =&gt; 3,
-        L_MESSAGE =&gt; 0,
-        T_TRAIN =&gt; 120,
-        M_ACK =&gt; 0,
-        NID_LRBG =&gt; 2124,
-        LEVEL_2_3_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
-        {
-            NID_PACKET=&gt;8,
-            Q_DIR=&gt;Messages.Q_DIR.Nominal,
-            L_PACKET=&gt;400,
-            Q_SCALE=&gt;Messages.Q_SCALE._10_m_scaleC,
-            V_LOA=&gt;5,
-            T_LOA=&gt;150,
-            N_ITER=&gt;3,
-            Sequence1=&gt;
-            [
-                Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
-                {
-                    L_SECTION=&gt;17,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    T_SECTIONTIMER=&gt;0
-                },
-                Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
-                {
-                    L_SECTION=&gt;20,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-                    D_SECTIONTIMERSTOPLOC=&gt;0,
-                    T_SECTIONTIMER=&gt;0
-                },
-                Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
-                {
-                    L_SECTION=&gt;14,
-                    Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow,
-                    D_SECTIONTIMERSTOPLOC=&gt;25,
-                    T_SECTIONTIMER=&gt;70
-                }
-            ],
-            L_ENDSECTION=&gt;80,
-            Q_SECTIONTIMER=&gt;Messages.Q_SECTIONTIMER.No_Section_Timer_information,
-            T_SECTIONTIMER=&gt;0,
-            D_SECTIONTIMERSTOPLOC=&gt;0,
-            Q_ENDTIMER=&gt;Messages.Q_ENDTIMER.No_End_section_timer_information,
-            T_ENDTIMER=&gt;0,
-            D_ENDTIMERSTARTLOC=&gt;0,
-            Q_DANGERPOINT=&gt;Messages.Q_DANGERPOINT.No_danger_point_information,
-            D_DP=&gt;0,
-            V_RELEASEDP=&gt;0,
-            Q_OVERLAP=&gt;Messages.Q_OVERLAP.No_overlap_information,
-            D_STARTOL=&gt;0,
-            T_OL=&gt;0,
-            D_OL=&gt;0,
-            V_RELEASEOL=&gt;0
-        }
-    }
-},
-    SystemVersion1 =&gt; EMPTY,
-    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
+  SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+  {
+    MOVEMENT_AUTHORITY =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.MOVEMENT_AUTHORITY.Message
+    {
+      NID_MESSAGE =&gt; 3, 
+      L_MESSAGE =&gt; 0, 
+      T_TRAIN =&gt; 120, 
+      M_ACK =&gt; 0, 
+      NID_LRBG =&gt; 26010, 
+      LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
+      {
+        NID_PACKET =&gt; 8, 
+        Q_DIR =&gt; Messages.Q_DIR.Nominal, 
+        L_PACKET =&gt; 400, 
+        Q_SCALE =&gt; Messages.Q_SCALE._10_m_scaleC, 
+        V_LOA =&gt; 5, 
+        T_LOA =&gt; 150, 
+        N_ITER =&gt; 3, 
+        Sequence1 =&gt; [Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
+          {
+            L_SECTION =&gt; 17, 
+            Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+            D_SECTIONTIMERSTOPLOC =&gt; 0, 
+            T_SECTIONTIMER =&gt; 0
+          }, Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
+          {
+            L_SECTION =&gt; 20, 
+            Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+            D_SECTIONTIMERSTOPLOC =&gt; 0, 
+            T_SECTIONTIMER =&gt; 0
+          }, Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.SubStructure1
+          {
+            L_SECTION =&gt; 14, 
+            Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.Section_Timer_information_to_follow, 
+            D_SECTIONTIMERSTOPLOC =&gt; 25, 
+            T_SECTIONTIMER =&gt; 70
+          }], 
+        L_ENDSECTION =&gt; 80, 
+        Q_SECTIONTIMER =&gt; Messages.Q_SECTIONTIMER.No_Section_Timer_information, 
+        T_SECTIONTIMER =&gt; 0, 
+        D_SECTIONTIMERSTOPLOC =&gt; 0, 
+        Q_ENDTIMER =&gt; Messages.Q_ENDTIMER.No_End_section_timer_information, 
+        T_ENDTIMER =&gt; 0, 
+        D_ENDTIMERSTARTLOC =&gt; 0, 
+        Q_DANGERPOINT =&gt; Messages.Q_DANGERPOINT.No_danger_point_information, 
+        D_DP =&gt; 0, 
+        V_RELEASEDP =&gt; 0, 
+        Q_OVERLAP =&gt; Messages.Q_OVERLAP.No_overlap_information, 
+        D_STARTOL =&gt; 0, 
+        T_OL =&gt; 0, 
+        D_OL =&gt; 0, 
+        V_RELEASEOL =&gt; 0
+      }, 
+      Sequence1 =&gt; []
+    }, 
+    SR_AUTHORISATION =&gt; EMPTY, 
+    RECOGNITION_OF_EXIT_FROM_TRIP_MODE =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; EMPTY, 
+    REQUEST_TO_SHORTEN_MA =&gt; EMPTY, 
+    CONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    UNCONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    REVOCATION_OF_EMERGENCY_STOP =&gt; EMPTY, 
+    GENERAL_MESSAGE =&gt; EMPTY, 
+    SH_REFUSED =&gt; EMPTY, 
+    SH_AUTHORISED =&gt; EMPTY, 
+    MA_WITH_SHIFTED_LOCATION_REFERENCE =&gt; EMPTY, 
+    TRACK_AHEAD_FREE_REQUEST =&gt; EMPTY, 
+    INFILL_MA =&gt; EMPTY, 
+    TRAIN_REJECTED =&gt; EMPTY, 
+    RIU_SYSTEM_VERSION =&gt; EMPTY, 
+    INITIATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    TRAIN_ACCEPTED =&gt; EMPTY, 
+    SOM_POSITION_REPORT_CONFIRMED_BY_RBC =&gt; EMPTY, 
+    ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; EMPTY, 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal, 
+  BitField =&gt; &apos;&apos;
 }</Action><Action
  Guid="0701d4bf-3c4b-4a23-aa63-d25fb162ce94"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
@@ -3576,16 +3679,16 @@ IsSingle =&gt; Boolean.False
 <Expectation
  Kind="Instantaneous"
  Guid="a43d58e2-c473-45b5-8448-a3550beef338"
->Kernel.MA.EOA().Location == 1310.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 995.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="3413f504-eac7-4dd4-800d-f49b1424ab9c"
 >(FIRST X IN Kernel.MA.MA.Sections).TimeOut == EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  Guid="6b552018-2db9-49b1-a6b5-b6282db50b00"
->(FIRST X IN Kernel.MA.MA.Sections).Length == 170.0</Expectation><Expectation
+>(FIRST X IN Kernel.MA.MA.Sections).Length == 55.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="1d43c373-49f0-4bea-8f95-4d38983c3755"
->Kernel.MA.EOA().Speed == 25.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Speed == 25.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
@@ -3678,7 +3781,7 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="5b03286f-4783-4b1e-9cd9-36b0bb27d319"
->Kernel.MA.SvL() == EMPTY</Expectation></Expectations>
+>Kernel.MA.SvL.SvL() == EMPTY</Expectation></Expectations>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step 4 - Set nominal orientation"
@@ -3795,11 +3898,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="571bac97-0c29-4584-92fd-6c53b1053466"
->(Kernel.MA.MA.EndSection.Length + Kernel.MA.MA.EndSection.DangerPoint.Distance) == 3000.0</Expectation><Expectation
+>(Kernel.MA.MA.EndSection.Length + Kernel.MA.MA.EndSection.DangerPoint.Distance) == 3095.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="2073bc76-a3e8-458b-92da-3b2c7024bd4c"
->Kernel.MA.SvL().Location == 3000.0</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Location == 3095.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="0d7fb8d8-cf67-4f2b-bdc7-663934d8286f"
@@ -3919,15 +4022,15 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="d41a4b2a-db2e-42cd-aff8-5fd11ac54245"
->(Kernel.MA.MA.EndSection.Length + Kernel.MA.MA.EndSection.DangerPoint.Distance) == 1000.0</Expectation><Expectation
+>(Kernel.MA.MA.EndSection.Length + Kernel.MA.MA.EndSection.DangerPoint.Distance) == 1095.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="08e9b578-bef8-449e-870b-49ffd4ea5ee3"
->Kernel.MA.SvL().Location == 1000.0</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Location == 1095.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="3c796028-f7b0-48d4-a3fc-d435c1cb2fa6"
->Kernel.MA.ShorteningHandler.Location == 3000.0</Expectation><Expectation
+>Kernel.MA.ShorteningHandler.Location == 3095.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f3795cc0-fef0-4970-a560-6e9fbbb9e206"
@@ -4047,15 +4150,15 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="8bc17764-974c-431c-934a-2564b7d743dd"
->Kernel.MA.MA.EndSection.Length == 250.0</Expectation><Expectation
+>Kernel.MA.MA.EndSection.Length == 345.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="af2fea0e-fdb3-41c1-86fd-ac150769e4fc"
->Kernel.MA.SvL() == EMPTY</Expectation><Expectation
+>Kernel.MA.SvL.SvL() == EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f895372f-7f39-4012-9284-cdd3886872b8"
->Kernel.MA.ShorteningHandler.Location == 1000.0</Expectation><Expectation
+>Kernel.MA.ShorteningHandler.Location == 1095.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="487eb78e-6db2-4508-8b1e-d357464d7e73"
@@ -4194,11 +4297,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="b8a1568e-d345-45ba-a184-40a9912b040e"
->Kernel.MA.SvL().Location == 4000.0</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Location == 4000.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ecab0443-4a87-44b3-ba16-07b5003782bc"
->Kernel.MA.EOA().Location == 4000.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Location == 4000.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -4304,11 +4407,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="9b8972f0-5fbd-42ae-9899-b9e58e9f9e87"
->Kernel.MA.EOA().Location != 4000.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location != 4000.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="96952592-c2fe-471c-b3a6-79ad816e5b2f"
->Kernel.MA.EOA().Location == 2000.0</Expectation></Expectations>
+>Kernel.MA.EOA.EOA().Location == 2000.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -4408,7 +4511,7 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="f08475a0-4c8f-499f-952b-561eb8ed83fa"
->Kernel.MA.EOA().Location == 1895.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 1895.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="fca6b8cd-7015-4b19-96b2-d51a5c5f498f"
@@ -4444,7 +4547,7 @@ IsSingle =&gt; Boolean.False
     TargetSpeed =&gt; 0.0,
 
     Sections =&gt; [
-        Kernel.MA.SectionStruct{
+        Kernel.MA.Sections.SectionStruct{
             Length =&gt; 400.0,
             TimeOut =&gt; EMPTY
          }
@@ -4471,7 +4574,7 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="120b8188-f9e4-46ea-807f-a30b9099ae41"
->Kernel.MA.EOA().Location == 1000.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 1000.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6a57f29c-8976-47bf-8cab-6e2799f3a91f"
@@ -4540,7 +4643,7 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ed206680-d69c-4700-9be9-b4c62e8abd72"
->Kernel.MA.EOA().Location == 1200.0</Expectation><Expectation
+>Kernel.MA.EOA.EOA().Location == 1200.0</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c6a2665c-6283-4b4b-b5f7-5f8a7dced41b"
@@ -4648,7 +4751,7 @@ IsSingle =&gt; Boolean.False
  Guid="dab1468d-e4ef-40b2-b875-bb9f5217c3d1"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9617,
+    NID_BG =&gt; 9617,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -4794,7 +4897,7 @@ IsSingle =&gt; Boolean.False
  Guid="5d0fd17b-b17d-4989-95dc-8d5758c283df"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9618,
+    NID_BG =&gt; 9618,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -4957,7 +5060,7 @@ IsSingle =&gt; Boolean.False
  Guid="028b877a-2ab5-44b0-a0d2-c58a334a6018"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9619,
+    NID_BG =&gt; 9619,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -5192,7 +5295,7 @@ IsSingle =&gt; Boolean.False
  Guid="b345e43f-f2cd-47d9-9ed9-ae75f8183243"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9618,
+    NID_BG =&gt; 9618,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -5320,7 +5423,7 @@ IsSingle =&gt; Boolean.False
  Guid="a4ad3115-6f92-4923-ba77-474715decf9b"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9619,
+    NID_BG =&gt; 9619,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -5460,7 +5563,7 @@ IsSingle =&gt; Boolean.False
  Guid="fd8996ce-71d9-4186-aba7-26e81a07cbe6"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9620,
+    NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -5691,7 +5794,7 @@ IsSingle =&gt; Boolean.False
  Guid="4ca49b22-3e77-48c0-94a8-c850429b5587"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9618,
+    NID_BG =&gt; 9618,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -5831,7 +5934,7 @@ IsSingle =&gt; Boolean.False
  Guid="46d8ad76-9f4c-457c-a68c-4416ddd5890c"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9619,
+    NID_BG =&gt; 9619,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -5975,7 +6078,7 @@ IsSingle =&gt; Boolean.False
  Guid="ee42fee4-a2ff-454c-ba54-6837efce8038"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9620,
+    NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -6240,7 +6343,8 @@ IsSingle =&gt; Boolean.False
  Guid="b95eabac-a6e9-41b1-a436-cb831c09fa45"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9628,
+    NID_BG =&gt; 9628,
+    NID_C =&gt; 0,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -6293,7 +6397,7 @@ IsSingle =&gt; Boolean.False
         L_MESSAGE =&gt; 0,
         T_TRAIN =&gt; 120,
         M_ACK =&gt; 0,
-        NID_LRBG =&gt; 9618,
+        NID_LRBG =&gt; 2295884,
         LEVEL_2_3_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
         {
             NID_PACKET=&gt;8,
@@ -6361,7 +6465,7 @@ IsSingle =&gt; Boolean.False
         L_MESSAGE =&gt; 0,
         T_TRAIN =&gt; 120,
         M_ACK =&gt; 0,
-        NID_LRBG =&gt; 9618,
+        NID_LRBG =&gt; 2295884,
         LEVEL_2_3_MOVEMENT_AUTHORITY=&gt;Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
         {
             NID_PACKET=&gt;8,
@@ -6627,7 +6731,7 @@ IsSingle =&gt; Boolean.False
  Guid="76ac5283-c32d-4181-a348-382e77050531"
 >BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
 {
-    NID =&gt; 9630,
+    NID_BG =&gt; 9630,
     Orientation =&gt; OrientationEnum.Nominal,
     Position =&gt; BTM.PositionStruct
     {
@@ -6865,11 +6969,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="fefb336e-52c4-4530-9176-552e7c8501cd"
->Kernel.MA.SvL().Speed == Kernel.MA.MA.TargetSpeed</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Speed == Kernel.MA.MA.TargetSpeed</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="79381957-7718-4f72-89ae-f836eaad6374"
->Kernel.MA.SvL().Location == Kernel.MA.OverlapLocation()</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Location == Kernel.MA.SvL.OverlapLocation()</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="86c5fc2a-aa5d-4b2c-a68d-6afa98be1bd0"
@@ -6958,11 +7062,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="40843add-b194-4aee-ac7b-e778a9982dd2"
->Kernel.MA.SvL().Speed == Kernel.MA.MA.TargetSpeed</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Speed == Kernel.MA.MA.TargetSpeed</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="53ffcaf2-0711-41aa-98d8-5c1dfcd47113"
->Kernel.MA.SvL().Location == Kernel.MA.DangerPointLocation()</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Location == Kernel.MA.SvL.DangerPointLocation()</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="6ba9ba12-01fb-43be-a9f6-90b8dbef7ba9"
@@ -7047,11 +7151,11 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="fddd1095-e476-4711-a18d-7f4032df61d4"
->Kernel.MA.SvL().Speed == Kernel.MA.MA.TargetSpeed</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Speed == Kernel.MA.MA.TargetSpeed</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="a580ac02-fcf7-404e-89f0-675a3d1a6a44"
->Kernel.MA.SvL().Location == Kernel.MA.EOA().Location</Expectation><Expectation
+>Kernel.MA.SvL.SvL().Location == Kernel.MA.EOA.EOA().Location</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="b0c789c4-ba6d-4d4e-8d2f-a70ce9bfe1b9"
@@ -7154,7 +7258,7 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="cb1efda1-457b-4bc9-b0ac-d871fbed3c5d"
->Kernel.MA.SvL() == EMPTY</Expectation><Expectation
+>Kernel.MA.SvL.SvL() == EMPTY</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="4727a3d0-6b2d-4b38-a820-b2aea024c5bd"

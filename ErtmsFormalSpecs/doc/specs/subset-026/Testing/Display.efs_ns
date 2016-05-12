@@ -220,7 +220,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
  Guid="52ef9e5b-a4ae-4429-a4ca-7166927e82cf"
 >Distance &lt; aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition><PreCondition
  Guid="4f4aff81-9edd-42ef-a1e4-c1e421aac841"
->Kernel.MA.IsSvL ( aTarget )</PreCondition></PreConditions>
+>Kernel.MA.SvL.IsSvL ( aTarget )</PreCondition></PreConditions>
 <Expression>aTarget.Speed</Expression>
 </Case><Case
  Name="During target (other), d_EBI unknown"
@@ -378,14 +378,14 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
 <PreConditions>
 <PreCondition
  Guid="53634c1c-2959-451a-949d-2699a79a286d"
->NOT Kernel.MA.EOADefined()</PreCondition></PreConditions>
+>NOT Kernel.MA.EOA.EOADefined()</PreCondition></PreConditions>
 <Expression>BaseTypes.Speed.NA</Expression>
 </Case><Case
  Name="Value"
  Guid="0a8f603f-54a4-4931-a14b-bc70a2d89895"
 >
 <Expression>DecelerationProfile ( 
-  SpeedRestrictions =&gt; Kernel.MA.EOASpeedRestriction, 
+  SpeedRestrictions =&gt; Kernel.MA.EOA.EOASpeedRestriction, 
   DecelerationFactor =&gt; Kernel.TrainData.BrakingParameters.A_expected ) 
 ( aDistance )</Expression>
 </Case></Cases>
@@ -476,10 +476,10 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction) (Distance)</Expression>
     (
         First =&gt; AddIncrement
         (
-            Function =&gt; Kernel.MA.LOASpeedRestriction,
+            Function =&gt; Kernel.MA.EOA.LOASpeedRestriction,
             Increment =&gt; Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi
         ),
-        Second =&gt; Kernel.MA.SvLSpeedRestriction
+        Second =&gt; Kernel.MA.SvL.SvLSpeedRestriction
     )
 )(Distance)</Expression>
 </Case></Cases>

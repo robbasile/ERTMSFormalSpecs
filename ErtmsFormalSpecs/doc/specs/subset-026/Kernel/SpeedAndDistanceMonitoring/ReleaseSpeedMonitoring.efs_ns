@@ -307,12 +307,12 @@ BaseTypes.MaxDistance(
 >NOT ActiveFunctions.DetermineEOA_SvL_etc()</PreCondition><PreCondition
  Guid="eb66838b-bf4f-42e9-bafb-0a6425546694"
 >Available(MA.MA)</PreCondition></PreConditions>
-<Expression>MA.EndOfMA()</Expression>
+<Expression>MA.EOA.EndOfMA()</Expression>
 </Case><Case
  Name="Value"
  Guid="84b3a91b-2eaa-41b9-b009-38522929c69a"
 >
-<Expression>MA.EOA().Location</Expression>
+<Expression>MA.EOA.EOA().Location</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -509,7 +509,7 @@ INITIAL_VALUE
 <Expression>REDUCE TARGETS(MIN(
         First=&gt;Kernel.MRSP.SpeedRestrictions,
         Second=&gt;Kernel.NationalValues.MaxDistInSRSpeedRestriction)
-) | (X.Location &gt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() AND X.Location &lt;= Kernel.MA.SvL().Location AND X.Speed &lt;= Vrelease)
+) | (X.Location &gt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() AND X.Location &lt;= MA.SvL.SvL().Location AND X.Speed &lt;= Vrelease)
   USING X IN BaseTypes.MinDistance(
           X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
                     Vest =&gt; Vrelease,
@@ -567,9 +567,9 @@ INITIAL_VALUE
 <PreConditions>
 <PreCondition
  Guid="b47be892-7e1d-4e83-95fc-d39166364d07"
->NOT Kernel.MA.IsEOA(aTarget)</PreCondition><PreCondition
+>NOT MA.EOA.IsEOA(aTarget)</PreCondition><PreCondition
  Guid="cb49e0da-1358-4a5a-aff6-eb1bdf150648"
->NOT Kernel.MA.IsSvL(aTarget)</PreCondition></PreConditions>
+>NOT MA.SvL.IsSvL(aTarget)</PreCondition></PreConditions>
 <Expression>0.0</Expression>
 </Case><Case
  Name="Mode profile"
@@ -667,7 +667,7 @@ INITIAL_VALUE
 <Expression>MAP TargetsList() |
   X.Location &gt;= d_tripEOA()
     AND  
-  X.Location &lt;= MA.SvL().Location
+  X.Location &lt;= MA.SvL.SvL().Location
 USING X IN X</Expression>
 </Case></Cases>
 </Function><Function
@@ -834,7 +834,7 @@ USING X IN X</Expression>
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt;- 
 Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedValue(
     Vrel =&gt; BaseTypes.Speed.UseNV,
-    aSvLlocation =&gt; MA.SvL().Location
+    aSvLlocation =&gt; MA.SvL.SvL().Location
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
@@ -856,7 +856,7 @@ Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedValue(
 <Actions>
 <Action
  Guid="bdeef7f9-b1e9-4712-8e10-b086f369f67d"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt;- Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedValue ( Vrel =&gt; Kernel.MA.MA.EndSection.Overlap.ReleaseSpeed, aSvLlocation =&gt; MA.EndOfMA() + MA.MA.EndSection.Overlap.Distance )</Action></Actions>
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt;- Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedValue ( Vrel =&gt; Kernel.MA.MA.EndSection.Overlap.ReleaseSpeed, aSvLlocation =&gt; MA.EOA.EndOfMA() + MA.MA.EndSection.Overlap.Distance )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="DangerPoint"
@@ -879,7 +879,7 @@ Available ( Kernel.MA.MA.EndSection.DangerPoint )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b92f4e34-c91d-4c82-ab5a-8de9b327c19f"
->Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt;- Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedValue ( aSvLlocation =&gt; MA.EndOfMA() + MA.MA.EndSection.DangerPoint.Distance, Vrel =&gt; Kernel.MA.MA.EndSection.DangerPoint.ReleaseSpeed )</Action></Actions>
+>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt;- Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeedValue ( aSvLlocation =&gt; MA.EOA.EndOfMA() + MA.MA.EndSection.DangerPoint.Distance, Vrel =&gt; Kernel.MA.MA.EndSection.DangerPoint.ReleaseSpeed )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="NoReleaseSpeed"

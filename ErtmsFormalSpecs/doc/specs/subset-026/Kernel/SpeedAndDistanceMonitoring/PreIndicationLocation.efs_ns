@@ -636,7 +636,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 <PreConditions>
 <PreCondition
  Guid="752251aa-afac-4d10-b3b3-9e6439c6d26f"
->NOT Kernel.MA.IsEOA(MA.EOA())</PreCondition></PreConditions>
+>NOT MA.EOA.IsEOA(MA.EOA.EOA())</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="SBD below V_MRSP"
@@ -647,7 +647,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
  Guid="395d82aa-4a02-4070-89b4-d96d16f5f732"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.SBD_Target(
     Distance =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom),
-    aTarget =&gt; MA.EOA()
+    aTarget =&gt; MA.EOA.EOA()
 )  &lt;  Kernel.MRSP.V_MRSP()</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
@@ -716,7 +716,7 @@ Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.d_SBI2 ( aTarget =&gt; a
 <PreConditions>
 <PreCondition
  Guid="8a7f07a2-d203-4a37-b73a-d28fce674373"
->Kernel.MA.IsEOA(aTarget)</PreCondition></PreConditions>
+>MA.EOA.IsEOA(aTarget)</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed_EOA(aSpeed)</Expression>
 </Case><Case
  Name="EBD-based target"
