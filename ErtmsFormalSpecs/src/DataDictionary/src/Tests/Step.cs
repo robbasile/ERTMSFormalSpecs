@@ -163,25 +163,30 @@ namespace DataDictionary.Tests
         ///     Translates the current step according to the translation dictionary
         ///     Removes all preconditions, actions and expectations
         /// </summary>
-        /// <returns>False if no error where found while translating this step</returns>
-        public bool Translate()
+        /// <param name="applyTranslation">Indicates that the translation should be applied. Otherwise, this method only cleans the step. 
+        /// This is used to handle the fact that a blocking error has been found, and translating the sub sequence should be stopped, 
+        /// but the next steps should be cleaned</param>
+        /// <returns>False if an error has been found while translating this step, or if translations should not be applied</returns>
+        public bool Translate(bool applyTranslation)
         {
-            bool retVal = false;
+            bool retVal = applyTranslation;
 
             Counter counter = new Counter();
             counter.visit(this);
             if (counter.Issues[IssueKind.Blocking] != 0)
             {
-                retVal = true;
+                retVal = false;
             }
-            else
-            {
-                if (getTranslationRequired())
-                {
-                    Util.DontNotify(() =>
-                    {
-                        SubSteps.Clear();
 
+            if (getTranslationRequired())
+            {
+                Util.DontNotify(() =>
+                {
+                    setTranslated(false);
+                    SubSteps.Clear();
+
+                    if (retVal)
+                    {
                         Translation translation = EFSSystem.FindTranslation(this);
                         if (translation != null)
                         {
@@ -192,8 +197,8 @@ namespace DataDictionary.Tests
                         {
                             AddWarning("Cannot find translation for this step");
                         }
-                    });
-                }
+                    }
+                });
             }
 
             return retVal;

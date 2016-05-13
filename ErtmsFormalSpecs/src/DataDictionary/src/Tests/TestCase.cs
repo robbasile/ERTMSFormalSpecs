@@ -69,19 +69,17 @@ namespace DataDictionary.Tests
         /// <summary>
         ///     Translates the current step, according to the translation dictionary
         /// </summary>
-        /// <returns>False if a blocking issue has been found while translating the subsequence</returns>
-        public bool Translate()
+        /// <param name="applyTranslations">Indicates that the translation should be applied. Otherwise, this method only cleans the step. 
+        /// This is used to handle the fact that a blocking error has been found, and translating the sub sequence should be stopped, 
+        /// but the next steps should be cleaned</param>
+        /// <returns>False if an error has been found while translating this test case, or if translations should not be applied</returns>
+        public bool Translate(bool applyTranslations)
         {
-            bool retVal = false;
+            bool retVal = applyTranslations;
 
             foreach (Step step in Steps)
             {
-                retVal = step.Translate();
-
-                if (retVal)
-                {
-                    break;
-                }
+                retVal = step.Translate(retVal);
             }
 
             return retVal;

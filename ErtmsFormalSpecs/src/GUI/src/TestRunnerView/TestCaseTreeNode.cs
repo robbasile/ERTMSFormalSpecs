@@ -132,7 +132,7 @@ namespace GUI.TestRunnerView
             MarkingHistory.PerformMark(() =>
             {
                 FinderRepository.INSTANCE.ClearCache();
-                Item.Translate();
+                Item.Translate(true);
             });
             RefreshModel.Execute();
         }
