@@ -44,7 +44,7 @@
 >Direction == ConfidenceIntervalEnum.L_DOUBTOVER</PreCondition><PreCondition
  Guid="464df18d-7b2c-436a-9855-6f3905c0e644"
 >Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.ConfidenceInterval.AdditionalOverReadingAmount() + BTM.LRBGLocationAccuracy()</Expression>
+<Expression>TrainPosition.ConfidenceInterval.AdditionalOverReadingAmount() + BTM.LRBGLocationAccuracy()</Expression>
 </Case><Case
  Name="L_DOUBTUNDER"
  Guid="e41990ba-ed91-4c5d-904b-87b86d208990"
@@ -55,7 +55,7 @@
 >Direction == ConfidenceIntervalEnum.L_DOUBTUNDER</PreCondition><PreCondition
  Guid="b935f27b-ca19-4a1f-b41c-9c394b5292c5"
 >Available ( BTM.LRBG.UnlinkedBGPosition )</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.ConfidenceInterval.AdditionalUnderReadingAmount() + BTM.LRBGLocationAccuracy()</Expression>
+<Expression>TrainPosition.ConfidenceInterval.AdditionalUnderReadingAmount() + BTM.LRBGLocationAccuracy()</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Length"
@@ -239,23 +239,54 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="L_DOUBTOVER"
+ Name="L_DOUBTOVER - Nominal orientation"
  Guid="42ca5663-fa6a-46a1-b6b7-e877c3eaf2ee"
 >
 <PreConditions>
 <PreCondition
  Guid="67b1f287-e27b-43b1-9c78-f3744fa8fdbb"
->Direction == ConfidenceIntervalEnum.L_DOUBTOVER</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount(Odometry.Accuracy.D_ora) + BTM.LRBGLocationAccuracy()</Expression>
+>Direction == ConfidenceIntervalEnum.L_DOUBTOVER</PreCondition><PreCondition
+ Guid="43d6246d-e76f-40ce-b6b4-ab81724b9629"
+>Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>TrainPosition.ConfidenceInterval.OverReadingAmount(Odometry.Accuracy.D_ora) + BTM.LRBGLocationAccuracy()</Expression>
 </Case><Case
- Name="L_DOUBTUNDER"
+ Name="L_DOUBTUNDER - Nominal orientation"
  Guid="a19a1e59-da54-4197-bccf-081040d859a4"
 >
 <PreConditions>
 <PreCondition
  Guid="154edbe4-5899-4c83-b4d4-9b248e032553"
->Direction == ConfidenceIntervalEnum.L_DOUBTUNDER</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount(Odometry.Accuracy.D_ura) + BTM.LRBGLocationAccuracy()</Expression>
+>Direction == ConfidenceIntervalEnum.L_DOUBTUNDER</PreCondition><PreCondition
+ Guid="652603a7-2d80-428f-acd2-4c820a3c2b7f"
+>Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>TrainPosition.ConfidenceInterval.UnderReadingAmount(Odometry.Accuracy.D_ura) + BTM.LRBGLocationAccuracy()</Expression>
+</Case><Case
+ Name="L_DOUBTOVER - Reverse orientation"
+ Guid="d9fd4e95-c704-4881-9de2-436bdab18868"
+>
+<PreConditions>
+<PreCondition
+ Guid="1a41a331-a5d8-4654-87f4-3b1630ef8e48"
+>Direction == ConfidenceIntervalEnum.L_DOUBTOVER</PreCondition><PreCondition
+ Guid="62e69310-6ce7-4387-903e-389bc21050b0"
+>Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>TrainPosition.ConfidenceInterval.UnderReadingAmount(Odometry.Accuracy.D_ura) + BTM.LRBGLocationAccuracy()</Expression>
+</Case><Case
+ Name="L_DOUBTUNDER - Reverse orientation"
+ Guid="13f421ce-0cde-467a-b98e-ea4d4d3756b5"
+>
+<PreConditions>
+<PreCondition
+ Guid="5bb76f6f-5fe0-429e-8da8-aeb15b6ca7fc"
+>Direction == ConfidenceIntervalEnum.L_DOUBTUNDER</PreCondition><PreCondition
+ Guid="0b722eea-447e-4462-adf7-170e5afffe94"
+>Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>TrainPosition.ConfidenceInterval.OverReadingAmount(Odometry.Accuracy.D_ora) + BTM.LRBGLocationAccuracy()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5cd4140b-f313-4a2e-8f0a-c23319e227be"
+>
+<Expression>BaseTypes.Length.NA</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

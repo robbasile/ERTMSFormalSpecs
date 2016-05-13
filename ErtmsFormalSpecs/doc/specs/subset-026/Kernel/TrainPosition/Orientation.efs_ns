@@ -176,6 +176,61 @@ This is determined by checking the relative positions of the front and rear end 
 >
 <Expression>ReverseOfOrientation( aPreviousTrainFront )</Expression>
 </Case></Cases>
+</Function><Function
+ Type="OrientationEnum"
+ Default=""
+ X="130"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TrainOrientation"
+ Guid="e6a45959-fed2-48ed-990b-9291b5ea891c"
+>
+<ReqRef
+ Id="e4ba9e39-0596-45cb-a3b4-e7e37c3b50b2"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="7f4f6fa1-283b-44f7-aa3a-3f961333f0a8"
+>
+</ReqRef><ReqRef
+ Id="7498df92-a3c7-4b25-922e-9add31ac8f26"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="0cd200cc-0145-4ced-a1bb-1cfbe4ac591e"
+>
+</ReqRef><ReqRef
+ Id="fd2b65f4-fdab-4cbe-8299-77e2f93055e0"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="b7c4941a-4f20-46bb-8cf1-226d82fc4f95"
+>
+</ReqRef><Cases>
+<Case
+ Name="Nominal"
+ Guid="6e54bfcc-59da-4ae8-a342-f028a8f4624a"
+>
+<PreConditions>
+<PreCondition
+ Guid="eff0036a-b455-4e11-866c-46a88fa7693f"
+>DMI.DMI1.IsMaster</PreCondition><PreCondition
+ Guid="ef4df789-217e-4fea-8c5c-f9f961d4200b"
+>NOT DMI.DMI2.IsMaster</PreCondition></PreConditions>
+<Expression>OrientationEnum.Nominal</Expression>
+</Case><Case
+ Name="Reverse"
+ Guid="67092474-d026-4c68-865c-aab867e2bbd8"
+>
+<PreConditions>
+<PreCondition
+ Guid="a0a8c66a-6df7-45a6-9d67-53378cdce8b6"
+>NOT DMI.DMI1.IsMaster</PreCondition><PreCondition
+ Guid="3d4797d4-a87e-4fd3-bac5-199350050944"
+>DMI.DMI2.IsMaster</PreCondition></PreConditions>
+<Expression>OrientationEnum.Reverse</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5854ccf0-30e4-41da-bdb0-8eb3587e4bd9"
+>
+<Expression>OrientationEnum.Unknown</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -217,6 +272,11 @@ This is determined by checking the relative positions of the front and rear end 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9490453f-021c-44c1-849e-be1450c98ef4"
 >
+</ReqRef><ReqRef
+ Id="35aec466-872c-424f-9c1e-29ed3c6a09f3"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="d82f0650-2313-43c5-8879-c04629fe0a58"
+>
 </ReqRef><Comment>A change of orientation occurs when the driver closes one cab and open another.
 Closing the cab causes the on-board to enter SB mode, which deletes or resets almost all stored information.
 Of the unchanged data, only
@@ -247,8 +307,8 @@ are position-based, and need to be handled.</Comment>
 <Actions>
 <Action
  Guid="6660475b-6427-4ccc-8fdb-53fb8b17c7f0"
->Position.DirectionalPositionInformation &lt;- Kernel.TrainPosition.DirectionalTrainPositionInformationStruct{
-TrainFrontEndPosition =&gt; UpdatedTrainFrontEndPosition(Position.DirectionalPositionInformation.TrainFrontEndPosition),
+>Position.DirectionalPositionInformation &lt;- TrainPosition.DirectionalTrainPositionInformationStruct{
+TrainFrontEndPosition =&gt; Orientation.UpdatedTrainFrontEndPosition(Position.DirectionalPositionInformation.TrainFrontEndPosition),
 TrainOrientation =&gt; ReverseOfOrientation(Position.DirectionalPositionInformation.TrainOrientation),
 TrainRunningDirection =&gt; ReverseOfOrientation(Position.DirectionalPositionInformation.TrainRunningDirection)
 }</Action></Actions>
@@ -312,6 +372,26 @@ TrainRunningDirection =&gt; ReverseOfOrientation(Position.DirectionalPositionInf
  Guid="f4686b39-1e93-4389-9f92-ab6cb140ef00"
 >Kernel.NationalValues.NotApplicableNationalValues &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Update train integrity"
+ Guid="e7cc2b21-540a-4a71-9eb0-6ba62fb6a4a4"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Update train integrity"
+ Guid="35e6ef61-a700-4e7f-b1b3-3bdb64aae00e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e5e4e373-a0e1-4a15-95d6-b3e939648eb7"
+>InvalidateInformation( TrainIntegrity.TrainIntegrity )</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
  X="20"
@@ -347,11 +427,11 @@ TrainRunningDirection =&gt; ReverseOfOrientation(Position.DirectionalPositionInf
 <PreConditions>
 <PreCondition
  Guid="8d965b4d-b3c9-4931-8d7c-1d523787ef61"
->OrientationChanged()</PreCondition></PreConditions>
+>Orientation.OrientationChanged()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="6c9a5bdc-f161-4685-a449-0b52e5a617aa"
->HandleStoredInformation()</Action></Actions>
+>Orientation.HandleStoredInformation()</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
