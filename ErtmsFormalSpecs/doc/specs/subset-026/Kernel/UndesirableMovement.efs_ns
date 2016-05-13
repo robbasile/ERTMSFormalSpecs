@@ -128,10 +128,28 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Value"
+ Name="Train orientation nominal"
  Guid="26801c08-367c-4d0b-8c3c-6be74e9ea508"
 >
+<PreConditions>
+<PreCondition
+ Guid="7cdb4055-1819-48cc-9ac8-d23b60b98aa3"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - aReferenceDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Train orientation reverse"
+ Guid="a4faf011-e5e2-422b-b5fb-f75594abf73d"
+>
+<PreConditions>
+<PreCondition
+ Guid="1a23399d-4510-4e17-8fff-4c577801fa61"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="9d7e23bb-040c-4007-885c-d5ef4ac42841"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -174,19 +192,50 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Reversing mode"
+ Name="Reversing mode - Train orientation nominal"
  Guid="147fc84c-d166-41f7-a3de-26c6ef999b5d"
 >
 <PreConditions>
 <PreCondition
  Guid="cc1b9283-1c87-4432-8dbe-c2fd0ccd3330"
->Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.RV</PreCondition><PreCondition
+ Guid="a51f28bb-6f20-454f-a4da-f741da2fae82"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Otherwise - Train orientation nominal"
+ Guid="cece71ce-efaa-45fe-b7c5-6e2603442a61"
+>
+<PreConditions>
+<PreCondition
+ Guid="a9bc591d-4ad7-4db4-8c27-a48b81fb689e"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Reversing mode - Train orientation reverse"
+ Guid="e61b38be-67ad-4660-9edd-1236269f6436"
+>
+<PreConditions>
+<PreCondition
+ Guid="cef4016e-d2d5-401a-a4b4-e299736fb1ef"
+>Kernel.Mode == ModeEnum.RV</PreCondition><PreCondition
+ Guid="c3eeeb5c-d00c-49dc-a8fc-fe891252612f"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>aReferenceDistance  - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Otherwise - Train orientation reverse"
+ Guid="48ca8d0d-f7c4-40b2-b123-ba8a64835c49"
+>
+<PreConditions>
+<PreCondition
+ Guid="f04acc96-64ca-4036-9b43-6acb8a679845"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - aReferenceDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case><Case
  Name="Otherwise"
- Guid="cece71ce-efaa-45fe-b7c5-6e2603442a61"
+ Guid="ac85dad6-c8f3-42ca-a736-f06f5a615855"
 >
-<Expression>aReferenceDistance - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -222,7 +271,7 @@
 </ReqRef><Comment>Indicates whether the conditions to trigger a brake command due to the reverse movement protection have been fulfilled.</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Nominal orientation"
  Guid="1477ed66-aaf4-4fd3-9194-20a75ac62200"
 >
 <Expression>Kernel.UndesirableMovement.MovedBackwardBeyondReference(Kernel.UndesirableMovement.ReverseMovementReferencePosition)</Expression>
@@ -291,19 +340,50 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Reversing mode"
+ Name="Reversing mode - Train orientation nominal"
  Guid="5fb606db-eb04-421a-b669-eacb34a9c0d9"
 >
 <PreConditions>
 <PreCondition
  Guid="b637bd5d-b539-45b5-ad4b-b3aeec79ae48"
->Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
+>Kernel.Mode == ModeEnum.RV</PreCondition><PreCondition
+ Guid="a1ddc2dd-fdc8-4030-9c5e-aa872211983e"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - aReferenceDistance &gt; 0.0</Expression>
+</Case><Case
+ Name="Other modes - Train orientation nominal"
+ Guid="3cca33cd-f2b4-41d6-80a6-f743238df421"
+>
+<PreConditions>
+<PreCondition
+ Guid="d8890700-69fc-402a-b736-8fc29f75854d"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; 0.0</Expression>
+</Case><Case
+ Name="Reversing mode - Train orientation reverse"
+ Guid="cc9aaf4c-4b98-48cc-81bf-d0173a21d84e"
+>
+<PreConditions>
+<PreCondition
+ Guid="f4643940-fa84-4e49-b0ff-c234c3f2635c"
+>Kernel.Mode == ModeEnum.RV</PreCondition><PreCondition
+ Guid="02ed306e-0ba8-4e90-946a-c7aa2bca7683"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>aReferenceDistance - Odometry.NominalDistance &gt; 0.0</Expression>
+</Case><Case
+ Name="Other modes - Train orientation reverse"
+ Guid="5921437e-f93b-47d2-a660-1ae1683e4304"
+>
+<PreConditions>
+<PreCondition
+ Guid="a37fbdc3-577e-4cfd-b84a-eed7a7bc95c1"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - aReferenceDistance &gt; 0.0</Expression>
 </Case><Case
  Name="Otherwise"
- Guid="3cca33cd-f2b4-41d6-80a6-f743238df421"
+ Guid="cd9f479e-b240-4448-ae38-880831308f58"
 >
-<Expression>aReferenceDistance - Odometry.NominalDistance &gt; 0.0</Expression>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -345,23 +425,54 @@ Kernel.UndesirableMovement.MovedForwardBeyondReference(Kernel.UndesirableMovemen
   OR  
 (Kernel.UndesirableMovement.RollAwayMovementReferencePosition - Odometry.NominalDistance &gt;Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup)</Expression>
 </Case><Case
- Name="Direction controller in forward"
+ Name="Direction controller in forward - Train orientation nominal"
  Guid="125749c0-698b-44eb-b30b-e2cfe24344ea"
 >
 <PreConditions>
 <PreCondition
  Guid="a8da17ac-472c-4f65-a3f5-2e4e00978249"
->TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition></PreConditions>
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition><PreCondition
+ Guid="bdf808af-37eb-4afe-99a0-1a3cfaaaaedb"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Kernel.UndesirableMovement.RollAwayMovementReferencePosition - Odometry.NominalDistance &gt;Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
 </Case><Case
- Name="Direction controller in backward"
+ Name="Direction controller in backward - Train orientation nominal"
  Guid="ef7049c3-4c8b-4922-a545-ad76b1a26d1d"
 >
 <PreConditions>
 <PreCondition
  Guid="d264d10d-2834-40a9-8d4a-fa0acbf240b5"
->TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition></PreConditions>
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition><PreCondition
+ Guid="fd77f3d1-86a6-43db-af68-d7c513306bfd"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Odometry.NominalDistance - Kernel.UndesirableMovement.RollAwayMovementReferencePosition &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Direction controller in forward - Train orientation reverse"
+ Guid="c43f828c-2974-4a8d-bb4f-c514967171d8"
+>
+<PreConditions>
+<PreCondition
+ Guid="72fbdc25-7712-4426-85e1-34f23305fcca"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Forward</PreCondition><PreCondition
+ Guid="a05a190e-906f-47eb-9ea6-6ce80c972372"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>Odometry.NominalDistance - Kernel.UndesirableMovement.RollAwayMovementReferencePosition &gt;Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Direction controller in backward - Train orientation reverse"
+ Guid="9f0bd0a3-0a46-4329-9cb7-e4dd1688a923"
+>
+<PreConditions>
+<PreCondition
+ Guid="bd331a09-3865-4f57-8b99-aead3f9b9bc0"
+>TIU.DirectionControllerInformation == TIU.DirectionControllerEnum.Backward</PreCondition><PreCondition
+ Guid="a92b1cbc-5838-418b-a304-8482519530b1"
+>TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>Kernel.UndesirableMovement.RollAwayMovementReferencePosition - Odometry.NominalDistance &gt; Kernel.NationalValues.ApplicableNationalValues.Value.DistToBeUsedInRollAwayProt_RevMvtProt_StandstillSup</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="98a20115-2a42-4b8c-b977-d2405b1d8a97"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>
