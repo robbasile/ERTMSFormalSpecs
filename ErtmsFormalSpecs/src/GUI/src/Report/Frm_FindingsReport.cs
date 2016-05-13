@@ -53,8 +53,7 @@ namespace GUI.Report
 
             Hide();
 
-            ProgressDialog dialog = new ProgressDialog("Generating report", ReportHandler);
-            dialog.ShowDialog(Owner);
+            ReportUtil.CreateReport(Owner, ReportHandler);
         }
 
         private void Btn_SelectFile_Click(object sender, EventArgs e)

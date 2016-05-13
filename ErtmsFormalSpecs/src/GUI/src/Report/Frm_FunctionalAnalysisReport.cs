@@ -61,8 +61,8 @@ namespace GUI.Report
             _reportHandler.Name = "Functional Analysis report";
 
             Hide();
-            ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
-            dialog.ShowDialog(Owner);
+
+            ReportUtil.CreateReport(Owner, _reportHandler);
         }
     }
 }

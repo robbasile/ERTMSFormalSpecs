@@ -59,7 +59,16 @@ namespace Reports
             Dictionary = dictionary;
         }
 
+        /// <summary>
+        /// This method must be implemented to create the document contents
+        /// </summary>
+        /// <returns></returns>
         public abstract Document BuildDocument();
+
+        /// <summary>
+        /// The error raised when creating the document, if any
+        /// </summary>
+        public Exception Error { get; private set; }
 
         /// <summary>
         ///     Generates the file in the background thread
@@ -122,10 +131,9 @@ namespace Reports
             }
             catch (Exception e)
             {
-                throw  new Exception("Cannot render document.", e);
+                Error = e;
             }
 
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             return retVal;
         }
     }

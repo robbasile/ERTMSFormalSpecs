@@ -159,8 +159,7 @@ namespace GUI.Report
 
             Hide();
 
-            ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
-            dialog.ShowDialog(Owner);
+            ReportUtil.CreateReport(Owner, _reportHandler);
         }
 
         /// <summary>

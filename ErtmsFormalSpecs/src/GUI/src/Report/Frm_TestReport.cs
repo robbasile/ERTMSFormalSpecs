@@ -259,19 +259,8 @@ namespace GUI.Report
 
             Hide();
 
-            try
-            {
-                SynchronizerList.SuspendSynchronization();
-
-                ProgressDialog dialog = new ProgressDialog("Generating report", _reportHandler);
-                dialog.ShowDialog(Owner);
-            }
-            finally
-            {
-                SynchronizerList.ResumeSynchronization();
-            }
+            ReportUtil.CreateReport(Owner, _reportHandler);
         }
-
 
         /// <summary>
         ///     Permits to select the name and the path of the report
