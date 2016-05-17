@@ -48,7 +48,18 @@
  Name="UpdatedMessageIn"
  Guid="d126b310-93ea-4ece-8b07-e1d48e7f71b4"
 >
-<Comment>The operational version of incoming messages is SystemVersion2. This function is used to translate a lower version version received message. It returns a Messages.EURORADIO.MessageIn.Message structure. Note that the original and stored structure is not changed.</Comment>
+<ReqRef
+ Id="df43d600-5638-4182-ba06-d74902c13828"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b896cf7e-629e-4729-ad2f-b45f21627012"
+>
+</ReqRef><ReqRef
+ Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f8e0ecfb-95dd-45d4-adde-b5ffde7800c7"
+>
+</ReqRef><Comment>The operational version of incoming messages is SystemVersion2. This function is used to translate a lower version version received message. It returns a Messages.EURORADIO.MessageIn.Message structure. 
+Note that the original and stored structure is not changed.</Comment>
 <Parameters>
 <Parameter
  Type="RBCConnection.RBCStruct"
@@ -119,6 +130,49 @@ SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.
 SystemVersion1 =&gt; EMPTY,
 Priority =&gt; aRBC.Data.MessageIn.Priority
 }</Expression>
+</Case><Case
+ Name="Incompatible system version_V2container"
+ Guid="b3e16294-94e3-4d45-a8a4-2ec67162788d"
+>
+<Comment>While attempting to establish a communication session, if the received system version is unknown to the system, one should allow 
+the exchange of a few versionless messages before ending the connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7a650ace-e866-4561-89a0-fe6ac3c21ef7"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="d0a92b72-cbeb-4eb0-a5b1-1809f3f632c6"
+>aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Unknown</PreCondition><PreCondition
+ Guid="457593dd-d6d8-40a7-9d7e-bb3863f5a101"
+>aRBC.ConnectionState in[EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</PreCondition><PreCondition
+ Guid="e69f9675-442f-4d34-a205-95854d017db3"
+>aRBC.Data.MessageIn.SystemVersion1 == EMPTY</PreCondition></PreConditions>
+<Expression>aRBC.Data.MessageIn</Expression>
+</Case><Case
+ Name="Incompatible system version_V1container"
+ Guid="a290c0ca-cae2-4e47-bb91-c79bc58ec144"
+>
+<Comment>While attempting to establish a communication session, if the received system version is unknown to the system, one should allow 
+the exchange of a few versionless messages before ending the connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b33b16bf-67c0-476b-bdd3-5192e1d8803d"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="4b1244d0-bbce-44aa-a913-cdba501a134f"
+>aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Unknown</PreCondition><PreCondition
+ Guid="fe387ed9-eb8c-41fc-ac01-b5c34e09037f"
+>aRBC.ConnectionState in[EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</PreCondition><PreCondition
+ Guid="d741c541-d436-4675-a72d-f342c5640d62"
+>aRBC.Data.MessageIn.SystemVersion2 == EMPTY</PreCondition></PreConditions>
+<Expression>Messages.EURORADIO.MessageIn.Message{
+SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.Data.MessageIn.SystemVersion1),
+SystemVersion1 =&gt; EMPTY,
+Priority =&gt; aRBC.Data.MessageIn.Priority
+}
+</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
@@ -784,7 +838,8 @@ In the case the incoming message is EMPTY, the function returns true since the a
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="6bda043d-8cc2-4f54-925f-a0a80adf54f3"
 >
-</ReqRef><Comment>Indicates if an outgoing message can be sent. The only condition to be satisfied is to have an established session. 
+</ReqRef><Comment>Indicates if an outgoing message can be sent. The only condition to be satisfied is to have an established 
+ or establishing session (a message failure can be sent while connecting if the system version is not supported). 
 A message can thus be sent during a loss of the safe radio connection if the connection state is still &quot;Connected&quot;. 
 But no message can be sent after the message &quot;Termination of communication session&quot; since after having sent 
 this message the system goes to &quot;Terminating&quot; state.</Comment>
@@ -800,7 +855,10 @@ this message the system goes to &quot;Terminating&quot; state.</Comment>
  Name="Value"
  Guid="89ac9c68-8258-4a49-ae9d-2281f7d8966a"
 >
-<Expression>anRBC.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.Connected</Expression>
+<Expression>anRBC.ConnectionState in 
+[RBCConnection.RBCStruct.ConnectionStateSM.Connected, 
+RBCConnection.RBCStruct.ConnectionStateSM.Connecting
+]</Expression>
 </Case></Cases>
 </Function><Function
  Type="BTM.LRBG.BaliseGroupStruct"

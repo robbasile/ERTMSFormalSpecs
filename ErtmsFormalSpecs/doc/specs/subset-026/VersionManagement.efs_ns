@@ -375,6 +375,10 @@ to match any integer not recognised as an onborad version, being supported or no
  Name="Version1_0"
  Guid="765e9875-e2d1-4a70-9174-3ff09cf1836d"
 >
+<PreConditions>
+<PreCondition
+ Guid="ed90ef46-e64a-4188-9bbb-2c938016d1f3"
+>aMessageVersion == Messages.M_VERSION.Version_1_0__introduced_in_SRS_1_2_0_and_re_used_in_SRSs_2_0_0__2_2_2__2_3_0</PreCondition></PreConditions>
 <Expression>SystemVersionEnum.Version1_0</Expression>
 </Case><Case
  Name="Otherwise"
@@ -673,6 +677,11 @@ This is the default rule which will be called at the beginning of each cycle, be
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f2ee985f-744c-4e0d-8258-335e9b7b39c2"
 >
+</ReqRef><ReqRef
+ Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ce57d4f3-ceb4-46f0-a40c-31835b930e41"
+>
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -685,6 +694,11 @@ This is the default rule which will be called at the beginning of each cycle, be
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3a5d59a9-8311-4a51-b893-b32a90e4d9e6"
 >
+</ReqRef><ReqRef
+ Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0246ab89-6f6a-4391-9b19-13c0ac64dc07"
+>
 </ReqRef><Comment>See comments and requirements of the calling procedure.</Comment>
 <PreConditions>
 <PreCondition
@@ -693,7 +707,13 @@ This is the default rule which will be called at the beginning of each cycle, be
  Guid="65599b14-1722-4c08-9d68-3e13ae3b192e"
 >Available(aRBCStruct.SessionManagementData.SystemVersion.Value)</PreCondition><PreCondition
  Guid="48db0e3f-d4e4-4941-9f9f-fb3ebdd1552f"
->Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition></PreConditions>
+>Kernel.Level.Value.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
+ Guid="3f10d7ba-f8f2-4b9b-b9c0-f6c5b5058872"
+><Comment>To set the system version as soon as the communication session is estblished.</Comment>
+aRBCStruct.ConnectionState in EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState</PreCondition><PreCondition
+ Guid="681d95b9-77b2-4c4a-b353-f2ca23523eb8"
+><Comment>In case of incompatible system version, the session is considered established but the onboard will terminate it immediately.</Comment>
+SystemVersionIsCompatible(aRBCStruct.SessionManagementData.SystemVersion.Value)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ace87758-9b7f-4c03-95bc-84b7a2173a77"
