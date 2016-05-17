@@ -61,7 +61,9 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="5f49982d-efd1-48e5-b246-8b37d960b7eb"
 >
-</ReqRef><Comment>The operated system version number.</Comment>
+</ReqRef><Comment>The operated system version number.
+The message parameter M_VERSION can receive a whole range of integers. The value &apos;Unknown&apos; is used 
+to match any integer not recognised as an onborad version, being supported or not.</Comment>
 <Values>
 <EnumValue
  Value=""
@@ -78,9 +80,14 @@
  Name="Version1_1"
  Guid="1f153b83-5624-478e-b29d-a641c0dfcd33"
 >
+</EnumValue><EnumValue
+ Value=""
+ Name="Unknown"
+ Guid="73456ef2-796c-48f8-b74b-6f29875c1db5"
+>
 </EnumValue></Values>
 </Enum><Enum
- Default="SystemMainVersionEnum.Version2"
+ Default="VersionManagement.SystemMainVersionEnum.Version2"
  X="550"
  Y="100"
  Width="100"
@@ -95,7 +102,9 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="2230161d-8ac4-4059-9a49-40bc7e431d50"
 >
-</ReqRef><Comment>The operated system version is of the form X.Y but the translations only need the main version number X.</Comment>
+</ReqRef><Comment>The operated system version is of the form X.Y but the translations only need the main version number X.
+The message parameter M_VERSION can receive a whole range of integers. The value &apos;Unknown&apos; is used 
+to match any integer not recognised as an onborad version, being supported or not.</Comment>
 <Values>
 <EnumValue
  Value=""
@@ -106,6 +115,11 @@
  Value=""
  Name="Version2"
  Guid="66cd475f-0d0a-48de-bbd3-26fc5eddf140"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Unknown"
+ Guid="acce649f-b212-43e3-af57-d630a81c07f5"
 >
 </EnumValue></Values>
 </Enum></Enumerations>
@@ -307,7 +321,16 @@
  Name="Version1_0"
  Guid="8687262c-d957-4468-aca6-fe25f3050598"
 >
+<PreConditions>
+<PreCondition
+ Guid="bcc42500-d71b-4dfc-b581-65b570227aaf"
+>SystemVersionEnum.Version1_0 in aSystemVersions</PreCondition></PreConditions>
 <Expression>SystemVersionEnum.Version1_0</Expression>
+</Case><Case
+ Name="Unknown"
+ Guid="2c65755f-4a78-4b6c-b837-e73b006d4487"
+>
+<Expression>SystemVersionEnum.Unknown</Expression>
 </Case></Cases>
 </Function><Function
  Type="SystemVersionEnum"
@@ -353,6 +376,11 @@
  Guid="765e9875-e2d1-4a70-9174-3ff09cf1836d"
 >
 <Expression>SystemVersionEnum.Version1_0</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="93c3e590-2b65-46c2-8ebd-9a7286536726"
+>
+<Expression>SystemVersionEnum.Unknown</Expression>
 </Case></Cases>
 </Function><Function
  Type="SystemVersionEnum"
@@ -425,6 +453,15 @@
  Guid="fd78ca85-f62d-4ec1-a1a5-0f3994827a2b"
 >aDetailledVersion in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
 <Expression>SystemMainVersionEnum.Version1</Expression>
+</Case><Case
+ Name="Unknown"
+ Guid="09afcea3-4a32-44a2-b5d7-64ae84dbb836"
+>
+<PreConditions>
+<PreCondition
+ Guid="c85f8a8f-014e-4c99-8837-d97c47e52a99"
+>aDetailledVersion in [SystemVersionEnum.Unknown]</PreCondition></PreConditions>
+<Expression>SystemMainVersionEnum.Unknown</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.M_VERSION"
@@ -438,7 +475,8 @@
  Name="MessageVersionFromSystemVersion"
  Guid="b9895084-c256-4ae1-b258-c06c461fb657"
 >
-<Comment>Simply performs a one to one correspondance between to types.</Comment>
+<Comment>Performs a correspondance between types.
+The value &apos;Unknown&apos; has no match.</Comment>
 <Parameters>
 <Parameter
  Type="SystemVersionEnum"
@@ -532,7 +570,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8cdb4220-6002-4d10-aa4b-75deaf0d2d9d"
 >
-</ReqRef><Comment>Indicates whether the system version of parameter X1 is greater than the system version of parameter X2.</Comment>
+</ReqRef><Comment>Indicates whether the system version of parameter X1 is greater than the system version of parameter X2.
+We assumed that any recognised version is greater than an Unknown version.</Comment>
 <Parameters>
 <Parameter
  Type="SystemVersionEnum"
@@ -555,6 +594,15 @@
  Guid="c66dfad0-f7e9-4eac-82fa-2b9e9b16f643"
 >X1 == SystemVersionEnum.Version2_0</PreCondition></PreConditions>
 <Expression>X2 in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</Expression>
+</Case><Case
+ Name="X1 is version 2_1"
+ Guid="10cd1b5e-b518-4fa6-828e-ed9e680a94d1"
+>
+<PreConditions>
+<PreCondition
+ Guid="e578d709-5d22-4902-a1cf-38b7709faecd"
+>X1 in [SystemVersionEnum.Version1_0, SystemVersionEnum.Version1_1]</PreCondition></PreConditions>
+<Expression>X2 == SystemVersionEnum.Unknown</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="259f1618-37bd-4915-b505-6a0d68337339"
