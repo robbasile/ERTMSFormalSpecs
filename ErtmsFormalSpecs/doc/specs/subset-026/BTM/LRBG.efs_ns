@@ -172,49 +172,6 @@
  Type="Boolean"
  Default=""
  X="150"
- Y="200"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="IsNewBG"
- Guid="c3d290dd-32f9-4add-a29f-5600b3ae9c90"
->
-<Comment>Indicates whether the BG is different from the current LRBG.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.NID_BG"
- Name="BGIdentifier"
- Guid="ef133f75-9ac5-43ac-b403-b0aaa68622da"
->
-</Parameter><Parameter
- Type="Messages.NID_C"
- Name="CountryIdentifier"
- Guid="1cbd3d59-699f-4779-a2d0-93ed2c28eb73"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="No LRBG"
- Guid="dafed603-8bc8-4ec1-8c92-3f2fd39551c5"
->
-<PreConditions>
-<PreCondition
- Guid="3a07a085-98e6-4907-99ab-8e2a5afcc380"
->NOT Available( LRBG )</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="Value"
- Guid="a5aa9f87-7420-4311-9766-18d0b6263d7f"
->
-<Expression>LRBG.NID_BG != BGIdentifier
-  OR  
-LRBG.NID_C != CountryIdentifier</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="150"
  Y="140"
  Width="100"
  Height="50"
@@ -810,11 +767,6 @@ Linking.LinkingApplicable()</Expression>
 the linking information regarding the location accuracy is used.</Comment>
 <PreConditions>
 <PreCondition
- Guid="f59f7d3d-8d42-4bdd-bbd8-4c554420d5a0"
->BTM.LRBG.IsNewBG(
-    BGIdentifier =&gt; GetNID_BG(aBaliseGroup),
-    CountryIdentifier =&gt; GetNID_C(aBaliseGroup)
-)</PreCondition><PreCondition
  Guid="9a0cc237-370c-4dcb-b53c-9bf804dd2a0d"
 >BTM.LRBG.LRBGCandidate(aBaliseGroup)</PreCondition></PreConditions>
 <Actions>
