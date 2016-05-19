@@ -3006,6 +3006,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Name="Reset contact information"
  Guid="34488b5e-6832-4438-a0cf-3ab9b983dd13"
 >
+<Comment>Contact information might be reset or not.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -4437,7 +4438,6 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 <PreCondition
  Guid="5f8339f0-ab5a-4b77-ba64-651e8410e7c2"
 ><Comment>Special session stopping conditions prevail.</Comment>
-
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="3b0e6a1c-8fac-4bb1-bcbf-abe45d8bee93"
 >SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
@@ -4467,8 +4467,6 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 <PreCondition
  Guid="865762f6-cdf4-44a2-95d7-9dfbdf137d19"
 ><Comment>Special session stopping conditions prevail.</Comment>
-
-
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="064e439a-0285-414a-99b9-02f9500239f5"
 >NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition><PreCondition
@@ -4525,8 +4523,6 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 <PreCondition
  Guid="5ae8c000-71b9-447e-85e9-6ff20b21b74c"
 ><Comment>Special session stopping conditions prevail.</Comment>
-
-
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="d8e25a87-d35c-437f-864a-def0637bce1e"
 >NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition><PreCondition
@@ -4647,9 +4643,6 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 <PreCondition
  Guid="9b60a210-7f71-4064-a330-a3f31e4db448"
 ><Comment>Special session stopping conditions prevail.</Comment>
-
-
-
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="064e51ea-ce48-42f7-ab9e-bdc921765caa"
 >SafeRadioConnection.ConnectionLostTime + ConnectionStatusTimer &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
@@ -4856,6 +4849,7 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Order to contact another RBC is received"
  Guid="63fe5c9c-8eee-4877-90ab-bc7187858c4a"
 >
@@ -4872,6 +4866,7 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  X="0"
  Y="0"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Handle termination of communication session"
  Guid="db567429-aa30-4cff-a4f1-1a09b8cb0be8"
 >
@@ -4880,9 +4875,11 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Handle complete termination of communication session"
  Guid="5dd79cd1-199b-4099-9a8c-fcec0a041144"
 >
+<Comment>If the order is to terminate the session, the contact information will be reset.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a5ebfacd-6ea2-49c1-9d34-4a9492fec07c"
@@ -4892,9 +4889,12 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="37faeac1-ef2c-41c8-ab97-8497c4cfcec4"
 >TerminateCommunicationSession(False)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Handle initiation of another communication session"
  Guid="7ce49ac5-77a3-45cf-a116-f63cbf6d62b3"
 >
+<Comment>If the order is to contact another RBC, the contact information will be kept.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
@@ -5199,6 +5199,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Guid="010a731c-cb2e-43f9-bd8b-3c94d936bac9"
 >
 </ReqRef><StateMachine
+ Implemented="TRUE"
  Guid="bc4fc7af-4fdf-41a4-91fb-f716692a12fd"
 >
 <ReqRef
@@ -5211,6 +5212,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Send message and go to Waiting state"
  Guid="caff10cd-845b-4492-877f-ac8c3d5e5d9e"
 >
@@ -5219,7 +5221,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c79ad405-2f17-4450-b369-58d2f368a6ae"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Sends the message Termination of Communication Session each time this state is reached.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -5250,6 +5253,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >
 <Comment>No connection information has been received.</Comment>
 <StateMachine
+ Implemented="TRUE"
  Guid="a1c08b9c-08d5-4ee9-aade-6157497ae1f6"
 >
 <Rules>
@@ -6181,6 +6185,7 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
  Y="0"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="TerminateOpenSessions"
  Guid="a3c4ec01-2064-42db-9733-47c9ba067bc2"
 >
@@ -6204,7 +6209,8 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f4db309f-d9b3-4b31-86d7-3216265e7a31"
 >
-</ReqRef><Parameters>
+</ReqRef><Comment>Tarts the termination of the open sessions and keeps contact information or not depending on the parameter.</Comment>
+<Parameters>
 <Parameter
  Type="Boolean"
  Name="contactInformationIsKept"
@@ -6220,6 +6226,7 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
  Name="CurrentRBCConnection"
  Guid="9bc0eae8-7ffc-4b56-8fa1-e74478ee604d"
 >
+<Comment>Terminates the curent connection.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -6246,6 +6253,7 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
  Name="SecondaryRBCConnection"
  Guid="6650ff3a-5554-4188-ac6e-d70118ce2bea"
 >
+<Comment>Terminates the secondary connection.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
