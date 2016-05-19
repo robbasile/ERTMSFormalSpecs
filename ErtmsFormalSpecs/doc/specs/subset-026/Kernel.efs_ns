@@ -791,7 +791,7 @@ The bcd notation as required by 7.5.92 is not possible in the model. Hence we st
 <Actions>
 <Action
  Guid="50c7579a-477c-4412-bbdc-fdafe80d502a"
->EURORADIO.RBCConnection.CloseRBCSession()</Action><Action
+>EURORADIO.RBCConnection.TerminateOpenSessions( contactInformationIsKept =&gt; False )</Action><Action
  Guid="31bb2c38-0d15-4eed-b0fc-428aa17307f9"
 >DeleteInformation(Kernel.TrainPosition.Position)</Action><Action
  Guid="f18726fd-abef-4f8b-8e6b-ba1aa6d4f4cb"
@@ -5903,6 +5903,11 @@ Request driver acknowledgement before starting the mission.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e9960b09-de47-43e3-9f40-512447a679a4"
 >
+</ReqRef><ReqRef
+ Id="fe20e6f0-0c95-465f-86a8-bfa2963de515"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="efed8231-5a2d-48fe-9276-7a36cb5b5880"
+>
 </ReqRef><SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -5925,6 +5930,11 @@ Request driver acknowledgement before starting the mission.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a0eff926-3ec4-4fa1-9c12-04f165c1f3a5"
 >
+</ReqRef><ReqRef
+ Id="fb08360f-0ff1-4327-8bcd-edf3c1e01e8f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6632696c-1992-4e0c-90a0-d9b921ba3c30"
+>
 </ReqRef><PreConditions>
 <PreCondition
  Guid="d1e9b91a-ff56-4aba-b114-541ef4901082"
@@ -5932,7 +5942,7 @@ Request driver acknowledgement before starting the mission.</Comment>
 <Actions>
 <Action
  Guid="575cfaa5-2e3b-4bac-9c36-dc6b0a10c2cf"
->EURORADIO.RBCConnection.CloseRBCSession()</Action><Action
+>EURORADIO.RBCConnection.TerminateOpenSessions( contactInformationIsKept =&gt; True)</Action><Action
  Guid="57481de5-ee41-42b1-ac58-4c9762537811"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action><Action
  Guid="56267830-257d-4e92-b5dc-6777f897089e"
@@ -7196,7 +7206,7 @@ Once an acknowledgement is received, go to D130.</Comment>
 <Actions>
 <Action
  Guid="5e051267-f76d-4e1c-b3e8-3430ca27f92e"
->EURORADIO.RBCConnection.CloseRBCSession()</Action><Action
+>EURORADIO.RBCConnection.TerminateOpenSessions( contactInformationIsKept =&gt; False )</Action><Action
  Guid="e417f332-0232-4bd9-b447-c72192adc81f"
 >EURORADIO.Messages.PositionReport.NumberOfSentReportRepetitions &lt;- 0</Action></Actions>
 </RuleCondition><RuleCondition
@@ -8917,7 +8927,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <Actions>
 <Action
  Guid="0ad25f45-c491-44cc-b897-bb52084011af"
->EURORADIO.RBCConnection.CloseRBCSession()</Action></Actions>
+>EURORADIO.RBCConnection.TerminateOpenSessions( contactInformationIsKept =&gt; False )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="No answer, a new request can be sent"
@@ -9190,6 +9200,8 @@ The report is handled in the EURORADIO namespace</Comment>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="S100"
  Guid="fad791bd-1c40-4b6e-b863-cd05b3fbc65d"
@@ -9216,8 +9228,8 @@ The report is handled in the EURORADIO namespace</Comment>
 <Comment>If an order to terminate the communication session is received =&gt; go to state A115.</Comment>
 <PreConditions>
 <PreCondition
- Guid="c39189e5-1965-4459-a3a9-c5b49d00b0ad"
->Available ( EURORADIO.Messages.UpdatedReceivedMessage( EURORADIO.RBCConnection.CurrentRBCConnection()).ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+ Guid="9b1484ba-cf02-47ee-a173-44c34c92194f"
+>EURORADIO.Messages.DeconnectionOrderIsReceivedFromRBC(EURORADIO.RBCConnection.CurrentRBCConnection())</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a9bd1583-0026-4a84-8cb8-5c279f955c1c"
@@ -9247,7 +9259,7 @@ The report is handled in the EURORADIO namespace</Comment>
 <Actions>
 <Action
  Guid="7ce91876-e8e5-4dc1-bdf6-8fa6c164eb84"
->EURORADIO.RBCConnection.CloseRBCSession()</Action><Action
+>EURORADIO.RBCConnection.TerminateOpenSessions( contactInformationIsKept =&gt; False )</Action><Action
  Guid="1f653799-324f-4a16-acf5-5ba2b328f744"
 >THIS &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action><Action
  Guid="6e69e0fa-8f9c-4da6-a338-cbf2bb896b42"
@@ -9302,6 +9314,8 @@ The report is handled in the EURORADIO namespace</Comment>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="A115"
  Guid="d4fa6464-3810-445b-bfc3-28440cc0c428"
@@ -9330,9 +9344,8 @@ The report is handled in the EURORADIO namespace</Comment>
 <Actions>
 <Action
  Guid="b4be4b71-5c71-4a8b-a8f8-661d2cb532df"
->THIS &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action><Action
- Guid="ee5aeb23-c408-4a51-aca0-609a3f9ce096"
->EURORADIO.RBCConnection.CloseRBCSession()</Action></Actions>
+><Comment>Having received the terminating order from the RBC (Sate 100), the RBCConnection state machine takes responsability to terminate the session.</Comment>
+THIS &lt;- Kernel.HandleModeChangeSM.NoProcedure</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -10395,6 +10408,60 @@ Odometry.NominalDistance &gt; Override.OverrideSupervision.StartLocation + Natio
  Guid="0c0f178c-cfeb-4493-8e8e-b2a2847791e1"
 >
 <Expression>0.0</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="StopCommunicationSessions"
+ Guid="d9c1eb5e-2249-4d1d-8647-bfcb2af5bc9e"
+>
+<ReqRef
+ Id="37635c63-5e19-4eac-8a83-f90098b54909"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="c7370f55-1e6f-45f5-962a-fb077a6eba7e"
+>
+</ReqRef><Cases>
+<Case
+ Name="RBC rejects train while in SoM"
+ Guid="90797853-5863-48cf-8f4d-8a73b693488c"
+>
+<Expression>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission.A39]</Expression>
+</Case><Case
+ Name="Driver closes the desk while in SoM"
+ Guid="27722005-a532-4acf-8304-e6849fae7e88"
+>
+<Expression>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.StartOfMission]
+  AND
+NOT DMI.DeskIsOpen(DMI.MasterDMI())</Expression>
+</Case><Case
+ Name="Shunting initiated by driver and no RBC answer"
+ Guid="7cb28bea-c1b5-4837-b188-57e5540ac1af"
+>
+<Expression>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.S050]
+  AND
+Kernel.Modes.Shunting.RequestNotAnsweredByRBC()</Expression>
+</Case><Case
+ Name="Train trip or Shunting, nor order received, maximum number of requests reached"
+ Guid="b1bb80d1-739d-4859-ac6d-853ff87f4569"
+>
+<Expression>Kernel.HandleModeChange in [Kernel.HandleModeChangeSM.TrainTrip.S120,
+Kernel.HandleModeChangeSM.ShuntingInitiatedByDriver.S100]
+  AND
+Kernel.Modes.Shunting.RequestNotAnsweredByRBC()
+  AND
+EURORADIO.Messages.PositionReport.LastPositionReport.Time + EURORADIO.RBCConnection.TimeBeforeMessageRepetition &gt;= Kernel.DateAndTime.CurrentTime
+  AND
+EURORADIO.Messages.PositionReport.NumberOfSentReportRepetitions == 3</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b621ad31-2648-4156-bd0b-a0ac4077cf78"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

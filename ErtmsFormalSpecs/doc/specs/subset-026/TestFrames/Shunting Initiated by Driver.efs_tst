@@ -534,130 +534,6 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
- Name="A115: Termination of communication session"
- Guid="456e2917-7fab-4e28-81dd-961357174b73"
->
-<TestCases>
-<TestCase
- Feature="0"
- Case="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Setup"
- Guid="07d10051-9818-43c7-aa3e-b82cc1103812"
->
-<Steps>
-<Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup"
- Guid="5ff96509-818d-400d-9211-95943c728b9b"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1 - Initialize test environment"
- Guid="301a5afc-2656-4f48-b86f-bc5e00baea5d"
->
-<Actions>
-<Action
- Guid="2b327064-d45c-4805-935d-208db8fb7327"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.SH
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step2 - Initialize communication session"
- Guid="b151c4f1-22de-499f-99c4-c25bc711a87e"
->
-<Actions>
-<Action
- Guid="4cc62806-bc7a-42e3-8abe-b2209ccfcff2"
->Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action><Action
- Guid="1ab99b18-084a-475f-bc22-1a1172d7beda"
->EURORADIO.RBCConnection.CurrentRBCConnection
-().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
- Guid="cd8d2c92-29c6-4cc5-a96a-96e7a2709b00"
->EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="0eebaa8a-574f-4fee-bace-11e8b0066a46"
->EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action><Action
- Guid="9ff65b14-0cfc-4710-a665-6601ac2b9783"
->EURORADIO.Terminal.Terminal1.RegistrationState &lt;- EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- Guid="26a10e49-0751-4dc3-a5c5-4112065c3ca8"
->EURORADIO.Terminal.HasActiveSession()</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
- Feature="0"
- Case="0"
- Implemented="TRUE"
- Name="Terminate communication session and end the process"
- Guid="1b94a9cf-d157-41cd-808a-75e9d180547d"
->
-<ReqRef
- Id="27f88b30-f620-4d1c-aae4-860de3b3a7df"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="1f0f2856-10b7-4595-91dd-b3aeb0aedf86"
->
-</ReqRef><ReqRef
- Id="29c239c8-dea5-47f0-9916-581993980f9f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="276e839a-ae4c-4fae-a711-bd1dbc8380bd"
->
-</ReqRef><Steps>
-<Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Terminate communication session and end process"
- Guid="9b661877-769a-4f6e-8299-d84c1033cc69"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Sub-step1"
- Guid="5e5f6d00-67cb-469f-b251-55ca1c6644eb"
->
-<Actions>
-<Action
- Guid="4314b745-6af9-41e3-aa75-baf2ac2b184e"
->Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.A115</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- Guid="389e35bf-e97b-444d-ace3-41a5bb49a925"
->Kernel.HandleModeChange in Kernel.HandleModeChange.NoProcedure</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="964990c8-c9d2-40a9-abcb-a6694ada24e2"
->EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState in EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
  Name="A220: Indicate to the driver SH refused by the RBC"
  Guid="1188b4d9-bcbc-4007-9790-21f789f8b3a1"
 >
@@ -2895,7 +2771,7 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
- Name="S100: waiting for the order to terminate the communication session"
+ Name="S100 + A115: waiting for the order to terminate the communication session and terminates it when order received"
  Guid="671d7cb9-066e-4647-8864-b046fc1b4e9a"
 >
 <TestCases>
@@ -2945,7 +2821,11 @@
  Guid="a2b6b59e-2e4a-4e80-8e9f-29d63cdb55b3"
 >EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
  Guid="c3e8f314-ef5e-45a4-ba4e-53e8d3b9f397"
->Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action></Actions>
+>Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action><Action
+ Guid="8d4a900e-ed3b-47d1-aec0-989f7c1b44d4"
+>EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action><Action
+ Guid="cba67321-a5ac-4db6-a92f-3460bb2a47ff"
+>EURORADIO.Terminal.CurrentTerminal().RegistrationState &lt;- EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -2970,6 +2850,16 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="b2d967e1-05a5-4774-8d15-3a85a7518dc3"
 >
+</ReqRef><ReqRef
+ Id="27f88b30-f620-4d1c-aae4-860de3b3a7df"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="52caaa9a-25bc-400c-9239-58510d301da8"
+>
+</ReqRef><ReqRef
+ Id="29c239c8-dea5-47f0-9916-581993980f9f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="53cf5fdb-4d5d-4722-aa76-ce3fdba4e20c"
+>
 </ReqRef><Steps>
 <Step
  Distance="0"
@@ -2990,30 +2880,115 @@
 >
 <Actions>
 <Action
- Guid="5992c6be-0ff3-4def-8e69-61787ba2c858"
->EURORADIO.RBCConnection.CurrentRBCConnection().Data.MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
-{
-    SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
-{
-    ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION.Message
-    {
-        NID_MESSAGE =&gt; 39,
-        L_MESSAGE =&gt; 22,
-        T_TRAIN =&gt; 100,
-        M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
-        NID_LRBG =&gt; 3090
-    }
-},
-    SystemVersion1 =&gt; EMPTY,
-    Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
-}</Action><Action
  Guid="acb7646f-f1a4-40a3-904d-dcc6dd6aad26"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.S100</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
+ Blocking="FALSE"
+ DeadLine="1"
+ Guid="170abdb8-c6d0-4f8e-9842-c48e76d2388d"
+>EURORADIO.Messages.DeconnectionOrderIsReceivedFromRBC(EURORADIO.RBCConnection.CurrentRBCConnection())</Expectation><Expectation
+ Kind="Instantaneous"
+ Blocking="FALSE"
+ DeadLine="1"
  Guid="2188a208-a6a5-42e6-8449-8c666e34c1c6"
 >Kernel.HandleModeChange in Kernel.HandleModeChange.ShuntingInitiatedByDriver.A115</Expectation></Expectations>
+</SubStep><SubStep
+ Name="SubStep2"
+ Guid="230c39a1-19bc-491a-bf5f-06e9fba16904"
+>
+<Actions>
+<Action
+ Guid="5992c6be-0ff3-4def-8e69-61787ba2c858"
+>EURORADIO.RBCConnection.CurrentRBCConnection().Data.MessageIn &lt;- Messages.EURORADIO.MessageIn.Message
+{
+  SystemVersion2 =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.Message
+  {
+    ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    SR_AUTHORISATION =&gt; EMPTY, 
+    MOVEMENT_AUTHORITY =&gt; EMPTY, 
+    RECOGNITION_OF_EXIT_FROM_TRIP_MODE =&gt; EMPTY, 
+    ACKNOWLEDGEMENT_OF_TRAIN_DATA =&gt; EMPTY, 
+    REQUEST_TO_SHORTEN_MA =&gt; EMPTY, 
+    CONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    UNCONDITIONAL_EMERGENCY_STOP =&gt; EMPTY, 
+    REVOCATION_OF_EMERGENCY_STOP =&gt; EMPTY, 
+    GENERAL_MESSAGE =&gt; Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.Message
+    {
+      Sequence1 =&gt; [Messages.MESSAGE.TRACK_TO_TRAIN.GENERAL_MESSAGE.SubStructure1
+        {
+          SESSION_MANAGEMENT =&gt; Messages.PACKET.TRACK_TO_TRAIN.SESSION_MANAGEMENT.Message
+          {
+            Q_RBC =&gt; Messages.Q_RBC.Terminate_communication_session, 
+            NID_PACKET =&gt; 42, 
+            Q_DIR =&gt; 0, 
+            L_PACKET =&gt; 0, 
+            NID_C =&gt; 0, 
+            NID_RBC =&gt; 0, 
+            NID_RADIO =&gt; &apos;00000&apos;, 
+            Q_SLEEPSESSION =&gt; 0
+          }, 
+          GRADIENT_PROFILE =&gt; EMPTY, 
+          INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+          SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+          NATIONAL_VALUES =&gt; EMPTY, 
+          LINKING =&gt; EMPTY, 
+          TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+          TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+          AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+          LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+          DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+          RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+          PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+          MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+          POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+          INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+          TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+          TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+          TRACK_CONDITION =&gt; EMPTY, 
+          TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+          ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+          ADHESION_FACTOR =&gt; EMPTY, 
+          PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+          PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+          GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+          LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+          RBC_TRANSITION_ORDER =&gt; EMPTY, 
+          REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+          REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+          TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+          LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY
+        }], 
+      NID_MESSAGE =&gt; 0, 
+      L_MESSAGE =&gt; 0, 
+      T_TRAIN =&gt; 150, 
+      M_ACK =&gt; 0, 
+      NID_LRBG =&gt; 0
+    }, 
+    SH_REFUSED =&gt; EMPTY, 
+    SH_AUTHORISED =&gt; EMPTY, 
+    MA_WITH_SHIFTED_LOCATION_REFERENCE =&gt; EMPTY, 
+    TRACK_AHEAD_FREE_REQUEST =&gt; EMPTY, 
+    INFILL_MA =&gt; EMPTY, 
+    TRAIN_REJECTED =&gt; EMPTY, 
+    RIU_SYSTEM_VERSION =&gt; EMPTY, 
+    INITIATION_OF_A_COMMUNICATION_SESSION =&gt; EMPTY, 
+    TRAIN_ACCEPTED =&gt; EMPTY, 
+    SOM_POSITION_REPORT_CONFIRMED_BY_RBC =&gt; EMPTY, 
+    ASSIGNMENT_OF_COORDINATE_SYSTEM =&gt; EMPTY, 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b3882b06-c3f7-4961-821c-d14e8c7a4fb8"
+>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState in [EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
