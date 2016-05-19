@@ -1,0 +1,174 @@
+<NameSpace
+ X="560"
+ Y="190"
+ Width="100"
+ Height="50"
+ Name="Timer"
+ Guid="4f16bceb-810d-4e43-b73e-f2c8ae8ae519"
+>
+<Comment>Generic structure and function to handle timers.
+</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="Timer"
+ Guid="136c05e3-b8f1-4bc9-bdd6-5f48aae4d523"
+>
+<Comment>By default, when the timer is not started, the start time should be NA.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTime"
+ Guid="134ec36b-461f-4ccd-a275-c1ba1ba6933c"
+>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.Infinity"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Duration"
+ Guid="b79aa232-5522-4d03-88bb-c1c523053bcc"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Cacheable="TRUE"
+ Default=""
+ X="360"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Elapsed"
+ Guid="7892aa07-b363-4877-bd56-edfdeae890b9"
+>
+<Comment>Checks whether the timer has expired provided it was started, i.e. its start time is not NA.</Comment>
+<Parameters>
+<Parameter
+ Type="Timer"
+ Name="aTimer"
+ Guid="536f1ddb-a7a1-484a-b2ab-5dca24dd606d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Timer started"
+ Guid="f808619a-bae8-4fd6-ae9c-4af8aaa045d9"
+>
+<PreConditions>
+<PreCondition
+ Guid="e6175e9d-abcf-403a-beb9-b19f3bef3e62"
+>aTimer.StartTime != BaseTypes.Time.NA</PreCondition></PreConditions>
+<Expression>aTimer.StartTime + aTimer.Duration &lt; Kernel.DateAndTime.CurrentTime</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="6b32a599-111f-4383-85d7-b40698d0bbda"
+>
+<Expression>False
+</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="240"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTimer"
+ Guid="521dd204-e1b5-4449-97b7-3818b932404b"
+>
+<Comment>Start the timer now.</Comment>
+<Parameters>
+<Parameter
+ Type="Timer"
+ Name="aTimer"
+ Guid="cae8ac71-9502-43bc-91b2-91580f1f79e5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTimer"
+ Guid="73beddd3-3d32-4555-ac8a-d2abf812719b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTimer"
+ Guid="39b0e1ce-d55b-465a-b095-b2231449b2d1"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="aaf09640-c3a5-4086-8cac-f60e9b2115f3"
+>aTimer.StartTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="120"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StopTimer"
+ Guid="b5df92bb-ee4e-488a-abb9-406aa027a18b"
+>
+<Comment>Stop the timer.</Comment>
+<Parameters>
+<Parameter
+ Type="Timer"
+ Name="aTimer"
+ Guid="406b689b-b72a-44f7-9260-0a86e58341b0"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTimer"
+ Guid="b1df793e-9ee4-4e8f-bc24-87f9594a231f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="StartTimer"
+ Guid="fe5dbba5-8ef9-4bc7-b9c4-d6e828041045"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="65f496b3-159c-4cbc-a3a4-ff2a31f83e16"
+>aTimer.StartTime &lt;- BaseTypes.Time.NA</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+</NameSpace>
