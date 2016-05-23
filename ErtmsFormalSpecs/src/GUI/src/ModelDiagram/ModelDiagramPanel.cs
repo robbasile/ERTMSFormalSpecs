@@ -656,9 +656,10 @@ namespace GUI.ModelDiagram
         private static Point SetText(ModelControl control, string text, Font font, Color color, Point location)
         {
             // Compute the size of the displayed text
+            //SizeF stringSize = Util.GetHightlightedTextSize(text, font, location, (DataDictionary.ModelElement) control.TypedModel);
             SizeF stringSize = GuiUtils.Graphics.MeasureString(text, font);
             control.Size = new Size(
-                Math.Max(control.Size.Width, (int) stringSize.Width + 20),
+                Math.Max(control.Size.Width, (int) stringSize.Width + 10),
                 Math.Max ( control.Size.Height, location.Y - control.Location.Y + (int) stringSize.Height + 5)
             );
 
@@ -668,7 +669,8 @@ namespace GUI.ModelDiagram
                 Text = text,
                 Font = font,
                 Color = color,
-                Location = location
+                // Add a small increment to location.X so that the text doesn't touches the box on the left.
+                Location = new Point(location.X + 5, location.Y)
             });
 
             // Returns the next location where data can be added
@@ -676,7 +678,7 @@ namespace GUI.ModelDiagram
         }
 
         /// <summary>
-        /// Sets the default control size, according to its ocntents
+        /// Sets the default control size, according to its contents
         /// </summary>
         /// <param name="control"></param>
         /// <param name="location"></param>

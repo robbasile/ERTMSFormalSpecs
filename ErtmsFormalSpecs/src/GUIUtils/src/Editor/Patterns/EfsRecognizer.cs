@@ -14,6 +14,7 @@
 // --
 // ------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using DataDictionary;
@@ -48,10 +49,20 @@ namespace GUIUtils.Editor.Patterns
         {
             "NAMESPACE", "RANGE", "FROM", "TO", "ENUMERATION", "COLLECTION", "OF", "STRUCTURE", "FIELD", "INTERFACE",
             "IMPLEMENTS",
-            "STATE MACHINE", "STATE",
+            "STATE",
             "FUNCTION", "RETURNS", "PROCEDURE", "PARAMETER", "RULE", "IF", "ELSIF", "ELSE", "THEN", "END",
-            "FOLDER", "TRANSLATION", "SOURCE TEXT", "IMPLIES",
-            "REQUIREMENT SET", "MODEL EVENT"
+            "FOLDER", "TRANSLATION", "IMPLIES"
+        };
+
+        /// <summary>
+        ///     The compound keywords
+        /// </summary>
+        public static readonly Tuple<string, string>[] CompoundModelElements =
+        {
+            new Tuple<string, string>("STATE","MACHINE"), 
+            new Tuple<string, string>("SOURCE","TEXT"),
+            new Tuple<string, string>("REQUIREMENT","SET"),
+            new Tuple<string, string>("MODEL","EVENT")
         };
 
         /// <summary>
@@ -100,6 +111,10 @@ namespace GUIUtils.Editor.Patterns
             {
                 FontStyle = FontStyle.Bold | FontStyle.Underline
             };
+            Pattern compoundModelElementPattern = new ListPattern(RegularFont, CompoundModelElements)
+            {
+                FontStyle = FontStyle.Bold | FontStyle.Underline
+            };
             TypePattern typePattern = new TypePattern(RegularFont, QualifiedName)
             {
                 Color = Color.Blue
@@ -111,6 +126,7 @@ namespace GUIUtils.Editor.Patterns
                 holeInTemplatePattern,
                 keywordPattern,
                 modelElementPattern,
+                compoundModelElementPattern,
                 typePattern,
                 integerPattern,
                 stringPattern,

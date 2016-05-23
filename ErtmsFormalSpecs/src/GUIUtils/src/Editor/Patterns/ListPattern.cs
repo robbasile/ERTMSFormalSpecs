@@ -34,10 +34,30 @@ namespace GUIUtils.Editor.Patterns
         {
         }
 
+        public ListPattern(Font baseFont, params Tuple<string,string>[] elements)
+            : base(baseFont, ComputeTupleRegExp(elements))
+        {
+        }
+
+        private static string ComputeTupleRegExp(Tuple<string, string>[] elements)
+        {
+            string retVal = "";
+
+            foreach (Tuple<string, string> element in elements)
+            {
+                if (!string.IsNullOrEmpty(retVal))
+                {
+                    retVal += "|";
+                }
+                retVal += "\\b" + element.Item1 + " " + element.Item2 + "\\b";
+            }
+            return retVal;
+        }
+
         /// <summary>
         ///     Compiles the keywords as a regular expression.
         /// </summary>
-        public static string ComputeRegExp(params string[] elements)
+        public static string ComputeRegExp(string[] elements)
         {
             string retVal = "";
 
