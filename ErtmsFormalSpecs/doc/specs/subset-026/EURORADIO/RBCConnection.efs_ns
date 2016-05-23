@@ -431,6 +431,84 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="554740df-b62d-4d21-9e26-a8e2554409c8"
 >SafeRadioConnection.ConnectionRequestIsSent &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="SessionTimer management"
+ Guid="385ad190-d992-4b29-82b7-f26e734e9798"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Start timer"
+ Guid="a45c2383-77ca-4fb6-82b9-59cf039bdfb6"
+>
+<ReqRef
+ Id="308624ea-ea91-4451-b8c4-1cfbc9094f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="76c3c788-33a8-40c8-8616-6dd345ac9204"
+>
+</ReqRef><PreConditions>
+<PreCondition
+ Guid="c1a3ff6c-28d2-42c2-b292-388f1d62962e"
+>NOT Timer.Started(MaintainSessionTimer)</PreCondition><PreCondition
+ Guid="caada11a-0276-432c-b5d5-ae994297a816"
+>SafeRadioConnection.ConnectionIsEstablished == False</PreCondition><PreCondition
+ Guid="263449af-50e3-4b09-82e2-3245c72a727f"
+>ConnectionState in [ConnectionStateSM.Connected.ConnectionEstablished]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="877e012e-58c8-4020-a940-ae4bcc4d4680"
+>Timer.StartTimer(MaintainSessionTimer)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Stop timer"
+ Guid="e192e168-1545-4bfe-92f9-6eae80ad1a56"
+>
+<PreConditions>
+<PreCondition
+ Guid="0d92ace6-438a-4c66-982c-1935933d3186"
+>Timer.Started(MaintainSessionTimer)</PreCondition><PreCondition
+ Guid="ff93921c-326f-4466-8fdb-7b975c1aa3f9"
+>(SafeRadioConnection.ConnectionIsEstablished == True
+  AND
+ConnectionState in [ConnectionStateSM.Connected])
+  OR
+ConnectionState in [ConnectionStateSM.Inactive, ConnectionStateSM.Terminating,
+ConnectionStateSM.NoConnection]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0ecd71e0-ee8f-455e-a8c8-5208db14eacd"
+>Timer.StopTimer(MaintainSessionTimer)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="ConnectionStatusTimer management"
+ Guid="96459f67-2587-42e5-95c9-b08540b1ebb4"
+>
+<Comment>The ConnectionStatusTimer is started by the procedure sending the connecton request.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Stop timer"
+ Guid="992a6314-edf4-491b-9e7b-9fb90ac8d64f"
+>
+<PreConditions>
+<PreCondition
+ Guid="ef9f48be-db1f-4682-be93-0b8c90534479"
+>Timer.Started(SafeRadioConnection.ConnectionStatusTimer)</PreCondition><PreCondition
+ Guid="e8aa6235-cfc9-4ff7-b173-cacb111aee76"
+>SafeRadioConnection.ConnectionIsEstablished
+  OR
+ConnectionState in [ConnectionStateSM.Inactive,
+ConnectionStateSM.Terminating]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7bfa0022-d368-4b69-89fa-fcd5662f9103"
+>Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
 <Procedure
@@ -1768,8 +1846,6 @@ ConnectionState in RBCStruct.ConnectionStateSM.Terminating</PreCondition></PreCo
 </PreConditions>
 <Actions>
 <Action
- Guid="9687e639-b5c6-470d-813a-f17940cd2731"
->SafeRadioConnection.ConnectionLostTime &lt;- BaseTypes.Time.Infinity</Action><Action
  Guid="e6756e01-e930-4ca0-b174-6f394bacedb8"
 >ContactData &lt;- Contact.RBCContactStruct{
 Id =&gt; Contact.RBCIdStruct{
@@ -1792,7 +1868,11 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="98453804-e66a-4590-9504-9886fad16fe3"
 >SafeRadioConnection.ConnectionIsEstablished &lt;- False</Action><Action
  Guid="60615fb3-bbb6-4793-b4c3-2287a69ad376"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- False</Action></Actions>
+>SafeRadioConnection.ConnectionRequestIsSent &lt;- False</Action><Action
+ Guid="a54d814f-1a11-4973-b4f4-53d57e00af71"
+>Default.Timer.StopTimer(MaintainSessionTimer)</Action><Action
+ Guid="c1156096-d4a5-4892-b54c-a7f3bf198a67"
+>Default.Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3136,6 +3216,28 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Guid="ea1f0ade-0a84-48f2-a86e-2206d337446f"
 >
 <Comment>The safe radio connection status.</Comment>
+</StructureElement><StructureElement
+ TypeName="Default.Timer.TimerStruct"
+ Default="Default.Timer.TimerStruct{
+StartTime =&gt; BaseTypes.Time.NA,
+Duration =&gt; 300.0
+}"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="MaintainSessionTimer"
+ Guid="8302a1a2-1b07-4ac9-be33-04d34983aeeb"
+>
+<ReqRef
+ Id="308624ea-ea91-4451-b8c4-1cfbc9094f8e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="df961534-a04d-4a8e-a79a-d0efd0e2a765"
+>
+</ReqRef><ReqRef
+ Id="b2ce7f07-bb0c-45fb-b2f9-3a864e344795"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f5da49f-8cba-4463-8012-f958b73aff50"
+>
+</ReqRef><Comment>Timer to keep a communication session alive while the safe radio connection is disconnected.</Comment>
 </StructureElement><StateMachines>
 <StateMachine
  Default="NoConnection"
@@ -3389,11 +3491,27 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  X="0"
  Y="0"
  Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="Enter action"
- Guid="8cc4dcbd-560e-46cc-81d2-5b1ed3553555"
+ Guid="54615cee-329a-467e-8223-20d73920d771"
 >
-<Comment>Simply reinitializes the communication information since one may end in this state after a connection attempt.</Comment>
 <SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Stop timers"
+ Guid="45ee1932-7220-48d8-80ed-754705137a3f"
+>
+<Comment>The inactive state implies the onboard has no open session nor safe radio connection. 
+Hence, the timers used to manage the session and the safe radio connection are stopped.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2eff999a-649c-461f-847a-7d8b3b7abb90"
+>Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action><Action
+ Guid="8f09b73e-66b6-453d-890b-4a66095cbc98"
+>Timer.StopTimer(MaintainSessionTimer)</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
  X="830"
@@ -3523,8 +3641,8 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 </ReqRef><Comment>If the connection status timer expires, indicate that the connection is lost, repeat the connection request and reset the timer (otherwise the request will be repeated during the next cycle).</Comment>
 <PreConditions>
 <PreCondition
- Guid="051b7c73-d993-4246-ac2a-5099ddc3c5a1"
->SafeRadioConnection.ConnectionLostTime + ConnectionStatusTimer &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+ Guid="add7197b-245a-42ea-8089-58928c960d36"
+>Timer.Elapsed(SafeRadioConnection.ConnectionStatusTimer)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7a967e85-a3aa-4740-a5be-0df764c85620"
@@ -3534,9 +3652,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Guid="30af9a7f-b3aa-438e-8e2c-8c3166dbfa4d"
 >SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="f77d82ba-eaff-4fd1-81c0-2026665608aa"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action><Action
- Guid="9e7c16f9-a8e2-4265-b301-cfb9022263c3"
->SafeRadioConnection.ConnectionLostTime &lt;- BaseTypes.Time.Infinity</Action></Actions>
+>SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repeat the connection request"
@@ -3610,7 +3726,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  Guid="6c9db820-9596-4dc3-b487-9fb6e343bc2b"
 >SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="ba529648-8bde-4b6c-bab8-b53b04a493ea"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action><Action
+>SafeRadioConnection.SendConnectionRequest()</Action><Action
  Guid="00fc6a16-7c65-4f0a-b1b2-6b44b65edf9f"
 >SafeRadioConnection.NumberOfSentRequests &lt;- SafeRadioConnection.NumberOfSentRequests + 1</Action></Actions>
 </RuleCondition><RuleCondition
@@ -3669,11 +3785,9 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="16ba15f9-a1a0-4ae4-871b-0170a60aa6fb"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action><Action
+>SafeRadioConnection.SendConnectionRequest()</Action><Action
  Guid="d32ceab3-f240-4971-86d9-06c897d9b505"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
- Guid="a5a746be-d6b2-4350-9a1e-55abb07beb03"
->SafeRadioConnection.NumberOfSentRequests &lt;- SafeRadioConnection.NumberOfSentRequests + 1</Action></Actions>
+>SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4477,7 +4591,7 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="aa75abe0-f19d-4bbb-a7f5-323d4a627543"
 >SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="3a5452b7-fed6-4ef2-9c87-1954d6c666f7"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action></Actions>
+>SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Connection is lost, maximum time is reached"
@@ -4527,13 +4641,15 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="d8e25a87-d35c-437f-864a-def0637bce1e"
 >NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition><PreCondition
  Guid="0a7021de-e191-4898-b26d-a0940b487b89"
->SafeRadioConnection.ConnectionLostTime + MaxTimeToMaintainACommunicationSession &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+>Timer.Elapsed(MaintainSessionTimer)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2d58a44a-39a5-4bf5-9712-d9525d21cb8d"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
  Guid="1e8ee9e1-e346-41b2-b922-608f09cb6551"
->SafeRadioConnection.SpecialCaseSessionEstablishmentReason &lt;- SpecialCaseSessionEstablishmentReasonEnum.EstablishDueToLossOfConnection</Action></Actions>
+>SafeRadioConnection.SpecialCaseSessionEstablishmentReason &lt;- SpecialCaseSessionEstablishmentReasonEnum.EstablishDueToLossOfConnection</Action><Action
+ Guid="6aab1494-ecea-4f9f-909b-8b8255f006b0"
+>Timer.StopTimer(MaintainSessionTimer)</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -4644,8 +4760,8 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="9b60a210-7f71-4064-a330-a3f31e4db448"
 ><Comment>Special session stopping conditions prevail.</Comment>
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
- Guid="064e51ea-ce48-42f7-ab9e-bdc921765caa"
->SafeRadioConnection.ConnectionLostTime + ConnectionStatusTimer &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+ Guid="bf100c47-b3a7-41d4-a843-64e0e9bea687"
+>Timer.Elapsed(SafeRadioConnection.ConnectionStatusTimer)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="2b49902b-8504-4950-bc31-02fe3e8b403d"
@@ -4792,7 +4908,7 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="c4a3e6fd-bbd3-4c4a-9592-37f17c96b1ac"
 >SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="bef7600f-38e6-4557-9a1d-4f08e07554dd"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action><Action
+>SafeRadioConnection.SendConnectionRequest()</Action><Action
  Guid="ed5c1847-6ece-4c06-a1fe-50505630488c"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Connected.ConnectionLost</Action></Actions>
 </RuleCondition></Conditions>
@@ -5819,8 +5935,8 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
 </Function><Function
  Type="Boolean"
  Default=""
- X="210"
- Y="180"
+ X="690"
+ Y="300"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -6181,8 +6297,8 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="0"
- Y="0"
+ X="120"
+ Y="480"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -6377,29 +6493,6 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
  Guid="3d0ce163-1722-4f0e-bd2f-d992faa362ee"
 >
 </ReqRef><Comment>Number of times to try to establish a safe radio connection.</Comment>
-</Variable><Variable
- Type="BaseTypes.Time"
- DefaultValue="300.0"
- VariableMode="Constant"
- X="950"
- Y="20"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="MaxTimeToMaintainACommunicationSession"
- Guid="50a37fad-675b-4798-af5d-2505564629c5"
->
-<ReqRef
- Id="b2ce7f07-bb0c-45fb-b2f9-3a864e344795"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c113b3d1-f0fd-4952-80a2-1dd8ac647e44"
->
-</ReqRef><ReqRef
- Id="308624ea-ea91-4451-b8c4-1cfbc9094f8e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="345f10c0-f724-4b20-947a-b2f0437727c0"
->
-</ReqRef><Comment>Maximum time to maintain a communication session in case of failed re-connection attempts.</Comment>
 </Variable><Variable
  Type="BaseTypes.Time"
  DefaultValue="60.0"

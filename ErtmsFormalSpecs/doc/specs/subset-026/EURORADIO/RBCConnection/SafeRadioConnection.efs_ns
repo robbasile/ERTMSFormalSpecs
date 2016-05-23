@@ -86,6 +86,71 @@
  Guid="798eac83-51b0-4451-adb8-8c247ae0a9c4"
 >
 </ReqRef><Comment>Structure to handle the safe radio connection.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Name="SendConnectionRequest"
+ Guid="fe3dce69-5d7a-4c09-8242-0b7a83390736"
+>
+<ReqRef
+ Id="ac42de65-1111-47f1-904b-907bce323de2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3cc3cb71-07c6-4c52-b9c2-0d3564777517"
+>
+</ReqRef><Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Send connection request"
+ Guid="bf6cc2ff-ecdf-4c48-8314-b7b9fe1d9dee"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send connection request"
+ Guid="1fe83ea3-9397-4d1a-baaa-173af67c62bb"
+>
+<Comment>Send a connection request and start the timer if needed</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5d74f73c-c3dd-4bce-a841-aafad6da5795"
+>ConnectionRequestIsSent &lt;- True</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Start timer at the first connection request"
+ Guid="da6dfe9f-1d8e-4cef-a17d-65610260ce5f"
+>
+<Comment>Start the timer if it was not already started</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Start timer"
+ Guid="29ef1598-44e9-4268-bc47-b8a8b1253c00"
+>
+<PreConditions>
+<PreCondition
+ Guid="fa8f4f6d-978b-4ddf-b1f0-7665d50df522"
+>NOT Timer.Started(ConnectionStatusTimer)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9324aa93-b1f3-410e-a0f3-beee9a72a25e"
+>Timer.StartTimer(ConnectionStatusTimer)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
 <StructureElement
  TypeName="BaseTypes.Time"
  Default="BaseTypes.Time.Infinity"
@@ -141,6 +206,11 @@
  Id="f9f81d1e-22c3-429b-b29b-0c828790dce4"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="aac10df8-63e1-42d5-9335-efaf72d6b142"
+>
+</ReqRef><ReqRef
+ Id="ac96ab5d-7682-43e6-a576-f8a2ada8b003"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0e929f67-7a23-4478-9582-e918dbc1f7e5"
 >
 </ReqRef><Comment>Number of sent requests, that can be:
 - establishing of  a safe radio connection
@@ -226,5 +296,27 @@
  Guid="3da0a1c7-ca89-43ab-9597-09b7adf15b15"
 >
 <Comment>Set to True when a request to establish a safe radio connection has to be sent.</Comment>
+</StructureElement><StructureElement
+ TypeName="Timer.TimerStruct"
+ Default="Timer.TimerStruct{
+StartTime =&gt; BaseTypes.Time.NA,
+Duration =&gt; 45.0
+}"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ConnectionStatusTimer"
+ Guid="dde927cb-e705-4f33-9bd8-c1e75b898f0b"
+>
+<ReqRef
+ Id="cd18a937-9dc2-456d-bee7-a61bcd564e32"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0f517498-7c8f-4bce-b0fc-67198a03eb94"
+>
+</ReqRef><ReqRef
+ Id="ad234759-9dd4-4ff4-9b9e-764c96f7b0cb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="526f4660-93e6-4b76-8172-dcbf4813ca75"
+>
+</ReqRef><Comment>&quot;Connection status&quot; timer for safe radio connection indication.</Comment>
 </StructureElement></Structure></Structures>
 </NameSpace>
