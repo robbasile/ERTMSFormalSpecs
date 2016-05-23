@@ -9,6 +9,29 @@
 <Comment>Definition of all the output variables used to communicate with a DMI.</Comment>
 <NameSpaces>
 </NameSpaces>
+<Enumerations>
+<Enum
+ Default="DMI.OUT.DisplaySymbolOrValue.Symbol"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="DisplaySymbolOrValue"
+ Guid="97b5fd64-9c77-4353-9614-5b031d9453a0"
+>
+<Values>
+<EnumValue
+ Value=""
+ Name="Symbol"
+ Guid="bc7d31e5-81d0-4933-94a2-e9427c8fc78b"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Value"
+ Guid="03df9b54-e930-4fa1-8c72-f8d7f52c5400"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
 <Structures>
 <Structure
  Default=""
@@ -2210,33 +2233,6 @@ This procedure does not do anything. The mode tracking is not necessary for this
  X="0"
  Y="0"
  Implemented="TRUE"
- Name="Update the request status"
- Guid="edda6dfd-a3b7-497e-aa39-177b072cc0b5"
->
-<Comment>Update display of the button for requesting the geographical position. This is necessary so that the JRU can record the activation/disactivation of the corresponding DMI symbol.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Allow display request"
- Guid="c709ca9e-7556-4ea3-8250-ccfe49eb4c1a"
->
-<PreConditions>
-<PreCondition
- Guid="48746883-01b4-4c36-b291-8f44d7956876"
->aLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
- Guid="467e354f-123d-4982-abd0-2d2974c405c0"
->GeographicalPositionAvailable()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="65c800b2-f880-4633-9b49-62d75fe6e34f"
->THIS.DisplayRequestIsAllowed &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
  Name="Update the display"
  Guid="a4a2f7a0-e950-4280-871e-c6b773842a65"
 >
@@ -2258,10 +2254,10 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <PreCondition
  Guid="8a078331-f869-4979-9161-f369d645920d"
 >GeographicalPositionAvailable()</PreCondition><PreCondition
- Guid="aca34d50-13b4-457e-9fd6-13898cb55d00"
->DisplayRequestedByDriver</PreCondition><PreCondition
  Guid="0246bb2b-04d5-41eb-b0c6-354370c0c514"
->aLocation != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>aLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="f8e0cf10-55d7-43fb-9038-26730fabfb7f"
+>DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Value</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dbb8b604-25a0-47c2-84c3-8be34d04acbd"
@@ -2279,7 +2275,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Actions>
 <Action
  Guid="9911ba1d-9b45-413b-97cc-5fbfc3d46bf0"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
+>THIS.OutputInformation.DoNotDisplay()</Action><Action
+ Guid="483dfbe7-ffa8-4799-b9d4-4359c8ceb918"
+>DisplayDistance&lt;- DMI.OUT.DisplaySymbolOrValue.Symbol</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2315,38 +2313,12 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="cf994b1c-86ed-418f-a961-70dc08079370"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="Boolean"
- Default=""
- Mode="Incoming"
- Implemented="TRUE"
- Name="DisplayRequestedByDriver"
- Guid="3c737c6f-7e63-4b27-9fe8-7ae70835b44a"
+ TypeName="DisplaySymbolOrValue"
+ Default="DMI.OUT.DisplaySymbolOrValue.Symbol"
+ Mode="Internal"
+ Name="DisplayDistance"
+ Guid="cbc6c6ac-06fb-4c03-bb3b-bc0b27f0f51a"
 >
-<ReqRef
- Id="e3a55e7e-350d-4dfa-86ea-512545c008b1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8553a393-573b-4783-bcca-97758a2125be"
->
-</ReqRef><ReqRef
- Id="90aeeb77-0da0-47f5-ac84-c4490540a1c0"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="32665580-b8ea-412e-b63e-353931b5c586"
->
-</ReqRef><Comment>Indicates if the driver has requested the display of the geographical position.</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default=""
- Mode="Outgoing"
- Implemented="TRUE"
- Name="DisplayRequestIsAllowed"
- Guid="d5034220-1bb8-408a-838c-1dff4f9ecfca"
->
-<ReqRef
- Id="e3a55e7e-350d-4dfa-86ea-512545c008b1"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="713a5341-eecc-4093-b377-7457c36ec39b"
->
-</ReqRef><Comment>Indicates if the driver may ask to display the geographical position information.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="770"
@@ -3149,6 +3121,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Displays a level transition announcement.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="f55fb5a9-7fbe-431d-8099-6f472e9b6783"
@@ -3164,6 +3138,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="d610f81f-93a5-4738-80d5-163f0127bd43"
@@ -3203,6 +3179,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="4a0765ff-d8ca-4475-b4e6-7f3eafdd862f"
@@ -4234,6 +4212,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Handles display of information relative to the gradient profile.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="ac9722d9-07ce-4b15-a49a-09823e244444"
@@ -4259,6 +4239,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="165304dc-2a97-4f95-b10d-56dd6cf6a350"
@@ -4298,6 +4280,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="2bb12115-8af6-4d42-9d39-355489fdfbac"
@@ -4673,120 +4657,6 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Name="Distance"
  Guid="901407db-421f-443e-b2f3-9dffe97c0c35"
 >
-</StructureElement></Structure><Structure
- Default=""
- X="110"
- Y="300"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="BrakeReasonStruct"
- Guid="5fc56167-5832-478f-b861-015533c2922b"
->
-<ReqRef
- Id="ce7d1ef1-5c76-4031-a912-dd0416fd0924"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0d3dbb84-f692-417c-b7df-fc48a29578a4"
->
-</ReqRef><Comment>Handles display of information relative to the brake reason.</Comment>
-<Procedures>
-<Procedure
- Implemented="TRUE"
- Name="Display"
- Guid="004809c1-f460-42c1-864f-1c8b04b76806"
->
-<ReqRef
- Id="ade33b4f-310e-406d-b308-3be003251c25"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f163ab57-5caa-461d-b510-afd5769bb8db"
->
-</ReqRef><ReqRef
- Id="356c897f-ec33-4240-8b7c-f795ee273d64"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4bd0d447-e216-4924-93cb-313ec32c16d8"
->
-</ReqRef><ReqRef
- Id="8fae9656-3172-4724-ac7f-6cde69800d28"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="98ebcb8d-bd49-40a6-aebd-d4a199b16d75"
->
-</ReqRef><Comment>Requests to display the corresponding information</Comment>
-<Parameters>
-<Parameter
- Type="BrakeReasonsCol"
- Name="aBrakeReasons"
- Guid="6b5b4895-2c6b-4a22-b84d-ef7f30021612"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Updates the request status"
- Guid="00313f4c-c09c-47ca-80a4-aa797665868c"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Display if required"
- Guid="878599cd-8859-49b6-8d6d-00e62b3c5ea1"
->
-<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
-<PreConditions>
-<PreCondition
- Guid="031d16d4-fdaa-43c6-99e7-482cf67a2780"
->BrakeReasonAvailable()</PreCondition><PreCondition
- Guid="213ad679-b723-47d1-8e1f-caf73b8f1437"
->COUNT X IN aBrakeReasons &gt; 0</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="58ec87b8-d959-4379-933a-f9be1729e054"
->THIS.OutputInformation.RequestDisplay()</Action><Action
- Guid="d91845c2-a76a-4642-9126-e16c15aced41"
->THIS.Reasons &lt;- aBrakeReasons</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Hide otherwise"
- Guid="173563f9-4adf-4245-9cdb-657ccf0ba50f"
->
-<Comment>Hide otherwise.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="fd7eca3c-55ec-44cb-b08f-25dab8dd2a98"
->THIS.OutputInformation.DoNotDisplay()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- Implemented="TRUE"
- Name="TrackMode"
- Guid="09bc4de3-f609-4dd4-9884-2169c09975f3"
->
-<Comment>Tracks the changes of the mode.
-This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
-</Procedure></Procedures>
-<StructureElement
- TypeName="OutputInformationStruct"
- Default=""
- Mode="Outgoing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="OutputInformation"
- Guid="37924e38-cfb2-48b2-84f2-f2f138e99384"
->
-<Comment>Provides the state of the information displayed to the driver</Comment>
-</StructureElement><StructureElement
- TypeName="BrakeReasonsCol"
- Default=""
- Mode="Outgoing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Reasons"
- Guid="51587c5f-2f21-499c-af98-2bd9b817b51b"
->
-<Comment>The brake reason.</Comment>
 </StructureElement></Structure><Structure
  Default="THIS"
  X="440"
@@ -5879,6 +5749,120 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="645f9e9f-ab93-489a-928b-79fae202d089"
 >
 <Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="110"
+ Y="300"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BrakeReasonStruct"
+ Guid="5fc56167-5832-478f-b861-015533c2922b"
+>
+<ReqRef
+ Id="ce7d1ef1-5c76-4031-a912-dd0416fd0924"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d3dbb84-f692-417c-b7df-fc48a29578a4"
+>
+</ReqRef><Comment>Handles display of information relative to the brake reason.</Comment>
+<Procedures>
+<Procedure
+ Implemented="TRUE"
+ Name="Display"
+ Guid="004809c1-f460-42c1-864f-1c8b04b76806"
+>
+<ReqRef
+ Id="ade33b4f-310e-406d-b308-3be003251c25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f163ab57-5caa-461d-b510-afd5769bb8db"
+>
+</ReqRef><ReqRef
+ Id="356c897f-ec33-4240-8b7c-f795ee273d64"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4bd0d447-e216-4924-93cb-313ec32c16d8"
+>
+</ReqRef><ReqRef
+ Id="8fae9656-3172-4724-ac7f-6cde69800d28"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="98ebcb8d-bd49-40a6-aebd-d4a199b16d75"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BrakeReasonsCol"
+ Name="aBrakeReasons"
+ Guid="6b5b4895-2c6b-4a22-b84d-ef7f30021612"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="00313f4c-c09c-47ca-80a4-aa797665868c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="878599cd-8859-49b6-8d6d-00e62b3c5ea1"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="031d16d4-fdaa-43c6-99e7-482cf67a2780"
+>BrakeReasonAvailable()</PreCondition><PreCondition
+ Guid="213ad679-b723-47d1-8e1f-caf73b8f1437"
+>COUNT X IN aBrakeReasons &gt; 0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="58ec87b8-d959-4379-933a-f9be1729e054"
+>THIS.OutputInformation.RequestDisplay()</Action><Action
+ Guid="d91845c2-a76a-4642-9126-e16c15aced41"
+>THIS.Reasons &lt;- aBrakeReasons</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="173563f9-4adf-4245-9cdb-657ccf0ba50f"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="fd7eca3c-55ec-44cb-b08f-25dab8dd2a98"
+>THIS.OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="09bc4de3-f609-4dd4-9884-2169c09975f3"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="37924e38-cfb2-48b2-84f2-f2f138e99384"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="BrakeReasonsCol"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reasons"
+ Guid="51587c5f-2f21-499c-af98-2bd9b817b51b"
+>
+<Comment>The brake reason.</Comment>
 </StructureElement></Structure></Structures>
 <Functions>
 <Function

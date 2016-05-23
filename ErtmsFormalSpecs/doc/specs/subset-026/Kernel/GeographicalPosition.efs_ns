@@ -440,6 +440,8 @@ BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Of
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove previous information"
  Guid="062f4311-a4cc-456c-a085-e0343b63c80a"
@@ -466,6 +468,8 @@ BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Of
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle first item"
  Guid="919b6b4c-39b4-4d45-b09a-4dec28cc41e2"
@@ -506,6 +510,8 @@ IN
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle following items"
  Guid="253c558d-7cd3-4e12-a844-9dae9ad4fc30"
@@ -568,6 +574,8 @@ ON
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Insert the item"
@@ -651,7 +659,7 @@ IN
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8da3b16a-bac5-4dbe-be3a-c79c617150d3"
 >
-</ReqRef><Comment>Regresents the geographical position information received from the trackside.</Comment>
+</ReqRef><Comment>Represents the geographical position information received from the trackside.</Comment>
 </Variable><Variable
  Type="GeographicalPosition.GeographicalPositionItemStruct"
  DefaultValue="EMPTY"
@@ -755,6 +763,30 @@ IN
 <Action
  Guid="8a34a79b-a1c7-412f-b7c6-5328fdd0636a"
 >Kernel.GeographicalPosition.ApplicableItem &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="130"
+ Y="510"
+ Width="100"
+ Height="50"
+ Name="Check geographical position available"
+ Guid="fee6710d-443c-4a29-9b64-451932dc4b4e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Check modes"
+ Guid="3c744a7f-8db9-4b00-beeb-ba8b12f24d7a"
+>
+<PreConditions>
+<PreCondition
+ Guid="ee58a924-d34a-443a-a464-eba9117f9a35"
+>Kernel.ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="106a2d51-40fc-4034-b0b8-39ef138a6389"
+>DMI.MasterDMI().In_GeographicalPositionRequest.InitiateRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>

@@ -674,6 +674,60 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
      aVirtualBaliseCovers=&gt;Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs 
 )</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Toggle display of geographical position"
+ Guid="563177c2-ea9e-42de-8f76-f0fd1d40fafc"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Toggle geographical position when the driver requests it"
+ Guid="1a5b75af-c0b3-4b9e-be1f-7b3551a2417b"
+>
+<PreConditions>
+<PreCondition
+ Guid="34f5386e-dc79-465a-b2f5-f7f3099a9944"
+>THIS.In_GeographicalPositionRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Toggle"
+ Guid="e237807b-05c4-4981-a280-c359eebd99d9"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="DisplayDistance False"
+ Guid="9f849eb2-70fc-4855-8ea0-5e8940a63cb5"
+>
+<PreConditions>
+<PreCondition
+ Guid="294bb637-cc3f-4f55-9030-82c281bf11c1"
+>THIS.Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1ad5a9c4-6e39-4c49-81eb-8f4f43fba6af"
+>THIS.Out_GeographicalPosition.DisplayDistance &lt;- DMI.OUT.DisplaySymbolOrValue.Value</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="DisplayDistance True"
+ Guid="586c2f78-dd3c-4bdd-907f-35303ed5112e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0c7ad6a2-2c04-4671-a5bc-43651f653ce5"
+>THIS.Out_GeographicalPosition.DisplayDistance &lt;- DMI.OUT.DisplaySymbolOrValue.Symbol</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
 <Procedure
@@ -1173,6 +1227,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 >THIS.In_ContinueShuntingOnDeskClosureRequest.TrackMode()</Action><Action
  Guid="3e82c310-33e7-4a58-9784-2bb8a04359d8"
 >THIS.In_ExitOfShuntingRequest.TrackMode()</Action><Action
+ Guid="b1113a99-ef11-4346-af71-91995bce63e7"
+>THIS.In_GeographicalPositionRequest.TrackMode()</Action><Action
  Guid="731ad583-ccff-46b7-a8f6-c94daf946a56"
 >THIS.In_Isolation.TrackMode()</Action><Action
  Guid="45f2221b-307c-42e5-9e8c-1fa4a1faa127"
@@ -1554,6 +1610,8 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 >THIS.In_ContinueShuntingOnDeskClosureRequest.AcceptDriverResponse()</Action><Action
  Guid="1269bc74-8e91-4544-bb3f-aac174230c08"
 >THIS.In_ExitOfShuntingRequest.AcceptDriverResponse()</Action><Action
+ Guid="9b2efb2b-3f4f-4a60-9260-975ca264051f"
+>THIS.In_GeographicalPositionRequest.AcceptDriverResponse()</Action><Action
  Guid="7e7c9936-44eb-496b-b07b-5f6e0638282a"
 >THIS.In_Isolation.AcceptDriverResponse()</Action><Action
  Guid="8baf325f-725b-41cb-84c5-e9f3b93b9e75"
@@ -4313,7 +4371,14 @@ Fetches the time from the kernel and adjusts according to the current country id
  SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
  Guid="c6f2561d-27b3-40f4-ba83-7040b5ce7e2d"
 >
-</ReqRef></StructureElement></Structure><Structure
+</ReqRef></StructureElement><StructureElement
+ TypeName="IN.GeographicalPositionRequestStruct"
+ Default=""
+ Mode="Internal"
+ Name="In_GeographicalPositionRequest"
+ Guid="d08dcd2e-4ce7-4148-92ac-9ad9698e9ba5"
+>
+</StructureElement></Structure><Structure
  Default=""
  X="280"
  Y="10"
@@ -4330,6 +4395,8 @@ Fetches the time from the kernel and adjusts according to the current country id
 <Rules>
 <Rule
  Priority="CleanUp"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="CleanUp"
