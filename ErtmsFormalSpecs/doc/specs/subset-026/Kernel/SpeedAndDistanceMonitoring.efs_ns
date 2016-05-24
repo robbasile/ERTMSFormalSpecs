@@ -227,6 +227,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update EB command"
  Guid="e10749b0-c07d-4d0d-9284-d7355a198a6c"
@@ -278,13 +280,7 @@
 <PreConditions>
 <PreCondition
  Guid="ba2d5d10-548d-4d8b-9ffb-90416e35045f"
->CeilingSpeedMonitoring.SupervisionStatus.r0()
-  OR  
-(
-  NationalValues.ReleaseOfEBIsPermitted()
-    AND  
-  CeilingSpeedMonitoring.SupervisionStatus.r1()
-)</PreCondition></PreConditions>
+>CeilingSpeedMonitoring.SupervisionStatus.RevokeEB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b433482f-4bca-4601-847e-971895a08735"
@@ -298,35 +294,16 @@
 <PreConditions>
 <PreCondition
  Guid="b88f1880-c00d-4064-89e8-108719618388"
->CeilingSpeedMonitoring.SupervisionStatus.t5()</PreCondition></PreConditions>
+>CeilingSpeedMonitoring.SupervisionStatus.TriggerEB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="226fe175-04af-4daa-bef3-67d43abe2a59"
 >TriggerEBCommand()</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Apply EB in RV"
- Guid="6536a141-ca40-4fb2-b16d-e0e06ba101fd"
->
-<ReqRef
- Id="4942989a-27b7-455c-b74f-e8f066ff634b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="aaad35bd-6eb6-422d-90c7-d52702020633"
->
-</ReqRef><Comment>Applies emergency brakes if in RV mode.</Comment>
-<PreConditions>
-<PreCondition
- Guid="18dc0596-5393-4ac0-a87c-a1347ce27825"
->CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition><PreCondition
- Guid="2f70f08c-fca8-468f-86db-e339dc8875e2"
->Kernel.Mode == ModeEnum.RV</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8e15cb2e-7abd-411b-b9ec-bd2754b5c5a3"
->TriggerEBCommand()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update SB command"
  Guid="61694b26-e88d-4cdd-a639-c0318a3269d7"
@@ -364,7 +341,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="0dd5e148-39c4-4b87-b032-62c0ff4db389"
->CeilingSpeedMonitoring.SupervisionStatus.r1()</PreCondition></PreConditions>
+>CeilingSpeedMonitoring.SupervisionStatus.RevokeSB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="f46f7791-f7bb-45b2-bcbd-39fe148da8d7"
@@ -383,9 +360,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="600903d5-380d-4149-80aa-48310934d644"
->CeilingSpeedMonitoring.SupervisionStatus.t4()</PreCondition><PreCondition
- Guid="5618ae2f-6260-409f-ba21-41bec991ef9a"
->Kernel.Mode != ModeEnum.RV</PreCondition></PreConditions>
+>CeilingSpeedMonitoring.SupervisionStatus.TriggerSB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4376c575-b8d3-4029-81fc-afb4b4a47b06"
@@ -419,6 +394,8 @@ This is used to handle the case where a previous brake command was not revoked b
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update SB command"
  Guid="64ff6938-112d-4a91-8f6e-9e3c7d7caaa0"
@@ -476,14 +453,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="e00bdd73-5703-4cd4-9566-fa3472b3b1d8"
->FORALL aTarget IN TargetsList() |
-(
-TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)
-)</PreCondition></PreConditions>
+>TargetSpeedMonitoring.SupervisionStatus.RevokeSB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="60f0485d-848a-4cc0-a28f-9d97ae37e8dc"
@@ -497,11 +467,7 @@ TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)
 <PreConditions>
 <PreCondition
  Guid="0853620b-2c03-40bd-88e5-f993043f9f18"
->TargetSpeedMonitoring.SupervisionStatus.t10()
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.t11()
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.t12()</PreCondition></PreConditions>
+>TargetSpeedMonitoring.SupervisionStatus.TriggerSB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7bad018c-821e-4b5d-9414-7ee02faccd43"
@@ -509,6 +475,8 @@ TargetSpeedMonitoring.SupervisionStatus.t12()</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update EB command"
  Guid="c0828251-fd64-4288-ac32-a67b3e5deac9"
@@ -576,22 +544,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="966ac758-ac03-4851-b9a5-d9505b7b260f"
->TargetSpeedMonitoring.SupervisionStatus.r0()
-  OR  
-(
-  NationalValues.ReleaseOfEBIsPermitted()
-    AND  
-  (
-  FORALL aTarget IN TargetsList() |
-    (
-      TargetSpeedMonitoring.SupervisionStatus.r1(aTarget)
-      OR  
-      TargetSpeedMonitoring.SupervisionStatus.r2(aTarget)
-      OR  
-      TargetSpeedMonitoring.SupervisionStatus.r3(aTarget)
-    )
-  )
-)</PreCondition></PreConditions>
+>TargetSpeedMonitoring.SupervisionStatus.RevokeEB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="0707da0b-ad6f-466c-86a8-78029248b81a"
@@ -605,11 +558,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="5f8958b4-40c1-4ba8-8fd0-ad6c03c1d219"
->TargetSpeedMonitoring.SupervisionStatus.t13()
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.t14()
-  OR  
-TargetSpeedMonitoring.SupervisionStatus.t15()</PreCondition></PreConditions>
+>TargetSpeedMonitoring.SupervisionStatus.TriggerEB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a69f5823-a560-4efd-a14f-c47ef643cac6"
@@ -617,6 +566,8 @@ TargetSpeedMonitoring.SupervisionStatus.t15()</PreCondition></PreConditions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update TCO command"
  Guid="cf19cc91-e3e9-4e07-89d6-ff4addd84b6d"
@@ -653,9 +604,7 @@ TargetSpeedMonitoring.SupervisionStatus.t15()</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="2240faf3-e31f-4e23-ad97-ecb6efd8f5a1"
->TargetSpeedMonitoring.SupervisionStatus.t7() OR
-TargetSpeedMonitoring.SupervisionStatus.t8() OR
-TargetSpeedMonitoring.SupervisionStatus.t9()</PreCondition><PreCondition
+>TargetSpeedMonitoring.SupervisionStatus.TriggerTCO()</PreCondition><PreCondition
  Guid="78d7f466-a6a2-4f5b-8f44-aadcffd84414"
 >NOT TIU.CutOffTraction</PreCondition></PreConditions>
 <Actions>
@@ -701,12 +650,7 @@ TargetSpeedMonitoring.SupervisionStatus.t9()</PreCondition><PreCondition
 <PreConditions>
 <PreCondition
  Guid="90d45a34-990c-49d5-b9d2-2de06025a01e"
->FORALL target IN TargetsList() | 
-(
-       TargetSpeedMonitoring.SupervisionStatus.r1( target)
-OR TargetSpeedMonitoring.SupervisionStatus.r2( target)
-OR TargetSpeedMonitoring.SupervisionStatus.r3( target) 
-)</PreCondition><PreCondition
+>TargetSpeedMonitoring.SupervisionStatus.RevokeTCO()</PreCondition><PreCondition
  Guid="dd45cce3-2778-4a6d-aa37-05abe37d4cb2"
 >TIU.CutOffTraction</PreCondition></PreConditions>
 <Actions>
@@ -716,6 +660,8 @@ OR TargetSpeedMonitoring.SupervisionStatus.r3( target)
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update previous displayed target"
  Guid="8e9780b8-2b6c-49b3-bbf3-2f36038a0667"
@@ -755,6 +701,8 @@ OR TargetSpeedMonitoring.SupervisionStatus.r3( target)
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Update EB command"
  Guid="d8790369-f290-4449-9602-b380066e6646"
@@ -787,7 +735,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="bcca89cc-d192-41f8-802e-09bf205730cb"
->SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.r0()</PreCondition></PreConditions>
+>ReleaseSpeedMonitoring.SupervisionStatus.RevokeEB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="4c9a1a22-88ae-4562-8a6e-2ac5a1aa8e96"
@@ -801,7 +749,7 @@ This is used to handle the case where a previous brake command was not revoked b
 <PreConditions>
 <PreCondition
  Guid="4472cd09-1a3f-4179-a7e6-e79446019289"
->SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.SupervisionStatus.t2()</PreCondition></PreConditions>
+>ReleaseSpeedMonitoring.SupervisionStatus.TriggerEB()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="fe18f2c7-ef71-4d22-984e-315c71a21139"
@@ -1417,8 +1365,8 @@ OR NationalValues.ReleaseOfEBIsPermitted()</Expression>
 </Function><Function
  Type="BaseTypes.Speed"
  Default=""
- X="1"
- Y="241"
+ X="150"
+ Y="290"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1969,6 +1917,8 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="TriggerSBCommand"
@@ -2017,6 +1967,8 @@ ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition><PreCondition
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Revoke EB command"
  Guid="f4bf398c-5f06-4c70-93cd-92d6fe4522aa"
@@ -2073,6 +2025,8 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Revoke SB command"
@@ -2121,6 +2075,8 @@ Odometry.TrainIsAtStandstill()</PreCondition><PreCondition
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Activate EB"

@@ -299,5 +299,133 @@
 <Comment>No change occurs</Comment>
 <Expression>current</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TriggerEB"
+ Guid="4d0b3b1c-2357-4dfa-aadc-eae250d4da2c"
+>
+<ReqRef
+ Id="4942989a-27b7-455c-b74f-e8f066ff634b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="18a6d9a1-1410-44dd-87b4-9f2b3d140344"
+>
+</ReqRef><ReqRef
+ Id="e4afc252-6ba4-4996-b8f6-072d60e63987"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4270b2f-91f4-4c28-9d03-0be223054bd8"
+>
+</ReqRef><Comment>Indicates whether the EB command is triggered in CSM.</Comment>
+<Cases>
+<Case
+ Name="In RV"
+ Guid="85abb388-4867-4dc3-8612-1508f40cc106"
+>
+<PreConditions>
+<PreCondition
+ Guid="8e9d1afb-5daf-4478-a793-99af6924bccc"
+>Mode == ModeEnum.RV</PreCondition></PreConditions>
+<Expression>t4() OR t5()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="4f3d3af0-702f-4360-848a-b88b1df6e944"
+>
+<Expression>t5()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="TriggerSB"
+ Guid="8f543c22-a00f-45c9-b625-bb34adb09425"
+>
+<ReqRef
+ Id="4942989a-27b7-455c-b74f-e8f066ff634b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8007f058-7c6f-4443-bf97-cae22f65e66c"
+>
+</ReqRef><ReqRef
+ Id="d5e287e8-9591-4f40-9968-b9a12d5f800f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b8a20ee-e724-4a63-b41e-87647203e68c"
+>
+</ReqRef><Comment>Indicates whether the SB command is triggered in CSM.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="53dccd77-27a7-492b-96da-a35c992ea610"
+>
+<Expression>Mode != ModeEnum.RV
+  AND  
+t4()</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RevokeEB"
+ Guid="642c5c76-1462-4412-815b-27fb8ae4ba8a"
+>
+<ReqRef
+ Id="4f24d434-b967-4e8b-b2b1-e0b3f4d6c2dc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e42960b1-0ec8-46e5-8230-c1e8567b9f74"
+>
+</ReqRef><ReqRef
+ Id="ec0c435b-0145-4656-99a6-3a16788797ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59d3068f-dea0-49cf-ab87-4d39f5f1aa21"
+>
+</ReqRef><Comment>Indicates whether the EB command can be revoked in CSM.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="7aee8472-3af1-48c0-afa1-a2cf1584c0af"
+>
+<Expression>CeilingSpeedMonitoring.SupervisionStatus.r0()
+  OR  
+(
+  NationalValues.ReleaseOfEBIsPermitted()
+    AND  
+  CeilingSpeedMonitoring.SupervisionStatus.r1()
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="RevokeSB"
+ Guid="6d70d27b-e4c1-4a64-b6c2-29687fe64c91"
+>
+<ReqRef
+ Id="ec0c435b-0145-4656-99a6-3a16788797ff"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c85ddf8-328d-4add-a514-b9cb536d7793"
+>
+</ReqRef><Comment>Indicates whether the SB command can be revoked in CSM.</Comment>
+<Cases>
+<Case
+ Name="Value"
+ Guid="f4bd4c80-76e9-4891-82ee-b905dd964de4"
+>
+<Expression>r1()</Expression>
+</Case></Cases>
 </Function></Functions>
 </NameSpace>
