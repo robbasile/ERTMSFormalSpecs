@@ -1435,6 +1435,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Displays fixed text information.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="dcffd8c6-b822-4757-824c-f0e013e19ae8"
@@ -1443,6 +1445,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="6830768e-799d-4864-9239-cbe2466815c9"
@@ -1468,6 +1472,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="d6334234-2265-45d9-bede-3ed2a278318e"
@@ -1476,6 +1482,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the status of the request according to the mode"
  Guid="19e19d77-886e-4bf6-b135-1b731b475d5c"
@@ -2255,7 +2263,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
  Guid="8a078331-f869-4979-9161-f369d645920d"
 >GeographicalPositionAvailable()</PreCondition><PreCondition
  Guid="0246bb2b-04d5-41eb-b0c6-354370c0c514"
->aLocation != BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+>aLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="816af267-01cf-4ce8-8e54-bc641fab4d59"
+>Kernel.GeographicalPosition.ApplicableItem.Location != 16777215.0</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="dbb8b604-25a0-47c2-84c3-8be34d04acbd"
@@ -2314,9 +2324,12 @@ This procedure does not do anything. The mode tracking is not necessary for this
  TypeName="DisplaySymbolOrValue"
  Default="DMI.OUT.DisplaySymbolOrValue.Symbol"
  Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="DisplayDistance"
  Guid="cbc6c6ac-06fb-4c03-bb3b-bc0b27f0f51a"
 >
+<Comment>Indicates whether the symbol or the distance should be displayed.</Comment>
 </StructureElement></Structure><Structure
  Default=""
  X="770"

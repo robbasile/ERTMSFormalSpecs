@@ -7,6 +7,7 @@
  Name="GeographicalPosition"
  Guid="7e6c43a5-cb12-411e-9230-85944c976e8c"
 >
+<Comment>This namespace contains variables and functions used to tell the geographical position.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Structures>
@@ -770,16 +771,29 @@ IN
  Y="510"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="Check geographical position available"
  Guid="fee6710d-443c-4a29-9b64-451932dc4b4e"
 >
+<ReqRef
+ Id="025dbbdb-b1ef-4f64-87f0-2a29a960ed7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="442752c6-d524-4d28-b186-c5ffddfc76dd"
+>
+</ReqRef><Comment>Verifies the mode for allowing the driver to request the geographical position.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Check modes"
  Guid="3c744a7f-8db9-4b00-beeb-ba8b12f24d7a"
 >
-<PreConditions>
+<ReqRef
+ Id="025dbbdb-b1ef-4f64-87f0-2a29a960ed7e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dfe2285-c43d-45a5-a573-6251d583fcdd"
+>
+</ReqRef><PreConditions>
 <PreCondition
  Guid="ee58a924-d34a-443a-a464-eba9117f9a35"
 >Kernel.ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
