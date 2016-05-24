@@ -2216,7 +2216,11 @@ ON
  Name="CurrentRBCConnection available"
  Guid="9ce267d8-9fa6-49f6-9ab4-faf766ef75ec"
 >
-<Comment>If the current connection has an established connection.</Comment>
+<Comment>If a position report has to be sent, due to mode change for example, 
+the currentRBCConnection shall establish a connection if has no present 
+communication session.
+Note that the SendPositionProcedure takes the responsability to contact 
+a RBC if needed.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2246,7 +2250,8 @@ ON
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ba2ef206-6817-4f16-af4f-2a9795f5d394"
 >
-</ReqRef><Comment>If the on-board has a communication session with an Accepting RBC, it sends position report to both RBC connections.</Comment>
+</ReqRef><Comment>If the on-board has an established communication session with an Accepting RBC, 
+it sends position report to both RBC connections.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -2257,7 +2262,9 @@ ON
 <PreConditions>
 <PreCondition
  Guid="a9c9c62a-a1ff-45f5-8f47-71e4e1b756dd"
->RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition></PreConditions>
+>RBCConnection.SecondaryRBCConnection() != EMPTY</PreCondition><PreCondition
+ Guid="8572241e-74b5-421f-98e9-cb5a82f83fc2"
+>RBCConnection.SecondaryRBCConnection().ConnectionState in [EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected]</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="44e5a4e8-73a9-4879-9844-f4bf9665e010"

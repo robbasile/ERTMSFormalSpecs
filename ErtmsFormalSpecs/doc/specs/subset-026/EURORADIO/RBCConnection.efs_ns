@@ -500,10 +500,7 @@ ConnectionStateSM.NoConnection]</PreCondition></PreConditions>
  Guid="ef9f48be-db1f-4682-be93-0b8c90534479"
 >Timer.Started(SafeRadioConnection.ConnectionStatusTimer)</PreCondition><PreCondition
  Guid="e8aa6235-cfc9-4ff7-b173-cacb111aee76"
->SafeRadioConnection.ConnectionIsEstablished
-  OR
-ConnectionState in [ConnectionStateSM.Inactive,
-ConnectionStateSM.Terminating]</PreCondition></PreConditions>
+>SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7bfa0022-d368-4b69-89fa-fcd5662f9103"
@@ -3449,6 +3446,39 @@ Duration =&gt; 300.0
  Guid="33377292-d119-402b-ae2d-61db25cf4847"
 >SafeRadioConnection.SpecialCaseSessionEstablishmentReason &lt;- SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Lost ContactData"
+ Guid="0eb2fd77-4a3f-4892-8c97-09ae0474592d"
+>
+<Comment>If a session has to be reestablished while ContactData has been lost or are not valid (e.g. due to a previous deconnection order or a failed attempt), the RBCConnection will try to connect using the LastKnownRBC if available.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Lost ContactData"
+ Guid="6b4ab07e-9088-4b46-b963-6a307913a81e"
+>
+<PreConditions>
+<PreCondition
+ Guid="65d6c575-04b4-4a11-80bc-44209a787565"
+>NOT Available(ContactData)
+  OR
+ContactData.DataState == DataStateEnum.Invalid
+  OR
+ContactData.DataState == DataStateEnum.Unknown</PreCondition><PreCondition
+ Guid="4c9396cf-58b5-4dbb-b90f-b9d35323b112"
+>Available(Contact.LastKnownRBC)
+  AND
+Contact.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="102b9f84-8128-48ba-87a8-53fbd3fbc3b7"
+>ContactData &lt;- Contact.LastKnownRBC</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -5167,6 +5197,39 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Enter action"
+ Guid="104dea70-8cbd-4f14-8bca-763244571735"
+>
+<ReqRef
+ Id="e9e7d5c2-c94d-4bb6-8aea-136e28beafd2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae25f1fe-6209-4b51-8ae8-256a6ec2b546"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Stop connection timer"
+ Guid="e6b28eec-b900-4403-be91-e6ec2abf6a82"
+>
+<Comment>The inactive state implies the onboard has no open session nor safe radio connection. 
+Hence, the timers used to manage the session and the safe radio connection are stopped.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="857eaafb-c627-4090-9d7a-fa01b5665cf3"
+>Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action><Action
+ Guid="f56aacdc-abd4-4943-b9d6-36d883c0708b"
+>Timer.StopTimer(MaintainSessionTimer)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </StateMachine></State><State
  X="70"
  Y="90"
@@ -5261,6 +5324,28 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 >SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action><Action
  Guid="e0c9fd6f-6e95-44d9-99ad-07fb09da4ad3"
 >SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Session has to be reestablished"
+ Guid="261e3d02-c4c5-4999-a135-ff2ccd787dfd"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Session has to be reestablished"
+ Guid="804acdc3-8837-4818-b5f2-f5a2da7f487a"
+>
+<PreConditions>
+<PreCondition
+ Guid="d3d286ea-65f3-4f0d-aa7e-d7e1e283e448"
+>SessionHasToBeReEstablished ( anRBC =&gt; ENCLOSING )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="52b1a202-e4a6-462f-b04e-e4a2302138df"
+>THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
