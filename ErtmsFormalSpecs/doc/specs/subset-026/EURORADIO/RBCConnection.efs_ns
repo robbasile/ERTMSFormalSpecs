@@ -435,12 +435,16 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="SessionTimer management"
  Guid="385ad190-d992-4b29-82b7-f26e734e9798"
 >
+<Comment>Generic, default rule for starting and/or stopping the session timer. 
+No that other events might trigger the start and stop.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Start timer"
  Guid="a45c2383-77ca-4fb6-82b9-59cf039bdfb6"
 >
@@ -449,7 +453,8 @@ Keep the reason for it to be displayed to the driver.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="76c3c788-33a8-40c8-8616-6dd345ac9204"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>Session timer should be started as soon as the safe radio connection is lost.</Comment>
+<PreConditions>
 <PreCondition
  Guid="c1a3ff6c-28d2-42c2-b292-388f1d62962e"
 >NOT Timer.Started(MaintainSessionTimer)</PreCondition><PreCondition
@@ -462,9 +467,11 @@ Keep the reason for it to be displayed to the driver.</Comment>
  Guid="877e012e-58c8-4020-a940-ae4bcc4d4680"
 >Timer.StartTimer(MaintainSessionTimer)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Stop timer"
  Guid="e192e168-1545-4bfe-92f9-6eae80ad1a56"
 >
+<Comment>Stops the session timer is the connection is re-established or no longer needed.</Comment>
 <PreConditions>
 <PreCondition
  Guid="0d92ace6-438a-4c66-982c-1935933d3186"
@@ -485,6 +492,7 @@ ConnectionStateSM.NoConnection]</PreCondition></PreConditions>
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="ConnectionStatusTimer management"
  Guid="96459f67-2587-42e5-95c9-b08540b1ebb4"
 >
@@ -492,6 +500,7 @@ ConnectionStateSM.NoConnection]</PreCondition></PreConditions>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Stop timer"
  Guid="992a6314-edf4-491b-9e7b-9fb90ac8d64f"
 >
@@ -3528,9 +3537,11 @@ Contact.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition></PreConditi
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="84d5e65f-0ba6-434f-a2f1-e5c8affa0b57"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>What to do while entering the Inactive state, in particular stopping the communication and connection timers.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Stop connection timer"
  Guid="45ee1932-7220-48d8-80ed-754705137a3f"
 >
@@ -5212,9 +5223,11 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="ae25f1fe-6209-4b51-8ae8-256a6ec2b546"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>What to do while entering the NoConnecton state, in particular stopping the timers.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Stop connection timer"
  Guid="e6b28eec-b900-4403-be91-e6ec2abf6a82"
 >
@@ -5329,12 +5342,15 @@ Hence, the timers used to manage the session and the safe radio connection are s
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Session has to be reestablished"
  Guid="261e3d02-c4c5-4999-a135-ff2ccd787dfd"
 >
+<Comment>Commnication session may need to be restarted, even after a proper termination, without a trackside order.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Session has to be reestablished"
  Guid="804acdc3-8837-4818-b5f2-f5a2da7f487a"
 >
