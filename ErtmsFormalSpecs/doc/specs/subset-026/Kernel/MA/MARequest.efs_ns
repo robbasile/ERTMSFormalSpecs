@@ -170,10 +170,10 @@
 <PreConditions>
 <PreCondition
  Guid="c238a5b1-36a6-4190-9b53-2dca70c6fa61"
->Kernel.MA.MARequest.MARequestParameters != EMPTY
+>MARequestParameters != EMPTY
   AND
-Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
-<Expression>Kernel.MA.MARequest.LastMARequestRepetitionTime + Kernel.MA.MARequest.MARequestParameters.RepetitionTime &lt;= Kernel.DateAndTime.CurrentTime</Expression>
+MARequestParameters.HandleRepetitions</PreCondition></PreConditions>
+<Expression>Kernel.MA.MARequest.LastMARequestRepetitionTime + MARequestParameters.RepetitionTime &lt;= Kernel.DateAndTime.CurrentTime</Expression>
 </Case><Case
  Name="No MA request parameters available"
  Guid="55ec0701-fd5e-43b2-9640-bc3cb868d66c"
@@ -209,6 +209,30 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <Expression>(Kernel.SpeedAndDistanceMonitoring.PreIndicationLocation.Compute_d_preindication( aTarget =&gt; EOA.EOA() ) - Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom ))
   /
 (Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_warning( V =&gt; Kernel.MRSP.V_MRSP() ))</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="TimeBeforeTimerEndReached"
+ Guid="6f03d333-b2b5-43da-a0ce-9531052065c1"
+>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Time"
+ Name="TimerEndTime"
+ Guid="d1e8c81c-8cda-4530-89b5-91010f6792d0"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="c775b06a-f36e-44a5-9c20-1b91ce73ef14"
+>
+<Expression>DateAndTime.CurrentTime &gt;= TimerEndTime - MARequestParameters.SectionTimerTime</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -286,138 +310,14 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <Actions>
 <Action
  Guid="320b109a-792e-416d-bbba-d48ea2c1833b"
->Kernel.MA.MARequest.MARequestParameters &lt;- Kernel.MA.MARequest.MARequestParametersStruct
-{
-    PreindicationLocationTime =&gt; MessageTypes.TimeResolution( time =&gt; Packet.T_MAR ),
-    SectionTimerTime =&gt; MessageTypes.TimeResolution( time =&gt; Packet.T_TIMEOUTRQST ),
-    RepetitionTime =&gt; MessageTypes.TimeResolution( time =&gt; Packet.T_CYCRQST )
+>MARequestParameters &lt;- Kernel.MA.MARequest.MARequestParametersStruct{
+    PreindicationLocationTime =&gt; BaseTypes.Time(Packet.T_MAR ),
+    SectionTimerTime =&gt; BaseTypes.Time(Packet.T_TIMEOUTRQST ),
+    RepetitionTime =&gt; BaseTypes.Time(Packet.T_CYCRQST ),
+    HandleRepetitions =&gt; (Packet.T_CYCRQST != 255),
+    HandleTimeouts =&gt; (Packet.T_TIMEOUTRQST != 1023),
+    HandlePreindicationLocation =&gt; (Packet.T_MAR != 255)
 }</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Handle special values"
- Guid="ca982596-2da7-42ea-a6a2-a42145830eed"
->
-<Comment>Then, store the special values indicating which MA request parameters are applicable.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-</Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Store the pre-indication location handling"
- Guid="0c0ee582-cb6f-4ace-b45a-2dd21540dc3d"
->
-<Comment>The special value 255 for T_MAR indicates that there is no MA request triggering with regards to the pre-indication location.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Pre-indication location has to be handled"
- Guid="737e7870-a1f7-4b54-a1fe-69223e8b8c01"
->
-<Comment>Pre-indication location has to be handled for MA requests.</Comment>
-<PreConditions>
-<PreCondition
- Guid="5e204e62-c4fe-490d-9a1b-e5938a2190c8"
->Packet.T_MAR != 255</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="30f9257a-8ea3-4ecc-8601-24c70ff492d7"
->Kernel.MA.MARequest.MARequestParameters.HandlePreindicationLocation &lt;- True</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Pre-indication location has not to be handled"
- Guid="7524805a-63de-4539-9370-da3ef41336f7"
->
-<Comment>Pre-indication location has not to be handled for MA requests.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="18636c9f-9aaa-4ff5-8c27-049f405a5abf"
->Kernel.MA.MARequest.MARequestParameters.HandlePreindicationLocation &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Store the timeouts handling"
- Guid="f96ad77b-e4c5-43f9-99b5-834422430ef2"
->
-<Comment>The special value 1023 for T_TIMEOUTRSQT indicates that there is no MA request triggering with regards to the sections timeouts.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Timeouts have to be handled"
- Guid="dbe503b6-3453-4df6-a8ce-ba4b3449fa19"
->
-<Comment>Timeouts have to be handled for MA requests.</Comment>
-<PreConditions>
-<PreCondition
- Guid="2455541d-8ac7-408b-be9a-5f05a4817771"
->Packet.T_TIMEOUTRQST != 1023</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="6ba53e46-8e54-4dc0-bf70-f290747fac02"
->Kernel.MA.MARequest.MARequestParameters.HandleTimeouts &lt;- True</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Timeouts have not to be handled"
- Guid="ef14cf5a-a35d-4ce6-a465-70d38c44c5b0"
->
-<Comment>Timeouts have not to be handled for MA requests.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="68f887a6-fb71-4685-92d2-ea6e3dbda166"
->Kernel.MA.MARequest.MARequestParameters.HandleTimeouts &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Store the repetition handling"
- Guid="7d401cbf-73df-4768-ad07-446d774f07cc"
->
-<Comment>The special value 255 for T_CYCRQST indicates that there is no MA request repetition.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Requests have to be repeated"
- Guid="e196364a-ac50-4cb1-bf76-bab2e5b5637b"
->
-<Comment>The MA requests have to be repeated.</Comment>
-<PreConditions>
-<PreCondition
- Guid="ee06d8a0-da11-4df4-8c6e-b2aaa0f16630"
->Packet.T_CYCRQST != 255</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="c7436dc7-bf48-4b23-92f3-88f26cacf70c"
->Kernel.MA.MARequest.MARequestParameters.HandleRepetitions &lt;- True</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Requests have not to be repeated"
- Guid="e539fe7d-00dc-4497-b787-fc9aa78f5fb5"
->
-<Comment>The MA requests have not to be repeated.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="90d2fcd9-38c9-4dc2-8519-b67f724b95ae"
->Kernel.MA.MARequest.MARequestParameters.HandleRepetitions &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -532,7 +432,7 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
  Guid="58a5e02d-bea3-48dd-9228-d97c67fae1e5"
 >EURORADIO.RBCConnection.CurrentRBCConnection().SendMARequest
 (
-    aReason =&gt; Kernel.MA.MARequest.MARequestParameters.Reason,
+    aReason =&gt; MARequestParameters.Reason,
     aPacket =&gt; EMPTY
 )</Action></Actions>
 </RuleCondition><RuleCondition
@@ -549,12 +449,14 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <PreConditions>
 <PreCondition
  Guid="edf7066d-883f-4a26-9e91-e1d0a67208e0"
->Kernel.MA.MARequest.MARequestParameters != EMPTY</PreCondition></PreConditions>
+>MARequestParameters != EMPTY</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Handle reasons from MA request parameters"
@@ -597,9 +499,9 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <PreConditions>
 <PreCondition
  Guid="1816e72f-c1f3-4f6d-ab81-66689104e3bd"
->Kernel.MA.MARequest.MARequestParameters.HandlePreindicationLocation</PreCondition><PreCondition
+>MARequestParameters.HandlePreindicationLocation</PreCondition><PreCondition
  Guid="b676bd39-5164-4702-a2f5-d5193febdf24"
->Kernel.MA.MARequest.TimeBeforePreIndicationLocation() &gt;= Kernel.MA.MARequest.MARequestParameters.PreindicationLocationTime</PreCondition><PreCondition
+>Kernel.MA.MARequest.TimeBeforePreIndicationLocation() &gt;= MARequestParameters.PreindicationLocationTime</PreCondition><PreCondition
  Guid="fb58d7f3-dee5-4f99-a282-b12c2acebd2b"
 >Kernel.ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>
 <Actions>
@@ -639,12 +541,15 @@ Kernel.MA.MARequest.MARequestParameters.HandleRepetitions</PreCondition></PreCon
 <PreConditions>
 <PreCondition
  Guid="03474a48-a662-43c9-babb-ed036ca243ed"
->Kernel.MA.MARequest.MARequestParameters.HandleTimeouts
+>MARequestParameters.HandleTimeouts
   AND
 (
-  THERE_IS Section IN Kernel.MA.MA.Sections | (Section.TimeOut.TimerStart + Section.TimeOut.TimeOut &gt;= Kernel.MA.MARequest.MARequestParameters.SectionTimerTime)
-    OR
-  Kernel.MA.MATimers.LOATimerStart + Kernel.MA.MA.TargetSpeedTimeOut &gt;= Kernel.MA.MARequest.MARequestParameters.SectionTimerTime
+  (THERE_IS Section IN Kernel.MA.MA.Sections | 
+    ( Available(Section.TimeOut)  AND  TimeBeforeTimerEndReached(Section.TimeOut.TimerStart + Section.TimeOut.TimeOut) ))
+    OR  
+  ( Available(Kernel.MA.MA.EndSection.TimeOut)  AND  TimeBeforeTimerEndReached(Kernel.MA.MA.EndSection.TimeOut.TimerStart + Kernel.MA.MA.EndSection.TimeOut.TimeOut) )
+    OR  
+  ( (MA.TargetSpeedTimeOut != BaseTypes.Time.NA ) AND TimeBeforeTimerEndReached(Kernel.MA.MATimers.LOATimerStart + Kernel.MA.MA.TargetSpeedTimeOut) )
 )</PreCondition><PreCondition
  Guid="1b2961a7-7b4c-4fdd-8726-bb211a9fc635"
 >Kernel.ActiveFunctions.RequestMA_IndicationPointOrTimer()</PreCondition></PreConditions>

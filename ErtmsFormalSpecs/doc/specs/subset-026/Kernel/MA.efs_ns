@@ -1725,7 +1725,7 @@ SvL.SvL() != EMPTY</PreCondition></PreConditions>
  Guid="7120a773-d361-414d-ba1e-3aa621fc8986"
 >Kernel.MA.MA.TargetSpeed &lt;- MessageTypes.SpeedResolution ( Packet.V_LOA, 5.0 )</Action><Action
  Guid="46a073cd-a242-427d-995f-7f060c69493f"
->Kernel.MA.MA.TargetSpeedTimeOut &lt;- BaseTypes.Time ( Packet.T_LOA )</Action></Actions>
+>Kernel.MA.MA.TargetSpeedTimeOut &lt;- Kernel.MA.MATimers.T_LOAToTime( Packet.T_LOA )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -1741,7 +1741,7 @@ SvL.SvL() != EMPTY</PreCondition></PreConditions>
 >Kernel.MA.MA &lt;- Kernel.MA.MAStruct
 {
     TargetSpeed =&gt; MessageTypes.SpeedResolution ( Packet.V_LOA, 5.0 ),
-    TargetSpeedTimeOut =&gt; BaseTypes.Time ( Packet.T_LOA )
+    TargetSpeedTimeOut =&gt; Kernel.MA.MATimers.T_LOAToTime( Packet.T_LOA )
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2098,10 +2098,10 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="accafb31-0bfe-4626-8086-677db8bffb6e"
->Kernel.MA.MA.EndSection.TimeOut &lt;- MATimers.TimeOutStruct
-{
+>Kernel.MA.MA.EndSection.TimeOut &lt;- MATimers.TimeOutStruct{
+    TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER ),
     Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SECTIONTIMERSTOPLOC, scale =&gt; Packet.Q_SCALE ),
-    TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER )
+    TimerStart =&gt; SectionStartTimer
 }</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"

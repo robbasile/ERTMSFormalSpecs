@@ -189,6 +189,39 @@ X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; Kernel.DateAndTime.CurrentTime)</P
 >
 <Expression>Sections.SectionStartLocation(Kernel.MA.MATimers.TimedOutSection())</Expression>
 </Case></Cases>
+</Function><Function
+ Type="BaseTypes.Time"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="T_LOAToTime"
+ Guid="5648db38-2fc9-41c5-84cd-cf5c48cbc5cf"
+>
+<Parameters>
+<Parameter
+ Type="MessageTypes.Time"
+ Name="aT_LOA"
+ Guid="fd067fe6-03f1-4e76-8cdc-c67d4f0e6c2b"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="No timer"
+ Guid="16d007e6-0d98-4c50-b45f-3b468a7bfb9d"
+>
+<PreConditions>
+<PreCondition
+ Guid="3a070bbd-e48e-4ed9-9b33-6d8570c94949"
+>aT_LOA == 1023</PreCondition></PreConditions>
+<Expression>BaseTypes.Time.NA</Expression>
+</Case><Case
+ Name="Value"
+ Guid="e53dca6f-ee42-46a7-a711-808ac3c8243c"
+>
+<Expression>BaseTypes.Time(aT_LOA)</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure
@@ -399,6 +432,8 @@ Kernel.MA.MATimers.OverlapTimerStart != BaseTypes.Time.NA
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle section timer"
  Guid="6e8f7e42-e75a-4023-92b7-ed4e0aa6e6a6"
@@ -449,6 +484,8 @@ Kernel.MA.MATimers.OverlapTimerStart != BaseTypes.Time.NA
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle end section timer"
  Guid="c371a6df-49f8-4b69-a8db-15b819c054b4"
