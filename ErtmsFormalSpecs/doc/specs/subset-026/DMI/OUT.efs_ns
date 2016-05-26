@@ -2981,6 +2981,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 </ReqRef><Comment>Handles display of information relative to fact that the train is entered in FS/OS mode.</Comment>
 <Procedures>
 <Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display"
  Guid="30ccccbc-7f0d-44d5-aa9c-d8e8d173b54e"
@@ -2995,6 +2997,11 @@ This procedure does not do anything. The mode tracking is not necessary for this
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="923eb1a6-0d86-4133-b811-9a3e36b0e32f"
 >
+</ReqRef><ReqRef
+ Id="d307ea93-013e-4347-9e61-da8d5dda9fc9"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="f8b85300-bb85-441d-9a9a-69bb23aeb208"
+>
 </ReqRef><Comment>Requests to display the corresponding information</Comment>
 <Parameters>
 <Parameter
@@ -3006,6 +3013,8 @@ This procedure does not do anything. The mode tracking is not necessary for this
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Updates the request status"
  Guid="d0aa9276-83ed-4376-b460-afc50f2ab4d2"
@@ -3039,9 +3048,9 @@ This procedure does not do anything. The mode tracking is not necessary for this
 >EntryInFsOsAvailable()
   AND  
 (
-  Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Nom) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
+  Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Min) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
   OR
-Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Nom) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location
+Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Min) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location
 )</PreCondition></PreConditions>
 <Actions>
 <Action
@@ -3066,6 +3075,8 @@ Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Nom) &lt; (FIRST X IN 
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="TrackMode"
  Guid="baa3fb40-911a-47c3-93a1-078da80861be"
