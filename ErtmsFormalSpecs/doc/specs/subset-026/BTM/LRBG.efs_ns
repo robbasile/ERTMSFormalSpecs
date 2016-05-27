@@ -281,7 +281,7 @@
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="TravelledDistanceFromBG"
+ Name="PreviousBGLocation"
  Guid="8c1c8b83-7a3e-4623-a519-765f7d5919ad"
 >
 <ReqRef
@@ -306,7 +306,7 @@
 <PreCondition
  Guid="39d378f2-a59c-43bf-9e51-ee9605484628"
 >THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == aBG</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - (FIRST X IN PreviousBaliseGroups | X.BaliseGroup.NID_BG == aBG).BaliseGroup.Position.Position</Expression>
+<Expression>(FIRST X IN PreviousBaliseGroups | X.BaliseGroup.NID_BG == aBG).BaliseGroup.Position.Position</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="bbb4368c-06da-4efc-9230-417c0d87f09f"

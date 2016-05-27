@@ -18808,6 +18808,359 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
+ Name="IN Geographical Position Request"
+ Guid="f33343cd-e6a9-4696-bcfe-64b05544c017"
+>
+<TestCases>
+<TestCase
+ Name="Initialisation"
+ Guid="21635e10-b605-463e-b543-714fe88a6208"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step1 - Setup"
+ Guid="7a32fa6f-0aa4-4c95-a852-42e3a59301e9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="d4bba142-36b5-4d98-97a0-ced3cc029351"
+>
+<Actions>
+<Action
+ Guid="820580eb-68ac-4341-848f-f4a5cf728888"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="28a0988f-df50-49ea-8051-86f48d05e8f5"
+>BTM.LRBG.LRBG != EMPTY</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="5"
+ Guid="c77588ae-639b-4334-b49f-75528e9014ed"
+>DMI.MasterDMI().In_GeographicalPositionRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Correct mode"
+ Guid="2c0cee88-4aa4-430b-9ef0-8f7c8920e405"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step2 - Not yet displayed"
+ Guid="501b3657-79d5-40be-b00c-e7acc0285bfa"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="be74dffe-dc5f-4571-b4b0-c22e7127e385"
+>
+<Actions>
+<Action
+ Guid="059542a9-7565-4f70-9b3e-4c49d0fd8af4"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; 17, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; 0, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 1, 
+    NID_BG =&gt; 1337, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="d53c1032-9efe-4100-b2b3-a044625c4e92"
+>
+<Actions>
+<Action
+ Guid="043b85a4-002e-4860-8ed2-c76aae93fe46"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; 17, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._2C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; 0, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 1, 
+    NID_BG =&gt; 1337, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  SystemVersion1 =&gt; EMPTY, 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="0a53d5f3-8c08-4df9-ad7d-866c362d4503"
+>
+<Actions>
+<Action
+ Guid="44ee64cb-a5ee-4f8b-b8bf-820afa909727"
+>Kernel.GeographicalPosition.ApplicableItem &lt;- Kernel.GeographicalPosition.GeographicalPositionItemStruct
+{
+  Offset =&gt; 0.0, 
+  ReferenceBG =&gt; 1337, 
+  Direction =&gt; Messages.Q_MPOSITION.Same__counting_upwards_if_passed_in_nominal_direction_or_counting_downwards_if_passed_in_reverse_direction, 
+  Location =&gt; 100.0, 
+  NewCountry =&gt; Boolean.False, 
+  Country =&gt; 0
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep4"
+ Guid="73c29d08-416b-4502-afdf-ab4cd91b85aa"
+>
+<Actions>
+<Action
+ Guid="f1731406-49ee-46d4-b79a-ff09309ee6fa"
+>Odometry.NominalDistance &lt;- 200.0</Action></Actions>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="44fbdad1-81e2-41f8-a7a5-35bed84fc20d"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step3 - Button press"
+ Guid="d21a5992-1b5a-4c03-bbd4-d329721aabde"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="5a580f59-6ba4-49bd-ac25-b0df4b51e4e3"
+>
+<Actions>
+<Action
+ Guid="9b69b10f-5fa8-4ed1-9b62-64baf54bf6c2"
+>DMI.MasterDMI().In_GeographicalPositionRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step4 - Check Result"
+ Guid="d1371afb-0cb4-430a-8ae5-bb3a42e67d4b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="12fdf693-6b17-4537-bf24-7be25eea9837"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="83f780dc-982d-44e8-af56-b15180bd94ac"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Value</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step5 - Button press"
+ Guid="d77b59b2-66ec-46b9-b716-0bfd641d99e5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="e7ecf535-399d-4440-92a5-5d0aadaf412c"
+>
+<Actions>
+<Action
+ Guid="6f1780b9-4f15-43d7-9bea-e77ee5ec67f3"
+>DMI.MasterDMI().In_GeographicalPositionRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step6 - Check Result"
+ Guid="8471f4f0-abc8-49ae-8152-7a3beb158020"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="3ccfcc6f-878f-421e-bec1-0f46b2198302"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="cb8abe0a-9a20-4c5f-94a0-8e582d61eef1"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Name="Incorrect mode"
+ Guid="90e9ca66-25dd-465e-a472-e2323cb440f8"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step7 - Change mode"
+ Guid="91308d86-8a4b-4407-8823-e8c285a5a35a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="1a935ab0-1b5f-4772-bced-5511d36ae838"
+>
+<Actions>
+<Action
+ Guid="081f90b9-46c1-4a0a-b2d3-d1dc31a2062e"
+>DMI.MasterDMI().In_ShuntingRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step8 - Check disabled"
+ Guid="beb81027-8714-4c4d-9354-9010473111c9"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="b0962329-b308-4936-bb0f-af22f4527413"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="fc0f6267-fe8c-42ad-ae20-7fa9ee1d0bfd"
+>DMI.MasterDMI().In_GeographicalPositionRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step9 - Button press"
+ Guid="15e95798-d8e8-4bce-a15a-a3f747f7452a"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="ddd8d316-c345-49cb-8a97-2e8b869b51b8"
+>
+<Actions>
+<Action
+ Guid="0606450a-c5d7-4165-bf03-c5722e6b13b4"
+>DMI.MasterDMI().In_GeographicalPositionRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Step10 - Check Result"
+ Guid="9d7715c0-4879-495f-b2da-a9230c529b95"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="3f8d675e-1c31-4f11-aa65-d979b69f318a"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="e52f0660-9fcd-4957-b9a0-f84fb1d70416"
+>DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
  Name="IN Isolation"
  Guid="459b7fdd-dea3-4a80-986c-d04ab6a76c6a"
 >
@@ -31282,359 +31635,6 @@ DataState =&gt; DataStateEnum.Valid
  CyclePhase="UpdateOUT"
  Guid="b3f0f95d-f8bb-4755-bf17-21990cbee294"
 >DMI.MasterDMI().In_VirtualBaliseCover.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="IN Geographical Position Request"
- Guid="f33343cd-e6a9-4696-bcfe-64b05544c017"
->
-<TestCases>
-<TestCase
- Name="Initialisation"
- Guid="21635e10-b605-463e-b543-714fe88a6208"
->
-<Steps>
-<Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step1 - Setup"
- Guid="7a32fa6f-0aa4-4c95-a852-42e3a59301e9"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="d4bba142-36b5-4d98-97a0-ced3cc029351"
->
-<Actions>
-<Action
- Guid="820580eb-68ac-4341-848f-f4a5cf728888"
->Testing.InitializeTestEnvironment(
-    aTrainPosition =&gt; 0.0,
-    aMode =&gt; Default.ModeEnum.FS
-)</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="28a0988f-df50-49ea-8051-86f48d05e8f5"
->BTM.LRBG.LRBG != EMPTY</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="5"
- Guid="c77588ae-639b-4334-b49f-75528e9014ed"
->DMI.MasterDMI().In_GeographicalPositionRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
- Name="Correct mode"
- Guid="2c0cee88-4aa4-430b-9ef0-8f7c8920e405"
->
-<Steps>
-<Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step2 - Not yet displayed"
- Guid="501b3657-79d5-40be-b00c-e7acc0285bfa"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="be74dffe-dc5f-4571-b4b0-c22e7127e385"
->
-<Actions>
-<Action
- Guid="059542a9-7565-4f70-9b3e-4c49d0fd8af4"
->BTM.Message &lt;- Messages.BTM.Message
-{
-  SystemVersion2 =&gt; Messages.EUROBALISE.Message
-  {
-    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-    M_VERSION =&gt; 17, 
-    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-    N_PIG =&gt; Messages.N_PIG._1C, 
-    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
-    M_DUP =&gt; 0, 
-    M_MCOUNT =&gt; 0, 
-    NID_C =&gt; 1, 
-    NID_BG =&gt; 1337, 
-    Q_LINK =&gt; Messages.Q_LINK.Linked, 
-    Sequence1 =&gt; [], 
-    BitField =&gt; &apos;&apos;
-  }, 
-  SystemVersion1 =&gt; EMPTY, 
-  BitField =&gt; &apos;&apos;
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="SubStep2"
- Guid="d53c1032-9efe-4100-b2b3-a044625c4e92"
->
-<Actions>
-<Action
- Guid="043b85a4-002e-4860-8ed2-c76aae93fe46"
->BTM.Message &lt;- Messages.BTM.Message
-{
-  SystemVersion2 =&gt; Messages.EUROBALISE.Message
-  {
-    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-    M_VERSION =&gt; 17, 
-    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-    N_PIG =&gt; Messages.N_PIG._2C, 
-    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
-    M_DUP =&gt; 0, 
-    M_MCOUNT =&gt; 0, 
-    NID_C =&gt; 1, 
-    NID_BG =&gt; 1337, 
-    Q_LINK =&gt; Messages.Q_LINK.Linked, 
-    Sequence1 =&gt; [], 
-    BitField =&gt; &apos;&apos;
-  }, 
-  SystemVersion1 =&gt; EMPTY, 
-  BitField =&gt; &apos;&apos;
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="SubStep3"
- Guid="0a53d5f3-8c08-4df9-ad7d-866c362d4503"
->
-<Actions>
-<Action
- Guid="44ee64cb-a5ee-4f8b-b8bf-820afa909727"
->Kernel.GeographicalPosition.ApplicableItem &lt;- Kernel.GeographicalPosition.GeographicalPositionItemStruct
-{
-  Offset =&gt; 0.0, 
-  ReferenceBG =&gt; 1337, 
-  Direction =&gt; 0, 
-  Location =&gt; 100.0, 
-  NewCountry =&gt; Boolean.False, 
-  Country =&gt; 0
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="SubStep4"
- Guid="73c29d08-416b-4502-afdf-ab4cd91b85aa"
->
-<Actions>
-<Action
- Guid="f1731406-49ee-46d4-b79a-ff09309ee6fa"
->Odometry.NominalDistance &lt;- 200.0</Action></Actions>
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="44fbdad1-81e2-41f8-a7a5-35bed84fc20d"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step3 - Button press"
- Guid="d21a5992-1b5a-4c03-bbd4-d329721aabde"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="5a580f59-6ba4-49bd-ac25-b0df4b51e4e3"
->
-<Actions>
-<Action
- Guid="9b69b10f-5fa8-4ed1-9b62-64baf54bf6c2"
->DMI.MasterDMI().In_GeographicalPositionRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step4 - Check Result"
- Guid="d1371afb-0cb4-430a-8ae5-bb3a42e67d4b"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="12fdf693-6b17-4537-bf24-7be25eea9837"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="83f780dc-982d-44e8-af56-b15180bd94ac"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Value</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step5 - Button press"
- Guid="d77b59b2-66ec-46b9-b716-0bfd641d99e5"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="e7ecf535-399d-4440-92a5-5d0aadaf412c"
->
-<Actions>
-<Action
- Guid="6f1780b9-4f15-43d7-9bea-e77ee5ec67f3"
->DMI.MasterDMI().In_GeographicalPositionRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step6 - Check Result"
- Guid="8471f4f0-abc8-49ae-8152-7a3beb158020"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="3ccfcc6f-878f-421e-bec1-0f46b2198302"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="cb8abe0a-9a20-4c5f-94a0-8e582d61eef1"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase><TestCase
- Name="Incorrect mode"
- Guid="90e9ca66-25dd-465e-a472-e2323cb440f8"
->
-<Steps>
-<Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step7 - Change mode"
- Guid="91308d86-8a4b-4407-8823-e8c285a5a35a"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="1a935ab0-1b5f-4772-bced-5511d36ae838"
->
-<Actions>
-<Action
- Guid="081f90b9-46c1-4a0a-b2d3-d1dc31a2062e"
->DMI.MasterDMI().In_ShuntingRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step8 - Check disabled"
- Guid="beb81027-8714-4c4d-9354-9010473111c9"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="b0962329-b308-4936-bb0f-af22f4527413"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="fc0f6267-fe8c-42ad-ae20-7fa9ee1d0bfd"
->DMI.MasterDMI().In_GeographicalPositionRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step9 - Button press"
- Guid="15e95798-d8e8-4bce-a15a-a3f747f7452a"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="ddd8d316-c345-49cb-8a97-2e8b869b51b8"
->
-<Actions>
-<Action
- Guid="0606450a-c5d7-4165-bf03-c5722e6b13b4"
->DMI.MasterDMI().In_GeographicalPositionRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Step10 - Check Result"
- Guid="9d7715c0-4879-495f-b2da-a9230c529b95"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="SubStep1"
- Guid="3f8d675e-1c31-4f11-aa65-d979b69f318a"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="e52f0660-9fcd-4957-b9a0-f84fb1d70416"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

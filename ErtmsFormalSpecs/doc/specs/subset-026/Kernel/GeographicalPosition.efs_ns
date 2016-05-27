@@ -302,8 +302,7 @@
 >Kernel.GeographicalPosition.ApplicableItem != EMPTY</PreCondition><PreCondition
  Guid="3e91abd5-3a13-4581-8363-06a3d09b7c71"
 >Kernel.ActiveFunctions.DetermineGeographicalPosition()</PreCondition></PreConditions>
-<Expression>Kernel.GeographicalPosition.ApplicableItem.Location +
-BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.ApplicableItem.ReferenceBG ) - Kernel.GeographicalPosition.ApplicableItem.Offset</Expression>
+<Expression>Kernel.GeographicalPosition.ApplicableItem.Location + CountPositiveOrNegative()</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="2f4846d6-134d-4c5b-a4ea-c1f5f01f87ff"
@@ -392,7 +391,70 @@ BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; Kernel.GeographicalPosition.Applicab
 >
 <Expression>THERE_IS X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == anItem.ReferenceBG
   AND
-BTM.LRBG.TravelledDistanceFromBG( aBG =&gt; anItem.ReferenceBG ) &gt;= anItem.Offset</Expression>
+Kernel.TrainPosition.NominalDistanceFromReference( BTM.LRBG.PreviousBGLocation( anItem.ReferenceBG ) ) &gt;= anItem.Offset</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Default.BaseTypes.Distance"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="CountPositiveOrNegative"
+ Guid="6695809c-fc27-4128-a4a3-25dc16b72e2e"
+>
+<ReqRef
+ Id="b9a734e7-b75f-426b-a5f9-6926dfdc248d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ed5c8c30-4856-4233-88a8-5b4fa6d9d650"
+>
+</ReqRef><ReqRef
+ Id="b6b00068-7433-47a4-9720-8c1f056ecace"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2125a531-bdc7-484d-89d7-f1581c63920f"
+>
+</ReqRef><ReqRef
+ Id="8d2de3da-bec4-45ae-83d3-1b2de8d2a295"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ed1f6e2-07fc-4a7c-976c-5a4bad7e2687"
+>
+</ReqRef><ReqRef
+ Id="77703c80-fefa-4820-a54b-191604cf0b0f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="230b5245-b86c-4e47-90e8-40457b11e100"
+>
+</ReqRef><Comment>Determines whether the position is currently counting up or down from the track kilometer reference, based on Q_MPOSITION(Direction in the ApplicableItem) and the relevant BG orientation.</Comment>
+<Cases>
+<Case
+ Name="CountPositive"
+ Guid="268cefab-86e9-453f-b93b-565cbec8a55e"
+>
+<PreConditions>
+<PreCondition
+ Guid="06c55206-c661-4bfb-b98b-29a2fa55f742"
+>((FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == Kernel.GeographicalPosition.ApplicableItem.ReferenceBG).BaliseGroup.Orientation == Default.OrientationEnum.Nominal
+AND
+Kernel.GeographicalPosition.ApplicableItem.Direction == 1)
+OR
+((FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == Kernel.GeographicalPosition.ApplicableItem.ReferenceBG).BaliseGroup.Orientation == Default.OrientationEnum.Reverse
+AND
+Kernel.GeographicalPosition.ApplicableItem.Direction == 0)</PreCondition></PreConditions>
+<Expression>Kernel.TrainPosition.NominalDistanceFromReference(BTM.LRBG.PreviousBGLocation( Kernel.GeographicalPosition.ApplicableItem.ReferenceBG) + Kernel.GeographicalPosition.ApplicableItem.Offset )</Expression>
+</Case><Case
+ Name="CountNegative"
+ Guid="e62951d8-1fc5-4299-96ae-2626959e7408"
+>
+<PreConditions>
+<PreCondition
+ Guid="67264e8c-cf62-428a-a66f-b4a84129d1f4"
+>((FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == Kernel.GeographicalPosition.ApplicableItem.ReferenceBG).BaliseGroup.Orientation == Default.OrientationEnum.Nominal
+AND
+Kernel.GeographicalPosition.ApplicableItem.Direction == 0)
+OR
+((FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup.NID_BG == Kernel.GeographicalPosition.ApplicableItem.ReferenceBG).BaliseGroup.Orientation == Default.OrientationEnum.Reverse
+AND
+Kernel.GeographicalPosition.ApplicableItem.Direction == 1)</PreCondition></PreConditions>
+<Expression>- Kernel.TrainPosition.NominalDistanceFromReference(BTM.LRBG.PreviousBGLocation( Kernel.GeographicalPosition.ApplicableItem.ReferenceBG) + Kernel.GeographicalPosition.ApplicableItem.Offset )</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -705,6 +767,11 @@ IN
  Id="a0239fb6-709c-4818-9907-463b7c24e661"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="26eb3bdc-f109-493a-ba6a-24dc651bd563"
+>
+</ReqRef><ReqRef
+ Id="b69a0632-61db-40c6-bb0b-d93d2e2d8348"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="64c1d24d-f7a9-4bf7-b0f8-224b0f1a6ebd"
 >
 </ReqRef><Comment>Verifies if the applicable item has to be removed or replaced.</Comment>
 <SubRules></SubRules>

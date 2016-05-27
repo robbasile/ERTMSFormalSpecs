@@ -339,7 +339,7 @@
 <PreConditions>
 <PreCondition
  Guid="e77bcec5-1c98-4060-bcb5-a8885f5c03cd"
->DMI.MasterDMI().Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Value</PreCondition></PreConditions>
+>DMI.MasterDMI().In_GeographicalPositionRequest.InputInformation.DriverAnswered</PreCondition></PreConditions>
 <Expression>Messages.JRU.M_DRIVERACTIONS.Request_to_show_geographical_position</Expression>
 </Case><Case
  Name="Isolation"
@@ -699,8 +699,6 @@
 >
 <PreConditions>
 <PreCondition
- Guid="2a8c0484-86f1-42af-8747-03cffd13dc15"
->GetDriverAction() != LastReportedAction</PreCondition><PreCondition
  Guid="7981f991-3822-43a4-b70c-8762c22b14ab"
 >GetDriverAction() != Messages.JRU.M_DRIVERACTIONS.Spare_31</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -713,46 +711,6 @@
 </Function></Functions>
 <Procedures>
 <Procedure
- X="40"
- Y="330"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="UpdateLastValues"
- Guid="ad407989-5728-43a8-820d-41a27ba7caa5"
->
-<ReqRef
- Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="6e2dc834-7680-4abe-b071-5f2a53531781"
->
-</ReqRef><Comment>Updates the registered values</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update registered values"
- Guid="f8e05903-7147-4845-ace8-bcd7984fd7f9"
->
-<Comment>Updates the registered values</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Update registered values"
- Guid="b5a6d79c-d1e1-4153-827f-0cdd749f859e"
->
-<PreConditions>
-<PreCondition
- Guid="5fe2d0dc-19a2-438f-999d-7a7ae7970364"
->SendMessage()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="13d03aa1-3a0b-48b1-a317-9a836617e581"
->LastReportedAction &lt;- GetDriverAction()</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
  X="40"
  Y="70"
  Width="100"
@@ -785,6 +743,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Send DRIVER_S_ACTIONS message"
  Guid="e605e4bd-7a44-47c8-9bf7-a77c369bf4c5"
@@ -808,30 +768,8 @@
          HEADER =&gt; Header.CreateHeader(11),
          M_DRIVERACTIONS =&gt; GetDriverAction() 
     } 
-} IN Messages</Action><Action
- Guid="1e4f90d8-c57a-489b-bd6b-963c26081cf0"
->UpdateLastValues()</Action></Actions>
+} IN Messages</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
-<Variables>
-<Variable
- Type="Messages.JRU.M_DRIVERACTIONS"
- DefaultValue="Messages.JRU.M_DRIVERACTIONS.Spare_31"
- VariableMode="Internal"
- X="40"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="LastReportedAction"
- Guid="9bc69c4b-46e7-42af-bb4f-b90c4d04e2e8"
->
-<ReqRef
- Id="b514977c-b206-4e0e-9ba2-ddc83ccb09fb"
- SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
- Guid="f5b9791c-5cc8-4487-930f-1b818a61d881"
->
-</ReqRef><Comment>The last reported status</Comment>
-</Variable></Variables>
 </NameSpace>

@@ -226,7 +226,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreCondition
  Guid="c61aea8d-3319-4f16-b8a6-d87e9c290890"
 >PointOfInterest == DistanceIntervalEnum.Nom</PreCondition></PreConditions>
-<Expression>NominalDistanceFromReferenceLocation()</Expression>
+<Expression>NominalDistanceFromReference( aReference =&gt; ReferenceLocation() )</Expression>
 </Case><Case
  Name="Maximum"
  Guid="812d52ca-441b-4da6-a0d8-ce13ec19f117"
@@ -235,7 +235,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreCondition
  Guid="470ac07d-62b5-42c4-a517-866a90c3bfee"
 >PointOfInterest == DistanceIntervalEnum.Max</PreCondition></PreConditions>
-<Expression>NominalDistanceFromReferenceLocation() + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))</Expression>
+<Expression>NominalDistanceFromReference( aReference =&gt; ReferenceLocation() ) + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))</Expression>
 </Case><Case
  Name="Minimum"
  Guid="33a2da89-eff5-4355-8fa9-2974bb4f2c14"
@@ -244,7 +244,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreCondition
  Guid="acddaf27-c5fb-493f-8b2c-ebdc1bb73993"
 >PointOfInterest == DistanceIntervalEnum.Min</PreCondition></PreConditions>
-<Expression>NominalDistanceFromReferenceLocation() - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
+<Expression>NominalDistanceFromReference( aReference =&gt; ReferenceLocation() ) - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -312,7 +312,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreCondition
  Guid="af6354bc-53f0-4317-a7c6-bd6f449d83af"
 >PointOfInterest == DistanceIntervalEnum.Nom</PreCondition></PreConditions>
-<Expression>NominalDistanceFromReferenceLocation() - BaseTypes.LengthToDistance(TrainPosition.TrainLength())</Expression>
+<Expression>NominalDistanceFromReference( aReference =&gt; ReferenceLocation() ) - BaseTypes.LengthToDistance(TrainPosition.TrainLength())</Expression>
 </Case><Case
  Name="Maximum"
  Guid="b426890d-eef3-43d5-a1b8-fa3270e36c15"
@@ -321,7 +321,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreCondition
  Guid="39cfca21-49df-4f1e-8025-c2388dba9c80"
 >PointOfInterest == DistanceIntervalEnum.Max</PreCondition></PreConditions>
-<Expression>NominalDistanceFromReferenceLocation() - BaseTypes.LengthToDistance(TrainPosition.TrainLength()) + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))</Expression>
+<Expression>NominalDistanceFromReference( aReference =&gt; ReferenceLocation() ) - BaseTypes.LengthToDistance(TrainPosition.TrainLength()) + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))</Expression>
 </Case><Case
  Name="Minimum"
  Guid="9c92d5c6-f86d-4cb4-b67d-50e0b531635d"
@@ -330,7 +330,7 @@ The confidence interval can be computed using Kernel.ConfidenceInterval.Confiden
 <PreCondition
  Guid="add9c23c-ed04-4a06-be98-4afc341bfbd8"
 >PointOfInterest == DistanceIntervalEnum.Min</PreCondition></PreConditions>
-<Expression>NominalDistanceFromReferenceLocation() - BaseTypes.LengthToDistance(TrainPosition.TrainLength()) - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
+<Expression>NominalDistanceFromReference( aReference =&gt; ReferenceLocation() ) - BaseTypes.LengthToDistance(TrainPosition.TrainLength()) - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
@@ -486,7 +486,7 @@ In SL mode, the front and rear ends of the train are considered to be the front 
  Width="100"
  Height="50"
  Implemented="TRUE"
- Name="NominalDistanceFromReferenceLocation"
+ Name="NominalDistanceFromReference"
  Guid="0145f195-80a7-4f3e-8b05-cee53d357c70"
 >
 <ReqRef
@@ -519,7 +519,14 @@ In SL mode, the front and rear ends of the train are considered to be the front 
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a17de72f-f33e-4b26-8e32-8813c28a9615"
 >
-</ReqRef><Cases>
+</ReqRef><Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aReference"
+ Guid="baeb1c39-95f8-4610-b96f-f183655cff6d"
+>
+</Parameter></Parameters>
+<Cases>
 <Case
  Name="Nominal orientation"
  Guid="ea70a003-e3e8-4840-82e4-abb88a84b9a9"
@@ -528,7 +535,7 @@ In SL mode, the front and rear ends of the train are considered to be the front 
 <PreCondition
  Guid="9a58e213-d807-4005-bf73-28b225ecfb88"
 >Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
-<Expression>Odometry.NominalDistance - ReferenceLocation()</Expression>
+<Expression>Odometry.NominalDistance - aReference</Expression>
 </Case><Case
  Name="Reverse orientation"
  Guid="9571f433-c23d-403d-b8b0-c45b06c0c36e"
@@ -537,7 +544,7 @@ In SL mode, the front and rear ends of the train are considered to be the front 
 <PreCondition
  Guid="2bf9e30f-8168-463c-8c85-3fd0357488d7"
 >Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
-<Expression>ReferenceLocation() - (Odometry.NominalDistance - TrainLength())</Expression>
+<Expression>aReference - (Odometry.NominalDistance - TrainLength())</Expression>
 </Case><Case
  Name="Unknown orientation"
  Guid="5e4dfdbb-c82a-48b2-a332-58bfb6c6337b"
