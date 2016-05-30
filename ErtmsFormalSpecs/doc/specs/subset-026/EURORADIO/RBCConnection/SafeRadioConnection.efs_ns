@@ -9,10 +9,54 @@
 <Comment>Contains the functionalities to hadle the safe radio connection layer of the RBCConnection.</Comment>
 <NameSpaces>
 </NameSpaces>
+<Enumerations>
+<Enum
+ Default="EURORADIO.RBCConnection.SafeRadioConnection.ConnectionStateEnum.Disconnected"
+ X="10"
+ Y="110"
+ Width="100"
+ Height="50"
+ Name="ConnectionStateEnum"
+ Guid="1fa8b790-d653-4d10-9043-826a4c26bce9"
+>
+<Values>
+<EnumValue
+ Value="1"
+ Name="Connected"
+ Guid="6517a4a8-e31e-4aa1-bcaf-856059997aaf"
+>
+</EnumValue><EnumValue
+ Value="0"
+ Name="Disconnected"
+ Guid="90e88eb3-4d87-4522-bd85-b1c9c3e693ab"
+>
+</EnumValue></Values>
+</Enum><Enum
+ Default="EURORADIO.RBCConnection.SafeRadioConnection.ConnectionActionEnum.Connect"
+ X="190"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="ConnectionActionEnum"
+ Guid="87ae597c-265a-4970-8fa6-dbaee15e415f"
+>
+<Values>
+<EnumValue
+ Value="1"
+ Name="Connect"
+ Guid="e55ac095-07ae-4125-9299-04196bd95866"
+>
+</EnumValue><EnumValue
+ Value="0"
+ Name="ReleaseConnection"
+ Guid="2f8cf371-606d-4e43-ac36-33527534f1ad"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
 <Structures>
 <Structure
  Default=""
- X="10"
+ X="370"
  Y="10"
  Width="100"
  Height="50"
@@ -302,5 +346,35 @@ Duration =&gt; 45.0
  Guid="526f4660-93e6-4b76-8172-dcbf4813ca75"
 >
 </ReqRef><Comment>&quot;Connection status&quot; timer for safe radio connection indication.</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="10"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="SRCRequestStruct"
+ Guid="58b25f5f-e6ab-4bc0-b3e7-28576cb3839d"
+>
+<StructureElement
+ TypeName="Default.RequestEnum"
+ Default="RequestEnum.Disabled"
+ Mode="InOut"
+ Name="Status"
+ Guid="046280b2-2033-4314-99be-71d550178f4e"
+>
+</StructureElement><StructureElement
+ TypeName="ConnectionStateEnum"
+ Default=""
+ Mode="Incoming"
+ Name="Answer"
+ Guid="6c18483f-149f-43e2-b860-7175c7aa85f1"
+>
+</StructureElement><StructureElement
+ TypeName="ConnectionActionEnum"
+ Default=""
+ Mode="Internal"
+ Name="Action"
+ Guid="c570dd30-2547-4c6e-a9fa-27ab3b0a269f"
+>
 </StructureElement></Structure></Structures>
 </NameSpace>
