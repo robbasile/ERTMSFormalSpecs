@@ -38552,62 +38552,6 @@ DisplayStartTime =&gt; DateAndTimeStruct{}
 >DMI.CabOfDMI ( DMI.DMI1 ).Desk1IsActive &lt;- False</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
- Name="SubStep3"
- Guid="e4fce46f-ef86-4d48-9c2a-8a943be923fb"
->
-<Actions>
-<Action
- Guid="479f1736-3eae-4239-9405-e0470aa4fee4"
->BTM.Message &lt;- Messages.BTM.Message
-{
-  SystemVersion2 =&gt; Messages.EUROBALISE.Message
-  {
-    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-    M_VERSION =&gt; 17, 
-    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-    N_PIG =&gt; Messages.N_PIG._1C, 
-    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
-    M_DUP =&gt; 0, 
-    M_MCOUNT =&gt; 0, 
-    NID_C =&gt; 1, 
-    NID_BG =&gt; 1337, 
-    Q_LINK =&gt; Messages.Q_LINK.Linked, 
-    Sequence1 =&gt; [], 
-    BitField =&gt; &apos;&apos;
-  }, 
-  SystemVersion1 =&gt; EMPTY, 
-  BitField =&gt; &apos;&apos;
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="SubStep4"
- Guid="99d6978a-89c9-45e7-8c6a-24f1b790d01f"
->
-<Actions>
-<Action
- Guid="4f9dfb77-0665-4ce4-ac33-4f8298f92bd5"
->BTM.Message &lt;- Messages.BTM.Message
-{
-  SystemVersion2 =&gt; Messages.EUROBALISE.Message
-  {
-    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-    M_VERSION =&gt; 17, 
-    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-    N_PIG =&gt; Messages.N_PIG._2C, 
-    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
-    M_DUP =&gt; 0, 
-    M_MCOUNT =&gt; 0, 
-    NID_C =&gt; 1, 
-    NID_BG =&gt; 1337, 
-    Q_LINK =&gt; Messages.Q_LINK.Linked, 
-    Sequence1 =&gt; [], 
-    BitField =&gt; &apos;&apos;
-  }, 
-  SystemVersion1 =&gt; EMPTY, 
-  BitField =&gt; &apos;&apos;
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
  Name="SubStep5"
  Guid="773994d5-28b3-4f79-add8-31a32ddaf5e0"
 >
@@ -38618,12 +38562,18 @@ DisplayStartTime =&gt; DateAndTimeStruct{}
  Guid="26c189c6-3316-4231-97b9-f7bae5dd2159"
 >Kernel.GeographicalPosition.ApplicableItem &lt;- Kernel.GeographicalPosition.GeographicalPositionItemStruct{
 Offset =&gt; 200.0,
-ReferenceBG =&gt; 1337,
+ReferenceBG =&gt; 1986,
 Direction =&gt; 0,
 Location =&gt; 100.0,
 NewCountry =&gt; Boolean.False,
 Country =&gt; 1
-}</Action></Actions>
+}</Action><Action
+ Guid="25d113fc-8410-439a-9518-6633a8b4346b"
+>BTM.LRBG.PreviousBaliseGroups &lt;- [BTM.LRBG.PreviousBaliseGroupStruct{
+BaliseGroup =&gt; BTM.LRBG.LRBG,
+IsLRBG =&gt; Boolean.True,
+IsSingle =&gt; Boolean.False
+}]</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
