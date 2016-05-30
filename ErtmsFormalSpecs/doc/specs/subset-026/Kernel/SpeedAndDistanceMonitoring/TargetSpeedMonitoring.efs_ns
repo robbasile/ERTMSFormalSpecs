@@ -180,7 +180,7 @@ This case protects against performing calculations on a EBD that is behingd the 
 <PreCondition
  Guid="0d079f8d-23af-45e8-883b-25f7de1f76d3"
 >Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
-    Vest =&gt; aTarget.Speed,
+    aSpeed =&gt; aTarget.Speed,
     NoA_est =&gt; False,
     aTarget =&gt; aTarget
 ) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
@@ -196,7 +196,7 @@ This case protects against performing calculations on a EBD that is behingd the 
 >Dmaxsafefrontend + BaseTypes.SpeedToMS(aTarget.Speed) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display ( Vest =&gt; aTarget.Speed, NoA_est =&gt; NoA_est )
  &gt; 
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
-    Vest =&gt; aTarget.Speed,
+    aSpeed =&gt; aTarget.Speed,
     NoA_est =&gt; False,
     aTarget =&gt; aTarget
 )</PreCondition></PreConditions>
@@ -404,7 +404,15 @@ X2=&gt; aTarget.Speed + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring
  Guid="b5f767c0-d69b-47fb-910e-58b4f9b0ec0b"
 >aTarget.Location == BaseTypes.Distance.Infinity
   OR  
-Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(aTarget=&gt;aTarget, Vest=&gt;Vest, NoA_est=&gt;NoA_est) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
+    aTarget=&gt;aTarget,
+    aSpeed=&gt;DecelerationCurves.Vbec(
+        Vest =&gt; Vest,
+        Vtarget =&gt; aTarget.Speed,
+        NoA_est =&gt; NoA_est
+    ),
+    NoA_est=&gt;NoA_est
+) == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>BaseTypes.Distance.Unknown</Expression>
 </Case><Case
  Name="Value"
@@ -413,7 +421,11 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(aTarget=
 <Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed
 (
     aTarget =&gt; aTarget,
-    Vest =&gt; Vest,
+    aSpeed =&gt; DecelerationCurves.Vbec(
+        Vest =&gt; Vest,
+        Vtarget =&gt; aTarget.Speed,
+        NoA_est =&gt; NoA_est
+    ),
     NoA_est =&gt; NoA_est
 )
   - Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbec

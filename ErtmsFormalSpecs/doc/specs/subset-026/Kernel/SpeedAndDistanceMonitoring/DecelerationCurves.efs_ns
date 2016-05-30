@@ -89,7 +89,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Parameters>
 <Parameter
  Type="BaseTypes.Speed"
- Name="Vest"
+ Name="aSpeed"
  Guid="7ebdcb56-85ff-439b-999d-e866f2c509e9"
 >
 </Parameter><Parameter
@@ -122,7 +122,7 @@ aTarget.Location == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
 <Expression>DistanceForSpeed (
     Function =&gt;
         FUNCTION d : Default.BaseTypes.Distance =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target ( Distance =&gt; d, aTarget =&gt; aTarget ),
-        Speed =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vbec ( Vest =&gt; Vest, Vtarget =&gt; aTarget.Speed, NoA_est =&gt; NoA_est) )</Expression>
+        Speed =&gt; aSpeed )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"

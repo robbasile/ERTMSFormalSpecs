@@ -718,7 +718,7 @@ TrainPosition.FrontEndPosition( DistanceIntervalEnum.Max ) &gt; aLX.Location</Pr
   OR  
 
 SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
-    Vest =&gt; aLX.Speed,
+    aSpeed =&gt; aLX.Speed,
     NoA_est =&gt; False,
     aTarget =&gt; TargetStruct{
         Location =&gt; aLX.Location,
@@ -732,19 +732,20 @@ SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
  Guid="83d483ee-776c-472c-902c-570b69400a57"
 >
 <Expression>TrainPosition.FrontEndPosition( DistanceIntervalEnum.Nom ) &gt;=
-SpeedAndDistanceMonitoring.DecelerationCurves.SBD_TargetForSpeed(
-    Vest =&gt; aLX.Speed,
+SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
     aTarget =&gt; TargetStruct{
         Location =&gt; aLX.Location,
         Speed =&gt; 0.0,
         Type =&gt; TargetTypeEnum.EOA
-    }
+    },
+    Vest =&gt; aLX.Speed,
+    NoA_est =&gt; False
 )
 
   OR  
 
 TrainPosition.FrontEndPosition( DistanceIntervalEnum.Max ) &gt;=
-SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
+SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
     Vest =&gt; aLX.Speed,
     NoA_est =&gt; False,
     aTarget =&gt; TargetStruct{
