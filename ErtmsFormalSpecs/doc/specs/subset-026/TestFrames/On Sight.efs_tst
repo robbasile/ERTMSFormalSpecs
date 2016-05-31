@@ -538,7 +538,8 @@ Messages.EUROBALISE.SubStructure1
  Guid="bd1c5711-b3b6-4b6c-835b-8cc965404469"
 >Testing.SetSRMode(False)</Action><Action
  Guid="02acdc06-8342-4c28-af0b-89812906c369"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct{
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
     Position =&gt; BTM.PositionStruct{
         Position =&gt; 0.0,
         UnderReadingAmountOdo =&gt; 0.0,
@@ -555,7 +556,12 @@ Messages.EUROBALISE.SubStructure1
         Second =&gt; 20,
         TTS =&gt; 600
     }
-}</Action></Actions>
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"

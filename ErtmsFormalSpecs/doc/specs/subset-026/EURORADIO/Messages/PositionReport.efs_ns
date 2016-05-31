@@ -888,7 +888,7 @@ Kernel.TrainIntegrity.TrainIntegrity.Status in [
 <PreCondition
  Guid="b153b35e-09e0-4864-b33e-ec4dd02d2cc0"
 >Kernel.ActiveFunctions.ReportPosition_BGPassage()</PreCondition></PreConditions>
-<Expression>PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG
+<Expression>PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG()
   AND
 PositionReport.PositionReportParameters.DataState != DataStateEnum.Valid</Expression>
 </Case><Case
@@ -1094,18 +1094,11 @@ Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Default.LevelE
  Name="Value"
  Guid="95b790d2-b1f1-40e6-808f-05b60c4e9d13"
 >
-<Expression>(
-    BTM.LRBG.LRBG.Orientation != OrientationEnum.Unknown
-        OR
-    BTM.LRBG.PreviousLRBG() != EMPTY
-)
-    AND
-(
-    PositionReport.SendReportDueToStandstillReached() OR 
+<Expression>PositionReport.SendReportDueToStandstillReached() OR 
     PositionReport.SendReportDueToModeChange() OR 
     PositionReport.SendReportDueToTrainIntegrityConfirmedByDriver() OR 
     PositionReport.SendReportDueToLossOfTrainIntegrityDetected() OR 
-    PositionReport.SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd() OR 
+    SendReportDueToLevelTransitionBorderPassedWithMinSafeRearEnd() OR 
     PositionReport.SendReportDueToLevelChange() OR 
     PositionReport.SendReportDueToCommunicationSessionIsEstablished() OR 
     PositionReport.SendReportDueToLRBGCompliantBGPassed() OR 
@@ -1113,9 +1106,7 @@ Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Default.LevelE
     PositionReport.SendReportDueToPositionReportSpecialMoment() OR
     PositionReport.SendReportDueToPositionReportSpecialLocationReached() OR
     PositionReport.SendReportDueToPositionReportTimeReached()  OR 
-    PositionReport.SendReportDueToNotConsistentMessageReceived()
-
-)</Expression>
+    PositionReport.SendReportDueToNotConsistentMessageReceived()</Expression>
 </Case></Cases>
 </Function><Function
  Type="PositionReportSpecialMoment"
@@ -1304,13 +1295,13 @@ Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Default.LevelE
 <PreConditions>
 <PreCondition
  Guid="f21e89a9-9a6b-412d-97ad-c87d8656875f"
->BTM.LRBG.LRBG.Orientation != OrientationEnum.Unknown</PreCondition></PreConditions>
+>BTM.LRBG.LRBG().Orientation != OrientationEnum.Unknown</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
 {
     POSITION_REPORT=&gt; Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        NID_LRBG =&gt; BTM.LRBG.LRBG.NID_BG,
+        NID_LRBG =&gt; BTM.LRBG.LRBG().NID_BG,
         D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
@@ -1329,17 +1320,13 @@ Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Default.LevelE
  Name="Two BGs"
  Guid="84e46cd8-5e10-4316-bd28-38f4540024f7"
 >
-<PreConditions>
-<PreCondition
- Guid="f8dcdf38-e6ba-4440-a046-60992b0d3b5e"
->Available(BTM.LRBG.PreviousLRBG())</PreCondition></PreConditions>
 <Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
 {
     POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS=&gt;Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS.Message
     {
         Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        NID_LRBG =&gt; BTM.LRBG.LRBG.NID_BG,
-        NID_PRVLRBG =&gt; Messages.NID_PRVBG ( BTM.LRBG.PreviousLRBG().NID_BG ),
+        NID_LRBG =&gt; BTM.LRBG.LRBG().NID_BG,
+        NID_PRVLRBG =&gt; PreviousLRBG_NID(),
         D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
         Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
         Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
@@ -1352,30 +1339,6 @@ Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [Default.LevelE
         M_MODE =&gt; EFSModeConverter(Kernel.Mode),
         M_LEVEL =&gt; EFSLevelConverter(Kernel.Level.Value.Value)
     }
-}</Expression>
-</Case><Case
- Name="One BG, orientation unknown"
- Guid="de29c384-ec75-48bb-a7a5-8baefbc6287e"
->
-<Expression>Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORTS.Message
-{
-    POSITION_REPORT=&gt; Messages.PACKET.TRAIN_TO_TRACK.POSITION_REPORT.Message
-    {
-        Q_SCALE =&gt; Messages.Q_SCALE._1_m_scaleC,
-        NID_LRBG =&gt; BTM.LRBG.LRBG.NID_BG,
-        D_LRBG =&gt; EURORADIO.Messages.PositionReport.FillDistance(),
-        Q_DIRLRBG =&gt; Default.Q_DIRLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation ),
-        Q_DLRBG =&gt; Default.Q_DLRBG ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainFrontEndPosition ),
-        L_DOUBTOVER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER), Messages.Q_SCALE._1_m_scaleC ),
-        L_DOUBTUNDER =&gt; MessageTypes.UnScaleLength ( Kernel.TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER), Messages.Q_SCALE._1_m_scaleC ),
-        Q_LENGTH =&gt; Kernel.TrainIntegrity.TrainIntegrity.Status,
-        L_TRAININT =&gt; MessageTypes.UnScaleLength ( Kernel.TrainIntegrity.SafeTrainLength(), Messages.Q_SCALE._1_m_scaleC),
-        V_TRAIN =&gt; MessageTypes.UnResolveSpeed ( Odometry.TrainSpeed(), 5.0 ),
-        Q_DIRTRAIN =&gt; Default.Q_DIRTRAIN ( Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainRunningDirection ),
-        M_MODE =&gt; EFSModeConverter(Kernel.Mode),
-        M_LEVEL =&gt; EFSLevelConverter(Kernel.Level.Value.Value)
-    },
-    POSITION_REPORT_BASED_ON_TWO_BALISE_GROUPS =&gt; EMPTY
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -1776,6 +1739,42 @@ SUM SpecialLocations | Before(
  Guid="cf347ec3-a69a-4461-8659-f97db01b1f6c"
 >aSpecialLocation.TrainEnd == TrainData.TrainEndEnum.MinSafeRearEnd</PreCondition></PreConditions>
 <Expression>Kernel.TrainPosition.RearEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min ) &gt; aSpecialLocation.Distance</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Messages.NID_PRVBG"
+ Default=""
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="PreviousLRBG_NID"
+ Guid="52d1e8b4-8677-4e95-a39a-b0c4b59cc21e"
+>
+<ReqRef
+ Id="e69a91d2-e0c4-4628-9343-c53594060aea"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="db1fbdbe-4c9c-4056-b81d-a465d9d4558a"
+>
+</ReqRef><ReqRef
+ Id="e9839425-8e7c-4be2-89b1-0c9cc00edb73"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e61c7b13-0e30-4c58-b6b7-6d366610ebda"
+>
+</ReqRef><Comment>Returns the NID for the previous LRBG. If there is no previous LRBG, returns unknown.</Comment>
+<Cases>
+<Case
+ Name="No previous LRBG"
+ Guid="bd608e3d-74b0-4d9f-a5d6-6f7c590884e8"
+>
+<PreConditions>
+<PreCondition
+ Guid="8c683e2e-7554-42eb-96ee-0730759d11ab"
+>NOT Available(BTM.LRBG.PreviousLRBG())</PreCondition></PreConditions>
+<Expression>Messages.NID_PRVBG.unknown</Expression>
+</Case><Case
+ Name="previous LRBG available"
+ Guid="2f6b3034-83b9-4977-9d48-4e7fa802a08b"
+>
+<Expression>Messages.NID_PRVBG(BTM.LRBG.PreviousLRBG().NID_BG)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -3015,11 +3014,11 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest =&gt; DistanceIntervalEnu
 <PreConditions>
 <PreCondition
  Guid="ae6c8ef1-2194-4108-a559-adccefd1179a"
->PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG</PreCondition></PreConditions>
+>PositionReport.PositionReportEventsTracker.LRBG != BTM.LRBG.LRBG()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="e19bb715-6e05-4bc2-a5dc-f0842d91b312"
->PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG.LRBG</Action></Actions>
+>PositionReport.PositionReportEventsTracker.LRBG &lt;- BTM.LRBG.LRBG()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"

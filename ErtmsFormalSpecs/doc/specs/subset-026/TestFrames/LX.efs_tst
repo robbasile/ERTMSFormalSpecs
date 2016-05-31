@@ -649,7 +649,7 @@
 <Action
  Guid="b72b7b9b-21cc-43e2-84a8-2ff8a6369c74"
 >Odometry.NominalDistance &lt;-
-  BTM.LRBG.LRBG.Position.Position
+  BTM.LRBG.LRBG().Position.Position
     +
   (FIRST X IN Kernel.LX.MRSPLevelCrossings).Location
     +
@@ -1353,7 +1353,8 @@
  Guid="4b8a39f5-c467-4921-8300-4488b65c53f6"
 >Kernel.LX.SupervisedLevelCrossings &lt;- []</Action><Action
  Guid="ca555052-cf67-40f5-8a7d-c2c32d54b6c1"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9621,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -1363,7 +1364,12 @@
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 4.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="217d6e92-7077-4389-9f5b-6aebf8540631"
 >Odometry.NominalDistance &lt;- 3500.0</Action></Actions>
 <Expectations>
@@ -1603,7 +1609,8 @@
  Guid="ad7d6f1f-34e3-4735-bcd1-4ad5f1f140f1"
 >Odometry.NominalDistance &lt;- 2500.0</Action><Action
  Guid="a6753e47-bb6a-4d83-a5b5-c2c94a6341a2"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG=&gt;9618,
     Orientation=&gt;OrientationEnum.Nominal,
@@ -1613,7 +1620,12 @@
         Position=&gt;2000.0,
         UnderReadingAmountOdo=&gt;2.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="7bf08c5e-6af7-4039-aa45-6282f1e4ad0f"
 >Kernel.TrainPosition.Position.DirectionalPositionInformation.TrainOrientation &lt;- OrientationEnum.Nominal</Action><Action
  Guid="2dde0040-c05c-493c-817a-36c258baa143"
@@ -1724,7 +1736,7 @@
 <Actions>
 <Action
  Guid="a5e1f1b9-55bd-4166-a086-7f4ed66da308"
->Odometry.NominalDistance &lt;- BTM.LRBG.LRBG.Position.Position + 790.0</Action></Actions>
+>Odometry.NominalDistance &lt;- BTM.LRBG.LRBG().Position.Position + 790.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1875,7 +1887,8 @@
  Guid="1e9b613d-5c4e-4c57-ba9f-95729930c0aa"
 >Kernel.LX.SupervisedLevelCrossings &lt;- []</Action><Action
  Guid="696e7774-087d-49ef-af78-8b35e21bf1c6"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG=&gt;9619,
     Orientation=&gt;OrientationEnum.Nominal,
@@ -1885,7 +1898,12 @@
         Position=&gt;2200.0,
         UnderReadingAmountOdo=&gt;14.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="466819ce-7db8-4b36-a863-9f12d86a5822"
 >Odometry.NominalDistance &lt;- 2700.0</Action><Action
  Guid="aa060f23-1ede-4f7c-b598-2d27f6d0bca3"
@@ -2007,7 +2025,7 @@
 <Actions>
 <Action
  Guid="09a2bcef-b2f1-4ebe-9535-bb649639cbfa"
->Odometry.NominalDistance &lt;- BTM.LRBG.LRBG.Position.Position + 1170.0</Action><Action
+>Odometry.NominalDistance &lt;- BTM.LRBG.LRBG().Position.Position + 1170.0</Action><Action
  Guid="43c9e8cf-1818-4c57-bbba-c37532b384c0"
 >Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
 <Expectations>
@@ -2168,7 +2186,8 @@
  Guid="98dd78b9-0580-462a-8dd8-5a4bb0771e93"
 >Kernel.LX.SupervisedLevelCrossings &lt;- []</Action><Action
  Guid="6ec31930-8f5c-4f8b-9d30-f69cc2a347ae"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -2178,7 +2197,12 @@
         Position =&gt; 2600.0,
         UnderReadingAmountOdo =&gt; 41.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="a97693f2-19f3-48f8-82a7-37b9b8a7a6bd"
 >Odometry.NominalDistance &lt;- 3100.0</Action><Action
  Guid="8f38ebb4-a9f4-4d8c-b30d-9a85ea7b7378"
@@ -2402,7 +2426,8 @@
  Guid="00d62fa8-cb2c-4102-a704-b0a12e0f1db7"
 >Kernel.LX.SupervisedLevelCrossings &lt;- []</Action><Action
  Guid="0ad66d6d-325c-4a25-9b8d-0e99811cd9de"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9621,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -2412,7 +2437,12 @@
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 24.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="94df64b6-d357-4641-a52c-f65d38758dba"
 >Odometry.NominalDistance &lt;- 3500.0</Action><Action
  Guid="3e6e8e74-30af-4549-b1e4-dd613d2c8fa5"
@@ -2649,7 +2679,7 @@
 <Actions>
 <Action
  Guid="2e5eca5b-4e47-4ce0-a8f1-726e0bc5d75f"
->Odometry.NominalDistance &lt;- BTM.LRBG.LRBG.Position.Position + 1990.0</Action></Actions>
+>Odometry.NominalDistance &lt;- BTM.LRBG.LRBG().Position.Position + 1990.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -2681,7 +2711,7 @@
 <Actions>
 <Action
  Guid="13687742-07e1-4c19-94ed-3582c2faa535"
->Odometry.NominalDistance &lt;- BTM.LRBG.LRBG.Position.Position + 2452.0</Action><Action
+>Odometry.NominalDistance &lt;- BTM.LRBG.LRBG().Position.Position + 2452.0</Action><Action
  Guid="028c34a3-7874-4d24-98a1-c3e4453da85b"
 >Odometry.EstimatedSpeed &lt;- 0.0</Action></Actions>
 <Expectations>

@@ -555,66 +555,6 @@ In SL mode, the front and rear ends of the train are considered to be the front 
 <Procedures>
 <Procedure
  X="10"
- Y="170"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="UpdatePositionState"
- Guid="6cdf2a34-87f3-4959-908b-9ba4ff2dda70"
->
-<Comment>The train position is defined in relation to a LRBG. This, if the LRBG is defined, the position is valid, otherwise it is unknown.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- Implemented="TRUE"
- Name="Update position state"
- Guid="55a55aa2-e01a-4b26-a390-3a472410831f"
->
-<ReqRef
- Id="3dbd1b48-23b6-40f9-a38e-77df9cc1ed68"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e9e66317-3e85-4ddf-a4af-ba7a36eda376"
->
-</ReqRef><SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="LRBG is known"
- Guid="9d9c005e-2e23-456d-84c4-0297cbdc3ab4"
->
-<Comment>If the LRBG is known, the position is valid.</Comment>
-<PreConditions>
-<PreCondition
- Guid="ebb63de6-5d6c-42ea-863c-cc45b2035c0b"
->Available ( BTM.LRBG.LRBG )
-  AND  
-BTM.LRBG.LRBG.NID_BG != Messages.NID_LRBG.Unknown</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5de6dbe1-ecc5-4386-8dc0-d09a5a6a49de"
->ValidateInformation(TrainPosition.Position)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="LRBG is unknown"
- Guid="0928622d-2a35-4cb2-938b-03a752812d02"
->
-<Comment>Otherwise, it is unknown.</Comment>
-<PreConditions>
-<PreCondition
- Guid="5234c501-b995-48d0-a954-656e018b210f"
->BTM.LRBG.LRBG == EMPTY</PreCondition><PreCondition
- Guid="f7740abf-4293-414b-840d-342933b94656"
->TrainPosition.Position.DataState != DataStateEnum.Invalid</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="2ac2232a-f080-40b8-8b9d-71bf83d4e452"
->DeleteInformation(TrainPosition.Position)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="10"
  Y="240"
  Width="100"
  Height="50"
@@ -1448,7 +1388,7 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <PreConditions>
 <PreCondition
  Guid="d424a96a-5c7d-4c07-b419-e3cf71806b66"
->BTM.BGLocationReference.Position.Position - BTM.LRBG.LRBG.Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
+>BTM.BGLocationReference.Position.Position - BTM.LRBG.LRBG().Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b9ea2e9d-59d1-4ef8-88df-d51843437f9e"

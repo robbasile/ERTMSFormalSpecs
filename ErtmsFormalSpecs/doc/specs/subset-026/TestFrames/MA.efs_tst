@@ -1635,19 +1635,6 @@ IN BTM.Linking.Linkings</Action></Actions>
 >
 <Actions>
 <Action
- Guid="f87f5e12-09f6-4e86-97a7-1bf9247bad39"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
-{
-    NID_BG =&gt; 9626,
-    NID_C =&gt; 0,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Position =&gt; BTM.PositionStruct
-    {
-        OverReadingAmountOdo =&gt; 0.0,
-        Position =&gt; 4000.0,
-        UnderReadingAmountOdo =&gt; 0.0
-    }
-}</Action><Action
  Guid="d4a51d10-221f-4fe8-949c-0f286b2cbcf0"
 >Odometry.NominalDistance &lt;- 4050.0</Action><Action
  Guid="6b44da8d-12c8-4dd2-bd24-93846f038dd0"
@@ -1673,6 +1660,23 @@ BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
 },
 IsLRBG =&gt; Boolean.True,
 IsSingle =&gt; Boolean.False
+},
+BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+{
+    NID_BG =&gt; 9626,
+    NID_C =&gt; 0,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
+    Position =&gt; BTM.PositionStruct
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 4000.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
 }]</Action><Action
  Guid="a6ca2105-f96c-492e-b7f7-bed810f15b67"
 >EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action></Actions>
@@ -1765,7 +1769,7 @@ IsSingle =&gt; Boolean.False
  Kind="Instantaneous"
  DeadLine="1"
  Guid="ea6796f4-9fb9-4d60-ab83-24265ee67569"
->BTM.LRBG.LRBG.NID_BG == 9626</Expectation><Expectation
+>BTM.LRBG.LRBG().NID_BG == 9626</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="00abacec-dba0-45c4-913c-ff0f3a8c99d8"
@@ -1791,17 +1795,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="6d626234-8418-4a27-b2b4-e4511f4be683"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 2120,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 0.0,
         Position =&gt; 4100.0,
         UnderReadingAmountOdo =&gt; 0.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="469d73f6-b6ea-4801-ad55-f02ab6da0ee0"
 >Odometry.NominalDistance &lt;- 4160.0</Action></Actions>
 </SubStep><SubStep
@@ -1979,7 +1990,7 @@ IsSingle =&gt; Boolean.False
  DeadLine="1"
  CyclePhase="UpdateOUT"
  Guid="b9f599b2-6f26-406b-8a43-1fe9e5a97548"
->BTM.LRBG.LRBG.NID_BG == 2120</Expectation><Expectation
+>BTM.LRBG.LRBG().NID_BG == 2120</Expectation><Expectation
  Kind="Instantaneous"
  DeadLine="1"
  Guid="c2e534d5-71b2-4067-9485-ebcefff3de46"
@@ -2144,19 +2155,6 @@ IsSingle =&gt; Boolean.False
 }</Action><Action
  Guid="4a858630-43e6-4594-8882-6c008665c09f"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
- Guid="023f1545-0f49-4bb0-ae5b-0e1ea0addb94"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
-{
-    NID_BG =&gt; 9618,
-    NID_C =&gt; 0,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Position =&gt; BTM.PositionStruct
-    {
-        OverReadingAmountOdo =&gt; 29.0,
-        Position =&gt; 2000.0,
-        UnderReadingAmountOdo =&gt; 35.0
-    }
-}</Action><Action
  Guid="d0283b75-03ad-45cc-b0d1-2231b5d350f2"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -2168,13 +2166,13 @@ IsSingle =&gt; Boolean.False
  Guid="42b13e57-0608-438f-b8dd-ec4f06523961"
 >Odometry.NominalDistance &lt;- 2100.0</Action><Action
  Guid="6ac5e5ca-eca2-4415-b41c-ea58b1f055a0"
->BTM.LRBG.PreviousBaliseGroups &lt;- [
-  BTM.LRBG.PreviousBaliseGroupStruct{
-BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+>BTM.LRBG.PreviousBaliseGroups &lt;- [BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9618,
     NID_C =&gt; 0,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
@@ -2182,8 +2180,8 @@ BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
         UnderReadingAmountOdo =&gt; 35.0
     }
 },
-IsLRBG =&gt; Boolean.True,
-IsSingle =&gt; Boolean.False
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
 }
 ]</Action></Actions>
 <Expectations>
@@ -2468,7 +2466,8 @@ IsSingle =&gt; Boolean.False
  Guid="60cfb23e-85c1-4d0c-bfef-b0c8ca98bc15"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
  Guid="3f45dd99-97a8-40e1-b84d-3f747e84f616"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -2478,7 +2477,12 @@ IsSingle =&gt; Boolean.False
         Position =&gt; 2400.0,
         UnderReadingAmountOdo =&gt; 44.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="4ac46ff1-5520-446a-b117-bf32d7a851af"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -2847,7 +2851,8 @@ IsSingle =&gt; Boolean.False
  Guid="e92bb955-f017-4876-8c8d-223fa2efbf2a"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
  Guid="23d2db07-2bba-4422-9800-22143f00b688"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9622,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -2857,7 +2862,12 @@ IsSingle =&gt; Boolean.False
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 64.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="742c6832-d05f-4463-b41f-f508b86e9222"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -3122,7 +3132,8 @@ IsSingle =&gt; Boolean.False
  Guid="bf7d2694-0e9e-4b08-877b-a5c6d6628efb"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
  Guid="bc659084-8e9b-4e47-8c2f-19f0d61908ac"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9624,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -3132,7 +3143,12 @@ IsSingle =&gt; Boolean.False
         Position =&gt; 3300.0,
         UnderReadingAmountOdo =&gt; 21.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="f24a1e86-d4c5-4a32-bff7-c0328a96290e"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -3455,19 +3471,6 @@ IsSingle =&gt; Boolean.False
 }</Action><Action
  Guid="a1016a36-fda1-4cf0-9029-fd90b8527a8f"
 >Kernel.MA.MA &lt;- EMPTY</Action><Action
- Guid="d697a6d4-55b4-496e-8e0d-f94a79aa0714"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
-{
-    NID_BG =&gt; 9626,
-    NID_C =&gt; 1,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Position =&gt; BTM.PositionStruct
-    {
-        OverReadingAmountOdo =&gt; 11.0,
-        Position =&gt; 4000.0,
-        UnderReadingAmountOdo =&gt; 12.0
-    }
-}</Action><Action
  Guid="046ec9b6-67d1-4c3b-9c0b-e30f8f6f58f0"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -3489,6 +3492,7 @@ IsSingle =&gt; Boolean.False
       },
       NID_BG =&gt; 9626,
       Orientation =&gt; OrientationEnum.Nominal,
+      Timestamp =&gt; Kernel.DateAndTime.Now(),
       NID_C =&gt; 1
     },
     IsLRBG =&gt; Boolean.True,
@@ -4749,17 +4753,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="dab1468d-e4ef-40b2-b875-bb9f5217c3d1"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9617,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 2000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="dc0725f7-7907-4ad6-9ba6-ec9a7fd1b5de"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -4895,17 +4906,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="5d0fd17b-b17d-4989-95dc-8d5758c283df"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9618,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="07464e37-9fb6-4d99-9632-ac33af524195"
 >Odometry.NominalDistance &lt;- 3110.0</Action><Action
  Guid="ef45b23a-9079-4309-93fb-0c6af0f0f99c"
@@ -5058,17 +5076,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="028b877a-2ab5-44b0-a0d2-c58a334a6018"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9619,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action></Actions>
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -5293,17 +5318,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="b345e43f-f2cd-47d9-9ed9-ae75f8183243"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9618,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 2000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="1f1f132c-3be6-410a-ba87-f1c2946d2a6c"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -5421,17 +5453,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="a4ad3115-6f92-4923-ba77-474715decf9b"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9619,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="305e83f7-b105-449f-88f2-5ca67bc66d7e"
 >Odometry.NominalDistance &lt;- 3150.0</Action></Actions>
 <Expectations>
@@ -5561,17 +5600,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="fd8996ce-71d9-4186-aba7-26e81a07cbe6"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action></Actions>
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -5792,17 +5838,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="4ca49b22-3e77-48c0-94a8-c850429b5587"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9618,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 2000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="506febf7-dc06-4b79-a6ec-2692e7189885"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -5932,17 +5985,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="46d8ad76-9f4c-457c-a68c-4416ddd5890c"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9619,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="f5cfb24e-e3c0-4fe8-bced-ccc52510d0b8"
 >Odometry.NominalDistance &lt;- 3300.0</Action></Actions>
 <Expectations>
@@ -6076,17 +6136,24 @@ IsSingle =&gt; Boolean.False
 <Actions>
 <Action
  Guid="ee42fee4-a2ff-454c-ba54-6837efce8038"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 29.0,
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 35.0
     }
-}</Action></Actions>
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -6341,7 +6408,8 @@ IsSingle =&gt; Boolean.False
     ]
 }</Action><Action
  Guid="b95eabac-a6e9-41b1-a436-cb831c09fa45"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9628,
     NID_C =&gt; 0,
@@ -6352,7 +6420,12 @@ IsSingle =&gt; Boolean.False
         Position =&gt; 4400.0,
         UnderReadingAmountOdo =&gt; 21.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="dcc53a50-e529-4a33-b743-167f94be895e"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {
@@ -6729,7 +6802,8 @@ IsSingle =&gt; Boolean.False
  Guid="26ad6f63-5699-4e59-a2f1-d2734f07d84b"
 >Kernel.Level.Value.Value &lt;- LevelEnum.L1</Action><Action
  Guid="76ac5283-c32d-4181-a348-382e77050531"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9630,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -6739,7 +6813,12 @@ IsSingle =&gt; Boolean.False
         Position =&gt; 5000.0,
         UnderReadingAmountOdo =&gt; 12.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="0a6db323-2e3e-4d48-8fc1-22755277f802"
 >Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct
 {

@@ -66,10 +66,12 @@
 <Actions>
 <Action
  Guid="3fb00cad-a18a-46bb-b76d-76e8da12c7e2"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 255,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 2.0,
@@ -77,9 +79,12 @@
         UnderReadingAmountOdo =&gt; 2.0
 
     }
-}</Action><Action
- Guid="d88780f1-6c01-4d63-95ef-4aef7b4fc889"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="af3815f7-9973-453d-84f2-f84793f0070b"
 >Odometry.NominalDistance &lt;- 0.0</Action><Action
  Guid="2a81bcef-e307-425e-94c6-52cdeb27849c"
@@ -288,6 +293,284 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
+ Name="End of Override: Balise group not in the list of expected balises in SH mode is passed"
+ Guid="8dab72ca-1659-4cda-8088-11777128f38e"
+>
+<TestCases>
+<TestCase
+ Name="End of Override: Balise group not in the list of expected balises in SH mode is passed"
+ Guid="b1b781c6-4902-4c02-9833-111690e0a139"
+>
+<ReqRef
+ Id="772e0087-dcb8-45bf-a888-56863cd592af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="482363d4-042e-4ea0-b8ec-72ef05c658f7"
+>
+</ReqRef><ReqRef
+ Id="f8000cfa-0807-4266-8df9-c687e29b4770"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a6e7bb7b-be7f-4bb5-b772-41123d9fa441"
+>
+</ReqRef><Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup - Trigger Override"
+ Guid="e5b0b7f3-ce39-4a92-8e56-1540d36ae4c4"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="bf2718e3-b5c5-4eec-bb68-6f3e96712936"
+>
+<Actions>
+<Action
+ Guid="dc03e831-28ba-427f-b093-84c203de4560"
+>Testing.InitializeTestEnvironment
+(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; ModeEnum.SH
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup for BG reception"
+ Guid="af609869-8c8c-4818-9a1e-e4a252b7af7d"
+>
+<Actions>
+<Action
+ Guid="05e19969-ef9a-4c19-995a-19cb145ed23f"
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+{
+    NID_BG =&gt; 255,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
+    Position =&gt; BTM.PositionStruct
+    {
+        OverReadingAmountOdo =&gt; 2.0,
+        Position =&gt; 0.0,
+        UnderReadingAmountOdo =&gt; 2.0
+
+    }
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
+ Guid="9f21cc75-9077-45ae-82be-de4d8d58ab64"
+>Odometry.NominalDistance &lt;- 0.0</Action><Action
+ Guid="c8b88e06-5a47-4ab3-9f3c-70d156232ec3"
+>Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
+    TargetSpeed =&gt; 0.0,
+    Sections =&gt; [],
+    EndSection =&gt; Kernel.MA.EndSectionStruct{
+        Length =&gt; 2000.0
+    }
+}</Action><Action
+ Guid="6769d8e1-3e15-45ad-adfd-fbce6a8b6b70"
+>Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set Train Data and speed"
+ Guid="98565393-94e7-4819-85c5-30683b2346a6"
+>
+<Actions>
+<Action
+ Guid="8b432bf5-f299-42be-a745-beedf4d23b11"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="6c106bb7-5154-401b-a564-d0e278a88e31"
+>Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
+ Guid="1e8e70d9-b376-4891-bd75-29cabb43a54c"
+>Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
+ Guid="6b537ea1-6693-49be-8a77-018b09d576bd"
+>Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check override is proposed"
+ Guid="4b040dd4-a019-4f3f-b051-dbc27416d71c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="77108975-70f5-41ce-9f13-5ad5ab4d87dd"
+>DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Set list of expected balises in SH mode"
+ Guid="a4445b98-eb8f-43d3-9334-5353002666d5"
+>
+<Actions>
+<Action
+ Guid="7a2aff05-587e-4ee5-902f-3598aa01a535"
+>Kernel.Modes.Shunting.BaliseGroupsForShArea &lt;- Kernel.Modes.Shunting.ExpectedBGstruct
+{
+  ListReceived =&gt; Boolean.True,
+  BGs =&gt;
+  [
+    Kernel.BaliseGroup
+    {
+      NewCountry =&gt; Boolean.False,
+      NID_C =&gt; 7,
+      NID_BG =&gt; 14
+    }
+  ]
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Trigger Override"
+ Guid="e6a7cf2a-88c5-4838-b917-96db925af08a"
+>
+<Actions>
+<Action
+ Guid="ef575bfe-6bc3-470a-9dbd-a3f80a7daa82"
+>DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check end of Override when balise group not in the list of expected balises in SH mode is passed"
+ Guid="2d1f4121-4841-4d56-8f24-707863b43c91"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check Override is activate"
+ Guid="63755c8a-8aca-4a1d-997d-b3084e600c85"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="8899ec6b-34f3-42ec-897f-3f7d6c35c798"
+>Kernel.Override.OverrideIsActive()</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="83bbaa63-7973-4131-bd4c-982467f5d0f9"
+>Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Unexpected balise group is received"
+ Guid="46f7e27d-554a-4b2b-a75c-a033012c5878"
+>
+<Actions>
+<Action
+ Guid="1ec8533b-b565-4253-bca8-1207f56cbe65"
+>BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
+{
+  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+  M_VERSION =&gt; 32, 
+  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+  N_PIG =&gt; Messages.N_PIG._1C, 
+  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
+  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+  M_MCOUNT =&gt; 1, 
+  NID_C =&gt; 80, 
+  NID_BG =&gt; 256, 
+  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
+  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
+    {
+      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
+      {
+        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
+        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
+        NATIONAL_VALUES =&gt; EMPTY, 
+        LINKING =&gt; EMPTY, 
+        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
+        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
+        REPOSITIONING_INFORMATION =&gt; EMPTY, 
+        GRADIENT_PROFILE =&gt; EMPTY, 
+        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
+        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
+        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        SESSION_MANAGEMENT =&gt; EMPTY, 
+        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
+        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
+        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
+        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
+        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
+        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
+        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
+        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
+        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
+        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
+        TRACK_CONDITION =&gt; EMPTY, 
+        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
+        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
+        ADHESION_FACTOR =&gt; EMPTY, 
+        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
+        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
+        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
+        MODE_PROFILE =&gt; EMPTY, 
+        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
+        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
+        RBC_TRANSITION_ORDER =&gt; EMPTY, 
+        DANGER_FOR_SHUNTING_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION.Message
+        {
+          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
+          Q_ASPECT =&gt; Messages.Q_ASPECT.Stop_if_in_SH_mode
+        }, 
+        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
+        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
+        EOLM_PACKET =&gt; EMPTY, 
+        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
+        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
+        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
+        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
+        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
+        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
+        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
+        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
+        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
+        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
+        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
+        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
+        END_OF_INFORMATION =&gt; EMPTY
+      }
+    }], 
+  BitField =&gt; &apos;&apos;
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Check Override is not activate anymore"
+ Guid="e10fd7f5-8eda-467b-93e8-7c4ceef2f5f6"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="7eb3047d-490b-46b7-a319-43664f37e95e"
+>NOT Kernel.Override.OverrideIsActive()</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
  Name="End of Override: Balise group not in the list of expected balises in SR mode is passed"
  Guid="7ca26fdb-1d00-4c67-98df-cdb2ba5d41ff"
 >
@@ -340,10 +623,12 @@
 <Actions>
 <Action
  Guid="7ec5b04e-ab02-4355-a751-8c9eb657c56b"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 255,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 2.0,
@@ -351,9 +636,12 @@
         UnderReadingAmountOdo =&gt; 2.0
 
     }
-}</Action><Action
- Guid="71152206-f054-48e9-8ca5-3299897def0a"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="1153210e-35f4-4c0f-b8da-300cdd7252e5"
 >Odometry.NominalDistance &lt;- 0.0</Action><Action
  Guid="f803fe3d-4dc2-47c8-a5e6-dd55fcb25919"
@@ -1050,7 +1338,8 @@
  Guid="aa34ad49-559a-440f-8d48-a4f7cc6b9f2f"
 >Odometry.NominalDistance &lt;- 4150.0</Action><Action
  Guid="057b53eb-780b-4e07-9d1d-7d93a4c2ce7d"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9626,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -1060,7 +1349,12 @@
         Position =&gt; 4000.0,
         UnderReadingAmountOdo =&gt; 0.0
     }
-}</Action></Actions>
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Check Override is not activate anymore"
@@ -2112,10 +2406,12 @@
 <Actions>
 <Action
  Guid="13cd4c69-f4e9-4cd3-a087-d0c4a40d2416"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 255,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 2.0,
@@ -2123,9 +2419,12 @@
         UnderReadingAmountOdo =&gt; 2.0
 
     }
-}</Action><Action
- Guid="9bc7545f-5c1b-49aa-903f-4c330c90af6e"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="4fc01440-9a56-40c9-bbf8-ef822b23f296"
 >Odometry.NominalDistance &lt;- 0.0</Action><Action
  Guid="c064e2f7-4573-4812-a4d2-cff4e3e94edb"
@@ -2364,10 +2663,12 @@
 <Actions>
 <Action
  Guid="de1b7f79-c9c3-4c60-a9b6-24d0a1a395de"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 255,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 2.0,
@@ -2375,9 +2676,12 @@
         UnderReadingAmountOdo =&gt; 2.0
 
     }
-}</Action><Action
- Guid="793b6665-1eca-4dcb-870f-4c63ca4541ca"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="91c57f17-2da8-44a5-85b6-353038787d68"
 >Odometry.NominalDistance &lt;- 0.0</Action><Action
  Guid="55e1295d-838a-408c-b0e6-1014eeaed09a"
@@ -2775,10 +3079,12 @@
 <Actions>
 <Action
  Guid="981f8f90-3466-42a4-8d2d-04a1cfcf1798"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 255,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 2.0,
@@ -2786,9 +3092,12 @@
         UnderReadingAmountOdo =&gt; 2.0
 
     }
-}</Action><Action
- Guid="032dece1-5fb9-459e-921c-502aead281a2"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="154ad0e1-17ac-4d09-9d65-aee23039ff5f"
 >Odometry.NominalDistance &lt;- 0.0</Action><Action
  Guid="2b55dcc5-42f6-423c-a951-65546ee9a559"
@@ -2967,7 +3276,8 @@
  Guid="b89a388d-c96d-4efb-a7d5-61de5c4b05cc"
 >Odometry.NominalDistance &lt;- 250.0</Action><Action
  Guid="e25c7f85-0411-412f-9b00-991b35230dfc"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 256,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -2978,7 +3288,12 @@
         UnderReadingAmountOdo =&gt; 2.0
 
     }
-}</Action></Actions>
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Check former EoA is deleted"
@@ -5144,279 +5459,6 @@
  DeadLine="1"
  Guid="e25fea2a-9476-44b3-a095-0e24848a8c1e"
 >DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Disabled</Expectation></Expectations>
-</SubStep></SubSteps>
-</Step></Steps>
-</TestCase></TestCases>
-</SubSequence><SubSequence
- D_LRBG=""
- Level=""
- Mode=""
- NID_LRBG=""
- Q_DIRLRBG=""
- Q_DIRTRAIN=""
- Q_DLRBG=""
- RBC_ID=""
- RBCPhone=""
- Name="End of Override: Balise group not in the list of expected balises in SH mode is passed"
- Guid="8dab72ca-1659-4cda-8088-11777128f38e"
->
-<TestCases>
-<TestCase
- Name="End of Override: Balise group not in the list of expected balises in SH mode is passed"
- Guid="b1b781c6-4902-4c02-9833-111690e0a139"
->
-<ReqRef
- Id="772e0087-dcb8-45bf-a888-56863cd592af"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="482363d4-042e-4ea0-b8ec-72ef05c658f7"
->
-</ReqRef><ReqRef
- Id="f8000cfa-0807-4266-8df9-c687e29b4770"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a6e7bb7b-be7f-4bb5-b772-41123d9fa441"
->
-</ReqRef><Steps>
-<Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Setup - Trigger Override"
- Guid="e5b0b7f3-ce39-4a92-8e56-1540d36ae4c4"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Setup"
- Guid="bf2718e3-b5c5-4eec-bb68-6f3e96712936"
->
-<Actions>
-<Action
- Guid="dc03e831-28ba-427f-b093-84c203de4560"
->Testing.InitializeTestEnvironment
-(
-    aTrainPosition =&gt; 0.0,
-    aMode =&gt; ModeEnum.SH
-)</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Setup for BG reception"
- Guid="af609869-8c8c-4818-9a1e-e4a252b7af7d"
->
-<Actions>
-<Action
- Guid="05e19969-ef9a-4c19-995a-19cb145ed23f"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
-{
-    NID_BG =&gt; 255,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Position =&gt; BTM.PositionStruct
-    {
-        OverReadingAmountOdo =&gt; 2.0,
-        Position =&gt; 0.0,
-        UnderReadingAmountOdo =&gt; 2.0
-
-    }
-}</Action><Action
- Guid="798dfe77-a84a-44a4-9565-6535186ffae0"
->BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
- Guid="9f21cc75-9077-45ae-82be-de4d8d58ab64"
->Odometry.NominalDistance &lt;- 0.0</Action><Action
- Guid="c8b88e06-5a47-4ab3-9f3c-70d156232ec3"
->Kernel.MA.MA &lt;- Kernel.MA.MAStruct{
-    TargetSpeed =&gt; 0.0,
-    Sections =&gt; [],
-    EndSection =&gt; Kernel.MA.EndSectionStruct{
-        Length =&gt; 2000.0
-    }
-}</Action><Action
- Guid="6769d8e1-3e15-45ad-adfd-fbce6a8b6b70"
->Kernel.TrainPosition.Position.DataState &lt;- DataStateEnum.Valid</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set Train Data and speed"
- Guid="98565393-94e7-4819-85c5-30683b2346a6"
->
-<Actions>
-<Action
- Guid="8b432bf5-f299-42be-a745-beedf4d23b11"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
- Guid="6c106bb7-5154-401b-a564-d0e278a88e31"
->Kernel.NationalValues.CurrentNV().SpeedLimitForTriggeringTheOverrideFunction &lt;- 20.0</Action><Action
- Guid="1e8e70d9-b376-4891-bd75-29cabb43a54c"
->Odometry.EstimatedSpeed &lt;- 12.0</Action><Action
- Guid="6b537ea1-6693-49be-8a77-018b09d576bd"
->Kernel.TrainData.TrainData.DataState &lt;- Default.DataStateEnum.Valid</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check override is proposed"
- Guid="4b040dd4-a019-4f3f-b051-dbc27416d71c"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="77108975-70f5-41ce-9f13-5ad5ab4d87dd"
->DMI.MasterDMI().In_OverrideRequest.InputInformation.RequestStatus == RequestEnum.Request</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Set list of expected balises in SH mode"
- Guid="a4445b98-eb8f-43d3-9334-5353002666d5"
->
-<Actions>
-<Action
- Guid="7a2aff05-587e-4ee5-902f-3598aa01a535"
->Kernel.Modes.Shunting.BaliseGroupsForShArea &lt;- Kernel.Modes.Shunting.ExpectedBGstruct
-{
-  ListReceived =&gt; Boolean.True,
-  BGs =&gt;
-  [
-    Kernel.BaliseGroup
-    {
-      NewCountry =&gt; Boolean.False,
-      NID_C =&gt; 7,
-      NID_BG =&gt; 14
-    }
-  ]
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Trigger Override"
- Guid="e6a7cf2a-88c5-4838-b917-96db925af08a"
->
-<Actions>
-<Action
- Guid="ef575bfe-6bc3-470a-9dbd-a3f80a7daa82"
->DMI.MasterDMI().In_OverrideRequest.ProvideDriverResponse()</Action></Actions>
-</SubStep></SubSteps>
-</Step><Step
- Distance="0"
- IO="NA"
- LevelIN="NA"
- LevelOUT="NA"
- ModeIN="NA"
- ModeOUT="NA"
- TranslationRequired="FALSE"
- Name="Check end of Override when balise group not in the list of expected balises in SH mode is passed"
- Guid="2d1f4121-4841-4d56-8f24-707863b43c91"
->
-<SubSteps>
-<SubStep
- TimeDelay="NotDelayed"
- Name="Check Override is activate"
- Guid="63755c8a-8aca-4a1d-997d-b3084e600c85"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="8899ec6b-34f3-42ec-897f-3f7d6c35c798"
->Kernel.Override.OverrideIsActive()</Expectation><Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="83bbaa63-7973-4131-bd4c-982467f5d0f9"
->Kernel.Mode == ModeEnum.SH</Expectation></Expectations>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Unexpected balise group is received"
- Guid="46f7e27d-554a-4b2b-a75c-a033012c5878"
->
-<Actions>
-<Action
- Guid="1ec8533b-b565-4253-bca8-1207f56cbe65"
->BTM.Message.SystemVersion2 &lt;- Messages.EUROBALISE.Message
-{
-  Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
-  M_VERSION =&gt; 32, 
-  Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-  N_PIG =&gt; Messages.N_PIG._1C, 
-  N_TOTAL =&gt; Messages.N_TOTAL._1_balise_in_groupC, 
-  M_DUP =&gt; Messages.M_DUP.No_duplicates, 
-  M_MCOUNT =&gt; 1, 
-  NID_C =&gt; 80, 
-  NID_BG =&gt; 256, 
-  Q_LINK =&gt; Messages.Q_LINK.Unlinked, 
-  Sequence1 =&gt; [Messages.EUROBALISE.SubStructure1
-    {
-      TRACK_TO_TRAIN =&gt; Messages.PACKET.TRACK_TO_TRAIN.Message
-      {
-        STOP_IF_IN_STAFF_RESPONSIBLE =&gt; EMPTY, 
-        VIRTUAL_BALISE_COVER_MARKER =&gt; EMPTY, 
-        SYSTEM_VERSION_ORDER =&gt; EMPTY, 
-        NATIONAL_VALUES =&gt; EMPTY, 
-        LINKING =&gt; EMPTY, 
-        LEVEL_1_MOVEMENT_AUTHORITY =&gt; EMPTY, 
-        STAFF_RESPONSIBLE_DISTANCE_INFORMATION_FROM_LOOP =&gt; EMPTY, 
-        LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; EMPTY, 
-        REPOSITIONING_INFORMATION =&gt; EMPTY, 
-        GRADIENT_PROFILE =&gt; EMPTY, 
-        INTERNATIONAL_STATIC_SPEED_PROFILE =&gt; EMPTY, 
-        TRACK_CONDITION_CHANGE_OF_TRACTION_SYSTEM =&gt; EMPTY, 
-        TRACK_CONDITION_CHANGE_OF_ALLOWED_CURRENT_CONSUMPTION =&gt; EMPTY, 
-        LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
-        SESSION_MANAGEMENT =&gt; EMPTY, 
-        RADIO_NETWORK_REGISTRATION =&gt; EMPTY, 
-        CONDITIONAL_LEVEL_TRANSITION_ORDER =&gt; EMPTY, 
-        LIST_OF_BALISES_FOR_SH_AREA =&gt; EMPTY, 
-        AXLE_LOAD_SPEED_PROFILE =&gt; EMPTY, 
-        PERMITTED_BRAKING_DISTANCE_INFORMATION =&gt; EMPTY, 
-        MOVEMENT_AUTHORITY_REQUEST_PARAMETERS =&gt; EMPTY, 
-        POSITION_REPORT_PARAMETERS =&gt; EMPTY, 
-        LIST_OF_BALISES_IN_SR_AUTHORITY =&gt; EMPTY, 
-        INHIBITION_OF_REVOCABLE_TSRS_FROM_BALISES_IN_L2_3 =&gt; EMPTY, 
-        TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
-        TEMPORARY_SPEED_RESTRICTION_REVOCATION =&gt; EMPTY, 
-        TRACK_CONDITION_BIG_METAL_MASSES =&gt; EMPTY, 
-        TRACK_CONDITION =&gt; EMPTY, 
-        TRACK_CONDITION_STATION_PLATFORMS =&gt; EMPTY, 
-        ROUTE_SUITABILITY_DATA =&gt; EMPTY, 
-        ADHESION_FACTOR =&gt; EMPTY, 
-        PACKET_FOR_SENDING_PLAIN_TEXT_MESSAGES =&gt; EMPTY, 
-        PACKET_FOR_SENDING_FIXED_TEXT_MESSAGES =&gt; EMPTY, 
-        GEOGRAPHICAL_POSITION_INFORMATION =&gt; EMPTY, 
-        MODE_PROFILE =&gt; EMPTY, 
-        LEVEL_CROSSING_INFORMATION =&gt; EMPTY, 
-        TRACK_AHEAD_FREE_UP_TO_LEVEL_2_3_TRANSITION_LOCATION =&gt; EMPTY, 
-        RBC_TRANSITION_ORDER =&gt; EMPTY, 
-        DANGER_FOR_SHUNTING_INFORMATION =&gt; Messages.PACKET.TRACK_TO_TRAIN.DANGER_FOR_SHUNTING_INFORMATION.Message
-        {
-          Q_DIR =&gt; Messages.Q_DIR.Both_directions, 
-          Q_ASPECT =&gt; Messages.Q_ASPECT.Stop_if_in_SH_mode
-        }, 
-        RADIO_INFILL_AREA_INFORMATION =&gt; EMPTY, 
-        SESSION_MANAGEMENT_WITH_NEIGHBOURING_RADIO_INFILL_UNIT =&gt; EMPTY, 
-        EOLM_PACKET =&gt; EMPTY, 
-        STOP_SHUNTING_ON_DESK_OPENING =&gt; EMPTY, 
-        INFILL_LOCATION_REFERENCE =&gt; EMPTY, 
-        REVERSING_AREA_INFORMATION =&gt; EMPTY, 
-        REVERSING_SUPERVISION_INFORMATION =&gt; EMPTY, 
-        TRAIN_RUNNING_NUMBER_FROM_RBC =&gt; EMPTY, 
-        DEFAULT_GRADIENT_FOR_TEMPORARY_SPEED_RESTRICTION =&gt; EMPTY, 
-        INHIBITION_OF_BALISE_GROUP_MESSAGE_CONSISTENCY_REACTION =&gt; EMPTY, 
-        DEFAULT_BALISE_LOOP_OR_RIU_INFORMATION =&gt; EMPTY, 
-        DATA_USED_BY_APPLICATIONS_OUTSIDE_THE_ERTMS_ETCS_SYSTEM =&gt; EMPTY, 
-        VIRTUAL_BALISE_COVER_ORDER =&gt; EMPTY, 
-        LSSMA_DISPLAY_TOGGLE_ORDER =&gt; EMPTY, 
-        GENERIC_LS_FUNCTION_MARKER =&gt; EMPTY, 
-        END_OF_INFORMATION =&gt; EMPTY
-      }
-    }], 
-  BitField =&gt; &apos;&apos;
-}</Action></Actions>
-</SubStep><SubStep
- TimeDelay="NotDelayed"
- Name="Check Override is not activate anymore"
- Guid="e10fd7f5-8eda-467b-93e8-7c4ceef2f5f6"
->
-<Expectations>
-<Expectation
- Kind="Instantaneous"
- DeadLine="1"
- Guid="7eb3047d-490b-46b7-a319-43664f37e95e"
->NOT Kernel.Override.OverrideIsActive()</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

@@ -191,28 +191,33 @@ namespace Importers.ExcelImporter
                 aSubStep.AddModelElement(odometryInitialization);
 
                 TestAction LRBGInitialization = new TestAction();
-                LRBGInitialization.ExpressionText = "BTM.LRBG.LRBG <- BTM.LRBG.BaliseGroupStruct\n" +
-                                                    "    {\n" +
-                                                    "    NID_BG => 0,\n" +
-                                                    "    NID_C => 0,\n" +
-                                                    "    Orientation => Default.OrientationEnum.Nominal,\n" +
+                LRBGInitialization.ExpressionText = "INSERT BTM.LRBG.PreviousBaliseGroupStruct{\n" +
+                                                    "  BaliseGroup => BTM.LRBG.BaliseGroupStruct{\n" +
                                                     "    Position => BTM.PositionStruct\n" +
                                                     "    {\n" +
-                                                    "        Position => 0.0,\n" +
-                                                    "        UnderReadingAmountOdo => 0.0,\n" +
-                                                    "        OverReadingAmountOdo => 0.0\n" +
+                                                    "       Position => 0.0,\n" +
+                                                    "       UnderReadingAmountOdo => 0.0,\n" +
+                                                    "       OverReadingAmountOdo => 0.0\n" +
                                                     "    },\n" +
-                                                    "    Timestamp => Default.DateAndTimeStruct\n" +
+                                                    "    NID_BG => 0,\n" +
+                                                    "    Orientation => OrientationEnum.Nominal,\n" +
+                                                    "    Timestamp => DateAndTimeStruct\n" +
                                                     "    {\n" +
-                                                    "        Year => 2012,\n" +
-                                                    "        Month => 12,\n" +
-                                                    "        Day => 20,\n" +
-                                                    "        Hour => 20,\n" +
-                                                    "        Minute => 12,\n" +
-                                                    "        Second => 20,\n" +
-                                                    "        TTS => 600\n" +
-                                                    "    }\n" +
-                                                    "}";
+                                                    "       Year => 2012,\n" +
+                                                    "       Month => 12,\n" +
+                                                    "       Day => 20,\n" +
+                                                    "       Hour => 20,\n" +
+                                                    "       Minute => 12,\n" +
+                                                    "       Second => 20,\n" +
+                                                    "       TTS => 600\n" +
+                                                    "    },\n" +
+                                                    "    LocationAccuracy => 12.0,\n" +
+                                                    "    NID_C => 0\n" +
+                                                    "    },\n" +
+                                                    "  IsLRBG => Boolean.True,\n" +
+                                                    "  IsSingle => Boolean.False\n" +
+                                                    "  }\n" +
+                                                    "IN BTM.LRBG.PreviousBaliseGroups\n";
                 aSubStep.AddModelElement(LRBGInitialization);
 
                 TestAction TrainPositionState = new TestAction();
@@ -1188,7 +1193,7 @@ namespace Importers.ExcelImporter
                     {
                         addExpectation(aSubStep,
                             String.Format(CultureInfo.InvariantCulture,
-                                "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ServiceBrakes.ConversionModel.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
+                                "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.A_brake_service(V => {0:0.0########}),\n    Val2 => {1:0.0########}\n)",
                                 (double) (aRange.Cells[i, 13] as Range).Value2 - 0.000000001, doubleValue));
                     }
                     doubleValue = temp;
@@ -1207,7 +1212,7 @@ namespace Importers.ExcelImporter
             /* Verifying V_lim BS */
             addExpectation(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParametersConversionModel.ServiceBrakes..A_brake_service.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)",
+                    "ERA_BrakingCurvesVerification.Compare\n(\n    Val1 => Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.A_brake_service.Val1.SpeedStep,\n    Val2 => {0:0.0########}\n)",
                     (double) (aRange.Cells[17, 13] as Range).Value2));
         }
 

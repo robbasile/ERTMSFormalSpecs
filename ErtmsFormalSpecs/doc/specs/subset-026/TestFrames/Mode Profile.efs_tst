@@ -1683,8 +1683,8 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
 }
 IN BTM.Linking.Linkings</Action><Action
  Guid="77f02070-d627-4264-b312-76aa7c22fd36"
->BTM.LRBG.LRBG &lt;- 
-BTM.LRBG.BaliseGroupStruct {
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct {
     NID_BG=&gt;2124,
     Orientation=&gt;OrientationEnum.Nominal,
     Position=&gt;
@@ -1693,7 +1693,12 @@ BTM.LRBG.BaliseGroupStruct {
             Position=&gt;1000.0,
             UnderReadingAmountOdo=&gt;2.0
         }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="87c811c7-5485-4669-b07a-f2ffb9316510"
 >Kernel.TrainPosition.Position &lt;- Kernel.TrainPosition.TrainPositionStruct
 {

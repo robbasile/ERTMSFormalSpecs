@@ -209,7 +209,8 @@
  Guid="30cee3b2-31ed-4e53-b719-cab59d8a8cd0"
 >Odometry.NominalDistance &lt;- 1040.0</Action><Action
  Guid="44c98ed9-0320-4b7f-bbfe-ade1b9c6a4bd"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     Position =&gt; BTM.PositionStruct
     {
@@ -218,8 +219,16 @@
         OverReadingAmountOdo =&gt; 0.0
     },
     NID_BG =&gt; 7896,
-    Orientation =&gt; OrientationEnum.Nominal
-}</Action><Action
+    Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
+    LocationAccuracy =&gt; 12.0,
+    NID_C =&gt; 0
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="a711d0f2-85e7-45e5-ac6c-0c44291ac769"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.A045</Action><Action
  Guid="f2e7d184-0750-4df2-8025-851f1bdd76e3"
@@ -282,7 +291,7 @@
  Guid="a053a6a8-a208-4846-830e-c66a1b581de1"
 >Odometry.NominalDistance &lt;- 1060.0</Action><Action
  Guid="2db6cf92-1956-4908-90a3-b0c42baca126"
->BTM.LRBG.LRBG &lt;- EMPTY</Action><Action
+>BTM.LRBG.PreviousBaliseGroups &lt;- []</Action><Action
  Guid="dc685f5f-8218-43bc-81ed-d9341c31f970"
 >Kernel.HandleModeChange &lt;- Kernel.HandleModeChange.ShuntingInitiatedByDriver.A045</Action><Action
  Guid="79ea57dc-e5e9-45f7-b888-de72eb364e08"

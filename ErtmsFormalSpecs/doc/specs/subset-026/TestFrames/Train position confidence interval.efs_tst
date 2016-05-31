@@ -73,15 +73,21 @@
 <Actions>
 <Action
  Guid="3a743613-bf8a-42db-b38e-c6a87320b820"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
-  NID_BG=&gt;1,
-  Orientation=&gt;OrientationEnum.Nominal,
-  Position=&gt;BTM.PositionStruct{
-    OverReadingAmountOdo=&gt;2.0,
-    Position=&gt;1080.0,
-    UnderReadingAmountOdo=&gt;1.0
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
+  NID_BG=&gt; 1,
+  Orientation=&gt; OrientationEnum.Nominal,
+  Position=&gt; BTM.PositionStruct{
+    OverReadingAmountOdo=&gt; 2.0,
+    Position=&gt; 1080.0,
+    UnderReadingAmountOdo=&gt; 1.0
   }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="51a7c7d3-e744-4ed9-a6f9-a9fac1198ea1"
 >BTM.BGLocationDetectionError &lt;- 4.0</Action><Action
  Guid="25eeca45-bb65-494a-aaa5-018919036dc0"
@@ -1413,7 +1419,8 @@ IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; Kernel.NationalValues.KvInt
 <Actions>
 <Action
  Guid="424836f3-298f-4fb7-9077-93aac78db3e1"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct{
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
   NID_BG=&gt;1,
   Orientation=&gt;OrientationEnum.Nominal,
   Position=&gt;BTM.PositionStruct{
@@ -1421,7 +1428,12 @@ IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; Kernel.NationalValues.KvInt
     Position=&gt;1080.0,
     UnderReadingAmountOdo=&gt;1.0
   }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="9da2f15a-c443-4a5d-a334-0e7e202f33e6"
 >BTM.BGLocationDetectionError &lt;- 4.0</Action><Action
  Guid="4e7da133-35c9-48d0-a31a-ba7b9a1df7e9"
@@ -1455,7 +1467,7 @@ IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; Kernel.NationalValues.KvInt
 <Actions>
 <Action
  Guid="7daa7eb9-a054-406d-8aa5-670b3c2d7c35"
->BTM.LRBG.LRBG.Position.OverReadingAmountOdo &lt;- 1.0</Action><Action
+>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup == BTM.LRBG.LRBG()).BaliseGroup.Position.OverReadingAmountOdo &lt;- 1.0</Action><Action
  Guid="b823d03e-5866-4953-9573-51171464c0c7"
 >Odometry.Accuracy.D_ora &lt;- 4.0</Action></Actions>
 <Expectations>
@@ -1499,7 +1511,7 @@ IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; Kernel.NationalValues.KvInt
 <Actions>
 <Action
  Guid="81c50d0f-d3d5-4050-b153-cae26773c600"
->BTM.LRBG.LRBG.Position.UnderReadingAmountOdo &lt;- 1.0</Action><Action
+>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup == BTM.LRBG.LRBG()).BaliseGroup.Position.UnderReadingAmountOdo&lt;- 1.0</Action><Action
  Guid="8a5014c4-a363-4797-b8c5-1ac01dce5c40"
 >Odometry.Accuracy.D_ura &lt;- 5.0</Action></Actions>
 <Expectations>
@@ -1623,7 +1635,7 @@ IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; Kernel.NationalValues.KvInt
  Guid="d56c073a-99d4-41f6-81bc-d940791eed95"
 >Odometry.NominalDistance &lt;- 200.0</Action><Action
  Guid="d3e40717-e6da-40be-98e8-81a0b8a4a9f8"
->BTM.LRBG.LRBG.Position.Position &lt;- 40.0</Action></Actions>
+>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup == BTM.LRBG.LRBG()).BaliseGroup.Position.Position &lt;- 40.0</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1680,7 +1692,7 @@ IntegratedCorrectionFactorKvInt_PassengerTrain =&gt; Kernel.NationalValues.KvInt
 <Expectation
  Kind="Instantaneous"
  Guid="36e490a0-132b-4056-8037-5f8cf20354b3"
->Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) == Odometry.NominalDistance - BTM.LRBG.LRBG.Position.Position</Expectation></Expectations>
+>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) == Odometry.NominalDistance - BTM.LRBG.LRBG().Position.Position</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"

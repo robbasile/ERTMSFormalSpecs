@@ -78,17 +78,24 @@
 <Actions>
 <Action
  Guid="03f35f24-1aed-4b77-b63c-55d7c14b5572"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9600,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 0.0,
         Position =&gt; 500.0,
         UnderReadingAmountOdo =&gt; 0.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="08379c9e-a5f7-43d3-841b-159147d82d4f"
 >Kernel.TrackDescription.AdhesionFactors.AdhFactors &lt;- []</Action><Action
  Guid="d9422de3-2313-4e53-9f60-0b55e446f488"
@@ -339,17 +346,24 @@ IN BTM.Linking.Linkings</Action></Actions>
     ]
 }</Action><Action
  Guid="cf1c52d4-7629-45cd-9a3e-ff13546e893e"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 2099,
     Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
     Position =&gt; BTM.PositionStruct
     {
         OverReadingAmountOdo =&gt; 0.0,
         Position =&gt; 1000.0,
         UnderReadingAmountOdo =&gt; 0.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="8f49d8a5-0dd5-4b89-93c8-d95abd90af56"
 >Odometry.NominalDistance &lt;- 1100.0</Action></Actions>
 </SubStep><SubStep

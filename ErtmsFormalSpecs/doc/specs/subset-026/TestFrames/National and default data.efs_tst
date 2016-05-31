@@ -4180,7 +4180,8 @@ Kernel.MA.ModeProfile.Profile</Action><Action
     ]
 }</Action><Action
  Guid="4a14e858-244c-42de-b266-dc97a19e6235"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG =&gt; 9620,
     Orientation =&gt; OrientationEnum.Nominal,
@@ -4190,7 +4191,12 @@ Kernel.MA.ModeProfile.Profile</Action><Action
         Position =&gt; 3000.0,
         UnderReadingAmountOdo =&gt; 7.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="ab38d4aa-b3f1-4bdd-8e13-3cd1c8af204d"
 >Odometry.NominalDistance &lt;- 5000.0</Action></Actions>
 </SubStep></SubSteps>

@@ -195,7 +195,7 @@
  Guid="9c4b9c55-da8c-45e6-909f-85a33d97e21d"
 >Odometry.NominalDistance &lt;- 10.0</Action><Action
  Guid="450ba0bd-6277-47cf-bc78-5dbe6f417c39"
->BTM.LRBG.LRBG.Position.Position &lt;- 0.0</Action></Actions>
+>(FIRST X IN BTM.LRBG.PreviousBaliseGroups | X.BaliseGroup == BTM.LRBG.LRBG()).BaliseGroup.Position.Position &lt;- 0.0</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2047,7 +2047,8 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
     V_ura =&gt; 3.0
 }</Action><Action
  Guid="d2138de6-977b-457d-97f4-2fe52213ebe7"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     Position =&gt; BTM.PositionStruct
     {
@@ -2058,7 +2059,12 @@ Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 (
     NID_BG =&gt; 1515,
     Orientation =&gt; OrientationEnum.Nominal,
     LocationAccuracy =&gt; 1.0
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="b457fc89-d54f-4e86-9947-5bbdd22ea2b8"
 >Odometry.EstimatedSpeed &lt;- 88.0</Action></Actions>
 </SubStep></SubSteps>
@@ -2439,7 +2445,8 @@ EndSection =&gt; Kernel.MA.EndSectionStruct{
 IN
     Kernel.TSR.TSRs</Action><Action
  Guid="800487fe-830a-438c-a852-2595fce5f9c8"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     Position =&gt; BTM.PositionStruct
     {
@@ -2449,7 +2456,12 @@ IN
     },
     NID_BG =&gt; 1515,
     Orientation =&gt; OrientationEnum.Nominal
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="e768150d-6d77-43b8-902d-60d926b4cc84"
 >BTM.Linking.Linkings &lt;- []</Action></Actions>
 </SubStep></SubSteps>

@@ -167,18 +167,6 @@ TRLevel =&gt; LevelDataStruct{
 <Action
  Guid="05aadbd1-7fd6-4907-8071-98b20f93ad21"
 >Kernel.DateAndTime.CurrentTime &lt;- 180.0</Action><Action
- Guid="db2bf45e-9679-47fd-9f57-88386da6012f"
->BTM.LRBG.LRBG &lt;- BTM.LRBG.BaliseGroupStruct
-{
-    NID_BG =&gt; 9626,
-    Orientation =&gt; OrientationEnum.Nominal,
-    Position =&gt; BTM.PositionStruct
-    {
-        OverReadingAmountOdo =&gt; 0.0,
-        Position =&gt; 4000.0,
-        UnderReadingAmountOdo =&gt; 0.0
-    }
-}</Action><Action
  Guid="e284b05e-652f-4962-a29d-ea714c37ca2d"
 >BTM.LRBG.PreviousBaliseGroups &lt;- [BTM.LRBG.PreviousBaliseGroupStruct{
 BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
@@ -201,7 +189,24 @@ BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct{
 },
 IsLRBG =&gt; Boolean.True,
 IsSingle =&gt; Boolean.False
-}]</Action><Action
+},BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
+{
+    NID_BG =&gt; 9626,
+    Orientation =&gt; OrientationEnum.Nominal,
+    Timestamp =&gt; Kernel.DateAndTime.Now(),
+    Position =&gt; BTM.PositionStruct
+    {
+        OverReadingAmountOdo =&gt; 0.0,
+        Position =&gt; 4000.0,
+        UnderReadingAmountOdo =&gt; 0.0
+    }
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+]</Action><Action
  Guid="1d96d0f1-d489-409b-ba37-54db47cf1078"
 >Odometry.NominalDistance &lt;- 4050.0</Action><Action
  Guid="da06f107-89bd-41ab-94ec-a4f9872d8c74"

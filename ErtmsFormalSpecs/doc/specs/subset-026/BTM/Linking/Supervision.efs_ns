@@ -109,7 +109,7 @@
 <PreConditions>
 <PreCondition
  Guid="4b2c047b-90a3-49e7-b4f9-8ff093ea90a3"
->BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position + Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount(BTM.BGLocationReference.Position.UnderReadingAmountOdo) + BTM.LRBG.LRBG.LocationAccuracy
+>BTM.BGLocationReference.Position.Position - LRBG.LRBG().Position.Position + Kernel.TrainPosition.ConfidenceInterval.UnderReadingAmount(BTM.BGLocationReference.Position.UnderReadingAmountOdo) + LRBG.LRBG().LocationAccuracy
 &lt; LinkedBG.Distance - LinkedBG.LocationAccuracy</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
@@ -120,7 +120,7 @@
 <PreConditions>
 <PreCondition
  Guid="a13d9a26-6872-475a-b2a5-b2e0d9cf137e"
->(BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position) - (Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount(BTM.BGLocationReference.Position.OverReadingAmountOdo) + BTM.LRBG.LRBG.LocationAccuracy) 
+>(BTM.BGLocationReference.Position.Position - LRBG.LRBG().Position.Position) - (Kernel.TrainPosition.ConfidenceInterval.OverReadingAmount(BTM.BGLocationReference.Position.OverReadingAmountOdo) + LRBG.LRBG().LocationAccuracy) 
 &gt; LinkedBG.Distance + LinkedBG.LocationAccuracy</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
@@ -215,7 +215,7 @@
 <PreCondition
  Guid="2425f7be-2891-4d2c-a000-e3d04864b4b4"
 >CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
-<Expression>BTM.BGLocationReference.Position.Position - LRBG.LRBG.Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &lt;= CurrentLinking().Distance + CurrentLinking().LocationAccuracy</Expression>
+<Expression>BTM.BGLocationReference.Position.Position - LRBG.LRBG().Position.Position - BTM.BGLocationReference.Position.OverReadingAmountOdo &lt;= CurrentLinking().Distance + CurrentLinking().LocationAccuracy</Expression>
 </Case><Case
  Name="Check the expectation window"
  Guid="0bfe0cf6-52e4-46b8-a258-00e1f3aa67c4"

@@ -278,7 +278,8 @@
  Guid="f4957525-c0c9-452f-ba9e-2548e6703d33"
 >Odometry.NominalDistance &lt;- 3050.0</Action><Action
  Guid="cb4b3be3-9143-4bed-b71e-40eefc5936ef"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG=&gt;9616,
     Orientation=&gt;OrientationEnum.Nominal,
@@ -288,7 +289,12 @@
         Position=&gt;3000.0,
         UnderReadingAmountOdo=&gt;3.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="517d102c-26a3-4d2d-b342-ab37058d917f"
 >Kernel.TSR.TSRs &lt;- []</Action><Action
  Guid="ea643973-5af9-4967-bd6a-28a0e8870e81"
@@ -692,7 +698,7 @@
   +
 BaseTypes.LengthToDistance ((FIRST X IN Kernel.TSR.TSRs).Length)
   +
-BTM.LRBG.LRBG.Position.Position
+BTM.LRBG.LRBG().Position.Position
   +
 Kernel.DistanceToKeepInfoInTheRear
   +
@@ -751,7 +757,7 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest=&gt;DistanceIntervalEnum.
   +
 BaseTypes.LengthToDistance ((FIRST X IN Kernel.TSR.TSRs).Length)
   +
-BTM.LRBG.LRBG.Position.Position
+BTM.LRBG.LRBG().Position.Position
   +
 Kernel.DistanceToKeepInfoInTheRear
   +
@@ -903,7 +909,8 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest=&gt;DistanceIntervalEnum.
  Guid="ae8a7840-230d-4020-868f-19592d2d029b"
 >Odometry.NominalDistance &lt;- 2000.0</Action><Action
  Guid="b9ade918-73be-4dc3-96e2-3ebac514aa20"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG=&gt;9616,
     Orientation=&gt;OrientationEnum.Nominal,
@@ -913,7 +920,12 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest=&gt;DistanceIntervalEnum.
         Position=&gt;1080.0,
         UnderReadingAmountOdo=&gt;3.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="79dc16bf-ff4a-4c11-b6d5-8a926dae0223"
 >Kernel.TSR.TSRs &lt;- []</Action><Action
  Guid="5d3553bd-74dc-4d2a-99c4-a297301c856e"
@@ -1405,7 +1417,8 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest=&gt;DistanceIntervalEnum.
  Guid="6651ee7c-9184-42c3-ac16-99c1733ffe82"
 >Odometry.NominalDistance &lt;- 2700.0</Action><Action
  Guid="2b298f20-a339-4b70-b5f2-eeca0d359d61"
->BTM.LRBG.LRBG&lt;- BTM.LRBG.BaliseGroupStruct
+>INSERT BTM.LRBG.PreviousBaliseGroupStruct{
+    BaliseGroup =&gt; BTM.LRBG.BaliseGroupStruct
 {
     NID_BG=&gt;9616,
     Orientation=&gt;OrientationEnum.Nominal,
@@ -1415,7 +1428,12 @@ Kernel.TrainPosition.RearEndPosition ( PointOfInterest=&gt;DistanceIntervalEnum.
         Position =&gt; 2000.0,
         UnderReadingAmountOdo =&gt; 1.0
     }
-}</Action><Action
+},
+    IsLRBG =&gt; True,
+    IsSingle =&gt; False
+}
+
+ IN BTM.LRBG.PreviousBaliseGroups</Action><Action
  Guid="b6fd6292-b81c-4c1b-a57c-44040a3fad73"
 >Kernel.TrainData.TrainData.Value.TrainLength &lt;- 150.0</Action><Action
  Guid="158f9fed-8235-4e31-a375-3951c9e1f9d5"
