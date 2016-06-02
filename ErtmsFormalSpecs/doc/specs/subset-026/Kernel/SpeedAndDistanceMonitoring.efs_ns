@@ -1241,22 +1241,25 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
  Guid="30ecc4c4-3928-4247-aa7a-f4e3ead580a5"
 >THERE_IS aTarget IN TargetsList() |
 (
-  SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; aTarget,
-    aSpeed =&gt; Kernel.MRSP.V_MRSP()
-  ) == BaseTypes.Distance.Unknown
+  TargetSpeedMonitoring.d_I(
+    Vest =&gt; Kernel.MRSP.V_MRSP(),
+    aTarget =&gt; aTarget
+)   == BaseTypes.Distance.Unknown
 )</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Supervising EBD based target"
  Guid="58163953-79e3-4ee7-8f09-181f91ab9bfd"
 >
-<Expression>FORALL aTarget IN TargetsList() | (SpeedAndDistanceMonitoring.PreIndicationLocation.IndicationLimitAtSpeed(
-    aTarget =&gt; aTarget,
-    aSpeed =&gt; Kernel.MRSP.V_MRSP()
-) 
-&gt; 
-TrainFrontRef( aTarget ))</Expression>
+<Expression>FORALL aTarget IN TargetsList() | 
+(
+  TargetSpeedMonitoring.d_I(
+    Vest =&gt; Kernel.MRSP.V_MRSP(),
+    aTarget =&gt; aTarget
+  ) 
+  &gt;
+  TrainFrontRef( aTarget )
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="SupervisionStatusEnum"
