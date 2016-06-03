@@ -6,13 +6,14 @@
  Name="BigMetalMasses"
  Guid="022a925c-739c-49d9-8aaf-309ab8f1f099"
 >
+<Comment>This namespace handles big metal masses in the track conditions.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Structures>
 <Structure
  Default=""
- X="220"
- Y="90"
+ X="230"
+ Y="100"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -50,11 +51,11 @@
 >
 <Comment>Location of the start or end of section</Comment>
 </StructureElement><StructureElement
- TypeName="Boolean"
- Default="False"
+ TypeName="BaseTypes.Length"
+ Default="0.0"
  Mode="Internal"
  Implemented="TRUE"
- Name="Value"
+ Name="Length"
  Guid="9bc0dd19-9500-4d07-9f98-b08260bc6477"
 >
 <Comment>Indicates whether big metal masses are present in the section starting at Distance</Comment>
@@ -70,8 +71,8 @@
  TypeName="BigMetalMassesInformationStruct"
  MaxSize="20"
  Default="[]"
- X="111"
- Y="1"
+ X="230"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -94,8 +95,8 @@
 <Function
  Type="Boolean"
  Default=""
- X="110"
- Y="180"
+ X="10"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -117,27 +118,18 @@
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Previous conditions exist"
+ Name="Value"
  Guid="ab487d20-209d-49a0-be75-7406c8252da9"
 >
 <Comment>TCBigMetalMasses contains a point prior to the requested distance</Comment>
-<PreConditions>
-<PreCondition
- Guid="832233ef-515a-48e0-b7e8-861ac3cdeea6"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
-<Expression>(LAST BMM IN TCBigMetalMasses | BMM.Location &lt;= aDistance).Value</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="6de7d371-027a-4f79-8920-bfbb8eaa86b6"
->
-<Comment>There are no track conditions that apply before the requested distance</Comment>
-<Expression>False</Expression>
+<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= aDistance) AND X.Location + 
+BaseTypes.LengthToDistance(X.Length) &gt;= aDistance</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="220"
- Y="180"
+ X="120"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -168,8 +160,8 @@
 </Function><Function
  Type="Boolean"
  Default=""
- X="440"
- Y="180"
+ X="230"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -200,8 +192,8 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 </Function></Functions>
 <Procedures>
 <Procedure
- X="111"
- Y="61"
+ X="230"
+ Y="270"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -254,6 +246,8 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove old information"
  Guid="26105147-399a-4834-bc91-9368bc37ca90"
@@ -296,6 +290,8 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add first track condition"
  Guid="55335876-0359-4fb5-bde2-44596cb52a47"
@@ -328,24 +324,27 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 <Action
  Guid="d15b03c1-dab2-4baf-b677-5e47edb533af"
 >Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
-    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
+    aLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
         distance =&gt; Packet.D_TRACKCOND,
         scale =&gt; Packet.Q_SCALE
     )
     ,
-    Length =&gt; MessageTypes.QScaleLength(
+    aLength =&gt; MessageTypes.QScaleLength(
         length =&gt; Packet.L_TRACKCOND,
         scale =&gt; Packet.Q_SCALE
     ),
-    PreviousLocation =&gt; aDistanceFromRef
+    aPreviousLocation =&gt; aDistanceFromRef
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add following track conditions"
  Guid="e5f98d2a-b77b-432d-ad62-ea41e4ac6326"
 >
+<Comment>Adds the following track conditions</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -364,18 +363,18 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
  Guid="87f1ee03-d658-40fb-95a6-40fe271fc15e"
 >APPLY
     Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
-        Location =&gt; MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND,scale=&gt;Packet.Q_SCALE),
-        Length =&gt; MessageTypes.QScaleLength(
+        aLocation =&gt; MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND,scale=&gt;Packet.Q_SCALE),
+        aLength =&gt; MessageTypes.QScaleLength(
             length =&gt; Packet.L_TRACKCOND,
             scale =&gt; Packet.Q_SCALE ),
-        PreviousLocation =&gt; (LAST X IN TCBigMetalMasses | X.Value).Location
+        aPreviousLocation =&gt; (LAST X IN TCBigMetalMasses).Location
     )
 ON
     Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="110"
+ X="10"
  Y="270"
  Width="100"
  Height="50"
@@ -417,57 +416,30 @@ ON
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="Location"
+ Name="aLocation"
  Guid="ee23deeb-c766-4e6a-a821-57a7f78ca63b"
 >
 </Parameter><Parameter
  Type="BaseTypes.Length"
- Name="Length"
+ Name="aLength"
  Guid="f822f960-fc86-47ea-88ce-40320c43da70"
 >
 </Parameter><Parameter
  Type="BaseTypes.Distance"
- Name="PreviousLocation"
+ Name="aPreviousLocation"
  Guid="eccbc26d-f269-4c5a-a842-d9bc3c07d1d8"
 >
 </Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
- Implemented="TRUE"
- Name="Add end of section"
- Guid="7b46a749-c331-4d77-ae23-9563c46e460e"
->
-<Comment>It&apos;s important that the end of the section be added first, so that the profile is built properly</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="End of section"
- Guid="a4bcb40b-e8aa-4abd-827e-e78420e2b89c"
->
-<Comment>The end of the section, where the train should not expect to detect big metal masses any more, is added to TCBigMetalMasses</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="f41e0e6b-f4f6-4efa-a83b-26fce22c0fa3"
-><Comment>EndSectionDistance provides the end location (in terms of the front end of the train) of the section</Comment>
-INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
-{
-    Location =&gt; PreviousLocation + Location + BaseTypes.LengthToDistance(Length),
-    Value =&gt; False
-}
-IN
-    Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add start of section"
  Guid="12410614-2252-4916-8f37-59f042f8f43c"
 >
-<Comment>After the end of the section is added, the start is added too</Comment>
+<Comment>Add the section.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -475,7 +447,7 @@ IN
  Name="Start of section is a new point"
  Guid="e34bee05-238a-48aa-8f79-2645fa362cf1"
 >
-<Comment>Add a BMM profile point in TCBigMetalMasses
+<Comment>Add a BMM profile section in TCBigMetalMasses
 The train is considered to be in the section starting from when the max antenna distance has passed the distance indicated as the start of the section</Comment>
 <PreConditions>
 </PreConditions>
@@ -484,15 +456,15 @@ The train is considered to be in the section starting from when the max antenna 
  Guid="260a89f3-ee3a-4960-a54b-8bb92247e287"
 >INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
 {
-    Location =&gt; PreviousLocation + Location,
-    Value =&gt; True
+    Location =&gt; aPreviousLocation + aLocation,
+    Length =&gt; aLength
 }
 IN
     Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="220"
+ X="120"
  Y="270"
  Width="100"
  Height="50"
@@ -531,6 +503,8 @@ IN
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Delete track conditions beyond the given location"
@@ -552,6 +526,8 @@ IN
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove the elements beyond the given location"
  Guid="0c63f3b7-201a-4b10-ae6c-52d805390f3f"
@@ -573,6 +549,8 @@ IN
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle the last element"
  Guid="b6cc3f99-165a-4fa3-926a-2469406d8d64"
@@ -588,18 +566,13 @@ IN
 <PreConditions>
 <PreCondition
  Guid="c258bfc5-ed72-459f-81ae-55c313a1cdf1"
->(LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Value == True</PreCondition></PreConditions>
+>(LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location +
+BaseTypes.LengthToDistance((LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Length) &gt; aLocation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="517b4dd1-15dd-4bd9-b45a-8d45242d6cdb"
->INSERT
-  Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
-  {
-    Location =&gt; aLocation,
-    Value =&gt; Boolean.False
-  }
-IN
-  Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
+>(LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Length &lt;- BaseTypes.DistanceToLength(
+aLocation - (LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -610,8 +583,8 @@ IN
  Type="BigMetalMassesCol"
  DefaultValue=""
  VariableMode="Internal"
- X="1"
- Y="61"
+ X="10"
+ Y="10"
  Width="100"
  Height="50"
  Implemented="TRUE"
