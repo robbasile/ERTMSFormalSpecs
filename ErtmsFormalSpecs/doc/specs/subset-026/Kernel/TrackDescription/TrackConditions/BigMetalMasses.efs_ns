@@ -122,7 +122,7 @@
  Guid="ab487d20-209d-49a0-be75-7406c8252da9"
 >
 <Comment>TCBigMetalMasses contains a point prior to the requested distance</Comment>
-<Expression>THERE_IS X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= aDistance) AND X.Location + 
+<Expression>THERE_IS X IN TCBigMetalMasses | (X.Location &lt;= aDistance) AND X.Location + 
 BaseTypes.LengthToDistance(X.Length) &gt;= aDistance</Expression>
 </Case></Cases>
 </Function><Function
@@ -151,7 +151,7 @@ BaseTypes.LengthToDistance(X.Length) &gt;= aDistance</Expression>
  Guid="db14e75b-7d6d-486e-ac7f-ebe4ae49f3bd"
 >
 <Comment>Returns the element in TCBigMetalMasses with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | (X.Location &lt;= Distance)
+<Expression>REDUCE TCBigMetalMasses | (X.Location &lt;= Distance)
     USING X IN BaseTypes.MaxDistance(
         X1=&gt;X.Location,
         X2=&gt;RESULT)
@@ -185,9 +185,9 @@ BaseTypes.LengthToDistance(X.Length) &gt;= aDistance</Expression>
  Guid="210e3e31-9619-4f77-a0aa-d3297a0df930"
 >
 <Comment>See TrackConditions.General.CurrentConditions() for justification of max OR min</Comment>
-<Expression>Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))
+<Expression>BMMAtDistance(aDistance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))
   OR  
-Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
+BMMAtDistance(aDistance=&gt; TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -323,7 +323,7 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 <Actions>
 <Action
  Guid="d15b03c1-dab2-4baf-b677-5e47edb533af"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
+>AddSectionToBMMs(
     aLocation =&gt; aDistanceFromRef + MessageTypes.QScaleDistance(
         distance =&gt; Packet.D_TRACKCOND,
         scale =&gt; Packet.Q_SCALE
@@ -361,16 +361,19 @@ Kernel.TrackDescription.TrackConditions.BigMetalMasses.BMMAtDistance(aDistance=&
 <Actions>
 <Action
  Guid="87f1ee03-d658-40fb-95a6-40fe271fc15e"
->APPLY
-    Kernel.TrackDescription.TrackConditions.BigMetalMasses.AddSectionToBMMs(
-        aLocation =&gt; MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACKCOND,scale=&gt;Packet.Q_SCALE),
-        aLength =&gt; MessageTypes.QScaleLength(
-            length =&gt; Packet.L_TRACKCOND,
-            scale =&gt; Packet.Q_SCALE ),
-        aPreviousLocation =&gt; (LAST X IN TCBigMetalMasses).Location
-    )
-ON
-    Packet.Sequence1</Action></Actions>
+>APPLY AddSectionToBMMs(
+     aLocation =&gt; MessageTypes.QScaleDistance(
+        distance=&gt;Packet.D_TRACKCOND,
+        scale=&gt;Packet.Q_SCALE
+    ),
+     aLength =&gt; MessageTypes.QScaleLength(
+         length =&gt; Packet.L_TRACKCOND,
+         scale =&gt; Packet.Q_SCALE 
+    ),
+     aPreviousLocation =&gt; (
+        LAST X IN TCBigMetalMasses
+    ).Location 
+) ON Packet.Sequence1</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -520,7 +523,7 @@ IN
 <PreConditions>
 <PreCondition
  Guid="cafd3b9e-60d9-4049-91f3-4f351a96c334"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses != []</PreCondition></PreConditions>
+>TCBigMetalMasses != []</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -545,7 +548,8 @@ IN
 <Actions>
 <Action
  Guid="debd6cb5-8702-4dd7-97dc-064ddbb821b9"
->Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses &lt;- MAP Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>TCBigMetalMasses &lt;- FILTER TCBigMetalMasses | X.Location &lt;= aLocation USING X
+</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -566,13 +570,13 @@ IN
 <PreConditions>
 <PreCondition
  Guid="c258bfc5-ed72-459f-81ae-55c313a1cdf1"
->(LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location +
-BaseTypes.LengthToDistance((LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Length) &gt; aLocation</PreCondition></PreConditions>
+>(LAST TC IN TCBigMetalMasses).Location +
+BaseTypes.LengthToDistance((LAST TC IN TCBigMetalMasses).Length) &gt; aLocation</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="517b4dd1-15dd-4bd9-b45a-8d45242d6cdb"
->(LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Length &lt;- BaseTypes.DistanceToLength(
-aLocation - (LAST TC IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location)</Action></Actions>
+>(LAST TC IN TCBigMetalMasses).Length &lt;- BaseTypes.DistanceToLength(
+aLocation - (LAST TC IN TCBigMetalMasses).Location)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
