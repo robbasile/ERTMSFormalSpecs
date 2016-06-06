@@ -407,33 +407,6 @@ Keep the reason for it to be displayed to the driver.</Comment>
 >SafeRadioConnection.ConnectionIsEstablished &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
- Priority="Verification"
- X="0"
- Y="0"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Clean up"
- Guid="205e01b9-eb50-4780-9ba5-1d03cd0a56e7"
->
-<Comment>Resets the request to false.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Clean up"
- Guid="6fdc24b9-9135-4544-8be5-2872afecf193"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="554740df-b62d-4d21-9e26-a8e2554409c8"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- False</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="0"
  Y="0"
@@ -3608,12 +3581,8 @@ Hence, the timers used to manage the session and the safe radio connection are s
 </ReqRef><Comment>As soon as the safe radio connection is set-up, the on-board sends the message Initiation of communication session.</Comment>
 <PreConditions>
 <PreCondition
- Guid="21fa9e91-49aa-4e7b-a75d-ce582042f106"
->SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
- Guid="c95aa311-993c-4fa2-9b70-109b3cd5fe45"
->SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Success</PreCondition><PreCondition
  Guid="28c2e922-3c7a-4a58-861a-33bc2615f866"
->SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
+>SafeRadioConnection.ConnectionConfirmation( aSRC =&gt; ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="31c885c9-1ac7-49b7-9f05-81c99f333f80"
@@ -3623,7 +3592,111 @@ Hence, the timers used to manage the session and the safe radio connection are s
  Guid="1b157902-49e1-4e4c-86f2-2009a6d21b63"
 >SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action><Action
  Guid="9e9abc98-6ad3-4550-a96a-0e87401f8c2d"
->SafeRadioConnection.ResetRequest()</Action></Actions>
+>SafeRadioConnection.ResetRequest()</Action><Action
+ Guid="f8e2985e-5431-4d84-ab48-59cf8288c933"
+>SafeRadioConnection.DetainSRC()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Stop requests if end of mission is performed"
+ Guid="646f3bec-8d5f-4ba4-9483-3bff2fc2e376"
+>
+<ReqRef
+ Id="5c68142d-4105-4fde-a021-ad914acbfe89"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8a3ea32d-98c2-4599-9302-5ac2b63672dc"
+>
+</ReqRef><Comment>If End of Mission procedure is performed, the requests to establish a safe radio connection shall no more be repeated.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="788ddb8c-f003-470b-9221-6ceab4d99a2f"
+>Kernel.HandleModeChange in Kernel.HandleModeChangeSM.EndOfMission</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2f2121c0-547a-4f28-920b-c73ac9de628c"
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Stop requests if level transition order is passed"
+ Guid="9baf68f6-558e-4e7e-b656-9c97e69df736"
+>
+<ReqRef
+ Id="358d0dbf-9187-4a9e-87a4-18c07fba71ba"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2926050c-3f94-48e6-95d6-ff87a3db3312"
+>
+</ReqRef><Comment>If the train has passed a level transition border to level 0, NTC or 1, the requests to establish a safe radio connection shall no more be repeated.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e83c3c3e-9cfa-4ec8-9613-96417be71c7d"
+>Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [LevelEnum.L0, LevelEnum.LNTC, LevelEnum.L1]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="b71b573b-1f53-4f37-97b5-3ea811c3a2c3"
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Stop requests if announced radio hole is passed"
+ Guid="3b2f67be-ebc7-4c66-b94c-5280f6238cf8"
+>
+<ReqRef
+ Id="ce7cdbeb-b49e-4146-a701-c8e36d770f29"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55d8e6e7-56aa-4194-a852-7e7ff2a4c0d2"
+>
+</ReqRef><Comment>If the train front passes the start of an announced radio hole, the requests to establish a safe radio connection shall no more be repeated.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5e653953-1096-4f8d-8331-734cb465dff9"
+>Kernel.TrackDescription.TrackConditions.General.IsInsideRadioHole()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aa4d7c3e-e76d-40a7-9946-5e6162008c03"
+>THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
+ Guid="16f2e7ac-f219-4580-97b7-9d5d68c894ad"
+>SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.NoConnection</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Stop requests if RBC/RBC border is passed"
+ Guid="02568a26-f5b0-4587-ae56-9754a49e14cf"
+>
+<ReqRef
+ Id="3e905ad6-8df3-4561-b1b9-4d1ffb5b440f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f7466439-2974-4413-bd13-68af6da33ccd"
+>
+</ReqRef><Comment>If the train front passes a RBC/RBC border, the requests to establish a safe radio connection shall no more be repeated.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="a315cce6-b406-417c-9709-d00d567e3b73"
+>Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max) &gt;= RBCHandover.RBCTransitionLocation</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7857191c-725b-4d50-9197-8c15c1d2f16a"
+>THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Send first connection request"
+ Guid="fca4b3d9-67d9-43af-8662-19533bf94103"
+>
+<ReqRef
+ Id="5b9e9eb3-ffa4-47c2-a6f5-9fa6efc58ffe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dcebbae0-4c73-4b9f-b0d0-76d76b68ce74"
+>
+</ReqRef><ReqRef
+ Id="ac96ab5d-7682-43e6-a576-f8a2ada8b003"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9e493a0-8e3b-4d53-abf9-a20429a268f3"
+>
+</ReqRef><Comment>Send the first connection request and launch the connection status timer at the same time.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1bec176c-cba3-4c42-b97e-09642da5b438"
+>NOT SafeRadioConnection.ConnectionRequestHasBeenSent( aSRC =&gt;  ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f16cd653-0736-4ab9-8b1c-67db55cc0bed"
+>SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repeat the connection request"
@@ -3638,9 +3711,7 @@ Hence, the timers used to manage the session and the safe radio connection are s
 <PreConditions>
 <PreCondition
  Guid="0be80628-528c-4d57-8d41-f69139df8b40"
->SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
- Guid="efc41a15-575b-4c33-9d93-c2ad1a51a905"
->SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Failure</PreCondition></PreConditions>
+>SafeRadioConnection.ConnectionFailureConfirmation( aSRC =&gt;  ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3762,84 +3833,6 @@ Hence, the timers used to manage the session and the safe radio connection are s
 >SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Stop requests if end of mission is performed"
- Guid="646f3bec-8d5f-4ba4-9483-3bff2fc2e376"
->
-<ReqRef
- Id="5c68142d-4105-4fde-a021-ad914acbfe89"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="8a3ea32d-98c2-4599-9302-5ac2b63672dc"
->
-</ReqRef><Comment>If End of Mission procedure is performed, the requests to establish a safe radio connection shall no more be repeated.</Comment>
-<PreConditions>
-<PreCondition
- Guid="788ddb8c-f003-470b-9221-6ceab4d99a2f"
->Kernel.HandleModeChange in Kernel.HandleModeChangeSM.EndOfMission</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="2f2121c0-547a-4f28-920b-c73ac9de628c"
->THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Stop requests if level transition order is passed"
- Guid="9baf68f6-558e-4e7e-b656-9c97e69df736"
->
-<ReqRef
- Id="358d0dbf-9187-4a9e-87a4-18c07fba71ba"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="2926050c-3f94-48e6-95d6-ff87a3db3312"
->
-</ReqRef><Comment>If the train has passed a level transition border to level 0, NTC or 1, the requests to establish a safe radio connection shall no more be repeated.</Comment>
-<PreConditions>
-<PreCondition
- Guid="e83c3c3e-9cfa-4ec8-9613-96417be71c7d"
->Kernel.LevelTransition.LevelTransitionToProcess.TRLevel.Value in [LevelEnum.L0, LevelEnum.LNTC, LevelEnum.L1]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b71b573b-1f53-4f37-97b5-3ea811c3a2c3"
->THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Stop requests if announced radio hole is passed"
- Guid="3b2f67be-ebc7-4c66-b94c-5280f6238cf8"
->
-<ReqRef
- Id="ce7cdbeb-b49e-4146-a701-c8e36d770f29"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="55d8e6e7-56aa-4194-a852-7e7ff2a4c0d2"
->
-</ReqRef><Comment>If the train front passes the start of an announced radio hole, the requests to establish a safe radio connection shall no more be repeated.</Comment>
-<PreConditions>
-<PreCondition
- Guid="5e653953-1096-4f8d-8331-734cb465dff9"
->Kernel.TrackDescription.TrackConditions.General.IsInsideRadioHole()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="aa4d7c3e-e76d-40a7-9946-5e6162008c03"
->THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
- Guid="16f2e7ac-f219-4580-97b7-9d5d68c894ad"
->SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.NoConnection</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Stop requests if RBC/RBC border is passed"
- Guid="02568a26-f5b0-4587-ae56-9754a49e14cf"
->
-<ReqRef
- Id="3e905ad6-8df3-4561-b1b9-4d1ffb5b440f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f7466439-2974-4413-bd13-68af6da33ccd"
->
-</ReqRef><Comment>If the train front passes a RBC/RBC border, the requests to establish a safe radio connection shall no more be repeated.</Comment>
-<PreConditions>
-<PreCondition
- Guid="a315cce6-b406-417c-9709-d00d567e3b73"
->Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max) &gt;= RBCHandover.RBCTransitionLocation</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7857191c-725b-4d50-9197-8c15c1d2f16a"
->THIS &lt;- RBCStruct.ConnectionStateSM.NoConnection</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -4379,26 +4372,22 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
  SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
  Guid="cc761edb-100f-41fd-a957-8923256df8c3"
 >
-</ReqRef><Comment>If the connection is up again, the system goes back to the state Connected.InitialState.</Comment>
+</ReqRef><Comment>If the connection is up again, the system goes back to the state Connected.ConnectionEstablished state.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5f8339f0-ab5a-4b77-ba64-651e8410e7c2"
 ><Comment>Special session stopping conditions prevail.</Comment>
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
- Guid="0aaca439-5a58-45a5-a617-d398d3300117"
->SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
- Guid="f494b4ab-e628-487b-8154-04f29a6a25e5"
->SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Success</PreCondition><PreCondition
  Guid="3b0e6a1c-8fac-4bb1-bcbf-abe45d8bee93"
->SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
+>SafeRadioConnection.ConnectionConfirmation(ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="ed13bd5b-6967-4a40-bee3-d33675727dd3"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Connected.ConnectionEstablished</Action><Action
  Guid="70b5069e-cb73-4c69-8a2c-0cf87e854dc4"
 >SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action><Action
- Guid="506b3cb6-8f5f-4cf6-a103-ac06d6b38cac"
->SafeRadioConnection.ResetRequest()</Action></Actions>
+ Guid="6f17d353-30a6-4604-96de-164c2e432ccb"
+>SafeRadioConnection.DetainSRC()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Connection is lost, send a new request"
@@ -4425,12 +4414,8 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="865762f6-cdf4-44a2-95d7-9dfbdf137d19"
 ><Comment>Special session stopping conditions prevail.</Comment>
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
- Guid="064e439a-0285-414a-99b9-02f9500239f5"
->NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition><PreCondition
- Guid="290062c5-2103-4b72-9bda-cdcb378551ac"
->SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
- Guid="dec23db3-2488-42d3-8168-4a2840351d8a"
->SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Failure</PreCondition></PreConditions>
+ Guid="854c1776-e7dc-40c5-b67c-b8337b051c42"
+>SafeRadioConnection.ConnectionFailureConfirmation( aSRC =&gt;  ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="3a5452b7-fed6-4ef2-9c87-1954d6c666f7"
@@ -4941,11 +4926,7 @@ The information related to the current communication session is reinitialized.</
 <Actions>
 <Action
  Guid="cf4d6f18-e067-47ef-af99-8b3cdfe23667"
->THIS &lt;- ConnectionStateSM.Terminating.AckReceived</Action><Action
- Guid="b2911cf2-e495-44ac-9990-c74a924f43a4"
->SafeRadioConnection.Action &lt;- Contact.ContactActionEnum.Terminate</Action><Action
- Guid="dae42ece-72cd-4059-9581-13f3f48f7bf8"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action></Actions>
+>THIS &lt;- ConnectionStateSM.Terminating.AckReceived</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repeat Termination of Communication Session message"
@@ -5020,11 +5001,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <Actions>
 <Action
  Guid="ca565153-dca3-42f4-a94e-b62cfede617a"
->THIS &lt;- ConnectionStateSM.Terminating.TooManyAttempts</Action><Action
- Guid="dd0e5a61-8ee3-4878-9241-feb5c3e43197"
->SafeRadioConnection.Action &lt;- Contact.ContactActionEnum.Terminate</Action><Action
- Guid="75947bfd-3d67-4cb2-8b23-4021f10eae4f"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- True</Action></Actions>
+>THIS &lt;- ConnectionStateSM.Terminating.TooManyAttempts</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -5068,14 +5045,9 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <PreConditions>
 <PreCondition
  Guid="522cafa2-e2b4-4aed-9ce0-bb287e443149"
->(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Disabled
-   AND
-SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer)
+>NOT SafeRadioConnection.ReleaseRequestHasBeenSent( aSRC =&gt;  ENCLOSING.SafeRadioConnection)
   OR
-(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
-   AND 
-SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Failure
-)</PreCondition></PreConditions>
+SafeRadioConnection.ReleaseFailureConfirmation( aSRC =&gt;  ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a29de2a2-52b8-4e2e-a810-f34fd7400ecd"
@@ -5089,11 +5061,10 @@ SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EUROR
 <PreConditions>
 <PreCondition
  Guid="8673cbfc-2d71-4886-9489-f79e34ba5cd5"
-><Comment>When the Acknowledgement is received, the communication is considered terminated by the onboard, 
-hence the onboard should no longer try to maintain a communication session, especially to send an SRC release request.</Comment>
-(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
-  AND
-SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Success)
+><Comment>When the Acknowledgement END of COmmunication is received, the communication is considered terminated by the onboard, 
+hence the onboard should no longer try to maintain a safe radio connection, especially to send an SRC release request, 
+if the safe radio connection is lost.</Comment>
+SafeRadioConnection.ReleaseConfirmation( aSRC =&gt;  ENCLOSING.SafeRadioConnection)
   OR
 NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Actions>
@@ -5180,15 +5151,10 @@ NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Comment>Send a release request</Comment>
 <PreConditions>
 <PreCondition
- Guid="d5c95ff9-13b1-47f7-a048-6ba8025dea4e"
->(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Disabled
-   AND
-SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer)
+ Guid="78c0fbf8-5372-4c2b-a903-f25209075c65"
+>NOT SafeRadioConnection.ReleaseRequestHasBeenSent( aSRC =&gt;  ENCLOSING.SafeRadioConnection)
   OR
-(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
-   AND 
-SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Failure
-)</PreCondition></PreConditions>
+SafeRadioConnection.ReleaseFailureConfirmation( aSRC =&gt;  ENCLOSING.SafeRadioConnection)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7c8a38da-c9eb-40b5-9514-438a3f1a307e"
@@ -5202,12 +5168,8 @@ SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EUROR
 <PreConditions>
 <PreCondition
  Guid="3ffb3e57-490e-4cdd-9421-eaaa88a48f02"
-><Comment>When the Acknowledgement is received, the communication is considered terminated by the onboard, 
-hence the onboard should no longer try to maintain a communication session, especially to send an SRC release request.</Comment>
-
-(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
-  AND
-SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Success)
+><Comment>The onboard should no longer try to maintain a safe radio communication, especially to send an SRC release request, if the connection is lost at this stage.</Comment>
+SafeRadioConnection.ReleaseConfirmation( aSRC =&gt;  ENCLOSING.SafeRadioConnection)
   OR
 NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Actions>

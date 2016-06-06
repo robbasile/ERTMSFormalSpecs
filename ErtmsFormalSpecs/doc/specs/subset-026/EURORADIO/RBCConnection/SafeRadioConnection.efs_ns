@@ -167,72 +167,6 @@ in a SRCRequest.</Comment>
 </ReqRef><Comment>Structure to handle the safe radio connection.</Comment>
 <Procedures>
 <Procedure
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="SendConnectionRequest_Old"
- Guid="fe3dce69-5d7a-4c09-8242-0b7a83390736"
->
-<ReqRef
- Id="ac42de65-1111-47f1-904b-907bce323de2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3cc3cb71-07c6-4c52-b9c2-0d3564777517"
->
-</ReqRef><Comment>Proceduer in charge of sending a SafaradioConnection connecting request and 
-starting the IndicationSatus at first attempt.</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Send connection request"
- Guid="bf6cc2ff-ecdf-4c48-8314-b7b9fe1d9dee"
->
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Send connection request"
- Guid="1fe83ea3-9397-4d1a-baaa-173af67c62bb"
->
-<Comment>Send a connection request and start the timer if needed</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="5d74f73c-c3dd-4bce-a841-aafad6da5795"
->ConnectionRequestIsSent &lt;- True</Action></Actions>
-<SubRules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Start timer at the first connection request"
- Guid="da6dfe9f-1d8e-4cef-a17d-65610260ce5f"
->
-<Comment>Start the timer if it was not already started</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Start timer"
- Guid="29ef1598-44e9-4268-bc47-b8a8b1253c00"
->
-<PreConditions>
-<PreCondition
- Guid="fa8f4f6d-978b-4ddf-b1f0-7665d50df522"
->NOT Timer.Started(ConnectionStatusTimer)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9324aa93-b1f3-410e-a0f3-beee9a72a25e"
->Timer.StartTimer(ConnectionStatusTimer)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
  X="150"
  Y="280"
  Width="100"
@@ -290,7 +224,7 @@ Status =&gt; RequestEnum.Request,
 Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
 Action =&gt; ConnectionActionEnum.Connect,
 LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime,
-NumberOfSentRequests &lt;- NumberOfSentRequests + 1
+NumberOfSentRequests &lt;- SRCRequest.NumberOfSentRequests + 1
 }</Action></Actions>
 <SubRules>
 <Rule
@@ -364,7 +298,7 @@ NumberOfSentRequests &lt;- NumberOfSentRequests + 1
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="SendConnectionRequest"
+ Name="SendReleaseRequest"
  Guid="c3cc71eb-3031-41dc-b3ab-339d60d9d4c7"
 >
 <PreConditions>
@@ -377,7 +311,7 @@ Status =&gt; RequestEnum.Request,
 Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
 Action =&gt; ConnectionActionEnum.ReleaseConnection,
 LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime,
-NumberOfSentRequests &lt;- NumberOfSentRequests + 1
+NumberOfSentRequests &lt;- SRCRequest.NumberOfSentRequests + 1
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -453,7 +387,44 @@ NumberOfSentRequests =&gt; 0
 <Actions>
 <Action
  Guid="f4f01eef-ea10-44d4-a0f6-76705596d416"
->ConnectionIsEstablished &lt;- False</Action></Actions>
+>ConnectionIsEstablished &lt;- False</Action><Action
+ Guid="804f64c9-f46d-42b6-aca5-5f27e80cfc90"
+>ResetRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="DetainSRC"
+ Guid="4003b340-5860-42b8-b31a-a744947bae45"
+>
+<Comment>If a connection request is answered positively, use this this procedure 
+to stop requesting and mark the connection as established.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Detain safe radio connection"
+ Guid="a3c7144d-8d17-4e15-88d8-347c0e244582"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Detain safe radio connection"
+ Guid="14d1810a-4317-4198-b53e-a5ae8c81bd86"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="1f6f0e1d-b320-4d51-8b08-4a55af982ba3"
+>ConnectionIsEstablished &lt;- True</Action><Action
+ Guid="73d8ef23-8f43-4576-9ec4-9d433a455a7e"
+>ResetRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -573,16 +544,6 @@ NumberOfSentRequests =&gt; 0
  Guid="ae52e345-9015-4eda-b625-9434ac9440d0"
 >
 </ReqRef><Comment>This variable is set to True when the on-board requests the establishment of communication session.</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Outgoing"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="ConnectionRequestIsSent"
- Guid="3da0a1c7-ca89-43ab-9597-09b7adf15b15"
->
-<Comment>Set to True when a request to establish a safe radio connection has to be sent.</Comment>
 </StructureElement><StructureElement
  TypeName="Timer.TimerStruct"
  Default="Timer.TimerStruct{
@@ -710,4 +671,262 @@ a safe radio connection with the RBC was sent.</Comment>
 </ReqRef><Comment>Number of sent requests to establish or terminate 
 of  a safe radio connection</Comment>
 </StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConnectionConfirmation"
+ Guid="bf91265a-50f7-456b-b458-45d839c3bec9"
+>
+<ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6852ec02-3359-433d-8e42-04c05c411233"
+>
+</ReqRef><Comment>Tells whether a connection request has been answered positively.</Comment>
+<Parameters>
+<Parameter
+ Type="SafeRadioConnectionStruct"
+ Name="aSRC"
+ Guid="3fcf2dec-e743-41c2-9a48-7b295aacb1b6"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Successful connection confirmation"
+ Guid="dc048050-e7af-43ce-8639-451328a3de17"
+>
+<PreConditions>
+<PreCondition
+ Guid="ba31457b-9e15-49be-8110-db8216222107"
+>aSRC.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="2470496f-c4ce-4f63-b022-f60628d4f105"
+>aSRC.SRCRequest.Answer == EURORADIOAnswerEnum.Success</PreCondition><PreCondition
+ Guid="8abe37eb-3a6a-40e9-8054-be45b16a7d8b"
+>aSRC.SRCRequest.Action == ConnectionActionEnum.Connect</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="d47ec74d-1e56-4606-b7aa-e957631fc5fb"
+>
+<Expression>False
+</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReleaseConfirmation"
+ Guid="b481bd6e-d770-49d5-a7fe-b22eb2e4dd7c"
+>
+<ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ea0a837-4729-4a13-8012-ce4fe859082a"
+>
+</ReqRef><Comment>Tells whether a release request has been answered positively.</Comment>
+<Parameters>
+<Parameter
+ Type="SafeRadioConnectionStruct"
+ Name="aSRC"
+ Guid="5d06c7c4-df87-40e0-8725-f6054eb583ba"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Successful connection confirmation"
+ Guid="4ae2a694-d53c-4ec9-9399-06c3ea86bb98"
+>
+<PreConditions>
+<PreCondition
+ Guid="9f018642-52e5-4a6d-be9e-5601c6e2c7f5"
+>aSRC.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="fa274b0e-997b-4371-bc42-e9143a767c28"
+>aSRC.SRCRequest.Answer == EURORADIOAnswerEnum.Success</PreCondition><PreCondition
+ Guid="e3122997-f06d-4e0e-b6da-b464ba8785dc"
+>aSRC.SRCRequest.Action == ConnectionActionEnum.ReleaseConnection</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="3b4c0fbe-f56c-4f31-929b-0aea64ffcefc"
+>
+<Expression>False
+</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConnectionFailureConfirmation"
+ Guid="fccf0e39-a00e-44d2-b28e-56b3c07e8d7c"
+>
+<ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9984dea4-48f5-45ba-a92d-2f0595862c45"
+>
+</ReqRef><Comment>Tells whether a connection request has been answered negatively.</Comment>
+<Parameters>
+<Parameter
+ Type="SafeRadioConnectionStruct"
+ Name="aSRC"
+ Guid="df33fa3a-4d2f-400c-b6fa-d5e57dfb40c3"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Successful connection confirmation"
+ Guid="5bc8e2eb-8fd2-4d7e-a7c4-78b939be9c6d"
+>
+<PreConditions>
+<PreCondition
+ Guid="c24843ef-528a-4e83-b156-1e2196f1c082"
+>aSRC.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="791d64fa-8c75-4b47-9c11-1f80c39c9ffe"
+>aSRC.SRCRequest.Answer == EURORADIOAnswerEnum.Failure</PreCondition><PreCondition
+ Guid="e5e5771e-6e6d-4025-a1dd-14af353d529d"
+>aSRC.SRCRequest.Action == ConnectionActionEnum.Connect</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e2364356-e8a9-4741-9742-7e2da0a424d3"
+>
+<Expression>False
+</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ReleaseFailureConfirmation"
+ Guid="67872df7-69c3-4c64-b315-ecf52556a499"
+>
+<ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37cd1704-6794-4789-b107-df67e704788d"
+>
+</ReqRef><Comment>Tells whether a release request has been answered negatively.</Comment>
+<Parameters>
+<Parameter
+ Type="SafeRadioConnectionStruct"
+ Name="aSRC"
+ Guid="258b4912-e8e4-498f-b5f4-b1eeaf61b48d"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Successful connection confirmation"
+ Guid="6d0d64e2-8eb0-46ea-992a-79295991b1f0"
+>
+<PreConditions>
+<PreCondition
+ Guid="aed7193e-77bc-4af9-b997-62352d5551de"
+>aSRC.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="85910b5b-6ea5-4449-aa6c-708a04983819"
+>aSRC.SRCRequest.Answer == EURORADIOAnswerEnum.Failure</PreCondition><PreCondition
+ Guid="22011141-e3a9-4205-9d24-124047471fb4"
+>aSRC.SRCRequest.Action == ConnectionActionEnum.ReleaseConnection</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="a777b410-ec2e-4e47-b05a-0564338f93c8"
+>
+<Expression>False
+</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ConnectionRequestHasBeenSent"
+ Guid="39f9f9b0-a6f7-45a9-b42d-ec2049c29608"
+>
+<Comment>Will return true in case of a pending request or a request just answered if the action is to establish a connection.</Comment>
+<Parameters>
+<Parameter
+ Type="SafeRadioConnectionStruct"
+ Name="aSRC"
+ Guid="cc7a193c-1242-4759-a068-4f9915434cd5"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Request sent"
+ Guid="87b09ad5-62dc-4954-b650-1fd57fc5bc4b"
+>
+<PreConditions>
+<PreCondition
+ Guid="fb25a896-194a-4493-9eec-ba3739808a66"
+>aSRC.SRCRequest.Status != Default.RequestEnum.Disabled</PreCondition><PreCondition
+ Guid="f7393148-a723-4a9c-89d5-62c23f5d61f4"
+>aSRC.SRCRequest.Action == ConnectionActionEnum.Connect</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ae7b48d5-b1fd-4aca-9b1a-68c5f297a9ab"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ReleaseRequestHasBeenSent"
+ Guid="e1537170-50d9-49ec-804c-9f219c10955a"
+>
+<Comment>Will return true in case of a pending request or a request just answered if the action is to release a connection.</Comment>
+<Parameters>
+<Parameter
+ Type="SafeRadioConnectionStruct"
+ Name="aSRC"
+ Guid="4ac43b01-7f34-4a1a-b38b-c992b4d75641"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Request sent"
+ Guid="832f62e9-66f7-4d3d-90d3-c6c7938da23e"
+>
+<PreConditions>
+<PreCondition
+ Guid="e18253e6-b5b8-4626-9105-be8ed05b62c9"
+>aSRC.SRCRequest.Status != Default.RequestEnum.Disabled</PreCondition><PreCondition
+ Guid="9cbbed42-e3f8-422d-b762-b76ae55ba55d"
+>aSRC.SRCRequest.Action == ConnectionActionEnum.ReleaseConnection</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="fa9e7558-24ca-44e6-9d4b-58a5106da42e"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function></Functions>
 </NameSpace>
