@@ -6,6 +6,8 @@
  Name="RBCConnection"
  Guid="bf81a1b6-b116-436e-aa63-9ded47202151"
 >
+<Comment>Functionalities needed to handle the session communication between 
+onboard and RBC, including safe radio connection management.</Comment>
 <NameSpaces>
 <NameSpaceRef
  Name="RBCHandover"
@@ -1865,20 +1867,18 @@ DataState =&gt; DataStateEnum.Invalid
 >ContactRBCOrder &lt;- EMPTY</Action><Action
  Guid="3d5afa42-b712-4474-af54-81ae258173b2"
 >DeleteInformation(SessionManagementData.SystemVersion)</Action><Action
- Guid="f86651e7-1ebb-49de-8053-907c88f5741d"
->SafeRadioConnection.NumberOfSentRequests &lt;- 0</Action><Action
  Guid="ad53ed1b-1620-494b-99fb-a6e01d551bda"
 >SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.NoConnection</Action><Action
  Guid="2c770b25-75ef-4584-9ad0-ad6650c0cd3d"
 >SessionManagementData.AcknowledgementOfTerminationReceived &lt;- False</Action><Action
  Guid="98453804-e66a-4590-9504-9886fad16fe3"
->SafeRadioConnection.ConnectionIsEstablished &lt;- False</Action><Action
- Guid="60615fb3-bbb6-4793-b4c3-2287a69ad376"
->SafeRadioConnection.ConnectionRequestIsSent &lt;- False</Action><Action
+>SafeRadioConnection.ReleaseSRC()</Action><Action
  Guid="a54d814f-1a11-4973-b4f4-53d57e00af71"
 >Default.Timer.StopTimer(MaintainSessionTimer)</Action><Action
  Guid="c1156096-d4a5-4892-b54c-a7f3bf198a67"
->Default.Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action></Actions>
+>Default.Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action><Action
+ Guid="a4a9d100-a024-4440-8591-8cfa38d20643"
+>SafeRadioConnection.ResetRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -3490,37 +3490,6 @@ Contact.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition></PreConditi
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Updates safe radio connection status"
- Guid="de17b0fa-5386-4ec5-bb06-45f38aa4eb73"
->
-<Comment>The time of initialisation of the requset is stored in ConnectionLostTime, in order to update the Safe Radio Connection status if the connection is not established within the time defined by ConnectionStatusTimer.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Updates safe radio connection status"
- Guid="8a993ea6-5cda-42b3-bbda-3ef61f5e3e6a"
->
-<PreConditions>
-<PreCondition
- Guid="2984116d-70c9-4445-b3b5-e5fe1ddfa031"
->SessionHasToBeEstablished( anRBC =&gt;  ENCLOSING)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5c7318a3-3c2a-4a71-85c0-c1617d2d9134"
->SafeRadioConnection.Action &lt;- Contact.ContactActionEnum.Establish</Action><Action
- Guid="9dfae625-3ff2-425f-898d-c57ff6a75c0a"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
- Guid="5c581ac4-b257-4996-8939-15d5aa8232be"
->SafeRadioConnection.NumberOfSentRequests &lt;- 1</Action><Action
- Guid="4d0291c9-af7c-4c91-a18e-a50339ac9794"
->SafeRadioConnection.SendConnectionRequest()</Action></Actions>
-</RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine><EnterAction>
 <Rule
@@ -3542,7 +3511,7 @@ Contact.LastKnownRBC.DataState == DataStateEnum.Valid</PreCondition></PreConditi
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Stop connection timer"
+ Name="Stop connection timer and reset connection request"
  Guid="45ee1932-7220-48d8-80ed-754705137a3f"
 >
 <Comment>The inactive state implies the onboard has no open session nor safe radio connection. 
@@ -3554,7 +3523,9 @@ Hence, the timers used to manage the session and the safe radio connection are s
  Guid="2eff999a-649c-461f-847a-7d8b3b7abb90"
 >Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action><Action
  Guid="8f09b73e-66b6-453d-890b-4a66095cbc98"
->Timer.StopTimer(MaintainSessionTimer)</Action></Actions>
+>Timer.StopTimer(MaintainSessionTimer)</Action><Action
+ Guid="c6d5b27b-b1ae-44c9-ac7d-40c9d489702a"
+>SafeRadioConnection.ResetRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></EnterAction>
 </State><State
@@ -3637,6 +3608,10 @@ Hence, the timers used to manage the session and the safe radio connection are s
 </ReqRef><Comment>As soon as the safe radio connection is set-up, the on-board sends the message Initiation of communication session.</Comment>
 <PreConditions>
 <PreCondition
+ Guid="21fa9e91-49aa-4e7b-a75d-ce582042f106"
+>SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="c95aa311-993c-4fa2-9b70-109b3cd5fe45"
+>SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Success</PreCondition><PreCondition
  Guid="28c2e922-3c7a-4a58-861a-33bc2615f866"
 >SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Actions>
@@ -3646,17 +3621,26 @@ Hence, the timers used to manage the session and the safe radio connection are s
  Guid="f271b7b7-9884-4aed-a1ee-b9027d4cad7d"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Connecting.WaitForSystemVersion</Action><Action
  Guid="1b157902-49e1-4e4c-86f2-2009a6d21b63"
->SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+>SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action><Action
+ Guid="9e9abc98-6ad3-4550-a96a-0e87401f8c2d"
+>SafeRadioConnection.ResetRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Repeat the connection request"
  Guid="13984cfa-f744-469f-ab79-5063a2f58711"
 >
-<Comment>If no response is received during a defined time interval, the connection request will be repeated.</Comment>
+<ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="33d75749-ed6d-4c74-92ed-f2b12809c546"
+>
+</ReqRef><Comment>The connection request will be repeated as soon as Euroradio tells the previous attempt failed.</Comment>
 <PreConditions>
 <PreCondition
+ Guid="0be80628-528c-4d57-8d41-f69139df8b40"
+>SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
  Guid="efc41a15-575b-4c33-9d93-c2ad1a51a905"
->SafeRadioConnection.LastRequestTime + TimeBeforeMessageRepetition &lt; Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+>SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Failure</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -3714,15 +3698,11 @@ Hence, the timers used to manage the session and the safe radio connection are s
 <PreConditions>
 <PreCondition
  Guid="5f21704f-fd79-4d25-ac8d-54f9ec46d7e7"
->SafeRadioConnection.NumberOfSentRequests &lt; NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
+>SafeRadioConnection.SRCRequest.NumberOfSentRequests &lt; NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="6c9db820-9596-4dc3-b487-9fb6e343bc2b"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="ba529648-8bde-4b6c-bab8-b53b04a493ea"
->SafeRadioConnection.SendConnectionRequest()</Action><Action
- Guid="00fc6a16-7c65-4f0a-b1b2-6b44b65edf9f"
->SafeRadioConnection.NumberOfSentRequests &lt;- SafeRadioConnection.NumberOfSentRequests + 1</Action></Actions>
+>SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Connection is lost, maximum number of requests reached"
@@ -3752,13 +3732,13 @@ Hence, the timers used to manage the session and the safe radio connection are s
 <PreConditions>
 <PreCondition
  Guid="4932a3e3-358f-4a69-b034-4dadf129cf89"
->SafeRadioConnection.NumberOfSentRequests== NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
+>SafeRadioConnection.SRCRequest.NumberOfSentRequests== NumberOfTimesToEstablishSafeRadioConnection</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="947cdfdd-e42c-4684-9dd1-65abb983fad5"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Inactive</Action><Action
  Guid="d6469a14-111f-45b4-846e-e000f91ba652"
->SafeRadioConnection.NumberOfSentRequests &lt;- 0</Action><Action
+>SafeRadioConnection.ResetRequest()</Action><Action
  Guid="dc483daa-7b07-4ae9-8b43-cbd205d1883a"
 >SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionLostOrSetUpFailed</Action></Actions>
 </RuleCondition></Conditions>
@@ -3779,9 +3759,7 @@ Hence, the timers used to manage the session and the safe radio connection are s
 <Actions>
 <Action
  Guid="16ba15f9-a1a0-4ae4-871b-0170a60aa6fb"
->SafeRadioConnection.SendConnectionRequest()</Action><Action
- Guid="d32ceab3-f240-4971-86d9-06c897d9b505"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
@@ -4357,6 +4335,8 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Handle connection status"
  Guid="95c2146e-3bb3-4d69-b6ff-54fbc7105c4b"
@@ -4405,6 +4385,10 @@ ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Terminate</PreCondi
  Guid="5f8339f0-ab5a-4b77-ba64-651e8410e7c2"
 ><Comment>Special session stopping conditions prevail.</Comment>
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
+ Guid="0aaca439-5a58-45a5-a617-d398d3300117"
+>SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="f494b4ab-e628-487b-8154-04f29a6a25e5"
+>SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Success</PreCondition><PreCondition
  Guid="3b0e6a1c-8fac-4bb1-bcbf-abe45d8bee93"
 >SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Actions>
@@ -4412,7 +4396,9 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="ed13bd5b-6967-4a40-bee3-d33675727dd3"
 >THIS &lt;- RBCStruct.ConnectionStateSM.Connected.ConnectionEstablished</Action><Action
  Guid="70b5069e-cb73-4c69-8a2c-0cf87e854dc4"
->SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action></Actions>
+>SafeRadioConnectionStatus &lt;- SafeRadioConnectionStatusEnum.ConnectionUp</Action><Action
+ Guid="506b3cb6-8f5f-4cf6-a103-ac06d6b38cac"
+>SafeRadioConnection.ResetRequest()</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Connection is lost, send a new request"
@@ -4428,7 +4414,12 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
  Guid="53bf69c7-b089-4b8e-b4ab-6babfe613a95"
 >
-</ReqRef><Comment>A new request has to be sent every TimeBeforeMessageRepetition seconds.</Comment>
+</ReqRef><ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b03368ca-8980-4e6a-beb2-cf9499dff56e"
+>
+</ReqRef><Comment>A new request has to be sent as soon as EURORADIO tells the previous attempt failed.</Comment>
 <PreConditions>
 <PreCondition
  Guid="865762f6-cdf4-44a2-95d7-9dfbdf137d19"
@@ -4436,12 +4427,12 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
  Guid="064e439a-0285-414a-99b9-02f9500239f5"
 >NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition><PreCondition
- Guid="9ad4bbc1-055b-4beb-8d36-44281c10ab76"
->SafeRadioConnection.LastRequestTime + TimeBeforeMessageRepetition &lt;= Kernel.DateAndTime.CurrentTime</PreCondition></PreConditions>
+ Guid="290062c5-2103-4b72-9bda-cdcb378551ac"
+>SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response</PreCondition><PreCondition
+ Guid="dec23db3-2488-42d3-8168-4a2840351d8a"
+>SafeRadioConnection.SRCRequest.Answer == SafeRadioConnection.EURORADIOAnswerEnum.Failure</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="aa75abe0-f19d-4bbb-a7f5-323d4a627543"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="3a5452b7-fed6-4ef2-9c87-1954d6c666f7"
 >SafeRadioConnection.SendConnectionRequest()</Action></Actions>
 </RuleCondition><RuleCondition
@@ -4755,8 +4746,6 @@ NOT Kernel.StopCommunicationSessions()</PreCondition><PreCondition
 </PreConditions>
 <Actions>
 <Action
- Guid="c4a3e6fd-bbd3-4c4a-9592-37f17c96b1ac"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
  Guid="bef7600f-38e6-4557-9a1d-4f08e07554dd"
 >SafeRadioConnection.SendConnectionRequest()</Action><Action
  Guid="ed5c1847-6ece-4c06-a1fe-50505630488c"
@@ -5058,6 +5047,53 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Priority="Processing"
  X="0"
  Y="0"
+ Name="ReleaseSRC"
+ Guid="cf4998d4-1486-4824-9ae9-97c45a4ec5f2"
+>
+<ReqRef
+ Id="e094e23a-bd94-4440-8632-705782494f35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cd68e548-2b45-4ae5-92d3-40d2bc4db274"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Send release request"
+ Guid="f6d7cd97-895b-44c9-aad0-fe80eef012d5"
+>
+<PreConditions>
+<PreCondition
+ Guid="522cafa2-e2b4-4aed-9ce0-bb287e443149"
+>SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Disabled</PreCondition><PreCondition
+ Guid="18cd6457-c18d-4c32-92f3-830f6452e7bb"
+>SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a29de2a2-52b8-4e2e-a810-f34fd7400ecd"
+>SafeRadioConnection.SendReleaseRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Request answered"
+ Guid="fc930a83-46fa-4b9c-a72f-aff5e12b9ac0"
+>
+<PreConditions>
+<PreCondition
+ Guid="8673cbfc-2d71-4886-9489-f79e34ba5cd5"
+><Comment>When the Acknowledgement is received, the communication is considered terminated by the onboard, 
+hence the onboard shoule no longer try to maintain a communication session, especially to send an SRC release request.</Comment>
+(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
+  AND
+SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Success)
+  OR
+NOT SafeRadioConnection.ConnectionIsEstablished
+</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Reinitialize the connection"
  Guid="090f9484-817d-4f1f-9d22-ad80023e9c9d"
@@ -5093,6 +5129,8 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 <Action
  Guid="0e6a150a-9710-4bde-adfa-d6a1377c193e"
 >THIS &lt;- ConnectionStateSM.NoConnection</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
@@ -5208,41 +5246,6 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Enter action"
- Guid="104dea70-8cbd-4f14-8bca-763244571735"
->
-<ReqRef
- Id="e9e7d5c2-c94d-4bb6-8aea-136e28beafd2"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ae25f1fe-6209-4b51-8ae8-256a6ec2b546"
->
-</ReqRef><Comment>What to do while entering the NoConnecton state, in particular stopping the timers.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Stop connection timer"
- Guid="e6b28eec-b900-4403-be91-e6ec2abf6a82"
->
-<Comment>The inactive state implies the onboard has no open session nor safe radio connection. 
-Hence, the timers used to manage the session and the safe radio connection are stopped.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="857eaafb-c627-4090-9d7a-fa01b5665cf3"
->Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action><Action
- Guid="f56aacdc-abd4-4943-b9d6-36d883c0708b"
->Timer.StopTimer(MaintainSessionTimer)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
 </StateMachine></State><State
  X="70"
  Y="90"

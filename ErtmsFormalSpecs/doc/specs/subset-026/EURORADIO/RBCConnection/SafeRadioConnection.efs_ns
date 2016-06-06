@@ -6,40 +6,75 @@
  Name="SafeRadioConnection"
  Guid="42c042f2-132f-4540-a6fd-849aacf7ce86"
 >
-<Comment>Contains the functionalities to hadle the safe radio connection layer of the RBCConnection.</Comment>
+<Comment>Contains the functionalities to handle the safe radio connection layer of the RBCConnection.</Comment>
 <NameSpaces>
 </NameSpaces>
 <Enumerations>
 <Enum
- Default="EURORADIO.RBCConnection.SafeRadioConnection.ConnectionStateEnum.Disconnected"
- X="10"
+ Default="EURORADIO.RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer"
+ X="230"
  Y="110"
  Width="100"
  Height="50"
- Name="ConnectionStateEnum"
+ Implemented="TRUE"
+ Name="EURORADIOAnswerEnum"
  Guid="1fa8b790-d653-4d10-9043-826a4c26bce9"
 >
+<ReqRef
+ Id="5b9e9eb3-ffa4-47c2-a6f5-9fa6efc58ffe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="268da30f-1e7f-4c5b-99ef-b1d85acc307a"
+>
+</ReqRef><ReqRef
+ Id="e094e23a-bd94-4440-8632-705782494f35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ec3a105-51cc-4123-82e0-c35cd8bc095e"
+>
+</ReqRef><ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d2aef8ac-e717-48e9-bf8e-0d41b625f525"
+>
+</ReqRef><Comment>Enum describing the state of an SRCRequest answer.</Comment>
 <Values>
 <EnumValue
  Value="1"
- Name="Connected"
+ Name="Success"
  Guid="6517a4a8-e31e-4aa1-bcaf-856059997aaf"
 >
 </EnumValue><EnumValue
  Value="0"
- Name="Disconnected"
+ Name="Failure"
  Guid="90e88eb3-4d87-4522-bd85-b1c9c3e693ab"
+>
+</EnumValue><EnumValue
+ Value="2"
+ Name="NoAnswer"
+ Guid="1213b45a-1dcd-4c43-93c4-a22831f56d3b"
 >
 </EnumValue></Values>
 </Enum><Enum
  Default="EURORADIO.RBCConnection.SafeRadioConnection.ConnectionActionEnum.Connect"
- X="190"
+ X="400"
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="ConnectionActionEnum"
  Guid="87ae597c-265a-4970-8fa6-dbaee15e415f"
 >
+<ReqRef
+ Id="5b9e9eb3-ffa4-47c2-a6f5-9fa6efc58ffe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5475cb37-09c6-4170-b490-91990f4896c8"
+>
+</ReqRef><ReqRef
+ Id="e094e23a-bd94-4440-8632-705782494f35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="11a03662-3bdf-4fce-aebf-025c2053a694"
+>
+</ReqRef><Comment>Enum describing the desired state of the safe radio connection, used 
+in a SRCRequest.</Comment>
 <Values>
 <EnumValue
  Value="1"
@@ -56,7 +91,7 @@
 <Structures>
 <Structure
  Default=""
- X="370"
+ X="20"
  Y="10"
  Width="100"
  Height="50"
@@ -135,7 +170,7 @@
  X="0"
  Y="0"
  Implemented="TRUE"
- Name="SendConnectionRequest"
+ Name="SendConnectionRequest_Old"
  Guid="fe3dce69-5d7a-4c09-8242-0b7a83390736"
 >
 <ReqRef
@@ -195,6 +230,230 @@ starting the IndicationSatus at first attempt.</Comment>
 >Timer.StartTimer(ConnectionStatusTimer)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="150"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendConnectionRequest"
+ Guid="d2bc7dc2-2717-4c31-a901-834ed4806786"
+>
+<ReqRef
+ Id="ac42de65-1111-47f1-904b-907bce323de2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6549bbf7-199e-4778-a15f-aeccbde3d8f2"
+>
+</ReqRef><ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75d4924e-bb3c-46a5-827e-83ff298be833"
+>
+</ReqRef><ReqRef
+ Id="5b9e9eb3-ffa4-47c2-a6f5-9fa6efc58ffe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="411e3ea2-73ba-4c95-b8a6-a0798067b6d5"
+>
+</ReqRef><ReqRef
+ Id="529343f5-9881-4318-8dcc-53dade4fe1df"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0010166c-45af-4218-9bdb-272bf9576ccc"
+>
+</ReqRef><Comment>Procedure in charge of sending a SafeRadioConnection connecting request and 
+starting the IndicationSatus at first attempt.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="SendConnectionRequest"
+ Guid="bd476467-d256-4c3d-a551-6ec4dacb1687"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SendConnectionRequest"
+ Guid="f0599451-8f74-4549-b52b-adbd14d50c9a"
+>
+<Comment>Send the request.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="74354347-bf5a-4638-8121-21d5c106dcbf"
+>SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
+Status =&gt; RequestEnum.Request,
+Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
+Action =&gt; ConnectionActionEnum.Connect,
+LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime,
+NumberOfSentRequests &lt;- NumberOfSentRequests + 1
+}</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Start timer at the first connection request"
+ Guid="1a4dbdc7-60ac-4c13-b27f-081777bcc406"
+>
+<ReqRef
+ Id="ac42de65-1111-47f1-904b-907bce323de2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3866c5e6-7410-45de-a3b9-fd50b5aaaea3"
+>
+</ReqRef><Comment>Start the timer if it was not already started</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Start timer"
+ Guid="e367a598-a3e5-463f-82db-cd524a77857a"
+>
+<PreConditions>
+<PreCondition
+ Guid="967e102d-7731-4e16-b52c-1d7026b32462"
+>NOT Timer.Started(ConnectionStatusTimer)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1d7c3d4c-b871-4c4a-9c97-5b730de913fe"
+>Timer.StartTimer(ConnectionStatusTimer)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="20"
+ Y="280"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="SendReleaseRequest"
+ Guid="c88dad3d-6302-4b9c-b404-ec03aa2e1708"
+>
+<ReqRef
+ Id="84374b3d-739e-4c5f-909d-4c138dedec38"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="67b7004b-27b4-4260-95ea-97bfbc781fdb"
+>
+</ReqRef><ReqRef
+ Id="e094e23a-bd94-4440-8632-705782494f35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="581e18bb-b8ff-4c4c-81b1-bcb387987a7a"
+>
+</ReqRef><ReqRef
+ Id="e1848200-b260-492c-a722-3b64311cb97f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c137c632-c5e4-416b-934c-5d5b2799ba9f"
+>
+</ReqRef><Comment>Procedure in charge of sending a SafeRadioConnection release request.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="SendReleaseRequest"
+ Guid="1abef020-1dc4-4f4f-96ee-9229f19f7756"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="SendConnectionRequest"
+ Guid="c3cc71eb-3031-41dc-b3ab-339d60d9d4c7"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3e9a5429-aa0c-4d29-bb4a-79ecf2033673"
+>SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
+Status =&gt; RequestEnum.Request,
+Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
+Action =&gt; ConnectionActionEnum.ReleaseConnection,
+LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime,
+NumberOfSentRequests &lt;- NumberOfSentRequests + 1
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ResetRequest"
+ Guid="7d14f5cd-9e32-418e-bff4-0f7fb805d61d"
+>
+<Comment>Reset the request to its default value.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Reset"
+ Guid="3a7c3cd5-599b-4915-ab25-9f0c68908961"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reset"
+ Guid="57972c38-dd4f-4335-b054-627936e05613"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="42eb20e5-e38b-4a6d-9619-a3616f0e0437"
+>SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
+Status =&gt; RequestEnum.Disabled,
+Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
+Action =&gt; ConnectionActionEnum.Connect,
+LastRequestTime =&gt; BaseTypes.Time.NA,
+NumberOfSentRequests =&gt; 0
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ReleaseSRC"
+ Guid="89eb59d3-5bfb-4b7b-8730-4a4d204bc129"
+>
+<ReqRef
+ Id="e1848200-b260-492c-a722-3b64311cb97f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="08940742-5405-4c8b-9d06-ecbedf31e412"
+>
+</ReqRef><Comment>Used when the onboard releases the safe radio connection.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Release safe radio connection"
+ Guid="7a7607cc-0f98-44db-8d49-5743da506388"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Release safe radio connection"
+ Guid="c851f91a-19c0-4e0b-8ba0-27fe5013d6ef"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f4f01eef-ea10-44d4-a0f6-76705596d416"
+>ConnectionIsEstablished &lt;- False</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -346,35 +605,110 @@ Duration =&gt; 45.0
  Guid="526f4660-93e6-4b76-8172-dcbf4813ca75"
 >
 </ReqRef><Comment>&quot;Connection status&quot; timer for safe radio connection indication.</Comment>
+</StructureElement><StructureElement
+ TypeName="SRCRequestStruct"
+ Default="SRCRequestStruct{
+Status =&gt; RequestEnum.Disabled,
+Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
+Action =&gt; ConnectionActionEnum.Connect,
+LastRequestTime =&gt; BaseTypes.Time.NA,
+NumberOfSentRequests =&gt; 0
+}"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SRCRequest"
+ Guid="915a66bb-0b63-4414-bd1b-c63103d6c641"
+>
+<ReqRef
+ Id="fff58fab-5102-4a71-bbc4-ce7f2e1ea7d2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd85fa7c-097b-470f-9faa-047bedf61419"
+>
+</ReqRef><ReqRef
+ Id="ac96ab5d-7682-43e6-a576-f8a2ada8b003"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50c38029-66cb-4e9e-8e3f-a502b58d394b"
+>
+</ReqRef><ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bcacbbe7-a5d0-45fe-80c5-f9ca20e8b024"
+>
+</ReqRef><Comment>The request element, for establishing or terminating safe radio connection.</Comment>
 </StructureElement></Structure><Structure
  Default=""
- X="10"
+ X="230"
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="SRCRequestStruct"
  Guid="58b25f5f-e6ab-4bc0-b3e7-28576cb3839d"
 >
+<ReqRef
+ Id="db31b8b2-7e8c-4c37-ac8a-c0df7eda9f8d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a3f85c2-afd4-4c80-98ad-7b09b26e1460"
+>
+</ReqRef><ReqRef
+ Id="5b9e9eb3-ffa4-47c2-a6f5-9fa6efc58ffe"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1520df07-26c1-4497-9e0a-e187e4b19c30"
+>
+</ReqRef><Comment>Information needed to manage safe radio connections establishment or release.</Comment>
 <StructureElement
  TypeName="Default.RequestEnum"
  Default="RequestEnum.Disabled"
  Mode="InOut"
+ Implemented="TRUE"
  Name="Status"
  Guid="046280b2-2033-4314-99be-71d550178f4e"
 >
+<Comment>The status of the request: request, answer, disabled.</Comment>
 </StructureElement><StructureElement
- TypeName="ConnectionStateEnum"
+ TypeName="EURORADIOAnswerEnum"
  Default=""
  Mode="Incoming"
+ Implemented="TRUE"
  Name="Answer"
  Guid="6c18483f-149f-43e2-b860-7175c7aa85f1"
 >
+<Comment>The answer received: connected, disconnected or no answer</Comment>
 </StructureElement><StructureElement
  TypeName="ConnectionActionEnum"
  Default=""
  Mode="Internal"
+ Implemented="TRUE"
  Name="Action"
  Guid="c570dd30-2547-4c6e-a9fa-27ab3b0a269f"
 >
+<Comment>Type of request: establish or terminate a safe radio connection</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Time"
+ Default="BaseTypes.Time.NA"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="LastRequestTime"
+ Guid="b66306a0-dbd0-4ef9-8e61-de8cb423df50"
+>
+<Comment>Indicates the last time when a request to establish or terminate 
+a safe radio connection with the RBC was sent.</Comment>
+</StructureElement><StructureElement
+ TypeName="Integer"
+ Default="0"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="NumberOfSentRequests"
+ Guid="34795681-1c53-4616-8a4e-0db25754919d"
+>
+<ReqRef
+ Id="ac96ab5d-7682-43e6-a576-f8a2ada8b003"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c03b6e68-e35a-4024-a6be-f7e07d8c7203"
+>
+</ReqRef><Comment>Number of sent requests to establish or terminate 
+of  a safe radio connection
+</Comment>
 </StructureElement></Structure></Structures>
 </NameSpace>
