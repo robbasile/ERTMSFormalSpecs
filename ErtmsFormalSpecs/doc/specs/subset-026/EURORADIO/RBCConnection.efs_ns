@@ -5047,6 +5047,7 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="ReleaseSRC"
  Guid="cf4998d4-1486-4824-9ae9-97c45a4ec5f2"
 >
@@ -5055,18 +5056,26 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="cd68e548-2b45-4ae5-92d3-40d2bc4db274"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>Rule to handle the release of the safe radio connection.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Send release request"
  Guid="f6d7cd97-895b-44c9-aad0-fe80eef012d5"
 >
+<Comment>Send a release request</Comment>
 <PreConditions>
 <PreCondition
  Guid="522cafa2-e2b4-4aed-9ce0-bb287e443149"
->SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Disabled</PreCondition><PreCondition
- Guid="18cd6457-c18d-4c32-92f3-830f6452e7bb"
->SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer</PreCondition></PreConditions>
+>(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Disabled
+   AND
+SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer)
+  OR
+(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
+   AND 
+SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Failure
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="a29de2a2-52b8-4e2e-a810-f34fd7400ecd"
@@ -5076,17 +5085,17 @@ Aftter a defined number of repetitions, if no acknowledgement is received from t
  Name="Request answered"
  Guid="fc930a83-46fa-4b9c-a72f-aff5e12b9ac0"
 >
+<Comment>Complete the termination of the communication session after a release request answer.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8673cbfc-2d71-4886-9489-f79e34ba5cd5"
 ><Comment>When the Acknowledgement is received, the communication is considered terminated by the onboard, 
-hence the onboard shoule no longer try to maintain a communication session, especially to send an SRC release request.</Comment>
+hence the onboard should no longer try to maintain a communication session, especially to send an SRC release request.</Comment>
 (SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
   AND
 SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Success)
   OR
-NOT SafeRadioConnection.ConnectionIsEstablished
-</PreCondition></PreConditions>
+NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -5152,8 +5161,65 @@ NOT SafeRadioConnection.ConnectionIsEstablished
  X="0"
  Y="0"
  Implemented="TRUE"
+ Name="ReleaseSRC"
+ Guid="71450caa-c986-4dfc-a627-38424938bbdc"
+>
+<ReqRef
+ Id="e0a2f873-6bb3-4327-abdc-4444932d69aa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a695836b-38c6-4412-824a-f78df13570d7"
+>
+</ReqRef><Comment>Rule to handle the release of the safe radio connection.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Send release request"
+ Guid="f1c0cbf0-ee15-4ae3-b556-b844b6b8d47f"
+>
+<Comment>Send a release request</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d5c95ff9-13b1-47f7-a048-6ba8025dea4e"
+>(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Disabled
+   AND
+SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.NoAnswer)
+  OR
+(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
+   AND 
+SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Failure
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7c8a38da-c9eb-40b5-9514-438a3f1a307e"
+>SafeRadioConnection.SendReleaseRequest()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Request answered"
+ Guid="dbaea79f-2159-4a60-9786-4ff8dcfc2cc7"
+>
+<Comment>Complete the termination of the communication session after a release request answer.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3ffb3e57-490e-4cdd-9421-eaaa88a48f02"
+><Comment>When the Acknowledgement is received, the communication is considered terminated by the onboard, 
+hence the onboard should no longer try to maintain a communication session, especially to send an SRC release request.</Comment>
+
+(SafeRadioConnection.SRCRequest.Status == Default.RequestEnum.Response
+  AND
+SafeRadioConnection.SRCRequest.Answer == RBCConnection.SafeRadioConnection.EURORADIOAnswerEnum.Success)
+  OR
+NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
  Name="Reinitialize the connection"
- Guid="d7f216d4-d204-4e8e-b7b4-0ab67fbf50c8"
+ Guid="a225652e-61c3-49e4-9dc4-b8e8e5958e3d"
 >
 <Comment>Either definitevely stops the connections or start a new one if an order says so.</Comment>
 <SubRules></SubRules>
@@ -5161,31 +5227,33 @@ NOT SafeRadioConnection.ConnectionIsEstablished
 <RuleCondition
  Implemented="TRUE"
  Name="Keep contact data/order"
- Guid="2558d797-4518-4e50-b9ce-0b581147d7dd"
+ Guid="24d67521-79f3-42ae-9113-c85436f1908f"
 >
 <Comment>Starts a new conection if an order says so.</Comment>
 <PreConditions>
 <PreCondition
- Guid="b40e8d99-3e1e-492e-951f-9fd95f48ff34"
+ Guid="05fe8908-c527-41b1-be2a-08bcdf66a4b4"
 >ContactRBCOrder != EMPTY</PreCondition><PreCondition
- Guid="5adec7ae-0a2f-4e04-b219-67039a9f77d7"
+ Guid="6262ddb3-8ede-4c65-a66e-9c868f9d9656"
 >ContactRBCOrder.ActionToPerform == Contact.ContactActionEnum.Establish</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="ee8e5c98-fabc-4a58-aa70-dd623125f0bc"
+ Guid="db8d2d58-99ca-4996-9b7c-f890cf0f4945"
 >THIS &lt;- ConnectionStateSM.Inactive</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Reset data"
- Guid="5cc2e965-6582-4bcf-b286-4909c77cdb1c"
+ Guid="905d0325-18e5-4dd3-8bb7-23a79bbf3898"
 >
 <Comment>Stops connections.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
- Guid="de1dc071-6e0e-41a4-8fbb-37d5cea64de8"
+ Guid="2ec86ff7-6374-4f0c-9871-b229c1694af8"
 >THIS &lt;- ConnectionStateSM.NoConnection</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State><State
