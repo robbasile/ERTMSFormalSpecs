@@ -359,6 +359,33 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &gt;= Kernel.TrainPositio
     Type =&gt; TargetTypeEnum.MaxDistInSR
 }</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IsMaxDistInSR"
+ Guid="dcfe4a3f-40ef-4264-9432-8618a95065a7"
+>
+<Comment>Indicates whether a target is the target corresponding to the maximum allowed distance to run in SR mode.</Comment>
+<Parameters>
+<Parameter
+ Type="TargetStruct"
+ Name="aTarget"
+ Guid="421e2e35-a8f9-4332-83d4-457b3385d96c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="7e2da4b2-914e-4927-81b5-964260e3aa33"
+>
+<Expression>aTarget.Location == DistanceToRun()
+  AND  
+aTarget.Speed == 0.0</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

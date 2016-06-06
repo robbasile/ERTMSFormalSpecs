@@ -129,8 +129,8 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
 
             // Build a MRSP for this target
             FlatSpeedDistanceCurve mrsp = new FlatSpeedDistanceCurve();
-            mrsp.Add(SiDistance.Zero, TargetDistance, new SiSpeed(400, SiSpeed_SubUnits.KiloMeter_per_Hour));
-            mrsp.Add(TargetDistance, new SiDistance(20000), TargetSpeed);
+            mrsp.Add(SiDistance.Zero, TargetDistance, SiSpeed.MaxValue);
+            mrsp.Add(TargetDistance, SiDistance.MaxValue, TargetSpeed);
 
             // Add to result by calculating backwards then forwards
 
@@ -139,7 +139,7 @@ namespace ErtmsSolutions.Etcs.Subset26.BrakingCurves
             BrakingCurveDirectionEnum dir = BrakingCurveDirectionEnum.Backwards;
             SiDistance next_position = SiDistance.Zero;
 
-            SiDistance end_position = mrsp[0].X.X0;
+            SiDistance end_position = SiDistance.Zero;
 
             while (current_position > end_position)
             {
