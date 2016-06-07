@@ -219,12 +219,12 @@ starting the IndicationSatus at first attempt.</Comment>
 <Actions>
 <Action
  Guid="74354347-bf5a-4638-8121-21d5c106dcbf"
->SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
+>THIS.SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
 Status =&gt; RequestEnum.Request,
 Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
 Action =&gt; ConnectionActionEnum.Connect,
 LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime,
-NumberOfSentRequests &lt;- SRCRequest.NumberOfSentRequests + 1
+NumberOfSentRequests &lt;- THIS.SRCRequest.NumberOfSentRequests + 1
 }</Action></Actions>
 <SubRules>
 <Rule
@@ -306,12 +306,12 @@ NumberOfSentRequests &lt;- SRCRequest.NumberOfSentRequests + 1
 <Actions>
 <Action
  Guid="3e9a5429-aa0c-4d29-bb4a-79ecf2033673"
->SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
+>THIS.SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
 Status =&gt; RequestEnum.Request,
 Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
 Action =&gt; ConnectionActionEnum.ReleaseConnection,
 LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime,
-NumberOfSentRequests &lt;- SRCRequest.NumberOfSentRequests + 1
+NumberOfSentRequests &lt;- THIS.SRCRequest.NumberOfSentRequests + 1
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
@@ -344,7 +344,7 @@ NumberOfSentRequests &lt;- SRCRequest.NumberOfSentRequests + 1
 <Actions>
 <Action
  Guid="42eb20e5-e38b-4a6d-9619-a3616f0e0437"
->SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
+>THIS.SRCRequest &lt;- EURORADIO.RBCConnection.SafeRadioConnection.SRCRequestStruct{
 Status =&gt; RequestEnum.Disabled,
 Answer =&gt; EURORADIOAnswerEnum.NoAnswer,
 Action =&gt; ConnectionActionEnum.Connect,
@@ -387,7 +387,7 @@ NumberOfSentRequests =&gt; 0
 <Actions>
 <Action
  Guid="f4f01eef-ea10-44d4-a0f6-76705596d416"
->ConnectionIsEstablished &lt;- False</Action><Action
+>THIS.ConnectionIsEstablished &lt;- False</Action><Action
  Guid="804f64c9-f46d-42b6-aca5-5f27e80cfc90"
 >ResetRequest()</Action></Actions>
 </RuleCondition></Conditions>
@@ -422,7 +422,7 @@ to stop requesting and mark the connection as established.</Comment>
 <Actions>
 <Action
  Guid="1f6f0e1d-b320-4d51-8b08-4a55af982ba3"
->ConnectionIsEstablished &lt;- True</Action><Action
+>THIS.ConnectionIsEstablished &lt;- True</Action><Action
  Guid="73d8ef23-8f43-4576-9ec4-9d433a455a7e"
 >ResetRequest()</Action></Actions>
 </RuleCondition></Conditions>
