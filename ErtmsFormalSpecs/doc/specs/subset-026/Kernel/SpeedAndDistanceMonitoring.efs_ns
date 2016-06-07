@@ -1241,10 +1241,12 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
  Guid="30ecc4c4-3928-4247-aa7a-f4e3ead580a5"
 >THERE_IS aTarget IN TargetsList() |
 (
+  aTarget.Speed &lt; Kernel.MRSP.V_MRSP()
+    AND  
   TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; aTarget
-)   == BaseTypes.Distance.Unknown
+)   == BaseTypes.Distance.Infinity
 )</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
@@ -1253,6 +1255,8 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
 >
 <Expression>FORALL aTarget IN TargetsList() | 
 (
+  aTarget.Speed &gt; Kernel.MRSP.V_MRSP()
+    OR  
   TargetSpeedMonitoring.d_I(
     Vest =&gt; Kernel.MRSP.V_MRSP(),
     aTarget =&gt; aTarget
