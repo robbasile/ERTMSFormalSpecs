@@ -300,15 +300,6 @@ namespace Importers.ExcelImporter
             importGammaBrakeParameters(aSubStep, aWorksheet, 2, 8, true); // first combination
             importGammaBrakeParameters(aSubStep, aWorksheet, 3, 20, false); // second combination
 
-
-            /**************************** Initialize time intervals ******************************/
-            aSubStep = new SubStep();
-            aSubStep.Name = "Initialize time intervals";
-            aSubStep.setSkipEngine(true);
-            aStep.AddModelElement(aSubStep);
-
-            addAction(aSubStep, "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.InitializeTimeIntervals()");
-
             /**************************** CORRECTION FACTOR KDRY_RST ****************************/
             aSubStep = new SubStep();
             aSubStep.Name = "SubStep6 - Correction factor kdry_rst";
@@ -1085,8 +1076,6 @@ namespace Importers.ExcelImporter
             Worksheet aWorksheet = workbook.Sheets[5] as Worksheet;
 
             Range aRange = aWorksheet.UsedRange;
-
-            addAction(aSubStep, "Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.InitializeTimeIntervals()");
 
             /* Verifying kto */
             addExpectation(aSubStep,

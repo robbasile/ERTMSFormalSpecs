@@ -951,6 +951,8 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="InitializeTimeIntervals"
@@ -1175,4 +1177,47 @@ This protection is used in the case where V_SBI_DMI is calculated but the train 
 >
 </ReqRef><Comment>Keeps track of the previous displayed target for the revokation condition r2 in Target speed monitoring, Indication status.</Comment>
 </Variable></Variables>
+<Rules>
+<Rule
+ Priority="UpdateINTERNAL"
+ X="20"
+ Y="430"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="InitializeTimeIntervals"
+ Guid="0aafaa9d-cd83-442b-9deb-15fcc3ea5a28"
+>
+<ReqRef
+ Id="64f293f1-473e-4a19-b92d-2240f67c616e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4f0fa64-da3f-476a-a5fe-fe863eb3aca9"
+>
+</ReqRef><ReqRef
+ Id="0da7d42d-a7f1-4b5e-bfb4-d43908e0ab43"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="40f63c17-fdaa-47ce-ac67-da4234a2071c"
+>
+</ReqRef><ReqRef
+ Id="e6c96237-f200-4c17-a939-03f51fb70c39"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a26a68a-322e-4a14-ab28-49ba215e240d"
+>
+</ReqRef><Comment>Time intervals are modified when considering service brake feedback.
+When the service brake feedback is not implemented, make sure the time intervals are correctly setup</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Initialize time intervals"
+ Guid="f8d98951-9145-47da-bf99-06d39c42a2f8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="8c247c0b-5a5e-44e8-a8c1-49273a07c3b1"
+>InitializeTimeIntervals()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </NameSpace>
