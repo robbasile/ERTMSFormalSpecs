@@ -2486,7 +2486,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="abbdde41-a097-4937-a20d-927518277c53"
 >
-</ReqRef><Comment>When the End of Mission procedure has to be executed, the on-board sends an End of Mission Position Report and a Termination of Communication Session message.</Comment>
+</ReqRef><Comment>When the End of Mission procedure has to be executed, the on-board sends an End of Mission Position Report.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -2508,15 +2508,7 @@ THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOC
 <Actions>
 <Action
  Guid="fee0628a-3a16-4a1e-b4b7-32307d0154e3"
->SendEoMReport()</Action><Action
- Guid="ae7a5d9a-f7cc-436a-8054-cca8f1ca33a5"
->SafeRadioConnection.LastRequestTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
- Guid="77ff829d-067e-4e88-b189-763cb81bc53e"
->SafeRadioConnection.NumberOfSentRequests  &lt;- 0</Action><Action
- Guid="a61347f3-f3e0-46cb-9ece-aeb8eb30cdee"
->ConnectionState &lt;- ConnectionStateSM.Terminating</Action><Action
- Guid="863a5254-6b4f-4f17-ab0c-6b95df8f5d02"
->SendTerminationOfCommunicationSession()</Action></Actions>
+>SendEoMReport()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
