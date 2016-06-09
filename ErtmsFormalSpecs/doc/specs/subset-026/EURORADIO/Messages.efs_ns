@@ -40,8 +40,8 @@
 <Function
  Type="Messages.EURORADIO.MessageIn.Message"
  Default=""
- X="240"
- Y="80"
+ X="10"
+ Y="460"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -58,6 +58,11 @@
  Id="25af834a-3a24-459b-b5c8-97b85eddb2e8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f8e0ecfb-95dd-45d4-adde-b5ffde7800c7"
+>
+</ReqRef><ReqRef
+ Id="8f23f854-2f46-42a3-bb10-9f08e6b57b62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ddec1320-67e4-4cb1-816a-0a7332db0a63"
 >
 </ReqRef><Comment>The operational version of incoming messages is SystemVersion2. This function is used to translate a lower version version received message. It returns a Messages.EURORADIO.MessageIn.Message structure. 
 Note that the original and stored structure is not changed.</Comment>
@@ -79,100 +84,34 @@ Note that the original and stored structure is not changed.</Comment>
 >NOT Available(aRBC)</PreCondition></PreConditions>
 <Expression>EMPTY</Expression>
 </Case><Case
- Name="SystemVersion2"
+ Name="Version 2 should be used"
  Guid="0eed7905-5925-4d06-b79a-6bddb3558e77"
 >
 <PreConditions>
 <PreCondition
  Guid="d93e10a3-f60a-4838-a1f9-4380368bed3d"
->aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition><PreCondition
- Guid="61706c4c-00c8-497f-9455-3ab19998360f"
->aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
+>UseVersion2( aRBC )</PreCondition></PreConditions>
 <Expression>aRBC.Data.MessageIn</Expression>
 </Case><Case
- Name="SystemVersion1"
+ Name="Version1 message should be translated before used as Version 2 message"
  Guid="6cbaa36d-e7ce-404a-9651-13301db09ffd"
 >
 <PreConditions>
 <PreCondition
  Guid="5b4ae8ca-3693-499a-b2c5-e032b3c04a41"
->aRBC.SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition><PreCondition
- Guid="f9cc1307-7563-446d-ac74-b1e5ae9b3406"
->aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
+>UseVersion1 ( aRBC )</PreCondition></PreConditions>
 <Expression>Messages.EURORADIO.MessageIn.Message{
-SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.Data.MessageIn.SystemVersion1),
-SystemVersion1 =&gt; EMPTY,
-Priority =&gt; aRBC.Data.MessageIn.Priority
+     SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage(
+         aRBC.Data.MessageIn.SystemVersion1
+    ),
+     SystemVersion1 =&gt; EMPTY,
+     Priority =&gt; aRBC.Data.MessageIn.Priority 
 }</Expression>
 </Case><Case
- Name="Transmission of system version V2"
- Guid="371ea5ae-9bdd-4812-afa8-b3f13bc2d339"
+ Name="Otherwise"
+ Guid="a100ec32-19f0-4961-b18e-d48089c5cd68"
 >
-<Comment>If I do not know the system version yet, I have to trust the MessageIn structure to determine whether I need to apply translation or not.</Comment>
-<PreConditions>
-<PreCondition
- Guid="7abd061d-5394-4064-9d64-0d4e2f38f8a9"
->aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
- Guid="d0419429-ecfa-4baf-aaff-8e8bf1472064"
->aRBC.Data.MessageIn.SystemVersion1 == EMPTY</PreCondition></PreConditions>
-<Expression>aRBC.Data.MessageIn</Expression>
-</Case><Case
- Name="Transmission of system version V1"
- Guid="8a1aede6-afdc-4711-98b7-c0ea9ce124eb"
->
-<PreConditions>
-<PreCondition
- Guid="554b3e0f-b9c6-4ea2-9cde-99bd87d7b888"
->aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
- Guid="3712036e-fe02-4c6e-a064-7b7928fd3058"
->aRBC.Data.MessageIn.SystemVersion2 == EMPTY</PreCondition></PreConditions>
-<Expression>Messages.EURORADIO.MessageIn.Message{
-SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.Data.MessageIn.SystemVersion1),
-SystemVersion1 =&gt; EMPTY,
-Priority =&gt; aRBC.Data.MessageIn.Priority
-}</Expression>
-</Case><Case
- Name="Incompatible system version_V2container"
- Guid="b3e16294-94e3-4d45-a8a4-2ec67162788d"
->
-<Comment>While attempting to establish a communication session, if the received system version is unknown to the system, one should allow 
-the exchange of a few versionless messages before ending the connection.</Comment>
-<PreConditions>
-<PreCondition
- Guid="7a650ace-e866-4561-89a0-fe6ac3c21ef7"
->aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition><PreCondition
- Guid="d0a92b72-cbeb-4eb0-a5b1-1809f3f632c6"
->aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Unknown</PreCondition><PreCondition
- Guid="457593dd-d6d8-40a7-9d7e-bb3863f5a101"
->aRBC.ConnectionState in[EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
-EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState,
-EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</PreCondition><PreCondition
- Guid="e69f9675-442f-4d34-a205-95854d017db3"
->aRBC.Data.MessageIn.SystemVersion1 == EMPTY</PreCondition></PreConditions>
-<Expression>aRBC.Data.MessageIn</Expression>
-</Case><Case
- Name="Incompatible system version_V1container"
- Guid="a290c0ca-cae2-4e47-bb91-c79bc58ec144"
->
-<Comment>While attempting to establish a communication session, if the received system version is unknown to the system, one should allow 
-the exchange of a few versionless messages before ending the connection.</Comment>
-<PreConditions>
-<PreCondition
- Guid="b33b16bf-67c0-476b-bdd3-5192e1d8803d"
->aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition><PreCondition
- Guid="4b1244d0-bbce-44aa-a913-cdba501a134f"
->aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Unknown</PreCondition><PreCondition
- Guid="fe387ed9-eb8c-41fc-ac01-b5c34e09037f"
->aRBC.ConnectionState in[EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
-EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState,
-EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</PreCondition><PreCondition
- Guid="d741c541-d436-4675-a72d-f342c5640d62"
->aRBC.Data.MessageIn.SystemVersion2 == EMPTY</PreCondition></PreConditions>
-<Expression>Messages.EURORADIO.MessageIn.Message{
-SystemVersion2 =&gt; VersionManagement.Translation.Messages.UpdateMessage( aRBC.Data.MessageIn.SystemVersion1),
-SystemVersion1 =&gt; EMPTY,
-Priority =&gt; aRBC.Data.MessageIn.Priority
-}</Expression>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.MESSAGE.TRACK_TO_TRAIN.Message"
@@ -1207,6 +1146,151 @@ THERE_IS X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MA_WITH_SHIFT
 </Case><Case
  Name="Otherwise"
  Guid="b4ebf964-d5c7-4e75-b76e-694b3bd8ec50"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="120"
+ Y="400"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UseVersion1"
+ Guid="19698b8e-62c0-484a-bc35-faaeb2d10495"
+>
+<ReqRef
+ Id="8f23f854-2f46-42a3-bb10-9f08e6b57b62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="524f456a-f27d-4fd4-b228-70f8708058f8"
+>
+</ReqRef><Comment>Indicates that the message version 1 should be used (and translated)</Comment>
+<Parameters>
+<Parameter
+ Type="RBCConnection.RBCStruct"
+ Name="aRBC"
+ Guid="497b78bb-1eda-4865-b6f6-c75165e75a1e"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SystemVersion1"
+ Guid="1b8a7ab4-d6a1-40d3-9d2d-7def86f29a7d"
+>
+<PreConditions>
+<PreCondition
+ Guid="e279b747-f75e-4ef6-a4da-0e3738eadcda"
+>aRBC.SessionManagementData.SystemVersion.Value in [VersionManagement.SystemVersionEnum.Version1_0, VersionManagement.SystemVersionEnum.Version1_1]</PreCondition><PreCondition
+ Guid="48f97a32-a566-41ff-87b5-10ded79d0066"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Transmission of system version V1"
+ Guid="feeef2dd-f706-43ed-9477-85086c747b44"
+>
+<PreConditions>
+<PreCondition
+ Guid="0046e0f4-cf34-4b05-b21a-416bbd27847a"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
+ Guid="4638e427-ec26-42c7-b46a-d65179204262"
+>Available ( aRBC.Data.MessageIn.SystemVersion1 )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Incompatible system version_V1container"
+ Guid="f88e4c3f-d010-46e9-9417-4e20f8629807"
+>
+<Comment>While attempting to establish a communication session, if the received system version is unknown to the system, one should allow 
+the exchange of a few versionless messages before ending the connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="138ce9ee-7ffb-4ea1-af5f-582b6a8dd98f"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="34bfdac6-a8cc-40c2-9830-1bc841f211d7"
+>aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Unknown</PreCondition><PreCondition
+ Guid="e4828515-a67c-4b02-9e86-f5a034cee535"
+>aRBC.ConnectionState in[EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</PreCondition><PreCondition
+ Guid="eda2ee14-57a3-4704-9670-04e7df972b52"
+>Available ( aRBC.Data.MessageIn.SystemVersion1 )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="ef2d91cc-f4c4-4699-8483-03877c839648"
+>
+<Expression>False</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="10"
+ Y="400"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="UseVersion2"
+ Guid="2afb4e7e-d492-4c55-99a4-b5138f688bb8"
+>
+<ReqRef
+ Id="8f23f854-2f46-42a3-bb10-9f08e6b57b62"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4c4e57dc-2f86-42dd-aa58-052e3740e9d0"
+>
+</ReqRef><Comment>Indicates that the message version 2 should be used (no translation)</Comment>
+<Parameters>
+<Parameter
+ Type="RBCConnection.RBCStruct"
+ Name="aRBC"
+ Guid="3a501ccb-a73e-4d07-bc90-53e161e5e11c"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="SystemVersion2"
+ Guid="d9b81ba3-de74-4a8b-b8d7-ce9edf1cbc53"
+>
+<PreConditions>
+<PreCondition
+ Guid="07bf51e2-9fc7-453f-bb92-d5297f5573a6"
+>aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Version2_0</PreCondition><PreCondition
+ Guid="a67ffd74-bbf4-44fa-a469-9bb58052ce3a"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Transmission of system version V2"
+ Guid="b0f6ed62-2273-4a36-9b54-ac9d3e73018a"
+>
+<Comment>If I do not know the system version yet, I have to trust the MessageIn structure to determine whether I need to apply translation or not.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="b17662e3-7625-48be-b237-198182868000"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Unknown</PreCondition><PreCondition
+ Guid="a9dc5204-4aac-4b4b-9c4b-b907f62d7afc"
+>Available ( aRBC.Data.MessageIn.SystemVersion2 )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Incompatible system version_V2 container"
+ Guid="7e6ad71e-b0bd-4376-adcc-eff6f5093fa9"
+>
+<Comment>While attempting to establish a communication session, if the received system version is unknown to the system, one should allow 
+the exchange of a few versionless messages before ending the connection.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f4fa0135-7387-49e7-b354-89c0f4c0c521"
+>aRBC.SessionManagementData.SystemVersion.DataState == Default.DataStateEnum.Valid</PreCondition><PreCondition
+ Guid="0dc1cefe-c9ff-4894-93d0-d3385c6a49c5"
+>aRBC.SessionManagementData.SystemVersion.Value == VersionManagement.SystemVersionEnum.Unknown</PreCondition><PreCondition
+ Guid="733906ba-ac03-4290-976e-a189554d189c"
+>aRBC.ConnectionState in[EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connecting,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected.InitialState,
+EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</PreCondition><PreCondition
+ Guid="9c72040e-2492-4cda-bebb-0d728086de1d"
+>Available ( aRBC.Data.MessageIn.SystemVersion2 )</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="e83e38ca-21ae-4bb8-b7b0-3f604430e719"
 >
 <Expression>False</Expression>
 </Case></Cases>
