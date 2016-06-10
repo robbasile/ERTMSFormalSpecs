@@ -1,0 +1,207 @@
+<NameSpace
+ X="380"
+ Y="100"
+ Width="100"
+ Height="50"
+ Name="GeographicalPosition"
+ Guid="34acb1e1-25e9-454b-9370-e8375d741f18"
+>
+<Comment>Handles the interaction with the Geographical position indicator</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="216b7895-21cf-4bbf-98c5-465309f904ae"
+>
+<ReqRef
+ Id="e3a55e7e-350d-4dfa-86ea-512545c008b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ad13bce4-ca6d-4306-80f2-b0e3be339b72"
+>
+</ReqRef><Comment>Display button for geographical position information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="InitiateRequest"
+ Guid="ea1a2eda-7e58-453c-97fc-dc17f92b334d"
+>
+<Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="InitiateRequest"
+ Guid="7941cf28-6da9-4938-bba8-b5c91e519278"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="InitiateRequest"
+ Guid="130f0104-b979-4245-b93c-a5de48783b9d"
+>
+<PreConditions>
+<PreCondition
+ Guid="54632531-1e25-4b46-bc03-c04bc1468f15"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2129d3c6-88ac-4a73-b905-4e814abf7689"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ProvideDriverResponse"
+ Guid="5197f0bb-56dd-4db0-a9be-7a865da92989"
+>
+<Comment>Provides the response from the driver</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Provide driver response"
+ Guid="e3d95f21-18fd-49ba-aaac-eea8ec8d1fdf"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Provide driver response"
+ Guid="3d513ba7-3f35-4ef3-9e83-715ef715257a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="50c5504a-d656-4aa2-96ed-2946d4705af8"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="55779d93-3bf6-4f0c-a51b-01337f6f906f"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="DisableIfNeeded"
+ Guid="f1158b2a-a743-4e78-b47d-7703adfa372c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="DisableIfNeeded"
+ Guid="0ee53fe0-dbb8-4246-a1ea-fd3877bbfae3"
+>
+<PreConditions>
+<PreCondition
+ Guid="2eca3c83-2651-4ee2-b345-d15b2e43eebf"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="355236f5-1a87-46b1-844d-fce1bf40cf03"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="ba8f6793-5ebe-49d2-89a8-ff71b6ae18a6"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="05b73f49-91cb-48b3-9b45-60af069a7205"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="a17102a0-8a75-49e9-b9aa-ab3dd6a6aead"
+>
+<PreConditions>
+<PreCondition
+ Guid="846defb0-c7cc-47cd-a0a1-946d25e9cc33"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="ea245608-a7d8-46dc-b40a-3332b8b3ef1a"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f97ea788-eb5d-4588-bed9-d5aeb6c8f171"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="InputInformation"
+ Guid="f8dfa38b-3a9d-4d19-bab1-46c6ef685248"
+>
+<Comment>The status request state</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="b0af3ee2-fd3d-4f50-a972-06e35188d98f"
+>
+<ReqRef
+ Id="faadbf28-32da-48eb-96d8-48c5eb6c86e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="35dc1ea7-0a96-46d4-ae32-2bcb0b976573"
+>
+</ReqRef><Comment>Verifies th emode for driver to request geographical position information.</Comment>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="5a7cf084-50ec-4b21-a583-f9c0d0d4d217"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

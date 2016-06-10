@@ -1,0 +1,235 @@
+<NameSpace
+ X="140"
+ Y="130"
+ Width="100"
+ Height="50"
+ Name="RollAwayProtection"
+ Guid="82c85e99-d56e-44a9-904c-5cd9af7b531c"
+>
+<Comment>Acknowledgement of roll away protection</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="27e83a64-05dd-4253-bc78-d685c8913891"
+>
+<ReqRef
+ Id="b6c67586-24a9-45f1-8716-2ebbbf63edc2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2f9017c-7ead-4c91-a3fc-76a4f963439b"
+>
+</ReqRef><Comment>Acknowledgement for the roll away protection.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="edcc0fb4-30ec-460b-9851-81f6921b0ac8"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="f8a87948-a645-48bc-b9d5-a831f46f7de0"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="326ea661-9598-4973-9605-6442d3af14b3"
+>
+<PreConditions>
+<PreCondition
+ Guid="74984aa5-533e-4d93-adde-3376902ab995"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
+ Guid="537d2a8f-740f-4c14-b1e4-e416a8819ff6"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="448fbdbe-ce25-407b-85c4-cd5abdbb8a7e"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="98ce0cc1-cd9b-4947-b3eb-d699f541e406"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="66ab7117-57c9-431d-bb3d-5d043bec0523"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="0e93510f-3cbc-4922-baf7-5de5c19789ef"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="62ac4e61-bbd3-4940-a100-8a5dece3c375"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="c2ca0a8a-1f9b-44c4-9fb1-f836e3d16be9"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="87acb675-bfe3-4a25-8c04-b2a224c4661b"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4577bf00-9e60-4691-9698-dd924755436b"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="150ad629-3493-4855-b025-b411410f5394"
+>
+<Comment>Allows to initiate the Ack of SN mode</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="16306b49-86ed-4a8a-9040-5ae9fec82c64"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="b4ab691d-be81-45d0-b28b-2fcd862e005a"
+>
+<PreConditions>
+<PreCondition
+ Guid="2f2803fc-5a49-46e6-8a71-e7075d4f2f2d"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c7f17aa8-f0a4-4981-9989-82b41533a8af"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.RollAwayProtection,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="72dff6fb-05d2-463e-bcbd-94119ff14450"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="42eae268-6f92-4921-8d19-46dc834ba560"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="b8193e46-8354-415b-bac5-583e0e3d56a8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="36efcf90-09b8-4cd5-9031-247d4058b842"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="43b2fd3d-d606-4c8b-9ded-8c2c33219b76"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="61cda17b-a308-42d7-8126-303731a4230d"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="ac614e73-2007-4dec-b84b-b1c94f6cafb7"
+>
+<ReqRef
+ Id="b6c67586-24a9-45f1-8716-2ebbbf63edc2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b26588e2-8d01-4670-8cdc-e69bcd28f2ef"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement for roll away protection.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="c094ffa3-09e1-4637-b75d-a9c4873f33cc"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.RV ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

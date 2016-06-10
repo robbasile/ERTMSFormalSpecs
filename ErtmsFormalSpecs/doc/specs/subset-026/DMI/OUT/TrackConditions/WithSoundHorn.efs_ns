@@ -1,0 +1,245 @@
+<NameSpace
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="WithSoundHorn"
+ Guid="3cb60b2a-49bc-4e95-b435-9eab81950224"
+>
+<Comment>Displays the track conditions with sound horn</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="7e70ceff-9700-49f1-bd7f-6fc565fcd260"
+>
+<ReqRef
+ Id="72d98796-7871-4e90-85df-298a95950478"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="084960e6-9e91-4ea2-88cb-10f5169c52d2"
+>
+</ReqRef><Comment>Handles display of the following track conditions:
+ - Sound horn
+ - Non stopping area
+ - Tunnel stopping area
+ - Change of traction system.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="78b77eb3-b475-46f5-acde-89a0d43ebf6d"
+>
+<ReqRef
+ Id="c8d20e16-9995-448d-bc67-0f4cb59ffafa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f6c0748e-ea73-498e-92e3-b5c3f037cbac"
+>
+</ReqRef><ReqRef
+ Id="f1130a3d-ce18-4a20-9daa-8951a06f2d27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2f56d914-cf6b-4bc7-b8d9-9069200904f1"
+>
+</ReqRef><ReqRef
+ Id="e7b803d0-32ff-44d5-ae54-a7a3a3cac6fd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4d972f96-ba8a-4171-a9e7-7c431e212e06"
+>
+</ReqRef><ReqRef
+ Id="fd0688e1-7912-499e-8db3-590b6e01d887"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f99acb1b-d800-48ec-8dd3-f0392a1f1ab0"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.PlanningInformationCol"
+ Name="aPlanningInformation"
+ Guid="f7e4f608-f240-4917-a3da-67b8175b1a45"
+>
+</Parameter><Parameter
+ Type="Kernel.TrackDescription.TrackConditions.Display.ActiveConditionsCol"
+ Name="aActiveConditions"
+ Guid="a82c553b-daa6-4edc-a85a-467861c2201e"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update the request status"
+ Guid="3f617c8f-b944-4ad1-b4c1-0384df8af42a"
+>
+<Comment>Display the information if required, hide it otherwise.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display both active conditions and planning information"
+ Guid="2f470ff1-873a-4539-a4d8-5a0d6ed2544e"
+>
+<Comment>Display both the planning information and the active conditions.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1bdc9c78-0559-44ac-82a4-5796f7c00f15"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="c4b7a873-302e-4dc4-9b84-b27f4a6404ac"
+>Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayTrackConditions( aPlanning =&gt; True )</PreCondition><PreCondition
+ Guid="71a5b64a-1160-485a-9f95-5a3cb0c133a5"
+>aPlanningInformation != []</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6eb7b085-68c9-4cc1-a257-1a0b570f47c7"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="24dbe3bc-8fe5-4cd0-91c2-c66d8192c0b9"
+>PlanningInformation &lt;- aPlanningInformation</Action><Action
+ Guid="bf66a2a0-b493-42b4-8851-9576e8769991"
+>ActiveConditions &lt;- aActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Display only active conditions"
+ Guid="1d7c7d52-ac25-45a1-80fd-fe34911eb869"
+>
+<Comment>Display the active conditions.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0edbfe6c-91cb-4a84-be22-37dcd311242f"
+>Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.DisplayTrackConditions( aPlanning =&gt; False )</PreCondition><PreCondition
+ Guid="cab0c387-395e-43ff-9e5f-d3c0e288da91"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="a9d0e243-f7e3-4633-b503-06626e15276c"
+>aActiveConditions != []</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e8776863-7298-43de-ad8c-f139297f117c"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="f7d8212b-397e-41c9-8228-cb5dfeea1558"
+>PlanningInformation &lt;- []</Action><Action
+ Guid="39446029-a030-40c8-b208-e36a3132f692"
+>ActiveConditions &lt;- aActiveConditions</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="1a13b5a0-46a6-4dd6-b6df-e690e376375f"
+>
+<Comment>Hide this output.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="981436be-75b0-44d0-a757-e9f4993a0bff"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Add end condition to announcements that do not have one"
+ Guid="841dffe5-5c2d-4414-88d2-a798eb04c0be"
+>
+<Comment>Update the active conditions to set the end of their display.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Add end condition"
+ Guid="3f73227d-e913-44b3-90f3-feed3e611cb0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e4195468-cf8f-4b3b-9e80-95a72ce67bd5"
+>APPLY Kernel.TrackDescription.TrackConditions.Display.EnsureEndCondition( X ) ON ActiveConditions</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="3838f8fc-c57d-41db-afbc-7936b8b73deb"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="88cd5a69-c74e-42ee-bfaa-f58bd01e6079"
+>
+<Comment>Information relative to the output of the structure.</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.TrackDescription.TrackConditions.Display.SoundHornConditions.PlanningInformationCol"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="PlanningInformation"
+ Guid="d173d1dc-fa75-4e91-8d2b-b378f6a9607a"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.TrackDescription.TrackConditions.Display.ActiveConditionsCol"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ActiveConditions"
+ Guid="3e9fd95b-9a3e-4052-b64f-1c991c3f9517"
+>
+<ReqRef
+ Id="728d48f2-61c9-4dad-9800-8a9daa1cfbf9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="02c901ed-d048-47ec-b073-5799708372e8"
+>
+</ReqRef><ReqRef
+ Id="4c148829-6224-4b0d-b6f5-d506545632eb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="eb5908c6-594e-439b-94e9-8ce3d6adb6da"
+>
+</ReqRef><ReqRef
+ Id="9ca199da-b431-4208-bbb1-61052c8839e8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="16dbd31a-c116-4cb6-a03a-ed2ce0da7e57"
+>
+</ReqRef></StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="915c282f-1b21-4aa3-b5c5-beac573fcc47"
+>
+<ReqRef
+ Id="72d98796-7871-4e90-85df-298a95950478"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9c78f282-e267-4e3b-8525-d276de4a00ce"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="a1a3a8e0-e203-4a78-b52d-36cd0548ffe7"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

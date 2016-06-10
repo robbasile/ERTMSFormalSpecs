@@ -1,0 +1,141 @@
+<NameSpace
+ X="360"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="ReversingAllowed"
+ Guid="ba8482dd-ca2f-4b99-9908-4238d0553d34"
+>
+<Comment>Displays the fact that reversing is allowed</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="ba291907-c1d1-4d94-9795-276e0a692631"
+>
+<ReqRef
+ Id="484415c8-ad35-4b77-af44-1748cd2e57a8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f690ca99-451b-4d00-b294-4aaeef376fad"
+>
+</ReqRef><Comment>Indicates whether reversing is allowed.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="b34f228c-2dad-41ac-9e67-4b6a1d21e6ea"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aReversingAllowed"
+ Guid="7e3e0b59-651e-4c22-8056-c36502f0f71b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="a3794d5b-c8ed-47ae-aa0f-04de6e1d195c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="8397ac85-8a14-4f4a-9e4a-a387185b0473"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="15fbece4-57c1-4441-989b-9d8c38b20fa8"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e4448afc-56e7-4c8a-a00e-58e4586a8b51"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="be77fc79-ef49-4ba2-9c96-f40c83ad9374"
+>ReversingAllowed &lt;- aReversingAllowed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="93fafd60-3726-42a0-9070-2b56f3437428"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6b341e79-42b4-4386-847b-51e1fdb0e3f1"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="cd2c9715-1305-43cd-8f63-1d2e234d9067"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="e156e139-ff20-4a9d-a7d8-d42951804289"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ReversingAllowed"
+ Guid="b74471c3-a991-4389-8cef-11378168b336"
+>
+<Comment>Indicates that reversing is allowed</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="d3d3b96d-70ed-42b9-a638-61586bbc2aee"
+>
+<ReqRef
+ Id="484415c8-ad35-4b77-af44-1748cd2e57a8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d763c115-b82a-40ed-8f61-32e9fc478e23"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="bd101592-3e58-4856-8966-307a95f76e38"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

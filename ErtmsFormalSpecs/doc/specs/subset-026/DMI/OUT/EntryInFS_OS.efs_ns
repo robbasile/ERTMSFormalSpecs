@@ -1,0 +1,217 @@
+<NameSpace
+ X="690"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="EntryInFS_OS"
+ Guid="daa8ee42-9b33-4841-ab60-5ef94737322a"
+>
+<Comment>Displays entering in FS or OS mode</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="2f0e3efa-aa9c-43e7-ba2c-f3011d3eed76"
+>
+<ReqRef
+ Id="d3c5c2fa-1d94-436a-9c37-457cf5e63194"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="35db4816-af1a-4e15-afed-05ed4a370c53"
+>
+</ReqRef><ReqRef
+ Id="83484e2e-340f-443e-931d-762efbc3dcdc"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="194bf672-98d5-42f8-a6e3-3fa29eebdd88"
+>
+</ReqRef><ReqRef
+ Id="ef357556-b9eb-422f-9405-83e4b929a1c3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dcea562-7477-41e7-b64e-373da85e2e2a"
+>
+</ReqRef><ReqRef
+ Id="6be93d46-2f3c-4a81-bc6f-06a7adbaa419"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8775d6f-84d4-4cf4-8040-8800a42d681d"
+>
+</ReqRef><Comment>Handles display of information relative to fact that the train is entered in FS/OS mode.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="30ccccbc-7f0d-44d5-aa9c-d8e8d173b54e"
+>
+<ReqRef
+ Id="3d4bd2d4-777c-4d6d-85c1-ab231d5aee49"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b4f0a19f-9331-4a78-b8ca-449545774ac9"
+>
+</ReqRef><ReqRef
+ Id="6be93d46-2f3c-4a81-bc6f-06a7adbaa419"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="923eb1a6-0d86-4133-b811-9a3e36b0e32f"
+>
+</ReqRef><ReqRef
+ Id="d307ea93-013e-4347-9e61-da8d5dda9fc9"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="f8b85300-bb85-441d-9a9a-69bb23aeb208"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="ModeEnum"
+ Name="aMode"
+ Guid="cb921830-54a9-49c8-ab6b-70852c930521"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="d0aa9276-83ed-4376-b460-afc50f2ab4d2"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="ba19be7f-fd1a-4815-a03f-166f10c741dc"
+>
+</ReqRef><ReqRef
+ Id="394bd816-1dad-4040-96c1-2ecacabd7a91"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="b45caf46-925b-4911-a90e-fc21bba38646"
+>
+</ReqRef><ReqRef
+ Id="b431dd9b-82e0-4212-a738-839644e1d2d6"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="83050449-be39-414b-bcd7-62f4ee7875f6"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="74ce9036-077e-4cdc-af71-75b9cf5f5c33"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ca991853-d900-4eac-b463-d398d89390af"
+>IsAvailable()
+  AND  
+(
+  Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Min) &lt; (FIRST X IN Kernel.TrackDescription.Gradient.Gradients).Location
+  OR
+Kernel.TrainPosition.RearEndPosition(DistanceIntervalEnum.Min) &lt; (FIRST X IN Kernel.TrackDescription.StaticSpeedProfile.SSP).Location
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="15e7d241-d0a9-4e0a-9407-d7f1fb5c72d6"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="3cd08e63-0f53-4075-a854-4e4d691edc22"
+>DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action><Action
+ Guid="23aa238b-eaa8-4478-b4b4-12bcba5f9aee"
+>Mode &lt;- aMode</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="21bd5bfd-f41a-4641-8f21-b0894056d903"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="8d90d1ed-ae24-4ee0-a9fc-f9595ecc75a5"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="baa3fb40-911a-47c3-93a1-078da80861be"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="01ccdb75-5dfc-4c5b-b8ae-eda9c68b7913"
+>
+</StructureElement><StructureElement
+ TypeName="ModeEnum"
+ Default="ModeEnum.FS"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Mode"
+ Guid="ec13b56c-9a0c-43f3-96f8-d20052458f8f"
+>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="c34d719d-72b3-475c-9253-cdf19242a2e8"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="ffe770df-a511-4c88-b157-8dec7cab4f5b"
+>
+</ReqRef><ReqRef
+ Id="394bd816-1dad-4040-96c1-2ecacabd7a91"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="795a911f-f032-49a2-85ac-42280e308bf5"
+>
+</ReqRef><ReqRef
+ Id="b431dd9b-82e0-4212-a738-839644e1d2d6"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="76210243-e26e-4bdf-9dba-32d6610d1018"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="2d8eaf98-0f6f-44b2-a9a3-0a8a037f0c6d"
+>
+<ReqRef
+ Id="d3c5c2fa-1d94-436a-9c37-457cf5e63194"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ca1a3a86-8bdc-4244-98b9-e5787fd17b8f"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="360b9d1e-71ce-41a7-8446-d8b5dd4547d1"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

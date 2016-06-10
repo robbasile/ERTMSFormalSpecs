@@ -1,0 +1,256 @@
+<NameSpace
+ X="270"
+ Y="160"
+ Width="100"
+ Height="50"
+ Name="Override"
+ Guid="568eb456-3223-4ef9-960e-40a6dcfbe6b5"
+>
+<Comment>Handles the Override input from the driver</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="23d14dae-f4a8-42b4-9cd4-9209916e29e6"
+>
+<ReqRef
+ Id="2799a8e9-fa29-467e-8323-c5845b7416dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b238156d-dd5f-4598-bd8f-9196f0a29e5a"
+>
+</ReqRef><Comment>Override request.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="3cc42c04-5f11-4897-b0f3-cee89535d3b9"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="ce6eb79b-1a3c-462e-9934-edeed84859ef"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="7bc6173b-0baf-46b0-bd83-45af0188608e"
+>
+<PreConditions>
+<PreCondition
+ Guid="e14cd8d6-e2b5-4fc4-abea-367df57ed394"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="8f2e78b4-2092-4d39-a358-865b0f7d2a0e"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="194261ad-f490-48dc-bf11-831b2aeed50e"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="eabce4e6-33f5-442f-90f5-9c9013041044"
+>Kernel.Override.StoreOverrideSupervisionInformation()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Start Override"
+ Guid="907abb4e-017b-4759-993c-5d73d979f099"
+>
+<ReqRef
+ Id="b6c74cc9-fab4-4443-8044-94744d509710"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e7b22338-68be-4dc6-b6cc-dd11129eb8f3"
+>
+</ReqRef><ReqRef
+ Id="367acb62-7870-4387-9a8f-345d0059c752"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d3c6652a-1869-4d95-b270-a35e2a286e6b"
+>
+</ReqRef><Comment>When the driver selects &quot;Override&quot;, the Override procedure is started. For the remaining modes, this action is handled in ModeTransitions namespace.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Start Override"
+ Guid="3f27ac3b-fa53-4fe8-88d9-3d1303b1097e"
+>
+<PreConditions>
+<PreCondition
+ Guid="5e7ffe24-734a-4749-95c4-510bbb489401"
+>Kernel.ActiveFunctions.EnableOverride()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a9e6e683-2b93-4387-9961-8eb55a197469"
+>Kernel.Override.EnterInOverride()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="1054256b-9421-483e-b4dd-2c71979fa7fa"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="22b3f013-85a6-4ffd-bfcc-1bc8cd318109"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="9fc4a412-06aa-4fdd-a08b-436dec5af931"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="10e2647a-131d-4cc6-80a0-8587280dd433"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f6cbf73a-e9c9-4aca-9e4a-ff4f3ebe436a"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="aef26f0f-4172-4ceb-88c6-609911471a65"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="f2d0d574-6bd6-4e14-bde0-3cc3b331b49b"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="1af890b9-3dec-4276-a90c-144f61904c87"
+>
+<PreConditions>
+<PreCondition
+ Guid="9a1118f1-7255-4adc-b629-39171a01a839"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="514a471c-0d9d-48a5-ae6b-6d9dd8965c33"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="731b057e-e7df-4d1f-82b3-d39088cc6f17"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="7bfcf4de-e6b5-4bfc-b8d1-bbdab02c8d01"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="7adcfaf0-53a7-458a-925f-9af62a476770"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="7dd320ce-d17b-466e-82bd-94a1e2ca3052"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="7ee4c7a7-74bf-4cb0-ab45-693778dd476e"
+>
+<Comment>Request state</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="86d67e1e-7c12-4109-8f2c-f1673f3a97f2"
+>
+<ReqRef
+ Id="2799a8e9-fa29-467e-8323-c5845b7416dd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aa652bd8-3437-41f0-84f2-ee963b46ef77"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver to request override.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="c5ee4623-867d-45c4-a261-868fb7b2a856"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.SN]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

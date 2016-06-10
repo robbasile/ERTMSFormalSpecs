@@ -1,0 +1,223 @@
+<NameSpace
+ X="160"
+ Y="160"
+ Width="100"
+ Height="50"
+ Name="NonLeading"
+ Guid="1cab0a27-13e7-44c7-8d2d-aba2ee7999e5"
+>
+<Comment>Handles the non leading input from the driver</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="e6079327-5ae8-4023-93c3-2521a0bd5ce2"
+>
+<ReqRef
+ Id="7625fa65-c451-4b57-83e0-fa8f4ebf7336"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f6cf76b-ff16-4230-93aa-51bffeec405a"
+>
+</ReqRef><Comment>Non leading staus request.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="9f147c6f-0f02-4e07-9b75-dfc833214220"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="9e6fa57c-6ed9-4474-a958-d47d2c928afb"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="d0468250-6321-4a12-8289-79327cfde790"
+>
+<PreConditions>
+<PreCondition
+ Guid="2c2dc253-9036-45fd-b9f9-e7c08cc7b5ee"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="95945dac-fa99-4bff-a870-827fc91a461a"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="88bee066-b6fd-4b68-983b-5243aa1acab5"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="f4e3a98c-763b-47ec-b3d7-d7c4cf5934a5"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="33358827-f86b-4265-b498-2f760b4277cf"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="df85a0ce-e536-4ba6-8b1b-49b98abc0def"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5e3017d6-ee53-4cf5-9a2d-a1dd8a46dd81"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0186bb3b-5039-48e1-83e1-fa3246b5a5b4"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="89c391e8-f26e-45c2-bec3-aa35766926fd"
+>
+<Comment>Initiate the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="a61e1e4c-0d5a-443d-8fe7-2688549519c3"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="b701463f-ef08-4142-b3b6-78a2f6c246c3"
+>
+<PreConditions>
+<PreCondition
+ Guid="8d871241-59c0-42b1-8e47-8cd4c8401a9d"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="282e040d-d34b-438b-a3b8-cb5d47ce2779"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="762172be-295f-4593-853c-da2442397516"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="ca5c18d7-11a7-4a54-adc1-ac4839ccdfaa"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="5b57f5e9-095e-4b1f-9ffc-75b283535ac0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9dff4018-5caf-4f00-be84-a88bd37cf26b"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="da6b2f6c-8b76-4031-86a5-4a5a1f2591cf"
+>
+<Comment>Request status</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="d0172caf-e3cd-4508-a78f-61b68d77a19a"
+>
+<ReqRef
+ Id="7625fa65-c451-4b57-83e0-fa8f4ebf7336"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="797190f6-58c9-480c-8eba-5936f433f069"
+>
+</ReqRef><ReqRef
+ Id="73763966-dbcc-4e9b-b9bc-1631e2be3b8d"
+ SpecId="7976a642-eab5-431b-a656-44fc19d26d62"
+ Guid="5ec3a584-e25e-4da6-a365-0d222994c813"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver to request NL mode.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="be9b248f-1fee-4e53-81ab-514a924baa4d"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS]
+  AND
+TIU.NonLeadingPermitted</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

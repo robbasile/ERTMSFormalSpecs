@@ -1,0 +1,201 @@
+<NameSpace
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="GeographicalPosition"
+ Guid="8ba47c9c-175e-4224-9dd8-6bbfa5b57060"
+>
+<Comment>Displays the greographical position</Comment>
+<NameSpaces>
+</NameSpaces>
+<Enumerations>
+<Enum
+ Default="Symbol"
+ X="260"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="DisplaySymbolOrValueEnum"
+ Guid="97b5fd64-9c77-4353-9614-5b031d9453a0"
+>
+<ReqRef
+ Id="e3a55e7e-350d-4dfa-86ea-512545c008b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9ea07304-b15c-48e1-8a64-d03e944f1090"
+>
+</ReqRef><Comment>Indicates whether the symbol or the value should be displayed when display is required.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="Symbol"
+ Guid="bc7d31e5-81d0-4933-94a2-e9427c8fc78b"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="Value"
+ Guid="03df9b54-e930-4fa1-8c72-f8d7f52c5400"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="8db68a98-4195-47f4-8306-aede9f683f2b"
+>
+<ReqRef
+ Id="faadbf28-32da-48eb-96d8-48c5eb6c86e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="adfd6398-ecdd-4ebd-bb41-098c31d8657f"
+>
+</ReqRef><Comment>Provides the geographical position of the train.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="bea8c13b-9214-440d-906f-5bf73cefc969"
+>
+<ReqRef
+ Id="90aeeb77-0da0-47f5-ac84-c4490540a1c0"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="523e47cb-00ce-4dd1-970a-91b33210ad48"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aLocation"
+ Guid="2423d6ba-76d7-41ef-aa20-39e54960e2fa"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update the display"
+ Guid="a4a2f7a0-e950-4280-871e-c6b773842a65"
+>
+<ReqRef
+ Id="e3a55e7e-350d-4dfa-86ea-512545c008b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9f513b63-f94f-4075-a8e8-6630e39f2307"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="b23e5f43-3d19-4301-9551-00df3b009ed4"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="8a078331-f869-4979-9161-f369d645920d"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="0246bb2b-04d5-41eb-b0c6-354370c0c514"
+>aLocation != BaseTypes.Distance.Unknown</PreCondition><PreCondition
+ Guid="816af267-01cf-4ce8-8e54-bc641fab4d59"
+>Kernel.GeographicalPosition.ApplicableItem.Location != 16777215.0</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="dbb8b604-25a0-47c2-84c3-8be34d04acbd"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="749d0dad-f8e2-4c0a-b354-6569b3ae2cf9"
+>Position &lt;- aLocation</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="a03a8e2a-695f-4672-b914-b1f27555824f"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9911ba1d-9b45-413b-97cc-5fbfc3d46bf0"
+>OutputInformation.DoNotDisplay()</Action><Action
+ Guid="483dfbe7-ffa8-4799-b9d4-4359c8ceb918"
+>DisplayDistance&lt;- DisplaySymbolOrValueEnum.Symbol</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="f91a7467-2830-4816-a6bc-909fde319b09"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="4b181c09-ea8a-4566-bc29-e559c6eaf946"
+>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Position"
+ Guid="7c317b24-64c0-4182-81a7-955eca43bbfd"
+>
+<ReqRef
+ Id="f042e036-f6fa-4673-a7a6-5248b3127084"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cf994b1c-86ed-418f-a961-70dc08079370"
+>
+</ReqRef></StructureElement><StructureElement
+ TypeName="DisplaySymbolOrValueEnum"
+ Default="DisplaySymbolOrValueEnum.Symbol"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DisplayDistance"
+ Guid="cbc6c6ac-06fb-4c03-bb3b-bc0b27f0f51a"
+>
+<Comment>Indicates whether the symbol or the distance should be displayed.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="e39feca5-499d-433f-b530-e7c007b22b3b"
+>
+<ReqRef
+ Id="faadbf28-32da-48eb-96d8-48c5eb6c86e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d256229e-a2a8-4aad-bebb-d1762878725a"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="9bf73e8e-6684-4d6a-bff2-b32a65f5c9b2"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

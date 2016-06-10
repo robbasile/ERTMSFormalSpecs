@@ -1,0 +1,132 @@
+<NameSpace
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="AdhesionFactorSlipperyRail"
+ Guid="ee7b100e-e0b3-4745-9883-dc5fe2c4f012"
+>
+<Comment>Displays the adhesion factor for slippery rails</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="c9546bec-291e-497b-8c08-5576f591663e"
+>
+<ReqRef
+ Id="6d776e50-b3e1-4d29-8ead-bfb688e39099"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="da9aae09-aa16-4c2f-89ae-eebff6dd652d"
+>
+</ReqRef><Comment>Handles display of slippery rail conditions.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="5dd0b2ce-d783-4170-94dd-639720c29e8d"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aRailsSlippery"
+ Guid="a9cdd56d-6f3e-40f2-b94d-68719298c73b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="d1c56730-de67-47e4-ba5d-051c02add546"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="1151c1de-6d74-4e35-a217-ad44a59f39ea"
+>
+<Comment>Display the slippery rails information if allowed in the current mode and if the rails are slippery.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="345451c4-e8e5-4f56-8162-a16dacb212a9"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="889478a6-e549-499a-b25c-b00432fd711f"
+>aRailsSlippery</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1c7abe69-5878-481a-938e-91be58ded9b2"
+>OutputInformation.RequestDisplay()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="fa51fbed-facd-4074-bec4-b075f40aa77e"
+>
+<Comment>If not alklowed or if the rails are dry, do not display teh rails slippery information.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="fda5852d-0fe6-42ba-92a6-d4614e853937"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="010861b6-a30d-4228-9184-7f935ef1212b"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="d4dbf4df-8ac1-4f9c-bb0e-833c59335c2d"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="b7bd02c6-17fa-44b0-bd05-9004f9d87465"
+>
+<ReqRef
+ Id="6d776e50-b3e1-4d29-8ead-bfb688e39099"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ecb3c5b4-cb88-4c76-9a19-be66d5ea783f"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="f4a984da-8246-411f-8829-a8d426758367"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

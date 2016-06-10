@@ -1,0 +1,153 @@
+<NameSpace
+ X="250"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="ReleaseSpeed"
+ Guid="b1253209-c44c-4822-bd85-a20aac942e55"
+>
+<Comment>Displays the release speed</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="4def734f-c29a-4183-9cd5-e96e71d3d3fb"
+>
+<ReqRef
+ Id="76a41522-e0f9-4aab-b8fc-267f771b125b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c99977c1-f28a-4aea-9b2d-9fe6982317a1"
+>
+</ReqRef><Comment>Provides the release speed.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="51b55bdc-f98d-46b4-abbb-2dbb25b23c69"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="3271aafc-b18b-4f33-bba1-40404a5584de"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="b81ab2c4-f923-487b-bccf-ed7f06693d42"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="2ff175c6-5101-4ed3-a011-f25fc83cc51d"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="bc5da72e-ae0a-4034-bd54-521e4d8e8f61"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="36ce689c-754b-4a5a-abf5-b6e1c6676ef8"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayReleaseSpeed()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f01ab45d-7d87-491f-9a40-e3aa20e05bf1"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="9445c893-05ef-4a24-a7aa-c9b8f93bb000"
+>Speed &lt;- aSpeed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="f2442bac-67a8-49bf-aeae-4dbc0723e93d"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="c375654b-37fe-4ca8-921e-1b003d039908"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="1d1cd1e1-d195-4af0-970d-37c4790886ec"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="08c2299f-d634-4791-9ecb-e2e383abf1d8"
+>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+ Guid="b075aa7b-c7ff-4aa1-98f1-9dfd1a6c0e26"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="9063f2af-88c3-4803-a680-5691d630a195"
+>
+<ReqRef
+ Id="76a41522-e0f9-4aab-b8fc-267f771b125b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0d93ee6-49ed-443d-8628-9c7da1ad81a9"
+>
+</ReqRef><ReqRef
+ Id="dcce4528-66c3-498d-b4f5-c40ce761f7d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="befd258c-67d3-4a55-a41a-42e89b241746"
+>
+</ReqRef><ReqRef
+ Id="e3caa999-1864-4f55-998d-66166d0a163b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="756ee71d-1b85-4100-87ca-3d490427da68"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="bb839338-6cbc-4412-8d65-495378fe39b0"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

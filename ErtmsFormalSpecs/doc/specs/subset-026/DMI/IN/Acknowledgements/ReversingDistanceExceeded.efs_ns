@@ -1,0 +1,236 @@
+<NameSpace
+ X="30"
+ Y="130"
+ Width="100"
+ Height="50"
+ Name="ReversingDistanceExceeded"
+ Guid="4cecc51d-8823-4def-9bdf-7b9bda6446aa"
+>
+<Comment>Acknowledgement of reverse distance exceeded</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="c40422af-f80b-4d6e-88af-c60eb5ee6ff1"
+>
+<ReqRef
+ Id="16331b43-cfa0-4f60-88dd-55bf3bd6e93e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="391ecc19-607d-4ac7-80a6-bd07f0b124c0"
+>
+</ReqRef><Comment>Acknowledgement of the fact that the reversing distance has been exceeded.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="498e40f9-9ceb-47ab-ab0c-0f5eb7fe0dcb"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="ac08ebf9-4232-4e85-a2af-ea309182b5c3"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="74ff391e-8f8f-444e-9152-7a0ccbd54036"
+>
+<PreConditions>
+<PreCondition
+ Guid="7aa02568-72f6-49af-848e-677ab5f76231"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
+ Guid="87de1983-eb5a-4c8f-81ff-3a9ec1903a9f"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cac3a113-83af-4401-b059-0d1fdb629bb8"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="1bca1ab7-8ec0-45ee-addd-6917f32f4190"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="1751ed6d-3ff1-46bf-a977-11a58ef28838"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="15d130be-ae8f-4a0f-ad1d-c65e5e6d3e9e"
+>
+<Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="f6d4e740-3b93-4e13-b702-3579baf3f602"
+>
+<Comment>Initiates the request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="fe550fed-8a6f-4d64-97bf-064982c86c13"
+>
+<PreConditions>
+<PreCondition
+ Guid="4a90efd1-181c-480d-8779-bc210a8c97bd"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="13de8929-3a32-4885-a045-21b308fa91b0"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.ReversingDistanceExceeded,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="4305566a-e461-4f0d-a587-ae5f0062c4d0"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="d06207ca-2569-477e-8ff8-15dda2dacef1"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="cccd57da-1166-4689-9480-5fc1223c7d06"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0a0afb3a-c81e-49ba-b886-8c7270f4158d"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="91e5d153-ecb6-41d2-872c-36e9bf3b4de4"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="494304d8-80b9-48aa-a67d-43747709392d"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="96c0eec6-6fcf-41af-8ce9-e882a9efb26d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="7e1a0bca-07bb-4bba-b555-b509ef70174c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ae69db72-a105-45f8-9e7d-d9d76c94be28"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="42a5b38a-c042-4152-b33d-be49f5d170ff"
+>
+<Comment>The status of the request</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="d2000bd6-9549-4686-93b7-33765e4d7fb5"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="a6492aef-496d-4c54-b2f8-e3a14de9f47d"
+>
+<ReqRef
+ Id="16331b43-cfa0-4f60-88dd-55bf3bd6e93e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffd69dd5-acd3-478d-9884-17db1eb46358"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement for reversing distance exceeded.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="8f46221f-c7f8-4557-9f52-dab476f5e3d2"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

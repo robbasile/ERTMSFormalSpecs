@@ -1,0 +1,183 @@
+<NameSpace
+ X="140"
+ Y="380"
+ Width="100"
+ Height="50"
+ Name="TripReason"
+ Guid="494d4c15-6e3f-4d13-a3c1-670b75625f3e"
+>
+<Comment>Displays the trip reason</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="609aada7-fc5a-4f91-8ece-024759bc237d"
+>
+<ReqRef
+ Id="8bf47cec-0b77-42d2-b42f-49c0c29dbcec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e9dcac77-c580-40e5-afad-dfb8cd5e6ff3"
+>
+</ReqRef><Comment>Provides the trip reason.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="d71c5da4-cadf-4d32-bf1f-faf0f343e2a7"
+>
+<ReqRef
+ Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5e5a849b-5a45-4b32-b1fa-d74d3b1303e9"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="69473145-f44a-46e8-add5-2d825b5016c6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="14335465-2fe3-4d37-890d-8e124c007f0b"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e51e35e5-61a7-43e2-96e4-00e09b0507b7"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="42e147cb-8693-4572-b0e8-39e4df8bb560"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="65b41d3f-e4e0-4c36-9305-9b7d2998a325"
+>Reason &lt;- Kernel.Modes.Trip.TripReason</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="If starting the display, record the time"
+ Guid="5a90d674-72a2-4179-903f-abc06e8c7ecd"
+>
+<Comment>When the display of the notification starts, record the time.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="At the start of the display, record the time"
+ Guid="865d423f-c336-4819-bc7b-e5d3c32dc293"
+>
+<PreConditions>
+<PreCondition
+ Guid="2db9a85c-8055-4f6c-9a4b-6364760bfa0b"
+>NOT Available( DisplayStartTime )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4f163b93-af67-4ce8-b5eb-b20ef7c04bfd"
+>DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="fabb36ac-b5aa-4311-8c00-c0a9831b82fa"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="44b0b3da-3e31-47a0-a61d-53772f41662b"
+>DisplayStartTime &lt;- EMPTY</Action><Action
+ Guid="319f782c-dea3-4614-9cce-fdad0fc8cbd9"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="973955f5-51d2-46e3-9f36-4f1f88fff733"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="ff369b12-8507-481f-a9c7-c9314092b2d2"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.Modes.Trip.TripReasonEnum"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reason"
+ Guid="08180235-c129-4963-bdd2-ce8b165469d0"
+>
+<ReqRef
+ Id="3e7cc969-494c-45a5-b39a-09b8d70e8ee3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8907e62f-bb99-488d-b77b-cea1ebaf9f7a"
+>
+</ReqRef><Comment>The trip reason</Comment>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="b3a86010-7ba6-4227-90ad-ddd491f97485"
+>
+<Comment>Indicates the time at which the display of this information started.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="553b9597-62e7-4d4c-995d-fecc8d51539d"
+>
+<ReqRef
+ Id="8bf47cec-0b77-42d2-b42f-49c0c29dbcec"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e16b7541-8ee8-4b35-9c76-e7f17350ec4c"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="e5799dcc-491b-4f20-9936-8236063d62ff"
+>
+<Expression>Kernel.Mode in [ModeEnum.TR]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

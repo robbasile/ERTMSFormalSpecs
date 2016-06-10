@@ -1,0 +1,242 @@
+<NameSpace
+ X="490"
+ Y="100"
+ Width="100"
+ Height="50"
+ Name="Isolation"
+ Guid="9ae7e531-a0fc-4882-8219-143b49377bc3"
+>
+<Comment>Handles interactions with the isolation indication</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="694f7cd0-dc91-4c8b-ada6-e565ffcd1cac"
+>
+<ReqRef
+ Id="0cf0e5ee-5c2a-42b6-8389-ca77ab74368b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4716a46b-9841-46d5-800f-3a2428317766"
+>
+</ReqRef><Comment>Isolation switch.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Always available"
+ Guid="cc2313d0-aa52-42b7-997d-6f3e2ae7dc7e"
+>
+<Comment>Models the X in the DMI table</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Always available"
+ Guid="43ba27b4-a90b-4f8c-b28f-f41bc02b2ec5"
+>
+<PreConditions>
+<PreCondition
+ Guid="8c82e2ad-67a2-4d3d-80ed-c71788446bbf"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e86a276e-a4d1-43e2-8976-3a7b7280606b"
+>InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="35a77ed2-b5d6-417d-ab6c-8636a97ed581"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="12384628-0e12-410d-87a1-da13d37297fc"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="1fb6f110-4108-4f55-864b-3aee2efc606d"
+>
+<PreConditions>
+<PreCondition
+ Guid="882c3d51-0327-4bab-9878-5c3a796d6b81"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="996659ee-6967-4bd4-b82b-cd1c75c7bb50"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6a6a9b6e-874b-4be6-9651-1f7aca9ce19e"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="ddc5167b-8a5f-43f4-b3db-f24fc4e31dea"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="9855a392-a702-4b1d-a27c-0e4787dc1069"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="deab7526-d0e7-4e32-863a-3fc29c186ba3"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="5f31f2ca-4f5a-4a67-84f6-a2f999e901f1"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ed217968-b83d-4bd5-a149-86b178ed3f72"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="f5da9789-92eb-47bf-90dd-ff4e7f663cd5"
+>
+<Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="80d82d95-1257-406a-951a-dc932804f032"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="7ca115c9-e47c-4adc-a13e-b6bb608ef86a"
+>
+<PreConditions>
+<PreCondition
+ Guid="a4caf90d-fe6b-4722-9a4d-21df06db8fcc"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c0e88048-cbad-4ba2-b471-acbd188ce7bb"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="37d9939b-7818-40b1-a385-9a6d0b7e57c1"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="823f7daa-dfa3-4ccf-bb09-82fe2ecc155c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="dd57a769-b129-4416-82e5-e2040c7f5143"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d3daad03-bcea-4724-a07a-c6947d3751ad"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="fb71bee3-a0b2-4256-96a2-352da9e16f55"
+>
+<Comment>Request status</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="d01ec45b-908f-4982-8e64-af050d919a85"
+>
+<ReqRef
+ Id="0cf0e5ee-5c2a-42b6-8389-ca77ab74368b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a18a5d56-68d8-4479-92cd-9b1da5a08de0"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting isolation.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="55a5b761-33d9-4424-ba64-cf31c6266f1e"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.NP, ModeEnum.SB, ModeEnum.PS, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.SL, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SF, ModeEnum.IS, ModeEnum.SN, ModeEnum.RV ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

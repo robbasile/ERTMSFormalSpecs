@@ -1,0 +1,189 @@
+<NameSpace
+ X="470"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="Level"
+ Guid="4a36f96d-7a07-4fda-bfd2-2cb9f5f3b4d3"
+>
+<Comment>Displays the current level</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="1f785bd1-5626-4aa3-bb57-22e5ea59844a"
+>
+<ReqRef
+ Id="188cee00-39ba-43f0-aee9-2e1042e38194"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e3159af4-46ad-4b79-a4d3-554d66ffb29a"
+>
+<Comment>The level is always display when available</Comment>
+</ReqRef><ReqRef
+ Id="ef1a1833-4603-48d5-a049-82e6a371c2c5"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="2420cb2b-346d-4f5a-bb66-ef691caa5c78"
+>
+</ReqRef><Comment>Handles display of information relative to the brake reason.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="4b8c4d28-eb46-46de-9b65-cc5297a2e971"
+>
+<ReqRef
+ Id="ef1a1833-4603-48d5-a049-82e6a371c2c5"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="945740f0-7986-49e2-b7c7-ccc7dac2b9b5"
+>
+</ReqRef><ReqRef
+ Id="c94b2902-c098-481b-bf05-b0bed5a2c1c6"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="6d0ef3f5-c8d9-4ba2-a5d5-61b5c18a5933"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.LevelData"
+ Name="acurrentLevel"
+ Guid="ae68f8e3-bf8d-4156-b356-fa702da5ddf4"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update the request status"
+ Guid="791ab8ca-be49-4507-8955-e0c26b0c1ef8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display the level, if required of level is valid"
+ Guid="157e4c8a-420e-408f-b17c-a31ab9229501"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1e784a97-4006-48aa-8ba4-be2db404ef50"
+>IsMandatory()
+  OR
+(
+  acurrentLevel.DataState == DataStateEnum.Valid
+    AND  
+  IsAvailable()
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d144d142-c95f-4ff8-a029-01114e587e04"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="b2ac2421-6b0b-47f7-904d-e2e9824c1b34"
+>Level &lt;- acurrentLevel.Value</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="614f3d6a-8f90-42a9-8fd4-11bac926a60e"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d2ba9a4a-a448-4251-8876-316db5775a34"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="26e2ac11-6fc9-4c35-a614-dd96da5d9033"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="80258477-4096-479a-9586-dcef0fde6843"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelDataStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level"
+ Guid="596ccce3-cdf0-416e-987a-8e108257db43"
+>
+<Comment>The current level</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="d1e5bd29-89e3-4ec1-bd1f-8698258df315"
+>
+<ReqRef
+ Id="188cee00-39ba-43f0-aee9-2e1042e38194"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="feaad77b-3512-4ab2-bfa6-655d9a978918"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="0f45b575-3149-44ed-9796-f9e0ca89e9d7"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.TR, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsMandatory"
+ Guid="4d9b3262-29ee-427e-9629-9f7489df99c4"
+>
+<ReqRef
+ Id="188cee00-39ba-43f0-aee9-2e1042e38194"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="561fef90-e6ee-40de-8f10-256474260b9e"
+>
+</ReqRef><Comment>Indicates the modes where the output is mandatory</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is mandatory"
+ Guid="9ceb8c2c-e951-429a-9f18-0fd2387fa5f5"
+>
+<Expression>Kernel.Mode in [ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

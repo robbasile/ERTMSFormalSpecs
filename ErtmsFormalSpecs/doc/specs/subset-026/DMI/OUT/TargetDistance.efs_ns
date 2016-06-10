@@ -1,0 +1,194 @@
+<NameSpace
+ X="360"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="TargetDistance"
+ Guid="102609b6-8908-41db-aca2-56ddae27bff9"
+>
+<Comment>Displays the target distance</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="74d706d6-b872-4cad-85e5-a5455a9edfb4"
+>
+<ReqRef
+ Id="c5c3fd28-41ac-4ad2-a5ea-ba3e63205382"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="962cd9d0-d0a6-4e8f-a6c1-89046eabead8"
+>
+</ReqRef><ReqRef
+ Id="220617b2-d0d2-4c8e-a475-e9d9a8761441"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="383a3a1b-a16a-4709-90b4-bb8ff8f77de5"
+>
+</ReqRef><Comment>Provides the target distance.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="23b64412-11c8-4605-8618-94efc185d8a1"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="54e4f128-d2ba-4970-a052-6e7df215278a"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="dbc36a7c-4fef-44fc-ad68-45aff2e60082"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="0b882f74-b29d-44ab-9042-ac7c2c15c0e9"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9bf93f18-1f92-4906-8262-0e7b2503abfd"
+>IsAvailable()
+  OR  
+IsMandatory()</PreCondition><PreCondition
+ Guid="087a5d5b-b30a-4179-a45a-68af4d2a3d4c"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayTargetDistance()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e740b498-aca3-49b9-8e2f-17616dcd942b"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="97b2140e-76a7-42ad-a4ce-515c0c5af34c"
+>Distance &lt;- aDistance</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="7240c926-9bd9-4a20-bf15-3aed1bcad236"
+>
+<Comment>Hie otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="758e52a6-5467-4496-982d-a0f8974953e9"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="2db3f81d-aac1-4c87-aba8-5abd144297e2"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="1c7a794f-252c-4196-a6e4-67ab4b0be7ad"
+>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance"
+ Guid="b84742ef-0cd2-4b95-a060-5feedf5be421"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="6e6259c9-2c71-4bbf-a796-9a7c74dfc153"
+>
+<ReqRef
+ Id="c5c3fd28-41ac-4ad2-a5ea-ba3e63205382"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c07c019-d504-44eb-a94d-691625b7e657"
+>
+</ReqRef><ReqRef
+ Id="c49975f4-30c4-4807-a153-ed306345cb41"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ee253bac-6504-49ed-b389-b86b208e1854"
+>
+</ReqRef><ReqRef
+ Id="528068b1-03b9-4be0-9165-0a1fc5d755bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4b4fb443-aabb-4a07-9337-f4808435500b"
+>
+</ReqRef><ReqRef
+ Id="dcce4528-66c3-498d-b4f5-c40ce761f7d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78e2f974-86e4-4a50-8138-0d364bff88ca"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="95e3202b-142d-4123-9991-f16ba0c0abf4"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.SR, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsMandatory"
+ Guid="56b49f0c-ed2e-44a9-9537-8568041c2b6a"
+>
+<ReqRef
+ Id="c5c3fd28-41ac-4ad2-a5ea-ba3e63205382"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="78f40432-2149-4f78-9ca5-ae9a4c1c0f56"
+>
+</ReqRef><ReqRef
+ Id="4f162629-959e-4389-ab91-a83525b8c6c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7a1cef9d-9058-434a-9685-7f992fcb8742"
+>
+</ReqRef><Comment>Indicates the modes where the output is mandatory</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is mandatory"
+ Guid="ee7d38f8-d282-4a0e-ac06-d55695636004"
+>
+<Expression>Kernel.Mode in [ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

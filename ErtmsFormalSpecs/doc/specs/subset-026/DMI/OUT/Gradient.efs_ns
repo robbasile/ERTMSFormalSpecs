@@ -1,0 +1,160 @@
+<NameSpace
+ X="250"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="Gradient"
+ Guid="d4a9f6b5-3342-4fcf-9266-2b318c4d4c46"
+>
+<Comment>Displays the gradient</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="a6c5c037-6426-434e-a656-7c67ac03dd54"
+>
+<ReqRef
+ Id="e3651d57-b080-418d-95b4-1c194b24a9f7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55b9e939-10b7-4579-b68f-3115b0603ea9"
+>
+</ReqRef><ReqRef
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="e82eb5c5-02a1-42c8-91e3-5c385f6c7c4b"
+>
+</ReqRef><Comment>Handles display of information relative to the gradient profile.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="ac9722d9-07ce-4b15-a49a-09823e244444"
+>
+<ReqRef
+ Id="c8d20e16-9995-448d-bc67-0f4cb59ffafa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21d1b828-537e-40b0-bf56-e77e93c88587"
+>
+</ReqRef><ReqRef
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="8e70455d-a781-4bd4-90d4-7e71872a9a2f"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrackDescription.Gradient.GradientsCol"
+ Name="aGradientProfile"
+ Guid="3011d4a3-8f1d-41de-8677-deb04f330d30"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="165304dc-2a97-4f95-b10d-56dd6cf6a350"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="5c3b7091-321a-4d34-9c0b-c9007e0299eb"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="7bb29aa1-cfc0-4b3e-bbc7-86c80e2490b0"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="104d9982-3a99-4e5f-bc00-617b1cef2e38"
+>Kernel.ActiveFunctions.DisplayRouteInformationInAdvance()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f4d0afe0-0ddc-4128-b56d-c0875cda1866"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="70b59f43-1698-4837-bae9-2d535b8eb6cf"
+>GradientValues &lt;- aGradientProfile</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="b7a5d94f-7b8d-42ec-8f8f-80c4e3952f7d"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ecfec7d3-66d7-4ec1-9b4e-702cd963fbfb"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="2bb12115-8af6-4d42-9d39-355489fdfbac"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="ef0841b1-4108-46c9-95ef-f330b7d27000"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.TrackDescription.Gradient.GradientsCol"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="GradientValues"
+ Guid="6d73ebc8-fd36-46ac-a77f-25a047cb86a6"
+>
+<Comment>The gradient values of the upcoming track.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="cc7242a2-c6fd-4bee-8567-e330538b0ab8"
+>
+<ReqRef
+ Id="e3651d57-b080-418d-95b4-1c194b24a9f7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fd73eecb-5301-42b2-9db9-c9e235433014"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="5f5a9231-4f9d-447c-9328-3b597e6e180a"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

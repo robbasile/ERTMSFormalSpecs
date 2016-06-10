@@ -1,0 +1,168 @@
+<NameSpace
+ X="470"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="OperatedSystemVersion"
+ Guid="e8b23f8f-4752-4585-892c-f1dc9abef445"
+>
+<Comment>Displays the operated system version</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="ce642207-7b1f-45cf-9884-d54289f8d41f"
+>
+<ReqRef
+ Id="24ae3ea6-e8c3-4608-9c0f-f8939770807a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8f60ca0e-0d63-49ba-9242-e2dea62949a0"
+>
+</ReqRef><ReqRef
+ Id="d8015bba-8732-418a-8989-c213c379c3be"
+ SpecId="7976a642-eab5-431b-a656-44fc19d26d62"
+ Guid="d1147c5b-a4ba-4bb1-bc50-dfcfcc3a6d5f"
+>
+</ReqRef><Comment>Provides the system version.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="aa853e37-ae16-4bc0-b1c4-ebcef315c906"
+>
+<ReqRef
+ Id="0bab7f80-e1a8-411c-8eb9-8487f9dea6bf"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="682f8de6-615f-4b9a-84bd-124bd330f293"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="VersionManagement.SystemVersionEnum"
+ Name="aVersion"
+ Guid="c5f41236-e48f-47dc-bfe1-59e1b39e635c"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="8e48f664-9951-4f88-a40e-48d0d41186fa"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="57d24345-ec10-4db1-bce0-93621e3d82b9"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="494f67b9-c8b2-4169-84dd-5cb5d7964d2b"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="df9190c6-ef49-4195-bc91-c268e3421cf4"
+>DisplayRequestedByDriver</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f6ccbfec-23a2-49fc-a2b4-313b58fa88f4"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="dcaff847-9048-4c07-b2fd-33846a0fc656"
+>Version &lt;- aVersion</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="23733e87-721c-44c4-bbd3-5adbfebcd971"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6a24675f-5832-47ed-a6fb-5b372286b967"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="e6279d74-9d6d-4196-a6e8-3ad52a635dc0"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="042bae19-9e12-4786-8ab4-d2e58bdf6fee"
+>
+</StructureElement><StructureElement
+ TypeName="VersionManagement.SystemVersionEnum"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Version"
+ Guid="78f05cc1-5cc0-4b44-a7b7-59e574fe6977"
+>
+<Comment>The system version</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ Name="DisplayRequestedByDriver"
+ Guid="95183351-c2d8-462f-8d72-9493baf223ac"
+>
+<ReqRef
+ Id="0bab7f80-e1a8-411c-8eb9-8487f9dea6bf"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="ad7421a0-92a8-4c63-8eff-d51721cf9a6a"
+>
+</ReqRef><Comment>According to the document ERA_ERTMS_015560, the driver can ask the display of the operated system version. This variable reflects the status of the driver&apos;s request.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="9b47916a-7d13-47a5-a8c2-5d0c2dc8d9a0"
+>
+<ReqRef
+ Id="24ae3ea6-e8c3-4608-9c0f-f8939770807a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e4d93c2e-9af3-4a2d-879e-807f953756ad"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="602b7f59-890d-492f-ade3-e5197c5f6860"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

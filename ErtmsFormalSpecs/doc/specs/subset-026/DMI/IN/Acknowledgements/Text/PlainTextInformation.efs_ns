@@ -1,0 +1,240 @@
+<NameSpace
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="PlainTextInformation"
+ Guid="241cb669-5feb-4f87-b444-876ed455878e"
+>
+<Comment>Acknowledgement of plain text messages</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="21159917-59f5-4c77-bb7f-bf75cc0c3b32"
+>
+<ReqRef
+ Id="641a1733-782b-41d1-8db8-443710ef091a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54c54745-af99-4207-97ce-2c44413013ed"
+>
+</ReqRef><Comment>Acknowledgement of plain text message.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="f72aa15f-58ab-446e-a2f0-f496077cd84d"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="c93e2e8e-39c3-4c35-b4d8-7965cfceb091"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="936c1a27-25fb-4d0a-b568-c56dc87b1d51"
+>
+<PreConditions>
+<PreCondition
+ Guid="1fc419e1-a444-4869-8c33-daef9118eb6f"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="1060099f-3962-44a2-83d7-4f873b629695"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5bfb2800-2c0e-4da8-9d7a-e40e593d6d55"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="05833a81-2af2-49f5-809b-cf4b48201006"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="ddef836c-83f2-4021-bf9c-710717d5b528"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="941d2dfe-2138-4b3b-a361-ad2ad5ca5072"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="112e6d02-9801-42bb-8e91-127c13b837be"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4458f539-9af9-4af7-9777-27e746c0972f"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e37bd4ae-e703-4f42-a376-755065173092"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="ed90ace8-be53-41a4-b4c2-d0bccf0b22cd"
+>
+<Comment>Initiates the request</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TextMessages.PlainTextMessageStruct"
+ Name="aMessage"
+ Guid="a3aa7273-1e12-4b69-92a4-c5377de9fb50"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="61ce66c6-fcb4-4f18-9050-ee96a2e0e043"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="359be032-4f0a-4997-86c5-1d78e95828e3"
+>
+<PreConditions>
+<PreCondition
+ Guid="413ce5ac-ba4b-4fa3-812b-3eba5f0bd346"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4b2fad25-f978-4e27-8055-a2978840b2ba"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.PlainTextInformation,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; aMessage
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="7c51f230-cb03-4960-8acf-f1cb4b0339b7"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="6b64a57f-e3d8-4857-8542-0e3d3be166f5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="0c40ba05-6aab-4c01-b417-63afa62ef2eb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9468b633-1a67-4e8e-955c-bc925b7d6e07"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="6095f4e5-074c-4e0a-95bf-d1b445aeb9ea"
+>
+<Comment>Request status</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.TextMessages.PlainTextMessageStruct"
+ Default="EMPTY"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="Message"
+ Guid="e5443dc8-622c-4d0a-afd9-e2da7a206a9e"
+>
+<Comment>Plain text message to acknowledge.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="cd45a5ea-b0bf-4f94-86f0-19c83b05282a"
+>
+<ReqRef
+ Id="641a1733-782b-41d1-8db8-443710ef091a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59c4cc47-91c1-447c-b89c-d74810f895b3"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement of plain text information.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="b2975d63-8936-4972-97f7-6168230d4045"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.RV ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

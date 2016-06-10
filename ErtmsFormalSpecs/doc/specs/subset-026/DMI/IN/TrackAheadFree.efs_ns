@@ -1,0 +1,222 @@
+<NameSpace
+ X="490"
+ Y="220"
+ Width="100"
+ Height="50"
+ Name="TrackAheadFree"
+ Guid="88b6e406-03e7-494f-9b6d-47328473daf7"
+>
+<Comment>Handles the entry of track ahead free</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="abd04413-b586-4010-9d95-33aca0fbb33b"
+>
+<ReqRef
+ Id="25a833cc-7385-4baf-a092-22c94d1cafe5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba150833-90b6-419c-8e46-6823b636dac5"
+>
+</ReqRef><Comment>Driver confirmation of the &quot;track ahead free&quot; information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="24181169-71ec-439c-af71-9487d72714a0"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="ba08fca3-9ecb-4950-a633-c8aa975d9332"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="5629bba1-c354-4b8b-94a5-041ce95b2f05"
+>
+<PreConditions>
+<PreCondition
+ Guid="2c1ad6b0-86eb-4b52-9032-afe315680aae"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="acd708b9-ac7d-4276-b7a0-35601ef7de08"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="14d584f9-df83-4cda-baa0-e7eeea298a35"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="a0b8e8e9-422b-4465-976d-2e1ff06640ac"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="7c1bd2d5-cc22-40a1-871a-b5f00a0ced93"
+>
+<PreConditions>
+<PreCondition
+ Guid="15185d03-8fad-457f-9241-e14008b2fef0"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="62169c94-bf0d-4ce0-b89e-bfa83800013e"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a0e16f10-a236-471b-b610-864623cf30dd"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="48d0df6a-9260-4a2d-8ef1-97fea2533449"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="32a46456-3d78-4983-b459-325190555c98"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="f7d80ace-f1e4-4dc9-a2bf-1af2b61ac668"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6e0cc039-516d-4655-b466-74c9e7b5ae66"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="59ded254-df81-4e42-a4d2-d921130f9798"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="0d8119d7-45f8-4053-afbf-b6ae4e1ea622"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="f4165f69-ff83-417b-93d6-25b5888243d6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="905b770b-8cb4-4a9e-b93d-5801db54319c"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="ba3655fb-a5a9-4e96-a60d-62647f3fd2a7"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="b9026fd1-28a2-44ab-b76a-49250b1d053f"
+>
+<Comment>The Request status</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="4754c4ec-71fe-4e1c-8f66-6b3d0c9d38a3"
+>
+<ReqRef
+ Id="25a833cc-7385-4baf-a092-22c94d1cafe5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9b3b95ef-849b-40ab-9c8b-ab4e7e6ec1c0"
+>
+</ReqRef><ReqRef
+ Id="2a9d3fd0-c8d7-4772-96d9-a87b680e4435"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="86f4c4a4-2cf4-4651-8c60-4f2f02d4a878"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver confirmation of &quot;track ahead free&quot;.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="e8da73db-aef3-48aa-a309-2f92d005a69f"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

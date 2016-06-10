@@ -1,0 +1,473 @@
+<NameSpace
+ X="160"
+ Y="220"
+ Width="100"
+ Height="50"
+ Name="SRModeSpeedAndDistanceLimit"
+ Guid="50a72bf6-afa2-460e-abd2-897c79191654"
+>
+<Comment>Handles the entry of speed and distance limits in SR mode</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryRequestStruct"
+ Guid="7c15a2f2-bf82-40ac-8208-25ca377ad078"
+>
+<ReqRef
+ Id="7ae1bf11-7b11-466d-abd7-fcec9dee2465"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fa74ec18-682c-4414-a84e-8ec353e858ee"
+>
+</ReqRef><Comment>Button for requesting to enter speed limit and distance for SR mode.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="9bac551e-2093-4792-ac64-07600ce23d16"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="49e03954-42d7-42bf-aee1-bb2ff94d4982"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="129dc5be-e561-422f-8f0a-4314f82bac92"
+>
+<PreConditions>
+<PreCondition
+ Guid="75e7534c-ffa8-48b8-ba98-3c39debe87e7"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="7799470d-65b1-4cb0-9f2a-5644837c4f04"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fb33d69b-90c0-4a5e-9ca4-56c8c6accc24"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="fb2f8c24-99d4-4a8f-968a-0e9438b86792"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="0bc9950d-04bc-457d-9a20-abd45fa00cdd"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="71c7252e-168a-4b8a-aaa1-863e21f5e6e7"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f96e7c81-2df5-4202-9421-eb18af5e52a3"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="49565fb1-df99-44f4-96c6-46be4ce6b049"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="c590cc0f-3942-4912-a2a5-ef53763baa83"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="43dd80ad-6eba-45df-9160-6a0587ec7241"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="27534936-6450-4fd9-b573-0025b43cbe57"
+>
+<PreConditions>
+<PreCondition
+ Guid="5245df18-e61e-4ce3-93c3-891259dbc813"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="030d48d3-a736-4adb-8cba-0441c97a6c3f"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="bbcee58e-4a1a-4272-86f2-bca4a7caaf87"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="11687227-9cdf-4fd7-9076-62fe23bbac03"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="339d5e12-79a4-43a2-9e55-f3a9c3974ae3"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="16d2a53b-54b9-46a5-b625-8ebb6a95ed4c"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="96b43298-50fa-4acb-b2b2-382788943b0e"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default="0.0"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+ Guid="ca12f3fe-6b50-41fd-9143-5ed34c0fa622"
+>
+<Comment>The speed to acknowledge</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance"
+ Guid="39879fa9-7f2b-47ee-b005-fcd9574efa97"
+>
+<Comment>The distance to acknowledge</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="b4f997bd-11d7-4d2f-ac90-cd24af112ec3"
+>
+<ReqRef
+ Id="7ae1bf11-7b11-466d-abd7-fcec9dee2465"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6322fccb-dc9c-47a1-9547-1be8361d3ae8"
+>
+</ReqRef><Comment>Speed limit and distance for SR mode entered by the driver.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="4af5856d-f8e3-4000-8bc5-a6f968ea4d88"
+>
+<ReqRef
+ Id="c51f0ee1-8abb-4f3a-a52f-62248f5a5f7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6241e68e-f3e2-4212-a5bb-aadb7c331750"
+>
+</ReqRef><ReqRef
+ Id="17a4c2cf-4fbc-48d2-b77e-25fe06fda936"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c8b0f4e2-5f3c-49d6-a5f7-575b62170ced"
+>
+</ReqRef><Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="0756a976-b250-4c6a-95e0-b399f851f630"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="758e5721-740a-4700-8b9e-d6702b47e048"
+>
+<PreConditions>
+<PreCondition
+ Guid="4a5ff4fb-a479-4329-9a24-44380cc918cb"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="c5439b19-0569-4ed7-a458-a7e95d9f7188"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5cc17c0b-817f-4483-8077-9146d6cbb607"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="f5ce354f-859e-4332-b811-e2d0ae772e1a"
+>Kernel.Modes.ModeRelatedSpeedLimits.SRModeSpeedRestriction &lt;- Speed</Action><Action
+ Guid="a11aacf6-d0d4-4812-a3b0-3254aeb2f787"
+>Kernel.Modes.StaffResponsible.SRAuthorisation.Location &lt;- Distance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="6197b660-3d0c-4d66-83be-af31e019a03a"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="3d1e1c3a-822b-4ba5-9c12-05bf513b3cd4"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="8b529adc-6d9c-4564-aba6-a2a7ece4d0fe"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e962044a-7848-4ce2-9aee-5b9eb9645b3d"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6a6a0978-207e-42a1-94cc-90fb6e88698f"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="c8f2ac8e-98c4-4dc2-8318-d45fc221e057"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="7c74e8c7-7723-49a6-a1d9-9a3422cda681"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="b84e5084-0503-40d5-a399-86057a9cf8f1"
+>
+<PreConditions>
+<PreCondition
+ Guid="ade5b8db-9676-4354-a2b9-0d80eee74184"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c332e274-f2ad-4dc1-a0fc-905db56ee5e1"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="5d136c81-ef05-4e12-82f8-f04e7b4cb994"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="91ad8103-a7ab-49ce-be49-decc310d1f21"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="2abe75ed-8d09-404e-bfa2-72f8476b6d6b"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9a8ed474-b607-4a97-956a-58576d2fd27d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="92fbe97c-cbb6-4a6e-8f52-fc0928b62741"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9b38cbda-6c9e-4537-b06b-a522d319a9c4"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
+ Guid="7458b2c9-f10f-4a08-90eb-31365ca054ff"
+>Speed &lt;- aSpeed</Action><Action
+ Guid="b2244c1a-6db9-4198-ae65-cbcb607078ec"
+>Distance &lt;- aDistance</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="5a0c60d9-7e6c-491b-ac81-515ee79f18a7"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default="0.0"
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+ Guid="279c7719-87a5-4e77-a4e8-5c9d3ee7eccc"
+>
+<ReqRef
+ Id="6a2d9432-86f3-4154-85b1-431198e6b7f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ecb32629-3049-4a45-a275-f19bb83649d2"
+>
+</ReqRef><Comment>The speed to acknowledge</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Distance"
+ Default="0.0"
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Distance"
+ Guid="6aca2546-bcde-44ab-852c-95f8bd0ace1e"
+>
+<ReqRef
+ Id="6a2d9432-86f3-4154-85b1-431198e6b7f3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="305c9c80-b045-4ef7-8d9f-a12cfbb4a727"
+>
+</ReqRef><Comment>The distance to acknowledge</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="128cee29-6733-4ed8-a2e9-db24918e1724"
+>
+<ReqRef
+ Id="7ae1bf11-7b11-466d-abd7-fcec9dee2465"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e04b7840-b1c9-4cb6-9213-df682f607aa3"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting entry of the speed limit and distance for SR mode.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="73f32435-63c4-4634-b870-692d6d53d341"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SR]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

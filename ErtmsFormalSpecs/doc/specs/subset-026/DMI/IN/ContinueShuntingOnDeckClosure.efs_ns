@@ -1,0 +1,216 @@
+<NameSpace
+ X="50"
+ Y="100"
+ Width="100"
+ Height="50"
+ Name="ContinueShuntingOnDeckClosure"
+ Guid="2244a8da-0530-4b52-ada3-72a5526b3fa4"
+>
+<Comment>Handles the entry to continue shunting when the desk is closed</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="04f75fdc-b15d-416d-9499-e5c2a0e385e4"
+>
+<ReqRef
+ Id="2dd0cb88-9abd-4a28-9cf2-6cb53656287f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a10ae4f2-eff3-4a37-88a3-41fb1d6be6e4"
+>
+</ReqRef><Comment>Driver request to continue shunting on desk closure.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="a56b71ae-8423-4cfb-b3e7-3e937f91ed79"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="caa82d35-6e91-404b-9f0b-e88a5a84bd94"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="7f23b84e-297e-4f69-993a-4064d6d14247"
+>
+<PreConditions>
+<PreCondition
+ Guid="0ecd27c5-3a58-43af-9001-c7d6fca72139"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="55e8898d-63c7-4be7-9504-0a6df9bf3521"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5ef5c085-e528-4c0c-9bce-98437e79b8fb"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="ca8fd029-4f96-4b5c-96c4-d41ffbc528d5"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="207de3bb-17ac-4488-8d19-3deec2b26976"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="fa1f336f-6374-47a3-8324-2eec92708460"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="abf9d422-90ef-468e-9086-9fb6ccd79421"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a77d8197-fee8-4e2f-a32c-e70678e3a5c7"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="d048abcd-b475-45a7-8795-b79cef76c75d"
+>
+<Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="c23fe7ba-253c-45c7-b9b4-ffff7484f8ad"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="3fe9cd9a-f141-4506-9696-ead58bed3541"
+>
+<PreConditions>
+<PreCondition
+ Guid="74d41c0f-9e90-49c5-8e37-9bf165941859"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="912099d4-fdb7-4b7a-9756-1a9ea3b8d961"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="4b54c9a4-4d50-4f7d-b33b-d057091f3d2b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="2ecf42e2-4c84-4a12-a6fe-b1e797a2bc77"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="dd2c5e17-ab80-4c8c-b928-7773a6fb28af"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="90ef9854-e1d2-494d-a188-f994e8b19b57"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="78889072-7d99-4757-abad-23101a7c267a"
+>
+<Comment>The status request state</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="061e891f-0d15-49a8-96c4-ede9b75fd7a9"
+>
+<ReqRef
+ Id="2dd0cb88-9abd-4a28-9cf2-6cb53656287f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="12098a29-4760-4e63-a956-2b99cf4ae1b2"
+>
+</ReqRef><Comment>Verifies mode for allowing and accepting driver request to continue shunting on desk closure.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="92c623f2-eef0-49a9-bb77-8aaf94d30044"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SH]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,235 @@
+<NameSpace
+ X="30"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="Mode_UN"
+ Guid="bdca8769-3716-49ab-8fa9-f6c3134e11fc"
+>
+<Comment>Handles acknowledgement of UN mode</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="35abc48a-7aec-4bd0-9d64-3ac947d01b39"
+>
+<ReqRef
+ Id="a8974387-814c-4e26-a7a4-5001e32c4554"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="54310881-7277-43a1-875e-b0092d38d688"
+>
+</ReqRef><Comment>Acknowledgement of entry in UN mode.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="0136b44e-dc16-4ffb-a66c-880a84bb03ce"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="388393bb-ae88-4b10-83cd-895b489aa814"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="ad94be90-564b-47ee-a493-35d234a1327d"
+>
+<PreConditions>
+<PreCondition
+ Guid="1d41a389-f99a-4954-9018-69d1f0a8abf0"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="f022db1a-31a9-4631-8efe-9bea1cd6b68a"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c6ae23b0-e926-44d7-9f0c-04a4eeee1ce1"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="c53fac22-f56a-4036-ae5c-fca91f78ccc2"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="1e8cc44c-5b7b-44c8-9eaa-ef4a80142b9d"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="f2d50cae-b085-4b05-b38a-a6cc3c245338"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="5f86611f-be7d-45d7-b4d6-f3c9402d6bfc"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="18e95f38-12cf-4042-8de1-8ece6d9dea93"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="4c2ed3f7-70c9-4459-9302-b047b65ca1c4"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="349b17f5-b665-4423-9ce2-c74251ef1005"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="80a1696a-5c5b-443c-96b7-8537be899aa3"
+>
+<Comment>Allows to initiate the Ack of UN mode</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="56178bec-14a9-495e-a98f-aa232366782b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="9782f172-8997-43a5-96db-3ea592f0fe3a"
+>
+<PreConditions>
+<PreCondition
+ Guid="1751f347-23bf-4582-8a9a-9dca7879a72e"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="dbda4c24-cc3e-417a-a756-a22a20725059"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.UNMode,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="f3151bd1-9dbe-4323-8464-8ffea617c999"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="fc552e6b-2990-404a-865c-f31a570b4fc6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="8b256857-49de-489a-94fa-75b23463cabd"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="cd48e18b-e7bb-450a-b004-0577b457cb71"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="2fd383d8-bc43-4027-9992-09ef5abbc8e9"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="04be1003-ff77-4c42-998a-5dd7211b5997"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="0da58eec-ddb0-4cf6-b7cf-14063b87ccfc"
+>
+<ReqRef
+ Id="a8974387-814c-4e26-a7a4-5001e32c4554"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e7fd414-ce1a-40f5-8a03-b034d76a74f4"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement of UN mode.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="9415dfdc-f245-4fdd-a9e3-c5f8ba1d96ee"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

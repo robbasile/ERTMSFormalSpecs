@@ -1,0 +1,437 @@
+<NameSpace
+ X="380"
+ Y="280"
+ Width="100"
+ Height="50"
+ Name="VirtualBaliseCover"
+ Guid="b09219b6-6a88-4f8c-914c-f781ead73efb"
+>
+<Comment>Handles the entry of Virtual Balise covers</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryRequestStruct"
+ Guid="d62208cc-e56c-4d3c-aa96-3c4c95f0a263"
+>
+<ReqRef
+ Id="5f1173da-1cfe-4f41-aa4f-5c394c12e77f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cf93f17e-fd0b-4ade-a8cf-189515a4cf11"
+>
+</ReqRef><Comment>Display button of the virtual balise cover.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="314f2a93-a573-4812-be11-2c1f002e80fe"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="8505b010-d2ba-4892-b61b-af060b084991"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="062fab32-b2e3-4195-92b2-55114a867bec"
+>
+<PreConditions>
+<PreCondition
+ Guid="85ba86ad-387c-4405-a27b-9342e6896c10"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="109fd754-6f1b-4416-8951-2d2552e9fe8f"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="db267b0a-5c9a-4ef3-92aa-12ab011e6f2f"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="5c3f0909-64e9-4d8f-acb4-5b2f5d227a8b"
+>
+<Comment>Initiates train data entry request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="4d744b20-4f9f-41dc-bfb4-8a6b437d4037"
+>
+<Comment>Initiates request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="4a2dd4f1-6854-4d60-b142-08d060e64a69"
+>
+<PreConditions>
+<PreCondition
+ Guid="b4f80d80-bdba-4dfa-a12c-120f69b3c36f"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0f3854ce-b452-4e09-985d-4458b6ace545"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="267b49f1-8c2e-41b7-8682-98217322f057"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="1ad7bd46-04d2-4a1a-ba9e-d020a3db8bd0"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="cb475c0f-3d59-4609-b381-53dbaea3b0d8"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="50a7d616-3f2b-4f06-ac0d-f10d2b0a39c1"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="becde018-6cd7-4a22-9dbc-f3237c0f2c13"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="a9fc4019-c32c-4af7-952a-7a285d1fd66f"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="e7d114d7-6180-40db-9cf1-331dfd35f035"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="45420b71-b508-455b-a05b-9ddc15431eb0"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3ee14e08-7405-458e-9fc3-088ef4871fa9"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="41d5ac3c-a074-4151-ad31-3e6e6857be60"
+>
+<Comment>The request status</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="18b04a1e-3b82-470e-955f-82e0b60a3c5a"
+>
+<ReqRef
+ Id="5f1173da-1cfe-4f41-aa4f-5c394c12e77f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="82635655-64f2-4fe7-80b3-996e97867914"
+>
+</ReqRef><Comment>Driver input of the virtual balise covers.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="416fbac4-352a-48d0-a4fb-cd6cf5869901"
+>
+<ReqRef
+ Id="6d37f900-cf0a-4c87-a4b2-9859f99dab0a"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7c0632e4-46c8-41d7-9654-8a9f463f67b5"
+>
+</ReqRef><ReqRef
+ Id="c9d51e90-7f7e-4c3e-b330-dec4e7a4499d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fedb3cbb-a490-4ce8-8756-ac0c0a393d67"
+>
+</ReqRef><Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="3ec89f72-1986-4742-9388-9a9e019720bb"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="08a226e8-80cb-4867-88ed-193bde5cacdf"
+>
+<PreConditions>
+<PreCondition
+ Guid="71cda174-55a7-4464-b783-1be7c71c7911"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="cfe86bd9-0719-4e55-a53c-630dcf39fe49"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9484037f-ae8c-4c61-ac5d-d77f23a6c203"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="29f0eb50-b4fd-485f-add0-03585d769c39"
+>Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs &lt;- THIS.VirtualBaliseCovers</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="ff1f2d51-6435-4cde-9750-6985f783f71b"
+>
+<Comment>Initiates train data entry request</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.VirtualBaliseCover.VBCCol"
+ Name="aVirtualBaliseCovers"
+ Guid="bbfdb2d4-fd02-4e95-98f8-2d3cbad7a0f1"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="1a463267-7f6b-4e42-bc40-cc9aa343cf27"
+>
+<Comment>Initiates request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="f774ac51-bbd7-4dbd-a1c9-e54e8be1cff9"
+>
+<PreConditions>
+<PreCondition
+ Guid="398d9a4f-2621-484c-a304-24335a68e786"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="fd488683-6118-4073-8f08-3d8d37ab3e7a"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="d98c8987-f0f6-407a-8bf2-9d0ae3658a9e"
+>VirtualBaliseCovers &lt;- Kernel.VirtualBaliseCover.VirtualBaliseCovers.VBCs</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="873fbafc-e70c-46a7-87ea-9c861c18eaa3"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="17829e5b-9f3f-4336-bf7c-ea2c3cdb143c"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="0bb28fbf-ae29-43f8-85bd-6e7ef711931e"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="00cac2a2-b5cd-44d1-b323-a289024608df"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="341ad025-67cf-4560-9a2e-57fae6de49b3"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="3927eb4a-82a4-4e16-8b36-2a5a0c0855b4"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.VirtualBaliseCover.VBCCol"
+ Name="aVirtualBaliseCoversInformation"
+ Guid="da14bd66-e3c0-4ceb-bd60-71d56e8730b7"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="536d371c-3580-4e7d-a769-a5b42ef99cd4"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="542a9425-9a9c-4529-8b64-e2e2040f1d3d"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0d1c3bd9-0018-4326-a952-dce775fb1bae"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
+ Guid="d1473015-cfe5-4299-94dd-2cc72a5cbd30"
+>VirtualBaliseCovers &lt;- aVirtualBaliseCoversInformation</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="acbda029-1504-4ea3-bebe-1ab21813cd63"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.VirtualBaliseCover.VBCCol"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="VirtualBaliseCovers"
+ Guid="cae556c2-f308-4e87-a580-0c1684d76478"
+>
+<ReqRef
+ Id="079c6696-ff46-4b49-b30c-23ad82da6fd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cd72a3c7-0eea-41db-8c0d-93311ad4a10b"
+>
+</ReqRef><Comment>Indicates if the virtual balise cover is set.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="d487cdf8-cdde-4e8c-97fe-d3b16cd94098"
+>
+<ReqRef
+ Id="5f1173da-1cfe-4f41-aa4f-5c394c12e77f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="62c8f928-2cef-425b-a2f2-a64396563eff"
+>
+</ReqRef><Comment>Verifies mode for allowing and accepting input of virtual balise covers.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="c57564a1-d034-4617-8d3f-cf1eb5de2b89"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

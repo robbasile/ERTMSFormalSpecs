@@ -1,0 +1,207 @@
+<NameSpace
+ X="30"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="ShuntingRefusedByRBC"
+ Guid="97c5cc9e-edb7-490e-9471-5afebfa63686"
+>
+<Comment>Displays the fact that shunting is refused by RBC</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="9a83641b-338e-4b21-a593-cbaa050f4143"
+>
+<ReqRef
+ Id="1176c931-9bec-4873-af7b-4bc2a1e73232"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="aaf79d6c-33e1-4a34-bf73-044a35515109"
+>
+</ReqRef><Comment>Indicates that shunting has been refused by RBC.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="56c07ad3-f28f-452b-872a-fcd54de50462"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aShuntingRefused"
+ Guid="f6cd292e-2bd9-49e9-91b3-614d077debea"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="d91f0814-1318-4f58-b623-37456f595825"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="1e05ebab-f1b7-4f4a-b9af-e317422f59f3"
+>
+</ReqRef><ReqRef
+ Id="54b09b4f-156d-4692-adef-f433359f1e2e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="8a74dd07-0e98-4698-b49c-24752c9804e2"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="f462bd97-0834-42b2-8917-c305f9b09ded"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="79977fa9-364e-499e-9deb-07c81b40b02f"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3760cd6b-eb73-4edb-b32c-c009bec05ecf"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="67296c6d-eaf7-4e24-875a-bffa2c2b18f5"
+>ShuntingRefused &lt;- aShuntingRefused</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle start time"
+ Guid="64da5647-dffd-4bb6-b48f-99e2dd682daf"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="777fb841-4ee7-45c4-a76b-25315ba15b95"
+>
+</ReqRef><ReqRef
+ Id="54b09b4f-156d-4692-adef-f433359f1e2e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="4fbe5176-d201-4466-8b2d-3fe152bfcbf5"
+>
+</ReqRef><Comment>When the display of the notification starts, record the time.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Record time at start of display"
+ Guid="84344203-1142-422f-bae8-3ed916ba712d"
+>
+<PreConditions>
+<PreCondition
+ Guid="afbda743-c4f0-42da-adcb-98001fc4398c"
+>DisplayStartTime == EMPTY</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2b20f49c-0090-4f0d-9b6b-e3d5e5adfe94"
+>DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="ef33f241-27a1-4908-b9f0-e456cca8c1d5"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d5d06425-6f71-483b-aadf-6d1e2b09f746"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="db7bc58f-6a14-4638-b6b3-3de6d8ae9923"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="cf823850-de5f-4d0d-a714-ce74dbd0e144"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="ShuntingRefused"
+ Guid="34b53e47-b6f4-4842-b1d0-3ade96f7997d"
+>
+<Comment>The RBC refused a request to enter shunting mode</Comment>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="e75eb498-2e40-4f02-b578-395462efc508"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="a7af940a-c4ab-47ca-b05b-b6bae8a05437"
+>
+</ReqRef><ReqRef
+ Id="54b09b4f-156d-4692-adef-f433359f1e2e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="f0c3a757-9ab7-4cfa-8d83-99a7127ed428"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="7d0ba844-b887-4dd0-bdb6-8b410a14ae94"
+>
+<ReqRef
+ Id="1176c931-9bec-4873-af7b-4bc2a1e73232"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b0cc3fd0-375c-4d67-820d-11dc4a226568"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="d8a892e3-65a2-4cbe-87ff-4b489064f753"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

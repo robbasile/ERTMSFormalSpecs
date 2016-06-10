@@ -1,0 +1,158 @@
+<NameSpace
+ X="250"
+ Y="380"
+ Width="100"
+ Height="50"
+ Name="VirtualBaliseCover"
+ Guid="b8308b3e-1c02-4a23-8767-cb7ac33d24f2"
+>
+<Comment>Displays virtual balise cover information</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="8d82b2e7-c222-4a96-8b3c-0c95390ca6d4"
+>
+<ReqRef
+ Id="d707ce86-136b-4d15-825e-ea898b0408ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7eb35b2d-181b-4894-b723-fea055d82961"
+>
+</ReqRef><Comment>Provides the virtual balise cover information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="92c83905-eb9f-4c66-8277-59719628d5b8"
+>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="16277961-be38-4426-8c95-3d13bb54d710"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c618efcf-fe8f-4f16-b931-9f774a16fead"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.VirtualBaliseCover.VBCProfile"
+ Name="aVBCProfile"
+ Guid="6e6e8228-a84f-4329-a24d-53d2e8bf2472"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="64aa12c0-0152-405f-912a-3617986b3a2c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="5900d80d-dbbd-40c7-8f7a-76c3f6d7d15a"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="aea8f50c-fe99-44a2-aea5-d50e8cede041"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="0a70c0c5-a1a4-43f6-9dbd-5a535fc65e9b"
+>aVBCProfile.DataState in [DataStateEnum.Valid]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="9d120b48-c95f-4c8f-9984-8eed94dc8ab1"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="c2002266-6436-482f-a3b4-fc86c8d687e0"
+>VirtualBaliseCovers &lt;- aVBCProfile.VBCs</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="bdb86434-2d60-4558-b826-48f69a3400b2"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="dda31511-40c1-43e9-8a5f-a9e8c84ef074"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="267468ab-1a51-4e28-8d7d-a2dd52b786bb"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="a38029a4-5491-4363-9561-e8d78c629e82"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.VirtualBaliseCover.VBCCol"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="VirtualBaliseCovers"
+ Guid="08e21fd0-98d2-4d90-b9e8-e48b96ed1fab"
+>
+<Comment>The list of virtual balise covers to be displayed on the DMI.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="f3788bcd-a163-492b-ba70-f5a27ca48411"
+>
+<ReqRef
+ Id="d707ce86-136b-4d15-825e-ea898b0408ad"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="60f5b8a2-460a-4bb5-b45f-bd4a840ca536"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4a9a0a81-b094-4701-8f30-61e5daa17355"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="2c5a07d0-3570-49ca-abfc-22e367e9ab86"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

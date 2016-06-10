@@ -1,0 +1,143 @@
+<NameSpace
+ X="580"
+ Y="80"
+ Width="100"
+ Height="50"
+ Name="LevelTransitionAnnouncement"
+ Guid="f3aecf6d-736a-4c18-b840-486334edd0b8"
+>
+<Comment>Displays the level transition announcement</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="3910906f-c3b7-430c-ab72-f4de5877f313"
+>
+<ReqRef
+ Id="5e2ed22b-9e71-4788-8e67-a9aa26c8a51c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31ab29d7-94a4-4e32-a733-ad5fb17146ae"
+>
+</ReqRef><Comment>Displays a level transition announcement.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="f55fb5a9-7fbe-431d-8099-6f472e9b6783"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.LevelTransition.LevelTransitionStruct"
+ Name="aLevelTransition"
+ Guid="034cf696-bf4b-46d4-837e-d6a838268c3a"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="d610f81f-93a5-4738-80d5-163f0127bd43"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="2a4d9ba1-9c51-4948-bc33-8a34195b750d"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f2534e40-a1bf-436e-91f5-bdf2eec94c25"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="b046f01c-0d02-4e27-8d29-311b4858c102"
+>Available(aLevelTransition.TRLevel.Value)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="02004a9a-391e-42b3-8ade-c978676f41e1"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="1f7b0608-20d4-48f7-abe9-c5a26a9cf3bd"
+>Level &lt;- aLevelTransition.TRLevel.Value</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="5081d55c-119f-4b7d-b5f3-1789f60615a0"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d0316918-b307-4499-b3c9-21371d66aabe"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="4a0765ff-d8ca-4475-b4e6-7f3eafdd862f"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="ca240716-95ee-42f1-8b7f-d29bf0abe5f0"
+>
+</StructureElement><StructureElement
+ TypeName="LevelEnum"
+ Default="LevelEnum.L0"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="Level"
+ Guid="4d8d624a-9012-4c1f-b0ec-1918d740a2fe"
+>
+<Comment>Target Level on the transition.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="6d462a6a-322c-4fe2-8d14-c2aaf43da38f"
+>
+<ReqRef
+ Id="5e2ed22b-9e71-4788-8e67-a9aa26c8a51c"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d0a42b82-8634-488e-bbbd-468c686a0eef"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="e4d7b102-327b-4290-b147-ca3bf090a21e"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,245 @@
+<NameSpace
+ X="30"
+ Y="250"
+ Width="100"
+ Height="50"
+ Name="TrainDataChangeFromOtherSource"
+ Guid="b675174e-11a6-4102-aad8-722f6f3d5b4f"
+>
+<Comment>Acknowledgement of train data change from other source than the driver</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="afb7f377-37df-41fc-864f-a2244b2f0589"
+>
+<ReqRef
+ Id="d76d9d7e-5ca9-42ac-9562-effe483642f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6bf7d72f-f7a4-4bd6-ac00-0a76108e6632"
+>
+</ReqRef><Comment>Acknowledgement of train data change from other source than driver.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="f1630aaf-9134-4c04-b7e9-d9cc78ffa841"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="deff2a8b-1743-437a-957e-5737814c9a21"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="ac1a8d63-b9c3-4b80-a293-0527f08fee24"
+>
+<PreConditions>
+<PreCondition
+ Guid="1a23d43a-05e8-434c-855e-abcab2f07a48"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="54d15b2e-0cb6-4212-bf4d-a1f73231d6bf"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="16019496-7dbf-4a92-a6b2-2422e513d3f5"
+>THIS.InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="31f666b0-b4ab-41aa-b317-e4b413706169"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="005058df-54d4-4428-90a0-97e585b45f32"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="4e42e09c-c912-47f9-9845-9b050e2f3ba4"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="e2bf4d89-e1b1-498e-85fa-49756ab50031"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="b6fdf1b0-f266-46dd-95ad-5c95dd3435e6"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1d509fd1-6e01-45bc-861d-529c9e2a46d5"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6bc48613-a883-467c-8f16-e1e4e358d733"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="8effb25d-71e6-4fda-a485-321a6e03fe45"
+>
+<Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="cdddb144-2c8b-4e72-bdd8-1cce34030fdb"
+>
+<Comment>Initiates the request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="014c8f07-ea16-4bab-8692-9a1c993236a7"
+>
+<PreConditions>
+<PreCondition
+ Guid="f537f0b2-f603-4148-856f-7b5b03bcade3"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="08adb180-ade3-4730-a1c8-8c89c0424dc5"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.TrainDataChangeFromOtherSource,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="9fbaaaaf-4f87-403b-a90c-d09f6376bb18"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="e623f17b-b403-4cb4-813a-d4e79e38d8fd"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9c0d1f0b-80c7-4a11-a2fe-e994f942c031"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e0ecc057-0e76-4653-bcd8-e3a548bd47da"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="b0fc51a5-b5bd-4c57-8790-76d5efdda850"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="DataReceived"
+ Guid="5b487e90-1709-4319-9a51-53e480f9c19d"
+>
+<Comment>Indicates that data has been received</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="f09b8980-f334-467d-833f-346be6095bb7"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="a135d9de-6d39-4d50-b7f2-312f4700776f"
+>
+<ReqRef
+ Id="d76d9d7e-5ca9-42ac-9562-effe483642f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e378a05f-afca-494f-8146-26c7e572042f"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement of train data change from other source.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="f74988b0-5c18-423d-b5ae-49fa86ab0cbd"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.SN ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

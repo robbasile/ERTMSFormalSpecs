@@ -1,0 +1,565 @@
+<NameSpace
+ X="50"
+ Y="160"
+ Width="100"
+ Height="50"
+ Name="Level"
+ Guid="b3dd3b21-93c5-46ef-aee8-5bd714be4080"
+>
+<Comment>Handles the level entry by the driver</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryRequestStruct"
+ Guid="e7576663-5f87-452c-9b52-bee0614af97f"
+>
+<ReqRef
+ Id="4efd390e-2e07-4c18-88e9-b389b64cd144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b31310f-e41b-4fd7-8640-ca27a7e92b37"
+>
+</ReqRef><ReqRef
+ Id="1e7f3c89-d89b-4d31-b758-514c92ae3bf1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="05988353-74fb-4bdd-ae25-5052798abcef"
+>
+</ReqRef><Comment>Display button for entry of the Level.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="46da21f4-349e-460f-8751-a16d2a73bbd7"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="07e4245d-7978-4c9f-b2ba-8c88b77f97ce"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="1ade1a6d-a1c7-4620-bdc5-8fc3b9d7511f"
+>
+<PreConditions>
+<PreCondition
+ Guid="851e5f13-c576-435c-8507-16eb479a30bf"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="83fb3682-da57-4408-9f95-52d81553afa1"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8e1db983-940e-4c27-90dd-eb9c418e948d"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="91fafc07-26c7-4140-b512-d58cd42b23f0"
+>
+<Comment>Initiate the ERTMS ETCS Level request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="11a1b4a1-d0fc-470c-8993-927f150abbda"
+>
+<Comment>Initiates the level request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="911f2f7b-8735-4a25-ad10-86904b2ce266"
+>
+<PreConditions>
+<PreCondition
+ Guid="807a3bf6-839b-410c-9cd5-89965ea3a35d"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="68bdaacb-196a-4a7e-840a-afe2c8eab7e3"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="ba443fc0-df28-4721-b184-571ed7e51b9a"
+>
+<ReqRef
+ Id="4efd390e-2e07-4c18-88e9-b389b64cd144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b21ae5c2-8c47-4cc4-b6ca-19fe89737f05"
+>
+</ReqRef><Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="26ab6a51-1c06-410d-9843-216805c44114"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="29bdb37c-113a-47b7-97c7-b69909b165d0"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3da45d56-5a25-4e7c-b6e0-8bef97dd7d84"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4c0aefea-8b1f-46cd-91a7-6f7ef34c846b"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="948efb32-78ce-4060-98cc-f70978a63c1b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9ec7f0b3-2256-466d-a132-1d7857917721"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a98e57a5-6c46-4695-b4d0-7c417abf5de8"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="47decc69-ad77-4784-8950-38f30e3dbbf9"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="cc2d7f44-6a96-4b5f-870f-127d92c1896e"
+>
+<Comment>Provides information about this request status</Comment>
+</StructureElement></Structure><Structure
+ Default=""
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="2905aa2f-8619-453d-99d5-fbc5c17ce621"
+>
+<ReqRef
+ Id="4efd390e-2e07-4c18-88e9-b389b64cd144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="51613314-2ffa-4a51-85d7-4e6bde354721"
+>
+</ReqRef><ReqRef
+ Id="1e7f3c89-d89b-4d31-b758-514c92ae3bf1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f3e2fa07-b8c1-44a9-bf94-e24a85572402"
+>
+</ReqRef><Comment>Level entered by the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Choose to contact last known RBC"
+ Guid="51c7f69b-d934-4d7c-868e-1097d9dca6b2"
+>
+<ReqRef
+ Id="2beacd86-f3da-4d70-9f5b-c90738e82b4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2dfad422-bedb-4ed9-8fa0-9a587d8edb19"
+>
+</ReqRef><ReqRef
+ Id="cae9ea11-6eb1-49b7-b010-183e0c897e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="184842fa-48ad-4793-bf10-c680aaa614e3"
+>
+</ReqRef><Comment>If the driver has manually changed the level to 2 or 3 and no communication session is established, the on-board has to establish a new communication session.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Contact last known RBC"
+ Guid="4e52bf4c-6585-4d39-843c-6eebf9675521"
+>
+<PreConditions>
+<PreCondition
+ Guid="899257bb-ad06-4587-a62f-242a76900e2d"
+>InputInformation.DriverAnswered</PreCondition><PreCondition
+ Guid="6f929bf6-4cae-4324-9cc4-cb3773da8e8d"
+>Level.Value in [LevelEnum.L2, LevelEnum.L3]</PreCondition><PreCondition
+ Guid="816bea88-f7c1-4116-8b88-2ca3a0ad554b"
+>NOT EURORADIO.Terminal.HasActiveSession()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ab3a7c56-6494-4ac2-996a-69f8ec134060"
+>ContactLastKnownRBC()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="b9cb0133-f16b-485c-8d48-ba185b887911"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="be03ba35-ee6d-4bf3-9d34-1ccf88f0e6a7"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="af39ff1d-4989-4637-8d83-1cfa11df8e9b"
+>
+<PreConditions>
+<PreCondition
+ Guid="d4ace2d4-4177-4e1c-aaaa-2c28ecd4dc60"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="2f7924c5-829f-4f8d-9ac2-285cc8fe7334"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3e042315-ce85-4d07-bdd0-fbd05fa15ce1"
+>Kernel.SetLevel(Level)</Action><Action
+ Guid="5d557402-1c5e-4bba-9303-13987824e53f"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="12b5c10e-9ade-459b-9343-7ae7912a80b4"
+>
+<Comment>Initiate the ERTMS ETCS Level request</Comment>
+<Parameters>
+<Parameter
+ Type="LevelDataStruct"
+ Name="aLevel"
+ Guid="0c2d6225-8fb1-4915-8f1c-716d41ef8e54"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="aEnter"
+ Guid="f1e6e5ea-3f22-4580-b398-e58816b87790"
+>
+</Parameter><Parameter
+ Type="Boolean"
+ Name="aReValidate"
+ Guid="8c30120f-4f34-4693-bb84-825087b2c539"
+>
+</Parameter><Parameter
+ Type="Levels"
+ Name="aNTCLevels"
+ Guid="6bac262c-8687-468e-a35d-a0d9954f82d8"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="b394b769-8476-4b5e-885a-9e9fc12da27b"
+>
+<Comment>Initiates the level request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="6610a65a-8348-4084-9168-1e811fd22a35"
+>
+<PreConditions>
+<PreCondition
+ Guid="e3e9962a-aafa-431f-9a06-40a6473d8709"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="078d16e4-7b15-40f7-be59-d84cc829bac1"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="238c7b7d-ec0f-43da-9faa-1dcc83b22450"
+>DriverAction.Enter &lt;- aEnter</Action><Action
+ Guid="ca58d464-3738-42c5-a904-145687e1b58c"
+>DriverAction.ReValidate &lt;- aReValidate</Action><Action
+ Guid="eee0ff88-2014-46c3-b2db-534f41156c06"
+>Level &lt;- aLevel</Action><Action
+ Guid="18cc2b82-1c18-4013-a8b1-f1dcd346b36f"
+>NTCLevels &lt;- aNTCLevels</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="94c5e6e9-9d6e-44d7-9569-482648a50c5f"
+>
+<ReqRef
+ Id="4efd390e-2e07-4c18-88e9-b389b64cd144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a3813592-4235-41e3-8e88-dbbebeb04a6d"
+>
+</ReqRef><Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="1f846ffb-1fee-49ba-849c-082c2ef391d8"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="f08879b9-91b2-4a5c-9e55-602dba6c7e70"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ba3eec77-d4e1-4bf3-8a99-257ef5e88d19"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e4ab45e8-04e0-47b2-8921-9d58fbe632aa"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="97b93081-2e51-4c90-980b-f1b9cfe67821"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="LevelDataStruct"
+ Name="aLevel"
+ Guid="57e95800-d8f8-4fe7-b4f6-d7ad4c67fe4e"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="6ad426b3-034f-4f76-b816-317bc3f03c7d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="69bf02e0-5bb6-445a-827c-5febfa8e2b74"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="cf9f92b5-bff5-4ec6-a7e5-15e4c70296ed"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
+ Guid="8d8339a2-3bb0-45cb-a845-e68bcc0a597c"
+>Level &lt;- aLevel</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ContactLastKnownRBC"
+ Guid="4d452374-ed35-40f2-9cc0-bdea4cc9d949"
+>
+<ReqRef
+ Id="2beacd86-f3da-4d70-9f5b-c90738e82b4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="70ff22f0-8a0f-4436-a0da-9c2a2b03330f"
+>
+</ReqRef><ReqRef
+ Id="cae9ea11-6eb1-49b7-b010-183e0c897e7b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c3145e2-9f48-4bbf-a7af-7ad6cbf39c4f"
+>
+</ReqRef><Comment>Procedure to contact last known RBC. Automatically called as soon as the driver changes the Level to 2/3.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="ContactLastKnownRBC"
+ Guid="c1781922-0f1f-437b-9195-cc2ff6b8fb9d"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="ContactLastKnownRBC"
+ Guid="ed83810d-538c-463f-a466-7ffeaf8cde6a"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2548d8a1-13a3-497b-b2a5-b625dbd4fe7f"
+>EURORADIO.RBCConnection.Contact.ContactLastKnownRBC()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="eb9df4a1-a6e9-46d2-a241-90040d381893"
+>
+<Comment>Provides information about this request status</Comment>
+</StructureElement><StructureElement
+ TypeName="LevelDataStruct"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Level"
+ Guid="84f609cb-3e68-4f7e-91fb-994fda61ec84"
+>
+<Comment>This is the level proposed to the driver and, after the driver has selected a level, the one that has been selected</Comment>
+</StructureElement><StructureElement
+ TypeName="DriverActionStuct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="DriverAction"
+ Guid="09607d95-2143-4b10-bb46-973612eb2817"
+>
+<Comment>Provides the available driver actions (enter / revalidate)</Comment>
+</StructureElement><StructureElement
+ TypeName="Levels"
+ Default="[]"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="NTCLevels"
+ Guid="24d94d05-1bbc-49f1-89a6-1793c9900948"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="c99ff153-5753-46c1-9eae-1754116fa672"
+>
+<ReqRef
+ Id="4efd390e-2e07-4c18-88e9-b389b64cd144"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e994bd7b-ddb3-4bac-8e4a-507fee14bd9b"
+>
+</ReqRef><Comment>Verifies mode for allowing and accepting request of level entry and input of level.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="3edff9f2-e6ba-4bfc-99b6-b1a3a1a74a59"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.SN]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

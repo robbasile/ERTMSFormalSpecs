@@ -1,0 +1,235 @@
+<NameSpace
+ X="140"
+ Y="70"
+ Width="100"
+ Height="50"
+ Name="ReverseMovementProtection"
+ Guid="601b3383-311d-4674-9ceb-cafaf6024b0b"
+>
+<Comment>Acknowledgement of reverse movement detection</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="4a136b42-be07-4356-9067-26f599663a5c"
+>
+<ReqRef
+ Id="e6a8a09c-e6ba-4a3c-b777-6acb88ac835b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0df9b898-080d-45c1-8773-7834b66323c9"
+>
+</ReqRef><Comment>Acknoledgement of the reverse movement protection.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="f5dde0ba-3501-400a-af72-2edccd8e5273"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="58df471c-2553-4ed8-9a6e-a14f9b7552cb"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="e1bfefa2-400b-4999-92da-23bd6838bb10"
+>
+<PreConditions>
+<PreCondition
+ Guid="6fe5e053-8049-40b6-8e3f-7d2c7e19cb04"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
+ Guid="f860c61f-dcfd-4dac-8f04-5740860c4a0e"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0d0bb983-0452-4009-a999-338ab284e15a"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="31127aa6-4585-443b-9f95-0b7bdd65d729"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="37e53266-75ba-4b12-9800-b8f06ecbb368"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="26198fc0-140b-4d57-8160-ced4258dc441"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="937b115f-c6da-4871-8e5b-e8dd6fcb3342"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="650ecb33-975b-4820-bda0-05f859eb1fb9"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="bc640a2b-43b8-42ed-bc21-6b4408fbf04b"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d36a0492-fe02-4d06-adc8-db25710f33d0"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="85414f69-7bf0-45c9-9a42-44cd0c1da50e"
+>
+<Comment>Allows to initiate the Ack of SN mode</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="9cc358f3-e0b0-4a95-bf00-a8228c393b04"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="c61d1771-eb90-4198-8103-3db230cb9f37"
+>
+<PreConditions>
+<PreCondition
+ Guid="9c366715-b619-46a8-85b4-3ee385b4a8db"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f537b56a-b215-4883-88ea-db7dc02fb73d"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.ReverseMovementProtection,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="9730a501-c0e4-49dd-9eb7-f66cef1885e7"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="9a1415f8-5f1c-4124-8199-f09be9b70123"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="483593a7-8569-449c-ae39-52c251190f09"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6635b9f3-fe6f-4d16-97f1-3235b5cd7a37"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="9b2e83f1-cf76-4c3c-943d-076818d2dd7b"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="04fdc09e-3d58-4b5d-b9da-2821195ed561"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="ebb8910d-4f99-4ba7-91ca-fda0a5e2ec26"
+>
+<ReqRef
+ Id="e6a8a09c-e6ba-4a3c-b777-6acb88ac835b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4e43ca2f-2584-4600-985c-882ba2a24ac1"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement for reverse movement protection.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="f57a652d-8b28-4ac0-b528-85f42cb559ea"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT, ModeEnum.RV ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,168 @@
+<NameSpace
+ X="250"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="SpeedAndDistanceMonitoringSupervisionStatus"
+ Guid="94a7bd2c-6b70-4f8b-b15e-4ccd181c9a27"
+>
+<Comment>Displays the speed and distance monitoring status</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="97fdb574-3134-4e6d-b4b0-2ca27eae4124"
+>
+<ReqRef
+ Id="10645ba3-8d86-41ad-9956-71f5be85b4c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f1ddbc36-6e02-4d5a-876a-f8070dc2e78d"
+>
+</ReqRef><ReqRef
+ Id="3182607e-35e6-4a7a-90f0-94908d9ecf22"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="fac1e8d9-009a-4e95-81dd-70a4bf25cbe9"
+>
+</ReqRef><Comment>Provides the speed and distance monitoring supervision status.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="f3472631-6ef1-4827-9131-2e61683f2580"
+>
+<ReqRef
+ Id="3182607e-35e6-4a7a-90f0-94908d9ecf22"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="ddc852ed-57c1-41b1-9df2-d1365ecff929"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.SpeedAndDistanceMonitoring.MonitoringType"
+ Name="aMonitoringType"
+ Guid="937258a2-608f-4437-8d1f-2bc1e2a87390"
+>
+</Parameter><Parameter
+ Type="Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum"
+ Name="aSupervisionStatus"
+ Guid="d30edda6-7de0-4d64-a372-54dbfe4a008c"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="05c1ede7-39f5-4b54-83ce-661b14ac0dca"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="a8964ed7-0394-491a-bbbf-1ac0ed685766"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="d0032115-97d2-404e-8579-a7330e668798"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="8756083d-5f14-438b-b771-2bcdff523a6b"
+>Kernel.ActiveFunctions.SuperviseTrainSpeed()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7f4d8513-d902-4aca-adc5-1b869878345f"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="9781785f-be53-4258-bb48-91efb574df99"
+>Monitoring &lt;- aMonitoringType</Action><Action
+ Guid="236fa9ed-87f9-4e95-834b-5d3040b03880"
+>SupervisionStatus &lt;- aSupervisionStatus</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="af408447-c180-41d8-92b5-1366ffaf2f9e"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d84194c3-acbd-4cdb-af7c-c5099aa8eb3e"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="5ee71389-d35b-48b9-8b3a-56d0d3bc3ea4"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="ab9b5360-b12a-4a5c-98e1-8ff981223fc1"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.SpeedAndDistanceMonitoring.SupervisionStatusEnum"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SupervisionStatus"
+ Guid="05418ba3-2072-44cd-854f-981486368998"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.SpeedAndDistanceMonitoring.MonitoringType"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Monitoring"
+ Guid="247963ff-a946-42ed-b70e-8c92fbe0eb46"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="3a63bbaf-5fc0-4ff6-a5bc-02f7ab61a780"
+>
+<ReqRef
+ Id="10645ba3-8d86-41ad-9956-71f5be85b4c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a4328dce-ab66-451a-ae74-b915f836a811"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="aa5d1ce2-bf02-45ea-a8e3-d96cd3b45a41"
+>
+<Expression>Kernel.Mode in [ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

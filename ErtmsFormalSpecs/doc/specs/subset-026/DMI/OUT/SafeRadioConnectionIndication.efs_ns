@@ -1,0 +1,148 @@
+<NameSpace
+ X="580"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="SafeRadioConnectionIndication"
+ Guid="501e3ccf-f3db-424b-86e6-f159af08b23b"
+>
+<Comment>Displays the safe radio connection indication</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="32263c5e-73e8-4833-98b1-eaa5377d0487"
+>
+<ReqRef
+ Id="747bae2e-7720-4f04-ac58-bf2f7feb9e50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3d6bfdc9-b6f1-4bb5-8503-6f3c78ccb327"
+>
+</ReqRef><ReqRef
+ Id="1ace4af7-4f9a-421e-8b9b-43323ba4a8ef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b5c07d4a-6d7e-4492-bfff-b7d693c8aac8"
+>
+</ReqRef><Comment>Handles display of information relative to the Safe Radio Connection Status.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="570358f0-1f14-4ae4-953b-9edffd90a82b"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum"
+ Name="aStatus"
+ Guid="792caa40-7a8d-4683-8c4b-ae4b1a7a34e9"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="0e448912-db37-4d43-80ce-b1b0e4553ae5"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="6a7e8e31-ea4c-4268-b673-f53a5b18d4a4"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e27fa7ec-cc0c-4946-8e4e-be23f377f273"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4bcacc83-6f10-4d4d-8f58-c7eb913b9aeb"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="0391b21e-81fa-48b9-84e7-7f6dc4f45baa"
+>ConnectionStatus &lt;- aStatus</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="ce1e0f85-3042-46a9-af82-c61ed830da23"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d2cb9b1a-3a30-4978-95c8-c20ebac427cb"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="67e29223-ccca-4b0f-b85b-c181e6c0a2f8"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="c5fd2b81-d0c8-4849-bd4c-86504f9ecc90"
+>
+<Comment>Information relative to the output of the structure.</Comment>
+</StructureElement><StructureElement
+ TypeName="EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ConnectionStatus"
+ Guid="e8a4985e-7d90-441c-b725-cda6a48ec337"
+>
+<Comment>The connection status of the radio connection.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="f5941a7b-dbee-4683-9fa4-36e19cc0ef80"
+>
+<ReqRef
+ Id="1ace4af7-4f9a-421e-8b9b-43323ba4a8ef"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8c57d678-4df4-40a0-b9f0-0cd6c4eaf5cb"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="aef1c327-7fe4-46a2-8fe2-8881c639cfb7"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

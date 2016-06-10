@@ -1,0 +1,231 @@
+<NameSpace
+ X="160"
+ Y="280"
+ Width="100"
+ Height="50"
+ Name="TrainIntegrityConfirmation"
+ Guid="4da487b5-d574-4a44-b59f-c4929b9962a7"
+>
+<Comment>Handles the driver confirmation of train integrity</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="eb09ead6-4fdf-4c01-9794-c33fb5343c2b"
+>
+<ReqRef
+ Id="b097af96-5a86-448c-a47a-c1f0866d272b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a6e09bb7-3d8e-4c6e-861e-4f6dde80e82a"
+>
+</ReqRef><ReqRef
+ Id="ffb67ede-3ead-4df3-94ea-b7e1f6ec3d7f"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="60f83e3b-7b14-4d32-81f1-62dfc819867f"
+>
+</ReqRef><Comment>Driver confirmation of the train integrity.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="dcc00182-0362-47d5-a2e3-c15a142d1a2e"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="c8a37916-eec3-4700-a0d4-e18a00ab19c7"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="e830d014-3e43-4c6d-9a1e-2359dd92b8a5"
+>
+<PreConditions>
+<PreCondition
+ Guid="146fdf8b-b8d6-4313-ba45-30e323f7f464"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="555f8da9-4591-4d7b-ac02-d908a2ca5a37"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="96540f3c-63f5-4d64-88ef-9abe7565f3da"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="583d5251-3deb-4aa4-841f-6ab40756f533"
+>Kernel.TrainIntegrity.ConfirmTrainIntegrity( aConfirmationSource =&gt; Messages.Q_LENGTH.Train_integrity_confirmed_by_driver )</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="135f24ac-7bbb-4d12-9106-c8bb12a2c78e"
+>
+<ReqRef
+ Id="12a4a1a5-2498-4bc8-8579-4397afa31b17"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="81f22cd8-715e-446d-a4dd-b39bff1831fa"
+>
+</ReqRef><Comment>Initiates train data entry request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="58f0a46a-5da8-494d-8263-b70d3888f9bc"
+>
+<Comment>Initiates request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="09ec7f1d-b610-4ebe-ab0f-cdf32d451e45"
+>
+<PreConditions>
+<PreCondition
+ Guid="996f94a0-c5f7-440e-99f3-218673234ca3"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="c1b4cd63-00f2-4007-9d29-a40084abcbfd"
+>Odometry.TrainIsAtStandstill()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="8923a9d3-2909-469f-a68f-1e6e7b3f36ad"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="a4b3893b-10c0-4752-a45f-ea5d53b4925e"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="b56757c4-0bb7-4aac-b186-2d03b2498f41"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="12d38ad4-c0b3-4d6a-9a73-d7f6049fc3b0"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="aaf56087-e2c8-4912-bcd6-6d6f8d647492"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2a049c1c-0ad2-4a3f-ad23-534e9c5a2a07"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="883c9628-05d9-4ec9-b526-d887643e064b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="414c476c-5eac-4f78-950a-4004a0418258"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="e8fc358f-7076-4782-a1c4-d9a01b53e456"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="def527b0-ac9b-443e-999a-b78f50b28b49"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="c165271c-8602-4d7c-ad3c-775797135b51"
+>
+<Comment>Request status</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="2e80bf61-2583-44ad-a676-75a360efb995"
+>
+<ReqRef
+ Id="b097af96-5a86-448c-a47a-c1f0866d272b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="91907ff1-45d6-4aa4-bf1a-5b86361a8486"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver confirmation of train integrity.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="77f2b1f6-166c-4d25-ba77-af77dc15dd72"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

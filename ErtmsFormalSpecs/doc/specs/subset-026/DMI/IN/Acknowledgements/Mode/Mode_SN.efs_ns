@@ -1,0 +1,254 @@
+<NameSpace
+ X="30"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="Mode_SN"
+ Guid="854b5b5a-0aac-4b79-bb29-b0f89642c46d"
+>
+<Comment>Handles acknowledgement of SN mode</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="c9275d74-addc-46df-b047-7a1405324e24"
+>
+<ReqRef
+ Id="99735e12-128e-4cc9-8fa2-368230a0e2df"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d4396ee9-24e5-4f14-8318-6b3f327ace1d"
+>
+</ReqRef><Comment>Acknowledgement of entry in SN mode.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="ef6ee74e-312f-4a6e-90f9-048f9d697acb"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="95800cff-0a8b-43bf-92ad-dd538647ca76"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="8590a469-70ad-4762-af9e-a507c1957ce1"
+>
+<PreConditions>
+<PreCondition
+ Guid="3c5be02c-986b-40ec-8a61-d8aa2798c682"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="2150fbc8-2e49-4512-9284-fc184b599463"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e2a59ace-9b37-4f65-86b3-afa908151d1a"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="c3dd4389-3bff-4d88-9517-d9f487192430"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="cd885bcd-0326-4593-b80f-db44f2efb1eb"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="e25473b6-ef58-466e-ab65-de09e3324b50"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="482b1c71-a8e1-4146-b543-a76cb364f359"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="8087b021-f49a-4594-8b89-c729b50f5341"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3c1ca723-1bfa-472e-8c4d-936a0e1fd394"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6fb39eb4-2bb8-40b9-90ab-23143c097210"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="116e3613-a173-4920-8909-0e2435b84b0e"
+>
+<Comment>Allows to initiate the Ack of SN mode</Comment>
+<Parameters>
+<Parameter
+ Type="NID_NTC"
+ Name="aNationalSystemId"
+ Guid="d3360296-4a1a-47fe-ae79-3322dea62e65"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="23b2fccc-18d7-4b05-ac0f-d3c8b45df0ab"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="df99ded8-1d38-4111-95c0-4582730f1eed"
+>
+<PreConditions>
+<PreCondition
+ Guid="a13c710b-86d9-4b7e-a381-3c236caae8e2"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1043c711-7558-478c-b8cc-12f03c36b5a1"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.SNMode,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action><Action
+ Guid="5e82bf00-9e78-4d96-bd66-d003521ae460"
+>NationalSystemId &lt;- aNationalSystemId</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="cc5647b4-9696-4805-b5f6-ac8ccb73b651"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="15ab0d99-62d1-41fd-92b7-fa5398990347"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="37d86ef0-f4ae-41a8-a11b-7be758281cab"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5870b0b7-29e0-4b85-b518-5c5381667eac"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="7dddbd31-1c13-4dfb-9b60-0317d24c320f"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="NID_NTC"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="NationalSystemId"
+ Guid="81c1519d-e5b8-4b69-be29-1dcac8bd4916"
+>
+<Comment>The national system id to be acknowledged</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="cf7ae7b1-8054-42e5-a85d-f1e92ca98277"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="e51d8ae2-2fe2-4367-9ab7-94acef114f9e"
+>
+<ReqRef
+ Id="99735e12-128e-4cc9-8fa2-368230a0e2df"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b2a5edb5-ec09-49fb-89ff-3b6de4c8f6d8"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement of SN mode.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="a6f59268-d02c-4703-9c1f-f895ce68c6d6"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

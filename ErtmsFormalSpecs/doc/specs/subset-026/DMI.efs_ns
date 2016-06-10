@@ -193,8 +193,8 @@
 </EnumValue></Values>
 </Enum><Enum
  Default="DMI.DMIConfigurationEnum.SingleDMI"
- X="420"
- Y="10"
+ X="40"
+ Y="270"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -710,11 +710,11 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <PreConditions>
 <PreCondition
  Guid="294bb637-cc3f-4f55-9030-82c281bf11c1"
->THIS.Out_GeographicalPosition.DisplayDistance == DMI.OUT.DisplaySymbolOrValue.Symbol</PreCondition></PreConditions>
+>THIS.Out_GeographicalPosition.DisplayDistance == OUT.GeographicalPosition.DisplaySymbolOrValueEnum.Symbol</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1ad5a9c4-6e39-4c49-81eb-8f4f43fba6af"
->THIS.Out_GeographicalPosition.DisplayDistance &lt;- DMI.OUT.DisplaySymbolOrValue.Value</Action></Actions>
+>THIS.Out_GeographicalPosition.DisplayDistance &lt;- OUT.GeographicalPosition.DisplaySymbolOrValueEnum.Value</Action></Actions>
 </RuleCondition><RuleCondition
  Name="DisplayDistance True"
  Guid="586c2f78-dd3c-4bdd-907f-35303ed5112e"
@@ -724,7 +724,7 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
 <Actions>
 <Action
  Guid="0c7ad6a2-2c04-4671-a5bc-43651f653ce5"
->THIS.Out_GeographicalPosition.DisplayDistance &lt;- DMI.OUT.DisplaySymbolOrValue.Symbol</Action></Actions>
+>THIS.Out_GeographicalPosition.DisplayDistance &lt;- OUT.GeographicalPosition.DisplaySymbolOrValueEnum.Symbol</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
@@ -3160,7 +3160,7 @@ Fetches the time from the kernel and adjusts according to the current country id
 </Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
- TypeName="IN.TrainDataEntryRequestStruct"
+ TypeName="IN.TrainData.EntryRequestStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3173,7 +3173,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="23654851-6314-4d86-85f3-068a975d1cdf"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.TrainRunningNumberStruct"
+ TypeName="IN.TrainRunningNumber.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3186,7 +3186,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="43fe1d04-c3ff-4257-99ee-8094e3f83e16"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.ErtmsEtcsLevelStruct"
+ TypeName="IN.Level.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3199,7 +3199,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="f6e0e7dc-fb23-4a7d-a3e1-5d60fa163265"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.TrackAdhesionFactorStruct"
+ TypeName="IN.TrackAdhesionFactor.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3212,7 +3212,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="c11b2337-1f71-4d28-88ab-dd4d336af343"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.RBCContactInformationStruct"
+ TypeName="IN.RBCContactInformation.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3225,7 +3225,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="e304bea2-c38d-4507-a562-711e96ff31da"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.TrainIntegrityConfirmationStruct"
+ TypeName="IN.TrainIntegrityConfirmation.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3238,7 +3238,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="8fc7f608-0aaa-41dc-bf62-abb7ac7d4f49"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.StartStruct"
+ TypeName="IN.Start.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3251,7 +3251,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="fbe9788c-df98-469a-ac6e-bd3bf93cf3e6"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.OverrideRequestStruct"
+ TypeName="IN.Override.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3264,7 +3264,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="81a5b0bc-d53c-4a12-a7a7-b3debba33d1c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.ShuntingRequestStruct"
+ TypeName="IN.Shunting.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3277,7 +3277,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="8bbbf5d8-2e41-438d-b0dd-b1c96fa04040"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.ContinueShuntingOnDeskClosureRequestStruct"
+ TypeName="IN.ContinueShuntingOnDeckClosure.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3290,7 +3290,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ce8ccd6c-1f51-416b-9913-99b2cf2cfad4"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.ExitOfShuntingRequestStruct"
+ TypeName="IN.ExitOfShunting.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3303,7 +3303,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="0f025327-008f-4395-94c3-110a9d92400d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.NonLeadingRequestStruct"
+ TypeName="IN.NonLeading.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3316,7 +3316,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="b4804e0a-1dec-4545-8c13-f00fcaf3ac52"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfFixedTextInformationStruct"
+ TypeName="IN.Acknowledgements.Text.FixedTextInformation.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3329,7 +3329,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="a5c2621e-2c89-4c57-9da2-344050f296ee"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfPlainTextInformationStruct"
+ TypeName="IN.Acknowledgements.Text.PlainTextInformation.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3342,7 +3342,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="6447d0a5-b7be-4345-91b5-5822956dc002"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfLevelTransitionStruct"
+ TypeName="IN.Acknowledgements.LevelTransition.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3355,7 +3355,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="8bd57517-3e8f-40be-93b2-a0e343b2cae0"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfLSModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_LS.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3368,7 +3368,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="62af1654-8415-40fb-83bd-18199b8e01b5"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfOSModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_OS.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3381,7 +3381,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="a0811437-b144-4770-9d22-b3bbb93fb49d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfSHModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_SH.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3394,7 +3394,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="5d41ab0c-3a32-4648-abba-9584face8862"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfSRModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_SR.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3407,7 +3407,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="b91c5f95-c455-4937-990e-d4478bc88c18"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfUNModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_UN.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3420,7 +3420,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="091dd6fb-32db-4a8c-803c-d5c57f58f16f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfRVModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_RV.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3433,7 +3433,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="8ac0351b-f42e-40d0-8808-99fffd0752ad"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfSNModeStruct"
+ TypeName="IN.Acknowledgements.Mode.Mode_SN.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3446,7 +3446,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="3f94f0de-ca4f-4e98-84a3-4428a2ac3ccd"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfTrainTripStruct"
+ TypeName="IN.Acknowledgements.TrainTrip.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3459,7 +3459,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="91f601af-e1da-437a-b38e-ce09daf4caa9"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknForRollAwayProtectionStruct"
+ TypeName="IN.Acknowledgements.RollAwayProtection.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3472,7 +3472,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="bcc4f5ed-fc45-47da-a1e6-a46418fe9b1e"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknForReverseMovementProtectionStruct"
+ TypeName="IN.Acknowledgements.ReverseMovementProtection.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3485,7 +3485,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="be71bacb-b923-43ed-a794-4c0a9e859d0d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknForStandstillSupervisionStruct"
+ TypeName="IN.Acknowledgements.StanstillSupervision.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3498,7 +3498,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="665116d8-f5ea-40fd-9ffd-5a5954e6d68d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknForPostTripDistanceExceededStruct"
+ TypeName="IN.Acknowledgements.PostTripDistanceExceeded.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3511,7 +3511,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="2e8d69a8-2b20-4127-87f2-d0a7dff7ddf3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknOfTrainDataChangeFromOtherSourceStruct"
+ TypeName="IN.Acknowledgements.TrainDataChangeFromOtherSource.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3524,7 +3524,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="cf60cdf2-68d5-4fbb-8444-81058719d225"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.AcknForReversingDistanceExceededStruct"
+ TypeName="IN.Acknowledgements.ReversingDistanceExceeded.AckStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3537,7 +3537,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="6065fcc4-b204-47ea-a6af-cbb2a7022eb7"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.TrackAheadFreeStruct"
+ TypeName="IN.TrackAheadFree.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3550,7 +3550,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="998e4d78-8a06-4806-98d1-f49d0bced7a8"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.SRModeSpeedLimitAndDistanceStruct"
+ TypeName="IN.SRModeSpeedAndDistanceLimit.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3563,7 +3563,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="c2b83370-cf00-4a94-a38e-114cc8a2dab4"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.IsolationStruct"
+ TypeName="IN.Isolation.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3576,7 +3576,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="513badea-072a-4252-99fd-64be0caa0ff6"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.ErtmsEtcsModeStruct"
+ TypeName="OUT.Mode.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3589,7 +3589,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="1534c769-717f-4d1a-8052-d6a3596e2e91"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrainSpeedStruct"
+ TypeName="OUT.TrainSpeed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3602,7 +3602,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="4a21579d-6160-4b38-95ec-22f82c7e6a08"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.PermittedSpeedStruct"
+ TypeName="OUT.PermittedSpeed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3615,7 +3615,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="b7a30d4a-957e-475e-b232-b1bad8cdfd36"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TargetSpeedStruct"
+ TypeName="OUT.TargetSpeed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3628,7 +3628,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="a6b68069-23d2-4a08-86c0-48297ef600c1"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TargetDistanceStruct"
+ TypeName="OUT.TargetDistance.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3641,7 +3641,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="cc08f8b9-1f63-4f69-b1d9-4da88d493dd0"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.ReleaseSpeedStruct"
+ TypeName="OUT.ReleaseSpeed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3654,7 +3654,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="94f34ca2-2eae-4513-a4be-cacf8a55006f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.SpeedAndDistanceMonitoringSupervisionStatusStruct"
+ TypeName="OUT.SpeedAndDistanceMonitoringSupervisionStatus.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3667,7 +3667,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="754f8dc4-e371-48bb-910d-a6d0935193a9"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TripReasonStruct"
+ TypeName="OUT.TripReason.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3680,7 +3680,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="31f158c3-5938-4764-a12f-4eff75ba8b5c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.BrakeIndicationStruct"
+ TypeName="OUT.BrakeIndication.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3693,7 +3693,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="c0424ae0-ce3c-423e-8b59-b2d4202f2292"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.FixedTextInformationStruct"
+ TypeName="OUT.Text.FixedText.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3706,7 +3706,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ed2707bc-00b7-4794-a09e-d5245af513b0"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.PlainTextInformationStruct"
+ TypeName="OUT.Text.PlainText.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3719,7 +3719,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="54f4c075-a689-4274-aec1-698e9cdc9e7b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.ReversingAllowedStruct"
+ TypeName="OUT.ReversingAllowed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3732,7 +3732,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="add88d96-3fb2-4b0c-946f-23c3cb37ccb3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.SelectionOfLanguageStruct"
+ TypeName="IN.SelectionOfLanguage.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3745,7 +3745,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="3e088f0a-7ac7-4c2d-b72a-6e679559a973"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrackConditionsWithoutSoundHornStruct"
+ TypeName="OUT.TrackConditions.WithoutSoundHorn.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3758,7 +3758,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="f2846ce1-578d-4202-8b00-dd82a258f113"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrackConditionsWithSoundHornStruct"
+ TypeName="OUT.TrackConditions.WithSoundHorn.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3771,7 +3771,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ebbe8dc6-969a-4fed-86b2-15262ab0f28f"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.GeographicalPositionStruct"
+ TypeName="OUT.GeographicalPosition.OutputStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3784,7 +3784,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="c32a806c-e6f2-4e18-af2b-e8e7618f51bf"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.LXStatusNotProtectedStruct"
+ TypeName="OUT.LXStatusNotProtected.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3797,7 +3797,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ec340560-c723-4bd5-8e4e-330bc075c37b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.OverrideStatusStruct"
+ TypeName="OUT.OverrideStatus.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3810,7 +3810,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="9d677670-106e-412f-9511-9beaba3e55e2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.ShuntingRefusedByRbcStruct"
+ TypeName="OUT.ShuntingRefusedByRBC.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3823,7 +3823,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="e6728181-c1f4-476c-98db-bdd7163f27c2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.ShuntingRequestNotAnsweredByRbcStruct"
+ TypeName="OUT.ShuntingRequestNotAnsweredByRBC.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3836,7 +3836,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="0b06cf22-c857-41bd-b886-bdf895b4a8ee"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.AcceptedEmergencyStopsStruct"
+ TypeName="OUT.AcceptedEmergencyStops.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3849,7 +3849,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="b95aff15-f817-4dfc-a62c-a58242939200"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.EntryInFsOsStruct"
+ TypeName="OUT.EntryInFS_OS.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3862,7 +3862,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="96741b4b-f379-4753-b70c-66c809b1f270"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.LevelTransitionAnnouncementStruct"
+ TypeName="OUT.LevelTransitionAnnouncement.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3875,7 +3875,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="e1ba34a2-a123-4c87-b00d-01866eaca8fb"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrackAheadFreeRequestStruct"
+ TypeName="OUT.TrackAheadFreeRequest.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3888,7 +3888,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="7ab990c8-8842-46c4-8c1d-9fe1cd8c67c9"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.AdhesionFactorSlipperyRailStruct"
+ TypeName="OUT.AdhesionFactorSlipperyRail.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3901,7 +3901,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ec24a06d-8fd5-49e5-8877-95c957fef3c8"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TracksideMalfunctionStruct"
+ TypeName="OUT.TracksideMalfunction.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3914,7 +3914,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="5d5c3ca1-768c-45fb-ab5a-7cb7991a13a1"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.NotificationOfTrainDataChangeFromOtherSourceStruct"
+ TypeName="OUT.TrainDataChangeFromOtherSource.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3927,7 +3927,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="4e1120ff-fe21-410c-a94c-723d900bf4e3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.OperatedSystemVersionStruct"
+ TypeName="OUT.OperatedSystemVersion.OutputStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -3940,7 +3940,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="b33daa4b-8caa-4457-a5ae-eaa75dc29717"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.RadioNetworkRegistrationFailedStruct"
+ TypeName="OUT.RadioNetworkRegistrationFailed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3953,7 +3953,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="fe7fc9d4-b2ee-4f09-9e4e-aac9113b55c2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.SafeRadioConnectionIndicationStruct"
+ TypeName="OUT.SafeRadioConnectionIndication.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3966,7 +3966,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="df368270-67c3-41f2-ab73-435896ef5ff2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.LocalTimeStruct"
+ TypeName="OUT.LocalTime.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3979,7 +3979,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="d1684a25-259a-46d7-8b26-7d1d26b0d597"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.GradientStruct"
+ TypeName="OUT.Gradient.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -3992,7 +3992,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="075d724b-a983-4537-831f-52bc8359254d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.MRSPStruct"
+ TypeName="OUT.MRSP.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4005,7 +4005,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="cd0a8923-5267-4974-8a40-340e66e7ab8c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.IndicationLocationAtMrspSpeedStruct"
+ TypeName="OUT.IndicationLocation.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4018,7 +4018,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="4f6f8f11-4916-4c04-af21-bc685c3223cc"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.FirstTargetAtZeroSpeedStruct"
+ TypeName="OUT.FirstTargetAtZeroSpeed.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4031,7 +4031,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="c640293b-8da9-45a9-8da1-f94d0a2b8273"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.BrakeReasonStruct"
+ TypeName="OUT.BrakeReason.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4044,7 +4044,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="8f30bd6f-e017-4224-8aa4-01436d40b6aa"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TracksideNotCompatibleStruct"
+ TypeName="OUT.TracksideNotCompatible.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4057,7 +4057,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ac5066fb-99b1-4ba7-9987-3ff4ec43b456"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrainIsRejectedStruct"
+ TypeName="OUT.TrainIsRejected.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4070,7 +4070,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="0a4fc5c5-0b3a-4801-8ba3-908c5cb38dac"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.RouteUnsuitabilitiesStruct"
+ TypeName="OUT.RoutesUnsuitabilities.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4093,7 +4093,7 @@ Fetches the time from the kernel and adjusts according to the current country id
 >
 <Comment>Holds the previous value of the kernel&apos;s mode (used to detect mode changes).</Comment>
 </StructureElement><StructureElement
- TypeName="OUT.CurrentErtmsEtcsLevelStruct"
+ TypeName="OUT.Level.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4106,7 +4106,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="de12ffe0-9421-4b44-ba88-f3b60d2e7207"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.DriverIdStruct"
+ TypeName="OUT.DriverId.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4119,7 +4119,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="6afe946e-5f67-453b-bbb8-9433d655687c"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.RBCContactInformationStruct"
+ TypeName="OUT.RBCContactInformation.OutputStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4132,7 +4132,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="101a6f34-9ae7-4c1e-8b9c-29b4621c3550"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrainDataStruct"
+ TypeName="OUT.TrainData.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4145,7 +4145,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="65cab65e-c298-4186-8e6b-6b3edb40f7f2"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.TrainRunningNumberStruct"
+ TypeName="OUT.TrainRunningNumber.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4188,7 +4188,7 @@ Fetches the time from the kernel and adjusts according to the current country id
 >
 </ReqRef><Comment>Language used to display information to the driver.</Comment>
 </StructureElement><StructureElement
- TypeName="IN.TrainDataStruct"
+ TypeName="IN.TrainData.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4201,7 +4201,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="d90501a6-0ee7-4b9b-bdbc-275dd6fbefa8"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.DriverIdStruct"
+ TypeName="IN.DriverId.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4242,7 +4242,7 @@ Fetches the time from the kernel and adjusts according to the current country id
 >
 </ReqRef><Comment>The desk of the current DMI.</Comment>
 </StructureElement><StructureElement
- TypeName="IN.VirtualBaliseCoverStruct"
+ TypeName="IN.VirtualBaliseCover.EntryStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4255,7 +4255,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="2905a59e-27fb-48e9-9c46-0aa361a543e3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.SBIStruct"
+ TypeName="OUT.SBI.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4268,7 +4268,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="391381d4-6e7a-4e36-bce3-430498603ad7"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.VirtualBaliseCoversStruct"
+ TypeName="OUT.VirtualBaliseCover.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4281,7 +4281,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="ce7a5712-d89f-413e-b4fc-4b8c9a3c4c3d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.TrainRunningNumberEntryRequestStruct"
+ TypeName="IN.TrainRunningNumber.EntryRequestStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4294,7 +4294,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="deda8162-50eb-4c19-a288-cf1746d84489"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.VirtualBaliseCoverEntryRequestStruct"
+ TypeName="IN.VirtualBaliseCover.EntryRequestStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4307,7 +4307,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="596fe3de-9578-4f0b-ac59-0b281dfd393b"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.ErtmsEtcsLevelEntryRequestStruct"
+ TypeName="IN.Level.EntryRequestStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4320,7 +4320,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="92e5663d-5c05-49e1-a5bc-cd193a77bfb1"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.DriverIdEntryRequestStruct"
+ TypeName="IN.DriverId.EntryRequestStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4333,7 +4333,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="1ef390ee-8426-4e7b-9a70-aabd9bcdded3"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.SRModeSpeedLimitAndDistanceEntryRequestStruct"
+ TypeName="IN.SRModeSpeedAndDistanceLimit.EntryRequestStruct"
  Default=""
  Mode="InOut"
  Implemented="TRUE"
@@ -4346,7 +4346,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="4321f9df-8dda-4216-b357-8313afdfbc36"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.LSSMAStruct"
+ TypeName="OUT.LSSMA.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4359,7 +4359,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="32030606-c07f-4bd3-80d7-f7ac087bc483"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="OUT.EndOfMAStruct"
+ TypeName="OUT.EndOfMA.OutputStruct"
  Default=""
  Mode="Outgoing"
  Implemented="TRUE"
@@ -4372,7 +4372,7 @@ Fetches the time from the kernel and adjusts according to the current country id
  Guid="c6f2561d-27b3-40f4-ba83-7040b5ce7e2d"
 >
 </ReqRef></StructureElement><StructureElement
- TypeName="IN.GeographicalPositionRequestStruct"
+ TypeName="IN.GeographicalPosition.EntryStruct"
  Default=""
  Mode="Internal"
  Name="In_GeographicalPositionRequest"

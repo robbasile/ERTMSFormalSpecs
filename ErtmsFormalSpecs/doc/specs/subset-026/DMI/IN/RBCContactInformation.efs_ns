@@ -1,0 +1,651 @@
+<NameSpace
+ X="380"
+ Y="160"
+ Width="100"
+ Height="50"
+ Name="RBCContactInformation"
+ Guid="50541d9e-be9a-4926-8c1c-04789d71b793"
+>
+<Comment>Handles the RBC contact information screen</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="97b6838f-fafd-4990-b04a-718599dbf9de"
+>
+<ReqRef
+ Id="aca297a1-7d62-42ac-ab7e-6c8c590c5637"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="598480ff-cbed-4d9b-8c28-5cfa898fe2b3"
+>
+</ReqRef><Comment>The RBC contact information proposed to the driver during the SoM procedure.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="fb26c0a9-5465-4742-a99a-98782906000e"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="28d21c69-80ca-4677-9ffc-178170bc9f79"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="0ebd53ef-aa70-49bf-b45b-bf1a47857da3"
+>
+<PreConditions>
+<PreCondition
+ Guid="fbbca60f-bf2c-4b34-9f99-39d06fe2b92d"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="4d658f91-f7cb-4ad0-b1c8-d44c9ebc5fce"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7ea0fcc2-bf7a-47ab-b201-7e29c90a9c96"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="5257dc31-c3d1-4c30-aa3b-90d1665632c1"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="3c70d746-f68c-4397-9ffe-3ca328f1ff33"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="d00e9d6c-8f40-4093-8da7-64b800c944f1"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2d527f8d-5149-4d3a-9a1e-4984ae66bff1"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1bf55176-46e6-4913-a4be-f6983aa5bb3d"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="InitiateRequest"
+ Guid="896a9ec8-f1cc-49ee-a82a-bae035d64bbc"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d42d8b98-ee20-45b2-989b-918c56814a28"
+>
+</ReqRef><ReqRef
+ Id="ff5aeaff-49e3-489d-816f-c49fc05bc951"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c0825305-fa39-4a9c-acff-fc653327720e"
+>
+</ReqRef><Comment>Asks the driver to enter the RBC Contact Information. The possible actions will be listed in Actions parameter.</Comment>
+<Parameters>
+<Parameter
+ Type="RBCContactActionsCol"
+ Name="aActions"
+ Guid="a000b112-bba9-48c3-9b52-df06dfab5f0c"
+>
+</Parameter><Parameter
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Name="anRBCContactInformation"
+ Guid="a66a2fc2-d14a-4580-b1bd-4f9b330de6e5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="b26df151-b76e-44d1-9cb1-c1320a388c28"
+>
+<Comment>Initiates the RBC contact information request, according to the provided parameters.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="57bbde6c-9ad8-4a75-a62a-76fc47692926"
+>
+<PreConditions>
+<PreCondition
+ Guid="f6796380-c7cb-42bf-9bda-d66448686024"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ae44b34e-6d5c-4179-8491-b22fa91eca38"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="84058554-1ed6-4d3c-9e22-4d2af46e68b6"
+>ProposedActions &lt;- aActions</Action><Action
+ Guid="0d8c73e2-a45e-43b8-9066-efb4cdcd7ddb"
+>AvailableNetworks &lt;- []</Action><Action
+ Guid="e026f3a4-7204-4559-82f5-185a04c0de02"
+>RBCContactInformation &lt;- anRBCContactInformation</Action><Action
+ Guid="bd290241-1b04-4b16-b117-da8b7586357d"
+>DriversSelectedAction &lt;- DMI.RBCContactActionEnum.None</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SelectNetworkId"
+ Guid="697499ff-091e-40d9-b82d-00baa5ac24f8"
+>
+<Comment>Asks the driver to select the network id from the proposed list.</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
+ Name="aNetworks"
+ Guid="232764cf-c5a5-469e-b627-ff46ad4cbf3a"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="79d9c715-8465-476e-a40e-c63d03a2d1aa"
+>
+<Comment>Initializes a request to select a network id. The only possible driver&apos;s action is SelectNetworkId.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="71b088bf-b2ee-4352-8f4c-db6ee6e118cb"
+>
+<PreConditions>
+<PreCondition
+ Guid="ec7b1a34-a88c-450b-8f91-2a70ae8a2dca"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2fbcc21b-900d-44e5-b0ef-d1f8f0593fa8"
+>ProposedActions &lt;- [ RBCContactActionEnum.SelectNetworkId ]</Action><Action
+ Guid="f2e8df58-d658-41fa-b692-19b730231706"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="fbb5b6d0-fa35-43a0-9e7f-3102cc6e93c2"
+>AvailableNetworks &lt;- aNetworks</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="2fda12f7-d7ad-4a87-9deb-945b61002766"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="RBCContactActionEnum"
+ Name="aDriversSelectedAction"
+ Guid="a23afc14-ef22-410e-b35f-f03456e879d8"
+>
+</Parameter><Parameter
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Name="anRBCContactInformation"
+ Guid="ca478237-9cc3-4f67-bafc-464f85ec32db"
+>
+</Parameter><Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="10f67002-44a0-4110-af38-53e04fd1b7d5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="5e712243-a394-46e0-a48e-909ed0552b04"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="8402c99e-5ad9-498e-8ace-966e9955dcfe"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="997b3cf3-bde3-46aa-9752-41b04c343e5d"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
+ Guid="048c5a64-a20e-4759-9b32-4560a1dcf12a"
+>DriversSelectedAction &lt;- aDriversSelectedAction</Action><Action
+ Guid="532e2ec1-51b7-4497-aeb3-45eed932d8fe"
+>RBCContactInformation &lt;- anRBCContactInformation</Action><Action
+ Guid="096a3fc0-cad5-4d76-bf84-9cc448f48186"
+>NetworkId &lt;- aNetworkId</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="PursueNetworkIDRequest"
+ Guid="0692a11a-a37f-4f69-9a7e-1146a06f2788"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="41fcd41e-90b9-44c6-83e4-55732b741307"
+>
+</ReqRef><ReqRef
+ Id="ff5aeaff-49e3-489d-816f-c49fc05bc951"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d5880f54-4496-4cb9-8bd5-c178d2d52fc2"
+>
+</ReqRef><Comment>If the networks are available, the driver should be presented the RadioNetworkID screen (hence the value of DriversSelectedAction) with the list of networks.</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Name="anRBCContactInformation"
+ Guid="ecf31d79-b149-43db-ae28-5a95ab907b0d"
+>
+</Parameter><Parameter
+ Type="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
+ Name="aAvailableNetworks"
+ Guid="b8a93d20-62d7-40f4-b6d9-4cb3735923a5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="0155381d-e130-461f-a6b2-5a5cc0f27ab4"
+>
+<Comment>Initiates the RBC contact information request, according to the provided parameters.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="32656ee1-3f53-4030-bcd2-fb8133c6379e"
+>
+<PreConditions>
+<PreCondition
+ Guid="8facfa8e-6d28-4583-9777-7223f4f32b6c"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f481b8f5-79f9-4246-943b-1b78befaf918"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="210662ab-bc22-4540-991f-d2fc337bc41a"
+>ProposedActions &lt;- [DMI.RBCContactActionEnum.SelectNetworkId]</Action><Action
+ Guid="b02f55b0-d7b6-473f-b1d2-42216986bd9f"
+>AvailableNetworks &lt;- aAvailableNetworks</Action><Action
+ Guid="4e373153-9332-4504-8091-e0eb4e30a0b1"
+>RBCContactInformation &lt;- anRBCContactInformation</Action><Action
+ Guid="56130a8c-0a2f-41e9-9880-63f8b6f217a6"
+>DriversSelectedAction &lt;- DMI.RBCContactActionEnum.SelectNetworkId</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="WaitForSystemRequest"
+ Guid="c8a9dbdd-b12f-466e-ac8d-a33b18d88536"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8609c084-bc86-452a-945f-767652634aa4"
+>
+</ReqRef><ReqRef
+ Id="ff5aeaff-49e3-489d-816f-c49fc05bc951"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ffeea69c-db73-4a9d-a37d-3361193e67ae"
+>
+</ReqRef><Comment>If the driver push the RadioNetworkID button, the RBCActionChoice screen should be presented to him with no proposed actions.</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Name="anRBCContactInformation"
+ Guid="a03ed026-9c60-4f63-898e-e7b0c515e8c7"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="d7fa0e05-1770-479e-9708-6d18a612c5eb"
+>
+<Comment>Initiates the RBC contact information request, according to the provided parameters.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="6dd8c0aa-1c23-4aef-a27b-8fb8826ce339"
+>
+<PreConditions>
+<PreCondition
+ Guid="1ebb9612-1384-4460-9dcd-972f4ea8a195"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5b5ea3fb-506c-45e7-a5e8-8c4b067d16d5"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="865d5c62-0a47-4d5b-8824-c618a1b761ea"
+>ProposedActions &lt;- []</Action><Action
+ Guid="c87637c3-6462-4d1c-be03-96900b5bf897"
+>RBCContactInformation &lt;- anRBCContactInformation</Action><Action
+ Guid="a542f9ec-de9a-4841-af65-383837115abe"
+>DriversSelectedAction &lt;- DMI.RBCContactActionEnum.None</Action><Action
+ Guid="29d3612e-1346-4ee4-b2fa-f5bdca0406b5"
+>AvailableNetworks &lt;- []</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="PursueRBCContactRequest"
+ Guid="7a889019-d44e-494c-a862-60da6a65a5df"
+>
+<ReqRef
+ Id="88987d99-35ff-4f33-894e-06060476dc7d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="07674553-b06f-45fb-b9bc-12efbaaa7f07"
+>
+</ReqRef><ReqRef
+ Id="ff5aeaff-49e3-489d-816f-c49fc05bc951"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6e6f3417-8429-499e-bcf0-430a976a6d87"
+>
+</ReqRef><Comment>Asks the driver to enter the RBC Contact Information. The possible actions will be listed in Actions parameter.</Comment>
+<Parameters>
+<Parameter
+ Type="RBCContactActionsCol"
+ Name="aActions"
+ Guid="0db44be5-2bba-44df-9ac8-8011dc380da6"
+>
+</Parameter><Parameter
+ Type="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Name="anRBCContactInformation"
+ Guid="9199b460-af07-4d9d-a54c-31ab0e172113"
+>
+</Parameter><Parameter
+ Type="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
+ Name="aAvailableNetworks"
+ Guid="3ed47925-85b8-4ebc-9337-f31dcddd1e26"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="44fc5169-eb44-464c-ba9c-d37682c5548f"
+>
+<Comment>Initiates the RBC contact information request, according to the provided parameters.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initiate request"
+ Guid="5c74a7d3-50b0-445d-be93-bf8e8be3c430"
+>
+<PreConditions>
+<PreCondition
+ Guid="04b59fd3-13ac-47e8-857a-408e53f98748"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f715c858-07c1-404a-a434-ba3ac3866930"
+>InputInformation.InitiateRequest()</Action><Action
+ Guid="1ae1159f-c8e4-42ac-83b4-60fdaf5cc099"
+>ProposedActions &lt;- aActions</Action><Action
+ Guid="2ba7c4bb-25c1-46d5-a74c-2002324da432"
+>AvailableNetworks &lt;- aAvailableNetworks</Action><Action
+ Guid="70275c07-6e4d-4f18-973c-7fb7db96c3f5"
+>RBCContactInformation &lt;- anRBCContactInformation</Action><Action
+ Guid="99e05b6e-65e7-40c9-bcc3-05b820f7d808"
+>DriversSelectedAction &lt;- DMI.RBCContactActionEnum.None</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CancelRequest"
+ Guid="85112f04-1ce6-47d9-8632-00a535fe99ff"
+>
+<Comment>Cancels a RBC Contact Information request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="CancelRequest"
+ Guid="90a9d79f-a0e7-425d-872a-d1fe9aba92b6"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="CancelRequest"
+ Guid="947ea15f-0d89-429b-9dbc-8bff94961205"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0e30eef5-5064-42d3-828c-cfd5a4fdc0f3"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset"
+ Guid="62ee465a-0913-4487-95c4-2ba14535af2b"
+>
+<Comment>If the connection attempt failed, the stored data should be emptied. Interactions with the DMI would then work better.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset"
+ Guid="ec84aab5-e113-4238-b119-1fa5148fe65a"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Reset"
+ Guid="18947679-85b8-44ba-bbdf-457b45e55963"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="4e080b91-264d-4c14-a9af-8b93c37d3a3d"
+>AvailableNetworks &lt;- []</Action><Action
+ Guid="ab2ff04f-d390-46a1-a9f9-f7aae717d901"
+>DriversSelectedAction &lt;- DMI.RBCContactActionEnum.None</Action><Action
+ Guid="62f2f4a3-a37b-4ad6-ac25-0a922a4ee25f"
+>InputInformation.RequestStatus &lt;- Default.RequestEnum.Disabled</Action><Action
+ Guid="35fc13c7-f9b7-4d69-aba1-5ec6f3d291c8"
+>InputInformation.DriverAnswered &lt;- False</Action><Action
+ Guid="5198c34b-3b6b-48bf-876a-9ee9e2180fb7"
+>NetworkId &lt;- &apos;&apos;</Action><Action
+ Guid="2f490d6a-dfe4-4bd1-9301-d836fd05f39b"
+>ProposedActions &lt;- []</Action><Action
+ Guid="c4838377-7ccf-4ee1-8307-53172a855db1"
+>RBCContactInformation &lt;- EURORADIO.RBCConnection.Contact.RBCContactStruct{
+Id =&gt; EURORADIO.RBCConnection.Contact.RBCIdStruct{
+    Country =&gt; 0,
+    Id =&gt; 0
+},
+PhoneNumber =&gt; &apos;&apos;,
+DataState =&gt; DataStateEnum.Invalid
+}</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="abb3d796-c38e-486e-8a14-dd1ab00627ad"
+>
+<Comment>Request status</Comment>
+</StructureElement><StructureElement
+ TypeName="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RBCContactInformation"
+ Guid="1be8d477-1707-45a2-b3b5-3d705fd2d177"
+>
+<Comment>Holds the RBC contact information to be validated by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="RBCContactActionEnum"
+ Default="RBCContactActionEnum.None"
+ Mode="Incoming"
+ Implemented="TRUE"
+ Name="DriversSelectedAction"
+ Guid="9351f446-baa5-4956-bbcd-4c3dda3ac4d0"
+>
+<Comment>The action chosen by the driver.</Comment>
+</StructureElement><StructureElement
+ TypeName="RBCContactActionsCol"
+ Default="[]"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="ProposedActions"
+ Guid="48d51ddc-8853-4ac6-9fb1-93a09d4b7909"
+>
+<Comment>Actions that are proposed to the driver for entering of the RBC contact information.</Comment>
+</StructureElement><StructureElement
+ TypeName="EURORADIO.RBCConnection.Contact.AvailableNetworksCol"
+ Default="[]"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="AvailableNetworks"
+ Guid="155b093b-504f-4a89-8af4-16df91f6ab68"
+>
+<Comment>The list of available networks from which the driver has to select the desired network.</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="NetworkId"
+ Guid="4e3828e3-1065-4337-b34a-a82cfa1e8e49"
+>
+<Comment>The network id selected by the driver.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="85945e17-1da1-4022-aa7d-dd106daf1074"
+>
+<ReqRef
+ Id="aca297a1-7d62-42ac-ab7e-6c8c590c5637"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7b2ef20b-8b52-4487-aaf8-f88736ade77e"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver to make RBC contact information requests.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="41d9fd46-bee9-4271-8f2a-1572a36dad5f"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

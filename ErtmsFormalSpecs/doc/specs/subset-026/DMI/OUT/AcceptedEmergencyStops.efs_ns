@@ -1,0 +1,150 @@
+<NameSpace
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="AcceptedEmergencyStops"
+ Guid="fde1d368-c09c-4a99-b59e-2e6d24ec3576"
+>
+<Comment>Displays the accepted emergency stops</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="f1c00dab-3594-45fe-965f-472ac49962fb"
+>
+<ReqRef
+ Id="2fe0de25-c551-4115-a76b-4b3c6804a58b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="45453ce9-98d8-4dcf-afa3-d40ad22346ef"
+>
+</ReqRef><ReqRef
+ Id="c3434cd8-a28d-4f6f-9aff-3f72b485a528"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f1a79f31-d740-4203-86e2-3d320b24e047"
+>
+</ReqRef><Comment>Handles display of information relative to the list of accepted emergency stops.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="b1742414-9781-40ad-87c4-d3cb7124b2d0"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.BrakeCommands.EmergencyStopsCol"
+ Name="aEmergencyStops"
+ Guid="0c38a94a-bda7-4371-ae21-4a4f23cdadd1"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Update the request status"
+ Guid="8421ba55-591b-4796-9c09-4710d95373f8"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display the emergency stops, if available"
+ Guid="cea6145f-e1d1-4273-a211-15d32abf6a62"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="6500dbb3-1324-47f3-9655-251eb23448d2"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="ff3aabfc-cd8d-4ff6-8159-9d970bf1c44f"
+>aEmergencyStops != []</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="01fc270a-9404-40e3-95be-c12e07a199ec"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="35d26e06-5c25-4055-be49-62b2747a77d8"
+>EmergencyStops &lt;- aEmergencyStops</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="aad13ccb-5cb8-48d7-a07c-4e3b14a4a64e"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="aee20257-3782-42f9-8750-37f6d924b5c7"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="d7832a85-6439-4875-8587-1f00b3bd41c6"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="623777a8-7f2b-4baa-ac86-b56a3c6f0a4f"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="Kernel.BrakeCommands.EmergencyStopsCol"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="EmergencyStops"
+ Guid="ca724184-c941-4f06-b499-89cb16b3a7cd"
+>
+<Comment>The list of accepted emergency stops to be displayed.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="3c342445-bc4c-4ae3-9686-3580b93164b0"
+>
+<ReqRef
+ Id="2fe0de25-c551-4115-a76b-4b3c6804a58b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5ab270dc-f68c-4379-9094-f04bea6e2d35"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="e9d0a517-b4d9-49a7-840f-6b9f089fcf11"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.TR, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

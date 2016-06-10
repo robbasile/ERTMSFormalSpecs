@@ -1,0 +1,159 @@
+<NameSpace
+ X="690"
+ Y="320"
+ Width="100"
+ Height="50"
+ Name="TrainRunningNumber"
+ Guid="d009b8a8-8e0f-4914-b618-c08726a1dbb6"
+>
+<Comment>Displays the train running number</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="dea67349-665d-420b-8673-3a4eed590ecc"
+>
+<ReqRef
+ Id="47e76500-ce7e-48be-9414-97b01bbaaf74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="58ad1909-3f6a-4674-82b3-ba72cb307bd6"
+>
+</ReqRef><Comment>Provides the train running number.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="620705e9-5fb0-439b-a8b4-ace071731445"
+>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4ff90191-071e-4ff3-8432-280d4dec67f6"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="47093bb8-4f81-4c8b-bad4-d3f5ea13589c"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainRunningNumberStruct"
+ Name="aTrainRunningNumber"
+ Guid="b3c563fc-f77a-430f-9030-f743b4f5e67a"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="8952e5ae-fc68-4c10-8f3c-7ab73aea731a"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="59ab7e0e-fdc1-42a4-8b3c-2dd39aa44961"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="26511343-05ee-424e-81d5-fa5d215b0abb"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="0c159f47-2775-4411-953c-17bb343d33d2"
+>aTrainRunningNumber.DataState in [DataStateEnum.Valid]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4bfa712f-c5c4-4bdf-81da-777d5a731aa9"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="c4378cbd-b3a0-4e2c-886d-76e2c9d95e06"
+>Number &lt;- aTrainRunningNumber.Value</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="fded86f2-fdca-4712-83cc-8d0a26d95692"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="3711cf6d-7047-44ee-ba42-c1a78f528429"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="a49764ce-e5d0-4529-95de-57c95ea2f7b6"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="007d365a-f1d8-4b9c-811c-43012c7a99d6"
+>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Number"
+ Guid="86dd152a-d474-4a79-a067-41fa3b988f31"
+>
+<Comment>The train running number</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="88e1e510-9d50-42c8-a250-42ed0c311063"
+>
+<ReqRef
+ Id="47e76500-ce7e-48be-9414-97b01bbaaf74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0d3bedc8-dca6-4a27-a7f7-b8a07b04539a"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31861ff2-34d1-4f0d-81d6-79e8b479e9e6"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="23448439-2f4b-4bd2-b3ba-6591cb4d035c"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

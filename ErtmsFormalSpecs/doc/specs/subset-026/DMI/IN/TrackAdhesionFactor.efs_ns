@@ -1,0 +1,237 @@
+<NameSpace
+ X="380"
+ Y="220"
+ Width="100"
+ Height="50"
+ Name="TrackAdhesionFactor"
+ Guid="cf33f2eb-e842-4375-a080-831f9b113029"
+>
+<Comment>Handles the entry of track adhesion factors</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="b65f2ff7-1205-4d0d-9823-fc14a282dc8e"
+>
+<ReqRef
+ Id="dc327dea-a3eb-4081-ac8b-06d8c12f1ea7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a2e80604-71cf-4fbf-847a-17bc4697e908"
+>
+</ReqRef><Comment>Driver indication of the track adhesion factor.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="fa03f4c6-6f17-4e37-a8b8-26457416a0df"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="ad56f502-9865-4c55-9b99-799e40a335dd"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="9d505db3-218a-4f3e-ad69-90ee58cc294c"
+>
+<PreConditions>
+<PreCondition
+ Guid="40ee1148-f353-409d-a95b-00ebd9edb4f4"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="39fd61ac-6e86-464b-81ba-fca2e139e8bd"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3dfb7e52-d433-403a-8cb0-d646ac39a942"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="ff55d27a-c978-440e-82b3-af224e15c1e7"
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver &lt;- (AdhesionFactor == Messages.M_ADHESION.Slippery_rail)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="0d273938-e7bd-45e7-8a17-a8cdc7df51ea"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="7247b071-4075-4666-a85b-8b35c528c6d9"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="a7633b7b-8e29-4f0c-9751-30f861b06665"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="3b26f896-2d2b-4b33-9852-0c8c9c96c4a3"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7baf926e-debe-4fa0-ac5b-e4cf5e84a751"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="66544aa0-74c5-4c66-8154-f39bd3546f38"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="d7d35d33-be23-4743-9e75-fb950c485ad2"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="fbe725b6-5b42-437b-9234-8f70911b4db8"
+>
+<PreConditions>
+<PreCondition
+ Guid="a2f17276-cf84-417c-a270-deee82d7b506"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="77a2136b-24bc-4e44-9bbb-7fba60e2a8bf"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="65fdcbc5-3f04-44e8-8336-9ef01f86de48"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.M_ADHESION"
+ Name="anAdhesionFactor"
+ Guid="b8eed1f8-faec-4c55-9c98-3ef0322f1b84"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="82f95306-7971-4620-93a0-157b2253becb"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="92c36337-5ee6-4458-9947-6e920bc64bdb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="af0b9196-9875-44c8-91a7-6d7c0d2dae74"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
+ Guid="ab98ec26-f1f4-49be-a8bf-4a1a89b21731"
+>AdhesionFactor &lt;- anAdhesionFactor</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="1a3c0bf8-75fe-4a90-9311-235bac1819a5"
+>
+<Comment>Request status</Comment>
+</StructureElement><StructureElement
+ TypeName="Messages.M_ADHESION"
+ Default="Messages.M_ADHESION.Non_slippery_rail"
+ Mode="Incoming"
+ Implemented="TRUE"
+ Name="AdhesionFactor"
+ Guid="bd7c1c78-a4f9-4a2e-b140-57e653004e0c"
+>
+<Comment>The adhesion factor provided by the driver.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="75e69b34-9a79-4521-8def-0de9bcecf775"
+>
+<ReqRef
+ Id="dc327dea-a3eb-4081-ac8b-06d8c12f1ea7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3adbc81e-533f-4fda-b151-557d73802c82"
+>
+</ReqRef><Comment>Verifies mode for allowing and accepting driver indication of track adhesion factor.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="406385b6-633e-4a2f-b461-6367e4974d34"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.SN ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

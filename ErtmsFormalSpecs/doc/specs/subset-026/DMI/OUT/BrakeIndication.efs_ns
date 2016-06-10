@@ -1,0 +1,132 @@
+<NameSpace
+ X="250"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="BrakeIndication"
+ Guid="9f834211-a7ad-4876-9d7e-a351442eb1d2"
+>
+<Comment>Displays the brake indication</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="41a336e9-1de8-4fb5-9351-ad460fc084ff"
+>
+<ReqRef
+ Id="af77864f-0a33-496f-a874-1ebab99a0c4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bd518ebb-a594-48a2-9310-a6e8882d9a25"
+>
+</ReqRef><Comment>Handles display of brake indication.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="449083cf-42d1-485e-9dcf-bc1216e4f8b1"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aBrakesApplied"
+ Guid="5906dcdf-ac98-4658-8213-c99c62745ed5"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="782fa164-d8dc-46dd-a3d5-20922603f16b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="52c3e64d-83bb-4700-a185-9f7b7e8015c3"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="cba88b8f-30d5-4f59-b2df-e86965c14c77"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="e3ca0346-6526-4afe-91d6-3f06dc54d76c"
+>aBrakesApplied</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="96337ab1-fc07-4f09-bb46-704c5b246166"
+>OutputInformation.RequestDisplay()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="01eb5da2-779d-4296-8cdc-acf33ecd1dc2"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="65207685-e49d-49e9-8ed1-ffe502dbf4af"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="dfbe926a-b31b-4215-aecd-68bc225add16"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="2706da91-b47f-4e8f-8613-20165e6cd5e3"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="93a4b02a-7090-429e-b82d-3d9ff9c88829"
+>
+<ReqRef
+ Id="af77864f-0a33-496f-a874-1ebab99a0c4e"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a455ce59-5d96-4a69-a774-31553ab81ed1"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="058be1c0-2c81-4480-9be0-00de4bb06a76"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

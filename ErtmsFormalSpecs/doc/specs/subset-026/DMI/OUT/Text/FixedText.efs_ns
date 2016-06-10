@@ -1,0 +1,148 @@
+<NameSpace
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="FixedText"
+ Guid="7ab177be-6357-42be-b425-2c16326fbf61"
+>
+<Comment>Displays fixed text information</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="26e515bb-f3e4-46f9-9e5a-ecd0158a3957"
+>
+<ReqRef
+ Id="3dabcead-8429-46f3-a39b-10515ea26748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2edee622-29c7-4a76-952d-d1756ef59698"
+>
+</ReqRef><Comment>Displays fixed text information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="dcffd8c6-b822-4757-824c-f0e013e19ae8"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="6830768e-799d-4864-9239-cbe2466815c9"
+>
+<Comment>Updates the request status and inserts the new message to the list of displayed messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="f54af30f-be4c-44ee-b4a4-f0d2e0413b9c"
+>
+<PreConditions>
+<PreCondition
+ Guid="e9ef0638-e784-4c12-96b9-f84c01b3a1f5"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="44c800ec-e25d-4917-be36-00c6244139f4"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="9c0ccc33-a896-48d5-b2aa-9ee0686c4f24"
+>Messages &lt;- Kernel.TextMessages.FixedTextMessagesToDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="d6334234-2265-45d9-bede-3ed2a278318e"
+>
+<Comment>Tracks the changes of the mode</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the status of the request according to the mode"
+ Guid="19e19d77-886e-4bf6-b135-1b731b475d5c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the status of the request according to the mode"
+ Guid="614ddbf5-a58d-45c1-8f6e-78d21ae63bae"
+>
+<PreConditions>
+<PreCondition
+ Guid="7399feb1-7e30-4593-978f-16348afc39e1"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="2e7f7177-deeb-4d75-b5de-ecf44b272570"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="85da7b7b-6581-4e00-97d1-81af7dcbdc5e"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.TextMessages.FixedTextMessagesCol"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Messages"
+ Guid="c3609734-5735-4a0c-81ff-0abf9ca8ebf5"
+>
+<Comment>The fixed text that should be displayed</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="f0fa6ebd-16d0-4161-bf7a-40c651311e9f"
+>
+<ReqRef
+ Id="3dabcead-8429-46f3-a39b-10515ea26748"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d11d9351-6317-43b4-bef3-f7bf8725f33a"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="7359c598-f412-43f5-a20b-4f32ab83c6cd"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

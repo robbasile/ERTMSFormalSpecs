@@ -1,0 +1,178 @@
+<NameSpace
+ X="140"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="RBCContactInformation"
+ Guid="9e612e74-bf27-4745-ab69-b7f563788d1e"
+>
+<Comment>Displays the RBC contact information</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="b0a457a1-edd7-4ff4-87e1-7e5fc393d86a"
+>
+<ReqRef
+ Id="f6cda523-6b70-489d-a6dd-e29b33d2a772"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="37b00acc-091e-47f2-8236-e3a3909fe368"
+>
+</ReqRef><Comment>Displays the RBC contact information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="41864c17-5a2a-4f6c-9e52-f23c975aed87"
+>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ef6e4e51-7765-49e3-a3a7-2f99589a3b99"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="15deac3c-bd05-491e-b360-a3f79b28b3e1"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="EURORADIO.RBCConnection.RBCStruct"
+ Name="aRBCConnection"
+ Guid="fe65eb12-1998-4671-b985-e3f2e646f0f3"
+>
+</Parameter><Parameter
+ Type="String"
+ Name="aNetworkId"
+ Guid="8a3612a8-18a6-4359-aabc-68b3b9b43910"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="60ef04e9-6b37-41ab-b4c2-c045ab5a5c61"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="08f4cbeb-6cbc-4e22-bc4e-467ee020f9ef"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="0d860bfc-a068-46d2-9c33-d9051d63f6f9"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="c93f4903-b117-4618-8f57-dacfb78b8def"
+>Available(aRBCConnection)</PreCondition><PreCondition
+ Guid="ea196d3a-3a56-4163-8634-da71452dd81e"
+>Available(aNetworkId)</PreCondition><PreCondition
+ Guid="e250838b-00cd-41f5-92ca-8458d9abd4f8"
+>aRBCConnection.ContactData.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c616e830-2c9c-4a4c-9efc-031bc0324327"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="12e79b28-3828-4a47-bc7b-e3e0303f2b5f"
+>RBCContactInformation &lt;- aRBCConnection.ContactData</Action><Action
+ Guid="56dabfef-4097-49d4-99ff-20704012a8fe"
+>NetworkId &lt;- aNetworkId</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="174d6c2b-7a19-4fbd-9d86-294040ede237"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="99e6496e-0ec5-4d6d-8a42-f85a77bd31dd"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="aaa00161-8d59-4190-80de-4017e74064c4"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="ee86cf9a-f8c1-4825-922a-13cbfb74d179"
+>
+</StructureElement><StructureElement
+ TypeName="EURORADIO.RBCConnection.Contact.RBCContactStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="RBCContactInformation"
+ Guid="8e73ef9a-fc6f-4368-b603-db55c1ab9045"
+>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default="&apos;&apos;"
+ Mode="InOut"
+ Implemented="TRUE"
+ Name="NetworkId"
+ Guid="5e481548-2fbd-4f4a-a63e-1f1714a30e36"
+>
+<Comment>Radio Network identity.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="4c42b253-35da-4aef-86b9-12ca167425e1"
+>
+<ReqRef
+ Id="f6cda523-6b70-489d-a6dd-e29b33d2a772"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c86fa575-6516-402c-9a35-01c945ace07b"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6051d2bf-80a4-4448-96de-aff34a2e186f"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="a1d8f728-6d14-4b90-8a6d-48554a0a3ae2"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,192 @@
+<NameSpace
+ X="580"
+ Y="320"
+ Width="100"
+ Height="50"
+ Name="TrainIsRejected"
+ Guid="99add63e-39fe-461d-a6a7-59c214ae7a1c"
+>
+<Comment>Displays the fact that the train has been rejected by the RBC</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="5886307f-d6b7-46c1-b454-a965936186de"
+>
+<ReqRef
+ Id="ab6dbc23-b7e2-4748-96b1-5478c3ca68c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="09244aa5-f821-450c-8607-d52892f18a36"
+>
+</ReqRef><Comment>Indicates that the train has been rejected.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="2797fa3b-01cc-4a68-8de4-c2ba14b18c1d"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aTrainRejected"
+ Guid="8888f714-d774-4d39-baaf-3b7266406195"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="7eda67c1-0dde-4da7-be23-c59382524a46"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="ea743ccd-e6dc-4517-946b-971962c7d1c6"
+>
+</ReqRef><ReqRef
+ Id="194d8c45-bd24-4a59-8cb3-972065e2c2c4"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="f781d7af-6aa8-4737-8064-c0ebe78ac0dc"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="28ca0082-2e17-4a3f-88d5-711f07e50af9"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1c3029a6-011b-4755-ba48-41c2be82ec14"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="92968557-c4ed-4e15-9a6a-d71af75e9fa3"
+>Available( DisplayStartTime )
+  OR  
+aTrainRejected</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="e993ab6a-febe-4ee2-ab6d-b068d8799f1e"
+>OutputInformation.RequestDisplay()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="If starting the display, record the time"
+ Guid="fcff083d-fc82-4c3b-a111-bb3bbe8d151c"
+>
+<Comment>When the display of the notification starts, record the time.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="At the start of the display, record the time"
+ Guid="96a49494-9367-4f6c-992a-ced080c0d1ca"
+>
+<PreConditions>
+<PreCondition
+ Guid="5165e98a-22f6-42de-b3fe-44c01e679c67"
+>NOT Available( DisplayStartTime )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="5b6fef80-ed6a-4f48-aa46-a5742982d695"
+>DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="575f76e6-becb-4faa-b209-3eb08fa49c5e"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="be06d722-1384-448d-87e2-e3a8cee789a4"
+>DisplayStartTime &lt;- EMPTY</Action><Action
+ Guid="cadf7bf9-682e-4f3f-aa22-a80fc6e8a546"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="9935aff9-5d76-4b39-bc13-206385ac34e5"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="d9956a5c-1b16-4bf0-a736-e88bbd7eb53b"
+>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="ebb127a2-2d7b-4153-bdb0-751be8aa13b1"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="9973a89f-e5de-497e-a705-b4b7141c0514"
+>
+</ReqRef><ReqRef
+ Id="194d8c45-bd24-4a59-8cb3-972065e2c2c4"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="14206336-9082-46ca-a436-2ef002d8cab3"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="69e10fda-0853-4b28-8f10-27c91510cb0f"
+>
+<ReqRef
+ Id="ab6dbc23-b7e2-4748-96b1-5478c3ca68c9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6f18fff5-a078-4293-8238-dca426e49ef1"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="19259b6a-340b-49f6-9e9e-9c9e17f588fc"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

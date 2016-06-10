@@ -1,0 +1,218 @@
+<NameSpace
+ X="690"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="PermittedSpeed"
+ Guid="cb99d585-705d-4080-861e-edbaeaddc122"
+>
+<Comment>Displays the permitted speed</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="0a0fccde-e87f-4256-9281-6d1c153a36ca"
+>
+<ReqRef
+ Id="d71c157f-0723-4ca1-a3ca-bd2eb1e89ec3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="59591595-be1f-4ff6-b1b2-ae6dd16c7532"
+>
+</ReqRef><ReqRef
+ Id="09e9b21f-a204-44c7-9829-f4221f5ff7a6"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="fc07a549-5d16-45d6-b97e-f5ae67bc78a6"
+>
+</ReqRef><ReqRef
+ Id="66b79932-5e84-4126-abe6-3094347749c2"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8f192127-013a-44d0-b253-de9781814f91"
+>
+</ReqRef><ReqRef
+ Id="3182607e-35e6-4a7a-90f0-94908d9ecf22"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="760381b8-399b-450f-aa8e-9784a1f95aca"
+>
+</ReqRef><Comment>Handles display of information relative to the train permitted speed.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="90c9b59b-e337-422e-83a3-43c8cb140af2"
+>
+<ReqRef
+ Id="3182607e-35e6-4a7a-90f0-94908d9ecf22"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="f10029e9-ea38-434e-a3da-986d565a8769"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="f730a59a-58b4-477f-8f47-022ebe46ddd4"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="3219598b-f017-4660-9e98-7e930b0d89a1"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="e6755f83-3ba0-4518-8ae8-ecda833b8d89"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e49bea1a-80dd-4154-a21c-7e20738a3ee1"
+>IsMandatory()
+  OR  
+IsAvailable()</PreCondition><PreCondition
+ Guid="659565a5-b19d-44eb-a27d-d033ddadfe8b"
+>Kernel.SpeedAndDistanceMonitoring.Display.DisplayPermittedSpeed()</PreCondition><PreCondition
+ Guid="63813ecf-cd15-408f-b13b-71ad0e3e26c8"
+>aSpeed != BaseTypes.Speed.NA</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4505b051-fa7c-4a10-a079-58524032a600"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="6fb1e1c7-fa6f-4ad2-a0ef-ed9a33a428d5"
+>Speed &lt;- aSpeed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="ca6114fa-96bc-47a7-b3d1-d2cb45fc23b8"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="aa57b38d-d4a5-48ba-a93a-9c57d080349c"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="722dd1a0-3ded-431e-a55a-1c0ad9aa0d52"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="30f316ae-9ba6-4660-97c1-319d429407b0"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+ Guid="b83225de-22c6-4047-b0a7-cc4abd203cd3"
+>
+<Comment>The permitted speed.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="eb91053d-bc54-4231-97e4-367f89da79b5"
+>
+<ReqRef
+ Id="d71c157f-0723-4ca1-a3ca-bd2eb1e89ec3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="dd9e3a4c-429f-4148-88a8-010890e44c55"
+>
+</ReqRef><ReqRef
+ Id="14c3e0f6-da11-447b-b983-3021f94a8834"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1b791950-deb3-4f48-9a83-618ebbb00c24"
+>
+</ReqRef><ReqRef
+ Id="528068b1-03b9-4be0-9165-0a1fc5d755bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="305a07c2-9fc7-459a-aac2-9af55dbd8f56"
+>
+</ReqRef><ReqRef
+ Id="dcce4528-66c3-498d-b4f5-c40ce761f7d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ec53d425-24a5-4d0b-8921-f387fb7c6136"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="f4fef2f4-3937-4c0d-beea-4f28ea039295"
+>
+<Expression>Kernel.Mode in [ModeEnum.SH, ModeEnum.SR, ModeEnum.OS, ModeEnum.FS, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsMandatory"
+ Guid="253247e5-b6a4-434a-8948-50befbfc3ae3"
+>
+<ReqRef
+ Id="d71c157f-0723-4ca1-a3ca-bd2eb1e89ec3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9511acec-3763-4925-ba03-951eae4ea1d6"
+>
+</ReqRef><ReqRef
+ Id="c49975f4-30c4-4807-a153-ed306345cb41"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae320a83-f171-4359-9664-ce5c822f9ffa"
+>
+</ReqRef><ReqRef
+ Id="4f162629-959e-4389-ab91-a83525b8c6c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c6d84b0f-40c7-4c70-82df-6c79675342ff"
+>
+</ReqRef><Comment>Indicates the modes where the output is mandatory</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is mandatory"
+ Guid="57eb04c9-ae66-483c-9d8b-bd3a38f38ebf"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,192 @@
+<NameSpace
+ X="470"
+ Y="320"
+ Width="100"
+ Height="50"
+ Name="TrainDataChangeFromOtherSource"
+ Guid="2c9e1287-3448-4d49-8632-b9a085dea689"
+>
+<Comment>Displays the fact that train data has changed from other sources than the driver</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="2d147f5a-2630-46b5-b940-5d73fef69f9a"
+>
+<ReqRef
+ Id="cde58d6c-c5d2-4ee2-8363-fb89efc1fcd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bcb696cc-d93b-4398-9ceb-68a7bbfd16e1"
+>
+</ReqRef><Comment>Indicates the fact that the train data changed from other source than the driver.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="99bd8c2d-7227-4ad5-99d4-65966bf70ecf"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aDataChanged"
+ Guid="cd5ad294-c0bd-44f0-add0-5cf041a7c084"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="fe8f21be-c04c-43dc-b5ad-19e992e941b5"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="c08dffdb-aa80-4125-b8ad-a188a657a854"
+>
+</ReqRef><ReqRef
+ Id="ab2127b2-48d5-4d7a-aafc-288a95c4916e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="4e5990c7-ed24-4a0f-85fa-b1965335f2b4"
+>
+</ReqRef><SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="45efd17c-300c-4708-b44a-ef00b592ef7a"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="2b61ae18-5788-4962-84b5-3e5fd49fac62"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="06029d22-bb63-46c1-943d-8a6be085b0af"
+>aDataChanged
+  OR  
+Available( DisplayStartTime )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="12f9e7a5-3fe2-41c1-8604-7f696c3bb86b"
+>OutputInformation.RequestDisplay()</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle start time"
+ Guid="40c085ce-5975-4369-9cf3-fa7f2e4cb3e7"
+>
+<Comment>When the display of the notification starts, record the time.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Record the time at start of display"
+ Guid="05bd20c8-e7ed-485d-aaef-253d2f14e992"
+>
+<PreConditions>
+<PreCondition
+ Guid="5abc0b98-c135-4802-abf5-a6b19b4310b2"
+>NOT Available( DisplayStartTime )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="ed1f9ef8-4dca-4290-94d8-e525c9437930"
+>DisplayStartTime &lt;- Kernel.DateAndTime.Now()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="80698cbe-5fc3-4132-b115-a4cea806bdfb"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="6ee6bb87-fb70-43e2-b3fd-2036e2730589"
+>OutputInformation.DoNotDisplay()</Action><Action
+ Guid="54e37166-5b6f-4bc7-9c6d-16622c9f462a"
+>DisplayStartTime &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="f406ba26-9a42-4093-9d1f-dc55dc232815"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="ec81639d-9bcb-4916-9b0e-324ac904099f"
+>
+</StructureElement><StructureElement
+ TypeName="DateAndTimeStruct"
+ Default="EMPTY"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="11014073-a62e-471f-9852-ccb34ed75fb6"
+>
+<ReqRef
+ Id="48b266a3-bc31-49b2-8a03-dda08682c26f"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="cb2bed51-0318-4f0f-8b00-987c636950f1"
+>
+</ReqRef><ReqRef
+ Id="ab2127b2-48d5-4d7a-aafc-288a95c4916e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="2b04dce3-a1c7-4a94-8787-f953ce5eb779"
+>
+</ReqRef><Comment>Indicates the time at which the display of this information started.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="340f1531-1beb-4fdc-87ee-81c72c27c8ae"
+>
+<ReqRef
+ Id="cde58d6c-c5d2-4ee2-8363-fb89efc1fcd7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d1729488-c9fe-42e4-b5b3-cef33f5c78a6"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="8ddea9fa-b284-40a1-bf16-9d22c59a6571"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

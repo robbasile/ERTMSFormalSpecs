@@ -1,0 +1,217 @@
+<NameSpace
+ X="50"
+ Y="220"
+ Width="100"
+ Height="50"
+ Name="Shunting"
+ Guid="4fc3641c-b8ca-48e5-ba9c-adc18fe92391"
+>
+<Comment>Handles the shunting interaction</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="4e97eefa-5c96-4f4f-aaaa-cba3957e3dc6"
+>
+<ReqRef
+ Id="c49c8e4d-2c96-4314-a79e-904b090becb1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7ca42f42-34db-46a3-88ef-3e5e9be102eb"
+>
+</ReqRef><Comment>Driver request of shunting.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="bc5c901b-a7b9-4979-8fc5-c686dd103ccb"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="ef7d5fa1-f403-4aec-ac4c-ae133595c5b3"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="7b304954-0834-4af3-8c4b-777e54212330"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="834c1096-02ba-46a5-ba29-c4badaa23653"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="726bb807-cbe1-441f-b21b-0b42f18550d2"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="fd81d8c0-bde8-4146-bb44-00d72f390130"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="e9c20407-39bb-45af-8cac-faa3fc609fd4"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="a6f48aca-ce2e-4e65-b5bb-e8429026c2ac"
+>
+<PreConditions>
+<PreCondition
+ Guid="b3da6aa0-8264-45d0-89a2-b43c92981f04"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="c319baaa-554f-498c-97bd-2fce99153101"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1a908505-fad5-4429-81ac-4c5b8947cb4a"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="141c5274-66dc-497d-89c4-38b95b3d1859"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="e616993c-d1d4-49a5-bb88-6051d0baa8af"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="038e56d0-5f3e-4dce-896d-06b2f1cf0215"
+>
+<PreConditions>
+<PreCondition
+ Guid="72febd17-3b37-4ff4-bc1c-f4d618623159"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="65e214b2-2b39-4998-b4a4-6b191fb37724"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="b9ecba3c-9f72-4185-91c6-1cbedd32694d"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="f98c76ff-3575-499a-bb64-14683ed81d64"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a1259645-73ff-49cc-aaa2-352812bce902"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b7f6b46b-5fdc-4bb9-9ec4-eaefb793402b"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="42d96a69-ca99-4379-b894-d0b00209b247"
+>
+<Comment>Request status</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="3c962971-b90c-4ba5-9bf7-57fbfe7bf576"
+>
+<ReqRef
+ Id="c49c8e4d-2c96-4314-a79e-904b090becb1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba83a792-eabc-49b9-b88a-3be64d143f92"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting a shunting request.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="2f312b51-e737-432c-9cc9-4ae23962230d"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.UN, ModeEnum.PT, ModeEnum.SN]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

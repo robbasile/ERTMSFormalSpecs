@@ -1,0 +1,162 @@
+<NameSpace
+ X="360"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="MRSP"
+ Guid="e1aca7fd-e0e6-4894-9680-4f254d60ed08"
+>
+<Comment>Displays the MRSP</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="e795e547-3c46-4cab-a8fc-f30cf676ba57"
+>
+<ReqRef
+ Id="ff18547f-9677-4352-91c6-672291b94c64"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="69442ebe-cd66-4fdc-9662-61f56838f6f0"
+>
+</ReqRef><ReqRef
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="1f561acd-cdcf-488f-937e-bdd78aae0da8"
+>
+</ReqRef><Comment>Handles display of information relative to the MRSP.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="b49cd65e-aa70-4703-a030-395768d6c1d9"
+>
+<ReqRef
+ Id="5e511b79-1787-413b-ae27-0d7d6246b010"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="e85422f0-0890-4eb2-9a13-b60dd7d75425"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="90fd9169-822d-4620-b731-27b42a590c6f"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="eeff717f-d45f-4395-9b28-aa1ac5e56604"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="f48a9910-75f8-4501-a047-83909a5585c1"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="d61e6e6f-95c4-49c0-a638-fa57b4bbddbb"
+>Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()
+  OR  
+Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP_DistInSRMode()
+  OR  
+Kernel.ActiveFunctions.SuperviseTrainSpeed_MRSP()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="bbda0746-b83a-4d19-82f7-b7a1006d3eef"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="c8879d51-a624-4958-86e2-c9fc8e2ca983"
+><Comment>Provides the list of targets to be displayed on the planning area. Since their position has to be updated according to the current position of the train, the front end position is substracted from the location of each target (with minimum allowed value 0).</Comment>
+MRSP &lt;- MAP Discontinuities(Kernel.SpeedAndDistanceMonitoring.PermittedSpeedProfile) | X.Location + BaseTypes.LengthToDistance( X.Length ) &gt; Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
+  USING X IN TargetStruct{
+    Location =&gt;  BaseTypes.MaxDistance(
+      X1 =&gt; 0.0,
+      X2 =&gt; BaseTypes.OffsetDistance(aDistance =&gt; X.Location, aOffset =&gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) )
+    ),
+    Speed =&gt; X.Speed,
+    Length =&gt; X.Length,
+    Type =&gt; X.Type
+}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="0f134c7f-0518-4052-9159-3d7de1fccb2f"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="07b83e03-2e0f-4d6c-99b7-170e5ac3efea"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="478da91b-3722-4227-841d-3938873f84c8"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="6beb2815-0cc8-429c-9879-d4a4afb093f4"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="TargetsCol"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="MRSP"
+ Guid="2c6c4789-aaa7-49f5-8ede-66b0f2859917"
+>
+<Comment>The MRSP of the upcoming route.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="d388693a-1e51-4858-a59a-6917a06bd503"
+>
+<ReqRef
+ Id="ff18547f-9677-4352-91c6-672291b94c64"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="94e1c8d8-aa61-4235-9ad0-18023896c0c3"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="36cbe3f3-529b-4836-9e94-43ac940232c8"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

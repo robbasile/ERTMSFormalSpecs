@@ -1,0 +1,236 @@
+<NameSpace
+ X="30"
+ Y="190"
+ Width="100"
+ Height="50"
+ Name="StanstillSupervision"
+ Guid="ccd9a872-76a2-49a3-9561-e65648071fea"
+>
+<Comment>Acknowledgement of standstill supervision</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="b2b93e35-22d3-4718-826c-808a8d9179f1"
+>
+<ReqRef
+ Id="2ed9a3a8-ad0b-4699-b42d-1c5e17be22af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="016f3644-dac7-4ecf-9c6a-d03af37b62df"
+>
+</ReqRef><Comment>Acknowledgement for the standstill supervision.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="cfb59438-d6a0-4a4b-ac25-dd8bbb16f48c"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="8510bcc8-59a0-4507-929f-95eed3ab7947"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="48d19d69-e827-40e4-aca1-438bd874ae4b"
+>
+<PreConditions>
+<PreCondition
+ Guid="b195fb48-2e58-4b6d-8e92-f6c691fefe08"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
+ Guid="1b8b5858-6676-4054-a849-f88918972129"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3423bc91-1951-405d-8894-dbbeef15ee67"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="ca4701bf-3797-4398-a4b8-437e461e4cf5"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="8de78f0e-3bac-4634-9fa8-9fcc8ba9a7ad"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="06bfb2e1-f643-4eb9-a0b5-791a044fd63e"
+>
+<Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="0df98e18-dc83-472a-9fe9-1cf7d0b82e68"
+>
+<Comment>Initiates the request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="dc2ecd28-117e-42f4-9f21-82bc4d73ca68"
+>
+<PreConditions>
+<PreCondition
+ Guid="e4ab4e76-dbe4-4ca8-8e96-be0f523e315a"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a1df51a0-c291-494a-b630-527f73d952ba"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.StandstillSupervision,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="cda4e030-8e67-4acc-8a16-c679e8271f73"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="a01a6568-32d4-438b-bd91-b0bba03e5eb2"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="2c790e0b-3864-4948-aa06-5dededa45afe"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c9f53997-5996-41d9-ac19-4f76b7699c8a"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c40075ee-471e-4396-9752-fdb04c53700e"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="5f6e0cd1-28d4-41a6-80b7-2826ce2d9e85"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="ae1ad78f-0ff1-4724-b08e-df9242ae0e7b"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="fd929f74-3d93-4ec1-84d3-fa9394e3b446"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="eda63f1b-2034-41c9-b458-f855a70137ff"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="15c6aabc-7dc2-44fc-ad25-b0ca24b2c304"
+>
+<Comment>The status of the request</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="ec286b38-b759-4cac-b5ec-2192f641670b"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="21c9d7c7-6303-4d67-9874-704a5f2446db"
+>
+<ReqRef
+ Id="2ed9a3a8-ad0b-4699-b42d-1c5e17be22af"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6cba4834-f7e2-4834-a674-220e5344976f"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement for standstill supervision.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="da028fdb-934a-4de2-881a-c3aecc1a195e"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

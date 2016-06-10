@@ -1,0 +1,148 @@
+<NameSpace
+ X="140"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="PlainText"
+ Guid="51babdf0-6efc-4d57-8fb4-6fa80500f2a8"
+>
+<Comment>Displays plain text information</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Pinned="TRUE"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="9dcac6df-951c-4976-bff3-efd619a8881c"
+>
+<ReqRef
+ Id="f0cc2cfd-d829-4944-aa8e-524a7291260d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="87449361-e8e7-4a33-9534-5351e527272f"
+>
+</ReqRef><Comment>Displays plain text information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="c5a5379e-10c4-479d-b0d2-c815a6a1437d"
+>
+<Comment>Requests to display the corresponding information.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="a8eaa78f-f047-4d99-a8fb-2f35d678f31e"
+>
+<Comment>Updates the request status and inserts the new message to the list of displayed messages.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="3c8c7d01-c85d-46c6-878f-cef3a991013e"
+>
+<PreConditions>
+<PreCondition
+ Guid="632c7675-7d50-488d-89c8-e3d86c4f1f14"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4363861c-bb80-4be3-9741-10e5036b5c52"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="4d1d5649-eb1a-4462-a0a6-761bf8381579"
+>Messages &lt;- Kernel.TextMessages.PlainTextMessagesToDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="1e5c6013-6183-490a-8008-600ad3be7321"
+>
+<Comment>Tracks the changes of the mode</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the status of the request according to the mode"
+ Guid="0c2bf2fa-853b-4496-9d78-130a518cd131"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the status of the request according to the mode"
+ Guid="0f42ab75-c19d-4380-b9d0-fd8fa6913d22"
+>
+<PreConditions>
+<PreCondition
+ Guid="d37f9ba7-7554-4b30-9d9b-3695740b4798"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1d3b7b18-8b61-4a8e-8aeb-305f26ad1f75"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="8fbb34f4-133f-4d1c-af61-68811134ff68"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.TextMessages.PlainTextMessagesCol"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Messages"
+ Guid="71544262-a2ef-4a78-99bd-e27281f68c60"
+>
+<Comment>The text to display</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="44171264-1355-449d-8d65-39713dadd05e"
+>
+<ReqRef
+ Id="f0cc2cfd-d829-4944-aa8e-524a7291260d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4f758a9e-8ad8-4205-968f-0e6073f45881"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="12903ea2-8a13-4e46-9ca8-0847b370b7ba"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

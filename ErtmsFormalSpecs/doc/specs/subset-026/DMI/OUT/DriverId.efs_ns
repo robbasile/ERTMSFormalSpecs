@@ -1,0 +1,160 @@
+<NameSpace
+ X="470"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="DriverId"
+ Guid="c023934d-0121-49ae-9979-a487389d91c4"
+>
+<Comment>Displays the driver ID</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="0a10175a-ddb1-4ae4-8f31-017af5e934fc"
+>
+<ReqRef
+ Id="8de0ac4e-25fd-4dbb-985d-725e7eb5f9ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1f13ddf4-b39e-41c1-a3d9-8739780a4c89"
+>
+</ReqRef><Comment>Handles display of information relative to the driver ID.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="50452e6b-0e02-4375-9271-2caa3e947cda"
+>
+<ReqRef
+ Id="deb31660-c34c-4152-a1dd-ce89ad2b23f8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="50c9bedc-2e8d-4bcf-840f-cdf317e4d7e9"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ba60e256-fb55-48ba-9042-2c61ee9edf0e"
+>
+</ReqRef><Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.DriverIdStruct"
+ Name="aID"
+ Guid="201ff12c-ffe3-4917-9f9b-b4160b51c728"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="0cea22ca-1fa0-45ee-a6c4-ae6530a473ef"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display the driver ID, if available and valid"
+ Guid="30bec30c-104a-461b-b201-a77ee04535d2"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="1890816c-118f-40ff-a9b2-b9df7cb5c901"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="8d162663-e321-47f9-96c3-db27b0407b7c"
+>aID.DataState == DataStateEnum.Valid</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="a3708dae-7d41-442f-b0b8-2e8cb7a9e939"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="d32a007e-db12-4d52-8404-360c49eaac16"
+>Id &lt;- aID.Value</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="17c70644-8d36-435f-bd9e-9dca8af59f99"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="b97045a7-d406-4f9d-a843-5ca6e65263cf"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="257704e3-c8d8-4703-9673-a7934bf3431d"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="602362cb-7de7-4538-a15a-b256c5e402ac"
+>
+<Comment>Provides the state of the information displayed to the driver</Comment>
+</StructureElement><StructureElement
+ TypeName="String"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Id"
+ Guid="2c6dafda-c7f4-4dda-80b1-382647ce47f7"
+>
+<Comment>The driver&apos;s ID number</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="07f6cb12-27aa-4492-9f81-b648b1293dae"
+>
+<ReqRef
+ Id="8de0ac4e-25fd-4dbb-985d-725e7eb5f9ab"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="87aa1ac6-f46a-41ff-bb44-8142ecbef69d"
+>
+</ReqRef><ReqRef
+ Id="fcb5673f-9b31-48ac-9859-0fdb524bff57"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="7940eed0-141d-4df1-9789-052b64b2c7ab"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="c72585be-367d-461e-88a5-58f221664e5d"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

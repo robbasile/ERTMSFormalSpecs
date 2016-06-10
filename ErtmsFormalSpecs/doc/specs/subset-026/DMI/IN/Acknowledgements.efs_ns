@@ -1,6 +1,6 @@
 <NameSpace
- X="790"
- Y="40"
+ X="50"
+ Y="20"
  Width="100"
  Height="50"
  Name="Acknowledgements"
@@ -9,12 +9,52 @@
 <Comment>The handling of DMI inputs that are acknowledgements.
 Acknowedgements must all be handled together, as only one can be displayed at any time.</Comment>
 <NameSpaces>
-</NameSpaces>
+<NameSpaceRef
+ Name="PostTripDistanceExceeded"
+ Guid="54fd8356-86b5-4db8-b10f-b953e0ac5715"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ReverseMovementProtection"
+ Guid="7f60bbdf-bb16-4d5f-889b-80e9fc5c13c6"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="ReversingDistanceExceeded"
+ Guid="42af097b-29dc-4db6-8056-8a040e60d762"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="RollAwayProtection"
+ Guid="9f03f865-b076-46c8-b6c4-352b4fd74803"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="StanstillSupervision"
+ Guid="a64a7d18-3d97-4ff5-a7ae-ff9f31db50dd"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="LevelTransition"
+ Guid="5bfe86f1-decc-4413-bc54-3509e66f2fc4"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="Text"
+ Guid="8ba575b7-1ba0-4955-bee4-fd42e058320c"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="Mode"
+ Guid="c8241931-df1e-4472-82a3-d8602f52734d"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="TrainDataChangeFromOtherSource"
+ Guid="55e0ebe8-c1e4-4289-a2e9-ab45fb6bc41e"
+>
+</NameSpaceRef><NameSpaceRef
+ Name="TrainTrip"
+ Guid="31ad850b-6f79-4631-8704-c26bab418bc4"
+>
+</NameSpaceRef></NameSpaces>
 <Enumerations>
 <Enum
  Default="DMI.IN.Acknowledgements.AckTypeEnum.Undefined"
- X="250"
- Y="200"
+ X="300"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -119,8 +159,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 <Structures>
 <Structure
  Default=""
- X="10"
- Y="200"
+ X="300"
+ Y="210"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -184,8 +224,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 <Collection
  TypeName="AcknowledgementStruct"
  Default="[]"
- X="10"
- Y="120"
+ X="300"
+ Y="110"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -203,8 +243,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 <Function
  Type="InputInformationStruct"
  Default=""
- X="10"
- Y="290"
+ X="410"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -378,8 +418,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 </Function><Function
  Type="Boolean"
  Default=""
- X="130"
- Y="290"
+ X="410"
+ Y="370"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -452,8 +492,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 </Function></Functions>
 <Procedures>
 <Procedure
- X="10"
- Y="380"
+ X="30"
+ Y="330"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -802,8 +842,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="130"
- Y="380"
+ X="30"
+ Y="450"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -872,8 +912,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
- X="250"
- Y="380"
+ X="140"
+ Y="450"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -911,6 +951,8 @@ Acknowedgements must all be handled together, as only one can be displayed at an
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Add acknowledgement"
  Guid="99407627-48e6-48a3-8172-b118e64f8876"
@@ -956,7 +998,7 @@ IN
  Type="BaseTypes.Time"
  DefaultValue="5.0"
  VariableMode="Constant"
- X="130"
+ X="570"
  Y="10"
  Width="100"
  Height="50"
@@ -1005,7 +1047,7 @@ IN
  Type="AcknowledgementsCol"
  DefaultValue="[]"
  VariableMode="Internal"
- X="10"
+ X="300"
  Y="10"
  Width="100"
  Height="50"
@@ -1023,8 +1065,8 @@ IN
  Type="Boolean"
  DefaultValue="True"
  VariableMode="Internal"
- X="490"
- Y="10"
+ X="570"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1041,8 +1083,8 @@ IN
  Type="BaseTypes.Time"
  DefaultValue="BaseTypes.Time.NA"
  VariableMode="Internal"
- X="250"
- Y="10"
+ X="460"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1059,7 +1101,7 @@ IN
  Type="BaseTypes.Time"
  DefaultValue="1.0"
  VariableMode="Constant"
- X="370"
+ X="460"
  Y="10"
  Width="100"
  Height="50"
@@ -1077,8 +1119,8 @@ IN
 <Rules>
 <Rule
  Priority="UpdateOUT"
- X="10"
- Y="470"
+ X="140"
+ Y="330"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1113,8 +1155,8 @@ IN
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="CleanUp"
- X="130"
- Y="470"
+ X="680"
+ Y="130"
  Width="100"
  Height="50"
  Implemented="TRUE"

@@ -1,0 +1,343 @@
+<NameSpace
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Name="Mode_LS"
+ Guid="7ee1c733-90e1-4e08-941f-a2dde6d2ccf9"
+>
+<Comment>Handles acknowledgement of LS mode</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="89fe9216-1ffd-42a6-9b68-d8f32407cc2a"
+>
+<ReqRef
+ Id="5dc7196e-3533-4c27-99ef-6bb45c62aaaf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1c41ce05-354a-49c4-aa29-5738ba67472b"
+>
+</ReqRef><Comment>Acknowledgement of entry in LS mode.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ Implemented="TRUE"
+ Name="Handle acknowledgement timeout"
+ Guid="a2e18867-295d-4cf0-a6ac-d8afd57a0d96"
+>
+<ReqRef
+ Id="c4b29bf1-b564-4981-9967-9bc22c91b8f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="4aac445d-dfc3-4de4-b6e2-b46ec311a9e5"
+>
+</ReqRef><ReqRef
+ Id="33d6b46d-2f8a-4411-8e48-aa43acd4cce3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="044a84f7-e9ab-44ba-affc-d7c1a3952fd6"
+>
+</ReqRef><Comment>In case of timeout, the service brake is applied.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle acknowledgement timeout"
+ Guid="18219092-b870-4ee3-b217-6e4b4bfe17bd"
+>
+<PreConditions>
+<PreCondition
+ Guid="2775ef0b-b3a6-48da-94f9-26d9cfeb65d1"
+>DisplayStartTime.Timer + IN.Acknowledgements.Tack &lt;= Kernel.DateAndTime.CurrentTime</PreCondition><PreCondition
+ Guid="3c52fb7e-1a18-4da7-a48f-a4d860adb51b"
+>DisplayStartTime.Timer != BaseTypes.Time.NA</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0032d2ab-08bf-4c4f-ab15-68154487a311"
+>Kernel.BrakeCommands.CommandServiceBrake(Kernel.BrakeCommands.BrakeReasonEnum.LSAckTimeOut)</Action><Action
+ Guid="6f491ad8-ba42-4a4e-8984-12fd94d47199"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="08259b87-36ab-4015-b39b-4756dffe80c2"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="272565cb-b93a-4964-b266-a5f1b4b17c65"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="cc939d27-011c-4aad-b71c-7ad4ecc73fab"
+>
+<PreConditions>
+<PreCondition
+ Guid="ad8524b2-6768-4b82-be41-35fd4464fe9c"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition><PreCondition
+ Guid="687ef45e-f902-4b23-95a7-db5c8670998f"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="7f80394d-d86d-4e0e-9ee9-48ab5ba67ea8"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="f5739bd9-6bb9-4273-8c76-672925676b7b"
+>DisplayStartTime.ResetTimer()</Action><Action
+ Guid="d3f5b719-8924-41b4-95a7-22f478fe06d6"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Release SB if applied"
+ Guid="1642b220-b649-43da-9662-f4fdad633bdb"
+>
+<ReqRef
+ Id="c4b29bf1-b564-4981-9967-9bc22c91b8f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="cb6c4459-b203-49a2-a1a7-465007ff9783"
+>
+</ReqRef><ReqRef
+ Id="33d6b46d-2f8a-4411-8e48-aa43acd4cce3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a66a31b1-be45-4773-b442-c1cfaebc9d21"
+>
+</ReqRef><Comment>If the service brake was already applied, then remove it.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Release SB if applied"
+ Guid="fd49181d-4b53-4ba5-9c4b-2fdca4742077"
+>
+<PreConditions>
+<PreCondition
+ Guid="8aabeab3-afc1-42ca-9b2c-cad529ebca08"
+>TIU.Brakes.ServiceBrakes.Commanded()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3a2cc182-7529-49e3-9916-9532d3bce44a"
+>Kernel.BrakeCommands.ReleaseSBCommand(Kernel.BrakeCommands.BrakeReasonEnum.LSAckTimeOut)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="eda11a28-d1cb-4832-b34f-2faad155c66b"
+>
+<ReqRef
+ Id="69800a7a-752e-4dc5-b1a8-68ee2e692560"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="3d5a6c3b-8e9b-4a1b-89fe-ea8c57472158"
+>
+</ReqRef><ReqRef
+ Id="e68ea056-2e1b-4d25-8652-9911feef6a01"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="5f0043a6-58ba-49c3-a4a8-a00e15996d98"
+>
+</ReqRef><Comment>Initiates the request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="6fb34cf0-81d5-42fe-8cbf-1d8651009478"
+>
+<Comment>Initiates the request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="b091f8e4-54ce-4d22-b40c-03bb04a2aade"
+>
+<PreConditions>
+<PreCondition
+ Guid="fccd3e1b-375d-4471-b74f-39c268c5e8fd"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="b9edaad6-d8f0-4f01-938a-664f2faec1f9"
+>NOT AcknowledgementAlreadyRequested
+(
+  anAck =&gt; AcknowledgementStruct
+  {
+    Type =&gt; AckTypeEnum.LSMode,
+    Level =&gt; EMPTY,
+    FixedTextMessage =&gt; EMPTY,
+    PlainTextMessage =&gt; EMPTY
+  }
+)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="febfd992-c4f5-4d2a-a32c-9b0b21e4b009"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.LSMode,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="669fdf65-640f-4a47-8928-c6c6c6fce8b3"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="07411287-30e4-4579-b778-4c149055a8c4"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="92e12f92-0ccb-424c-83e1-2657b52e2188"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="e59a25ee-386d-4c76-b93c-280c6e9e7c0e"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="6f6ee152-a97f-4bb4-8580-2bb9e47088e4"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="df675029-cefd-4bd4-a7b3-16d792c85f4b"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="bb5c0bc4-95c5-4259-b291-3851f80014da"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="cd1b8302-ab2a-4788-ad6e-a40bf5f5b695"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="18391665-1783-4e40-b62b-fc3dc8d12fa6"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="c2d6e738-c0db-42fb-a4cd-a4f9d7622965"
+>
+<Comment>The status of the request</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="b88167e8-e7df-4cba-be86-1a8309c0baa4"
+>
+<ReqRef
+ Id="c4b29bf1-b564-4981-9967-9bc22c91b8f9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="564f7b78-37e5-4281-af84-d108fc1e9658"
+>
+</ReqRef><ReqRef
+ Id="33d6b46d-2f8a-4411-8e48-aa43acd4cce3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9870ca1a-f8ca-4d98-aa1d-d78e033087db"
+>
+</ReqRef><Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="a54924fa-a313-4141-8c5a-254cf3df222a"
+>
+<ReqRef
+ Id="5dc7196e-3533-4c27-99ef-6bb45c62aaaf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1cef946-e431-4b0a-adaf-2f444474555b"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement of LS mode.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="56e116c7-c9e9-420c-b3b4-2a2dd5f45353"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.FS, ModeEnum.LS, ModeEnum.OS, ModeEnum.PT ]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

@@ -1,0 +1,126 @@
+<NameSpace
+ X="140"
+ Y="140"
+ Width="100"
+ Height="50"
+ Name="LXStatusNotProtected"
+ Guid="fa5edf5d-1378-4a2b-baf8-e03f5e1213ac"
+>
+<Comment>Displays the not protected level crossing</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="20e3b1ee-070b-48ce-88c2-fb04833b0522"
+>
+<ReqRef
+ Id="1d72dec1-b4fc-4847-815b-496fc6b78d91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1555b6a-9c27-4289-9a13-7fb7e564c6a0"
+>
+</ReqRef><Comment>Indicates whether a level crossing is not protected.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="0bf81990-8ab2-4e74-86af-c78f4423c10a"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="2648d9b4-7331-4ee0-ba02-c77da34a088e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="74ef36d2-7e60-491a-9dbc-32b9533bb928"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="69500a35-28b1-4669-a36c-c4ef64ad06da"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="4e86d0a3-0e9d-429c-9bc0-2979a04b5742"
+>Kernel.LX.DisplayLXNotProtected()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3bfbbb9e-57eb-4462-a2c1-e210ee395356"
+>OutputInformation.RequestDisplay()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Hide otherwise"
+ Guid="9b4ce595-caec-49d6-bf46-633f1af626f7"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="c3a5f774-1d1e-4972-85ec-9d21cd01ac32"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="03a5e175-b1b6-49b5-b876-ad080c292989"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="2002849b-e1cb-4b4c-8284-fac89574b0fa"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="88ef9e0b-1c2f-4d5e-a763-b4a0f503e788"
+>
+<ReqRef
+ Id="1d72dec1-b4fc-4847-815b-496fc6b78d91"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6ab6f1a9-6e5b-41f9-a68f-ce12bb51dead"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="68c18774-417d-4b5e-83be-d1bb36980483"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

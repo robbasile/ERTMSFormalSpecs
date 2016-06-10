@@ -1,0 +1,236 @@
+<NameSpace
+ X="490"
+ Y="160"
+ Width="100"
+ Height="50"
+ Name="SelectionOfLanguage"
+ Guid="e48fe827-fb19-4b48-a2de-43c965f8b1f8"
+>
+<Comment>Handles the language selection screen</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="EntryStruct"
+ Guid="44d5441e-eed8-46c5-b18b-4670b9d20fcf"
+>
+<ReqRef
+ Id="dfcc8430-5256-4624-9c6a-7c5884b42bdb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b65d537f-5856-487f-a4ab-8e9a811647e5"
+>
+</ReqRef><Comment>Selected language.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="96530b67-e0f5-464f-b0fa-f046c8ec76b7"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="014faad1-a5fa-4b90-af1a-dcf1ac18db49"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="f31e2c3b-ea47-4b4d-a94d-be0b7bda66a0"
+>
+<PreConditions>
+<PreCondition
+ Guid="6fdac9a5-3925-4eb0-b511-347686ea6598"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="5491ee10-5a13-4934-b3bc-2d0387412d23"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="54cb09b4-5de6-4185-8150-3b3f162136c5"
+>InputInformation.AcceptDriverResponse()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="14c37163-8e2c-4519-b23e-c71cc3756dd5"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="904107b8-b1dc-4c8e-b3ff-041ac9b0cb0d"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="d437f7a7-2189-4d0f-8ede-9f433d95bf81"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="41f159b0-c718-4d7a-a1c1-52694884fc40"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="29c9e2c0-704a-4b04-877c-5a8aed8a9b69"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="f7a1687c-e1b7-42b0-9f69-72e402c52fec"
+>
+<Comment>Initiate request</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="5102ab6e-9f8c-45fa-9a67-6cad04083710"
+>
+<Comment>Initiate request</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="b9121106-b2cd-4722-800c-6d26f76fb054"
+>
+<PreConditions>
+<PreCondition
+ Guid="d3c8aaf5-a195-4d51-a872-bb0dd7cc70c8"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="1084ab4d-9958-41bf-83e4-c4ee16c6bbfe"
+>InputInformation.InitiateRequest()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="aa466800-7314-4923-94d0-5f9a80273417"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Parameters>
+<Parameter
+ Type="LanguageEnum"
+ Name="aLanguage"
+ Guid="a4e8cf13-2a82-451f-9649-9ef101046844"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="dc991dcb-9334-47c5-b1a2-f7a8342f0ada"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="f044c161-7c51-491d-bf3d-8240ab7eabfb"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="25c9b495-4882-4346-a3ad-3b304df7494d"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action><Action
+ Guid="f74cd7e4-5b73-40e6-8847-9d587fdbb5b2"
+>SelectedLanguage &lt;- aLanguage</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="788b4697-7ecc-45c1-91aa-09ffb2af1ec8"
+>
+<Comment>Request Status</Comment>
+</StructureElement><StructureElement
+ TypeName="LanguageEnum"
+ Default=""
+ Mode="Incoming"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="SelectedLanguage"
+ Guid="9fa77de5-d171-47f8-960c-388f6d8f1e42"
+>
+<Comment>The selected language</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="9f700802-06a7-4e75-96f8-0074cadc6966"
+>
+<ReqRef
+ Id="dfcc8430-5256-4624-9c6a-7c5884b42bdb"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="55bf7117-c27f-4128-b6fe-11d4b51230dc"
+>
+</ReqRef><Comment>Verifies mode for allowing and accepting the selection of language.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="1c38c9da-1851-4cef-86f7-297da0421a16"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.TR, ModeEnum.PT, ModeEnum.SN, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

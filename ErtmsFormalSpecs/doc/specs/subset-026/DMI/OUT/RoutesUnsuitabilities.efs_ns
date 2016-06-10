@@ -1,0 +1,155 @@
+<NameSpace
+ X="470"
+ Y="200"
+ Width="100"
+ Height="50"
+ Name="RoutesUnsuitabilities"
+ Guid="02ca0172-e3e7-4be2-a208-4d4bb4b4adc5"
+>
+<Comment>Displays the route unsuitabilities</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="37b832e4-e2d6-4e67-83b7-7abd35758ff6"
+>
+<ReqRef
+ Id="3a7bc83f-7d2f-4338-92a7-ee27e856b0a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8b256034-106e-4b6e-978f-c1dbcc4afcde"
+>
+</ReqRef><Comment>Provides the route unsuitabilities.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="dabfb835-9563-4b39-8ce8-acdfcfc71d65"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrackDescription.RouteSuitability.RouteSuitabilityInformationStruct"
+ Name="aSuitabilityProfile"
+ Guid="3643156d-a983-4130-998a-5661bbe328fe"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="d8c54739-a06d-4ff1-ba4d-506e9f7e7148"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if required"
+ Guid="e0df6298-3cdb-4d3b-8073-acbc3c74a3bf"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="431d6bc6-bd41-4c80-873f-e8f85a7704eb"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="b159b6fa-42d8-4d84-8abe-0036534c94a1"
+>Available(aSuitabilityProfile)
+  AND  
+THERE_IS X IN aSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable ( X )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="355191c9-cd4c-4c2d-ab05-02b8bf18ea2e"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="83f5bc24-9627-448e-abdb-b44383da44ed"
+>RouteUnsuitabilities &lt;- MAP aSuitabilityProfile.Items | Kernel.TrackDescription.RouteSuitability.IsUnsuitable(X) USING X IN Kernel.TrackDescription.RouteSuitability.RouteSuitabilityItemStruct{
+Type =&gt; X.Type,
+Location =&gt; BaseTypes.OffsetDistance(
+    aDistance =&gt; X.Location,
+    aOffset =&gt; Kernel.TrainPosition.FrontEndPosition( PointOfInterest =&gt; DistanceIntervalEnum.Nom )
+),
+LineGauge =&gt; X.LineGauge,
+MaxAxleLoad =&gt; X.MaxAxleLoad,
+TractionSystem =&gt; X.TractionSystem,
+NidCTraction =&gt; X.NidCTraction,
+StartTime =&gt; X.StartTime
+}</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="595157a5-2069-41f2-af3e-e2a52a8ff8dd"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="1bb38aed-61b5-427c-9a75-be9fb6b0b7f2"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="5ab80707-4e7d-40f6-974b-9241f8b93963"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="d180fe87-a188-4774-a955-aa5438a92017"
+>
+</StructureElement><StructureElement
+ TypeName="Kernel.TrackDescription.RouteSuitability.RouteSuitabilityItems"
+ Default="[]"
+ Mode="Outgoing"
+ Implemented="TRUE"
+ Name="RouteUnsuitabilities"
+ Guid="107fdd0c-fe42-4809-887b-01b51c12c35a"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="710b8762-593b-4ae0-9fd4-7369efc26b46"
+>
+<ReqRef
+ Id="3a7bc83f-7d2f-4338-92a7-ee27e856b0a4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3b0e0f20-8cbb-4336-ad31-4bc9b46248aa"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="5d9348f6-557d-44b8-97cd-b0956fea6089"
+>
+<Expression>Kernel.Mode in [ModeEnum.FS, ModeEnum.LS, ModeEnum.OS]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

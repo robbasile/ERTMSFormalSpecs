@@ -1,0 +1,212 @@
+<NameSpace
+ X="30"
+ Y="380"
+ Width="100"
+ Height="50"
+ Name="TrainSpeed"
+ Guid="a855730b-a4b0-4cc4-abc2-e53fad54aec8"
+>
+<Comment>Displays the train speed</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="9e6dd7bd-8c15-4322-8854-527e3a14ae75"
+>
+<ReqRef
+ Id="0701baa9-e1f2-4338-a299-8fb06d891176"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="300ff1ad-e0a5-4b96-b056-167b6eb1009e"
+>
+</ReqRef><ReqRef
+ Id="46fa293d-249a-454b-bbda-cdc527f79dc7"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="40aa9e13-0b69-45c1-bf5e-54db43c23892"
+>
+</ReqRef><Comment>Provides the train speed.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="dee7aaf1-b8fb-45e9-88f3-1821069aeb5c"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aSpeed"
+ Guid="17fc84be-d061-41a8-a9ae-f5110329916d"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="66b18e7d-d44c-4293-8277-1a09d73471bd"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="0c0e9ffc-4e00-4c82-bfd7-24e712f43db7"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="9f024596-db60-4e5a-a2bb-d65f0f0df17f"
+>IsMandatory()
+  OR  
+IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="c3bc4636-3065-4de3-8405-ecb296a90dac"
+>OutputInformation.RequestDisplay()</Action><Action
+ Guid="b6f9b4f4-c5aa-4307-b034-26a927aa00ad"
+>Speed &lt;- aSpeed</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="5a08907f-4a8c-4bcb-b6a0-20e5a44acd0f"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="d5854d21-81fc-4365-a4dc-4be91f91a435"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="3485519e-4832-4308-b6ad-2953be550fdc"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="8f1ce2e5-871c-4aee-a8d4-3e30c8f35e2b"
+>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Speed"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Speed"
+ Guid="38ec50ce-d0e3-450d-9523-868bb253bbbc"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="1355e7cb-d25f-4748-8cb5-34b4c1390594"
+>
+<ReqRef
+ Id="0701baa9-e1f2-4338-a299-8fb06d891176"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="82f6e36e-ca34-4c44-9625-1d88558a3924"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="20a5c019-dd6f-4ad4-b4b5-0d6fd46dda01"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.TR, ModeEnum.SN, ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.PT, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsMandatory"
+ Guid="4951733e-3006-43e5-be4d-6a22812b2abb"
+>
+<ReqRef
+ Id="0701baa9-e1f2-4338-a299-8fb06d891176"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6440d4eb-44f8-4214-b59f-759c6a40e435"
+>
+</ReqRef><ReqRef
+ Id="14c3e0f6-da11-447b-b983-3021f94a8834"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="180e3600-703e-47e9-87b4-6be21218ef03"
+>
+</ReqRef><ReqRef
+ Id="c49975f4-30c4-4807-a153-ed306345cb41"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0a101299-1cc2-4534-9920-603ba2578a28"
+>
+</ReqRef><ReqRef
+ Id="c9680e26-08e8-4c55-8faf-a943544d8889"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6a6f296d-3883-498e-9b79-7a02eb859344"
+>
+</ReqRef><ReqRef
+ Id="528068b1-03b9-4be0-9165-0a1fc5d755bd"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1dafcfc9-525a-4e40-8d85-9fe9e63056f6"
+>
+</ReqRef><ReqRef
+ Id="dcce4528-66c3-498d-b4f5-c40ce761f7d1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c3600f05-7c04-4baf-b322-e60b24844386"
+>
+</ReqRef><ReqRef
+ Id="1f2e00c2-8ac6-4cd5-9258-e70773392522"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d27daa53-abd8-4062-98d3-6321affb56d3"
+>
+</ReqRef><ReqRef
+ Id="4f162629-959e-4389-ab91-a83525b8c6c1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="edd6902a-83e7-4e43-843f-c42a79c19da2"
+>
+</ReqRef><ReqRef
+ Id="e3caa999-1864-4f55-998d-66166d0a163b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ef38c55a-8623-46f4-a9e4-66c14aeced49"
+>
+</ReqRef><Comment>Indicates the modes where the output is mandatory</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is mandatory"
+ Guid="72e1385e-56fd-4fb5-aa43-dd03a903d30a"
+>
+<Expression>Kernel.Mode in [ModeEnum.SH, ModeEnum.FS, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.NL, ModeEnum.UN, ModeEnum.PT, ModeEnum.RV]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

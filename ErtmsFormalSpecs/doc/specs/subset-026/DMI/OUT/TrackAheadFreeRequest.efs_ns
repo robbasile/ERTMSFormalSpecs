@@ -1,0 +1,132 @@
+<NameSpace
+ X="690"
+ Y="260"
+ Width="100"
+ Height="50"
+ Name="TrackAheadFreeRequest"
+ Guid="1016bbaf-9235-44f7-b3e8-11cfc649e63a"
+>
+<Comment>Displays the track ahead free request</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="OutputStruct"
+ Guid="60915c2a-83fa-4d86-af41-e99dac795442"
+>
+<ReqRef
+ Id="c1520a4d-814d-4bf0-addc-1002d8a5a2a3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="8cd39df8-b416-4ca5-9934-a7e2aecd876b"
+>
+</ReqRef><Comment>Provides track ahead free information.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Display"
+ Guid="80d1217e-b052-48d2-9366-b0faa69d6015"
+>
+<Comment>Requests to display the corresponding information</Comment>
+<Parameters>
+<Parameter
+ Type="Boolean"
+ Name="aRequested"
+ Guid="c9bef6a5-7548-4094-9f39-0b4557868c5d"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Updates the request status"
+ Guid="e341f6b1-e46e-455c-ae11-f550c7af1270"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Display if requested"
+ Guid="1aefb64b-666d-4f76-8196-067bb10cdef6"
+>
+<Comment>Display if the mode is correct and the all other conditions are satisfied.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c4839fd5-ae6f-4c5f-a918-ac7012b7718b"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="b065fbf2-05cd-4ed7-bff3-48eb634b80c4"
+>aRequested</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="445b5f3a-9ed0-440e-856f-09c6f329239c"
+>OutputInformation.RequestDisplay()</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Hide otherwise"
+ Guid="d41059e4-8e20-4a50-9213-68d4193c24ba"
+>
+<Comment>Hide otherwise.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="18a65abf-3c37-4e1e-a142-349c6695bf47"
+>OutputInformation.DoNotDisplay()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="bf4376f3-953e-4a9f-b8e3-c2b2c1347ba1"
+>
+<Comment>Tracks the changes of the mode.
+This procedure does not do anything. The mode tracking is not necessary for this variable, as the procedure Display handles the refreshing at each cycle. (this is kept to keep track of the inconsistency with the other DMI variables).</Comment>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="OutputInformationStruct"
+ Default=""
+ Mode="Outgoing"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="OutputInformation"
+ Guid="15f14323-440d-42b8-b3c7-11349633b464"
+>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="df587eb3-662e-4c1c-8bbe-c1a929ab33bf"
+>
+<ReqRef
+ Id="c1520a4d-814d-4bf0-addc-1002d8a5a2a3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="444642e2-f7df-4452-acbb-ad14958d688b"
+>
+</ReqRef><Comment>Identifies the modes where the output is available</Comment>
+<Cases>
+<Case
+ Name="Enumerates the cases where the request is available"
+ Guid="a6b4b9f0-5bde-46b2-ba19-c06db12c45eb"
+>
+<Expression>Kernel.Mode in [ModeEnum.SB, ModeEnum.LS, ModeEnum.SR, ModeEnum.OS, ModeEnum.PT]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>

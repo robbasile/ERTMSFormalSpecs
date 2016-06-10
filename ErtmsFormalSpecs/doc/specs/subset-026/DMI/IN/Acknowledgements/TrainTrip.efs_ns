@@ -1,0 +1,235 @@
+<NameSpace
+ X="140"
+ Y="250"
+ Width="100"
+ Height="50"
+ Name="TrainTrip"
+ Guid="b61f07b5-8c8f-465c-a4c2-539264627f10"
+>
+<Comment>Acknowledgement of train trip</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="30"
+ Y="20"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="AckStruct"
+ Guid="68711b51-1c9c-4b5a-bac2-cd267db1d69b"
+>
+<ReqRef
+ Id="421ee868-5461-4591-b27c-3e641637cc98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="877e59a1-70a6-476b-84ef-81286cd3767c"
+>
+</ReqRef><Comment>Acknowledgement of Train Trip.</Comment>
+<Procedures>
+<Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AcceptDriverResponse"
+ Guid="03fd94a7-8041-4784-8968-3dea64f74ccb"
+>
+<Comment>Receives the driver input and updates the internal data accordingly</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Accepts data from the driver"
+ Guid="e0451e79-7fc0-4e62-af07-88acb6fd4e34"
+>
+<Comment>Accepts the data and updates the system state</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Accepts data from the driver"
+ Guid="4ccae0a4-f226-4be1-9221-bfe0ba1a83aa"
+>
+<PreConditions>
+<PreCondition
+ Guid="4bd3d95f-2f28-4a2f-89e8-2721a3e0ea43"
+>IsAvailable()</PreCondition><PreCondition
+ Guid="c5da3921-5c94-4364-9792-fee9aad7cec1"
+>InputInformation.RequestStatus == RequestEnum.Response</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="beebc794-9e66-41ac-bdd5-4af14e37de2f"
+>InputInformation.AcceptDriverResponse()</Action><Action
+ Guid="47e302ff-5b29-4e11-84a0-e44e6907a1fa"
+>LastDriverAcknowledgementTime &lt;- Kernel.DateAndTime.CurrentTime</Action><Action
+ Guid="b9353a94-74c8-4e87-98f8-f4b6cd1e79c4"
+>DisplayStartTime.ResetTimer()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="TrackMode"
+ Guid="3e0e16d7-80a4-4ded-b52e-6426ef1e1f53"
+>
+<Comment>Updates the request status according to a mode change</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="6c60423a-1a3f-4583-bb1d-c1e952723467"
+>
+<Comment>Disable the request if the mode renders it unavailable</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Disable if needed"
+ Guid="a2d8284d-cf9a-404b-a4fc-7e8d52421531"
+>
+<Comment>Disable the request according to mode change</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ff8dc122-8dfb-4f4b-81b9-38da90b100ef"
+>NOT IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="f05d70b1-2761-468e-b8d0-658406451f00"
+>InputInformation.Disable()</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="2f741b50-a3e6-42d6-a1ff-fae772de5937"
+>
+<Comment>Allows to initiate the Ack of SN mode</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="6396eb1f-5d6d-467f-b8cc-a7e44997e121"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitiateRequest"
+ Guid="d64944bb-b553-480f-b7e5-3eab775dd43f"
+>
+<PreConditions>
+<PreCondition
+ Guid="67bf8817-9422-4444-badc-ce8717366a3c"
+>IsAvailable()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="d7d5dbd8-7b39-4b14-8643-47d1b0daccaf"
+>AddAcknowledgement
+(
+  anAcknowledgement =&gt; AckTypeEnum.TrainTrip,
+  aLevel =&gt; EMPTY,
+  aFixedTextMessage =&gt; EMPTY,
+  aPlainTextMessage =&gt; EMPTY
+)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ProvideDriverResponse"
+ Guid="e911461f-807e-4770-a0cf-3dbf14160d55"
+>
+<Comment>Provides the response from the driver.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="12c9edbc-a7c9-4ead-a8e2-ca0249a65731"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Provide driver response"
+ Guid="a093f506-81ea-4e38-b754-86a919892883"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="9fd9e9c0-8b72-42ca-a144-88ba5d805e86"
+>InputInformation.RequestStatus &lt;- RequestEnum.Response</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+<StructureElement
+ TypeName="InputInformationStruct"
+ Default=""
+ Mode="InOut"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InputInformation"
+ Guid="ca2bf460-6420-4e63-8943-6079578edb2c"
+>
+<Comment>The request status</Comment>
+</StructureElement><StructureElement
+ TypeName="DisplayedTimerStruct"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="DisplayStartTime"
+ Guid="6bb48685-a4ee-4365-8e42-2f88e4015054"
+>
+<Comment>Indicates the time when the acknowledgement has been requested.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="30"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="IsAvailable"
+ Guid="b720b659-b8bb-4335-9030-70844aac601d"
+>
+<ReqRef
+ Id="421ee868-5461-4591-b27c-3e641637cc98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="62492213-7d1f-439a-a384-ea253fac0317"
+>
+</ReqRef><Comment>Verifies mode for requesting and accepting driver aknowledgement of train trip.</Comment>
+<Cases>
+<Case
+ Name="Enumerate the modes where available"
+ Guid="8eb8e906-f64d-465b-93cd-048d5f78e96c"
+>
+<Comment>Identifies the modes where the function is available</Comment>
+<Expression>Kernel.Mode in [ModeEnum.TR]</Expression>
+</Case></Cases>
+</Function></Functions>
+</NameSpace>
