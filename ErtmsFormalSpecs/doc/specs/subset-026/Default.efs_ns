@@ -2158,6 +2158,43 @@
 >
 <Expression>aOrientation</Expression>
 </Case></Cases>
+</Function><Function
+ Type="Kernel.TrainData.BrakingParameters.BrakeConditionStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Name="ClosestBrakeCondition"
+ Guid="cac2fae6-4935-4151-9910-ca15a4248162"
+>
+<Comment>Returns the brake condition with the closest location.</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrainData.BrakingParameters.BrakeConditionStruct"
+ Name="BrakeCondition1"
+ Guid="303b31b2-c8cd-4a8d-a6f4-e515964ab3b2"
+>
+</Parameter><Parameter
+ Type="Kernel.TrainData.BrakingParameters.BrakeConditionStruct"
+ Name="BrakeCondition2"
+ Guid="427d2740-38e3-4cdb-bbfe-b9da838fd302"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Condition1 &lt; Condition2"
+ Guid="eb2afbaf-bf0a-48bc-a640-0d55334bf515"
+>
+<PreConditions>
+<PreCondition
+ Guid="47ab6e88-7a97-4d28-9462-5cb8f31c1431"
+>BrakeCondition1.Distance &lt; BrakeCondition2.Distance</PreCondition></PreConditions>
+<Expression>BrakeCondition1</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="b55ca9d0-07e2-4226-b949-c0610760d5e2"
+>
+<Expression>BrakeCondition2</Expression>
+</Case></Cases>
 </Function></Functions>
 <Procedures>
 <Procedure

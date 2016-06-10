@@ -285,47 +285,19 @@
 <Actions>
 <Action
  Guid="defb0655-b840-4a77-8287-2adaee824ae6"
->Kernel.TrackDescription.TrackConditions.General.TCProfile&lt;- 
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- 
 [
     Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct
     {
         Location =&gt; 1200.0,
-        Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct
-        {
-            SwitchOffEddyCurrentBrakeForEB =&gt; True,
-            SwitchOffMagneticShoeBrake =&gt; False,
-            SwitchOffRegenerativeBrake =&gt; False
-        }
-    },
-    Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct
-    {
-        Location =&gt; 1300.0+Kernel.TrainData.TrainData.Value.TrainLength,
-        Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct
-        {
-            SwitchOffEddyCurrentBrakeForEB =&gt; False,
-            SwitchOffMagneticShoeBrake =&gt; False,
-            SwitchOffRegenerativeBrake =&gt; False
-        }
+        Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB,
+        Length =&gt; 100.0
     },
     Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct
     {
         Location =&gt; 2400.0,
-        Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct
-        {
-            SwitchOffEddyCurrentBrakeForEB =&gt; False,
-            SwitchOffMagneticShoeBrake =&gt; False,
-            SwitchOffRegenerativeBrake =&gt; True
-        }
-    },
-    Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct
-    {
-        Location =&gt; 2700.0+Kernel.TrainData.TrainData.Value.TrainLength,
-        Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct
-        {
-            SwitchOffEddyCurrentBrakeForEB =&gt; False,
-            SwitchOffMagneticShoeBrake =&gt; False,
-            SwitchOffRegenerativeBrake =&gt; False
-        }
+        Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+        Length =&gt; 300.0
     }
 ]</Action></Actions>
 </SubStep></SubSteps>
@@ -431,10 +403,10 @@
 >Kernel.TrainData.BrakingParameters.A_brake_service ( V =&gt; 300.0, d =&gt; 1200.0 ) == 0.2</Expectation><Expectation
  Kind="Instantaneous"
  Guid="6fecaeb0-bad7-4a37-a9be-b228b753ede0"
->Kernel.TrainData.BrakingParameters.A_brk_service ( aTrackCondition =&gt; FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile, V =&gt; 100.0, d =&gt; 1200.0 ) == 0.6</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.A_brk_service ( V =&gt; 100.0, d =&gt; 1200.0, aCondition =&gt; FIRST X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() ) == 0.6</Expectation><Expectation
  Kind="Instantaneous"
  Guid="c58d3839-b4aa-4036-960d-72aee66541e5"
->Kernel.TrainData.BrakingParameters.A_brk_service ( aTrackCondition =&gt; FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile, V =&gt; 50.0, d =&gt; 1200.0 ) == 0.7</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.A_brk_service ( V =&gt; 50.0, d =&gt; 1200.0, aCondition =&gt; FIRST X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile()) == 0.7</Expectation><Expectation
  Kind="Instantaneous"
  Guid="5e669392-8edf-434a-8975-3d9ff5ef8333"
 >Kernel.TrainData.BrakingParameters.Default_brk_service ( 50.0 ) == 0.81</Expectation><Expectation

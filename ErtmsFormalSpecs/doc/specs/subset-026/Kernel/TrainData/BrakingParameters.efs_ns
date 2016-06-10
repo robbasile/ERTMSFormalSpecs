@@ -1179,7 +1179,102 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4ee43f05-cb9b-4043-ae4e-dacf54a77842"
 >
-</ReqRef></StructureElement></Structure></Structures>
+</ReqRef></StructureElement></Structure><Structure
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BrakeConditionStruct"
+ Guid="1389a971-8395-42ab-8496-46ba8968d9b5"
+>
+<ReqRef
+ Id="bdd6feb2-e9fc-4e01-90fb-c2dd7dc7a246"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c05fea67-3f1e-4fa3-9c2f-7359074c1382"
+>
+</ReqRef><ReqRef
+ Id="dfc71e5b-2d0d-4dce-9a5c-f6e69ea53363"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3ab9c270-f913-4b89-b1ff-cf062a83d63c"
+>
+</ReqRef><Comment>Structure of special/additional brake contributions for use in braking curve calculations. 
+Provides, at a distance and for a length, the status active/not active of the special/additional brakes.</Comment>
+<StructureElement
+ TypeName="BaseTypes.Distance"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Distance"
+ Guid="d6180d27-5cf2-436e-ad0b-afe4ff27ebcd"
+>
+</StructureElement><StructureElement
+ TypeName="BaseTypes.Length"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Length"
+ Guid="a2884aff-babf-4a21-8bee-47321c6e69e4"
+>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="SwitchOffEddyCurrentBrakeForEB"
+ Guid="0d8f111a-a8c8-478c-8674-3a52ec82faf8"
+>
+<Comment>Indicates whether the eddy current brake is switched off for the emergency brake.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="SwitchOffEddyCurrentBrakeForSB"
+ Guid="4b43c4c7-2b16-48ff-aa30-a28ed45df715"
+>
+<Comment>Indicates whether the eddy current brake is switched off for the service brake.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="SwitchOffMagneticShoeBrake"
+ Guid="2a708050-f36e-4b73-870d-f3bedf018898"
+>
+<Comment>Indicates whether the magnetic shoe brake is switched off.</Comment>
+</StructureElement><StructureElement
+ TypeName="Boolean"
+ Default="False"
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="SwitchOffRegenerativeBrake"
+ Guid="5e079390-768e-40c0-a421-eda24ea18e81"
+>
+<Comment>Indicates whether the regenerative brake is switched off.</Comment>
+</StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="BrakeConditionStruct"
+ MaxSize="50"
+ Default="[]"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BrakeConditionCol"
+ Guid="2270779e-f893-4d6a-af78-08a5d7fb9223"
+>
+<ReqRef
+ Id="dfc71e5b-2d0d-4dce-9a5c-f6e69ea53363"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1a02b7ed-6add-4298-aa08-80cbabca8e5f"
+>
+</ReqRef><Comment>Colection of brake conditions.</Comment>
+</Collection></Collections>
 <Functions>
 <Function
  Type="BaseTypes.Acceleration"
@@ -1322,8 +1417,8 @@
 </ReqRef><Comment>Selects the appropriate brake normal service model, according to the values of A_SB12 and A_SB01 and to the value of A_brk_service for zero speed and depending on a particular combination of special brakes depending on the track condition received as a parameter..</Comment>
 <Parameters>
 <Parameter
- Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
- Name="aTrackCondition"
+ Type="BrakeConditionStruct"
+ Name="aCondition"
  Guid="a821cf12-2c57-46b8-9e3d-fdec649d2f44"
 >
 </Parameter></Parameters>
@@ -1335,8 +1430,8 @@
 <PreConditions>
 <PreCondition
  Guid="8a0687d1-6a84-438f-b323-5255d9293baf"
->Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aTrackCondition =&gt; aTrackCondition ) &lt;= Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB01</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.SelectBNSModelSet().BNS_0</Expression>
+>Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aCondition =&gt; aCondition ) &lt;= Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB01</PreCondition></PreConditions>
+<Expression>SelectBNSModelSet().BNS_0</Expression>
 </Case><Case
  Name="BNS_1"
  Guid="0a9c3129-55c3-4c55-8edd-de5127c5bb87"
@@ -1344,10 +1439,10 @@
 <PreConditions>
 <PreCondition
  Guid="ae31fd83-f1b3-4fe6-a725-bec3fd3f4f7f"
->Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB01 &lt; Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aTrackCondition =&gt; aTrackCondition )</PreCondition><PreCondition
+>Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB01 &lt; Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aCondition =&gt; aCondition )</PreCondition><PreCondition
  Guid="c57e478e-327b-4464-bfda-e6dcd5867c60"
->Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aTrackCondition =&gt; aTrackCondition ) &lt;= Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB12</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.SelectBNSModelSet().BNS_1</Expression>
+>Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aCondition =&gt; aCondition ) &lt;= Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB12</PreCondition></PreConditions>
+<Expression>SelectBNSModelSet().BNS_1</Expression>
 </Case><Case
  Name="BNS_2"
  Guid="24817de2-03d4-4e3a-877a-3d2e1b9a15c0"
@@ -1355,8 +1450,8 @@
 <PreConditions>
 <PreCondition
  Guid="14157ffb-3f1c-4814-967a-e4724c34da90"
->Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB12 &lt; Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aTrackCondition =&gt; aTrackCondition )</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.SelectBNSModelSet().BNS_2</Expression>
+>Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB12 &lt; Kernel.TrainData.BrakingParameters.A_brk_service_TrackCondition ( aCondition =&gt; aCondition )</PreCondition></PreConditions>
+<Expression>SelectBNSModelSet().BNS_2</Expression>
 </Case></Cases>
 </Function><Function
  Type="BNSModelStruct"
@@ -2130,7 +2225,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="fd4a41ed-78ff-44cc-bcc9-8760ebe5790f"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___50</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2156,7 +2251,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="9e40363a-8dbf-490e-a60d-c3f5959b97c2"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___90</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2182,7 +2277,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="a4c890bd-3307-4f96-a10d-9c3535db4534"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2208,7 +2303,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="91aceca2-72e9-44c9-9dd1-e6f0391068f3"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_9</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2234,7 +2329,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="c6a2dca8-6c64-4c31-870b-c60c40194385"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_99</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2260,7 +2355,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="4cbcdde3-376d-4d08-8d29-84393dbda801"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_999</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2286,7 +2381,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="60cf875c-b9f2-4596-aea5-e20c44946bdc"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_9999</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2312,7 +2407,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="e707c972-8877-4d17-8781-868ba7261c5a"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_99999</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2338,7 +2433,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="61d400e5-449f-4f04-a717-f1f972264f36"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_999999</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -2364,7 +2459,7 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="b93b8890-60f1-49ba-bca4-9b95c2431377"
 >aM_NVEBCL == Messages.M_NVEBCL.Confidence_level___99_9999999</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKdryValue
     (
@@ -3078,7 +3173,7 @@ TIU.AdditionalBrakesActive
 >Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels != EMPTY</PreCondition></PreConditions>
 <Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction
 (
-    aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBNSBrakingModel ( ),
+    aBrakingModel =&gt; SelectBNSBrakingModel ( ),
     aSpeed =&gt; V
 )</Expression>
 </Case></Cases>
@@ -3180,7 +3275,7 @@ TIU.AdditionalBrakesActive
 <PreCondition
  Guid="582da4e0-6e76-4b81-a447-5b6e54f765f4"
 >Kernel.TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.Kdry_rst (
+<Expression>Kdry_rst (
     V =&gt; V,
     aM_NVEBCL =&gt; Kernel.NationalValues.CurrentNV().ConfLevelForEmergBrakeSafeDecelerationOnDryRails )
  * 
@@ -3405,7 +3500,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
         Override
         (
             Default =&gt; RESULT,
-            Override =&gt; FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_safe_forAdhesionFactor ( anAdhFactor =&gt; X, d =&gt; d, V =&gt; V )
+            Override =&gt; FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_safe_forAdhesionFactor (  d =&gt; d, V =&gt; V, anAdhFactor =&gt; X)
         )
     INITIAL_VALUE
         FUNCTION d :  BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.Default_A_safe ( d =&gt; d, V =&gt; V )
@@ -3447,7 +3542,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Name="Value"
  Guid="4312ad49-d8dc-40cd-b72d-b0520a23e5fa"
 >
-<Expression>Kernel.TrainData.BrakingParameters.CorrectionFactorFunction
+<Expression>CorrectionFactorFunction
 (
     aCorrectionFactorValues =&gt; Kernel.TrainData.BrakingParameters.SelectKwetValue
     (
@@ -3495,11 +3590,6 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 </ReqRef><Comment>Provides the value of A_brake_emergency by taking into account one particular Track Condition.</Comment>
 <Parameters>
 <Parameter
- Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
- Name="aTrackCondition"
- Guid="71064732-d8db-4258-9cef-9f04186da955"
->
-</Parameter><Parameter
  Type="BaseTypes.Distance"
  Name="d"
  Guid="cf644c2f-00ca-4a0a-81d1-d6b1d506f170"
@@ -3509,6 +3599,11 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Name="V"
  Guid="ef3e3c72-4d7c-4fdb-b295-a9e620ace7fa"
 >
+</Parameter><Parameter
+ Type="BrakeConditionStruct"
+ Name="aCondition"
+ Guid="cbec7f99-ccf8-4708-8335-bbcd35b9f1d4"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -3517,18 +3612,21 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >
 <PreConditions>
 <PreCondition
- Guid="08a1d375-0436-4d6f-a892-d6dc21a15a89"
->d &lt; Kernel.TrackDescription.TrackConditions.BrakingConditionLength(aTrackCondition)</PreCondition><PreCondition
- Guid="79804f23-ad2c-4ddc-9597-42c34545125c"
->aTrackCondition.Location &lt;= d</PreCondition></PreConditions>
+ Guid="bab7cdcd-da3f-4837-8aa1-cb99d477d24c"
+>aCondition.Distance &lt;= d</PreCondition><PreCondition
+ Guid="e515d645-f296-4c86-aff5-9eec52c1e2c7"
+>d &lt; aCondition.Distance + BaseTypes.LengthToDistance( aCondition.Length )</PreCondition></PreConditions>
 <Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction
 (
     aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBrakingModel
     (
         aModelSet =&gt; Kernel.TrainData.TrainData.Value.EBModels.ModelSet,
-        aRegBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_emergency ( SpecialBrakeNameEnum.Regenerative ) AND NOT aTrackCondition.Value.SwitchOffRegenerativeBrake,
-        aEddyCurBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_emergency ( SpecialBrakeNameEnum.EddyCurrent ) AND NOT aTrackCondition.Value.SwitchOffEddyCurrentBrakeForEB,
-        aMagnBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_emergency ( SpecialBrakeNameEnum.MagneticShoe ) AND NOT aTrackCondition.Value.SwitchOffMagneticShoeBrake
+        aRegBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_emergency ( SpecialBrakeNameEnum.Regenerative ) 
+                                              AND NOT aCondition.SwitchOffRegenerativeBrake,
+        aEddyCurBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_emergency ( SpecialBrakeNameEnum.EddyCurrent ) 
+                                              AND NOT aCondition.SwitchOffEddyCurrentBrakeForEB,
+        aMagnBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_emergency ( SpecialBrakeNameEnum.MagneticShoe ) 
+                                              AND NOT aCondition.SwitchOffMagneticShoeBrake
     ),
     aSpeed =&gt; V
 )</Expression>
@@ -3593,12 +3691,12 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >Kernel.TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
 <Expression>(
     REDUCE
-        Kernel.TrackDescription.TrackConditions.General.TCProfile
+        BrakeConditionsProfile()
     USING X IN
         Override
         (
             Default =&gt; RESULT,
-            Override =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_brk_service ( aTrackCondition =&gt; X, V =&gt; V, d =&gt; d ),
+            Override =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_brk_service ( aCondition =&gt; X, V =&gt; V, d =&gt; d ),
         )
     INITIAL_VALUE FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.Default_brk_service (V)
 )
@@ -3719,11 +3817,6 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 </ReqRef><Comment>Provides value of A_safe for adhesion factor slippery rail.</Comment>
 <Parameters>
 <Parameter
- Type="TrackDescription.AdhesionFactors.AdhesionFactorStruct"
- Name="anAdhFactor"
- Guid="c9752cb9-cd2a-4075-8537-66410262798a"
->
-</Parameter><Parameter
  Type="BaseTypes.Distance"
  Name="d"
  Guid="8ba84ef6-8111-4ae0-91a1-9a3c56da420c"
@@ -3732,6 +3825,11 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Type="BaseTypes.Speed"
  Name="V"
  Guid="0da27f13-d9f6-428a-92cc-6515baff8297"
+>
+</Parameter><Parameter
+ Type="TrackDescription.AdhesionFactors.AdhesionFactorStruct"
+ Name="anAdhFactor"
+ Guid="6725469f-91f9-4465-aca0-ca6d0fec36a6"
 >
 </Parameter></Parameters>
 <Cases>
@@ -3742,19 +3840,19 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreConditions>
 <PreCondition
  Guid="a4a10e3a-2b06-465d-9f6a-e3d37bba5680"
->TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver</PreCondition></PreConditions>
+>Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver</PreCondition></PreConditions>
 <Expression>( MINSURFACE ( Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ), Kernel.NationalValues.A_MAXREDADH () ) + Kernel.TrackDescription.Gradient.A_gradient ( d ) ) (d, V)</Expression>
 </Case><Case
  Name="Adhesion factor available (trackside)"
- Guid="1c725946-6c2b-41b4-bbdc-f777fe70b06d"
+ Guid="c20456b4-82b1-4242-b0a4-2f7b6ffee3f2"
 >
 <PreConditions>
 <PreCondition
- Guid="88c8921b-90df-41a3-a96a-a6260d334476"
->d &lt; anAdhFactor.Location + BaseTypes.LengthToDistance ( Kernel.TrackDescription.AdhesionFactors.AdhFactorLength ( anAdhFactor ) )</PreCondition><PreCondition
- Guid="84a8a942-2a20-4cce-9909-ed2604e6d15c"
+ Guid="2fe5421d-22b8-4c79-bd1c-edd00edc8d23"
+>d &lt; anAdhFactor.Location + BaseTypes.LengthToDistance (anAdhFactor.Length)</PreCondition><PreCondition
+ Guid="6fb26f21-da0a-4314-8294-240f84caa76c"
 >anAdhFactor.Location &lt;= d</PreCondition><PreCondition
- Guid="9aa81f2f-9260-4288-a5ef-c90c6280cb6d"
+ Guid="6285bf83-075f-4352-98a5-815fb30fdede"
 >anAdhFactor.Value == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
 <Expression>( MINSURFACE ( Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ), Kernel.NationalValues.A_MAXREDADH () ) + Kernel.TrackDescription.Gradient.A_gradient ( d ) ) (d, V)</Expression>
 </Case></Cases>
@@ -3823,17 +3921,16 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >Kernel.TrainData.TrainData.Value.EBModels != EMPTY</PreCondition></PreConditions>
 <Expression>(
     REDUCE
-        Kernel.TrackDescription.TrackConditions.General.TCProfile
+        BrakeConditionsProfile()
     USING X IN
         Override
         (
             Default =&gt; RESULT,
-            Override =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_brk_emergency( aTrackCondition =&gt; X, d =&gt; d, V =&gt; V )
+            Override =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_brk_emergency( aCondition =&gt; X, d =&gt; d, V =&gt; V )
         )
     INITIAL_VALUE
         FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.Default_brk_emergency (V)
-)
-(d,V)</Expression>
+)(d,V)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -3864,11 +3961,6 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 </ReqRef><Comment>Provides the value of A_brake__normal_service by taking into account one particular Track Condition.</Comment>
 <Parameters>
 <Parameter
- Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
- Name="aTrackCondition"
- Guid="90b42be3-ee84-45b6-8f6d-f00c4ec5e6a0"
->
-</Parameter><Parameter
  Type="BaseTypes.Distance"
  Name="d"
  Guid="b8f53489-97dc-4ac2-8ab6-e7ed5b124465"
@@ -3878,6 +3970,11 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Name="V"
  Guid="d458d4d4-1ba6-48f0-9d2b-d879ee7e4368"
 >
+</Parameter><Parameter
+ Type="BrakeConditionStruct"
+ Name="aCondition"
+ Guid="4f1c5857-345f-4461-863f-f94ae2dcd2d0"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -3886,13 +3983,13 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >
 <PreConditions>
 <PreCondition
- Guid="358ef9c4-e1a3-4cba-b203-8a64fe3681cd"
->d &lt; Kernel.TrackDescription.TrackConditions.BrakingConditionLength(aTrackCondition)</PreCondition><PreCondition
- Guid="7b2f1e2f-c31a-4f00-8dbb-0e4112c5823f"
->aTrackCondition.Location &lt;= d</PreCondition></PreConditions>
+ Guid="406e7fc5-ee16-4e95-8dd1-309d1d5c0f73"
+>aCondition.Distance &lt;= d</PreCondition><PreCondition
+ Guid="04407a34-eccb-49f5-9d21-598618320d0f"
+>d &lt; aCondition.Distance + BaseTypes.LengthToDistance( aCondition.Length )</PreCondition></PreConditions>
 <Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction
 (
-    aBrakingModel =&gt; SelectBNSBrakingModel_TrackCondition ( aTrackCondition =&gt; aTrackCondition ),
+    aBrakingModel =&gt; SelectBNSBrakingModel_TrackCondition ( aCondition =&gt; aCondition ),
     aSpeed =&gt; V
 )</Expression>
 </Case></Cases>
@@ -4025,7 +4122,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreCondition
  Guid="ffe5112d-0373-4a2c-a4e0-26ed18fe88e2"
 >Kernel.TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.A_brake_service ( d =&gt; d, V =&gt; V ) + Kernel.TrackDescription.Gradient.A_gradient ( d )</Expression>
+<Expression>A_brake_service ( d =&gt; d, V =&gt; V ) + Kernel.TrackDescription.Gradient.A_gradient ( d )</Expression>
 </Case><Case
  Name="From conversion model"
  Guid="571e65c1-9d5f-4435-9250-56588753907c"
@@ -4192,12 +4289,12 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels != EMPTY</PreCondition></PreConditions>
 <Expression>(
     REDUCE
-        Kernel.TrackDescription.TrackConditions.General.TCProfile
+        BrakeConditionsProfile()
     USING X IN
         Override
         (
             Default =&gt; RESULT,
-            Override =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_brk_normal_service ( aTrackCondition =&gt; X, d =&gt; d, V =&gt; V ),
+            Override =&gt; FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.A_brk_normal_service ( aCondition =&gt; X, d =&gt; d, V =&gt; V ),
         )
     INITIAL_VALUE FUNCTION d : BaseTypes.Distance, V : BaseTypes.Speed =&gt; Kernel.TrainData.BrakingParameters.Default_brk_normal_service (V)
 )
@@ -4273,8 +4370,8 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 </ReqRef><Comment>Provides the value of A_brake_service for zero speed by taking into account one particular Track Condition. Used to select the appropriate A_brake_normal_service. The condition on the distance of the track condition is verified earlier (by A_brk_normal_service(V)).</Comment>
 <Parameters>
 <Parameter
- Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
- Name="aTrackCondition"
+ Type="BrakeConditionStruct"
+ Name="aCondition"
  Guid="b5e630ee-0b31-4f61-9176-ffe8c0bfacf0"
 >
 </Parameter></Parameters>
@@ -4288,9 +4385,15 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
     aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBrakingModel
     (
         aModelSet =&gt; Kernel.TrainData.TrainData.Value.SBModels.ModelSet,
-        aRegBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.Regenerative ) AND NOT aTrackCondition.Value.SwitchOffRegenerativeBrake,
-        aEddyCurBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.EddyCurrent ) AND NOT aTrackCondition.Value.SwitchOffEddyCurrentBrakeForEB,
-        aMagnBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.MagneticShoe ) AND NOT aTrackCondition.Value.SwitchOffMagneticShoeBrake
+        aRegBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.Regenerative ) 
+                                              AND NOT 
+                                              aCondition.SwitchOffRegenerativeBrake,
+        aEddyCurBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.EddyCurrent ) 
+                                              AND NOT 
+                                              aCondition.SwitchOffEddyCurrentBrakeForEB,
+        aMagnBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.MagneticShoe ) 
+                                              AND NOT 
+                                              aCondition.SwitchOffMagneticShoeBrake
     ),
     aSpeed =&gt; 0.0
 )</Expression>
@@ -4404,7 +4507,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreCondition
  Guid="2eca7524-348b-4c7e-818e-8625711ff55b"
 >Kernel.TrainData.BrakingParameters.Default_brk_service ( V=&gt;0.0 ) &lt;= Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB01</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.SelectBNSModelSet().BNS_0</Expression>
+<Expression>SelectBNSModelSet().BNS_0</Expression>
 </Case><Case
  Name="BNS_1"
  Guid="cbbd2f22-1dd9-4dfb-a13f-168e0294776f"
@@ -4415,7 +4518,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB01 &lt; Kernel.TrainData.BrakingParameters.Default_brk_service ( V =&gt; 0.0 )</PreCondition><PreCondition
  Guid="8acbc4f1-e16d-4e98-af34-c72790561ef2"
 >Kernel.TrainData.BrakingParameters.Default_brk_service ( V =&gt; 0.0 ) &lt;= Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB12</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.SelectBNSModelSet().BNS_1</Expression>
+<Expression>SelectBNSModelSet().BNS_1</Expression>
 </Case><Case
  Name="BNS_2"
  Guid="d625c2c2-ae0e-40ae-a18c-2122fa16ef87"
@@ -4424,7 +4527,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreCondition
  Guid="397b2e9b-e49f-4161-90d7-860c6be85662"
 >Kernel.TrainData.TrainData.Value.NormalServiceBrakeModels.A_SB12 &lt; Kernel.TrainData.BrakingParameters.Default_brk_service  ( V =&gt; 0.0 )</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.SelectBNSModelSet().BNS_2</Expression>
+<Expression>SelectBNSModelSet().BNS_2</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -4450,11 +4553,6 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 </ReqRef><Comment>Provides the value of A_brake_service by taking into account one particular Track Condition.</Comment>
 <Parameters>
 <Parameter
- Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
- Name="aTrackCondition"
- Guid="f4e3343a-3f6a-432e-b765-c7e81d25812a"
->
-</Parameter><Parameter
  Type="BaseTypes.Distance"
  Name="d"
  Guid="ce84d384-0f48-42a5-9df2-f1cec20a6021"
@@ -4464,6 +4562,11 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Name="V"
  Guid="3a24d1d0-2da5-4e04-bc42-c1c4300fafce"
 >
+</Parameter><Parameter
+ Type="BrakeConditionStruct"
+ Name="aCondition"
+ Guid="eb9c8cf4-f283-4cdd-bd23-8f2fec3989bc"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -4472,18 +4575,21 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >
 <PreConditions>
 <PreCondition
- Guid="898e92ea-c148-4e98-acdf-c9c3bcda7754"
->d &lt; Kernel.TrackDescription.TrackConditions.BrakingConditionLength(aTrackCondition)</PreCondition><PreCondition
- Guid="4a2c514c-e06b-42ec-b04a-517b1baabdfd"
->aTrackCondition.Location &lt;= d</PreCondition></PreConditions>
+ Guid="7883da5f-3781-4d38-b665-c851217fee52"
+>aCondition.Distance &lt;= d</PreCondition><PreCondition
+ Guid="99ad52a3-4032-408e-a394-1a56271d5447"
+>d &lt; aCondition.Distance + BaseTypes.LengthToDistance( aCondition.Length )</PreCondition></PreConditions>
 <Expression>Kernel.TrainData.BrakingParameters.BrakingModelFunction
 (
     aBrakingModel =&gt; Kernel.TrainData.BrakingParameters.SelectBrakingModel
     (
         aModelSet =&gt; Kernel.TrainData.TrainData.Value.SBModels.ModelSet,
-        aRegBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.Regenerative ) AND NOT aTrackCondition.Value.SwitchOffRegenerativeBrake,
-        aEddyCurBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.EddyCurrent ) AND NOT aTrackCondition.Value.SwitchOffEddyCurrentBrakeForEB,
-        aMagnBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.MagneticShoe ) AND NOT aTrackCondition.Value.SwitchOffMagneticShoeBrake
+        aRegBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.Regenerative ) 
+                                              AND NOT aCondition.SwitchOffRegenerativeBrake,
+        aEddyCurBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.EddyCurrent ) 
+                                              AND NOT aCondition.SwitchOffEddyCurrentBrakeForSB,
+        aMagnBrakeUsed =&gt; Kernel.TrainData.BrakingParameters.UseBrakeFor_A_brake_service ( SpecialBrakeNameEnum.MagneticShoe ) 
+                                              AND NOT aCondition.SwitchOffMagneticShoeBrake
     ),
     aSpeed =&gt; V
 )</Expression>
@@ -4552,10 +4658,31 @@ aStep.SpeedStep == 0.0</PreCondition></PreConditions>
  Y="830"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="SelectBrakingModelValue"
  Guid="7ada13ce-2a02-49a7-af30-22bd272bf4b5"
 >
-<Comment>Provides the braking model value according to the correction factor number</Comment>
+<ReqRef
+ Id="bb2c130f-7f70-4649-b205-43d79cc935e4"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="d8e52e24-c354-4ac2-a2a4-1bf9eb97eca1"
+>
+</ReqRef><ReqRef
+ Id="0f2dbd96-6593-410e-aae8-fe8482274d06"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="c336b7bb-19e1-4a34-8750-6b722fb9e28a"
+>
+</ReqRef><ReqRef
+ Id="7e5f5b95-e177-4917-a71a-f40a403e0cb6"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="b1380855-fb66-445b-9df0-a81c2560b661"
+>
+</ReqRef><ReqRef
+ Id="4e167f10-ee4e-4ae4-a5ae-4e875f46c1d7"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="ef91ac66-a2bf-4c08-9ba5-1b9b0c443bd4"
+>
+</ReqRef><Comment>Provides the braking model value according to the correction factor number.</Comment>
 <Parameters>
 <Parameter
  Type="BrakingModelStruct"
@@ -4640,10 +4767,21 @@ aStep.SpeedStep == 0.0</PreCondition></PreConditions>
  Y="350"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="SelectCorrectionFactor"
  Guid="d96d3e70-3c8e-41e5-a0b6-61f97b7f31cb"
 >
-<Comment>Provides the correction factor corresponding to the correction factor number from the structure</Comment>
+<ReqRef
+ Id="025a1d1f-c481-4f16-8bd5-8b1970e3de5a"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="aa1983d6-8d74-445d-8030-b8b1c8973f3f"
+>
+</ReqRef><ReqRef
+ Id="91b5dc43-9b11-414a-b9b3-850841e86fed"
+ SpecId="2218d057-3a1a-45e0-a1c9-ef26c3f85bc2"
+ Guid="1d4834b0-f73a-465d-abe9-022110017de4"
+>
+</ReqRef><Comment>Provides the correction factor corresponding to the correction factor number from the structure.</Comment>
 <Parameters>
 <Parameter
  Type="CorrectFactorValueStruct"
@@ -4720,6 +4858,492 @@ aStep.SpeedStep == 0.0</PreCondition></PreConditions>
  Guid="0f896f55-f35e-4cee-913e-d85bc5c081cc"
 >CorFactor == 6</PreCondition></PreConditions>
 <Expression>CorrectionFactorValue.CF6</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionCol"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="BrakeConditionsProfile"
+ Guid="e68333e3-278a-4055-84b7-d59707b3d907"
+>
+<ReqRef
+ Id="bdd6feb2-e9fc-4e01-90fb-c2dd7dc7a246"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="478d3a30-7462-4cf0-8f4b-31e45e7936e2"
+>
+</ReqRef><ReqRef
+ Id="00dfa999-7dd3-4fe9-a2d0-8fab1506a7d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3e9c4280-1fa9-47ca-a864-e3ad50193207"
+>
+</ReqRef><Comment>Filters the track conditions profile to only return the brake conditions, amending their distance and length values to take into account relevant offsets (3.12.1.2.1), and merging overlaping condition areas.</Comment>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="582eb4d5-f128-46b6-b1d0-1f4a6a1235e4"
+>
+<Expression>REDUCE 
+    MapBrakeConditions()
+USING X IN RESULT + TCToBrakeCondition(
+    aTCProfile =&gt; MapBrakeConditions(),
+    aCondition =&gt; X
+)
+INITIAL_VALUE []</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ConditionActiveArea"
+ Guid="674fd7ef-da92-4b34-88e9-af252caa1dcc"
+>
+<ReqRef
+ Id="00dfa999-7dd3-4fe9-a2d0-8fab1506a7d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="757788c0-4546-4e59-a246-e9fd916e1544"
+>
+</ReqRef><ReqRef
+ Id="0937f91a-8a74-4491-84fd-f454b91e6e38"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="bdc49b08-a603-4913-b778-b4bc93dc7962"
+>
+</ReqRef><Comment>Takes track brake conditions and returns the condition with distance and length taking into account max safe front end and min safe rear end (3.12.1.2.1).</Comment>
+<Parameters>
+<Parameter
+ Type="Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
+ Name="aCondition"
+ Guid="1131f946-d352-45cd-b78c-9274329750bb"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="ReturnActiveArea"
+ Guid="ffab0a7a-2c79-466c-80d9-ace272f50dc3"
+>
+<Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; aCondition.Location - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)),
+Value =&gt; aCondition.Value,
+Length =&gt; 
+    (BaseTypes.DistanceToLength(aCondition.Location) + aCondition.Length + TrainPosition.TrainLength() + TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) 
+    - 
+    (BaseTypes.DistanceToLength(aCondition.Location) - TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionCol"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="TCToBrakeCondition"
+ Guid="4e1e9fc8-ba30-4c13-9f72-90a4a5a48c4e"
+>
+<ReqRef
+ Id="05c82281-96b9-445a-9f79-33a2eea7300e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="70c4b77e-c638-4c57-b75d-50d447611adc"
+>
+</ReqRef><Comment>Returns a profile of brake conditions that cover the area of a given track condition.</Comment>
+<Parameters>
+<Parameter
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationCol"
+ Name="aTCProfile"
+ Guid="9df42c79-9770-467f-86bb-ae5efb08aaaa"
+>
+</Parameter><Parameter
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
+ Name="aCondition"
+ Guid="5cecc2c9-dc6c-44ae-98ee-ee8f6b1746ec"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Combine Overlap"
+ Guid="57e447e6-a8cb-4347-acf9-0ac0572c77f9"
+>
+<Expression>MAP BuildLocationsOfProfile(
+    aTCProfile =&gt; aTCProfile,
+    aCondition =&gt; aCondition
+)
+| X != (LAST Y IN BuildLocationsOfProfile(
+    aTCProfile =&gt; aTCProfile,
+    aCondition =&gt; aCondition
+) )
+USING X IN ChangeLength
+(
+    X, BaseTypes.DistanceToLength
+    (
+        NextCondition
+        (
+            aCondition =&gt; X,
+            aProfile =&gt; 
+                BuildLocationsOfProfile
+                (
+                    aTCProfile =&gt; aTCProfile,
+                    aCondition =&gt; aCondition
+                )
+        ).Distance - X.Distance
+    )
+)</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionCol"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ NeedsRequirement="FALSE"
+ Name="InternalPointsOfCondition"
+ Guid="f01d8eea-a4a6-4aa7-81e2-6a58a0b12067"
+>
+<Comment>Returns a profile of locations combining two brake conditions over the length of the first one given. 
+Returns brake conditions with a length of 0 to be changed when the whole profile is complete.</Comment>
+<Parameters>
+<Parameter
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
+ Name="FirstTC"
+ Guid="9ab11498-ddc9-4393-b19a-b04ebb2375a6"
+>
+</Parameter><Parameter
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
+ Name="SecondTC"
+ Guid="88d2c81e-1ab1-4627-b837-cafaeaa85800"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="NoOverlap"
+ Guid="95db4fd1-4b6d-4e50-90b7-c7a0babf4653"
+>
+<PreConditions>
+<PreCondition
+ Guid="fe691fbc-385f-41db-9826-bf08224fc692"
+>SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &lt; FirstTC.Location
+OR
+FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length) &lt; SecondTC.Location</PreCondition></PreConditions>
+<Expression>[]</Expression>
+</Case><Case
+ Name="OnlyEndOfSecondInFirst"
+ Guid="c4690083-604c-4328-9859-c8027651c50d"
+>
+<PreConditions>
+<PreCondition
+ Guid="04c7561c-2392-49c7-900f-b31828b280a3"
+>SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &lt; FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length)</PreCondition><PreCondition
+ Guid="c01258ac-3299-4042-8377-5c988ea670cb"
+>SecondTC.Location  &lt; FirstTC.Location</PreCondition></PreConditions>
+<Expression>[BrakeConditionStruct{
+Distance =&gt; SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length),
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+)
+}]</Expression>
+</Case><Case
+ Name="SecondContainedInFirst"
+ Guid="a539f704-5977-4e58-9136-97b34d91e9a2"
+>
+<PreConditions>
+<PreCondition
+ Guid="668665a1-9be0-45a1-9cea-d0687575b169"
+>SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &lt; FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length)</PreCondition><PreCondition
+ Guid="8f95ced2-fbbc-4048-8794-20d392e38a6f"
+>SecondTC.Location  &gt; FirstTC.Location</PreCondition></PreConditions>
+<Expression>[BrakeConditionStruct{
+Distance =&gt; SecondTC.Location,
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+)
+},
+BrakeConditionStruct{
+Distance =&gt; SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length),
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+)
+}]</Expression>
+</Case><Case
+ Name="OnlyStartOfSecondInFirst"
+ Guid="1fac2aac-5079-4eff-bee3-42c1d90bc3b5"
+>
+<PreConditions>
+<PreCondition
+ Guid="4a3c0fd8-4957-43c3-b13b-0d9e6d63fc40"
+>SecondTC.Location  &gt; FirstTC.Location</PreCondition><PreCondition
+ Guid="fcd5f1c6-1bb8-4a22-8dc0-e0d33cc752d3"
+>SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &gt; FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length)</PreCondition></PreConditions>
+<Expression>[BrakeConditionStruct{
+Distance =&gt; SecondTC.Location,
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+)
+}]</Expression>
+</Case><Case
+ Name="Case5"
+ Guid="34c4c70c-6a97-4e13-b8ba-c9162fde2fc4"
+>
+<Expression>[]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationCol"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="MapBrakeConditions"
+ Guid="a78cbb63-a262-4d40-b12e-14bb6f93cdf5"
+>
+<ReqRef
+ Id="00dfa999-7dd3-4fe9-a2d0-8fab1506a7d9"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6de1a386-bfff-4042-ad2b-1aa8f5d02eed"
+>
+</ReqRef><Comment>Returns the brake conditions from TCProfile taking into account confidence intervals</Comment>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="93406524-7db0-4d34-b214-58169e311d41"
+>
+<Expression>(MAP TrackDescription.TrackConditions.General.TCProfile | X.Value in [TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake]
+USING X IN ConditionActiveArea( aCondition =&gt;  X))</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="NextCondition"
+ Guid="fb1e3e78-399e-4a1c-9dae-fadf76f10067"
+>
+<ReqRef
+ Id="05c82281-96b9-445a-9f79-33a2eea7300e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="21fe3d63-4235-4020-8c05-d90ba9f7ede4"
+>
+</ReqRef><Comment>Returns the next closest brake condition.</Comment>
+<Parameters>
+<Parameter
+ Type="BrakeConditionStruct"
+ Name="aCondition"
+ Guid="5b4ea04c-987a-4fc0-b389-9d38962fe310"
+>
+</Parameter><Parameter
+ Type="BrakeConditionCol"
+ Name="aProfile"
+ Guid="52a109c4-a6ae-4604-9f32-e6ea85be6413"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Nextcondition"
+ Guid="94c06e0f-53c4-4473-9d6c-062171a55749"
+>
+<Expression>REDUCE aProfile | X.Distance &gt; aCondition.Distance
+USING X IN Default.ClosestBrakeCondition(
+    BrakeCondition1 =&gt; RESULT,
+    BrakeCondition2 =&gt; X
+)
+INITIAL_VALUE BrakeConditionStruct{
+Distance =&gt; BaseTypes.Distance.Infinity,
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionCol"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="BuildLocationsOfProfile"
+ Guid="d73a651f-7ea6-47a4-a91a-1c96d87fa871"
+>
+<ReqRef
+ Id="05c82281-96b9-445a-9f79-33a2eea7300e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="89fe0c35-70ac-49c0-8583-0afa2c8f3433"
+>
+</ReqRef><Comment>Returns the start location of brake condition changes within a given track condition.
+Used for creating non overlapping brake conditions.</Comment>
+<Parameters>
+<Parameter
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationCol"
+ Name="aTCProfile"
+ Guid="b6ba77f6-729c-41fa-9acb-ecd5fffbac31"
+>
+</Parameter><Parameter
+ Type="TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
+ Name="aCondition"
+ Guid="fc641539-25f2-4277-b676-b24144d9dbef"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Case1"
+ Guid="fb9af2ff-02d2-4698-a68c-74d5cbc68f87"
+>
+<Expression>REDUCE aTCProfile
+USING X IN
+    (InternalPointsOfCondition(
+        FirstTC =&gt; aCondition,
+        SecondTC =&gt; X
+        )
+    + RESULT)
+INITIAL_VALUE [BrakeConditionStruct{
+Distance =&gt; aCondition.Location,
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+    ),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+    ),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+    ),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+    )
+},
+BrakeConditionStruct{
+Distance =&gt; aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ),
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+    ),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+    ),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+    ),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+    )
+}
+]</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="ChangeLength"
+ Guid="34387bf8-1660-408b-8c70-f558eff5b133"
+>
+<ReqRef
+ Id="05c82281-96b9-445a-9f79-33a2eea7300e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="81069deb-00ba-48ae-a6ba-1d3d6e0368bc"
+>
+</ReqRef><Comment>Returns a given track condition, modified to have a given length.</Comment>
+<Parameters>
+<Parameter
+ Type="BrakeConditionStruct"
+ Name="aCondition"
+ Guid="9c6cf15c-84ba-4d1e-85b0-aa57f11439a9"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Length"
+ Name="aLength"
+ Guid="ed93940c-ad43-43ef-959a-3da21ce95127"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Change the length"
+ Guid="b2b45748-b0a9-4709-aa2b-1d48f09932ab"
+>
+<Expression>BrakeConditionStruct{
+Distance =&gt; aCondition.Distance,
+Length =&gt; aLength,
+SwitchOffEddyCurrentBrakeForEB =&gt; aCondition.SwitchOffEddyCurrentBrakeForEB,
+SwitchOffEddyCurrentBrakeForSB =&gt; aCondition.SwitchOffEddyCurrentBrakeForSB,
+SwitchOffMagneticShoeBrake =&gt; aCondition.SwitchOffMagneticShoeBrake,
+SwitchOffRegenerativeBrake =&gt; aCondition.SwitchOffRegenerativeBrake
+}</Expression>
 </Case></Cases>
 </Function></Functions>
 <Variables>

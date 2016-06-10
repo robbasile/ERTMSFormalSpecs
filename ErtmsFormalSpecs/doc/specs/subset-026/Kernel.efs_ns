@@ -11066,7 +11066,7 @@ This is done now because the calculation depends on te mode.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="9f1c3f07-4209-42d2-a8dc-722faef76eeb"
 >
-</ReqRef><Comment>Deletes the stored information that is no more used.</Comment>
+</ReqRef><Comment>Deletes the stored information that is no longer used.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -11121,41 +11121,37 @@ This is done now because the calculation depends on te mode.</Comment>
   )
 IN TrackDescription.RouteSuitability.RouteSuitabilityProfile.Items</Action><Action
  Guid="effae0ff-821f-49a4-b156-ec9f0cd7cc5b"
->REMOVE ALL
-  TrackDescription.TrackConditions.ConditionExitsApplicability
+>REMOVE TrackDescription.TrackConditions.ConditionExitsApplicability
   (
     ProfilePointDistance =&gt; X.Location,
     TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.Conditions
   )
 IN
-  Kernel.TrackDescription.TrackConditions.General.TCProfile</Action><Action
+  TrackDescription.TrackConditions.General.TCProfile</Action><Action
  Guid="f91f5ae0-fd2c-40a7-94db-e97d81beb4b3"
->REMOVE ALL
-  TrackDescription.TrackConditions.ConditionExitsApplicability
+>REMOVE TrackDescription.TrackConditions.ConditionExitsApplicability
   (
     ProfilePointDistance =&gt; X.Location, 
     TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.StationPlatform
   )
 IN
-  Kernel.TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms</Action><Action
+  TrackDescription.TrackConditions.StationPlatform.TCStationPlatforms</Action><Action
  Guid="feca3a28-9d9e-429e-85f6-3b5ea48dfbab"
->REMOVE ALL
-  TrackDescription.TrackConditions.ConditionExitsApplicability
+>REMOVE TrackDescription.TrackConditions.ConditionExitsApplicability
   (
     ProfilePointDistance =&gt; X.Location,
-    TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.TractionSystem
+     TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.TractionSystem
   )
 IN
-  Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action><Action
+  TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action><Action
  Guid="fd3b7fa2-96f7-45bd-807b-e499d62319bb"
->REMOVE ALL
-  TrackDescription.TrackConditions.ConditionExitsApplicability
+>REMOVE TrackDescription.TrackConditions.ConditionExitsApplicability
   (
     ProfilePointDistance =&gt; X.Location,
     TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.CurrentConsumption
   )
 IN
-  Kernel.TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption</Action></Actions>
+  TrackDescription.TrackConditions.CurrentConsumption.TCCurrentConsumption</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -11343,14 +11339,13 @@ IN TrackDescription.Gradient.Gradients</Action><Action
   )
 IN TrackDescription.StaticSpeedProfile.SSP</Action><Action
  Guid="eb5b3a2f-282d-4717-8657-32e14c2946e1"
->REMOVE ALL
-  Kernel.TrackDescription.TrackConditions.ConditionExitsApplicability
+>REMOVE TrackDescription.TrackConditions.ConditionExitsApplicability
   (
     ProfilePointDistance =&gt; X.Location,
-    TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.BigMetalMasses
+     TrackConditionType =&gt; TrackDescription.TrackConditions.ConditionType.BigMetalMasses
   )
 IN
-  Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
+  TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"

@@ -6449,11 +6449,11 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="3bd733c8-e1ef-40ff-99cb-c61837ed78b5"
->NOT Kernel.TrackDescription.TrackConditions.General.ProfileAtDistance(
+>NOT THERE_IS X IN Kernel.TrackDescription.TrackConditions.General.ProfileAtDistance(
     Kernel.TrainPosition.FrontEndPosition(
-        PointOfInterest=&gt;DistanceIntervalEnum.Nom
+        PointOfInterest=&gt; DistanceIntervalEnum.Nom
     )
-).RadioHole</PreCondition><PreCondition
+) | X.Value == Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.RadioHole</PreCondition><PreCondition
  Guid="eaaf519d-801e-429f-9218-97c4800dab2c"
 >InRadioHole</PreCondition></PreConditions>
 <Actions>

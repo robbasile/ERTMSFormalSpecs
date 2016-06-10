@@ -122,7 +122,7 @@
  Guid="ab487d20-209d-49a0-be75-7406c8252da9"
 >
 <Comment>TCBigMetalMasses contains a point prior to the requested distance</Comment>
-<Expression>THERE_IS X IN TCBigMetalMasses | (X.Location &lt;= aDistance) AND X.Location + 
+<Expression>THERE_IS X IN TCBigMetalMasses | (X.Location &lt;= aDistance) AND X.Location +
 BaseTypes.LengthToDistance(X.Length) &gt;= aDistance</Expression>
 </Case></Cases>
 </Function><Function
@@ -457,13 +457,13 @@ The train is considered to be in the section starting from when the max antenna 
 <Actions>
 <Action
  Guid="260a89f3-ee3a-4960-a54b-8bb92247e287"
->INSERT Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
+>INSERT TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct
 {
     Location =&gt; aPreviousLocation + aLocation,
     Length =&gt; aLength
 }
 IN
-    Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
+    TrackConditions.BigMetalMasses.TCBigMetalMasses</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

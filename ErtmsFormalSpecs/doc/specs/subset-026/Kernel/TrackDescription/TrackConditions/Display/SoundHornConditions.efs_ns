@@ -148,14 +148,14 @@
  Name="Value"
  Guid="5476e3dc-171a-41f6-829f-107d66d9e964"
 >
-<Expression>PlanningInformationStruct{
+<Expression>Display.SoundHornConditions.PlanningInformationStruct{
     TractionSystem =&gt; TractionSystems.TSAtDistance(aTCPoint.Location),
-    SoundHorn =&gt; aTCPoint.Value.SoundHorn,
-    TunnelStoppingArea =&gt; aTCPoint.Value.TunnelStoppingArea,
+    SoundHorn =&gt; THERE_IS X IN General.ProfileAtDistance( aDistance =&gt; aTCPoint.Location ) | X.Value == General.TrackConditionEnum.SoundHorn,
+    TunnelStoppingArea =&gt; THERE_IS X IN General.ProfileAtDistance( aDistance =&gt; aTCPoint.Location ) | X.Value == General.TrackConditionEnum.TunnelStoppingArea,
     NonStoppingArea =&gt; NonStoppingAreaRelevant(aTCPoint),
     Location =&gt; BaseTypes.OffsetDistance(
-      aDistance =&gt; aTCPoint.Location,
-      aOffset =&gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )
+        aDistance =&gt; aTCPoint.Location,
+        aOffset =&gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )
     )
 }</Expression>
 </Case></Cases>
@@ -186,12 +186,12 @@
  Name="Value"
  Guid="3fca258a-de1c-4a3d-96c0-038725660a8b"
 >
-<Expression>LET profile &lt;- (MAP General.TCProfile USING aGeneralTrackCondition IN MapGeneralToSoundHorn(aGeneralTrackCondition))
+<Expression>LET profile &lt;- (MAP General.TCProfile USING aGeneralTrackCondition IN Display.SoundHornConditions.MapGeneralToSoundHorn(aGeneralTrackCondition))
  + 
-(MAP TractionSystems.TCTractionSystems USING aTractionTrackCondition IN MapTractionToSoundHorn(aTractionTrackCondition)) IN
+(MAP TractionSystems.TCTractionSystems USING aTractionTrackCondition IN Display.SoundHornConditions.MapTractionToSoundHorn(aTractionTrackCondition)) IN
 
 FILTER profile |
-  IsChange(
+  Display.SoundHornConditions.IsChange(
     aPlanningCondition =&gt; X,
     aPlanningInformation =&gt; profile
   )
@@ -247,9 +247,9 @@ Parameter aPlanning differentiates between display of active conditions and plan
   AND  
 
 (
-  (THERE_IS X IN ActiveConditions | IsInSoundHornGroup(X))
+  (THERE_IS X IN Display.ActiveConditions | Display.IsInSoundHornGroup(X))
     OR  
-  THERE_IS X IN DisplayedPlanningInformation()
+  THERE_IS X IN Display.SoundHornConditions.DisplayedPlanningInformation()
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -289,13 +289,13 @@ Parameter aPlanning differentiates between display of active conditions and plan
  Name="Value"
  Guid="77b719e5-bde9-4948-a772-3681d68ee4e3"
 >
-<Expression>FILTER ActiveConditions | 
+<Expression>FILTER Display.ActiveConditions | 
   (
-    IsInSoundHornGroup(X)
+    Display.IsInSoundHornGroup(X)
       AND  
-    ActiveConditionStart(X)
+    Display.SoundHornConditions.ActiveConditionStart(X)
       AND  
-    NOT ActiveConditionEnd(X)
+    NOT Display.SoundHornConditions.ActiveConditionEnd(X)
   )
  USING X</Expression>
 </Case></Cases>
@@ -621,7 +621,7 @@ aCondition.Type == Display.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 >
 <Expression>REDUCE aPlanningInformation | X.Location &lt; aPlanningCondition.Location 
   USING X IN 
-    FurtherPlanningCondition(
+    Display.SoundHornConditions.FurtherPlanningCondition(
       X1 =&gt; X,
       X2 =&gt; RESULT
     )
@@ -719,9 +719,9 @@ aCondition.Type == Display.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <Expression>LET generalTrackConditions &lt;- General.ProfileAtDistance(TractionSystem.Location) IN
 
 Display.SoundHornConditions.PlanningInformationStruct{
-    SoundHorn =&gt; generalTrackConditions.SoundHorn,
-    TunnelStoppingArea =&gt; generalTrackConditions.TunnelStoppingArea,
-    NonStoppingArea =&gt; generalTrackConditions.NonStoppingArea,
+    SoundHorn =&gt; THERE_IS X IN generalTrackConditions | X.Value == General.TrackConditionEnum.SoundHorn,
+    TunnelStoppingArea =&gt; THERE_IS X IN generalTrackConditions | X.Value == General.TrackConditionEnum.TunnelStoppingArea,
+    NonStoppingArea =&gt; THERE_IS X IN generalTrackConditions | X.Value == General.TrackConditionEnum.NonStoppingArea,
     Location =&gt; TractionSystem.Location,
     TractionSystem =&gt; TractionSystem.Value
 }</Expression>
@@ -776,7 +776,7 @@ Display.SoundHornConditions.PlanningInformationStruct{
 >ProfilePoint.Location &lt; Distance</PreCondition><PreCondition
  Guid="0beb59e2-d413-413a-96be-e935e92a36c7"
 >TCType == Display.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>SoundHornConditions.PlanningInformationStruct{
+<Expression>Display.SoundHornConditions.PlanningInformationStruct{
     SoundHorn =&gt; ProfilePoint.SoundHorn,
     TunnelStoppingArea =&gt; ProfilePoint.TunnelStoppingArea,
     NonStoppingArea =&gt; False,
@@ -792,7 +792,7 @@ Display.SoundHornConditions.PlanningInformationStruct{
 >TCType == Display.TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
  Guid="d39b4d44-f5c2-4bd8-b14b-a067c3cea797"
 >ProfilePoint.Location &lt; Distance</PreCondition></PreConditions>
-<Expression>SoundHornConditions.PlanningInformationStruct{
+<Expression>Display.SoundHornConditions.PlanningInformationStruct{
     SoundHorn =&gt; ProfilePoint.SoundHorn,
     TunnelStoppingArea =&gt; False,
     NonStoppingArea =&gt; ProfilePoint.NonStoppingArea,
@@ -859,7 +859,7 @@ Display.SoundHornConditions.PlanningInformationStruct{
 <PreCondition
  Guid="85fce91e-776f-4f8e-9eb4-16352c6f1505"
 >TCType == Display.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile | (NOT X.Value.NonStoppingArea)
+<Expression>REDUCE TrackConditions.General.TCProfile | X.Value != General.TrackConditionEnum.NonStoppingArea
 USING X IN BaseTypes.MinDistance(
     X1=&gt;X.Location,
     X2=&gt;RESULT
@@ -873,7 +873,7 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 <PreCondition
  Guid="f091ee4d-ca51-40a7-8b31-d640d6048e68"
 >TCType == Display.TCTypeEnum.TunnelStoppingArea</PreCondition></PreConditions>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.General.TCProfile | (NOT X.Value.TunnelStoppingArea)
+<Expression>REDUCE TrackConditions.General.TCProfile | X.Value != General.TrackConditionEnum.TunnelStoppingArea
 USING X IN BaseTypes.MinDistance(
     X1=&gt;X.Location,
     X2=&gt;RESULT
@@ -929,7 +929,7 @@ INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
  Guid="044655f2-d3d6-4b8c-b5b1-636240991664"
 >NOT Available( aTrackCondition )
   OR  
-NOT aTrackCondition.Value.NonStoppingArea</PreCondition></PreConditions>
+aTrackCondition.Value != General.TrackConditionEnum.NonStoppingArea</PreCondition></PreConditions>
 <Expression>False</Expression>
 </Case><Case
  Name="Otherwise check train front end against the SBI, if there is an end"
@@ -938,8 +938,8 @@ NOT aTrackCondition.Value.NonStoppingArea</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="6a51a517-f1e6-47ba-aea5-8173b8b7309b"
->THERE_IS X IN General.TCProfile | (X.Location &gt; aTrackCondition.Location AND NOT X.Value.NonStoppingArea)</PreCondition></PreConditions>
-<Expression>LET nonStoppingAreaEnd &lt;- (FIRST X IN General.TCProfile | X.Location &gt; aTrackCondition.Location AND NOT X.Value.NonStoppingArea).Location IN
+>THERE_IS X IN General.TCProfile | (X.Location &gt; aTrackCondition.Location AND X.Value != General.TrackConditionEnum.NonStoppingArea)</PreCondition></PreConditions>
+<Expression>LET nonStoppingAreaEnd &lt;- (FIRST X IN General.TCProfile | X.Location &gt; aTrackCondition.Location AND X.Value != General.TrackConditionEnum.NonStoppingArea).Location IN
 
 SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
     aSpeed =&gt; Odometry.TrainSpeed(),
@@ -987,7 +987,7 @@ SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
  Name="Value"
  Guid="de3fc5fc-609e-4a11-8dac-95ddc278cd72"
 >
-<Expression>LET previousPlanningCondition &lt;- PreviousPlanningCondition(
+<Expression>LET previousPlanningCondition &lt;- Display.SoundHornConditions.PreviousPlanningCondition(
     aPlanningCondition =&gt; aPlanningCondition,
     aPlanningInformation =&gt; aPlanningInformation
 ) IN

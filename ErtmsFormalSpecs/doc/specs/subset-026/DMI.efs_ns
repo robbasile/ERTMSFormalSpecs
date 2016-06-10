@@ -678,12 +678,25 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Toggle display of geographical position"
  Guid="563177c2-ea9e-42de-8f76-f0fd1d40fafc"
 >
+<ReqRef
+ Id="90aeeb77-0da0-47f5-ac84-c4490540a1c0"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="8745321b-7eec-496f-8e3f-53a450803f34"
+>
+</ReqRef><ReqRef
+ Id="e3a55e7e-350d-4dfa-86ea-512545c008b1"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="f3c71c22-823e-4181-bc72-565d1f8b53bb"
+>
+</ReqRef><Comment>Toggles the display of the geographical position between the symbol and the value when the driver presses on the Geographical position button.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Toggle geographical position when the driver requests it"
  Guid="1a5b75af-c0b3-4b9e-be1f-7b3551a2417b"
 >
@@ -698,15 +711,19 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Toggle"
  Guid="e237807b-05c4-4981-a280-c359eebd99d9"
 >
+<Comment>Toggle displayed geographical position between symbol and value.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="DisplayDistance False"
  Guid="9f849eb2-70fc-4855-8ea0-5e8940a63cb5"
 >
+<Comment>If it is currently symbol then it becomes value.</Comment>
 <PreConditions>
 <PreCondition
  Guid="294bb637-cc3f-4f55-9030-82c281bf11c1"
@@ -716,9 +733,11 @@ PreviousMode: represents the train mode displayed on the DMI during the previous
  Guid="1ad5a9c4-6e39-4c49-81eb-8f4f43fba6af"
 >THIS.Out_GeographicalPosition.DisplayDistance &lt;- OUT.GeographicalPosition.DisplaySymbolOrValueEnum.Value</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="DisplayDistance True"
  Guid="586c2f78-dd3c-4bdd-907f-35303ed5112e"
 >
+<Comment>If it is currently value then it becomes symbol.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
@@ -3783,6 +3802,11 @@ Fetches the time from the kernel and adjusts according to the current country id
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c32a806c-e6f2-4e18-af2b-e8e7618f51bf"
 >
+</ReqRef><ReqRef
+ Id="90aeeb77-0da0-47f5-ac84-c4490540a1c0"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="dbd94326-7bd2-4d1f-a2cd-ddde7255be7f"
+>
 </ReqRef></StructureElement><StructureElement
  TypeName="OUT.LXStatusNotProtected.OutputStruct"
  Default=""
@@ -4374,11 +4398,17 @@ Fetches the time from the kernel and adjusts according to the current country id
 </ReqRef></StructureElement><StructureElement
  TypeName="IN.GeographicalPosition.EntryStruct"
  Default=""
- Mode="Internal"
+ Mode="InOut"
+ Implemented="TRUE"
  Name="In_GeographicalPositionRequest"
  Guid="d08dcd2e-4ce7-4148-92ac-9ad9698e9ba5"
 >
-</StructureElement></Structure><Structure
+<ReqRef
+ Id="faadbf28-32da-48eb-96d8-48c5eb6c86e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="07bde7d7-b7ca-4b31-9284-e7c73027c88c"
+>
+</ReqRef></StructureElement></Structure><Structure
  Default=""
  X="280"
  Y="10"

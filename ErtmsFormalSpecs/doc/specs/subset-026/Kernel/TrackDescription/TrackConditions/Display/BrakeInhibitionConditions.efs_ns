@@ -8,6 +8,71 @@
 >
 <NameSpaces>
 </NameSpaces>
+<Enumerations>
+<Enum
+ Default="TrackConditions.Display.BrakeInhibitionConditions.PlanningInformationEnum.None"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="PlanningInformationEnum"
+ Guid="3c9bda91-e2d6-4ad8-b4d2-00ad93f4a66d"
+>
+<ReqRef
+ Id="88a9ba90-6c1e-47f7-bced-85484113e0fa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="136c50b1-fec5-4547-ad06-a20982d7e3ef"
+>
+</ReqRef><Comment>For use in the DMI, this enumeration contains the track conditions: brake inhibition, power control, lower pantograph, air tightness and radio hole information.</Comment>
+<Values>
+<EnumValue
+ Value=""
+ Name="AirTightness"
+ Guid="8b2b5c6f-6ee1-4343-a286-80a09addc02b"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="PowerlessSection_LowerPantograph"
+ Guid="13586045-9fdc-471b-aaa8-75c522b080c3"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="PowerlessSection_SwitchOffTheMainPowerSwitch"
+ Guid="d7f3dd01-1c51-4855-8234-bd4d91585695"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="RadioHole"
+ Guid="6b877204-6025-43d5-947b-f1b1acacae38"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SwitchOffEddyCurrentBrakeForEB"
+ Guid="233a3277-92b6-4b4e-bfca-52f03e7000a0"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SwitchOffEddyCurrentBrakeForSB"
+ Guid="7ecd26ef-67a9-4259-afd4-aed887640339"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SwitchOffMagneticShoeBrake"
+ Guid="1e7480aa-7b69-43b6-9175-d568a3019866"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="SwitchOffRegenerativeBrake"
+ Guid="d4bce516-01a3-465e-9eda-26f172304083"
+>
+</EnumValue><EnumValue
+ Value=""
+ Name="None"
+ Guid="33651fd7-fa62-42c6-9cbb-0e7ffa55e96c"
+>
+</EnumValue></Values>
+</Enum></Enumerations>
 <Structures>
 <Structure
  Default=""
@@ -24,106 +89,8 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4539eca2-e5f3-4542-a2f6-60a94a565093"
 >
-</ReqRef><Comment>For use in the DMI, this structure contains the track conditions brake inhibition, power control, lower pantograph, air tightness and radio hole</Comment>
+</ReqRef><Comment>For use in the DMI, this structure contains the track conditions: brake inhibition, power control, lower pantograph, air tightness and radio hole information.</Comment>
 <StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="AirTightness"
- Guid="08756841-f9aa-425b-9c21-b0dc45a6d4cd"
->
-<ReqRef
- Id="a01c8799-5739-48a1-a667-753dbdb30d26"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="cbfd97d2-2863-41d5-9c4a-d07a80cf8385"
->
-</ReqRef><Comment>The air conditioning intake should be cut off</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="PowerlessSection_LowerPantograph"
- Guid="f3fb2e30-6f70-436f-8a7f-73d205138575"
->
-<ReqRef
- Id="7fb81a1f-d79e-4219-b000-e6ca80f0fad5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="40a15a00-e0de-48e4-b8b4-1cc361f6195b"
->
-</ReqRef><Comment>The train&apos;s pantograph should be lowered in the upcoming powerless section</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="PowerlessSection_SwitchOffTheMainPowerSwitch"
- Guid="d7eda37f-cebf-427a-bb5a-a4c2e6af75bf"
->
-<ReqRef
- Id="ef395ab0-84e3-439a-9e7e-7ef8bb61984c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b5b34d34-7699-49aa-b2fd-24b59889956c"
->
-</ReqRef><Comment>Powerless area where the main power switch should be turned off</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="RadioHole"
- Guid="c326d458-aeab-45ae-ba06-7ba3dc5439c2"
->
-<ReqRef
- Id="ce600cdf-eced-43b6-addb-8f9bb1416880"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e7f30c76-414d-4446-a38d-d9afa4337aa4"
->
-</ReqRef><Comment>No RBC connections in the area</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="SwitchOffEddyCurrentBrakeForEB"
- Guid="79e93ae5-d58f-4946-baea-35490933b3c9"
->
-<ReqRef
- Id="caccfa50-6817-419a-bde5-f5880f4e795e"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="555f7002-9109-416d-a77b-fec724208aeb"
->
-</ReqRef><Comment>The eddy current brake should be disabled for the emergency brake</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="SwitchOffMagneticShoeBrake"
- Guid="107fa4a9-45a2-4fbc-a8cf-91564adca183"
->
-<ReqRef
- Id="fc19b494-1816-4d9e-b9a9-6452f06d0582"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4a6546ca-7db0-4c15-8bcc-d613f1472edf"
->
-</ReqRef><Comment>The magnetic shoe brake should be disabled</Comment>
-</StructureElement><StructureElement
- TypeName="Boolean"
- Default="Boolean.False"
- Mode="Internal"
- Implemented="TRUE"
- Name="SwitchOffRegenerativeBrake"
- Guid="e380607a-4ca8-46c8-8bc1-6a4fbd105223"
->
-<ReqRef
- Id="f15d27d3-b5ee-451f-8207-28272d95b5e3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="544aed55-423b-4eb3-b856-0ef8ee91d20b"
->
-</ReqRef><Comment>The regenerative brake should be disabled</Comment>
-</StructureElement><StructureElement
  TypeName="BaseTypes.Distance"
  Default=""
  Mode="Internal"
@@ -138,19 +105,23 @@
 >
 </ReqRef><Comment>Start location of the track condition</Comment>
 </StructureElement><StructureElement
- TypeName="Boolean"
- Default="False"
+ TypeName="BaseTypes.Length"
+ Default=""
  Mode="Internal"
  Implemented="TRUE"
- Name="SwitchOffEddyCurrentBrakeForSB"
- Guid="e04c4c6a-05d3-460e-ae3f-7528880c647a"
+ Name="Length"
+ Guid="987139e4-3250-49c6-a713-207fb6ee0409"
 >
-<ReqRef
- Id="6eac506c-d1f4-4981-81f7-4f88b90d86a9"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="53ca0ddb-76b2-4dab-86c7-ffa5f2369995"
+<Comment>Length of the track condition</Comment>
+</StructureElement><StructureElement
+ TypeName="PlanningInformationEnum"
+ Default=""
+ Mode="Internal"
+ Implemented="TRUE"
+ Name="Value"
+ Guid="dd20ad8e-fec6-4531-a06e-44cc9c7fe483"
 >
-</ReqRef><Comment>The eddy current brake should be disabled for the service brake</Comment>
+<Comment>Type of the track condition</Comment>
 </StructureElement><Interfaces>
 <StructureRef
  Name="BaseTypes.LocationInterface"
@@ -201,18 +172,7 @@
  Name="Value"
  Guid="e3089d09-b8af-435f-bed3-934c30203057"
 >
-<Expression>LET profile &lt;- (MAP General.TCProfile USING aTrackCondition IN MapGeneralToBrakeInhibition(aTrackCondition) ) IN
-
-FILTER profile  |
-(
-  IsChange(
-    aPlanningCondition =&gt; X,
-    aPlanningInformation =&gt; profile 
-  )
-    AND  
-  X.Location &gt;= 0.0
-)
- USING X</Expression>
+<Expression>MAP General.TCProfile USING aTrackCondition IN Display.BrakeInhibitionConditions.MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="PlanningInformationStruct"
@@ -229,7 +189,7 @@ FILTER profile  |
 <Comment>Finds the closest track condition in rear of the provided one in the profile.</Comment>
 <Parameters>
 <Parameter
- Type="BrakeInhibitionConditions.PlanningInformationStruct"
+ Type="PlanningInformationStruct"
  Name="aPlanningCondition"
  Guid="18667db9-c2b8-4771-8d71-f8581ee4064c"
 >
@@ -300,9 +260,9 @@ Parameter aPlanning differentiates between display of active conditions and plan
 AND
 
 (
-  (THERE_IS X IN ActiveConditions | NOT IsInSoundHornGroup(X))
+  (THERE_IS X IN Display.ActiveConditions | NOT Display.IsInSoundHornGroup(X))
     OR  
-  THERE_IS X IN DisplayedPlanningInformation()
+  THERE_IS X IN Display.BrakeInhibitionConditions.DisplayedPlanningInformation()
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -357,18 +317,18 @@ AND
  Name="Value"
  Guid="c7b9f58d-1a16-4d49-a3bd-45c8ec4abcbd"
 >
-<Expression>FILTER ActiveConditions | 
+<Expression>FILTER Display.ActiveConditions | 
   (
-    NOT IsInSoundHornGroup(X)
+    NOT Display.IsInSoundHornGroup(X)
       AND  
-    ActiveConditionStart(X)
+    Display.BrakeInhibitionConditions.ActiveConditionStart(X)
       AND  
-    NOT ActiveConditionEnd(X)
+    NOT Display.BrakeInhibitionConditions.ActiveConditionEnd(X)
   )
  USING X</Expression>
 </Case></Cases>
 </Function><Function
- Type="BrakeInhibitionConditions.PlanningInformationStruct"
+ Type="PlanningInformationStruct"
  Default=""
  X="30"
  Y="540"
@@ -392,20 +352,23 @@ AND
  Name="Value"
  Guid="f77c3425-f524-46fa-8a74-3f2e73f98967"
 >
-<Expression>BrakeInhibitionConditions.PlanningInformationStruct{
-    AirTightness =&gt; TCPoint.Value.AirTightness,
-    PowerlessSection_LowerPantograph =&gt; TCPoint.Value.PowerlessSection_LowerPantograph,
-    PowerlessSection_SwitchOffTheMainPowerSwitch =&gt; TCPoint.Value.PowerlessSection_SwitchOffTheMainPowerSwitch,
-    RadioHole =&gt; TCPoint.Value.RadioHole,
-    SwitchOffEddyCurrentBrakeForEB =&gt; TCPoint.Value.SwitchOffEddyCurrentBrakeForEB,
-    SwitchOffEddyCurrentBrakeForSB =&gt; TCPoint.Value.SwitchOffEddyCurrentBrakeForSB,
-    SwitchOffMagneticShoeBrake =&gt; TCPoint.Value.SwitchOffMagneticShoeBrake,
-    SwitchOffRegenerativeBrake =&gt; TCPoint.Value.SwitchOffRegenerativeBrake,
+<PreConditions>
+<PreCondition
+ Guid="543ca3e7-3aee-4a26-b81f-7e7c20c28c33"
+>TrackConditionToPlanningInformation(TCPoint.Value) != PlanningInformationEnum.None</PreCondition></PreConditions>
+<Expression>Display.BrakeInhibitionConditions.PlanningInformationStruct{
+    Value =&gt; TrackConditionToPlanningInformation(TCPoint.Value),
     Location =&gt; BaseTypes.OffsetDistance(
       aDistance =&gt; TCPoint.Location,
       aOffset =&gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom )
-    )
+    ),
+    Length =&gt; TCPoint.Length
 }</Expression>
+</Case><Case
+ Name="Case2"
+ Guid="76a9e9af-9fba-422b-8a92-021939bfb473"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -544,20 +507,20 @@ AND
 <Cases>
 <Case
  Name="TC"
- Guid="55f1943a-2bb9-41c3-98d5-957c9bf74400"
+ Guid="fd2a9250-b6bd-4d3f-8896-cd9935cc7eb5"
 >
 <PreConditions>
 <PreCondition
- Guid="146d213c-9838-411d-bf86-0b2d441437d6"
+ Guid="205c1e3c-0422-4ecd-b3a6-b5706135eea6"
 >NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition( PointOfInterest=&gt;DistanceIntervalEnum.Max ) &gt;= aCondition.Location</Expression>
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;= aCondition.Location</Expression>
 </Case><Case
  Name="Conditions - end"
- Guid="4d59fa4c-ffca-4cb7-8067-551c589ff212"
+ Guid="51b21b91-7bb3-4036-b122-eb513e58278a"
 >
 <PreConditions>
 <PreCondition
- Guid="f06185e2-7899-45ff-a5df-2878349cfe93"
+ Guid="03ce9194-8310-44a8-b7c0-05e33d4bbbd2"
 >aCondition.Length == BaseTypes.Length.NA</PreCondition></PreConditions>
 <Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt;= aCondition.Location</Expression>
 </Case><Case
@@ -647,60 +610,110 @@ AND
  Name="Value"
  Guid="dbd75f11-0beb-4536-9eef-8258142c223b"
 >
-<Expression>MAP General.TCProfile USING aTrackCondition IN MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
+<Expression>MAP General.TCProfile USING aTrackCondition IN Display.BrakeInhibitionConditions.MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
- Type="Boolean"
+ Type="PlanningInformationEnum"
  Default=""
- X="331"
- Y="1"
+ X="0"
+ Y="0"
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="IsChange"
- Guid="77be38d0-4449-436b-b94a-98cfd514380a"
+ Name="TrackConditionToPlanningInformation"
+ Guid="fc72c67e-9395-46c5-b157-70b10e82904d"
 >
-<Comment>Indicates whether the provided track condition profile point is a change from the previous one.</Comment>
+<ReqRef
+ Id="88a9ba90-6c1e-47f7-bced-85484113e0fa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="bae49cb9-3457-4280-b930-ead8da99043b"
+>
+</ReqRef><Comment>Converts GeneralTrackCondition values to PlanningInformation values</Comment>
 <Parameters>
 <Parameter
- Type="PlanningInformationStruct"
- Name="aPlanningCondition"
- Guid="6b2f287b-3607-443c-8b43-ed098312d358"
->
-</Parameter><Parameter
- Type="PlanningInformationCol"
- Name="aPlanningInformation"
- Guid="e2a65ede-5366-4ca9-912a-8668c717f844"
+ Type="General.TrackConditionEnum"
+ Name="aTrackConditionValue"
+ Guid="9383d930-8ea7-428b-8bbd-a0707c194eb8"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Value"
- Guid="25fd82f5-419a-40ac-b454-5a003fb37856"
+ Name="Case1"
+ Guid="2271ddec-f3de-4ed7-9700-23171ef09c7c"
 >
-<Expression>LET previousPlanningCondition &lt;- PreviousPlanningCondition(
-    aPlanningCondition =&gt; aPlanningCondition,
-    aPlanningInformation =&gt; aPlanningInformation
-) IN
-
-aPlanningCondition.AirTightness != previousPlanningCondition.AirTightness
-  OR  
-aPlanningCondition.PowerlessSection_LowerPantograph != previousPlanningCondition.PowerlessSection_LowerPantograph
-  OR  
-aPlanningCondition.PowerlessSection_SwitchOffTheMainPowerSwitch!= previousPlanningCondition.PowerlessSection_SwitchOffTheMainPowerSwitch
-  OR  
-aPlanningCondition.PowerlessSection_SwitchOffTheMainPowerSwitch != previousPlanningCondition.PowerlessSection_SwitchOffTheMainPowerSwitch
-  OR  
-aPlanningCondition.RadioHole != previousPlanningCondition.RadioHole
-  OR  
-aPlanningCondition.SwitchOffEddyCurrentBrakeForEB != previousPlanningCondition.SwitchOffEddyCurrentBrakeForEB
-  OR  
-aPlanningCondition.SwitchOffEddyCurrentBrakeForSB != previousPlanningCondition.SwitchOffEddyCurrentBrakeForSB
-  OR  
-aPlanningCondition.SwitchOffMagneticShoeBrake != previousPlanningCondition.SwitchOffMagneticShoeBrake
-  OR  
-aPlanningCondition.SwitchOffRegenerativeBrake != previousPlanningCondition.SwitchOffRegenerativeBrake</Expression>
+<PreConditions>
+<PreCondition
+ Guid="8a9457ee-9d01-45ce-84f8-8defbd8c4ad2"
+>aTrackConditionValue == General.TrackConditionEnum.AirTightness</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.AirTightness</Expression>
+</Case><Case
+ Name="Case2"
+ Guid="c95dae47-6d02-4068-b7a1-125a720f244a"
+>
+<PreConditions>
+<PreCondition
+ Guid="12553e72-1849-4cd5-b7c1-07c3f58db2b1"
+>aTrackConditionValue == General.TrackConditionEnum.PowerlessSection_LowerPantograph</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.PowerlessSection_LowerPantograph</Expression>
+</Case><Case
+ Name="Case3"
+ Guid="52f4473d-2a3f-4b47-b122-358fb1bc2a26"
+>
+<PreConditions>
+<PreCondition
+ Guid="3016cdce-3160-4ee0-a832-5a20173a84d7"
+>aTrackConditionValue == General.TrackConditionEnum.PowerlessSection_SwitchOffTheMainPowerSwitch</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.PowerlessSection_SwitchOffTheMainPowerSwitch</Expression>
+</Case><Case
+ Name="Case4"
+ Guid="028093e1-5406-4229-8bf4-63b1ae415609"
+>
+<PreConditions>
+<PreCondition
+ Guid="34b7f5b7-82ee-4544-8189-044fbdf7d091"
+>aTrackConditionValue == General.TrackConditionEnum.RadioHole</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.RadioHole</Expression>
+</Case><Case
+ Name="Case5"
+ Guid="8e712f3b-1a1d-4289-a237-0b626c3fda4c"
+>
+<PreConditions>
+<PreCondition
+ Guid="24c8ca59-2ca5-4689-8a3e-fdf850b80c29"
+>aTrackConditionValue == General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.SwitchOffEddyCurrentBrakeForEB</Expression>
+</Case><Case
+ Name="Case6"
+ Guid="066cad4d-b319-4c05-860d-7416bfc97d23"
+>
+<PreConditions>
+<PreCondition
+ Guid="9ee5797d-f29d-4620-8e3c-7bad0b72c9bf"
+>aTrackConditionValue == General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.SwitchOffEddyCurrentBrakeForSB</Expression>
+</Case><Case
+ Name="Case7"
+ Guid="e1331a10-14c7-4ff7-8f03-040634452d42"
+>
+<PreConditions>
+<PreCondition
+ Guid="42f429ad-ff2a-4efb-aeed-211bfc6d6671"
+>aTrackConditionValue == General.TrackConditionEnum.SwitchOffMagneticShoeBrake</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.SwitchOffMagneticShoeBrake</Expression>
+</Case><Case
+ Name="Case8"
+ Guid="8b6001b1-65b5-4293-8133-502425c91904"
+>
+<PreConditions>
+<PreCondition
+ Guid="7913d436-1da4-4c5c-8f48-5740d5b792a4"
+>aTrackConditionValue == General.TrackConditionEnum.SwitchOffRegenerativeBrake</PreCondition></PreConditions>
+<Expression>PlanningInformationEnum.SwitchOffRegenerativeBrake</Expression>
+</Case><Case
+ Name="Case9"
+ Guid="e7316ddf-92c0-4b6d-8364-87e38666142b"
+>
+<Expression>PlanningInformationEnum.None</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

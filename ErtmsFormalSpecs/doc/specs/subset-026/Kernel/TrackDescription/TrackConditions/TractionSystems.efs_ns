@@ -168,7 +168,7 @@
  Guid="c00cb58e-6829-4b88-9eef-d0abbebf3042"
 >
 <Comment>The starting point is when the max safe front end of the train passes the location specified in the message</Comment>
-<Expression>Kernel.TrackDescription.TrackConditions.TractionSystems.TSAtDistance(
+<Expression>TrackConditions.TractionSystems.TSAtDistance(
     aDistance=&gt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max)
 )</Expression>
 </Case></Cases>
@@ -215,14 +215,14 @@
 <PreConditions>
 <PreCondition
  Guid="eb420e4a-b35e-4d9b-8ab6-a8f9e8ba7043"
->THERE_IS X IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
-<Expression>(LAST TractSyst IN TCTractionSystems | TractSyst.Location &lt;= aDistance).Value</Expression>
+>THERE_IS X IN TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= aDistance)</PreCondition></PreConditions>
+<Expression>(LAST TractSyst IN TractionSystems.TCTractionSystems | TractSyst.Location &lt;= aDistance).Value</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="30b40833-011c-494f-bd47-713f9a91c456"
 >
 <Comment>Case created just to make the model work</Comment>
-<Expression>Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemStruct{
+<Expression>TrackConditions.TractionSystems.TractionSystemStruct{
     CountryIdentifier =&gt; Messages.NID_CTRACTION((FIRST X IN TrainData.TrainData.Value.TractionSystems).Country),
     SystemType =&gt; (FIRST X IN TrainData.TrainData.Value.TractionSystems).Voltage
 }</Expression>
@@ -253,7 +253,7 @@
  Guid="593ec303-1a01-4e61-97f4-2e672f836a18"
 >
 <Comment>Returns the element in TCTractionSystems with the largest distance that is less than or equal to the parameter</Comment>
-<Expression>REDUCE Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= Distance)
+<Expression>REDUCE TrackConditions.TractionSystems.TCTractionSystems | (X.Location &lt;= Distance)
     USING X IN BaseTypes.MaxDistance(
         X1=&gt;X.Location,
         X2=&gt;RESULT)
@@ -396,6 +396,8 @@
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Remove old information"
  Guid="bb164f2b-df86-42fb-a386-3ad5956336a7"
@@ -424,10 +426,12 @@
 <Actions>
 <Action
  Guid="5452dacd-9945-4b71-b5dc-92eec14d74eb"
->Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems &lt;- []</Action></Actions>
+>TrackConditions.TractionSystems.TCTractionSystems &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="Add new track condition"
@@ -463,7 +467,7 @@
 <Actions>
 <Action
  Guid="999301d6-e625-436c-b54d-0a413831fb96"
->INSERT Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemInformationStruct
+>INSERT TrackConditions.TractionSystems.TractionSystemInformationStruct
 {
     Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance
     (
@@ -478,10 +482,12 @@
 }
 
 IN
-    Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
+    TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Display on DMI"
  Guid="eaeaea51-45c4-4cbe-bbf9-8a87eea24937"
@@ -516,6 +522,8 @@ IN
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Create announcement before the change of traction system"
  Guid="7feaab70-d999-4968-9408-067f0c566954"
@@ -534,9 +542,9 @@ IN
 <Action
  Guid="9bd1a5f3-f510-4564-afff-1238e71425a4"
 >INSERT Display.NewAnnouncement(
-    TCType=&gt; Kernel.TrackDescription.TrackConditions.TractionSystems.PacketToAnnouncement(Packet.M_VOLTAGE),
+    TCType=&gt; TrackConditions.TractionSystems.PacketToAnnouncement(Packet.M_VOLTAGE),
     Distance=&gt; Display.AnnouncementLocation(
-        aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{},
+        aTrackCondition =&gt; General.TrackConditionEnum.None,
         aDistance=&gt;MessageTypes.QScaleDistance(
             distance=&gt;Packet.D_TRACTION,
             scale=&gt;Packet.Q_SCALE)
@@ -544,7 +552,7 @@ IN
     Length=&gt; BaseTypes.DistanceToLength(
                  MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACTION, scale=&gt;Packet.Q_SCALE) -
                  Display.AnnouncementLocation(
-                     aTrackCondition =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionStruct{},
+                     aTrackCondition =&gt; General.TrackConditionEnum.None,
                      aDistance=&gt;MessageTypes.QScaleDistance(distance=&gt;Packet.D_TRACTION, scale=&gt;Packet.Q_SCALE)
                  )
         ),
@@ -554,6 +562,8 @@ IN Display.ActiveConditions</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Create announcement after the change of traction system"
  Guid="541f4771-58fa-4fd1-8e46-86dc8a0fe670"
@@ -572,7 +582,7 @@ IN Display.ActiveConditions</Action></Actions>
 <Action
  Guid="83db5426-16ea-4334-b486-8690bf014ba2"
 >INSERT Display.NewAnnouncement(
-    TCType=&gt; Kernel.TrackDescription.TrackConditions.TractionSystems.PacketToAnnouncement(Packet.M_VOLTAGE),
+    TCType=&gt; TrackConditions.TractionSystems.PacketToAnnouncement(Packet.M_VOLTAGE),
     Distance=&gt; MessageTypes.QScaleDistance(
             distance=&gt;Packet.D_TRACTION,
             scale=&gt;Packet.Q_SCALE
@@ -640,7 +650,7 @@ IN Display.ActiveConditions</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="c8cca78d-3f1e-4cfb-b744-c3cc5b9cf0d8"
->Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems != []</PreCondition></PreConditions>
+>TrackConditions.TractionSystems.TCTractionSystems != []</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -663,7 +673,7 @@ IN Display.ActiveConditions</Action></Actions>
 <Actions>
 <Action
  Guid="39035454-d8da-40aa-bec8-ff4986512bbc"
->Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems &lt;- MAP Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems | X.Location &lt;= aLocation USING X IN X</Action></Actions>
+>TrackConditions.TractionSystems.TCTractionSystems &lt;- MAP TrackConditions.TractionSystems.TCTractionSystems | X.Location &lt;= aLocation USING X IN X</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -682,12 +692,12 @@ IN Display.ActiveConditions</Action></Actions>
 <PreConditions>
 <PreCondition
  Guid="fdca6523-2a30-42f9-9aad-1bbae8a3071c"
->(LAST TC IN Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems).Value.SystemType != Messages.M_VOLTAGE.Line_not_fitted_with_any_traction_system</PreCondition></PreConditions>
+>(LAST TC IN TrackConditions.TractionSystems.TCTractionSystems).Value.SystemType != Messages.M_VOLTAGE.Line_not_fitted_with_any_traction_system</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c3cc9273-3eb9-4532-9c8c-393d6397bf33"
 >INSERT
-  Kernel.TrackDescription.TrackConditions.TractionSystems.TractionSystemInformationStruct
+  TrackConditions.TractionSystems.TractionSystemInformationStruct
   {
     Location =&gt; aLocation,
     Value =&gt; TractionSystemStruct
@@ -696,7 +706,7 @@ IN Display.ActiveConditions</Action></Actions>
     }
   }
 IN
-  Kernel.TrackDescription.TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
+  TrackConditions.TractionSystems.TCTractionSystems</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
