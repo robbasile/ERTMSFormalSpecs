@@ -789,29 +789,30 @@ SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
  Name="Value"
  Guid="773759e4-0a94-4d5e-b184-a527d0ac9227"
 >
-<Expression>Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target
-(
-  Vest =&gt; aLX.Speed,
-  aTarget =&gt; TargetStruct
-{
-    Location =&gt; aLX.Location,
-    Speed =&gt; 0.0,
-    Length =&gt; aLX.Length,
-    Type =&gt; TargetTypeEnum.EOA
-  }
-)
+<Expression>Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
+    aSpeed =&gt; aLX.Speed,
+    aTarget =&gt; TargetStruct
+    {
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Length =&gt; aLX.Length,
+        Type =&gt; TargetTypeEnum.EOA
+    },
+    IsIndication =&gt; False
+)  
 &lt;
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
-(
-  Vest =&gt; aLX.Speed,
-  aTarget =&gt; TargetStruct
-  {
-    Location =&gt; aLX.Location,
-    Speed =&gt; 0.0,
-    Length =&gt; aLX.Length,
-    Type =&gt; TargetTypeEnum.SvL
-  },
-  NoA_est =&gt; True
+Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI2(
+    aSpeed =&gt; aLX.Speed,
+    aTarget =&gt; TargetStruct
+    {
+        Location =&gt; aLX.Location,
+        Speed =&gt; 0.0,
+        Length =&gt; aLX.Length,
+        Type =&gt; TargetTypeEnum.SvL
+    },
+    NoA_est =&gt; True,
+    IsIndication =&gt; False,
+    IsTargetDistance =&gt; False
 )</Expression>
 </Case></Cases>
 </Function><Function

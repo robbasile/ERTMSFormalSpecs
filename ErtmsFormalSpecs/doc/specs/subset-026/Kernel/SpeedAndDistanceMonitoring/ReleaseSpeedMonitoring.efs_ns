@@ -104,7 +104,7 @@ STOP_CONDITION
  Name="Value"
  Guid="17beface-fcb0-4eb8-b204-80baed457e28"
 >
-<Expression>BaseTypes.SpeedToMS( Vrelease + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease ) ) * ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_traction(NoA_est=&gt;False) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.T_berem(NoA_est=&gt;False) )</Expression>
+<Expression>BaseTypes.SpeedToMS( Vrelease + Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.Vdelta0rsob ( Vrelease ) ) * ( DecelerationCurves.Parameters.T_traction(NoA_est=&gt;False) + DecelerationCurves.Parameters.T_berem(NoA_est=&gt;False) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Speed"
@@ -270,7 +270,9 @@ BaseTypes.MaxDistance(
 <PreConditions>
 <PreCondition
  Guid="866eeedb-a5c6-4e3c-8ebd-dc36fd0b41d8"
->Available ( Kernel.MA.MA )</PreCondition></PreConditions>
+>Available ( Kernel.MA.MA )
+  AND  
+Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
 <Expression>Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &gt; 0.0</Expression>
 </Case><Case
  Name="No MA available"
@@ -506,18 +508,30 @@ INITIAL_VALUE
  Guid="c5e16647-8fa2-4097-95d2-bf283c6febd5"
 >
 <Comment>We use TARGETS here instead of the function TargetsList() because this calculation only applies to MRSP targets, not the EOA or the SvL.</Comment>
-<Expression>REDUCE TARGETS(MIN(
+<Expression>REDUCE 
+  TARGETS(
+    MIN(
         First=&gt;Kernel.MRSP.SpeedRestrictions,
-        Second=&gt;Kernel.NationalValues.MaxDistInSRSpeedRestriction)
-) | (X.Location &gt;= Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() AND X.Location &lt;= MA.SvL.SvL().Location AND X.Speed &lt;= Vrelease)
+        Second=&gt;Kernel.NationalValues.MaxDistInSRSpeedRestriction
+    )
+  )
+  | (
+    X.Location &gt;= d_tripEOA()
+      AND  
+    X.Location &lt;= MA.SvL.SvL().Location
+      AND  
+    X.Speed &lt;= Vrelease
+  )
   USING X IN BaseTypes.MinDistance(
-          X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-                    Vest =&gt; Vrelease,
-                    aTarget =&gt; X,
-                    NoA_est =&gt; True
-                    ),
-          X2 =&gt; RESULT
-        )
+    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI2(
+        aSpeed =&gt; Vrelease,
+        aTarget =&gt; X,
+        NoA_est =&gt; True,
+        IsIndication =&gt; False,
+        IsTargetDistance =&gt; False
+    ),
+    X2 =&gt; RESULT
+  )
   INITIAL_VALUE BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
@@ -622,6 +636,11 @@ INITIAL_VALUE
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="25e80762-dfc4-41c6-8e1b-1afe5e3f494e"
 >
+</ReqRef><ReqRef
+ Id="0e91b525-553f-4f68-8970-8bed83e88948"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="adf3f485-855e-4cee-abeb-a2f9a7a9ced3"
+>
 </ReqRef><Comment>Provides the SBI distance, calculated from the EBD curve, taken from the most restrictive target amongst the EBD based targets.</Comment>
 <Parameters>
 <Parameter
@@ -636,11 +655,20 @@ INITIAL_VALUE
  Guid="673e0526-d664-4d47-ac36-3e9fd64b13fc"
 >
 <Expression>REDUCE
-EBDTargetsBeyondTripLocation()
+ EBDTargetsBeyondTripLocation()
 USING X IN
-    BaseTypes.MinDistance ( X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2 ( Vest =&gt; ReleaseSpeed, aTarget =&gt; X, NoA_est =&gt; True ), X2 =&gt; RESULT )
+  BaseTypes.MinDistance (
+    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI2(
+        aSpeed =&gt; ReleaseSpeed,
+        aTarget =&gt; X,
+        NoA_est =&gt; True,
+        IsIndication =&gt; False,
+        IsTargetDistance =&gt; False
+    ),
+    X2 =&gt; RESULT
+  )
 INITIAL_VALUE
-    BaseTypes.Distance.Infinity</Expression>
+  BaseTypes.Distance.Infinity</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetsCol"
@@ -759,8 +787,16 @@ USING X IN X</Expression>
 <PreConditions>
 <PreCondition
  Guid="d264ced2-7146-41a2-ac12-ae316cd591c7"
->d_SBI2_MREBDT(ReleaseSpeed) - TargetSpeedMonitoring.d_SBI1(ReleaseSpeed) &gt;= TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) - TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition></PreConditions>
-<Expression>TargetSpeedMonitoring.d_SBI1(ReleaseSpeed)</Expression>
+>d_SBI2_MREBDT(ReleaseSpeed) - DecelerationCurves.d_SBI1(
+    aSpeed =&gt; ReleaseSpeed,
+    aTarget =&gt; MA.EOA.EOA(),
+    IsIndication =&gt; False
+) &gt;= TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) - TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition></PreConditions>
+<Expression>DecelerationCurves.d_SBI1(
+    aSpeed =&gt; ReleaseSpeed,
+    aTarget =&gt; MA.EOA.EOA(),
+    IsIndication =&gt; False
+)</Expression>
 </Case><Case
  Name="SBI2 is most restrictive"
  Guid="70093667-b8cd-4803-8017-b59736523392"

@@ -207,9 +207,13 @@ DistanceForSpeed(
 >
 <Expression>aTarget.Location
  - 
-(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
-    Vest =&gt; aSpeed,
-    aTarget =&gt; aTarget )
+(Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_EBI(
+    aSpeed =&gt; aSpeed,
+    aTarget =&gt; aTarget,
+    NoA_est =&gt; False,
+    IsIndication =&gt; False,
+    IsTargetDistance =&gt; False
+)
  - 
 Odometry.Accuracy.D_ura)</Expression>
 </Case></Cases>
@@ -244,10 +248,12 @@ Odometry.Accuracy.D_ura)</Expression>
 >
 <Expression>aTarget.Location
  - 
-(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-    Vest =&gt; aSpeed,
+(Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI2(
+    aSpeed =&gt; aSpeed,
     aTarget =&gt; aTarget,
-    NoA_est =&gt; False
+    NoA_est =&gt; False,
+    IsIndication =&gt; False,
+    IsTargetDistance =&gt; False
 )
  - 
 Odometry.Accuracy.D_ura)</Expression>

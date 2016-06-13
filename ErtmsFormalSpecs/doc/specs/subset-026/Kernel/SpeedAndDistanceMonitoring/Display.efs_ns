@@ -257,11 +257,6 @@ MA.SvL.IsSvL(MRDT())</Expression>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="c1d660be-4df4-4aa1-af88-684d71829ff5"
 >
-</ReqRef><ReqRef
- Id="06815a39-d3d2-4de8-9e48-9737e56724ca"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="6a421bb3-7a8e-4ac7-a496-87dd6377ae85"
->
 </ReqRef><Comment>Provides the indication location at MRSP speed for the DMI</Comment>
 <Cases>
 <Case
@@ -713,11 +708,6 @@ V_P_Target(
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e23e205e-c96d-4701-8d67-907847c9d5e3"
 >
-</ReqRef><ReqRef
- Id="06815a39-d3d2-4de8-9e48-9737e56724ca"
- SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
- Guid="deeee241-4d3e-4090-9381-a1eadd58ff24"
->
 </ReqRef><Comment>The permitted speed of the MRDT.</Comment>
 <Cases>
 <Case
@@ -915,7 +905,7 @@ Display.MRDT().Speed == 0.0</PreCondition></PreConditions>
 <PreConditions>
 <PreCondition
  Guid="7b9f6890-4be7-49cf-9750-bc2b6d56cfb4"
->d_maxsafefront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver +   Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) +   Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display( Vest =&gt; Vest, NoA_est=&gt;False)
+>d_maxsafefront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver +   Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) +   DecelerationCurves.Parameters.Dbe_display( Vest =&gt; Vest, NoA_est=&gt;False)
   &lt;  
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
     aSpeed =&gt; aTarget.Speed,
@@ -925,9 +915,9 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
 >NOT Kernel.NationalValues.ComputationOfGUIIsEnabled ()</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxSpeed(
     X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
-    Distance =&gt; d_maxsafefront + BaseTypes.SpeedToMS(Vest)*(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display( Vest =&gt; Vest , NoA_est =&gt; False ),
+    Distance =&gt; d_maxsafefront + BaseTypes.SpeedToMS(Vest)*(Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2) + DecelerationCurves.Parameters.Dbe_display( Vest =&gt; Vest , NoA_est =&gt; False ),
     aTarget =&gt; aTarget
-) - ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(False) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(False)),
+) - ( DecelerationCurves.Parameters.Vdelta0() + DecelerationCurves.Parameters.Vdelta1(False) + DecelerationCurves.Parameters.Vdelta2(False)),
     X2 =&gt; aTarget.Speed
 )</Expression>
 </Case><Case
@@ -939,7 +929,7 @@ Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
  Guid="0eca90da-8457-4dee-9fe8-edd31394c8f9"
 >Kernel.NationalValues.ComputationOfGUIIsEnabled ()</PreCondition><PreCondition
  Guid="b6dbd2ec-7f55-4672-b4b9-9c4635a43455"
->d_maxsafefront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display ( Vest =&gt; Vest, NoA_est =&gt; False )
+>d_maxsafefront + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 ) + DecelerationCurves.Parameters.Dbe_display ( Vest =&gt; Vest, NoA_est =&gt; False )
   &lt;
 Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_TargetForSpeed(
     aSpeed =&gt; aTarget.Speed,
@@ -957,9 +947,9 @@ X1 =&gt; BaseTypes.MinSpeed(
     X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.EBD_Target(
         Distance =&gt; d_maxsafefront 
               + BaseTypes.SpeedToMS(Vest) * ( Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver + Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_bs2 )
-              + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Dbe_display ( Vest =&gt; Vest, NoA_est =&gt; False ),
+              + DecelerationCurves.Parameters.Dbe_display ( Vest =&gt; Vest, NoA_est =&gt; False ),
         aTarget =&gt; aTarget )
-          - ( Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta0() + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta1(False) + Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.Vdelta2(False) ),
+          - ( DecelerationCurves.Parameters.Vdelta0() + DecelerationCurves.Parameters.Vdelta1(False) + DecelerationCurves.Parameters.Vdelta2(False) ),
     X2 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.GUI_Target(
         Distance =&gt; d_maxsafefront,
         aTarget =&gt; aTarget )
@@ -1034,8 +1024,8 @@ X2 =&gt; aTarget.Speed
 </Function><Function
  Type="BaseTypes.Speed"
  Default=""
- X="0"
- Y="0"
+ X="120"
+ Y="340"
  Width="100"
  Height="50"
  Implemented="TRUE"

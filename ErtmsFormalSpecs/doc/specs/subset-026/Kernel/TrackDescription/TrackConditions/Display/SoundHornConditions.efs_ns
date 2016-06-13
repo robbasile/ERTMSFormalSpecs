@@ -384,14 +384,15 @@ Parameter aPlanning differentiates between display of active conditions and plan
 >aCondition.Type == Display.TCTypeEnum.TunnelStoppingArea</PreCondition><PreCondition
  Guid="3858c210-5ab7-48a1-a21e-9e326ba91909"
 >NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
+    aSpeed =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; TargetStruct{
         Location =&gt; aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 1.0,
         Type =&gt; TargetTypeEnum.EOA
     },
-    Vest =&gt; Odometry.TrainSpeed()
+    IsIndication =&gt; False
 ) - BaseTypes.SpeedToMS ( Odometry.TrainSpeed() ) * Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.T_driver</Expression>
 </Case><Case
  Name="Non stopping area - TC"
@@ -403,14 +404,15 @@ Parameter aPlanning differentiates between display of active conditions and plan
 >aCondition.Type == Display.TCTypeEnum.NonStoppingArea</PreCondition><PreCondition
  Guid="bc57717c-4d76-47cc-850f-da6f12062c99"
 >NOT aCondition.IsAnnouncement</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
-    Vest =&gt; Odometry.TrainSpeed(),
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min) &gt; SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
+    aSpeed =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; TargetStruct{
         Location =&gt; aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length),
         Speed =&gt; 0.0,
         Length =&gt; 0.0,
         Type =&gt; TargetTypeEnum.EOA
-    }
+    },
+    IsIndication =&gt; False
 )</Expression>
 </Case><Case
  Name="Other conditions, except traction system - TC"
@@ -544,14 +546,15 @@ aCondition.Type == Display.TCTypeEnum.SoundHorn</PreCondition></PreConditions>
 <PreCondition
  Guid="f6afee15-fc7a-47e4-a6f5-05176ac7fa9e"
 >aCondition.Type == Display.TCTypeEnum.NonStoppingArea</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
-    Vest =&gt; Odometry.TrainSpeed(),
+<Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
+    aSpeed =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; TargetStruct{
         Location =&gt; aCondition.Location,
         Speed =&gt; 0.0,
         Length =&gt; 0.0,
         Type =&gt; TargetTypeEnum.EOA
-    }
+    },
+    IsIndication =&gt; False
 )</Expression>
 </Case><Case
  Name="Tunnel stopping area - start"
@@ -938,14 +941,15 @@ NOT aTrackCondition.Value.NonStoppingArea</PreCondition></PreConditions>
 >THERE_IS X IN General.TCProfile | (X.Location &gt; aTrackCondition.Location AND NOT X.Value.NonStoppingArea)</PreCondition></PreConditions>
 <Expression>LET nonStoppingAreaEnd &lt;- (FIRST X IN General.TCProfile | X.Location &gt; aTrackCondition.Location AND NOT X.Value.NonStoppingArea).Location IN
 
-SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1_Target(
-    Vest =&gt; Odometry.TrainSpeed(),
+SpeedAndDistanceMonitoring.DecelerationCurves.d_SBI1(
+    aSpeed =&gt; Odometry.TrainSpeed(),
     aTarget =&gt; TargetStruct{
     Location =&gt; nonStoppingAreaEnd,
     Speed =&gt; 0.0,
     Length =&gt; 0.0,
     Type =&gt; TargetTypeEnum.EOA
-  }
+  },
+    IsIndication =&gt; False
 ) &gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Min )</Expression>
 </Case><Case
  Name="Otherwise"
