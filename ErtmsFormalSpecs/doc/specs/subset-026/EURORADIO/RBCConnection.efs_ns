@@ -2113,19 +2113,52 @@ DataState =&gt; DataStateEnum.Invalid
  Guid="757d839e-f724-4a6f-b62d-2169e4a94c92"
 >
 </ReqRef><Comment>Messages from RBC received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.EURORADIO.MessageIn.Message"
+ Name="aMessage"
+ Guid="181fef89-7c77-4b02-b09d-cd97c40f2c2d"
+>
+</Parameter></Parameters>
 <Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Message consistency"
+ Guid="3af7a221-0c99-424f-88e3-09ffe344c887"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Consistent message"
+ Guid="168893c1-74ee-45d0-9dbc-a85d424967fb"
+>
+<PreConditions>
+<PreCondition
+ Guid="38657d51-716c-4a9a-98e4-5265e6d1ff07"
+>Messages.IncomingMessageIsConsistent(aMessage)</PreCondition><PreCondition
+ Guid="a81656d3-87a6-408f-bed3-40c7e993d6f4"
+>aMessage.SystemVersion2 != EMPTY</PreCondition><PreCondition
+ Guid="42ff2443-7913-42f7-9efb-b3d8d62447ab"
+>Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="650ae003-5f59-4152-bc79-c1b370bd17b2"
+>CurrentRBCConnection().OnboardReference_MessageTimer &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+<SubRules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
  Implemented="TRUE"
  Name="Handle the message, main connection"
- Guid="793eda9e-a531-433c-94ef-be464ca63d25"
+ Guid="cef55038-61d6-4627-bd2f-b42ee019a7a7"
 >
 <ReqRef
  Id="e65c9779-618e-4a55-97c9-4038b3410eaf"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="252fa286-33c9-43a3-a814-aebe342d6794"
+ Guid="0c67dbf7-3008-46ce-9513-1b702db13423"
 >
 </ReqRef><Comment>Messages from the current RBC connection received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement.
 If the safe radio connection is not established, anyother message than INITIATION_OF_A_COMMUNICATION_SESSION will be refused by this procedure.</Comment>
@@ -2134,73 +2167,63 @@ If the safe radio connection is not established, anyother message than INITIATIO
 <RuleCondition
  Implemented="TRUE"
  Name="Process received message"
- Guid="349a4108-82e2-4fc6-933a-e986b67dae1b"
+ Guid="02e60da7-c524-4331-8b54-d5d5a095b147"
 >
 <ReqRef
  Id="e65c9779-618e-4a55-97c9-4038b3410eaf"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="52304cbf-7742-4463-90b2-a73948410d0e"
+ Guid="5897c00c-9ae3-46ba-8d44-289c1ab8906c"
 >
 </ReqRef><Comment>Messages from RBC received after sending of Termination of communication session message are ignored.</Comment>
 <PreConditions>
 <PreCondition
- Guid="e865f160-465a-4fa6-bbdf-5c4aa595c910"
+ Guid="38becf08-2913-4188-be14-d07a99987553"
 >ConnectionState not in RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
- Guid="3609f99b-b750-45f6-867f-aa05ae489fbd"
+ Guid="ef3d372c-beef-41e1-b4ab-c93e1ad4228a"
 >IsMainConnection(THIS)</PreCondition><PreCondition
- Guid="17ba976d-ce42-46dc-bde1-e8c9dab8a0e3"
->Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
- Guid="0fc0e74a-540a-4b62-9910-5cf32bab4dde"
->Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition><PreCondition
- Guid="a5c08762-5545-4f90-9842-d38abbcca45b"
->Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition><PreCondition
- Guid="14caeffe-8638-4f07-8ace-65ab1ed0f0ec"
+ Guid="f097de96-8188-4ba7-99a0-87ceea8546eb"
 >SafeRadioConnection.ConnectionIsEstablished 
   OR 
-Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+Available ( aMessage.SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="7ffe8131-5392-4ec9-a32e-1ad7d3cb2dcd"
->Messages.ProcessIncomingMessages(Messages.UpdatedMessageIn(THIS).SystemVersion2)</Action></Actions>
+ Guid="91acdb2a-7506-4ab4-b0fa-8d79adb06344"
+>Messages.ProcessIncomingMessages(aMessage.SystemVersion2)</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Handle acknowledgement of termination of a communication session"
- Guid="313b2e1d-ce81-4e1e-bf2a-6f185ff186e5"
+ Guid="4adf40dd-e92d-49d4-9790-f2e066136ffe"
 >
 <ReqRef
  Id="e094e23a-bd94-4440-8632-705782494f35"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0141b397-5b8f-402c-92b8-41bee6291e33"
+ Guid="a5c2f29b-60c2-4b89-b4b4-c9efca81fb01"
 >
 </ReqRef><ReqRef
  Id="6091731d-92bd-4133-aff2-790f6f482dbf"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3077900e-74bb-4e07-b78f-4d66a5db417d"
+ Guid="b50a6610-60f2-49a7-b4a2-6bb0d27ab9f5"
 >
 </ReqRef><ReqRef
  Id="2a8dff3a-71d3-4a6e-9d2b-85f6c568cd25"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a1737e58-cd7b-4318-9d1b-f0708f5dfb11"
+ Guid="e8fe9ac2-c217-400e-a957-19e4f8dc5528"
 >
 </ReqRef><ReqRef
  Id="1cc80620-3b71-4701-bf52-e5356ffd6ac3"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c7bafeb8-6ee5-48f3-a4fc-665649f75ab1"
+ Guid="6d2cb622-3201-4dec-9184-e92e1502425d"
 >
 </ReqRef><Comment>Handles reception of termination of a communication session by indicating that the acknowledgement has been received.</Comment>
 <PreConditions>
 <PreCondition
- Guid="ced76e36-5c43-4286-9d04-213366e1c8a1"
->Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
- Guid="13c1cfb4-786f-44c7-ab3b-d1905d1357a7"
->IsMainConnection(THIS)</PreCondition><PreCondition
- Guid="124fea1a-3ab9-46f0-8558-fed84187bc70"
->Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
- Guid="47c9872f-d4f9-4b00-a1d9-e7deb93b84b7"
->Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition></PreConditions>
+ Guid="ac1276a1-4304-44b2-9368-d19b44716a29"
+>Available ( aMessage.SystemVersion2.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
+ Guid="81589a43-8e2b-4072-b05a-941400a1676d"
+>IsMainConnection(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="7073da78-58f0-4a39-ae89-49ca19eb62dd"
+ Guid="3f7ae70c-3d69-484d-b194-079ab0f15040"
 >SessionManagementData.AcknowledgementOfTerminationReceived &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
@@ -2209,7 +2232,7 @@ Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMU
  Y="0"
  Implemented="TRUE"
  Name="Handle the message, secondary connection"
- Guid="5c981443-a14c-4e1a-8735-d1cb8b04caf0"
+ Guid="5a254f2f-4d15-451a-aee7-678a39803050"
 >
 <Comment>Handles messages from the secondary connection.</Comment>
 <SubRules></SubRules>
@@ -2217,30 +2240,24 @@ Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMU
 <RuleCondition
  Implemented="TRUE"
  Name="First position report not sent yet"
- Guid="6b911e1b-a6d2-41f8-bc49-863eea9699de"
+ Guid="76abb388-cf5f-4889-88ce-12fe11d2d0e7"
 >
 <ReqRef
  Id="c887c56e-758e-426a-a728-cf723b3b2baf"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="050dc9f6-b1e6-4344-adb0-a3e638388d19"
+ Guid="01f01d0a-b84f-42c4-8d0f-6411abecc08a"
 >
 </ReqRef><Comment>Before the first position report due to RBC/RBC handover is sent, the secondary connection is the Accepting RBC. The messages have to be stored on-board, except the acknowledgement of Train Data.</Comment>
 <PreConditions>
 <PreCondition
- Guid="463e0b98-b0fb-4545-a160-7e6de88c2d9d"
+ Guid="e4720d74-c0b7-4a6e-9ab6-1ece3496b1f0"
 >Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &lt; RBCHandover.RBCTransitionLocation</PreCondition><PreCondition
- Guid="91826cfb-7c30-4aa3-b40e-60bf92efdbca"
->NOT IsMainConnection(THIS)</PreCondition><PreCondition
- Guid="885cc8be-6c21-4bda-af80-c9e89caad95a"
->Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
- Guid="3ad5497d-99a8-4f54-837f-9d7aef66701b"
->Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition><PreCondition
- Guid="6e904832-4676-4162-99b2-18c2b589384c"
->Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition></PreConditions>
+ Guid="0d4bcc3d-3776-439b-9758-f22cbc29a861"
+>NOT IsMainConnection(THIS)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="9e032a8e-c56d-4362-b6ed-8d69f6620598"
->INSERT Messages.UpdatedMessageIn(THIS).SystemVersion2 IN Messages.MessagesToHandle</Action></Actions>
+ Guid="1ab338d8-4640-43cf-a2a7-37c937b4fe00"
+>INSERT aMessage.SystemVersion2 IN Messages.MessagesToHandle</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2248,17 +2265,17 @@ Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMU
  Y="0"
  Implemented="TRUE"
  Name="Handle Train Data acknowledgement"
- Guid="51fa5900-7010-4dca-b3cc-08c3f6886630"
+ Guid="fc490935-57d9-4ea4-ac4c-2a97559d2524"
 >
 <ReqRef
  Id="2cee38e9-4ac3-4eb5-a235-17b2c0e36064"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b113b813-61eb-4b3d-8095-1506c5d79f56"
+ Guid="e87bf4e4-e712-45fd-b453-a7cc993d67c0"
 >
 </ReqRef><ReqRef
  Id="64dae4f0-7a7b-4908-8fa8-6f082446f198"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a9f16eb4-482d-45fa-8107-02c2938f686a"
+ Guid="cb598c81-83d4-4d33-a70a-086324ac29ea"
 >
 </ReqRef><Comment>The Acknowledgement of Train Data has to be handled immediately.</Comment>
 <SubRules></SubRules>
@@ -2266,39 +2283,33 @@ Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMU
 <RuleCondition
  Implemented="TRUE"
  Name="Handle Train Data Acknowledgement"
- Guid="6fe69e0b-d4f0-4061-b4c4-34bc6daddbdb"
+ Guid="764fa478-1098-4d9e-8254-ea5881d0c9bf"
 >
 <PreConditions>
 <PreCondition
- Guid="1ca3c59e-b767-47ad-8622-1b9ce4436495"
->Available ( Element =&gt; Messages.UpdatedMessageIn(THIS).SystemVersion2.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</PreCondition></PreConditions>
+ Guid="44d6792c-4d61-414c-ad35-8a012be15113"
+>Available ( aMessage.SystemVersion2.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="7e16bf07-3f0a-476e-a107-bf3d03af299e"
->Messages.HandleAcknowledgementOfTrainData ( aMessage =&gt; Messages.UpdatedMessageIn(THIS).SystemVersion2.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</Action></Actions>
+ Guid="f67975fc-0afe-4875-bd79-beab45f8fac7"
+>Messages.HandleAcknowledgementOfTrainData ( aMessage =&gt; aMessage.SystemVersion2.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="First position report already sent"
- Guid="496a5d78-6a20-49a1-9572-f8ac5ae7b450"
+ Guid="9eed9a99-08dd-4cea-aa1f-58bf616fb33e"
 >
 <ReqRef
  Id="1b789c83-4922-4842-985f-3dd14ff0843d"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="45490b43-c530-4c9c-af76-d82adbf7e8d9"
+ Guid="ead5d5ee-b9b4-4837-90f4-30eae4b478d3"
 >
 </ReqRef><Comment>After the sending of the first position report due to RBC/RBC handover, the secondary connection becomes the Handing Over RBC. In that case, only the disconnection orders are accepted.</Comment>
 <PreConditions>
 <PreCondition
- Guid="98ea9a9c-2ee4-4e8e-a1df-abd25b493ec0"
->NOT IsMainConnection(THIS)</PreCondition><PreCondition
- Guid="560e0917-ea2b-4726-bb4f-913cb848a16e"
->Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
- Guid="314a1df3-6c27-4b22-b69f-1e8281322d0b"
->Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition><PreCondition
- Guid="cd0c69ef-389b-4a59-87c2-e1f803623e5d"
->Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition></PreConditions>
+ Guid="0f48759f-2683-41b7-9795-a8091f83089d"
+>NOT IsMainConnection(THIS)</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -2308,7 +2319,7 @@ Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMU
  Y="0"
  Implemented="TRUE"
  Name="Handle the disconnection order"
- Guid="b98ea8f8-a508-4cf8-aaa8-ed78fd5a12b4"
+ Guid="adf9e844-3290-485b-ad6c-fc14e92b9f60"
 >
 <Comment>A disconnection order can be sent in three messages: Movement Authority, General Message and MA With Shifted Location Reference.</Comment>
 <SubRules></SubRules>
@@ -2316,146 +2327,97 @@ Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.INITIATION_OF_A_COMMU
 <RuleCondition
  Implemented="TRUE"
  Name="Order in Movement Authority message"
- Guid="760a6832-048d-4208-91aa-388e7cdb87a4"
+ Guid="a193b5e3-60b7-4a14-b101-028839c51331"
 >
 <Comment>Handling of disconnection order in Movement Authority message.</Comment>
 <PreConditions>
 <PreCondition
- Guid="786fa238-2b10-4508-9829-45e25ef541e2"
->Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.MOVEMENT_AUTHORITY )
+ Guid="324110db-fab4-4a41-b0c7-9caf76d2eeec"
+>Available ( aMessage.SystemVersion2.MOVEMENT_AUTHORITY )
   AND
-THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT )</PreCondition></PreConditions>
+THERE_IS X IN aMessage.SystemVersion2.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="7db46596-2bec-4dca-b309-8c30a034a2a6"
+ Guid="c80907f0-f05d-43aa-9119-63fe6256d6b7"
 >Contact.TracksideOrderedSessionReceived
 (
-    Packet =&gt; (FIRST X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT )).SESSION_MANAGEMENT
+    Packet =&gt; (FIRST X IN aMessage.SystemVersion2.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT )).SESSION_MANAGEMENT
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Order in General Message"
- Guid="857cc6b1-a698-4968-ab9f-96a153e2bd77"
+ Guid="cde67da5-f3ea-4d83-ba4b-54d9a9b64b81"
 >
 <Comment>Handling of disconnection order in General Message.</Comment>
 <PreConditions>
 <PreCondition
- Guid="8df7c3e8-4f00-4b37-a191-70653e26c0cb"
->Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.GENERAL_MESSAGE )
+ Guid="a38e7bfa-0c5b-4094-8f40-49762ebdf0a7"
+>Available ( aMessage.SystemVersion2.GENERAL_MESSAGE )
   AND
-THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.GENERAL_MESSAGE.Sequence1 | Available (X.SESSION_MANAGEMENT)</PreCondition></PreConditions>
+THERE_IS X IN aMessage.SystemVersion2.GENERAL_MESSAGE.Sequence1 | Available (X.SESSION_MANAGEMENT)</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="14902768-9399-4452-99ff-ce813a430af4"
+ Guid="c6e06621-411d-4bb2-ad4b-e26c47288f27"
 >Contact.TracksideOrderedSessionReceived
 (
-    Packet =&gt; (FIRST X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.GENERAL_MESSAGE.Sequence1 | Available (X.SESSION_MANAGEMENT)).SESSION_MANAGEMENT
+    Packet =&gt; (FIRST X IN aMessage.SystemVersion2.GENERAL_MESSAGE.Sequence1 | Available (X.SESSION_MANAGEMENT)).SESSION_MANAGEMENT
 )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Order in MA with Shifted Location Reference"
- Guid="d375a108-7e45-4298-9e35-d9fb41c886b8"
+ Guid="9dc822e3-b9e6-4dab-8c0e-c1be1d216454"
 >
 <Comment>Handling of disconnection order in MA With Shifted Location Reference message.</Comment>
 <PreConditions>
 <PreCondition
- Guid="63d1690a-2f49-4ed2-b728-5a1d0b746001"
->Available ( Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE )
+ Guid="bff04a90-9f08-4569-b17d-9f1e43bae450"
+>Available ( aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE )
   AND
-THERE_IS X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
+THERE_IS X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
 ( X.SESSION_MANAGEMENT )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="84c889be-4150-4fb0-a74e-cd11567c7278"
+ Guid="e330cc67-1645-44c1-8ca9-1099830e8be8"
 >Contact.TracksideOrderedSessionReceived
 (
-    Packet =&gt; (FIRST X IN Messages.UpdatedMessageIn(THIS).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
+    Packet =&gt; (FIRST X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available
 ( X.SESSION_MANAGEMENT )).SESSION_MANAGEMENT
 )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Keep timestamp for supervision"
- Guid="a713a2d5-8b62-4c0d-92d8-0ce7908df6ef"
->
-<ReqRef
- Id="1d7817dd-686d-4c09-9e56-ef8943a94858"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="3776e903-3b0c-40c0-80be-f6a56da8df66"
->
-</ReqRef><ReqRef
- Id="60e39a2f-4380-44e7-bf85-7142748b200f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c9f4b0a4-a607-470a-8bcc-49c0eef05e0b"
->
-</ReqRef><Comment>Save the timestamp of the received message (if it is consistent) for the consistency check of the next meqssage from the RBC.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Keep timestamp for supervision"
- Guid="263fdc86-2143-4ff6-8ac5-987550018109"
->
-<PreConditions>
-<PreCondition
- Guid="7e373e36-9cfd-4bd6-ae02-19c507b789ff"
->Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
- Guid="f35e5a44-14bb-4e4e-99ac-d7b833940825"
->Messages.DataPriorityCorrect(UpdatedRBCStruct(THIS))</PreCondition><PreCondition
- Guid="157d5898-04e8-41fd-8be0-bbcb26f0cb8f"
->Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="9de404b1-57c9-4a5f-83ae-aaca1042dd85"
->CurrentRBCConnection().OnboardReference_MessageTimer &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Report inconsistent message received"
- Guid="18b429d9-582f-48d6-b076-78003e302fd9"
->
-<Comment>If the message received from the RBC is not consistent, immediately report it.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Report inconsistent message received"
- Guid="9ecfef4f-2137-4d03-a035-8174b9e4eaef"
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Name="Report inconsistent message"
+ Guid="1a1ee1ea-c2a9-45d9-9cbf-bcfeec4d97b7"
 >
 <ReqRef
  Id="4aa64d47-8749-4bf5-b24e-7831ff609718"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c7b38686-c4f0-4142-8198-1d9b0b514a07"
+ Guid="4fc51af6-5e1c-4d3d-abcd-eb59402e1d7c"
 >
 </ReqRef><ReqRef
  Id="25a9a61a-cb48-4ecc-9297-199f5897d32b"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="f1969a07-fa08-43d5-9639-941c936dad28"
+ Guid="18e35dc8-337a-47f0-865c-a76c64109502"
 >
 </ReqRef><ReqRef
  Id="65c0616d-9c81-42f1-907b-c71e0d73d3ff"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5bb17801-cc10-431b-843b-1347d635b114"
+ Guid="165f87d0-6bf1-48db-b4b9-d1e7bc3417ba"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>If the message received from the RBC is not consistent, immediately report it.</Comment>
+<PreConditions>
 <PreCondition
- Guid="7e8d9ecc-51a7-4a36-8fd8-d391aca111ae"
->NOT Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(THIS))</PreCondition><PreCondition
- Guid="2b31e04f-298e-4823-8659-e35d735d2e04"
+ Guid="982ffd2a-cf3e-4c42-9b0d-2b4244ae1597"
+>NOT Messages.IncomingMessageIsConsistent(aMessage)</PreCondition><PreCondition
+ Guid="33c61f80-67f6-4719-879f-bed75f4fc543"
 >SafeRadioConnectionAvailable()</PreCondition><PreCondition
- Guid="f2591768-4052-4c20-88ed-9cc34150db4b"
->Messages.UpdatedMessageIn(THIS).SystemVersion2 != EMPTY</PreCondition></PreConditions>
+ Guid="5f07e758-dcdf-450a-a2bd-e67102577cea"
+>aMessage.SystemVersion2 != EMPTY</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="ed9fd0da-6277-4b0a-a9bb-c623f7028d89"
+ Guid="41e0cd3a-dfcc-4521-8eb5-83fe9de32f4b"
 >Messages.PositionReport.PositionReportEventsTracker.InconsistentMessage &lt;- Messages.PositionReport.InconsistentMessageTypeEnum.RBC</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
