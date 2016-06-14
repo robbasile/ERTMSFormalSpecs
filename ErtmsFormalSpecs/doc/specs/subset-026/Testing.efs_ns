@@ -5789,27 +5789,10 @@ SpeedRestrictions =&gt; []
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="SetRBCConnection"
+ Name="InitializeRBCConnection"
  Guid="dd32d4c3-756d-4439-8880-aaeb6b9346fb"
 >
 <Comment>Procedure to initialize a RBC connection using some default or provided values.</Comment>
-<Parameters>
-<Parameter
- Type="String"
- Name="aNetworkId"
- Guid="61c1105b-7fa1-4e32-8ed4-79577812ceb0"
->
-</Parameter><Parameter
- Type="String"
- Name="aTerminalId"
- Guid="7b2d26b1-09c4-45f1-bdf5-be9a28a84b29"
->
-</Parameter><Parameter
- Type="String"
- Name="aRBCPhoneNumber"
- Guid="10e0d260-2030-49cc-ab7c-91c1c74e2130"
->
-</Parameter></Parameters>
 <Rules>
 <Rule
  Priority="Processing"
@@ -5817,10 +5800,10 @@ SpeedRestrictions =&gt; []
  Y="0"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="Connect the terminal to a network"
+ Name="Connect the terminals to a network"
  Guid="46f8ebc9-65f4-4111-8ad0-69da6c366dcd"
 >
-<Comment>Connects the terminal to a network</Comment>
+<Comment>Connects the terminals to a network</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -5829,28 +5812,43 @@ SpeedRestrictions =&gt; []
  Name="Connect the terminal to a network"
  Guid="83c26010-0e07-45a5-81f0-812759fe87b3"
 >
+<Comment>Register both terminals to the same network and set the first terminal as the main terminal.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
  Guid="8f327b41-2c6d-4ca7-b053-e4101e0376e0"
->EURORADIO.Terminal.Terminal1 &lt;- EURORADIO.Terminal.TerminalStruct
-{
-  RBCConnection =&gt; EMPTY, 
-  RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered, 
-  RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct
-  {
-    RequestState =&gt; Default.RequestEnum.Disabled, 
-    Response =&gt; Boolean.False
-  }, 
-  RegistrationOrderIsReceived =&gt; Boolean.False, 
-  NetworkIdToRegister =&gt; &apos;&apos;, 
-  AcceptingRBCContactOrder =&gt; EMPTY, 
-  Id =&gt; aTerminalId, 
-  NetworkId =&gt; aNetworkId
- }</Action><Action
- Guid="48ad6966-2f08-4d49-9063-f4c067f456ba"
->EURORADIO.Terminal.SetMainTerminal(EURORADIO.Terminal.Terminal1)</Action></Actions>
+>EURORADIO.Terminal.Terminal1 &lt;- EURORADIO.Terminal.TerminalStruct {
+     RBCConnection =&gt; EMPTY,
+     RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered,
+     RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
+         RequestState =&gt; Default.RequestEnum.Disabled,
+         Response =&gt; False 
+    },
+     RegistrationOrderIsReceived =&gt; False,
+     NetworkIdToRegister =&gt; &apos;&apos;,
+     AcceptingRBCContactOrder =&gt; EMPTY,
+     Id =&gt; &apos;FirstTerminal&apos;,
+     NetworkId =&gt; &apos;Some Network&apos;,
+     IsMainTerminal =&gt; True 
+}</Action><Action
+ Guid="fb9710d9-edf7-46b0-a421-6d7be3b19c91"
+>EURORADIO.Terminal.Terminal2 &lt;- EURORADIO.Terminal.TerminalStruct {
+     RBCConnection =&gt; EMPTY,
+     RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered,
+     RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
+         RequestState =&gt; Default.RequestEnum.Disabled,
+         Response =&gt; False 
+    },
+     RegistrationOrderIsReceived =&gt; Boolean.False,
+     NetworkIdToRegister =&gt; &apos;&apos;,
+     AcceptingRBCContactOrder =&gt; EMPTY,
+     Id =&gt; &apos;SecondTerminal&apos;,
+     NetworkId =&gt; &apos;Some Network&apos;,
+     IsMainTerminal =&gt; False
+}</Action><Action
+ Guid="db13f804-9ee4-4e3c-bc69-33d4ef131c01"
+>EURORADIO.Terminal.LastKnownNetworkId &lt;- &apos;Some Network&apos;</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -5861,7 +5859,7 @@ SpeedRestrictions =&gt; []
  Name="Initialize the RBC connection"
  Guid="650c4014-03d6-4038-baa7-49dda51de679"
 >
-<Comment>Initialize the RBC connection</Comment>
+<Comment>Initialize the RBC connection of the first and main terminal (unless handover, only one RBCConnection is used at a time).</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -5870,12 +5868,13 @@ SpeedRestrictions =&gt; []
  Name="Initialize the RBC connection"
  Guid="ffbd8b1b-db3a-49fa-a25f-2c960a02ca88"
 >
+<Comment>Initialize the CurrentRBCConnection (the one of the first terminal in this case) and set the last known RBC.</Comment>
 <PreConditions>
 </PreConditions>
 <Actions>
 <Action
  Guid="b4cb92aa-1cd5-49d1-b69e-344862edbad2"
->EURORADIO.Terminal.Terminal1.RBCConnection &lt;- EURORADIO.RBCConnection.RBCStruct
+>EURORADIO.Terminal.Terminal1.RBCConnection. &lt;- EURORADIO.RBCConnection.RBCStruct
 {
   ConnectionState =&gt; EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected,
   ContactData =&gt; EURORADIO.RBCConnection.Contact.RBCContactStruct
@@ -5885,8 +5884,8 @@ SpeedRestrictions =&gt; []
       Country =&gt; 81, 
       Id =&gt; 4549
     }, 
-    PhoneNumber =&gt; aRBCPhoneNumber, 
-    DataState =&gt; Default.DataStateEnum.Invalid
+    PhoneNumber =&gt; &apos;132456798&apos;, 
+    DataState =&gt; Default.DataStateEnum.Valid
   },
   ContactRBCOrder =&gt; EMPTY,
   ContactTimerSupervised =&gt; Boolean.True,
@@ -5905,7 +5904,7 @@ SpeedRestrictions =&gt; []
     BitField =&gt; &apos;&apos;
   }
   },
-  OnboardReference_MessageTimer =&gt; Default.BaseTypes.Time.NA,
+  OnboardReference_MessageTimer =&gt; Kernel.DateAndTime.CurrentTime,
   SafeRadioConnection =&gt; EURORADIO.RBCConnection.SafeRadioConnection.SafeRadioConnectionStruct{
     ConnectionIsEstablished =&gt; Boolean.True, 
     ConnectionRequestIsReceived =&gt; Boolean.False, 
@@ -5923,7 +5922,9 @@ SpeedRestrictions =&gt; []
       DataState =&gt; Default.DataStateEnum.Valid
     }
 }
-}</Action></Actions>
+}</Action><Action
+ Guid="c2a04f64-3aa4-45d6-ab67-179103bd81a7"
+>EURORADIO.RBCConnection.Contact.SetLastKnownRBC( anRBCContactStruct =&gt;  EURORADIO.RBCConnection.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -6120,6 +6121,74 @@ SpeedRestrictions =&gt; []
 >TIU.CabB.VirtualCabBActive &lt;- False</Action><Action
  Guid="42d5c41a-3a3d-4fa5-b1b0-6dbb873704f7"
 >TIU.CabB.VirtualCabAActive &lt;- False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeTerminals"
+ Guid="f84fa73a-679f-40d4-8437-08eaec261189"
+>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Connect the terminals to a network"
+ Guid="a6e25ccc-569a-48f4-9206-9e7420fd9767"
+>
+<Comment>Connects the terminals to a network</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Connect the terminal to a network"
+ Guid="4fb13cba-bda0-41a5-b18d-ceb39fc7bb9b"
+>
+<Comment>Register both terminals to the same network and set the first terminal as the main terminal.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2b93fdb0-201e-4fbe-9ecc-41f609b7c32a"
+>EURORADIO.Terminal.Terminal1 &lt;- EURORADIO.Terminal.TerminalStruct {
+     RBCConnection =&gt; EMPTY,
+     RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered,
+     RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
+         RequestState =&gt; Default.RequestEnum.Disabled,
+         Response =&gt; False 
+    },
+     RegistrationOrderIsReceived =&gt; False,
+     NetworkIdToRegister =&gt; &apos;&apos;,
+     AcceptingRBCContactOrder =&gt; EMPTY,
+     Id =&gt; &apos;FirstTerminal&apos;,
+     NetworkId =&gt; &apos;Some Network&apos;,
+     IsMainTerminal =&gt; True 
+}</Action><Action
+ Guid="e1d3b2f1-fcbf-4e43-9be1-5a963f4f1241"
+>EURORADIO.Terminal.Terminal2 &lt;- EURORADIO.Terminal.TerminalStruct {
+     RBCConnection =&gt; EMPTY,
+     RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered,
+     RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
+         RequestState =&gt; Default.RequestEnum.Disabled,
+         Response =&gt; False 
+    },
+     RegistrationOrderIsReceived =&gt; Boolean.False,
+     NetworkIdToRegister =&gt; &apos;&apos;,
+     AcceptingRBCContactOrder =&gt; EMPTY,
+     Id =&gt; &apos;SecondTerminal&apos;,
+     NetworkId =&gt; &apos;Some Network&apos;,
+     IsMainTerminal =&gt; False
+}</Action><Action
+ Guid="c275b9aa-9403-4f80-a7ca-c0a573c12ce5"
+>EURORADIO.Terminal.LastKnownNetworkId &lt;- &apos;Some Network&apos;</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
