@@ -504,10 +504,12 @@ Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></Pre
   OR  
 Kernel.ActiveFunctions.SuperviseTrainSpeed_All_Information()</PreCondition></PreConditions>
 <Expression>BaseTypes.MaxDistance(
-    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P(
-        aTarget =&gt; MRDT(),
-        Vest =&gt; MRDT().Speed,
-        NoA_est =&gt; True
+    X1 =&gt; Kernel.SpeedAndDistanceMonitoring.DecelerationCurves.d_P(
+    aSpeed =&gt; MRDT().Speed,
+    aTarget =&gt; MRDT(),
+    NoA_est =&gt; True,
+    IsIndication =&gt; False,
+    IsTargetDistance =&gt; True
 )-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max),
     X2 =&gt; 0.0
 )</Expression>
@@ -1024,7 +1026,7 @@ X2 =&gt; aTarget.Speed
 </Function><Function
  Type="BaseTypes.Speed"
  Default=""
- X="120"
+ X="110"
  Y="340"
  Width="100"
  Height="50"
