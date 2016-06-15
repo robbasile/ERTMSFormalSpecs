@@ -1239,42 +1239,45 @@ namespace DataDictionary.Tests.Translations
             int retVal = -1;
 
             str = format_str(str);
-            if (str.EndsWith("d"))
+            if (!string.IsNullOrEmpty(str))
             {
-                str = str.Substring(0, str.Length - 1).Trim();
-                try
+                if (str.EndsWith("d"))
                 {
-                    retVal = int.Parse(str);
-                }
-                catch (FormatException)
-                {
-                }
-            }
-            else if (str.EndsWith("b"))
-            {
-                str = str.Substring(0, str.Length - 1).Trim();
-                char[] tmp = str.ToCharArray();
-                retVal = 0;
-                for (int i = 0; i < tmp.Length; i++)
-                {
-                    if (tmp[i] == '0')
+                    str = str.Substring(0, str.Length - 1).Trim();
+                    try
                     {
-                        retVal = retVal*2;
+                        retVal = int.Parse(str);
                     }
-                    else if (tmp[i] == '1')
+                    catch (FormatException)
                     {
-                        retVal = retVal*2 + 1;
                     }
                 }
-            }
-            else
-            {
-                try
+                else if (str.EndsWith("b"))
                 {
-                    retVal = int.Parse(str);
+                    str = str.Substring(0, str.Length - 1).Trim();
+                    char[] tmp = str.ToCharArray();
+                    retVal = 0;
+                    for (int i = 0; i < tmp.Length; i++)
+                    {
+                        if (tmp[i] == '0')
+                        {
+                            retVal = retVal*2;
+                        }
+                        else if (tmp[i] == '1')
+                        {
+                            retVal = retVal*2 + 1;
+                        }
+                    }
                 }
-                catch (FormatException)
+                else
                 {
+                    try
+                    {
+                        retVal = int.Parse(str);
+                    }
+                    catch (FormatException)
+                    {
+                    }
                 }
             }
 

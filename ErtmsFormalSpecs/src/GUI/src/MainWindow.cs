@@ -1161,7 +1161,6 @@ namespace GUI
             {
                 MarkingHistory.PerformMark(() =>
                 {
-
                     // Apply translation rule to get the spec issues from the translated steps
                     foreach (DataDictionary.Tests.Frame frame in dictionary.Tests)
                     {

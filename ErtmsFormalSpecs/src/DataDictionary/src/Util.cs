@@ -813,6 +813,12 @@ namespace DataDictionary
                         {
                             Updater updater = new Updater(loadParams.UpdateGuid, loadParams.ConvertObsolete);
                             updater.visit(retVal);
+
+                            // Apply the translation rules
+                            foreach (Frame frame in retVal.Tests)
+                            {
+                                frame.Translate();
+                            }
                         }
                         catch (Exception e)
                         {
