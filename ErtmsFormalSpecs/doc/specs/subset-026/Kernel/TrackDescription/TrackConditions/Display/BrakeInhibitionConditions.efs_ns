@@ -11,8 +11,8 @@
 <Enumerations>
 <Enum
  Default="TrackConditions.Display.BrakeInhibitionConditions.PlanningInformationEnum.None"
- X="0"
- Y="0"
+ X="370"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -76,8 +76,8 @@
 <Structures>
 <Structure
  Default=""
- X="340"
- Y="100"
+ X="200"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -134,8 +134,8 @@
  TypeName="PlanningInformationStruct"
  MaxSize="20"
  Default="[]"
- X="190"
- Y="100"
+ X="30"
+ Y="80"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -153,8 +153,8 @@
 <Function
  Type="PlanningInformationCol"
  Default=""
- X="221"
- Y="241"
+ X="140"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -172,7 +172,7 @@
  Name="Value"
  Guid="e3089d09-b8af-435f-bed3-934c30203057"
 >
-<Expression>MAP General.TCProfile USING aTrackCondition IN Display.BrakeInhibitionConditions.MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
+<Expression>MAP General.TCProfile USING aTrackCondition IN MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="PlanningInformationStruct"
@@ -216,7 +216,7 @@
  Type="Boolean"
  Default=""
  X="30"
- Y="260"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -248,17 +248,13 @@ Parameter aPlanning differentiates between display of active conditions and plan
  Guid="67289414-4899-40a5-858e-b51db5678428"
 >
 <Expression>Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()
-
   AND  
-
 (
   NOT aPlanning
     OR  
   Kernel.ActiveFunctions.DisplayRouteInformationInAdvance()
 )
-
 AND
-
 (
   (THERE_IS X IN Display.ActiveConditions | NOT Display.IsInSoundHornGroup(X))
     OR  
@@ -268,8 +264,8 @@ AND
 </Function><Function
  Type="ActiveConditionsCol"
  Default=""
- X="111"
- Y="1"
+ X="30"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -331,7 +327,7 @@ AND
  Type="PlanningInformationStruct"
  Default=""
  X="30"
- Y="540"
+ Y="370"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -373,8 +369,8 @@ AND
 </Function><Function
  Type="Boolean"
  Default=""
- X="150"
- Y="400"
+ X="140"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -454,7 +450,7 @@ AND
  Type="Boolean"
  Default=""
  X="30"
- Y="400"
+ Y="310"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -532,8 +528,8 @@ AND
 </Function><Function
  Type="PlanningInformationStruct"
  Default=""
- X="221"
- Y="1"
+ X="140"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -591,8 +587,8 @@ AND
 </Function><Function
  Type="PlanningInformationCol"
  Default=""
- X="1"
- Y="61"
+ X="250"
+ Y="190"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -610,13 +606,13 @@ AND
  Name="Value"
  Guid="dbd75f11-0beb-4536-9eef-8258142c223b"
 >
-<Expression>MAP General.TCProfile USING aTrackCondition IN Display.BrakeInhibitionConditions.MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
+<Expression>MAP General.TCProfile USING aTrackCondition IN MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="PlanningInformationEnum"
  Default=""
- X="0"
- Y="0"
+ X="250"
+ Y="250"
  Width="100"
  Height="50"
  Implemented="TRUE"

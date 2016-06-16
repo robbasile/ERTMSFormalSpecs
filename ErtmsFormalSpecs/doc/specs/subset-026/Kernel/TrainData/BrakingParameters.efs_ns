@@ -4883,7 +4883,7 @@ aStep.SpeedStep == 0.0</PreCondition></PreConditions>
 </ReqRef><Comment>Filters the track conditions profile to only return the brake conditions, amending their distance and length values to take into account relevant offsets (3.12.1.2.1), and merging overlaping condition areas.</Comment>
 <Cases>
 <Case
- Name="Case1"
+ Name="Always"
  Guid="582eb4d5-f128-46b6-b1d0-1f4a6a1235e4"
 >
 <Expression>REDUCE 
@@ -4928,13 +4928,15 @@ INITIAL_VALUE []</Expression>
  Name="ReturnActiveArea"
  Guid="ffab0a7a-2c79-466c-80d9-ace272f50dc3"
 >
-<Expression>Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
-Location =&gt; aCondition.Location - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)),
+<Expression>LET StartLocation &lt;- aCondition.Location - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) 
+IN
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; StartLocation,
 Value =&gt; aCondition.Value,
 Length =&gt; 
     (BaseTypes.DistanceToLength(aCondition.Location) + aCondition.Length + TrainPosition.TrainLength() + TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) 
     - 
-    (BaseTypes.DistanceToLength(aCondition.Location) - TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))
+    StartLocation
 }</Expression>
 </Case></Cases>
 </Function><Function
@@ -4971,28 +4973,24 @@ Length =&gt;
  Guid="57e447e6-a8cb-4347-acf9-0ac0572c77f9"
 >
 <Expression>MAP BuildLocationsOfProfile(
-    aTCProfile =&gt; aTCProfile,
-    aCondition =&gt; aCondition
-)
-| X != (LAST Y IN BuildLocationsOfProfile(
-    aTCProfile =&gt; aTCProfile,
-    aCondition =&gt; aCondition
-) )
-USING X IN ChangeLength
-(
-    X, BaseTypes.DistanceToLength
-    (
-        NextCondition
-        (
-            aCondition =&gt; X,
-            aProfile =&gt; 
-                BuildLocationsOfProfile
-                (
-                    aTCProfile =&gt; aTCProfile,
-                    aCondition =&gt; aCondition
-                )
-        ).Distance - X.Distance
-    )
+     aTCProfile =&gt; aTCProfile,
+     aCondition =&gt; aCondition 
+) | X != (
+    LAST Y IN BuildLocationsOfProfile(
+         aTCProfile =&gt; aTCProfile,
+         aCondition =&gt; aCondition 
+    ) 
+) USING X IN ChangeLength (
+     X,
+     BaseTypes.DistanceToLength(
+         NextCondition (
+             aCondition =&gt; X,
+             aProfile =&gt; BuildLocationsOfProfile (
+                 aTCProfile =&gt; aTCProfile,
+                 aCondition =&gt; aCondition 
+            ) 
+        ).Distance - X.Distance 
+    ) 
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -5143,7 +5141,7 @@ SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereI
 )
 }]</Expression>
 </Case><Case
- Name="Case5"
+ Name="Otherwise"
  Guid="34c4c70c-6a97-4e13-b8ba-c9162fde2fc4"
 >
 <Expression>[]</Expression>

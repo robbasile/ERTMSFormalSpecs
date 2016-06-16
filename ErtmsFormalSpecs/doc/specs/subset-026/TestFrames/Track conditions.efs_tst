@@ -1,0 +1,175 @@
+<Frame
+ CycleDuration="0.1"
+ Name="Track conditions"
+ Guid="70dab215-db3f-4dba-b39a-a00b6622dce4"
+>
+<SubSequences>
+<SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Updating distance with new reference location"
+ Guid="16b9b572-5e5c-4353-b1b9-67d081e30b50"
+>
+<TestCases>
+<TestCase
+ Name="New LRBG"
+ Guid="68a58ebc-7f5f-4fdd-bead-f344867beb36"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="d5d7b6ad-050e-4849-b030-a9dec8b8e6dc"
+>
+<SubSteps>
+<SubStep
+ Name="Initialize"
+ Guid="7d839a53-26fe-4da6-95ec-6ad36882dd79"
+>
+<Actions>
+<Action
+ Guid="72a44bf2-ed4f-4be2-9134-d721c334e7d9"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ Name="Setup"
+ Guid="224c08ca-29a1-4182-8084-49898488d95d"
+>
+<Actions>
+<Action
+ Guid="47d461e0-0e49-42e8-bbbc-25192dfd9d9e"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;-  [Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 150.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.AirTightness,
+Length =&gt; 200.0
+}
+]
+</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Distance remains relative to LRBG"
+ Guid="90d4f617-d0fb-473c-bd19-3dac10f1f27f"
+>
+<SubSteps>
+<SubStep
+ Name="Update distance"
+ Guid="82307031-8bd5-459c-bfb9-ac8e37422b45"
+>
+<Actions>
+<Action
+ Guid="61408c3b-8df3-4d24-9626-c78a23eab004"
+>Odometry.NominalDistance &lt;- 100.0</Action></Actions>
+</SubStep><SubStep
+ Name="Verify TC location"
+ Guid="834e4446-7286-40d4-80f1-bc39e1a712d4"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="efc48019-1bf3-4ab2-bf6b-78fdbe92afa1"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == 150.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="New LRBG"
+ Guid="f9a47593-d813-4c52-8b1c-3737f69dd82b"
+>
+<SubSteps>
+<SubStep
+ Name="First balise"
+ Guid="5c85bb58-00b2-47c2-a0c9-239c1347481a"
+>
+<Actions>
+<Action
+ Guid="f169af8c-b053-4894-a011-630f8ea4be29"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1337, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  BitField =&gt; &apos;&apos;, 
+  SystemVersion1 =&gt; EMPTY
+}</Action></Actions>
+</SubStep><SubStep
+ Name="Second balise"
+ Guid="b6c76e2e-853f-41bc-af67-240f5e8a325a"
+>
+<Actions>
+<Action
+ Guid="11e5466e-9548-4e8c-b8fc-61493e6c9243"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1337, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  BitField =&gt; &apos;&apos;, 
+  SystemVersion1 =&gt; EMPTY
+}</Action></Actions>
+</SubStep><SubStep
+ Name="Verify TC location"
+ Guid="5d637a2d-b526-443a-8275-d27f233c3698"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d221360c-1814-48b2-af31-f0ffb9fdb9c2"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == 50.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence></SubSequences>
+</Frame>

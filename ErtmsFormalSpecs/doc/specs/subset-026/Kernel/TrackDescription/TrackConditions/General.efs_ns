@@ -11,7 +11,7 @@
 <Enumerations>
 <Enum
  Default="TrackConditions.General.TrackConditionEnum.None"
- X="0"
+ X="550"
  Y="0"
  Width="100"
  Height="50"
@@ -146,8 +146,8 @@
 <Structures>
 <Structure
  Default=""
- X="380"
- Y="90"
+ X="410"
+ Y="0"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -224,7 +224,7 @@
  TypeName="TrackConditionInformationStruct"
  MaxSize="20"
  Default="[]"
- X="380"
+ X="260"
  Y="0"
  Width="100"
  Height="50"
@@ -487,10 +487,7 @@ TCPacket.Value == General.TrackConditionEnum.SoundHorn</PreCondition></PreCondit
  Name="Value"
  Guid="d295373d-6f7a-48d7-acae-44c4aea6e4c9"
 >
-<Expression>FILTER General.TCProfile | General.ConditionIsActive(
-    aCondition =&gt; X,
-    aDistance =&gt; TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom)
-) USING X</Expression>
+<Expression>ProfileAtDistance( TrainPosition.FrontEndPosition( PointOfInterest =&gt; Default.DistanceIntervalEnum.Nom))</Expression>
 </Case></Cases>
 </Function><Function
  Type="TrackConditionInformationCol"
@@ -719,79 +716,10 @@ The use of profile points and the functions in this namespace can be found in Er
 }</Expression>
 </Case></Cases>
 </Function><Function
- Type="TrackConditionInformationStruct"
- Default=""
- X="110"
- Y="240"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="UpdatedTCProfile"
- Guid="4fb26885-3c76-4e5d-a634-a14c381f66a8"
->
-<Comment>Takes a track condition profile point and data from a track condition packet and merges them together</Comment>
-<Parameters>
-<Parameter
- Type="TrackConditionInformationStruct"
- Name="aProfile"
- Guid="5e72dc8c-9bf9-42d6-8475-f02835f4f524"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="aLocation"
- Guid="e53c813a-a0df-4125-8e67-99aa76bf25e8"
->
-</Parameter><Parameter
- Type="BaseTypes.Length"
- Name="aLength"
- Guid="4944568a-d745-4584-b44d-d3ae5f24b986"
->
-</Parameter><Parameter
- Type="Messages.M_TRACKCOND"
- Name="aTCType"
- Guid="c9af5f25-9e8e-4eb4-9695-3b1daeed46a0"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Profile to be combined"
- Guid="2bce27e9-b2ec-4f01-861f-b606243c3931"
->
-<Comment>The profile is inside the section of track delimited by Distance and (Distance + Length)</Comment>
-<PreConditions>
-<PreCondition
- Guid="1fa5ac73-cb6b-439b-b27c-59259d113e7d"
->aProfile.Location &gt;= aLocation</PreCondition><PreCondition
- Guid="13ab1164-7246-493c-b844-37fd7b218a61"
->aProfile.Location &lt; TrackConditions.General.EndSectionDistance(
-    TCType=&gt;aTCType,
-    Distance=&gt;aLocation,
-    Length=&gt;aLength
-)</PreCondition></PreConditions>
-<Expression>TrackConditions.General.TrackConditionInformationStruct
-{
-    Location =&gt; aProfile.Location,
-    Value =&gt;  MakeTCProfile
-        (
-            aTCType =&gt; aTCType,
-            aLocation =&gt; aLocation,
-            aLength =&gt; aLength
-        ).Value,
-    Length =&gt; aProfile.Location - aLocation + aLength
-}</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="e16def7f-7165-4221-9cb5-8f8dbfb1754f"
->
-<Comment>If the profile point is outside the section, it is unaffected by the new section</Comment>
-<Expression>aProfile</Expression>
-</Case></Cases>
-</Function><Function
  Type="BaseTypes.Distance"
  Default=""
- X="1"
- Y="61"
+ X="330"
+ Y="180"
  Width="100"
  Height="50"
  NeedsRequirement="FALSE"
@@ -840,8 +768,8 @@ The use of profile points and the functions in this namespace can be found in Er
 </Function><Function
  Type="Boolean"
  Default=""
- X="0"
- Y="0"
+ X="660"
+ Y="240"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -919,8 +847,8 @@ aCondition.Location + BaseTypes.LengthToDistance( aLength =&gt; aCondition.Lengt
 </Function><Function
  Type="TrackConditionInformationStruct"
  Default=""
- X="0"
- Y="0"
+ X="550"
+ Y="240"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -993,8 +921,8 @@ Length =&gt; aProfile.Length
 </Function><Function
  Type="Boolean"
  Default=""
- X="0"
- Y="0"
+ X="550"
+ Y="180"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -1568,7 +1496,7 @@ Packet =&gt; Packet, aDistanceFromRef =&gt; aDistanceFromRef )</Action></Actions
  Type="TrackConditionInformationCol"
  DefaultValue=""
  VariableMode="Internal"
- X="220"
+ X="110"
  Y="0"
  Width="100"
  Height="50"
@@ -1656,7 +1584,7 @@ Packet =&gt; Packet, aDistanceFromRef =&gt; aDistanceFromRef )</Action></Actions
  Type="BaseTypes.Time"
  DefaultValue="4.0"
  VariableMode="Constant"
- X="110"
+ X="0"
  Y="0"
  Width="100"
  Height="50"
