@@ -14,6 +14,35 @@
  Guid="ca162c39-085e-48b3-bc8d-3cad43f08aa7"
 >
 </NameSpaceRef></NameSpaces>
+<Functions>
+<Function
+ Type="MessageTypes.Time"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="T_TRAINFromCurrentTime"
+ Guid="6e313f61-b664-4d68-a46c-cb1471e0eda3"
+>
+<Comment>Used for EURORADIO messages in the testing environment. Allow to use currenttime for the field T_TRAIN.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Time"
+ Name="aTime"
+ Guid="e6f2449f-f2e6-414f-b718-64af39798906"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="74ad2d76-4651-46e6-a451-6ab6c34e29bb"
+>
+<Expression>MessageTypes.Time(aTime * 100.0)</Expression>
+</Case></Cases>
+</Function></Functions>
 <Procedures>
 <Procedure
  X="130"
@@ -5789,7 +5818,7 @@ SpeedRestrictions =&gt; []
  Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
- Name="InitializeRBCConnection"
+ Name="InitializeEURORADIO"
  Guid="dd32d4c3-756d-4439-8880-aaeb6b9346fb"
 >
 <Comment>Procedure to initialize a RBC connection using some default or provided values.</Comment>
@@ -5884,7 +5913,7 @@ SpeedRestrictions =&gt; []
       Country =&gt; 81, 
       Id =&gt; 4549
     }, 
-    PhoneNumber =&gt; &apos;132456798&apos;, 
+    PhoneNumber =&gt; &apos;123456789&apos;, 
     DataState =&gt; Default.DataStateEnum.Valid
   },
   ContactRBCOrder =&gt; EMPTY,
@@ -6133,6 +6162,7 @@ SpeedRestrictions =&gt; []
  Name="InitializeTerminals"
  Guid="f84fa73a-679f-40d4-8437-08eaec261189"
 >
+<Comment>This procedure initialize the terminals but let their RBCConnections to the NoConnectionState.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -6159,7 +6189,6 @@ SpeedRestrictions =&gt; []
 <Action
  Guid="2b93fdb0-201e-4fbe-9ecc-41f609b7c32a"
 >EURORADIO.Terminal.Terminal1 &lt;- EURORADIO.Terminal.TerminalStruct {
-     RBCConnection =&gt; EMPTY,
      RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered,
      RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
          RequestState =&gt; Default.RequestEnum.Disabled,
@@ -6174,7 +6203,6 @@ SpeedRestrictions =&gt; []
 }</Action><Action
  Guid="e1d3b2f1-fcbf-4e43-9be1-5a963f4f1241"
 >EURORADIO.Terminal.Terminal2 &lt;- EURORADIO.Terminal.TerminalStruct {
-     RBCConnection =&gt; EMPTY,
      RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.Registered,
      RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
          RequestState =&gt; Default.RequestEnum.Disabled,
@@ -6189,6 +6217,95 @@ SpeedRestrictions =&gt; []
 }</Action><Action
  Guid="c275b9aa-9403-4f80-a7ca-c0a573c12ce5"
 >EURORADIO.Terminal.LastKnownNetworkId &lt;- &apos;Some Network&apos;</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeRBCConnection"
+ Guid="71ce38df-0d93-42a5-ae27-5f73240947dc"
+>
+<Comment>Sets the RBCConnection of the main terminal to the connected state. Terminals should have been set before.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initialize the RBC connection"
+ Guid="d2e80f3a-d2b6-4d64-a1d0-30f2283f590c"
+>
+<Comment>Initialize the RBC connection of the first and main terminal (unless handover, only one RBCConnection is used at a time).</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Initialize the RBC connection"
+ Guid="632e765d-c2af-4559-a859-c1d489fca9af"
+>
+<Comment>Initialize the CurrentRBCConnection (the one of the first terminal in this case) and set the last known RBC.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="5eaec0fc-e4d1-4029-85c0-faa3ce55d614"
+>EURORADIO.Terminal.Terminal1.RBCConnection. &lt;- EURORADIO.RBCConnection.RBCStruct
+{
+  ConnectionState =&gt; EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected,
+  ContactData =&gt; EURORADIO.RBCConnection.Contact.RBCContactStruct
+  {
+    Id =&gt; EURORADIO.RBCConnection.Contact.RBCIdStruct
+    {
+      Country =&gt; 81, 
+      Id =&gt; 4549
+    }, 
+    PhoneNumber =&gt; &apos;132456798&apos;, 
+    DataState =&gt; Default.DataStateEnum.Valid
+  },
+  ContactRBCOrder =&gt; EMPTY,
+  ContactTimerSupervised =&gt; Boolean.True,
+  Data =&gt; EURORADIO.RBCConnection.Data.DataStruct{
+    MessageIn =&gt; Messages.EURORADIO.MessageIn.Message
+  {
+    SystemVersion2 =&gt; EMPTY, 
+    SystemVersion1 =&gt; EMPTY, 
+    Priority =&gt; 0, 
+    BitField =&gt; &apos;&apos;
+  }, 
+  MessageOut =&gt; Messages.EURORADIO.MessageOut.Message
+  {
+    SystemVersion2 =&gt; EMPTY, 
+    SystemVersion1 =&gt; EMPTY, 
+    BitField =&gt; &apos;&apos;
+  }
+  },
+  OnboardReference_MessageTimer =&gt; Kernel.DateAndTime.CurrentTime,
+  SafeRadioConnection =&gt; EURORADIO.RBCConnection.SafeRadioConnection.SafeRadioConnectionStruct{
+    ConnectionIsEstablished =&gt; Boolean.True, 
+    ConnectionRequestIsReceived =&gt; Boolean.False, 
+    LastRequestTime =&gt; 0.0,
+    NumberOfSentRequests =&gt; 0,
+    SpecialCaseSessionEstablishmentReason =&gt; EURORADIO.RBCConnection.SpecialCaseSessionEstablishmentReasonEnum.DoNotEstablish
+},  
+  SafeRadioConnectionStatus =&gt; EURORADIO.RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp,
+  SessionManagementData =&gt; EURORADIO.RBCConnection.SessionManagement.SessionManagementStruct{
+    AcknowledgementOfTerminationReceived =&gt; Boolean.False,
+    InitiationOfACommunicationSessionReceived =&gt; Boolean.False,
+    SystemVersion =&gt; VersionManagement.SystemVersionStruct
+    {
+      Value =&gt; VersionManagement.SystemVersionEnum.Version2_0, 
+      DataState =&gt; Default.DataStateEnum.Valid
+    }
+}
+}</Action><Action
+ Guid="8cf496da-8e5a-477f-98b3-bc3c4ef17b9f"
+>EURORADIO.RBCConnection.Contact.SetLastKnownRBC( anRBCContactStruct =&gt;  EURORADIO.RBCConnection.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
