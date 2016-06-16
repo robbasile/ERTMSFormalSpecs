@@ -364,6 +364,8 @@ Kernel.Modes.StaffResponsible.SRAuthorisation.Location &gt;= Kernel.TrainPositio
  Default=""
  X="0"
  Y="0"
+ Width="100"
+ Height="50"
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="IsMaxDistInSR"
@@ -438,6 +440,8 @@ aTarget.Speed == 0.0</Expression>
 <Rules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="UpdateSRAuthorisation"
  Guid="afdb2dd6-b9d2-427b-91c1-b7ad2cf7767c"
@@ -458,11 +462,13 @@ aTarget.Speed == 0.0</Expression>
 {
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; aMessage.D_SR, scale =&gt; aMessage.Q_SCALE ),
     BGs =&gt; CreateBaliseGroups ( aBaliseGroups =&gt; aMessage.Sequence1 ),
-    BGListReceived =&gt; (aMessage.Sequence1 == [])
+    BGListReceived =&gt; (aMessage.Sequence1 != [])
 }</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
+ X="0"
+ Y="0"
  Implemented="TRUE"
  Name="Count the distance from the current location if in SR"
  Guid="f6641dc9-8d36-4ca5-a09e-327befa89789"
