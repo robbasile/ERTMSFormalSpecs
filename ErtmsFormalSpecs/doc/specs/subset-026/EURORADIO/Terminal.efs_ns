@@ -109,7 +109,7 @@
 <Actions>
 <Action
  Guid="f8407011-1eed-4334-9e92-d8c9a1b3e94f"
->RBCConnection.ContactRBCOrder &lt;- AcceptingRBCContactOrder</Action></Actions>
+>RBCConnection.ContactRBCOrder &lt;- RBCConnection.AcceptingRBCContactOrder</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -182,7 +182,7 @@
 <Actions>
 <Action
  Guid="a05dfa06-931f-401a-86d9-29afcc82063a"
->AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
+>RBCConnection.AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -343,15 +343,6 @@
  Guid="44ce713d-dc37-4cd2-8042-0d7087e19d7d"
 >
 <Comment>Indicates which is the id of the network that has to be registered.</Comment>
-</StructureElement><StructureElement
- TypeName="RBCConnection.Contact.ContactOrderStruct"
- Default="EMPTY"
- Mode="Internal"
- Implemented="TRUE"
- Name="AcceptingRBCContactOrder"
- Guid="9ef3a8be-10fe-410b-9cca-5f87ffffa450"
->
-<Comment>In case of RBC/RBC handover including Radio Network border crossing, the registration to the new radio network has to be completed before the transition order is transmitted to the on-board. This element stores that order and transmits it once the terminal is registered.</Comment>
 </StructureElement><StructureElement
  TypeName="Boolean"
  Default="False"
@@ -609,7 +600,7 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 <PreConditions>
 <PreCondition
  Guid="6609a8b2-f994-43be-92b5-da74987f9e89"
->AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
+>RBCConnection.AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
  Guid="794b5113-e251-4f4a-8dc9-b8188f7513d9"
 >RBCConnection.ConnectionState not in [ RBCConnection.RBCStruct.ConnectionStateSM.Connecting, RBCConnection.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
 <Actions>
