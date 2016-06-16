@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using DataDictionary.Constants;
+﻿using DataDictionary.Constants;
 using DataDictionary.Functions;
 using DataDictionary.Rules;
 using DataDictionary.Tests;
