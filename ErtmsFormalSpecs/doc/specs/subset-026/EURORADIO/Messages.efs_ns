@@ -1091,7 +1091,7 @@ To get NID_C from NID_LRBG, we divide NID_LRBG by 2^14.</Comment>
  Name="DeconnectionOrderIsReceivedFromRBC"
  Guid="a954f5e8-fc40-4aac-a8d1-837382865635"
 >
-<Comment>// A disconnection order can be sent in three messages: Movement Authority, General Message and MA With Shifted Location Reference.</Comment>
+<Comment>// A disconnection order can be sent in three messages: Movement Authority, General Message and MA With Shifted Location Reference. To avoid having to look into these three types of messages and since message_In is quickly cleaned up, we look into the ContactRBCOrder to if it is not empty and the action is to terminate the session.</Comment>
 <Parameters>
 <Parameter
  Type="RBCConnection.RBCStruct"
@@ -1101,57 +1101,15 @@ To get NID_C from NID_LRBG, we divide NID_LRBG by 2^14.</Comment>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Inconsistent message"
- Guid="49d82f6f-9e18-4938-b396-8104aded985a"
+ Name="Termination order received"
+ Guid="cb90dc32-5b49-417a-bc18-88fe1aedef77"
 >
 <PreConditions>
 <PreCondition
- Guid="f26a47b4-d3d0-4409-81e8-c66d8739ccea"
->NOT (
-Messages.IncomingMessageIsConsistent(Messages.UpdatedMessageIn(aRBCStruct))
-  AND
-Messages.DataPriorityCorrect(RBCConnection.UpdatedRBCStruct(aRBCStruct))
-  AND
-Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2 != EMPTY)</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="GeneralMessage"
- Guid="6871b63f-cabb-481a-8716-9cefb6c82063"
->
-<PreConditions>
-<PreCondition
- Guid="5e592bdb-1113-4ea9-aee5-9a2d230eb3d7"
->Available ( Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.GENERAL_MESSAGE)
-  AND
-THERE_IS X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.GENERAL_MESSAGE.Sequence1 | Available ( X.SESSION_MANAGEMENT )
-  AND
-(FIRST X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.GENERAL_MESSAGE.Sequence1 | Available ( X.SESSION_MANAGEMENT )).SESSION_MANAGEMENT.Q_RBC == 0</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="MovementAuthority"
- Guid="ba21cc41-a46a-4fd1-9c2c-ce63c6856591"
->
-<PreConditions>
-<PreCondition
- Guid="c959b699-bff1-4b31-a6f9-3d6cb0ff1492"
->Available ( Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MOVEMENT_AUTHORITY )
-  AND
-THERE_IS X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT )
-  AND
-(FIRST X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MOVEMENT_AUTHORITY.Sequence1 | Available ( X.SESSION_MANAGEMENT )).SESSION_MANAGEMENT.Q_RBC == 0</PreCondition></PreConditions>
-<Expression>True</Expression>
-</Case><Case
- Name="MA With SHifted Loacation Reference"
- Guid="1283d93f-b5ac-4525-a9ce-69a88330533a"
->
-<PreConditions>
-<PreCondition
- Guid="3ffa4ef4-8711-47fe-8f88-ed9cc4c5e849"
->Available ( Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE)
-  AND
-THERE_IS X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.SESSION_MANAGEMENT )
-  AND
-(FIRST X IN Messages.UpdatedMessageIn(aRBCStruct).SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequence1 | Available ( X.SESSION_MANAGEMENT )).SESSION_MANAGEMENT.Q_RBC == 0</PreCondition></PreConditions>
+ Guid="861015c4-5293-46b3-adb2-09d1eef43360"
+>Available( Element =&gt;  aRBCStruct.ContactRBCOrder)</PreCondition><PreCondition
+ Guid="71adc3cf-c2ac-4cfb-8e0d-1ac782a4abc5"
+>aRBCStruct.ContactRBCOrder.ActionToPerform == EURORADIO.RBCConnection.Contact.ContactActionEnum.Terminate</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Otherwise"
