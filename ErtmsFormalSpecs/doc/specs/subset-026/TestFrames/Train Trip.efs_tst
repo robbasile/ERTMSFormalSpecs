@@ -175,9 +175,7 @@
  Guid="1bc57f8c-4daa-4a7c-8af1-d07bd913b88f"
 >Testing.SetSBMode(False)</Action><Action
  Guid="10448d24-9e95-40ad-ab2e-1b539783f3a0"
->EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="a8c9e081-9553-403b-8704-fefcf53a469a"
->EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
+>Testing.InitializeEURORADIO()</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -443,10 +441,8 @@
 >
 <Actions>
 <Action
- Guid="e11dcb7a-211c-4a96-b3ac-1964437f8ff3"
->EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action><Action
- Guid="4897dd23-8844-4d04-ab1a-deb0c6579dd5"
->EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState &lt;- EURORADIO.RBCConnection.RBCStruct.ConnectionStateSM.Connected</Action></Actions>
+ Guid="65d806e6-d655-492c-9680-d0d659bfac8b"
+>Testing.InitializeEURORADIO()</Action></Actions>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase><TestCase
@@ -2412,7 +2408,7 @@
         M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
         NID_LRBG =&gt; 2010,
         NID_MESSAGE =&gt; 6,
-        T_TRAIN =&gt; 200
+        T_TRAIN =&gt; Testing.T_TRAINFromCurrentTime( aTime =&gt; Kernel.DateAndTime.CurrentTime)
     }
 },
     SystemVersion1 =&gt; EMPTY,

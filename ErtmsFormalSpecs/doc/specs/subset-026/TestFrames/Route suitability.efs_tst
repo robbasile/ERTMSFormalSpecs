@@ -1010,8 +1010,8 @@
 >
 <Actions>
 <Action
- Guid="7d20c1d7-70a0-4e59-9dc6-0e6a66d18c06"
->EURORADIO.RBCConnection.CurrentRBCConnection().ContactData.DataState &lt;- DataStateEnum.Valid</Action></Actions>
+ Guid="ca67387d-0769-4b1b-a867-952ac9f876db"
+>Testing.InitializeEURORADIO()</Action></Actions>
 </SubStep><SubStep
  TimeDelay="NotDelayed"
  Name="Sub-step 4 - Give the train some data"
@@ -1069,7 +1069,7 @@
      {
         NID_MESSAGE =&gt; 24,
         L_MESSAGE =&gt; 0,
-        T_TRAIN =&gt; 654643,
+        T_TRAIN =&gt; Testing.T_TRAINFromCurrentTime( aTime =&gt; Kernel.DateAndTime.CurrentTime),
         M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
         NID_LRBG =&gt; 256,
 
@@ -1111,9 +1111,7 @@
  },
     SystemVersion1 =&gt; EMPTY,
     Priority =&gt; Messages.EURORADIO.MessagePriorityEnum.Normal
-}</Action><Action
- Guid="aababf4a-c2af-494e-9d21-934f8fffd919"
->EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action></Actions>
+}</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"

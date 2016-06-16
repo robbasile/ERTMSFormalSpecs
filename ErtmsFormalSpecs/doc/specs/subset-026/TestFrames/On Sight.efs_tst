@@ -477,7 +477,9 @@ Messages.EUROBALISE.SubStructure1
 (
     aTrainPosition =&gt; 100.0,
     aMode =&gt; ModeEnum.OS
-)</Action></Actions>
+)</Action><Action
+ Guid="8e9c02fe-2ab9-4f54-96c1-25e9dd06df6f"
+>Testing.InitializeEURORADIO()</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -540,7 +542,7 @@ Messages.EUROBALISE.SubStructure1
 
     NID_MESSAGE =&gt; 0,
     L_MESSAGE =&gt; 0,
-    T_TRAIN =&gt; 0,
+    T_TRAIN =&gt; Testing.T_TRAINFromCurrentTime( aTime =&gt; Kernel.DateAndTime.CurrentTime),
     M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
     NID_LRBG =&gt; 1986,
     LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
@@ -1177,8 +1179,8 @@ Messages.EUROBALISE.SubStructure1
 >Kernel.Level.Value.Value &lt;- LevelEnum.L2</Action><Action
  Guid="09715f36-e298-4e4a-bac2-158e5f0dfad2"
 >Testing.SetFSMode(False)</Action><Action
- Guid="74234ff2-6537-41ed-82c0-00eb7ba094e6"
->EURORADIO.RBCConnection.CurrentRBCConnection().SafeRadioConnection.ConnectionIsEstablished &lt;- True</Action></Actions>
+ Guid="57793497-6957-4a4c-bfb6-47c213adfaa9"
+>Testing.InitializeEURORADIO()</Action></Actions>
 <Expectations>
 <Expectation
  Kind="Instantaneous"
@@ -1203,7 +1205,7 @@ Messages.EUROBALISE.SubStructure1
 
     NID_MESSAGE =&gt; 0,
     L_MESSAGE =&gt; 0,
-    T_TRAIN =&gt; 1600,
+    T_TRAIN =&gt; Testing.T_TRAINFromCurrentTime( aTime =&gt; Kernel.DateAndTime.CurrentTime),
     M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
     NID_LRBG =&gt; 1986,
     LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
@@ -1317,7 +1319,7 @@ Messages.EUROBALISE.SubStructure1
 
     NID_MESSAGE =&gt; 0,
     L_MESSAGE =&gt; 0,
-    T_TRAIN =&gt; 1800,
+    T_TRAIN =&gt; Testing.T_TRAINFromCurrentTime( aTime =&gt; Kernel.DateAndTime.CurrentTime),
     M_ACK =&gt; Messages.M_ACK.No_acknowledgement_required,
     NID_LRBG =&gt; 1986,
     LEVEL_2_3_MOVEMENT_AUTHORITY =&gt; Messages.PACKET.TRACK_TO_TRAIN.LEVEL_2_3_MOVEMENT_AUTHORITY.Message
