@@ -89,7 +89,7 @@ namespace EFSTester
                 foreach (Dictionary dictionary in efsSystem.Dictionaries)
                 {
                     RuleCheckerVisitor checker = new RuleCheckerVisitor(dictionary);
-                    checker.visit(dictionary);
+                    checker.CheckRules();
                 }
  
                 // Dumps all errors found
