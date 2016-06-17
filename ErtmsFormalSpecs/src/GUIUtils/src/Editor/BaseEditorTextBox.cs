@@ -86,7 +86,6 @@ namespace GUIUtils.Editor
             EditionTextBox.KeyUp += Editor_KeyUp;
             EditionTextBox.KeyPress += Editor_KeyPress;
             EditionTextBox.MouseUp += EditionTextBox_MouseClick;
-            EditionTextBox.MouseHover += EditionTextBox_MouseHover;
             EditionTextBox.ShortcutsEnabled = true;
             EditionTextBox.MouseMove += EditionTextBox_MouseMove;
 
@@ -137,16 +136,6 @@ namespace GUIUtils.Editor
             {
                 contextMenuStrip1.Show(PointToScreen(MouseLocation));
             }
-        }
-
-        private void EditionTextBox_MouseHover(object sender, EventArgs e)
-        {
-            Point location = MouseLocation;
-            INamable instance = GetInstance(location);
-
-            location.Offset(10, 10);
-            const bool considerMouseMove = true;
-            ExplainAndShow(instance, location, considerMouseMove);
         }
 
         private void EditionTextBox_MouseClick(object sender, MouseEventArgs e)
