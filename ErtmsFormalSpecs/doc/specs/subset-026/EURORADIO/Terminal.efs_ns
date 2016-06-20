@@ -55,137 +55,6 @@
 </Rule></Rules>
 <Procedures>
 <Procedure
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="HandleAcceptingRBCContactOrder"
- Guid="1ad3468d-3948-45b2-8534-a90249aa39c1"
->
-<ReqRef
- Id="dba4721e-ecc7-46a8-945a-ca408198338c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d954bc9b-2623-491a-aeb7-4c5ceb83ae79"
->
-</ReqRef><ReqRef
- Id="68a814aa-d977-4ba8-8329-54aaaec00081"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="346c29df-1e86-42c4-b577-bd9e6ceb60f3"
->
-</ReqRef><ReqRef
- Id="8f6d9e5c-7082-4ff4-b968-cfe98c4ad1d5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e2c99cdb-988d-4f02-a73c-cace5a083e70"
->
-</ReqRef><ReqRef
- Id="cbb3ad4b-7d33-4161-b151-347463291135"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="c523ec19-4cc6-4a2f-a223-3084657c7455"
->
-</ReqRef><ReqRef
- Id="bd6563bc-06fe-447b-8afc-e210141cc921"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="fa6116c0-4827-4516-a86d-37555b6e410a"
->
-</ReqRef><Comment>Handles previously received order to contact an Accepting RBC</Comment>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Handle Accepting RBC contact order"
- Guid="836c38bd-df22-4138-bbd9-2cfe1237d810"
->
-<Comment>The contact order is transmitted to the RBC.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Handle Accepting RBC contact order"
- Guid="caa4d84b-1b31-4ec4-a38f-c677a9724dbd"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="f8407011-1eed-4334-9e92-d8c9a1b3e94f"
->RBCConnection.ContactRBCOrder &lt;- RBCConnection.AcceptingRBCContactOrder</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Update the RBC connection status"
- Guid="c906f67a-230f-4e70-a79b-4405da449b2e"
->
-<Comment>Handles the RBC connection status, according to the number of available terminals.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Two terminals available"
- Guid="dacc0763-beee-4447-a2c4-39114c973015"
->
-<Comment>If two terminals are availabe on-board, the Accepting RBC connection will not be considered as the main RBC connection.</Comment>
-<PreConditions>
-<PreCondition
- Guid="8a0b9aeb-ff66-47bc-8993-95beee9fd5e0"
->Terminal.Terminal1 != EMPTY</PreCondition><PreCondition
- Guid="157b04a8-81e8-4fec-b45e-b89db1feff76"
->Terminal.Terminal2 != EMPTY</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="5b7db2c9-656a-459c-a3ba-3fd1220b6bd9"
->IsMainTerminal &lt;- False</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Only one terminal available"
- Guid="78720a30-687d-4cfd-a9b3-aebbcb32b1eb"
->
-<ReqRef
- Id="a42dcba0-6408-4385-8868-72b8e5a73a50"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="499af2b5-0ed5-4ef0-b190-4cec056e010f"
->
-</ReqRef><ReqRef
- Id="ec004cb5-feae-45f5-beb7-9cd81eef4c9c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="d2858cd9-8cf6-4528-83c8-2dae62e7e0f2"
->
-</ReqRef><Comment>If only the current terminal is available, then it will remain the main connection.</Comment>
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="adc8e47d-8ad7-4808-a160-f10a3705ada3"
->IsMainTerminal &lt;- True</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Remove the order"
- Guid="1a2c44ce-1ac0-4765-b082-57bb655e5cdd"
->
-<Comment>Once the order has been handled, it is removed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove the order"
- Guid="89c26baa-932a-47a4-b3ed-8ec500493c9e"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="a05dfa06-931f-401a-86d9-29afcc82063a"
->RBCConnection.AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
  X="220"
  Y="900"
  Width="100"
@@ -561,52 +430,6 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 >RegistrationRequestState.RequestState &lt;- Default.RequestEnum.Request</Action><Action
  Guid="6b794970-4b5b-4735-93d3-112b10af6e7d"
 >RegistrationOrderIsReceived &lt;- False</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Handle Accepting RBC contact order"
- Guid="8adcc888-e57c-41cd-86bf-55d7042f0cd0"
->
-<ReqRef
- Id="dba4721e-ecc7-46a8-945a-ca408198338c"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="84188ebf-17d5-4d9f-af9e-cea78f940fcb"
->
-</ReqRef><ReqRef
- Id="68a814aa-d977-4ba8-8329-54aaaec00081"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="55faf8cb-1a8f-49df-91d7-aeb2a9339f39"
->
-</ReqRef><ReqRef
- Id="e0778e14-e6ea-4f06-8c69-56236250b636"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="364ca9b0-c9f4-4354-aca1-f01cb935ceba"
->
-</ReqRef><ReqRef
- Id="cbb3ad4b-7d33-4161-b151-347463291135"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="60884001-8a7a-4a17-bde2-475f6c5da3d5"
->
-</ReqRef><ReqRef
- Id="8f6d9e5c-7082-4ff4-b968-cfe98c4ad1d5"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6818a035-eb09-4add-98b0-4a4693c7bf30"
->
-</ReqRef><ReqRef
- Id="bd6563bc-06fe-447b-8afc-e210141cc921"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="92e3130d-16e9-419b-b79a-34dfd890a656"
->
-</ReqRef><Comment>If no registration order is received but an order to contact an Accepting RBC has been received, the Accepting RBC is contacted.</Comment>
-<PreConditions>
-<PreCondition
- Guid="6609a8b2-f994-43be-92b5-da74987f9e89"
->RBCConnection.AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
- Guid="794b5113-e251-4f4a-8dc9-b8188f7513d9"
->RBCConnection.ConnectionState not in [ RBCConnection.RBCStruct.ConnectionStateSM.Connecting, RBCConnection.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="4c9bfa8e-9202-472b-bf80-8e30b3ea5552"
->HandleAcceptingRBCContactOrder()</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </StateMachine></State></States>
@@ -643,6 +466,22 @@ After that, if an order to contact an Accepting RBC was received, it will be han
 >
 <Comment>Contains the answer to the registration request.</Comment>
 </StructureElement></Structure></Structures>
+<Collections>
+<Collection
+ TypeName="EURORADIO.Terminal.TerminalStruct"
+ MaxSize="2"
+ Default="[]"
+ X="300"
+ Y="140"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="TerminalsCol"
+ Guid="5a30f190-5c2e-4e88-bd9b-c62a9ec64f57"
+>
+<Comment>Will contain the available terminals.</Comment>
+</Collection></Collections>
 <Functions>
 <Function
  Type="Boolean"
@@ -688,19 +527,28 @@ aTerminal.RegistrationState in Terminal.TerminalStruct.RegistrationStateSM.Regis
 <Comment>Provides the secondary terminal (for the accepting RBC).</Comment>
 <Cases>
 <Case
- Name="Terminal 1"
- Guid="2bdfbf19-8183-4aef-ab24-51d07be5739c"
+ Name="Several terminals available"
+ Guid="5d46b97b-d730-410e-915d-a476b1f9fcff"
 >
 <PreConditions>
 <PreCondition
- Guid="88f2d542-cfca-4d41-8d1f-74771f9e6d33"
->CurrentTerminal() == Terminal.Terminal2</PreCondition></PreConditions>
-<Expression>Terminal.Terminal1</Expression>
+ Guid="ba6bb1a1-9499-4d43-9488-846379412b3a"
+>COUNT Terminals IN AvailableTerminals() &gt;= 2</PreCondition></PreConditions>
+<Expression>FIRST Terminal IN AvailableTerminals() | NOT Terminal.IsMainTerminal</Expression>
 </Case><Case
- Name="Terminal 2"
- Guid="e9ac46b6-3db7-4f01-bb9e-70510c2ca4d4"
+ Name="Only one terminal available"
+ Guid="50c9ca94-020d-422e-a244-90030f6115c9"
 >
-<Expression>Terminal.Terminal2</Expression>
+<PreConditions>
+<PreCondition
+ Guid="1d9ec5a7-389d-4a08-8c6d-fd7020373e72"
+>COUNT Terminals IN AvailableTerminals() == 1</PreCondition></PreConditions>
+<Expression>FIRST Terminal IN AvailableTerminals()</Expression>
+</Case><Case
+ Name="No terminal available"
+ Guid="16ea3502-6efd-4dad-b078-de8cff11db18"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -776,27 +624,14 @@ aTerminal.RegistrationState in Terminal.TerminalStruct.RegistrationStateSM.Regis
 set as main at the same time. To avoid problems, use procedure EURORADIO.SetMainTerminal.</Comment>
 <Cases>
 <Case
- Name="Terminal 1"
- Guid="688a99fe-65fa-4958-83a1-fd990459de79"
+ Name="Value"
+ Guid="44b79efa-d98d-4dc3-8cbc-6eaa37f11f4d"
 >
 <PreConditions>
 <PreCondition
- Guid="c3452b29-ef21-4a6f-88bd-7ae9c80cd9da"
->Terminal.Terminal1 != EMPTY
-  AND
-Terminal.Terminal1.IsMainTerminal</PreCondition></PreConditions>
-<Expression>Terminal.Terminal1</Expression>
-</Case><Case
- Name="Terminal 2"
- Guid="50d1ad9b-56bd-47e2-b3ba-a015f52dc5bf"
->
-<PreConditions>
-<PreCondition
- Guid="d2d14467-deca-4b32-9a6b-0afc62ab0c77"
->Terminal.Terminal2 != EMPTY
-  AND
-Terminal.Terminal2.IsMainTerminal</PreCondition></PreConditions>
-<Expression>Terminal.Terminal2</Expression>
+ Guid="a8a42f1a-d64c-49af-9943-4154d6aab89b"
+>COUNT Terminals IN AvailableTerminals() != 0</PreCondition></PreConditions>
+<Expression>FIRST Terminal IN AvailableTerminals() | Terminal.IsMainTerminal</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="4ee189ed-7288-4bc0-969d-4b32f4885cc4"
@@ -977,6 +812,62 @@ Terminal2 == EMPTY
 NOT TerminalIsRegistered(Terminal2)
 
 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="EURORADIO.Terminal.TerminalsCol"
+ Default=""
+ X="360"
+ Y="480"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="AvailableTerminals"
+ Guid="11b8babf-ad56-4624-aac4-731fd76ff17f"
+>
+<Comment>Conveninece function returning the collection of available terminals.</Comment>
+<Cases>
+<Case
+ Name="TwoTerminals"
+ Guid="c533b7f7-61a0-457c-b83b-2eb2d91246fc"
+>
+<PreConditions>
+<PreCondition
+ Guid="9e4f0dac-8c57-4750-9857-0872405e5831"
+>Available(EURORADIO.Terminal.Terminal1)</PreCondition><PreCondition
+ Guid="03512471-e5a6-47f4-84f1-8a915a50f891"
+>Available(EURORADIO.Terminal.Terminal2)</PreCondition></PreConditions>
+<Expression>[
+    EURORADIO.Terminal.Terminal1,
+     EURORADIO.Terminal.Terminal2
+]</Expression>
+</Case><Case
+ Name="Terminal1 only"
+ Guid="ddfc68d8-400e-4701-b925-a951efe7e0a5"
+>
+<PreConditions>
+<PreCondition
+ Guid="25bbf885-a54d-46a8-95c8-21cd3be0d2ec"
+>Available(EURORADIO.Terminal.Terminal1)</PreCondition></PreConditions>
+<Expression>[
+    EURORADIO.Terminal.Terminal1
+]</Expression>
+</Case><Case
+ Name="Terminal2 only"
+ Guid="7ef159d5-0753-4277-8690-a0e0b0565c0a"
+>
+<PreConditions>
+<PreCondition
+ Guid="49db5b8f-c0d5-4eec-b6b4-b43e877100d4"
+>Available(EURORADIO.Terminal.Terminal2)</PreCondition></PreConditions>
+<Expression>[
+    EURORADIO.Terminal.Terminal2
+]</Expression>
+</Case><Case
+ Name="No terminal"
+ Guid="3379cf30-20cd-4af1-b3e9-4c2d8fc28aea"
+>
+<Expression>[]</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1290,7 +1181,7 @@ NOT TerminalIsRegistered(Terminal2)
  Name="SwitchMainTerminal"
  Guid="5e949164-2fb2-426e-b218-f39c1e816f46"
 >
-<Comment>Switch the main status of the two terminals.</Comment>
+<Comment>Switch the main status of the two terminals, if there are two available terminals.</Comment>
 <Rules>
 <Rule
  Priority="Processing"
@@ -1306,10 +1197,34 @@ NOT TerminalIsRegistered(Terminal2)
 <RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
+ Name="Two terminals available"
+ Guid="4df57a19-4bda-4c72-b26d-7ac322eb06ea"
+>
+<PreConditions>
+<PreCondition
+ Guid="7f03e404-557a-4051-bfdc-260c0bb94bcf"
+>COUNT Terminals IN AvailableTerminals() &gt;= 2</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="From 1 to 2"
+ Guid="29219093-8211-44f5-a7ff-8a61ed8536c3"
+>
+<Comment>Terminal2 becomes main terminal.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
  Name="From1To2"
  Guid="b66be759-9fcd-4dcd-9a11-7cdf3e93c1ba"
 >
-<Comment>Terminal2 becomes main terminal.</Comment>
 <PreConditions>
 <PreCondition
  Guid="05b3ec9a-3734-491b-b204-b41ffc625825"
@@ -1318,13 +1233,25 @@ NOT TerminalIsRegistered(Terminal2)
 <Action
  Guid="4220abea-9ef2-4291-bd53-05bb0ea68baa"
 >SetMainTerminal(Terminal2)</Action></Actions>
-</RuleCondition><RuleCondition
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="From 2 to 1"
+ Guid="a20574c2-36dd-41f3-93bd-996f60121aee"
+>
+<Comment>Terminal1 becomes main terminal.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
  Name="From2To1"
  Guid="369d4209-eb38-4bc6-ad55-b2fac08cd11b"
 >
-<Comment>Terminal1 becomes main terminal.</Comment>
 <PreConditions>
 <PreCondition
  Guid="620e4e76-2e92-48e2-86a4-847931029155"
@@ -1334,13 +1261,14 @@ NOT TerminalIsRegistered(Terminal2)
  Guid="ee6cff26-8509-4c69-901a-97150eb19b34"
 >SetMainTerminal(Terminal1)</Action></Actions>
 </RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
 <Variables>
 <Variable
  Type="TerminalStruct"
- DefaultValue="TerminalStruct{
-}"
+ DefaultValue="EMPTY"
  VariableMode="InOut"
  X="20"
  Y="20"
@@ -1358,7 +1286,7 @@ NOT TerminalIsRegistered(Terminal2)
 </ReqRef><Comment>First terminal struct.</Comment>
 </Variable><Variable
  Type="TerminalStruct"
- DefaultValue=""
+ DefaultValue="EMPTY"
  VariableMode="InOut"
  X="160"
  Y="20"
@@ -1378,8 +1306,8 @@ NOT TerminalIsRegistered(Terminal2)
  Type="String"
  DefaultValue="&apos;&apos;"
  VariableMode="Internal"
- X="470"
- Y="140"
+ X="420"
+ Y="20"
  Width="100"
  Height="50"
  Pinned="TRUE"
@@ -1397,8 +1325,8 @@ NOT TerminalIsRegistered(Terminal2)
  Type="String"
  DefaultValue="&apos;Default&apos;"
  VariableMode="Internal"
- X="310"
- Y="140"
+ X="290"
+ Y="20"
  Width="100"
  Height="50"
  Implemented="TRUE"

@@ -490,6 +490,64 @@ ConnectionStateSM.NoConnection]</PreCondition></PreConditions>
  Guid="7bfa0022-d368-4b69-89fa-fcd5662f9103"
 >Timer.StopTimer(SafeRadioConnection.ConnectionStatusTimer)</Action></Actions>
 </RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle AcceptingRBCContactOrder"
+ Guid="e66231c6-b086-4462-9aae-1fbf2a90c2a8"
+>
+<ReqRef
+ Id="dba00c16-82a7-40b8-b31c-2978dd6bbd82"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="840126eb-3454-4302-af6d-c1d6871a0736"
+>
+</ReqRef><ReqRef
+ Id="00b663b2-ab3b-4e6d-b810-4819654b3685"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c44b0bd-f080-4b4b-bd3a-7a0d133f0709"
+>
+</ReqRef><ReqRef
+ Id="adc412e3-1c5f-4c95-a667-303e6aabee27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="334e4d08-2d01-4086-a06c-b26f99418690"
+>
+</ReqRef><ReqRef
+ Id="6fa8d8fc-f346-4592-b64d-ce1831a6cc98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ae103444-eba5-445a-b06c-1e94f3599d18"
+>
+</ReqRef><ReqRef
+ Id="6a073136-951c-4624-92a2-1b2f704d25ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="d185f128-493d-42b3-87b4-8ba2400b43ef"
+>
+</ReqRef><Comment>To manage the possibility of having one or two terminals for handover, 
+the RBCTransitionOrder is first stored in AcceptingRBCContactOrder 
+(the choice of the terminal itself is made at reception of the order) 
+and moved to ContactRBCOrder as soon as the RBCConnection has 
+no open(ing) communication session. This way, handover with one terminal 
+will establish the new connection only after terminated the first one while 
+handover with two terminals will initiate the new communication session at once.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Accepting RBC contact order"
+ Guid="8adcc888-e57c-41cd-86bf-55d7042f0cd0"
+>
+<PreConditions>
+<PreCondition
+ Guid="6609a8b2-f994-43be-92b5-da74987f9e89"
+>AcceptingRBCContactOrder != EMPTY</PreCondition><PreCondition
+ Guid="794b5113-e251-4f4a-8dc9-b8188f7513d9"
+>ConnectionState not in [ RBCConnection.RBCStruct.ConnectionStateSM.Connecting, RBCConnection.RBCStruct.ConnectionStateSM.Connected ]</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="4c9bfa8e-9202-472b-bf80-8e30b3ea5552"
+>HandleAcceptingRBCContactOrder()</Action></Actions>
+</RuleCondition></Conditions>
 </Rule></Rules>
 <Procedures>
 <Procedure
@@ -3044,6 +3102,95 @@ THERE_IS X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequenc
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="HandleAcceptingRBCContactOrder"
+ Guid="1ad3468d-3948-45b2-8534-a90249aa39c1"
+>
+<ReqRef
+ Id="dba00c16-82a7-40b8-b31c-2978dd6bbd82"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="21be0db2-3cae-45e2-88d8-d8b31427e5a7"
+>
+</ReqRef><ReqRef
+ Id="00b663b2-ab3b-4e6d-b810-4819654b3685"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ebbd03a8-6c84-4b6e-992e-99d0707182e8"
+>
+</ReqRef><ReqRef
+ Id="adc412e3-1c5f-4c95-a667-303e6aabee27"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a88d5562-df5d-42f1-9392-17e40f8edb8a"
+>
+</ReqRef><ReqRef
+ Id="6fa8d8fc-f346-4592-b64d-ce1831a6cc98"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="75b543ee-9bd6-4b03-9c53-6ae88824803c"
+>
+</ReqRef><ReqRef
+ Id="6a073136-951c-4624-92a2-1b2f704d25ed"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="646648f6-a5d5-453b-ad38-e95a6b3f1553"
+>
+</ReqRef><Comment>Handles previously received order to contact an Accepting RBC
+
+To manage the possibility of having one or two terminals for handover, 
+the RBCTransitionOrder is first stored in AcceptingRBCContactOrder 
+(the choice of the terminal itself is made at reception of the order) 
+and moved to ContactRBCOrder as soon as the RBCConnection has 
+no open(ing) communication session. This way, handover with one terminal 
+will establish the new connection only after terminated the first one while 
+handover with two terminals will initiate the new communication session at once.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle Accepting RBC contact order"
+ Guid="836c38bd-df22-4138-bbd9-2cfe1237d810"
+>
+<Comment>The contact order is transmitted to the RBC.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Handle Accepting RBC contact order"
+ Guid="caa4d84b-1b31-4ec4-a38f-c677a9724dbd"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="f8407011-1eed-4334-9e92-d8c9a1b3e94f"
+>ContactRBCOrder &lt;- AcceptingRBCContactOrder</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Remove the order"
+ Guid="1a2c44ce-1ac0-4765-b082-57bb655e5cdd"
+>
+<Comment>Once the order has been handled, it is removed.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Remove the order"
+ Guid="89c26baa-932a-47a4-b3ed-8ec500493c9e"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a05dfa06-931f-401a-86d9-29afcc82063a"
+>AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 <StructureElement
  TypeName="Contact.RBCContactStruct"
@@ -5547,23 +5694,14 @@ NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
 </ReqRef><Comment>Provides the secondary RBCConnection, if any. For use in the handover procedure.</Comment>
 <Cases>
 <Case
- Name="RBC1"
- Guid="d7fd8869-52aa-46c6-bf2a-d3322c31b18e"
+ Name="Value"
+ Guid="de54d591-01e5-4c80-9144-3a7a02dd1aff"
 >
 <PreConditions>
 <PreCondition
- Guid="b6505431-2fc2-4a36-a175-574b65e91b1a"
->NOT Terminal.Terminal1.IsMainTerminal</PreCondition></PreConditions>
-<Expression>Terminal.Terminal1.RBCConnection</Expression>
-</Case><Case
- Name="RBC2"
- Guid="b8b2bbbd-f511-4026-80a0-20692f3adcf3"
->
-<PreConditions>
-<PreCondition
- Guid="079486c9-1e87-4e44-b1fc-f3931340f14c"
->NOT Terminal.Terminal2.IsMainTerminal</PreCondition></PreConditions>
-<Expression>Terminal.Terminal2.RBCConnection</Expression>
+ Guid="469f53fe-6711-40a3-826d-0c195e329396"
+>Terminal.SecondaryTerminal() != EMPTY</PreCondition></PreConditions>
+<Expression>Terminal.SecondaryTerminal().RBCConnection</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="bd8987f4-2817-4121-9791-f02667f5eb21"
@@ -5750,9 +5888,11 @@ RBCConnection.SecondaryRBCConnection().SafeRadioConnectionStatus != RBCConnectio
  Name="Value"
  Guid="570d8238-c486-4d19-bd40-02645a6b780e"
 >
-<Expression>Terminal.Terminal1.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.NoConnection
-  AND
-Terminal.Terminal2.RBCConnection.ConnectionState in RBCConnection.RBCStruct.ConnectionStateSM.NoConnection</Expression>
+<Expression>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState in [RBCConnection.RBCStruct.ConnectionStateSM.NoConnection,
+RBCConnection.RBCStruct.ConnectionStateSM.Inactive]
+AND
+EURORADIO.RBCConnection.SecondaryRBCConnection().ConnectionState in [RBCConnection.RBCStruct.ConnectionStateSM.NoConnection,
+RBCConnection.RBCStruct.ConnectionStateSM.Inactive]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

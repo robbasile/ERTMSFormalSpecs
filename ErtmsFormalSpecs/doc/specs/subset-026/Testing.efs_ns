@@ -6304,5 +6304,70 @@ SpeedRestrictions =&gt; []
 >EURORADIO.RBCConnection.Contact.SetLastKnownRBC( anRBCContactStruct =&gt;  EURORADIO.RBCConnection.CurrentRBCConnection().ContactData)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="InitializeDefaultTerminals"
+ Guid="ca9bf73d-27fc-4629-8547-297e96b80677"
+>
+<Comment>This procedure initialize the terminals but let their RBCConnections to the NoConnectionState.</Comment>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Connect the terminals to a network"
+ Guid="90e5dd91-d47e-437b-ae0f-d92402f69549"
+>
+<Comment>Connects the terminals to a network</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Connect the terminal to a network"
+ Guid="7fd8d73f-9a16-46eb-a54d-7a360287b960"
+>
+<Comment>Register both terminals to the same network and set the first terminal as the main terminal.</Comment>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="a343ecee-10af-4357-b05d-ab9fdbbef9f9"
+>EURORADIO.Terminal.Terminal1 &lt;- EURORADIO.Terminal.TerminalStruct {
+     RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.NotRegistered,
+     RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
+         RequestState =&gt; Default.RequestEnum.Disabled,
+         Response =&gt; False 
+    },
+     RegistrationOrderIsReceived =&gt; False,
+     NetworkIdToRegister =&gt; &apos;&apos;,
+     Id =&gt; &apos;FirstTerminal&apos;,
+     NetworkId =&gt; &apos;&apos;,
+     IsMainTerminal =&gt; True 
+}</Action><Action
+ Guid="3526a35d-a793-42cc-8119-62a21d6da87a"
+>EURORADIO.Terminal.Terminal2 &lt;- EURORADIO.Terminal.TerminalStruct {
+     RegistrationState =&gt; EURORADIO.Terminal.TerminalStruct.RegistrationStateSM.NotRegistered,
+     RegistrationRequestState =&gt; EURORADIO.Terminal.RegisteringRequestStruct {
+         RequestState =&gt; Default.RequestEnum.Disabled,
+         Response =&gt; False 
+    },
+     RegistrationOrderIsReceived =&gt; Boolean.False,
+     NetworkIdToRegister =&gt; &apos;&apos;,
+     Id =&gt; &apos;SecondTerminal&apos;,
+     NetworkId =&gt; &apos;&apos;,
+     IsMainTerminal =&gt; False
+}</Action><Action
+ Guid="d69bb9dc-a973-4773-af85-cd8478f89588"
+>EURORADIO.Terminal.LastKnownNetworkId &lt;- &apos;&apos;</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
 </Procedure></Procedures>
 </NameSpace>

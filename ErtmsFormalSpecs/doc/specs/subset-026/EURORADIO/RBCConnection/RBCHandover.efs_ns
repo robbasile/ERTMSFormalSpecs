@@ -375,95 +375,28 @@ RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</Expression>
  Name="Select RBC"
  Guid="0cdba42d-a87d-4fbb-b448-ea7fd7ae4fd1"
 >
+<Comment>The function SecondaryRBCConnecton will select the right terminal.rbcconnection depending on terminals availability 
+and their &apos;main&apos; status.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="Two terminals available, Terminal 2 is connected"
- Guid="3d112c45-c399-4909-9c57-0b56d8c93b57"
+ Name="Select RBC"
+ Guid="cdeaa5b9-b99a-4cd1-933c-2a5a6a274d20"
 >
-<Comment>If the second mobile terminal is already connected, then the connection will be established on the first one.</Comment>
 <PreConditions>
 <PreCondition
- Guid="ffda9f58-de4b-460e-9459-f56d2e21d0d9"
->Terminal.Terminal2 != EMPTY
-  AND 
-Terminal.Terminal2.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition><PreCondition
- Guid="33666d69-9750-4e02-a8e6-c569ffffe0fa"
->Terminal.Terminal1 != EMPTY</PreCondition></PreConditions>
+ Guid="17dc5660-255c-4b14-9d46-a1a9c4f025fc"
+>Available( Element =&gt;  Terminal.SecondaryTerminal())</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="6b1064e6-281a-4354-95d1-2000cd5ffd6b"
->Terminal.Terminal1.RBCConnection.AcceptingRBCContactOrder &lt;- Contact.ContactOrderStruct
-{
-    Id =&gt; Order.Id,
-    PhoneNumber =&gt; Order.PhoneNumber,
-    ActionToPerform =&gt; Contact.ContactActionEnum.Establish,
-    AppliesToSleepingUnits =&gt; Order.AppliesToSleepingUnits
-}</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Two terminals available, Terminal 1 is connected"
- Guid="0f6ccc7b-209c-482c-a596-433da0ec4386"
->
-<Comment>If the first mobile terminal is already connected, the connection will be established on the second one.</Comment>
-<PreConditions>
-<PreCondition
- Guid="1571691d-c431-48e0-9f63-1a441b77ffe8"
->Terminal.Terminal2 != EMPTY</PreCondition><PreCondition
- Guid="e79623a7-69b4-46ec-8e6f-2a6f0c3745c0"
->Terminal.Terminal1 != EMPTY
-  AND 
-Terminal.Terminal1.RBCConnection.SafeRadioConnectionStatus == RBCConnection.SafeRadioConnectionStatusEnum.ConnectionUp</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="852b15c6-aa27-4e22-a175-04e29e4033e3"
->Terminal.Terminal2.RBCConnection.AcceptingRBCContactOrder &lt;- Contact.ContactOrderStruct
-{
-    Id =&gt; Order.Id,
-    PhoneNumber =&gt; Order.PhoneNumber,
-    ActionToPerform =&gt; Contact.ContactActionEnum.Establish,
-    AppliesToSleepingUnits =&gt; Order.AppliesToSleepingUnits
-}</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Only Terminal 1 is available"
- Guid="469a41ba-861f-4218-8799-5fab28e7a367"
->
-<Comment>If only Terminal 1 is available, the connection will be established on it.</Comment>
-<PreConditions>
-<PreCondition
- Guid="6fc46360-c116-43b2-a7e3-220f5fc3e692"
->Terminal.Terminal1 != EMPTY</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="93e237a6-31dc-4023-91c6-21e6480057e2"
->Terminal.Terminal1.RBCConnection.AcceptingRBCContactOrder &lt;- Contact.ContactOrderStruct
-{
-    Id =&gt; Order.Id,
-    PhoneNumber =&gt; Order.PhoneNumber,
-    ActionToPerform =&gt; Contact.ContactActionEnum.Establish,
-    AppliesToSleepingUnits =&gt; Order.AppliesToSleepingUnits
-}</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Only Terminal 2 is available"
- Guid="fbe9201c-5634-4859-ac9e-2606c68552be"
->
-<Comment>If only Terminal 2 is available, the connection will be established on it.</Comment>
-<PreConditions>
-<PreCondition
- Guid="7bf47d02-f543-4922-aa32-c82a9934af6b"
->Terminal.Terminal2 != EMPTY</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="8431a2ae-506a-4f0f-91bd-73fe5661a3a5"
->Terminal.Terminal2.RBCConnection.AcceptingRBCContactOrder &lt;- Contact.ContactOrderStruct
-{
-    Id =&gt; Order.Id,
-    PhoneNumber =&gt; Order.PhoneNumber,
-    ActionToPerform =&gt; Contact.ContactActionEnum.Establish,
-    AppliesToSleepingUnits =&gt; Order.AppliesToSleepingUnits
+ Guid="592f843d-3d82-4333-83f5-5d64aa4d4bb2"
+>RBCConnection.SecondaryRBCConnection().AcceptingRBCContactOrder &lt;- EURORADIO.RBCConnection.Contact.ContactOrderStruct{
+Id =&gt;Order.Id,
+PhoneNumber =&gt; Order.PhoneNumber,
+ActionToPerform =&gt; Order.ActionToPerform,
+AppliesToSleepingUnits =&gt; Order.AppliesToSleepingUnits,
+EndOfValidityLocation =&gt; Order.EndOfValidityLocation
 }</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
