@@ -830,6 +830,10 @@ namespace DataDictionary
             {
                 try
                 {
+                    // Rebuilds everything
+                    EFSSystem.Compiler.Compile_Synchronous(EFSSystem.ShouldRebuild);
+                    EFSSystem.ShouldRebuild = false;
+
                     // Check rules
                     RuleCheckerVisitor visitor = new RuleCheckerVisitor(this);
                     visitor.CheckRules();
