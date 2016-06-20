@@ -50,7 +50,7 @@
 >Testing.InitializeTestEnvironment
 (
     aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.SR
+    aMode =&gt; ModeEnum.FS
 )</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
@@ -744,7 +744,7 @@
 >Testing.InitializeTestEnvironment
 (
     aTrainPosition =&gt; 100.0,
-    aMode =&gt; ModeEnum.SR
+    aMode =&gt; ModeEnum.FS
 )</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
@@ -771,7 +771,7 @@
  Guid="9ad852d9-0243-45bf-9f23-55c2cbc0873d"
 >Kernel.TrainData.TrainData.Value.EddyCurrentBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.SB</Action><Action
  Guid="952f4d5e-997c-454d-ae58-993939469a87"
->Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.Both</Action><Action
+>Kernel.TrainData.TrainData.Value.MagneticShoeBrakeInterface &lt;- Kernel.TrainData.BrakingParameters.BrakeInterfaceStatusEnum.EB</Action><Action
  Guid="c8e7f26f-cf2a-4eda-b5e4-df9e1117aaa8"
 >Kernel.TrainData.TrainData.Value.BrakePosition &lt;- Kernel.TrainData.BrakingParameters.BrakePositionsEnum.PassengerTrainInP</Action><Action
  Guid="9ad1fb7c-8b0e-4e12-bec8-6abd2b49cb9d"
@@ -1160,6 +1160,11 @@
 [
     Kernel.TrackDescription.Gradient.GradientStruct
     {
+        Gradient =&gt; 0.0,
+        Location =&gt; 0.0
+    },
+    Kernel.TrackDescription.Gradient.GradientStruct
+    {
         Gradient =&gt; 4.0,
         Location =&gt; 800.0
     },
@@ -1324,10 +1329,10 @@
 <Expectation
  Kind="Instantaneous"
  Guid="961bd3ff-2a80-4ebe-ba99-3aaae4775aad"
->Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated ( GradientInfo =&gt; FIRST X IN Kernel.TrackDescription.Gradient.Gradients, Distance =&gt; 500.0, TrainLength =&gt; Kernel.TrainData.TrainData.Value.TrainLength ) == BaseTypes.Gradient.Indefinite</Expectation><Expectation
+>Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated ( GradientInfo =&gt; FIRST X IN Kernel.TrackDescription.Gradient.Gradients, Distance =&gt; 500.0, TrainLength =&gt; Kernel.TrainData.TrainData.Value.TrainLength ) == 0.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="b84a36a4-dfe2-4aa1-a7b0-2f6c7ff7a280"
->Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated ( GradientInfo =&gt; FIRST X IN Kernel.TrackDescription.Gradient.Gradients, Distance =&gt; 1200.0, TrainLength =&gt; Kernel.TrainData.TrainData.Value.TrainLength ) == 4.0</Expectation><Expectation
+>Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated ( GradientInfo =&gt; LAST X IN Kernel.TrackDescription.Gradient.Gradients | X.Location &lt; 1200.0, Distance =&gt; 1200.0, TrainLength =&gt; Kernel.TrainData.TrainData.Value.TrainLength ) == 4.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="0f3cb22a-9772-4bd3-beaf-d08d786ccf99"
 >Kernel.TrackDescription.Gradient.GradientInfoProfile_NonCompensated ( GradientInfo =&gt; FIRST X IN Kernel.TrackDescription.Gradient.Gradients, Distance =&gt; 1740.0, TrainLength =&gt; Kernel.TrainData.TrainData.Value.TrainLength ) == BaseTypes.Gradient.Indefinite</Expectation></Expectations>
@@ -1353,7 +1358,7 @@
 <Expectation
  Kind="Instantaneous"
  Guid="9c3d487d-d361-4527-bc89-513cdc27c008"
->Kernel.TrackDescription.Gradient.GradientInfoProfileSummary_NonCompensated ( 500.0 ) == BaseTypes.Gradient.Indefinite</Expectation><Expectation
+>Kernel.TrackDescription.Gradient.GradientInfoProfileSummary_NonCompensated ( 500.0 ) == 0.0</Expectation><Expectation
  Kind="Instantaneous"
  Guid="d39c8c21-812b-4034-80db-a1f5dd453dd1"
 >Kernel.TrackDescription.Gradient.GradientInfoProfileSummary_NonCompensated ( 1200.0 ) == 4.0</Expectation><Expectation
@@ -1458,10 +1463,10 @@
 >Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 700.0, V =&gt; 100.0 ) == 0.84</Expectation><Expectation
  Kind="Instantaneous"
  Guid="67890180-2493-457d-963c-1856f8e6192d"
->Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 800.0, V =&gt; 0.0 ) &gt; 0.2541 AND Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 800.0, V =&gt; 0.0 ) &lt; 0.2542</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 941.0, V =&gt; 0.0 ) &gt; 0.2541 AND Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 941.0, V =&gt; 0.0 ) &lt; 0.2542</Expectation><Expectation
  Kind="Instantaneous"
  Guid="2a36a4fe-fd3f-4988-9fb0-578af1424171"
->Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 800.0, V =&gt; 100.0 ) &lt; -0.5258 AND Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 800.0, V =&gt; 100.0 ) &gt; -0.5259</Expectation><Expectation
+>Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 941.0, V =&gt; 100.0 ) &lt; -0.5258 AND Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 941.0, V =&gt; 100.0 ) &gt; -0.5259</Expectation><Expectation
  Kind="Instantaneous"
  Guid="ec7adb42-005b-44df-885c-5ce8b83590c2"
 >Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 1300.0, V =&gt; 0.0 ) &gt; 1.34076 AND Kernel.TrainData.BrakingParameters.A_normal_service ( d =&gt; 1300.0, V =&gt; 0.0 ) &lt; 1.34077</Expectation><Expectation

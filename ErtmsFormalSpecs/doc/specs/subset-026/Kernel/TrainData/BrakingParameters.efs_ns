@@ -4883,9 +4883,15 @@ aStep.SpeedStep == 0.0</PreCondition></PreConditions>
 </ReqRef><Comment>Filters the track conditions profile to only return the brake conditions, amending their distance and length values to take into account relevant offsets (3.12.1.2.1), and merging overlaping condition areas.</Comment>
 <Cases>
 <Case
- Name="Always"
+ Name="Track conditions active"
  Guid="582eb4d5-f128-46b6-b1d0-1f4a6a1235e4"
 >
+<PreConditions>
+<PreCondition
+ Guid="dbc780c6-2178-4a27-8f68-860ea7b06328"
+>Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()
+OR
+Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
 <Expression>REDUCE 
     MapBrakeConditions()
 USING X IN RESULT + TCToBrakeCondition(
@@ -4893,6 +4899,11 @@ USING X IN RESULT + TCToBrakeCondition(
     aCondition =&gt; X
 )
 INITIAL_VALUE []</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="7acb95d6-6efe-400c-9d00-f8efe6b3fe59"
+>
+<Expression>[]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
@@ -5040,26 +5051,9 @@ FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length) &lt; SecondTC.Loca
 >SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &lt; FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length)</PreCondition><PreCondition
  Guid="c01258ac-3299-4042-8377-5c988ea670cb"
 >SecondTC.Location  &lt; FirstTC.Location</PreCondition></PreConditions>
-<Expression>[BrakeConditionStruct{
-Distance =&gt; SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length),
-Length =&gt; 0.0,
-SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
-),
-SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
-),
-SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
-),
-SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
-)
-}]</Expression>
+<Expression>[GenerateBrakeCondition(
+    aDistance =&gt; SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length)
+)]</Expression>
 </Case><Case
  Name="SecondContainedInFirst"
  Guid="a539f704-5977-4e58-9136-97b34d91e9a2"
@@ -5070,46 +5064,12 @@ SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereI
 >SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &lt; FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length)</PreCondition><PreCondition
  Guid="8f95ced2-fbbc-4048-8794-20d392e38a6f"
 >SecondTC.Location  &gt; FirstTC.Location</PreCondition></PreConditions>
-<Expression>[BrakeConditionStruct{
-Distance =&gt; SecondTC.Location,
-Length =&gt; 0.0,
-SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+<Expression>[GenerateBrakeCondition(
+    aDistance =&gt; SecondTC.Location
 ),
-SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
-),
-SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
-),
-SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
-)
-},
-BrakeConditionStruct{
-Distance =&gt; SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length),
-Length =&gt; 0.0,
-SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
-),
-SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
-),
-SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
-),
-SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
-)
-}]</Expression>
+GenerateBrakeCondition(
+    aDistance =&gt; SecondTC.Location + BaseTypes.LengthToDistance( SecondTC.Length)
+)]</Expression>
 </Case><Case
  Name="OnlyStartOfSecondInFirst"
  Guid="1fac2aac-5079-4eff-bee3-42c1d90bc3b5"
@@ -5120,26 +5080,9 @@ SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereI
 >SecondTC.Location  &gt; FirstTC.Location</PreCondition><PreCondition
  Guid="fcd5f1c6-1bb8-4a22-8dc0-e0d33cc752d3"
 >SecondTC.Location + BaseTypes.LengthToDistance(SecondTC.Length) &gt; FirstTC.Location + BaseTypes.LengthToDistance(FirstTC.Length)</PreCondition></PreConditions>
-<Expression>[BrakeConditionStruct{
-Distance =&gt; SecondTC.Location,
-Length =&gt; 0.0,
-SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
-),
-SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
-),
-SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
-),
-SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( SecondTC.Location),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
-)
-}]</Expression>
+<Expression>[GenerateBrakeCondition(
+    aDistance =&gt; SecondTC.Location
+)]</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="34c4c70c-6a97-4e13-b8ba-c9162fde2fc4"
@@ -5165,11 +5108,11 @@ SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereI
 </ReqRef><Comment>Returns the brake conditions from TCProfile taking into account confidence intervals</Comment>
 <Cases>
 <Case
- Name="Case1"
+ Name="Always"
  Guid="93406524-7db0-4d34-b214-58169e311d41"
 >
 <Expression>(MAP TrackDescription.TrackConditions.General.TCProfile | X.Value in [TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake]
-USING X IN ConditionActiveArea( aCondition =&gt;  X))</Expression>
+USING X IN ConditionActiveArea(X))</Expression>
 </Case></Cases>
 </Function><Function
  Type="BrakeConditionStruct"
@@ -5201,9 +5144,13 @@ USING X IN ConditionActiveArea( aCondition =&gt;  X))</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Nextcondition"
+ Name="NextCondition"
  Guid="94c06e0f-53c4-4473-9d6c-062171a55749"
 >
+<PreConditions>
+<PreCondition
+ Guid="0c2321bb-ddca-4d22-8ed6-bdef0ba5a102"
+>THERE_IS X IN aProfile | X.Distance &gt; aCondition.Distance</PreCondition></PreConditions>
 <Expression>REDUCE aProfile | X.Distance &gt; aCondition.Distance
 USING X IN Default.ClosestBrakeCondition(
     BrakeCondition1 =&gt; RESULT,
@@ -5217,6 +5164,11 @@ SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
 SwitchOffMagneticShoeBrake =&gt; Boolean.False,
 SwitchOffRegenerativeBrake =&gt; Boolean.False
 }</Expression>
+</Case><Case
+ Name="NoNextCondition"
+ Guid="fff9ce5c-47f5-4a13-bc0a-8ed6ffe8b4d5"
+>
+<Expression>EMPTY</Expression>
 </Case></Cases>
 </Function><Function
  Type="BrakeConditionCol"
@@ -5249,7 +5201,7 @@ Used for creating non overlapping brake conditions.</Comment>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Case1"
+ Name="Always"
  Guid="fb9af2ff-02d2-4698-a68c-74d5cbc68f87"
 >
 <Expression>REDUCE aTCProfile
@@ -5257,49 +5209,15 @@ USING X IN
     (InternalPointsOfCondition(
         FirstTC =&gt; aCondition,
         SecondTC =&gt; X
-        )
-    + RESULT)
-INITIAL_VALUE [BrakeConditionStruct{
-Distance =&gt; aCondition.Location,
-Length =&gt; 0.0,
-SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
-    ),
-SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
-    ),
-SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
-    ),
-SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+        ) + RESULT
     )
-},
-BrakeConditionStruct{
-Distance =&gt; aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ),
-Length =&gt; 0.0,
-SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
-    ),
-SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
-    ),
-SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
-    ),
-SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
-    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) ),
-    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
-    )
-}
-]</Expression>
+INITIAL_VALUE 
+[GenerateBrakeCondition(
+    aDistance =&gt; aCondition.Location,
+),
+GenerateBrakeCondition(
+    aDistance =&gt; aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ),
+)]</Expression>
 </Case></Cases>
 </Function><Function
  Type="BrakeConditionStruct"
@@ -5341,6 +5259,61 @@ SwitchOffEddyCurrentBrakeForEB =&gt; aCondition.SwitchOffEddyCurrentBrakeForEB,
 SwitchOffEddyCurrentBrakeForSB =&gt; aCondition.SwitchOffEddyCurrentBrakeForSB,
 SwitchOffMagneticShoeBrake =&gt; aCondition.SwitchOffMagneticShoeBrake,
 SwitchOffRegenerativeBrake =&gt; aCondition.SwitchOffRegenerativeBrake
+}</Expression>
+</Case></Cases>
+</Function><Function
+ Type="BrakeConditionStruct"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="GenerateBrakeCondition"
+ Guid="f4a5d436-52ce-450e-9549-18df48134623"
+>
+<ReqRef
+ Id="a2d32abf-08a0-4bc5-b97e-117e6a4fd998"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ecdefdb1-22bc-437b-8722-0ce04cf2fc82"
+>
+</ReqRef><ReqRef
+ Id="05c82281-96b9-445a-9f79-33a2eea7300e"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="e2a85399-b73b-4c8e-8034-50491ce87f01"
+>
+</ReqRef><Comment>Generates the start of a brake condition section with a length of 0 to be comppleted in a different function (ChangeLength).</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Distance"
+ Name="aDistance"
+ Guid="6b29db6f-ca9e-4ae9-95ef-4a7d6a5830f4"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Always"
+ Guid="eac7b537-58e3-4eac-80fe-ab9ce36a7b89"
+>
+<Expression>BrakeConditionStruct{
+Distance =&gt; aDistance,
+Length =&gt; 0.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aDistance ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB
+),
+SwitchOffEddyCurrentBrakeForSB =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aDistance ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB
+),
+SwitchOffMagneticShoeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aDistance ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake
+),
+SwitchOffRegenerativeBrake =&gt; TrackDescription.TrackConditions.General.ThereIsValueInProfile(
+    aProfile =&gt; TrackDescription.TrackConditions.General.ProfileAtDistance( aDistance ),
+    aValue =&gt; TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake
+)
 }</Expression>
 </Case></Cases>
 </Function></Functions>

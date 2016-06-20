@@ -2639,5 +2639,720 @@ aSpeed =&gt; 250.0 ) == 0.04</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Track condition conversion to brake condition"
+ Guid="d89d7b46-ced4-42df-aafe-634cf21c350e"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="No overlaping brake conditions"
+ Guid="decd8b5c-3f78-44f3-a244-3d0b4371e4d1"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="326ba73b-670f-4fd9-8b59-06e7c25d46b2"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize"
+ Guid="ea195ba2-fdb2-48c6-8809-9d3bea06a5af"
+>
+<Actions>
+<Action
+ Guid="0b260446-9fc7-4b82-b6ff-a2c52ad6cda1"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="05ae9c91-c1f9-4f67-bd50-f56a25fd8481"
+>
+<Actions>
+<Action
+ Guid="1da3835b-5920-4b12-b2c4-b24370d6b46e"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 100.0</Action><Action
+ Guid="b934168a-d668-474c-9e19-a88da7774e1d"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- [Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 0.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 300.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 100.0
+}]</Action><Action
+ Guid="84bf0806-25a8-47d3-a8c2-3936bebb4a65"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct{
+D_ura =&gt; 10.0,
+D_ora =&gt; 10.0,
+V_ora =&gt; 0.0,
+V_ura =&gt; 0.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check single track condition"
+ Guid="62b6d2d7-0a71-4dc9-9467-886b90b85d5f"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="TCToBrakeCondition"
+ Guid="cb4b530f-3a29-4ab9-a11d-580f28435cd3"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d7864f98-b34d-4b69-8b6a-3d9452be8071"
+>Kernel.TrainData.BrakingParameters.TCToBrakeCondition(
+    aTCProfile =&gt; Kernel.TrainData.BrakingParameters.MapBrakeConditions(),
+    aCondition =&gt; FIRST X IN Kernel.TrainData.BrakingParameters.MapBrakeConditions()
+) ==
+[Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; -20.0,
+Length =&gt; 241.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}]</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="42de8852-beff-4523-bb32-eadea5f55152"
+>Kernel.TrainData.BrakingParameters.MapBrakeConditions()
+==
+[Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; -20.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake,
+Length =&gt; 241.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 280.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 241.0
+}]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Overlaping brake conditions"
+ Guid="9bd317b8-9cc4-4f13-96c8-8ab67c60165c"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="ba08abd3-5037-4618-bcff-7d155c376a14"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="f91c7089-a6e6-497b-b207-8f59d6d15ee3"
+>
+<Actions>
+<Action
+ Guid="b44ca525-3eae-4959-9702-77decf339e77"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- [Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 0.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 20.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 29.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 110.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 300.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 100.0
+}]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check single track condition"
+ Guid="b49daf06-3122-4445-abc3-63dbe804296c"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="TCToBrakeCondition"
+ Guid="f8ea624f-f750-44dd-b648-0ac22f90429c"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="6058c6dd-2c50-44c3-afe5-1b59db2614f1"
+>Kernel.TrainData.BrakingParameters.TCToBrakeCondition(
+    aTCProfile =&gt; Kernel.TrainData.BrakingParameters.MapBrakeConditions(),
+    aCondition =&gt; FIRST X IN Kernel.TrainData.BrakingParameters.MapBrakeConditions()
+) ==
+[Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; -20.0,
+Length =&gt; 20.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+},
+Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 0.0,
+Length =&gt; 90.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+},
+Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 90.0,
+Length =&gt; 80.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+},
+Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 170.0,
+Length =&gt; 51.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}]</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="edeb12c5-3888-4a83-82d9-68379ad70612"
+>Kernel.TrainData.BrakingParameters.MapBrakeConditions()
+==
+[Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; -20.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake,
+Length =&gt; 241.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 0.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 170.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 90.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB,
+Length =&gt; 241.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 280.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 241.0
+}]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Empty TCProfile"
+ Guid="4c9c4b86-8f25-442c-a5b1-2248c9930852"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="bcf9a33c-860f-48bf-8970-8cc47594c064"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="29731614-4cbe-4c1c-a892-a80503f2226d"
+>
+<Actions>
+<Action
+ Guid="47cd107d-0f62-42e4-b526-a3bb3e13db0e"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- []</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check is empty"
+ Guid="dd8f1340-b4c7-4e13-8f71-724f100cd7cb"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="cb8166df-774d-4788-9c34-aac188840e34"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="caf0735c-bf19-4fa4-adc7-7cbb7db07cb8"
+>Kernel.TrainData.BrakingParameters.MapBrakeConditions()
+==
+[]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
+</SubSequence><SubSequence
+ D_LRBG=""
+ Level=""
+ Mode=""
+ NID_LRBG=""
+ Q_DIRLRBG=""
+ Q_DIRTRAIN=""
+ Q_DLRBG=""
+ RBC_ID=""
+ RBCPhone=""
+ Name="Track condition profile conversion to brake condition profile"
+ Guid="cb1090b8-d67a-456f-9ee5-466d0679b032"
+>
+<TestCases>
+<TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="No overlapping brake conditions"
+ Guid="9b40ae27-b5bc-430f-811d-db7043fc3520"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="45117629-4745-45fc-a6c9-53c383af6a61"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Initialize"
+ Guid="9c0f2947-d461-4761-bcac-83d17d5d09ed"
+>
+<Actions>
+<Action
+ Guid="c4a1a81b-58ab-4531-838f-101446ee6702"
+>Testing.InitializeTestEnvironment(
+    aTrainPosition =&gt; 0.0,
+    aMode =&gt; Default.ModeEnum.FS
+)</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="93ed4b3b-90e3-40ae-a3e4-87fc489e3497"
+>
+<Actions>
+<Action
+ Guid="45047bd8-5261-41e4-a4e1-e7b438b46afb"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- [Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 0.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 50.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.AirTightness,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 300.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 100.0
+}]</Action><Action
+ Guid="12765b97-9fd1-40dd-a633-d2c8dfbb6c84"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 100.0</Action><Action
+ Guid="bc4a2452-6280-4de0-9ba4-226ffdaac59d"
+>Odometry.Accuracy &lt;- Odometry.OdometerAccuracyStruct{
+D_ura =&gt; 10.0,
+D_ora =&gt; 10.0,
+V_ora =&gt; 0.0,
+V_ura =&gt; 0.0
+}</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Check brake profile"
+ Guid="1da0a422-0d2f-4f2d-b379-2557432d0345"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="BrakeConditionsProfile"
+ Guid="78e53886-e3c2-475b-b554-877c4b777d56"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="61a68b2e-c23c-4346-9ab5-e66dfa0e34b5"
+>Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() ==
+[Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; -20.0,
+Length =&gt; 241.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+},
+Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 280.0,
+Length =&gt; 241.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}]</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Overlaping brake conditions"
+ Guid="d1c67be8-f719-4697-95f0-78d7099e3859"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="91f74b98-98d6-4854-ae8f-ba62a1266a56"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="ab2d5948-d0b0-4141-99ef-4b582cf968c4"
+>
+<Actions>
+<Action
+ Guid="771d3660-c2f0-42b3-b01e-465212720169"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- [Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 0.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 20.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 29.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 110.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB,
+Length =&gt; 100.0
+},
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 300.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake,
+Length =&gt; 100.0
+}]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="BrakeConditionsProfile"
+ Guid="662c1313-bcbe-4126-bb87-ce59680749ff"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check"
+ Guid="9a24853b-3741-4ac1-bc94-003aa9607ca6"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3108146d-a6cd-4cbe-ac26-e25f387a73fe"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; -20.0,
+Length =&gt; 20.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f6abfd99-db13-46ce-93e2-5f5a62535366"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; -20.0,
+Length =&gt; 20.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}) == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1f4d4725-9043-4963-a303-aeb0ed5f2f3c"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 0.0,
+Length =&gt; 90.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="bc43fd23-51e8-447f-a7cd-973fae37fa18"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 0.0,
+Length =&gt; 90.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}) == 2</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="c039e7c7-c306-48de-9d82-50789d6d8909"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 90.0,
+Length =&gt; 80.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="10d6e55a-813d-4818-8e4c-5b10e9bddb27"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 90.0,
+Length =&gt; 80.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}) == 3</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="640828cf-be7d-429b-9187-c646f242d994"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 170.0,
+Length =&gt; 51.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="5cf0d86f-adf4-4ded-8522-0f25625fd23b"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 170.0,
+Length =&gt; 51.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.True,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}) == 2</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="2ec61223-cc80-4721-949e-1b8872a50d38"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 221.0,
+Length =&gt; 59.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="711de0ff-74db-47ce-bf53-64884c221d52"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 221.0,
+Length =&gt; 59.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.False
+}) == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="574d099c-8bb9-4678-9ca8-844a2e6924fc"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 280.0,
+Length =&gt; 51.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="278bc898-8492-4cc8-af47-bb8f81bec252"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 280.0,
+Length =&gt; 51.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.True,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}) == 2</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="80ff0d3a-4561-4106-a5a9-7c8aa1a72d0e"
+>THERE_IS X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 331.0,
+Length =&gt; 190.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b331128d-c97c-49e1-96f3-2f7b5f521ab3"
+>(COUNT X IN Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() | X == Kernel.TrainData.BrakingParameters.BrakeConditionStruct{
+Distance =&gt; 331.0,
+Length =&gt; 190.0,
+SwitchOffEddyCurrentBrakeForEB =&gt; Boolean.False,
+SwitchOffEddyCurrentBrakeForSB =&gt; Boolean.False,
+SwitchOffMagneticShoeBrake =&gt; Boolean.False,
+SwitchOffRegenerativeBrake =&gt; Boolean.True
+}) == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase><TestCase
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="No brake conditions in TCProfile"
+ Guid="b234131c-0621-4e6b-9bf7-fb3bf928f01e"
+>
+<Steps>
+<Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Setup"
+ Guid="7a32aa27-6086-47c7-9028-0519fca81ffe"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Setup"
+ Guid="f9448f94-df48-4010-9d8f-cb9249ae9ec1"
+>
+<Actions>
+<Action
+ Guid="5331e8a2-a185-4ce6-a641-69148a71f60d"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile &lt;- [Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; 50.0,
+Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.AirTightness,
+Length =&gt; 100.0
+}]</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="BrakeConditionsProfile Empty"
+ Guid="5b7fa346-cf1c-40d6-bc56-95de10cba8e6"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="Check"
+ Guid="de4c89af-6c13-44fd-ae25-b87c79a90101"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="11538427-5d95-4c66-a0f5-dde0dc8fd51f"
+>Kernel.TrainData.BrakingParameters.BrakeConditionsProfile() == []</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step></Steps>
+</TestCase></TestCases>
 </SubSequence></SubSequences>
 </Frame>

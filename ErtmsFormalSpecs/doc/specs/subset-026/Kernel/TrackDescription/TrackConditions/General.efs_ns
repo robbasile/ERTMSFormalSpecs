@@ -272,47 +272,52 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="31c2a7de-bb4f-41a0-a2b9-d4ba035f7c28"
 >
-</ReqRef><Comment>Returns the location of the end of the section, based on the start and the type of track condition</Comment>
+</ReqRef><ReqRef
+ Id="e36dd5fc-81ea-4253-8535-4e5b4afd1b54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="3685dcda-b79d-44c9-8fbd-c5715850e41f"
+>
+</ReqRef><Comment>Returns the location of the end of the section, based on the length and the type of the track condition.</Comment>
 <Parameters>
 <Parameter
- Type="Messages.M_TRACKCOND"
- Name="TCType"
+ Type="TrackConditionInformationStruct"
+ Name="aCondition"
  Guid="2bb340ea-4814-4c8b-8bb6-b797bcdc4137"
->
-</Parameter><Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="800a9eed-b2c0-4360-a17f-2ed5c4fbd5ef"
->
-</Parameter><Parameter
- Type="BaseTypes.Length"
- Name="Length"
- Guid="9e084487-2031-48b1-99b2-5d028d4893db"
 >
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Ends at front of train"
+ Name="Ends at min front of train"
  Guid="81c4d603-6bff-4634-b665-5e389cd153d3"
 >
-<Comment>The end of powerless sections, tunnel stopping areas and sound horns are when the front of the train reaches the end</Comment>
+<Comment>The end of powerless sections are when the min safe front of the train reaches the end.</Comment>
 <PreConditions>
 <PreCondition
  Guid="6e8d5518-ecd2-4e1d-aa9a-8366fc7abb62"
->(TCType == Messages.M_TRACKCOND.Powerless_section___lower_pantograph__Initial_state__not_powerless_section)
+>aCondition.Value == TrackConditionEnum.PowerlessSection_LowerPantograph 
  OR 
-(TCType == Messages.M_TRACKCOND.Powerless_section___switch_off_the_main_power_switch__Initial_state__not_powerless_section)
+aCondition.Value == TrackConditionEnum.PowerlessSection_SwitchOffTheMainPowerSwitch</PreCondition></PreConditions>
+<Expression>aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
+</Case><Case
+ Name="Ends at nom front of train"
+ Guid="04abe156-2ae0-4a9e-bf36-949c38efd14a"
+>
+<Comment>The end of tunnel stopping areas and sound horn are when the estimated front end of the train reaches the end.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="eae9eb9e-edec-4b05-8dfe-5b8d6555e967"
+>aCondition.Value == TrackConditionEnum.SoundHorn
  OR 
-(TCType == Messages.M_TRACKCOND.Sound_horn__Initial_state__no_request_for_sound_horn)
- OR 
-(TCType == Messages.M_TRACKCOND.Tunnel_stopping_area__Initial_state__no_tunnel_stopping_area)</PreCondition></PreConditions>
-<Expression>Distance + BaseTypes.LengthToDistance(Length)</Expression>
+aCondition.Value == TrackConditionEnum.TunnelStoppingArea
+OR
+aCondition.Value == TrackConditionEnum.RadioHole</PreCondition></PreConditions>
+<Expression>aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length)</Expression>
 </Case><Case
  Name="Ends at back of train"
  Guid="eef0771b-7324-4051-81e0-e895746a3697"
 >
-<Comment>All other track conditions end when the back of the train crosses the section end</Comment>
-<Expression>Distance + BaseTypes.LengthToDistance(Length) + BaseTypes.LengthToDistance(TrainData.TrainData.Value.TrainLength)</Expression>
+<Comment>All other track conditions end when the min safe rear of the train reaches the end.</Comment>
+<Expression>aCondition.Location + BaseTypes.LengthToDistance( aCondition.Length ) + BaseTypes.LengthToDistance(TrainPosition.TrainLength()) + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
 </Case></Cases>
 </Function><Function
  Type="TrackConditionInformationStruct"
@@ -438,11 +443,20 @@ TCPacket.Value == General.TrackConditionEnum.SoundHorn</PreCondition></PreCondit
 </ReqRef><Comment>Indicates if there is an applicable track condition for radio hole</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Track conditions active"
  Guid="d500abeb-937a-4158-bde3-df9a023e35ff"
 >
 <Comment>Returns True if the train is currently inside a RadioHole</Comment>
+<PreConditions>
+<PreCondition
+ Guid="c38f63ab-bc7d-4f6e-8d11-348653e55612"
+>Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
 <Expression>THERE_IS X IN TrackConditions.General.CurrentConditions() | X.Value == General.TrackConditionEnum.RadioHole</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="1c6fc91c-49d8-4fae-a20b-6d26da4ae6db"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="TrackConditionInformationCol"
@@ -481,7 +495,7 @@ TCPacket.Value == General.TrackConditionEnum.SoundHorn</PreCondition></PreCondit
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0a0a9df9-007a-4006-8191-4c16e10f4c2b"
 >
-</ReqRef><Comment>Gives the current track conditions</Comment>
+</ReqRef><Comment>Gives the current track conditions.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -796,7 +810,12 @@ The use of profile points and the functions in this namespace can be found in Er
  SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
  Guid="b84fc512-8985-4071-872b-2654e2b1dbb9"
 >
-</ReqRef><Comment>Returns all track conditions of which the starting location has been passed.</Comment>
+</ReqRef><ReqRef
+ Id="e36dd5fc-81ea-4253-8535-4e5b4afd1b54"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="06338456-df60-4b5c-bb37-6ac9c3e0ecee"
+>
+</ReqRef><Comment>Returns True for track conditions that are active at a given distance.</Comment>
 <Parameters>
 <Parameter
  Type="TrackConditionInformationStruct"
@@ -820,9 +839,10 @@ The use of profile points and the functions in this namespace can be found in Er
 >aCondition.Value == General.TrackConditionEnum.PowerlessSection_LowerPantograph
 OR
 aCondition.Value == General.TrackConditionEnum.PowerlessSection_SwitchOffTheMainPowerSwitch</PreCondition></PreConditions>
-<Expression>aCondition.Location &lt;=  aDistance  + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))
-AND
-aCondition.Location + BaseTypes.LengthToDistance( aLength =&gt; aCondition.Length ) &gt;  aDistance - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
+<Expression>aCondition.Location &lt;= aDistance + BaseTypes.LengthToDistance(
+    TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))
+ AND 
+aDistance &lt; EndSectionDistance(aCondition)</Expression>
 </Case><Case
  Name="Sound horn or tunnel stopping"
  Guid="a19b99a9-95e7-4c79-a868-9c6c5de261ae"
@@ -832,17 +852,19 @@ aCondition.Location + BaseTypes.LengthToDistance( aLength =&gt; aCondition.Lengt
  Guid="d2ab1125-31bc-43d7-96b3-a8e49da1b125"
 >aCondition.Value == General.TrackConditionEnum.SoundHorn
 OR
-aCondition.Value == General.TrackConditionEnum.TunnelStoppingArea</PreCondition></PreConditions>
+aCondition.Value == General.TrackConditionEnum.TunnelStoppingArea
+OR
+aCondition.Value == General.TrackConditionEnum.RadioHole</PreCondition></PreConditions>
 <Expression>aCondition.Location &lt;=  aDistance 
 AND
-aCondition.Location + BaseTypes.LengthToDistance(aCondition.Length ) &gt; aDistance</Expression>
+aDistance &lt; EndSectionDistance(aCondition)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="21c1ac3f-b4c5-4443-a6fc-08624989d1eb"
 >
 <Expression>aCondition.Location &lt;=  aDistance + BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER))
 AND
-aCondition.Location + BaseTypes.LengthToDistance( aLength =&gt; aCondition.Length ) &gt; aDistance - BaseTypes.LengthToDistance(TrainPosition.TrainLength()) - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER))</Expression>
+aDistance &lt; EndSectionDistance(aCondition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="TrackConditionInformationStruct"
@@ -1367,15 +1389,15 @@ ON
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8c9e4813-9b76-4011-9792-aff2dc3d390f"
 >
-</ReqRef><Comment>The packet contains &quot;reset track conditions&quot;. Reset in this conetext means delete information, since the default values are the initial state.</Comment>
+</ReqRef><Comment>The packet contains &quot;reset track conditions&quot;. Reset in this context means delete information, since the default values are the initial state.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8fabb5f7-5fa8-45f4-b36d-c0420a360baf"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.Empty_profile__initial_states_to_be_resumed</PreCondition><PreCondition
  Guid="01ebe7ba-e0ba-409b-82c0-915c9bc7139f"
->Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()
+>Kernel.AcceptInformation.ModeRules.AcceptTrackConditionsExcludingSpecialCases()
   OR  
-Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
+Kernel.AcceptInformation.ModeRules.AcceptTrackConditionsIncludingSpecialCases()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="b5b87575-a081-4006-956f-527bfabc9dfd"
@@ -1395,9 +1417,9 @@ Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreCond
  Guid="3d6d20c8-f705-4764-be32-ab6e2707a483"
 >Packet.Q_TRACKINIT == Messages.Q_TRACKINIT.No_initial_states_to_be_resumed__profile_to_follow</PreCondition><PreCondition
  Guid="9414ff03-62f4-460a-b382-0d796a7af864"
->Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()
+>Kernel.AcceptInformation.ModeRules.AcceptTrackConditionsExcludingSpecialCases()
   OR  
-Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
+Kernel.AcceptInformation.ModeRules.AcceptTrackConditionsIncludingSpecialCases()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="c78472f5-3741-4e00-a564-1bebf1643278"
