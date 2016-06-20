@@ -150,11 +150,11 @@
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0cf97c44-6e10-471c-a2f3-371a3bf26ae8"
 >
-</ReqRef><Comment>Returns True if the TCProfile point is no longer applicable, ie. if there is a more recent profile point that is applied</Comment>
+</ReqRef><Comment>Returns True if the TC is no longer applicable, ie. if the condition is no longer active.</Comment>
 <Parameters>
 <Parameter
  Type="BaseTypes.Distance"
- Name="ProfilePointDistance"
+ Name="aLocation"
  Guid="cc6665c6-d1cb-443a-ab6a-b592278c3d7f"
 >
 </Parameter><Parameter
@@ -168,12 +168,12 @@
  Name="The track conditions are passed"
  Guid="24466bb5-b244-4a1a-b1ca-5a065f4c431c"
 >
-<Comment>Due to the way the track conditions are stored, profile points are all compared to the front of the train (even though the specs say rear, this is accounted for in AddSectionToProfile)</Comment>
+<Comment>The given location is distance + length for the end location of a track condition.</Comment>
 <PreConditions>
 <PreCondition
  Guid="63f5b8e4-1c3f-4267-a7e6-bfb62588b3c1"
 >TrackConditionType == TrackConditions.ConditionType.Conditions</PreCondition></PreConditions>
-<Expression>THERE_IS X IN TrackConditions.General.TCProfile| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
+<Expression>aLocation&lt;= Kernel.TrainPosition.RearEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min)</Expression>
 </Case><Case
  Name="Metal masses are passed"
  Guid="b3adf906-b3aa-4a78-a2ef-cbfeae7a1c8e"
@@ -182,16 +182,17 @@
 <PreCondition
  Guid="29415c07-8788-4a5d-b02d-9c1b80bec23e"
 >TrackConditionType == TrackConditions.ConditionType.BigMetalMasses</PreCondition></PreConditions>
-<Expression>THERE_IS X IN TrackConditions.BigMetalMasses.TCBigMetalMasses| (X.Location &gt; ProfilePointDistance) AND (X.Location + Kernel.DistanceToKeepInfoInTheRear &lt;= Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
+<Expression>aLocation  &lt;= Kernel.TrainPosition.RearEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min)</Expression>
 </Case><Case
  Name="Station platforms changed"
  Guid="64950d25-0e2f-4ada-b68d-1237ec3a3bd5"
 >
+<Comment>Station platform needs one element to give its current status, since it does not have default state.</Comment>
 <PreConditions>
 <PreCondition
  Guid="4a9c1660-1830-44a0-a016-13570282c74e"
 >TrackConditionType == TrackConditions.ConditionType.StationPlatform</PreCondition></PreConditions>
-<Expression>THERE_IS X IN TrackConditions.StationPlatform.TCStationPlatforms| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
+<Expression>THERE_IS X IN TrackConditions.StationPlatform.TCStationPlatforms| (X.Location &gt; aLocation) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Min))</Expression>
 </Case><Case
  Name="Newer traction system condition has been applied"
  Guid="6a9633c8-ab71-4b77-8b00-d8fe637fc740"
@@ -201,7 +202,7 @@
 <PreCondition
  Guid="e9ab2926-47c5-4c27-b9f2-5f48fe6f086b"
 >TrackConditionType == TrackConditions.ConditionType.TractionSystem</PreCondition></PreConditions>
-<Expression>THERE_IS X IN TrackConditions.TractionSystems.TCTractionSystems| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))</Expression>
+<Expression>THERE_IS X IN TrackConditions.TractionSystems.TCTractionSystems| (X.Location &gt; aLocation) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))</Expression>
 </Case><Case
  Name="New current consumption limit has been applied"
  Guid="2c584425-c82e-48bc-a4ff-a445749fa10b"
@@ -211,7 +212,7 @@
 <PreCondition
  Guid="ec6f1c48-d0e2-40b6-98ef-5b4bc7e36db6"
 >TrackConditionType == TrackConditions.ConditionType.CurrentConsumption</PreCondition></PreConditions>
-<Expression>THERE_IS X IN TrackConditions.CurrentConsumption.TCCurrentConsumption| (X.Location &gt; ProfilePointDistance) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))</Expression>
+<Expression>THERE_IS X IN TrackConditions.CurrentConsumption.TCCurrentConsumption| (X.Location &gt; aLocation) AND (X.Location &lt; Kernel.TrainPosition.FrontEndPosition(PointOfInterest=&gt;DistanceIntervalEnum.Max))</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>

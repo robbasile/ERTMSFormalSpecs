@@ -175,44 +175,6 @@
 <Expression>MAP General.TCProfile USING aTrackCondition IN MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
- Type="PlanningInformationStruct"
- Default=""
- X="1"
- Y="601"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="PreviousPlanningCondition"
- Guid="0e9248be-4ec2-4df0-8062-567ffa2b43bb"
->
-<Comment>Finds the closest track condition in rear of the provided one in the profile.</Comment>
-<Parameters>
-<Parameter
- Type="PlanningInformationStruct"
- Name="aPlanningCondition"
- Guid="18667db9-c2b8-4771-8d71-f8581ee4064c"
->
-</Parameter><Parameter
- Type="PlanningInformationCol"
- Name="aPlanningInformation"
- Guid="0d8269fa-abcd-461a-8798-64918f6450c4"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="2cafae00-086c-495d-b753-0eca72f3d6ff"
->
-<Expression>REDUCE aPlanningInformation | X.Location &lt; aPlanningCondition.Location 
-  USING X IN 
-    FurtherPlanningCondition(
-      X1 =&gt; X,
-      X2 =&gt; RESULT
-    )
-  INITIAL_VALUE EMPTY</Expression>
-</Case></Cases>
-</Function><Function
  Type="Boolean"
  Default=""
  X="30"
@@ -524,89 +486,6 @@ AND
  Guid="06b22241-f4c1-4110-b22d-e71767307e0c"
 >
 <Expression>Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt;= aCondition.Location</Expression>
-</Case></Cases>
-</Function><Function
- Type="PlanningInformationStruct"
- Default=""
- X="140"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="FurtherPlanningCondition"
- Guid="4d353bdd-4e6a-41b9-93fd-658922cf690a"
->
-<Comment>Returns the planned track condition that is furthest from the train&apos;s front end.</Comment>
-<Parameters>
-<Parameter
- Type="PlanningInformationStruct"
- Name="X1"
- Guid="50c5274b-4037-47a9-8664-9481f8386346"
->
-</Parameter><Parameter
- Type="PlanningInformationStruct"
- Name="X2"
- Guid="becca57e-6fd4-4427-83d5-8e6af45419ab"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="X1 empty"
- Guid="595da98b-4e97-4ede-94c5-5d57d815e5ef"
->
-<PreConditions>
-<PreCondition
- Guid="50b4da71-a730-48a8-b5f4-a3caff51244f"
->NOT Available( X1 )</PreCondition></PreConditions>
-<Expression>X2</Expression>
-</Case><Case
- Name="X2 empty"
- Guid="cf746621-2932-4b6d-9c01-be022e51c5ad"
->
-<PreConditions>
-<PreCondition
- Guid="cb4ea800-42f4-4378-b600-9ff7c4ef414b"
->NOT Available ( X2 )</PreCondition></PreConditions>
-<Expression>X1</Expression>
-</Case><Case
- Name="X1 further"
- Guid="09078850-edfd-42f7-9369-f802c5247496"
->
-<PreConditions>
-<PreCondition
- Guid="2518282c-1f79-4adb-baa5-d413ac0c4756"
->X1.Location &gt; X2.Location</PreCondition></PreConditions>
-<Expression>X1</Expression>
-</Case><Case
- Name="X2 further"
- Guid="5015c6db-8733-4b1e-99d7-ace3b6fde967"
->
-<Expression>X2</Expression>
-</Case></Cases>
-</Function><Function
- Type="PlanningInformationCol"
- Default=""
- X="250"
- Y="190"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="BrakeInhibitionProfile"
- Guid="c5ac63c1-1a7b-4724-881e-cdd77fc96af4"
->
-<ReqRef
- Id="88a9ba90-6c1e-47f7-bced-85484113e0fa"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="27b0a069-6aca-4aa7-a701-4289aae2cfbb"
->
-</ReqRef><Comment>The parts of the track conditions profile that are in the &quot;Brake Inhibition&quot; group.</Comment>
-<Cases>
-<Case
- Name="Value"
- Guid="dbd75f11-0beb-4536-9eef-8258142c223b"
->
-<Expression>MAP General.TCProfile USING aTrackCondition IN MapGeneralToBrakeInhibition(aTrackCondition)</Expression>
 </Case></Cases>
 </Function><Function
  Type="PlanningInformationEnum"

@@ -14,7 +14,7 @@
  Q_DLRBG=""
  RBC_ID=""
  RBCPhone=""
- Name="Updating distance with new reference location"
+ Name="New LRBG and delete TC"
  Guid="16b9b572-5e5c-4353-b1b9-67d081e30b50"
 >
 <TestCases>
@@ -22,7 +22,32 @@
  Name="New LRBG"
  Guid="68a58ebc-7f5f-4fdd-bead-f344867beb36"
 >
-<Steps>
+<ReqRef
+ Id="a0239fb6-709c-4818-9907-463b7c24e661"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="110e8482-762d-4c6e-8b09-33401c42f1b6"
+>
+</ReqRef><ReqRef
+ Id="ae963d74-ee48-4c49-819e-a34cf532f1f5"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="c23b079c-5e02-4f67-8cc7-bd6194a698bc"
+>
+</ReqRef><ReqRef
+ Id="afb44275-4d8c-4d1d-9caf-212e30e4ec9b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6371da4f-abb9-424f-893e-13ed5a60957c"
+>
+</ReqRef><ReqRef
+ Id="ee60d01b-a74d-40b9-88b2-c24f3198e572"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c573b6e-abec-44d5-8c11-09be126ed5b3"
+>
+</ReqRef><ReqRef
+ Id="3e1d5e37-ee5b-49c2-b33c-7d4f8efb6f8b"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="1de8d44d-98e7-4a0e-9aac-849f3c8fe75e"
+>
+</ReqRef><Steps>
 <Step
  Distance="0"
  IO="NA"
@@ -36,6 +61,7 @@
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Initialize"
  Guid="7d839a53-26fe-4da6-95ec-6ad36882dd79"
 >
@@ -47,6 +73,7 @@
     aMode =&gt; Default.ModeEnum.FS
 )</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Setup"
  Guid="224c08ca-29a1-4182-8084-49898488d95d"
 >
@@ -58,8 +85,36 @@ Location =&gt; 150.0,
 Value =&gt; Kernel.TrackDescription.TrackConditions.General.TrackConditionEnum.AirTightness,
 Length =&gt; 200.0
 }
-]
-</Action></Actions>
+]</Action><Action
+ Guid="8fb4829f-182d-45ba-b368-8d05281c6b2a"
+>Kernel.TrainData.TrainData.Value.TrainLength &lt;- 100.0</Action><Action
+ Guid="d3c80aaf-a320-4ae5-a629-bee1e5720b0b"
+>BTM.Linking.Linkings &lt;- [BTM.Linking.LinkingDataStruct{
+LocationAccuracy =&gt; 5.0,
+Orientation =&gt; OrientationEnum.Nominal,
+Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+Distance =&gt; 100.0,
+BaliseGroupIdentifier =&gt; 1337
+},
+BTM.Linking.LinkingDataStruct{
+LocationAccuracy =&gt; 5.0,
+Orientation =&gt; OrientationEnum.Nominal,
+Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+Distance =&gt; 150.0,
+BaliseGroupIdentifier =&gt; 1338
+},
+BTM.Linking.LinkingDataStruct{
+LocationAccuracy =&gt; 5.0,
+Orientation =&gt; OrientationEnum.Nominal,
+Reaction =&gt; BTM.Linking.LinkingReaction.NoReaction,
+Distance =&gt; 200.0,
+BaliseGroupIdentifier =&gt; 1339
+}]</Action><Action
+ Guid="1f3827a8-b9b7-4b8c-89ee-f2977bdd0222"
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses &lt;- [Kernel.TrackDescription.TrackConditions.BigMetalMasses.BigMetalMassesInformationStruct{
+Location =&gt; 150.0,
+Length =&gt; 200.0
+}]</Action></Actions>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -74,6 +129,7 @@ Length =&gt; 200.0
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="Update distance"
  Guid="82307031-8bd5-459c-bfb9-ac8e37422b45"
 >
@@ -82,6 +138,7 @@ Length =&gt; 200.0
  Guid="61408c3b-8df3-4d24-9626-c78a23eab004"
 >Odometry.NominalDistance &lt;- 100.0</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Verify TC location"
  Guid="834e4446-7286-40d4-80f1-bc39e1a712d4"
 >
@@ -90,7 +147,11 @@ Length =&gt; 200.0
  Kind="Instantaneous"
  DeadLine="1"
  Guid="efc48019-1bf3-4ab2-bf6b-78fdbe92afa1"
->(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == 150.0</Expectation></Expectations>
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == 150.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="89ca0423-df56-4e8a-b973-5fb391bfbbc7"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location == 150.0</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step><Step
  Distance="0"
@@ -100,11 +161,12 @@ Length =&gt; 200.0
  ModeIN="NA"
  ModeOUT="NA"
  TranslationRequired="FALSE"
- Name="New LRBG"
+ Name="New LRBG before TC"
  Guid="f9a47593-d813-4c52-8b1c-3737f69dd82b"
 >
 <SubSteps>
 <SubStep
+ TimeDelay="NotDelayed"
  Name="First balise"
  Guid="5c85bb58-00b2-47c2-a0c9-239c1347481a"
 >
@@ -132,6 +194,7 @@ Length =&gt; 200.0
   SystemVersion1 =&gt; EMPTY
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Second balise"
  Guid="b6c76e2e-853f-41bc-af67-240f5e8a325a"
 >
@@ -145,7 +208,7 @@ Length =&gt; 200.0
     Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
     M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
     Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
-    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_PIG =&gt; Messages.N_PIG._2C, 
     N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
     M_DUP =&gt; Messages.M_DUP.No_duplicates, 
     M_MCOUNT =&gt; 0, 
@@ -159,6 +222,7 @@ Length =&gt; 200.0
   SystemVersion1 =&gt; EMPTY
 }</Action></Actions>
 </SubStep><SubStep
+ TimeDelay="NotDelayed"
  Name="Verify TC location"
  Guid="5d637a2d-b526-443a-8275-d27f233c3698"
 >
@@ -167,7 +231,389 @@ Length =&gt; 200.0
  Kind="Instantaneous"
  DeadLine="1"
  Guid="d221360c-1814-48b2-af31-f0ffb9fdb9c2"
->(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == 50.0</Expectation></Expectations>
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == 50.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ee6a5d50-5b74-4780-8cf2-bf7a786baf65"
+>BTM.LRBG.LRBG().NID_BG == 1337</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="caf0c090-f9c6-4766-a3a5-4b392253aa81"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location == 50.0</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Update distance"
+ Guid="4e605cc4-c713-47c7-aac5-91980a0f4631"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="2f8c4920-7958-4c3d-a7a6-ff4a321ac238"
+>
+<Actions>
+<Action
+ Guid="ba6ef8ce-42ec-4bb0-bc04-fde0c360a7d1"
+>Odometry.NominalDistance &lt;- 250.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="New LRBG within TC area"
+ Guid="863d4cba-429e-427f-8df9-b8623002c01b"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="d7bacb40-d0ca-423b-959b-b8bdbd475e01"
+>
+<Actions>
+<Action
+ Guid="85b5421b-cdfe-4947-b775-c99b04de3886"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1338, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  BitField =&gt; &apos;&apos;, 
+  SystemVersion1 =&gt; EMPTY
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="e9c01260-98aa-4218-ad8c-e86036787404"
+>
+<Actions>
+<Action
+ Guid="2d505e90-6b5a-4469-953b-0f299b0674b4"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._2C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1338, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  BitField =&gt; &apos;&apos;, 
+  SystemVersion1 =&gt; EMPTY
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="d7ca9206-388b-48ca-b12e-7968a0480d6e"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="1e80fb36-9719-457e-a60c-0a72fea83504"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location == -100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="00aef899-79ec-4adb-b5f6-e47c3714e6bc"
+>BTM.LRBG.LRBG().NID_BG == 1338</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="78af4e95-3fa7-4ca5-82e7-07751a2f02e8"
+>COUNT X IN Kernel.TrackDescription.TrackConditions.General.TCProfile == 1</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="0a198af2-565c-44ed-90fa-7536b23d946b"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location == -100.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="9550462e-02b7-41d2-8194-45fa055cfc12"
+>COUNT X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Update distance"
+ Guid="9a9fe18f-e0f7-480f-92b7-585d9f9ed189"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="49c0fa69-a358-45e4-be2d-d5beab9b005e"
+>
+<Actions>
+<Action
+ Guid="66b7a622-4c3f-4c59-9c6d-bc43887fd086"
+>Odometry.NominalDistance &lt;- 449.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="TC not deleted"
+ Guid="e05b665b-818c-44c6-9c59-d74de3423f50"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="6bba77db-c07d-4299-bdc8-af9694fd780d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="ccf80144-0d3e-4e70-8be9-991bf54e2bae"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Location + (FIRST X IN Kernel.TrackDescription.TrackConditions.General.TCProfile).Length - Kernel.TrainPosition.RearEndPosition ( DistanceIntervalEnum.Min ) == 1.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="d1688910-d633-48a4-820a-ca406a5daa83"
+>COUNT X IN Kernel.TrackDescription.TrackConditions.General.TCProfile == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Update distance"
+ Guid="099c3ec7-08c0-4bd8-8af8-f0c2f85e9148"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="0ab6fedd-38e2-4e5a-89f4-a3bb63239c19"
+>
+<Actions>
+<Action
+ Guid="570ac9bd-72e8-4f2f-8e23-9cc14217e4c2"
+>Odometry.NominalDistance &lt;-  450.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="New LRBG after TC, general TC deleted"
+ Guid="b2ef3644-3074-4a74-a657-0c17a7aba606"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="dbf7f605-ce69-4f1b-ac8c-4c938afa6fda"
+>
+<Actions>
+<Action
+ Guid="492a0dc9-b168-4e40-9e66-dc4a4a092cd4"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._1C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1339, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  BitField =&gt; &apos;&apos;, 
+  SystemVersion1 =&gt; EMPTY
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep2"
+ Guid="9667811e-479f-4d46-a334-1864a3349b63"
+>
+<Actions>
+<Action
+ Guid="a43a36da-cbe5-40f7-ab43-c255b98b5518"
+>BTM.Message &lt;- Messages.BTM.Message
+{
+  SystemVersion2 =&gt; Messages.EUROBALISE.Message
+  {
+    Q_UPDOWN =&gt; Messages.Q_UPDOWN.Up_link_telegram, 
+    M_VERSION =&gt; Messages.M_VERSION.Version_2_0__introduced_in_SRS_3_0_0, 
+    Q_MEDIA =&gt; Messages.Q_MEDIA.Balise, 
+    N_PIG =&gt; Messages.N_PIG._2C, 
+    N_TOTAL =&gt; Messages.N_TOTAL._2_balises_in_groupC, 
+    M_DUP =&gt; Messages.M_DUP.No_duplicates, 
+    M_MCOUNT =&gt; 0, 
+    NID_C =&gt; 0, 
+    NID_BG =&gt; 1339, 
+    Q_LINK =&gt; Messages.Q_LINK.Linked, 
+    Sequence1 =&gt; [], 
+    BitField =&gt; &apos;&apos;
+  }, 
+  BitField =&gt; &apos;&apos;, 
+  SystemVersion1 =&gt; EMPTY
+}</Action></Actions>
+</SubStep><SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep3"
+ Guid="5eb0682a-dba7-4081-8d5a-0676da18c86d"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="b96ed354-74f2-476f-bacd-8650c30c60e2"
+>BTM.LRBG.LRBG().NID_BG == 1339</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="582d7090-4adf-49a2-aac4-86aa46dd4241"
+>Kernel.TrackDescription.TrackConditions.General.TCProfile == []</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="a732ddbf-0bdc-47d5-b02b-f64abc483c33"
+>COUNT X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Update distance"
+ Guid="7c1767e3-f6c8-44c9-be65-42274697e2d5"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="56f0a46f-aea7-4fc9-9a2e-1f89aa17344f"
+>
+<Actions>
+<Action
+ Guid="6e1ac030-44b6-4c8d-92e8-d9c1a3240399"
+>Odometry.NominalDistance &lt;- 749.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="BMM condition not deleted"
+ Guid="7d14eaf0-7782-45f3-b407-93e70177a786"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="3c8ae7d4-a0be-46c3-b8db-2688bb0bed1f"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="3f25d613-cfc5-4f10-89ee-384b4824a869"
+>(FIRST X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Location + (FIRST X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses).Length - Kernel.TrainPosition.RearEndPosition ( DistanceIntervalEnum.Min ) + Kernel.DistanceToKeepInfoInTheRear == 1.0</Expectation><Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="f1b6a786-a954-4eff-a5ff-70f0068c6bfc"
+>COUNT X IN Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses == 1</Expectation></Expectations>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="Update distance"
+ Guid="2f30a533-24fa-4b8c-8a7f-19ad7d1bac10"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="2f0b1e74-a675-426f-af4d-8a8ccdff61cf"
+>
+<Actions>
+<Action
+ Guid="bc3481ed-8f07-4e0c-9de6-7497951d6953"
+>Odometry.NominalDistance &lt;- 750.0</Action></Actions>
+</SubStep></SubSteps>
+</Step><Step
+ Distance="0"
+ IO="NA"
+ LevelIN="NA"
+ LevelOUT="NA"
+ ModeIN="NA"
+ ModeOUT="NA"
+ TranslationRequired="FALSE"
+ Name="BMM condition deleted"
+ Guid="007acc70-a4da-4a9b-afab-f49bc14f3653"
+>
+<SubSteps>
+<SubStep
+ TimeDelay="NotDelayed"
+ Name="SubStep1"
+ Guid="7cfc98c6-6985-4444-b3d5-59ab1dde24fe"
+>
+<Expectations>
+<Expectation
+ Kind="Instantaneous"
+ DeadLine="1"
+ Guid="296d4472-ac18-4c86-b1d7-56509dad842d"
+>Kernel.TrackDescription.TrackConditions.BigMetalMasses.TCBigMetalMasses == []</Expectation></Expectations>
 </SubStep></SubSteps>
 </Step></Steps>
 </TestCase></TestCases>

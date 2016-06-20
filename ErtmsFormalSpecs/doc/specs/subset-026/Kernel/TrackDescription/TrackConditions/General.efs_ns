@@ -214,7 +214,7 @@
 </ReqRef><Comment>Length of the track condition section section.</Comment>
 </StructureElement><Interfaces>
 <StructureRef
- Name="BaseTypes.LocationInterface"
+ Name="BaseTypes.LocationLengthInterface"
  Guid="7181115f-3bac-40d9-bbf1-aefc93ea2da5"
 >
 </StructureRef></Interfaces>
@@ -1367,7 +1367,7 @@ ON
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="8c9e4813-9b76-4011-9792-aff2dc3d390f"
 >
-</ReqRef><Comment>The packet contains &quot;reset track conditions&quot;</Comment>
+</ReqRef><Comment>The packet contains &quot;reset track conditions&quot;. Reset in this conetext means delete information, since the default values are the initial state.</Comment>
 <PreConditions>
 <PreCondition
  Guid="8fabb5f7-5fa8-45f4-b36d-c0420a360baf"
@@ -1378,24 +1378,11 @@ ON
 Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="cc227c70-643c-452b-b941-13c9a55589e2"
->REMOVE ALL X.Location &gt;= aDistanceFromRef + MessageTypes.QScaleDistance(
+ Guid="b5b87575-a081-4006-956f-527bfabc9dfd"
+>DeleteTrackConditionsBeyondLocation( aDistanceFromRef + MessageTypes.QScaleDistance(
     distance=&gt;Packet.D_TRACKINIT,
     scale=&gt;Packet.Q_SCALE
-    )
-IN
-    TCProfile</Action><Action
- Guid="b5b87575-a081-4006-956f-527bfabc9dfd"
->INSERT TrackConditions.General.TrackConditionInformationStruct
-{
-    Location =&gt; aDistanceFromRef + MessageTypes.QScaleDistance
-    (
-        distance =&gt; Packet.D_TRACKINIT,
-        scale =&gt; Packet.Q_SCALE
-    )
-}
-IN
-    TrackConditions.General.TCProfile</Action></Actions>
+    ) )</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
