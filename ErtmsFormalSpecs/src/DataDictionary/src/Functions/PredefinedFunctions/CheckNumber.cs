@@ -97,7 +97,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                 if (style == NumberStyles.HexNumber)
                 {
                     ulong val;
-                    if (ulong.TryParse(textValue, style, CultureInfo.InvariantCulture, out val))
+                    if (textValue == "" || ulong.TryParse(textValue, style, CultureInfo.InvariantCulture, out val))
                     {
                         retVal = EFSSystem.BoolType.True;
                     }
