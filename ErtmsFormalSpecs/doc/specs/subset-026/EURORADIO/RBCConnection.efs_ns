@@ -3778,11 +3778,22 @@ Hence, the timers used to manage the session and the safe radio connection are s
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="f7466439-2974-4413-bd13-68af6da33ccd"
 >
-</ReqRef><Comment>If the train front passes a RBC/RBC border, the requests to establish a safe radio connection shall no more be repeated.</Comment>
+</ReqRef><ReqRef
+ Id="b3504e7f-b609-4f0d-96d0-a94bfd4630f3"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="c05608c5-7135-45da-9d6b-e4c8cf5cfa65"
+>
+</ReqRef><Comment>If the train front passes a RBC/RBC border, the requests to establish a safe radio connection shall no more be repeated. Design choice: unless the secondary terminal tries to connect to the AcceptingRBC.</Comment>
 <PreConditions>
 <PreCondition
  Guid="a315cce6-b406-417c-9709-d00d567e3b73"
->Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max) &gt;= RBCHandover.RBCTransitionLocation</PreCondition></PreConditions>
+>Kernel.TrainPosition.FrontEndPosition(PointOfInterest =&gt; DistanceIntervalEnum.Max) &gt;= RBCHandover.RBCTransitionLocation</PreCondition><PreCondition
+ Guid="550a80e8-d2d6-4949-bd26-32fbaf717f81"
+>NOT (
+     ENCLOSING == EURORADIO.RBCConnection.SecondaryRBCConnection() 
+AND 
+ENCLOSING.ContactData.Id == EURORADIO.RBCConnection.RBCHandover.AcceptingRBCId 
+)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="7857191c-725b-4d50-9197-8c15c1d2f16a"

@@ -13,8 +13,8 @@
 <Function
  Type="Boolean"
  Default=""
- X="280"
- Y="10"
+ X="150"
+ Y="350"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -52,8 +52,8 @@ RBCConnection.CurrentRBCConnection().ContactRBCOrder.ActionToPerform == Contact.
 </Function><Function
  Type="Boolean"
  Default=""
- X="410"
- Y="10"
+ X="20"
+ Y="350"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -258,7 +258,12 @@ RBCConnection.RBCStruct.ConnectionStateSM.Terminating]</Expression>
     scale =&gt; aPacket.Q_SCALE
 )</Action><Action
  Guid="292b24e9-212c-45d5-b0f0-e37848e44ad8"
->Messages.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action></Actions>
+>Messages.PositionReport.NumberOfReportsSentToHandingOverRBC &lt;- 0</Action><Action
+ Guid="5eb0a781-32b0-4cdc-a518-2ef3d1d99c25"
+>RBCHandover.AcceptingRBCId &lt;- Contact.RBCIdStruct {
+     Country =&gt; aPacket.NID_C,
+     Id =&gt; aPacket.NID_RBC 
+}</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="SH/PS mode"
@@ -454,7 +459,23 @@ EndOfValidityLocation =&gt; Order.EndOfValidityLocation
  Guid="951b89fb-97c0-48d6-b02e-46e1a8f3b97b"
 >
 </ReqRef><Comment>Indicates the time when the second position report to the Handing Over RBC was sent.</Comment>
-</Variable></Variables>
+</Variable><Variable
+ Type="Contact.RBCIdStruct"
+ DefaultValue="EMPTY"
+ VariableMode="Internal"
+ X="280"
+ Y="10"
+ Width="100"
+ Height="50"
+ Name="AcceptingRBCId"
+ Guid="29acb2db-449f-44e5-86b0-1991736b04ac"
+>
+<ReqRef
+ Id="b3504e7f-b609-4f0d-96d0-a94bfd4630f3"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="3c9c726a-6378-43d0-bde4-81bf5e7eba3d"
+>
+</ReqRef></Variable></Variables>
 <Rules>
 <Rule
  Priority="Processing"
