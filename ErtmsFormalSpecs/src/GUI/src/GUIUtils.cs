@@ -17,6 +17,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using DataDictionary;
+using DataDictionary.Interpreter;
 using Utils;
 
 namespace GUI
@@ -72,6 +73,45 @@ namespace GUI
             {
                 // No cache
             }
+        }
+
+
+        public static SizeF MeasureDisplayedString(string text, Font font)
+        {
+            // ReSharper disable once JoinDeclarationAndInitializer
+            SizeF retVal;
+
+            // The functions used to measure the string do not accept empty strings.
+            if (string.IsNullOrEmpty(text))
+            {
+                retVal = new SizeF(0.0f, 0.0f);
+            }
+            else
+            {
+                StringFormat format = new StringFormat(StringFormat.GenericTypographic)
+                {
+                    FormatFlags = StringFormatFlags.MeasureTrailingSpaces
+                };
+
+                RectangleF rect = new RectangleF(0, 0, int.MaxValue, int.MaxValue);
+                CharacterRange[] ranges =
+                {
+                    new CharacterRange(0, text.Length)
+                };
+
+                format.SetMeasurableCharacterRanges(ranges);
+
+                Region[] regions = Graphics.MeasureCharacterRanges(text, font, rect, format);
+                rect = regions[0].GetBounds(Graphics);
+
+                retVal = new SizeF(rect.Right + 1.0f, rect.Height);
+
+                if (font.Style == FontStyle.Italic)
+                {
+                    retVal = new SizeF(1.02f*retVal.Width, retVal.Height);
+                }
+            }
+            return retVal;
         }
 
         /// <summary>

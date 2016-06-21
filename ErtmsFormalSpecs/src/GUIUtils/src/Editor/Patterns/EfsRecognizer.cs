@@ -76,7 +76,7 @@ namespace GUIUtils.Editor.Patterns
         private Font RegularFont { get; set; }
 
         /// <summary>
-        /// Constrctor
+        /// Constructor
         /// </summary>
         /// <param name="font"></param>
         public EfsRecognizer(Font font)
@@ -153,7 +153,8 @@ namespace GUIUtils.Editor.Patterns
         /// <summary>
         /// Tokenize a single line
         /// </summary>
-        /// <param name="instance"></param>
+        /// <param name="instance">The root model on which the analysis is done 
+        /// to determine (for instance) the strings that correspond to a type</param>
         /// <param name="line"></param>
         /// <returns></returns>
         public List<TextPart> TokenizeLine(ModelElement instance, string line)
@@ -187,7 +188,8 @@ namespace GUIUtils.Editor.Patterns
                     // Create empty part, if needed
                     if (part.Start > pos)
                     {
-                        retVal.Add(new TextPart(pos, part.Start - pos, Color.Black, RegularFont));
+                        int len = part.Start - pos;
+                        retVal.Add(new TextPart(line.Substring(pos, len), pos, Color.Black, RegularFont));
                     }
 
                     // Add the processed part
@@ -200,7 +202,8 @@ namespace GUIUtils.Editor.Patterns
 
             if (pos < line.Length)
             {
-                retVal.Add(new TextPart(pos, line.Length - pos, Color.Black, RegularFont));                
+                int len = line.Length - pos;
+                retVal.Add(new TextPart(line.Substring(pos, len), pos, Color.Black, RegularFont));                
             }
             retVal.Sort();
 

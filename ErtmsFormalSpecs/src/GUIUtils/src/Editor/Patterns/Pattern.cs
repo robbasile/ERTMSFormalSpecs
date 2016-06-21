@@ -151,7 +151,7 @@ namespace GUIUtils.Editor.Patterns
                             Start = match.Index,
                             End = match.Index + match.Length
                         });
-                        textParts.Add(new TextPart(match.Index, match.Length, Color, HighlightFont));
+                        textParts.Add(new TextPart(match.Value, match.Index, Color, HighlightFont));
                     }
                 }
             }

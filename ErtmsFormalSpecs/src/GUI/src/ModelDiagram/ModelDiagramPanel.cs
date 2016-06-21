@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Functions;
@@ -30,6 +31,7 @@ using GUIUtils.Editor.Patterns;
 using Utils;
 using Action = DataDictionary.Rules.Action;
 using Enum = DataDictionary.Types.Enum;
+using ModelElement = DataDictionary.ModelElement;
 using Type = DataDictionary.Types.Type;
 
 namespace GUI.ModelDiagram
@@ -651,30 +653,12 @@ namespace GUI.ModelDiagram
         /// <param name="text"></param>
         /// <param name="font"></param>
         /// <param name="color"></param>
-        /// <param name="location"></param>
+        /// <param name="vOffset"></param>
         /// <returns>the next location where data can be added</returns>
-        private static Point SetText(ModelControl control, string text, Font font, Color color, Point location)
+        private static void SetText(ModelControl control, string text, Font font, Color color, float vOffset = 0.0F)
         {
-            // Compute the size of the displayed text
-            //SizeF stringSize = Util.GetHightlightedTextSize(text, font, location, (DataDictionary.ModelElement) control.TypedModel);
-            SizeF stringSize = GuiUtils.Graphics.MeasureString(text, font);
-            control.Size = new Size(
-                Math.Max(control.Size.Width, (int) stringSize.Width + 10),
-                Math.Max ( control.Size.Height, location.Y - control.Location.Y + (int) stringSize.Height + 5)
-            );
-
-            // Position the text
-            control.Texts.Add(new ModelControl.TextPosition
-            {
-                Text = text,
-                Font = font,
-                Color = color,
-                // Add a small increment to location.X so that the text doesn't touches the box on the left.
-                Location = new Point(location.X + 5, location.Y)
-            });
-
-            // Returns the next location where data can be added
-            return new Point(location.X, location.Y + (int) stringSize.Height + 5);
+            SizeF increment = control.AddText(control.Model as ModelElement, text, font, color, vOffset);
+            UpdateControlSize(control, increment);
         }
 
         /// <summary>
@@ -688,32 +672,43 @@ namespace GUI.ModelDiagram
             // Set the control location
             control.ComputedPositionAndSize = true;
             control.Location = location;
-            Point retVal = control.Location;
 
             // Increase control size according to title
-            retVal = SetText(
+            SetText(
                 control,
                 control.ModelName,
                 control.Bold,
-                Color.Black,
-                retVal);
+                Color.Black);
+
+            SetText(control, "   ", control.Font, Color.Black);
 
             // Increase control size according to comment
             ICommentable commentable = control.TypedModel as ICommentable;
             if (commentable != null)
             {
-                retVal = SetText(
+                SetText(
                     control,
                     commentable.Comment,
                     control.Italic,
-                    Color.Green,
-                    retVal);
+                    Color.Green);
             }
 
             // Registers the control to update the panel size
             RegisterControl(control);
 
-            return retVal;
+            return new Point(location.X, location.Y + control.Size.Height);
+        }
+
+        /// <summary>
+        /// Updates the control size according to the increment provided
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="increment"></param>
+        private static void UpdateControlSize(ModelControl control, SizeF increment)
+        {
+            control.Size = new Size(
+                Math.Max(control.Size.Width, (int) increment.Width + 25),
+                control.Size.Height + (int) increment.Height + 5);
         }
 
         /// <summary>
@@ -794,20 +789,22 @@ namespace GUI.ModelDiagram
                 location = SetSizeAndLocation(caseControl, location);
 
                 location = new Point(50, location.Y);
+                float vOffset = location.Y;
                 foreach (PreCondition preCondition in cas.PreConditions)
                 {
                     ModelControl preConditionControl =(ModelControl)GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
                     SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font,
-                        Color.Transparent, location);
+                        Color.Transparent);
                     location = InbedTopDown(caseControl, preConditionControl, location);
                 }
 
                 // Sets the control contents
-                location = new Point(30, location.Y);
-                location = SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font,
-                    Color.Transparent, location);
+                vOffset = location.Y - vOffset;
+                SetText(caseControl, caseControl.TypedModel.GraphicalName, caseControl.Font,
+                    Color.Transparent, vOffset);
+                location = new Point(30, location.Y + caseControl.Size.Height);
 
                 location = InbedTopDown(functionControl, caseControl, location);
 
@@ -911,8 +908,7 @@ namespace GUI.ModelDiagram
                     ModelControl preConditionControl = (ModelControl)GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
-                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent,
-                        location);
+                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent);
                     location = InbedTopDown(ruleConditionControl, preConditionControl, location);
                 }
 
@@ -922,7 +918,7 @@ namespace GUI.ModelDiagram
                     ModelControl actionControl = (ModelControl)GetBoxControl(action);
 
                     location = SetSizeAndLocation(actionControl, location);
-                    SetText(actionControl, action.ExpressionText, actionControl.Font, Color.Transparent, location);
+                    SetText(actionControl, action.ExpressionText, actionControl.Font, Color.Transparent);
                     location = InbedTopDown(ruleConditionControl, actionControl, location);
                 }
 

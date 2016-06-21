@@ -24,22 +24,42 @@ namespace GUIUtils.Editor.Patterns
     /// </summary>
     public class TextPart : IComparable<TextPart>
     {
+        /// <summary>
+        /// The text to be displayed
+        /// </summary>
+        public String Text { get; set; }
+
+        /// <summary>
+        /// The start position of the text in the line
+        /// </summary>
         public int Start { get; set; }
-        public int Length { get; set; }
+
+        /// <summary>
+        /// The text length
+        /// </summary>
+        public int Length { get { return Text.Length; } }
+
+        /// <summary>
+        /// The color used to display the text
+        /// </summary>
         public Color Color { get; set; }
+
+        /// <summary>
+        /// The font used to display the text
+        /// </summary>
         public Font Font { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="color"></param>
-        /// <param name="font"></param>
-        public TextPart(int start, int length, Color color, Font font)
+        /// <param name="text">The recognized text</param>
+        /// <param name="start">The start location of the text in the line</param>
+        /// <param name="color">The color used to display that text</param>
+        /// <param name="font">The font used to display that text</param>
+        public TextPart(string text, int start, Color color, Font font)
         {
+            Text = text;
             Start = start;
-            Length = length;
             Color = color;
             Font = font;
         }
