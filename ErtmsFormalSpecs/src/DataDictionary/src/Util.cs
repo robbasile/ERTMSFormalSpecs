@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using DataDictionary.Functions.PredefinedFunctions;
 using DataDictionary.Generated;
 using Utils;
 using XmlBooster;
@@ -1057,6 +1058,11 @@ namespace DataDictionary
                 foreach (Dictionary dictionary in EfsSystem.Instance.Dictionaries)
                 {
                     visit(dictionary);
+                }
+
+                foreach (KeyValuePair<string, PredefinedFunction> pair in EfsSystem.Instance.PredefinedFunctions)
+                {
+                    visit(pair.Value);
                 }
             }
 
