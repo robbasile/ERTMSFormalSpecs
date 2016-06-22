@@ -4886,12 +4886,6 @@ aStep.SpeedStep == 0.0</PreCondition></PreConditions>
  Name="Track conditions active"
  Guid="582eb4d5-f128-46b6-b1d0-1f4a6a1235e4"
 >
-<PreConditions>
-<PreCondition
- Guid="dbc780c6-2178-4a27-8f68-860ea7b06328"
->Kernel.ActiveFunctions.ManageTrackConditions_SoundHorn()
-OR
-Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
 <Expression>REDUCE 
     MapBrakeConditions()
 USING X IN RESULT + TCToBrakeCondition(
@@ -4899,11 +4893,6 @@ USING X IN RESULT + TCToBrakeCondition(
     aCondition =&gt; X
 )
 INITIAL_VALUE []</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="7acb95d6-6efe-400c-9d00-f8efe6b3fe59"
->
-<Expression>[]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct"
@@ -5111,7 +5100,7 @@ GenerateBrakeCondition(
  Name="Always"
  Guid="93406524-7db0-4d34-b214-58169e311d41"
 >
-<Expression>(MAP TrackDescription.TrackConditions.General.TCProfile | X.Value in [TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake]
+<Expression>(MAP TrackDescription.TrackConditions.General.ActiveTCProfile() | X.Value in [TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForEB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffEddyCurrentBrakeForSB, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffMagneticShoeBrake, TrackDescription.TrackConditions.General.TrackConditionEnum.SwitchOffRegenerativeBrake]
 USING X IN ConditionActiveArea(X))</Expression>
 </Case></Cases>
 </Function><Function

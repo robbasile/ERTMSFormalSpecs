@@ -447,16 +447,7 @@ TCPacket.Value == General.TrackConditionEnum.SoundHorn</PreCondition></PreCondit
  Guid="d500abeb-937a-4158-bde3-df9a023e35ff"
 >
 <Comment>Returns True if the train is currently inside a RadioHole</Comment>
-<PreConditions>
-<PreCondition
- Guid="c38f63ab-bc7d-4f6e-8d11-348653e55612"
->Kernel.ActiveFunctions.ManageTrackConditions_BrakeInhibition()</PreCondition></PreConditions>
 <Expression>THERE_IS X IN TrackConditions.General.CurrentConditions() | X.Value == General.TrackConditionEnum.RadioHole</Expression>
-</Case><Case
- Name="Otherwise"
- Guid="1c6fc91c-49d8-4fae-a20b-6d26da4ae6db"
->
-<Expression>False</Expression>
 </Case></Cases>
 </Function><Function
  Type="TrackConditionInformationCol"
@@ -548,7 +539,7 @@ TCPacket.Value == General.TrackConditionEnum.SoundHorn</PreCondition></PreCondit
  Name="Previous conditions exist"
  Guid="4cdb4c07-7e8d-4b91-8869-34d03070a4e3"
 >
-<Expression>FILTER TCProfile | General.ConditionIsActive(
+<Expression>FILTER ActiveTCProfile() | General.ConditionIsActive(
     aCondition =&gt; X,
     aDistance =&gt; aDistance)
 USING X</Expression>
@@ -972,6 +963,46 @@ Used with ProfileAtDistance to see if a track condition is active at a distance.
  Guid="ff8df4b1-20b1-47ac-99bd-3aa4e536d96a"
 >
 <Expression>THERE_IS X IN aProfile | X.Value == aValue</Expression>
+</Case></Cases>
+</Function><Function
+ Type="TrackConditionInformationCol"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="ActiveTCProfile"
+ Guid="9cc5d9ce-6bf6-4438-a2b8-64412eafe593"
+>
+<ReqRef
+ Id="f6e6d494-3cd0-4177-92c5-a445af1573e0"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6c62ca3b-2229-47de-a112-7e5f1ff83e71"
+>
+</ReqRef><ReqRef
+ Id="dea5ad72-243c-4480-8ff6-90cbcdd3665d"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="2440ba55-66e1-430b-bd32-a67c3e591cd0"
+>
+</ReqRef><Comment>Returns the currently active track connditions dpendent on the mode.</Comment>
+<Cases>
+<Case
+ Name="Available"
+ Guid="5370911f-335c-4f58-80a2-ca7dfc0e9a3b"
+>
+<PreConditions>
+<PreCondition
+ Guid="6f60bde4-121c-4ff8-9bcb-cb79ecece41b"
+>ActiveFunctions.ManageTrackConditions_BrakeInhibition()
+OR
+ActiveFunctions.ManageTrackConditions_SoundHorn()</PreCondition></PreConditions>
+<Expression>TCProfile</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="530d854e-1f67-4922-b0b1-f62b1806fd11"
+>
+<Expression>[]</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
