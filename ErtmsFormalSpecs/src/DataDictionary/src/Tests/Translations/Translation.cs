@@ -678,12 +678,14 @@ namespace DataDictionary.Tests.Translations
             int j = 0;
             while (currentIndex < fields.Count)
             {
+                bool foundMatch = false;
+
                 DBField field = fields[currentIndex] as DBField;
 
                 KeyValuePair<string, IVariable> pair = aStructure.SubVariables.ElementAt(j);
                 IVariable variable = pair.Value;
 
-                // conditional variables can be missing in the database fields, but present in our structure => skip them
+                // Conditioned variables can be missing in the database fields, but present in our structure => skip them
                 while (!variable.Name.StartsWith(field.Variable) && j < aStructure.SubVariables.Count - 1)
                 {
                     j++;
@@ -694,6 +696,7 @@ namespace DataDictionary.Tests.Translations
                 // We use StartsWith and not Equals because we can have N_ITER_1 and N_ITER
                 if (variable.Name.StartsWith(field.Variable))
                 {
+                    foundMatch = true;
                     if (variable.Type is Enum)
                     {
                         Enum type = variable.Type as Enum;
@@ -762,6 +765,8 @@ namespace DataDictionary.Tests.Translations
                 // Special case for X_TEXT
                 if ("Sequence1".Equals(variable.Name) && "X_TEXT".Equals(field.Variable))
                 {
+                    foundMatch = true;
+
                     KeyValuePair<string, IVariable> sequencePair = aStructure.SubVariables.ElementAt(j);
                     IVariable sequenceVariable = sequencePair.Value;
                     Collection collectionType = (Collection)system.FindType(aNameSpace, sequenceVariable.TypeName);
@@ -792,8 +797,17 @@ namespace DataDictionary.Tests.Translations
                 }
 
                 // if all the fields of the structue are filled, we terminated
-                if (j == aStructure.SubVariables.Count)
+                if (j == aStructure.SubVariables.Count )
                 {
+                    break;
+                }
+                else if (!foundMatch)
+                {
+                    // We used a lookahead to determine if we needed to fill the structure
+                    // But the encountered field is not the right one 
+                    // (for instance, because of a conditional field determiner by a Q_XXX value)
+                    //  => Rollback
+                    currentIndex -= 1;
                     break;
                 }
                 else
