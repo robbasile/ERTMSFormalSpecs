@@ -466,7 +466,7 @@ namespace GUI
                 ModelElement modelElement = element as ModelElement;
                 if (modelElement != null)
                 {
-                    visit(modelElement, true);
+                    dispatch(modelElement, true);
                 }
             }
 
@@ -538,7 +538,7 @@ namespace GUI
                 ModelElement modelElement = element as ModelElement;
                 if (modelElement != null)
                 {
-                    visit(modelElement, true);
+                    dispatch(modelElement, true);
                 }
             }
 
