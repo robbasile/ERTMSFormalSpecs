@@ -88,7 +88,7 @@ namespace DataDictionary.Functions.PredefinedFunctions
                     textValue = textValue.Substring(0, textValue.Length - 2);
                     style = NumberStyles.HexNumber;
                 }
-                while (textValue[textValue.Length - 1] == 'F')
+                while (textValue.Length > 0 && textValue[textValue.Length - 1] == 'F')
                 {
                     textValue = textValue.Substring(0, textValue.Length - 1);
                     style = NumberStyles.HexNumber;
