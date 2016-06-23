@@ -77,7 +77,9 @@ namespace GUIUtils.GraphVisualization.Functions
         /// <param name="relocatedPosition"></param>
         public virtual void RecordCurrentValue(double currentPosition, double relocatedPosition)
         {
-            SpeedDistancePoint currentPoint = GetValue(relocatedPosition);
+            // Function is based on an absolute position, values from that function should be taken in absolute coordinates 
+            // (not related to the LRBG)
+            SpeedDistancePoint currentPoint = GetValue(currentPosition);
             if (currentPoint != null)
             {
                 PreviousData.Add(new SpeedDistancePoint(currentPosition, currentPoint.Speed));

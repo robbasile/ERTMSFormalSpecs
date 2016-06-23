@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DataDictionary.Functions;
 
 namespace EFSServiceClient.EFSService
@@ -114,16 +115,19 @@ namespace EFSServiceClient.EFSService
         {
             double retVal = 0;
 
-            double start = 0;
-            foreach (Segment segment in Segments)
+            if (Segments != null && Segments.Count() > 0)
             {
-                if (x >= start && x < start + segment.Length)
+                double start = Segments[0].D0;
+                foreach (Segment segment in Segments)
                 {
-                    retVal = segment.Evaluate(x);
-                    break;
-                }
+                    if (x >= start && x < start + segment.Length)
+                    {
+                        retVal = segment.Evaluate(x);
+                        break;
+                    }
 
-                start = start + segment.Length;
+                    start = start + segment.Length;
+                }
             }
 
             return retVal;

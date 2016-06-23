@@ -141,15 +141,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
   AND  
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
     AND    
 
- Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.EOA.EOA() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -165,9 +175,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.Spe
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -234,15 +249,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
     OR    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.EOA.EOA() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition><PreCondition
  Guid="10b25826-9caa-4ff6-b838-c97e31aa5bc8"
 >Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()</PreCondition><PreCondition
@@ -262,9 +287,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.Spee
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -331,18 +361,24 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.Spee
 Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 (
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
-  (
-    aTarget =&gt; MA.SvL.SvL(),
-    Vest =&gt; Odometry.TrainSpeed(),
-    NoA_est =&gt; False
+  FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+      (
+          Vest =&gt; Odometry.TrainSpeed(),
+          aTarget =&gt; MA.SvL.SvL(),
+          NoA_est =&gt; False 
+      )
   )
     OR    
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
-  (
-    aTarget =&gt; MA.EOA.EOA(),
-    Vest =&gt; Odometry.TrainSpeed(),
-    NoA_est =&gt; False
+  FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+      (
+          Vest =&gt; Odometry.TrainSpeed(),
+          aTarget =&gt; MA.EOA.EOA(),
+          NoA_est =&gt; False 
+      )
   )
 )</PreCondition><PreCondition
  Guid="10cf72a7-349f-4977-8b7b-001cb384d690"
@@ -362,12 +398,15 @@ Kernel.MA.MA.TargetSpeed == 0.0
     AND
   Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
     AND    
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
-  (
-    aTarget =&gt; aTarget,
-    Vest =&gt; Odometry.TrainSpeed(),
-    NoA_est =&gt; False
-  ) 
+  FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+      (
+          Vest =&gt; Odometry.TrainSpeed(),
+          aTarget =&gt; aTarget,
+          NoA_est =&gt; False 
+      )
+  )
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -439,15 +478,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -463,9 +512,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.Spe
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -543,23 +597,47 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+( 
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
     OR  
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() ) )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
+)
 
   AND  
 
-( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL() )
+(
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
    AND  
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.EOA.EOA() ) )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -575,13 +653,23 @@ Kernel.MA.MA.TargetSpeed == 0.0
 
     AND    
 
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+)
   AND  
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -652,15 +740,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
   OR  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.EOA.EOA() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -676,9 +774,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.Spee
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_W
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -749,15 +852,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
   OR  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -773,9 +886,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.Spe
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -854,23 +972,47 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+( 
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
      OR    
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() ) )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
+)
 
   AND  
 
-( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL(),
-    NoA_est =&gt; False )
+(
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL(),
+        NoA_est =&gt; False 
+    )
+)
     AND    
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
-    Vest =&gt; Odometry.TrainSpeed() ) )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1
+    (
+        Vest =&gt; Odometry.TrainSpeed()
+    )
+)
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -886,14 +1028,24 @@ Kernel.MA.MA.TargetSpeed == 0.0
 
     AND    
 
- Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) &lt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max)
+ FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+      (
+          Vest =&gt; Odometry.TrainSpeed(),
+          aTarget =&gt; aTarget
+      )
+  )
   AND
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget,
-    NoA_est =&gt; False ) )</Expression>
+  NOT FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
+      (
+          Vest =&gt; Odometry.TrainSpeed(),
+          aTarget =&gt; aTarget,
+          NoA_est =&gt; False 
+      )
+  ) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -962,15 +1114,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL(),
-    NoA_est =&gt; False )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL(),
+        NoA_est =&gt; False 
+    )
+)
 
   OR  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1(
-    Vest =&gt; Odometry.TrainSpeed() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI1
+    (
+        Vest =&gt; Odometry.TrainSpeed()
+    )
+)
 )</PreCondition><PreCondition
  Guid="dfd7754d-e882-47a7-8ecf-db66cb027851"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed &lt; Odometry.TrainSpeed()</PreCondition></PreConditions>
@@ -988,10 +1150,15 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.Spee
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget,
-    NoA_est =&gt; False ) )</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_SBI2
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget,
+        NoA_est =&gt; False 
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1062,15 +1229,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Kernel.MRSP.V_MRSP(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Kernel.MRSP.V_MRSP(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -1086,9 +1263,14 @@ Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonito
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget ) )</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1162,19 +1344,34 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+( FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+      (
+          Vest =&gt; Kernel.MRSP.V_MRSP(),
+          aTarget =&gt; MA.SvL.SvL()
+      )
+  )
     OR  
-  Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() ) )
+  FrontEndIsPast(
+      aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+      aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+      (
+          Vest =&gt; Kernel.MRSP.V_MRSP(),
+          aTarget =&gt; MA.EOA.EOA()
+      )
+  ) )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 )</PreCondition><PreCondition
  Guid="8724f5ef-1327-466d-b33d-f5a87e1ecf5b"
 >Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_sbi( Kernel.MRSP.V_MRSP() )  &lt;  Odometry.TrainSpeed()</PreCondition><PreCondition
@@ -1194,11 +1391,23 @@ Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonito
 
     AND    
 
-Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; aTarget) &lt; Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+)
   AND  
-Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI ( Vest =&gt; Odometry.TrainSpeed(), aTarget =&gt; aTarget ) )</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+))</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1264,9 +1473,14 @@ Kernel.MA.MA.TargetSpeed == 0.0
 
  AND 
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL() )</PreCondition><PreCondition
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)</PreCondition><PreCondition
  Guid="d74824b5-8d62-479c-bf50-e299986692d5"
 >Kernel.SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.ReleaseSpeed  &lt;  Odometry.TrainSpeed()</PreCondition><PreCondition
  Guid="a1ee7e5f-7986-47a2-9ebf-da2f289da221"
@@ -1285,7 +1499,14 @@ Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonito
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition ( DistanceIntervalEnum.Max ) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI ( Vest =&gt; Odometry.TrainSpeed(), aTarget =&gt; aTarget ))</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_EBI
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1350,15 +1571,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
     AND    
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() )
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition><PreCondition
  Guid="4754155e-7e88-4d87-b130-22c93357e138"
 >Odometry.TrainSpeed() &gt; Kernel.MRSP.V_MRSP() + Kernel.SpeedAndDistanceMonitoring.CeilingSpeedMonitoring.dV_ebi( Kernel.MRSP.V_MRSP() )</PreCondition></PreConditions>
@@ -1374,9 +1605,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.Spe
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; aTarget ) )</Expression>
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1583,17 +1819,24 @@ MA.SvL.IsSvL(aTarget)</PreCondition></PreConditions>
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
-(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.EOA.EOA() 
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA() 
+    )
 )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL()
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL() 
+    )
 )</Expression>
 </Case><Case
  Name="MRSP Target or LOA"
@@ -1607,9 +1850,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.Spe
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-     Vest =&gt; Odometry.TrainSpeed(),
-     aTarget =&gt; aTarget )</Expression>
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget
+    )
+)</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -1697,20 +1945,26 @@ MA.SvL.IsSvL(aTarget)</PreCondition></PreConditions>
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
-(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.EOA.EOA(),
-    NoA_est =&gt; False
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.EOA.EOA(),
+        NoA_est =&gt; False 
+    )
 )
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
-(
-    Vest =&gt; Odometry.TrainSpeed(),
-    aTarget =&gt; MA.SvL.SvL(),
-    NoA_est =&gt; False
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; MA.SvL.SvL(),
+        NoA_est =&gt; False 
+    )
 )</Expression>
 </Case><Case
  Name="MRSP Target or LOA - Revocation condition fulfilled"
@@ -1722,11 +1976,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.Spe
   Odometry.TrainSpeed() &lt;= Kernel.MRSP.V_MRSP()
 )
   AND  
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &lt;= Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
-(
-    aTarget =&gt; aTarget,
-    Vest =&gt; Odometry.TrainSpeed(),
-    NoA_est =&gt; False
+NOT FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_P
+    (
+        Vest =&gt; Odometry.TrainSpeed(),
+        aTarget =&gt; aTarget,
+        NoA_est =&gt; False 
+    )
 )</Expression>
 </Case></Cases>
 </Function><Function
@@ -1974,15 +2231,25 @@ Kernel.MA.MA.TargetSpeed == 0.0
  AND 
 
 (
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.SvL.SvL() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.SvL.SvL()
+    )
+)
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; MA.EOA.EOA() )
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Nom,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; MA.EOA.EOA()
+    )
+)
 )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
@@ -1996,9 +2263,14 @@ Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; Kernel.Spee
 
   AND  
 
-Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I(
-    Vest =&gt; Kernel.MRSP.V_MRSP(),
-    aTarget =&gt; aTarget ) )</Expression>
+FrontEndIsPast(
+    aTrainFront =&gt; Default.DistanceIntervalEnum.Max,
+    aLocation =&gt; Kernel.SpeedAndDistanceMonitoring.TargetSpeedMonitoring.d_I
+    (
+        Vest =&gt; MRSP.V_MRSP(),
+        aTarget =&gt; aTarget
+    )
+) )</Expression>
 </Case></Cases>
 </Function><Function
  Type="SupervisionStatusEnum"
@@ -2565,6 +2837,49 @@ r3(aTarget)
     )
   )
 )</Expression>
+</Case></Cases>
+</Function><Function
+ Type="Boolean"
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="FrontEndIsPast"
+ Guid="4a286015-daba-402a-aad0-86e2cd6c5705"
+>
+<ReqRef
+ Id="9508c7bf-ae33-4621-a532-ebdc1c7d5fcc"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="21c73526-dea6-4f6a-9dd7-a0d46ab2c8ec"
+>
+</ReqRef><Parameters>
+<Parameter
+ Type="DistanceIntervalEnum"
+ Name="aTrainFront"
+ Guid="0c3afdfd-5d58-42a2-89a0-33207072476a"
+>
+</Parameter><Parameter
+ Type="BaseTypes.Distance"
+ Name="aLocation"
+ Guid="d8ba376f-b3c7-482c-b05f-afc79017b276"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Distance unknown"
+ Guid="c6e9ffca-0d6f-4b5f-a800-0b8bb8113bd5"
+>
+<PreConditions>
+<PreCondition
+ Guid="6ebe2e37-65c4-4756-ae47-36b77b3a8c3e"
+>aLocation == BaseTypes.Distance.Unknown</PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Value"
+ Guid="254d608a-20dd-4cbd-be2c-dac28fd01cf8"
+>
+<Expression>TrainPosition.FrontEndPosition( aTrainFront ) &gt; aLocation</Expression>
 </Case></Cases>
 </Function></Functions>
 </NameSpace>
