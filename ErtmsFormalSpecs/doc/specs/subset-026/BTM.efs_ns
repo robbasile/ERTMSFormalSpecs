@@ -818,7 +818,7 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="Linking used - repositioning information"
+ Name="Linking used - repositioning information - nominal orientation"
  Guid="da4871b3-f972-49c1-9cae-054736dcef35"
 >
 <PreConditions>
@@ -826,22 +826,68 @@ Used when a new BG is received, the parameter aLinkingUsed indicates whether to 
  Guid="7fafc1aa-203c-4535-bc00-e69ab34d1cbf"
 >aLinkingUsed</PreCondition><PreCondition
  Guid="002136ed-5249-4a30-a4d8-f566e91e7805"
->Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
-<Expression>Kernel.TrainPosition.FrontEndPosition( Default.DistanceIntervalEnum.Nom )</Expression>
+>Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition><PreCondition
+ Guid="476b3d4e-c151-4e2a-a07d-95c91eb20085"
+>Kernel.TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>BGLocationReference.Position.Position - Kernel.ReferenceLocation()</Expression>
 </Case><Case
- Name="Linking used"
+ Name="Linking used - nominal orientation"
  Guid="6a733c58-6ee4-4358-a5b5-d7771e02ee5d"
 >
 <PreConditions>
 <PreCondition
  Guid="74979ccd-2860-4341-a7f9-50ba912f66c8"
->aLinkingUsed</PreCondition></PreConditions>
+>aLinkingUsed</PreCondition><PreCondition
+ Guid="b3458eb3-f17b-4541-a2d5-a6a240ba22ce"
+>Kernel.TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
 <Expression>Linking.CurrentLinking().Distance</Expression>
 </Case><Case
- Name="Otherwise"
+ Name="Otherwise - nominal orientation"
  Guid="6666be28-e39d-4e88-a92d-ec5dbfd8069b"
 >
-<Expression>Kernel.TrainPosition.FrontEndPosition( Default.DistanceIntervalEnum.Nom )</Expression>
+<PreConditions>
+<PreCondition
+ Guid="7ebe3a28-d23e-4088-9c66-4723c3d58b6f"
+>Kernel.TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Nominal</PreCondition></PreConditions>
+<Expression>BGLocationReference.Position.Position - Kernel.ReferenceLocation()</Expression>
+</Case><Case
+ Name="Linking used - repositioning information - reverse orientation"
+ Guid="86f03698-6975-46e0-8a51-8db598237aba"
+>
+<PreConditions>
+<PreCondition
+ Guid="6bbb65cf-76e4-45c8-982f-5b1521aac787"
+>aLinkingUsed</PreCondition><PreCondition
+ Guid="56ed62bf-7d4a-49f2-a074-947a5b33b6fc"
+>Linking.CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition><PreCondition
+ Guid="0ac6ad31-dde4-4d6c-a8c8-f2fe4dae9485"
+>Kernel.TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>Kernel.ReferenceLocation() - BGLocationReference.Position.Position</Expression>
+</Case><Case
+ Name="Linking used - reverse orientation"
+ Guid="bc4b6a6b-a293-46a4-b892-460c6ab7de0e"
+>
+<PreConditions>
+<PreCondition
+ Guid="b1229cd7-3c34-47bd-9bc7-d5a7c6e6c7a3"
+>aLinkingUsed</PreCondition><PreCondition
+ Guid="917c33e3-f298-4d21-bef0-d519185fd4bd"
+>Kernel.TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>Linking.CurrentLinking().Distance</Expression>
+</Case><Case
+ Name="Otherwise - reverse orientation"
+ Guid="4152b7bc-6d24-4853-af61-80305f73c691"
+>
+<PreConditions>
+<PreCondition
+ Guid="d44debb6-f03e-476d-a460-d332aa964821"
+>Kernel.TrainPosition.Orientation.TrainOrientation() == OrientationEnum.Reverse</PreCondition></PreConditions>
+<Expression>Kernel.ReferenceLocation() - BGLocationReference.Position.Position</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="5919fd04-0ec9-4dd1-99fe-b9ed89433c31"
+>
+<Expression>BaseTypes.Distance.Unknown</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"

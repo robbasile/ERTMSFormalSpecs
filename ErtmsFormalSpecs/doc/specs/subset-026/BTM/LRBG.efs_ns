@@ -511,8 +511,8 @@ Linking.LinkingApplicable()</Expression>
 </Function><Function
  Type="BaliseGroupStruct"
  Default=""
- X="0"
- Y="0"
+ X="40"
+ Y="260"
  Width="100"
  Height="50"
  Implemented="TRUE"
@@ -585,7 +585,7 @@ Linking.LinkingApplicable()</Expression>
 >
 </Parameter><Parameter
  Type="BaseTypes.Distance"
- Name="aDistanceFromRef"
+ Name="aLrbgDistanceFromRef"
  Guid="de3e8c92-4f0c-455c-bda5-61148adb4598"
 >
 </Parameter><Parameter
@@ -641,7 +641,7 @@ Linking.LinkingApplicable()</Expression>
 <Actions>
 <Action
  Guid="91863d30-c672-46f1-bf03-f7eac1cf8d89"
->Kernel.TrainPosition.RelocateTracksideInformation(aDistanceFromRef)</Action></Actions>
+>Kernel.TrainPosition.RelocateTracksideInformation(aLrbgDistanceFromRef)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
@@ -791,7 +791,7 @@ the linking information regarding the location accuracy is used.</Comment>
 >BTM.LRBG.HandleNewLRBG(
     Nid_BG =&gt; GetNID_BG( aBaliseGroup ),
     Nid_C =&gt; GetNID_C( aBaliseGroup ),
-    aDistanceFromRef =&gt; DistanceFromReference( UseLinkingInformation(aBaliseGroup) AND Linking.Supervision.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
+    aLrbgDistanceFromRef =&gt; DistanceFromReference( UseLinkingInformation(aBaliseGroup) AND Linking.Supervision.BGIdentityIsValid( GetNID_BG( aBaliseGroup ) ) ),
     aOrientation =&gt; BGOrientation( aBaliseGroup ),
     aLocationAccuracy =&gt; BTM.GetBGLocationAccuracy( aBaliseGroup)
 )</Action><Action
