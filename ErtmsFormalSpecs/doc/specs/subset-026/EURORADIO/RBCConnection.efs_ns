@@ -2212,6 +2212,7 @@ DataState =&gt; DataStateEnum.Invalid
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="CommunicationState independent messages"
  Guid="26276780-f349-4b40-a170-785adb595b56"
 >
@@ -2241,6 +2242,7 @@ if it is not consistent..</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="CommunicationState independent messages"
  Guid="62501a03-3b30-4b26-be1d-8cd49d41a59f"
 >
@@ -2253,6 +2255,7 @@ if it is not consistent..</Comment>
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Handle RIU/RBC system version"
  Guid="fc4fe8e6-2ec9-46ee-ac80-bcd5c120c7b6"
 >
@@ -2276,6 +2279,7 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="System version message"
  Guid="13c241f8-5cf3-4da1-8ce2-47dfb4929f18"
 >
@@ -2292,12 +2296,15 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Handle Initiation of a communication message"
  Guid="4453b592-e93c-4c4a-bdb6-0ee7aaf20c82"
 >
+<Comment>Initiation of a communication session will be processed by the the generic procedure and affect the CurrentRBCConnection.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Initiation of a communication session"
  Guid="0be544c9-4d0a-4cc8-8d77-fed9420293b2"
 >
@@ -2316,15 +2323,19 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Is handover occuring"
  Guid="ccf98d1f-730f-4b29-9c07-321f219f2a35"
 >
+<Comment>Special treatment is required while in a handover procedure.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Handover"
  Guid="fc119169-e8ed-4491-8f5f-9137c505daf6"
 >
+<Comment>If handover is occuring, the process of the message will depend on the RBC the terminal is connected to (Handingover or Accepting) and the fact that the RBC is supervising or not (i.e. is main termianl or not).</Comment>
 <PreConditions>
 <PreCondition
  Guid="24863283-2f04-41b2-83aa-c8bdd8b8d568"
@@ -2336,15 +2347,19 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Priority="Processing"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Which RBC are we connected to"
  Guid="34abcba9-82aa-41cd-8f6f-c3216f262faa"
 >
+<Comment>Two RBC: Handingover or Accepting.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Accepting RBC"
  Guid="f1f5b94c-3cc2-46c2-b7b7-cf116393e5d7"
 >
+<Comment>RBCConnection to the AcceptingRBC will either store the messages or process them normally.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5ab17e07-c25e-4249-8a81-66e1bc9babf3"
@@ -2356,15 +2371,19 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Priority="Verification"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Is main connection"
  Guid="1ef02b21-d3ba-4d48-b685-59cc5caa47a2"
 >
+<Comment>Checks whether the RBC is supervising or not.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Main connection"
  Guid="a037d623-ae81-4bf9-8501-c0d177d8f975"
 >
+<Comment>Main connection: process messages.</Comment>
 <PreConditions>
 <PreCondition
  Guid="95048b30-68e2-4933-92dc-781c97b3973a"
@@ -2374,6 +2393,7 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Guid="17c3926d-71a4-4b3d-97ab-7fc8183e3c7e"
 >IncomingMessageGenericHandling( aMessage =&gt;  aMessage)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Secondary connection"
  Guid="525c30fe-41d0-4ee4-9808-9e74587080c4"
 >
@@ -2382,7 +2402,8 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="3d0b04ce-a175-46ad-9128-e5a9635f234e"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>Secondry connection: store the messages.</Comment>
+<PreConditions>
 <PreCondition
  Guid="3f6db10d-a6ad-4b1d-b26f-b56a3eab8aa4"
 >THIS == RBCConnection.SecondaryRBCConnection()</PreCondition></PreConditions>
@@ -2430,9 +2451,11 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Handingover RBC"
  Guid="7ae228d7-b346-4742-a9eb-95265a1e6beb"
 >
+<Comment>RBCConnection to the HandingoverRBC will either process the messages or refuse them except for the Termination_Order.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5098427e-1a40-41ee-a091-43a029148702"
@@ -2444,15 +2467,19 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Priority="Verification"
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="Is main connection"
  Guid="6f51997c-3854-41ef-8756-139abf48bfb2"
 >
+<Comment>Checks whether the RBC is supervising or not.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
+ Implemented="TRUE"
  Name="Main connection"
  Guid="9afa08ed-5eb0-470d-8f5c-4e0f39d911ce"
 >
+<Comment>Main connection: process messages.</Comment>
 <PreConditions>
 <PreCondition
  Guid="202ec3c9-b37b-47e2-8d4a-f7e671239513"
@@ -2462,6 +2489,7 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  Guid="cb034fb0-4a0b-42d5-8cd6-f1d5441735eb"
 >IncomingMessageGenericHandling( aMessage =&gt;  aMessage)</Action></Actions>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="Secondary connection"
  Guid="3ba5935d-f1f2-4b4c-bf2d-74278503b7a9"
 >
@@ -2470,7 +2498,8 @@ be processed by the generic ProcessIncomingMessage procedure.</Comment>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="4480c860-834c-417d-8463-c6fa1e5169e6"
 >
-</ReqRef><PreConditions>
+</ReqRef><Comment>Refuse any message safe the disconnection order.</Comment>
+<PreConditions>
 <PreCondition
  Guid="e5094eef-be68-4af7-a01b-b600966904dd"
 >THIS == RBCConnection.SecondaryRBCConnection()</PreCondition></PreConditions>
@@ -2554,9 +2583,11 @@ THERE_IS X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequenc
 </RuleCondition></Conditions>
 </Rule></SubRules>
 </RuleCondition><RuleCondition
+ Implemented="TRUE"
  Name="No handover"
  Guid="35527c1e-0339-4f06-8351-3940352e179d"
 >
+<Comment>If on handover is occuring, simply process the message.</Comment>
 <PreConditions>
 <PreCondition
  Guid="ab8e93ce-45ce-4877-be14-f2fc27eb13cd"
@@ -3371,9 +3402,11 @@ handover with two terminals will initiate the new communication session at once.
 </Procedure><Procedure
  X="0"
  Y="0"
+ Implemented="TRUE"
  Name="IncomingMessageGenericHandling"
  Guid="39cf4b11-dfd1-4d90-931a-95bc985ecebb"
 >
+<Comment>Generic handling of radio messages, i.e. not used for special messages RIU_SYSTEM_VERSION or for specific situations like handover, handingoveroverRBC not main terminal.</Comment>
 <Parameters>
 <Parameter
  Type="Messages.EURORADIO.MessageIn.Message"
@@ -3395,8 +3428,7 @@ handover with two terminals will initiate the new communication session at once.
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="0c67dbf7-3008-46ce-9513-1b702db13423"
 >
-</ReqRef><Comment>Messages from the RBC received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement of termination.
-</Comment>
+</ReqRef><Comment>Messages from the RBC received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement of termination.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
@@ -6170,7 +6202,7 @@ RBCConnection.SecondaryRBCConnection().SafeRadioConnectionStatus != RBCConnectio
 <PreConditions>
 <PreCondition
  Guid="81f4790b-c9ff-414f-8a01-b08dbc380dff"
->NOT Available ( CurrentRBCConnection() ) </PreCondition></PreConditions>
+>NOT Available ( CurrentRBCConnection() )</PreCondition></PreConditions>
 <Expression>True</Expression>
 </Case><Case
  Name="Train equipped with EURORADIO"

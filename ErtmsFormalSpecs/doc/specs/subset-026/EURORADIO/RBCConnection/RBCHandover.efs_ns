@@ -606,6 +606,7 @@ handover.</Comment>
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="AcceptingRBCId"
  Guid="29acb2db-449f-44e5-86b0-1991736b04ac"
 >
@@ -623,11 +624,15 @@ handover.</Comment>
  Width="100"
  Height="50"
  Implemented="TRUE"
- NeedsRequirement="FALSE"
  Name="IsHandoverOccuring"
  Guid="4891bd49-3616-4860-b4ae-4d900260a370"
 >
-<Comment>Tells whether the onboard is achieving an RBC handover.</Comment>
+<ReqRef
+ Id="d8eba2a2-5b1e-4e5f-878d-ead661e95e50"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="69053b5a-08d4-4c6a-8a42-f82067ba5e52"
+>
+</ReqRef><Comment>Tells whether the onboard is achieving an RBC handover.</Comment>
 </Variable><Variable
  Type="Contact.RBCIdStruct"
  DefaultValue="EMPTY"
@@ -636,6 +641,7 @@ handover.</Comment>
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="HandingoverRBCId"
  Guid="25291100-6d9d-48c4-9b7d-be778650d6cc"
 >
@@ -655,10 +661,16 @@ Duration =&gt; RBCConnection.TimeBeforeMessageRepetition
  Y="10"
  Width="100"
  Height="50"
+ Implemented="TRUE"
  Name="HandingoverRBCPositionReportsTimer"
  Guid="3c517a1a-0546-4dea-899f-613e6b45c9a6"
 >
-</Variable><Variable
+<ReqRef
+ Id="17777577-ec39-4845-8347-17b8ec4c74d4"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="692be2dc-473f-4e2f-a971-0c9f5baf1c79"
+>
+</ReqRef></Variable><Variable
  Type="Counter.CounterStruct"
  DefaultValue="Counter.CounterStruct{
 Value =&gt; 0,
@@ -982,7 +994,8 @@ VersionManagement.UpdateOperatedSystemVersion(RBCConnection.RBCHandover.Acceptin
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="e541aaf5-20f9-48c0-98c7-b19b639b9aa6"
 >
-</ReqRef><SubRules></SubRules>
+</ReqRef><Comment>During the RBC/RBC handover, the first position report has to be sent when the max safe front end of the train passes the transition border location.</Comment>
+<SubRules></SubRules>
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
@@ -1011,6 +1024,7 @@ VersionManagement.UpdateOperatedSystemVersion(RBCConnection.RBCHandover.Acceptin
  Name="Termination of communication session with handing over RBC2"
  Guid="fb7f2f72-4182-4015-ac28-67101fb21633"
 >
+<Comment>Termination of communication session after second position report sending.</Comment>
 <PreConditions>
 <PreCondition
  Guid="620dfec6-af77-492f-8e40-ffe29fe139c9"
@@ -1032,6 +1046,7 @@ VersionManagement.UpdateOperatedSystemVersion(RBCConnection.RBCHandover.Acceptin
  Name="Sendings of second position report"
  Guid="725ff00d-77f8-4cff-aba1-b630808957ef"
 >
+<Comment>Send a second position report a first time telling the RBC it should send a deconnection order.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
