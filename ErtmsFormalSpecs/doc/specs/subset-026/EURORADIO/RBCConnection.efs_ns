@@ -2206,115 +2206,186 @@ DataState =&gt; DataStateEnum.Invalid
 <Actions>
 <Action
  Guid="650ae003-5f59-4152-bc79-c1b370bd17b2"
->CurrentRBCConnection().OnboardReference_MessageTimer &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
+>THIS.OnboardReference_MessageTimer &lt;- Kernel.DateAndTime.CurrentTime</Action></Actions>
 <SubRules>
 <Rule
  Priority="Processing"
  X="0"
  Y="0"
- Implemented="TRUE"
- Name="Handle the message, main connection"
- Guid="cef55038-61d6-4627-bd2f-b42ee019a7a7"
+ Name="CommunicationState independent messages"
+ Guid="26276780-f349-4b40-a170-785adb595b56"
 >
 <ReqRef
- Id="e65c9779-618e-4a55-97c9-4038b3410eaf"
+ Id="4aa64d47-8749-4bf5-b24e-7831ff609718"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0c67dbf7-3008-46ce-9513-1b702db13423"
+ Guid="626ec810-00f4-4dac-994d-3f3126cf2706"
 >
-</ReqRef><Comment>Messages from the current RBC connection received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement.
-If the safe radio connection is not established, anyother message than INITIATION_OF_A_COMMUNICATION_SESSION will be refused by this procedure.</Comment>
+</ReqRef><ReqRef
+ Id="3460bc0e-8803-4236-bb1b-7b9af5863703"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a1b4a101-e64f-4948-ba82-2aecd05311f5"
+>
+</ReqRef><ReqRef
+ Id="d86399df-2842-4b96-a7db-0ec7df835bd1"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="0324aa12-d262-4611-89dc-c9d9f10884bf"
+>
+</ReqRef><ReqRef
+ Id="df574230-e054-4feb-b440-4055c7334854"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="73ed410e-72e5-43dd-9532-914b4580f2c4"
+>
+</ReqRef><Comment>Some messages are received while the communication session is not yet established. 
+In such a case, no inconsistency report should be transmitted but we still refuse the message 
+if it is not consistent..</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Implemented="TRUE"
- Name="Process received message"
- Guid="02e60da7-c524-4331-8b54-d5d5a095b147"
+ Name="CommunicationState independent messages"
+ Guid="62501a03-3b30-4b26-be1d-8cd49d41a59f"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Handle RIU/RBC system version"
+ Guid="fc4fe8e6-2ec9-46ee-ac80-bcd5c120c7b6"
 >
 <ReqRef
- Id="e65c9779-618e-4a55-97c9-4038b3410eaf"
+ Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="5897c00c-9ae3-46ba-8d44-289c1ab8906c"
+ Guid="62664931-01d9-4344-9396-34c19b4d970d"
 >
-</ReqRef><Comment>Messages from RBC received after sending of Termination of communication session message are ignored.</Comment>
+</ReqRef><ReqRef
+ Id="71740f57-d219-41b2-93f8-319c302b1afa"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="9a5587d3-b9be-4dd8-ac38-9f5a3787ffb2"
+>
+</ReqRef><ReqRef
+ Id="2eda81e7-52ac-483d-91c9-169e8718de74"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="31a13473-982a-430f-bb9b-1d6974245a5f"
+>
+</ReqRef><Comment>Note that the RIU_SYSTEM_VERSION message is very specific to the terminal.RBCConnection and cannot 
+be processed by the generic ProcessIncomingMessage procedure.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="System version message"
+ Guid="13c241f8-5cf3-4da1-8ce2-47dfb4929f18"
+>
 <PreConditions>
 <PreCondition
- Guid="38becf08-2913-4188-be14-d07a99987553"
->ConnectionState not in RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
- Guid="ef3d372c-beef-41e1-b4ab-c93e1ad4228a"
->IsMainConnection(THIS)</PreCondition><PreCondition
- Guid="f097de96-8188-4ba7-99a0-87ceea8546eb"
->SafeRadioConnection.ConnectionIsEstablished 
-  OR 
-Available ( aMessage.SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+ Guid="4fa84a57-6d47-40db-a5af-2a05d082f8c1"
+>Available ( aMessage.SystemVersion2.RIU_SYSTEM_VERSION )</PreCondition></PreConditions>
 <Actions>
 <Action
- Guid="91acdb2a-7506-4ab4-b0fa-8d79adb06344"
->Messages.ProcessIncomingMessages(aMessage.SystemVersion2)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="Handle acknowledgement of termination of a communication session"
- Guid="4adf40dd-e92d-49d4-9790-f2e066136ffe"
->
-<ReqRef
- Id="e094e23a-bd94-4440-8632-705782494f35"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a5c2f29b-60c2-4b89-b4b4-c9efca81fb01"
->
-</ReqRef><ReqRef
- Id="6091731d-92bd-4133-aff2-790f6f482dbf"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b50a6610-60f2-49a7-b4a2-6bb0d27ab9f5"
->
-</ReqRef><ReqRef
- Id="2a8dff3a-71d3-4a6e-9d2b-85f6c568cd25"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="e8fe9ac2-c217-400e-a957-19e4f8dc5528"
->
-</ReqRef><ReqRef
- Id="1cc80620-3b71-4701-bf52-e5356ffd6ac3"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="6d2cb622-3201-4dec-9184-e92e1502425d"
->
-</ReqRef><Comment>Handles reception of termination of a communication session by indicating that the acknowledgement has been received.</Comment>
-<PreConditions>
-<PreCondition
- Guid="ac1276a1-4304-44b2-9368-d19b44716a29"
->Available ( aMessage.SystemVersion2.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition><PreCondition
- Guid="81589a43-8e2b-4072-b05a-941400a1676d"
->IsMainConnection(THIS)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="3f7ae70c-3d69-484d-b194-079ab0f15040"
->SessionManagementData.AcknowledgementOfTerminationReceived &lt;- True</Action></Actions>
+ Guid="edc7241a-b3a2-422c-bbe6-f815e0c132da"
+>HandleRBCRIUSystemVersion ( aMessage =&gt; aMessage.SystemVersion2.RIU_SYSTEM_VERSION )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="Processing"
  X="0"
  Y="0"
- Implemented="TRUE"
- Name="Handle the message, secondary connection"
- Guid="5a254f2f-4d15-451a-aee7-678a39803050"
+ Name="Handle Initiation of a communication message"
+ Guid="4453b592-e93c-4c4a-bdb6-0ee7aaf20c82"
 >
-<Comment>Handles messages from the secondary connection.</Comment>
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Implemented="TRUE"
- Name="First position report not sent yet"
- Guid="76abb388-cf5f-4889-88ce-12fe11d2d0e7"
+ Name="Initiation of a communication session"
+ Guid="0be544c9-4d0a-4cc8-8d77-fed9420293b2"
+>
+<PreConditions>
+<PreCondition
+ Guid="031d7b38-e7cf-4b97-81b3-b6c30ca1fd33"
+>Available ( aMessage.SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="0cc1b0c6-7623-4c8f-8f43-e9405bb2b31b"
+>Messages.ProcessIncomingMessages(aMessage.SystemVersion2)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Is handover occuring"
+ Guid="ccf98d1f-730f-4b29-9c07-321f219f2a35"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Handover"
+ Guid="fc119169-e8ed-4491-8f5f-9137c505daf6"
+>
+<PreConditions>
+<PreCondition
+ Guid="24863283-2f04-41b2-83aa-c8bdd8b8d568"
+>RBCConnection.RBCHandover.IsHandoverOccuring</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Which RBC are we connected to"
+ Guid="34abcba9-82aa-41cd-8f6f-c3216f262faa"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Accepting RBC"
+ Guid="f1f5b94c-3cc2-46c2-b7b7-cf116393e5d7"
+>
+<PreConditions>
+<PreCondition
+ Guid="5ab17e07-c25e-4249-8a81-66e1bc9babf3"
+>THIS == RBCConnection.RBCHandover.AcceptingRBCConnection()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Verification"
+ X="0"
+ Y="0"
+ Name="Is main connection"
+ Guid="1ef02b21-d3ba-4d48-b685-59cc5caa47a2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Main connection"
+ Guid="a037d623-ae81-4bf9-8501-c0d177d8f975"
+>
+<PreConditions>
+<PreCondition
+ Guid="95048b30-68e2-4933-92dc-781c97b3973a"
+>THIS == RBCConnection.CurrentRBCConnection()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="17c3926d-71a4-4b3d-97ab-7fc8183e3c7e"
+>IncomingMessageGenericHandling( aMessage =&gt;  aMessage)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Secondary connection"
+ Guid="525c30fe-41d0-4ee4-9808-9e74587080c4"
 >
 <ReqRef
  Id="c887c56e-758e-426a-a728-cf723b3b2baf"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="01f01d0a-b84f-42c4-8d0f-6411abecc08a"
+ Guid="3d0b04ce-a175-46ad-9128-e5a9635f234e"
 >
-</ReqRef><Comment>Before the first position report due to RBC/RBC handover is sent, the secondary connection is the Accepting RBC. The messages have to be stored on-board, except the acknowledgement of Train Data.</Comment>
-<PreConditions>
+</ReqRef><PreConditions>
 <PreCondition
- Guid="e4720d74-c0b7-4a6e-9ab6-1ece3496b1f0"
->Kernel.TrainPosition.FrontEndPosition ( PointOfInterest =&gt; DistanceIntervalEnum.Max ) &lt; RBCHandover.RBCTransitionLocation</PreCondition><PreCondition
- Guid="0d4bcc3d-3776-439b-9758-f22cbc29a861"
->NOT IsMainConnection(THIS)</PreCondition></PreConditions>
+ Guid="3f6db10d-a6ad-4b1d-b26f-b56a3eab8aa4"
+>THIS == RBCConnection.SecondaryRBCConnection()</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="1ab338d8-4640-43cf-a2a7-37c937b4fe00"
@@ -2356,21 +2427,53 @@ Available ( aMessage.SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</Pre
 >Messages.HandleAcknowledgementOfTrainData ( aMessage =&gt; aMessage.SystemVersion2.ACKNOWLEDGEMENT_OF_TRAIN_DATA )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="First position report already sent"
- Guid="9eed9a99-08dd-4cea-aa1f-58bf616fb33e"
+ Name="Handingover RBC"
+ Guid="7ae228d7-b346-4742-a9eb-95265a1e6beb"
+>
+<PreConditions>
+<PreCondition
+ Guid="5098427e-1a40-41ee-a091-43a029148702"
+>THIS == RBCConnection.RBCHandover.HandingoverRBCConnection()</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Verification"
+ X="0"
+ Y="0"
+ Name="Is main connection"
+ Guid="6f51997c-3854-41ef-8756-139abf48bfb2"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Main connection"
+ Guid="9afa08ed-5eb0-470d-8f5c-4e0f39d911ce"
+>
+<PreConditions>
+<PreCondition
+ Guid="202ec3c9-b37b-47e2-8d4a-f7e671239513"
+>THIS == RBCConnection.CurrentRBCConnection()</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="cb034fb0-4a0b-42d5-8cd6-f1d5441735eb"
+>IncomingMessageGenericHandling( aMessage =&gt;  aMessage)</Action></Actions>
+</RuleCondition><RuleCondition
+ Name="Secondary connection"
+ Guid="3ba5935d-f1f2-4b4c-bf2d-74278503b7a9"
 >
 <ReqRef
  Id="1b789c83-4922-4842-985f-3dd14ff0843d"
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ead5d5ee-b9b4-4837-90f4-30eae4b478d3"
+ Guid="4480c860-834c-417d-8463-c6fa1e5169e6"
 >
-</ReqRef><Comment>After the sending of the first position report due to RBC/RBC handover, the secondary connection becomes the Handing Over RBC. In that case, only the disconnection orders are accepted.</Comment>
-<PreConditions>
+</ReqRef><PreConditions>
 <PreCondition
- Guid="0f48759f-2683-41b7-9795-a8091f83089d"
->NOT IsMainConnection(THIS)</PreCondition></PreConditions>
+ Guid="e5094eef-be68-4af7-a01b-b600966904dd"
+>THIS == RBCConnection.SecondaryRBCConnection()</PreCondition></PreConditions>
 <Actions>
 </Actions>
 <SubRules>
@@ -2448,6 +2551,22 @@ THERE_IS X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequenc
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule></SubRules>
+</RuleCondition></Conditions>
+</Rule></SubRules>
+</RuleCondition><RuleCondition
+ Name="No handover"
+ Guid="35527c1e-0339-4f06-8351-3940352e179d"
+>
+<PreConditions>
+<PreCondition
+ Guid="ab8e93ce-45ce-4877-be14-f2fc27eb13cd"
+>NOT RBCConnection.RBCHandover.IsHandoverOccuring</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="026caae7-8bed-4218-8302-9288feca6d92"
+>IncomingMessageGenericHandling( aMessage =&gt;  aMessage)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></SubRules>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  Name="Report inconsistent message"
@@ -2468,6 +2587,11 @@ THERE_IS X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequenc
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="165f87d0-6bf1-48db-b4b9-d1e7bc3417ba"
 >
+</ReqRef><ReqRef
+ Id="d86399df-2842-4b96-a7db-0ec7df835bd1"
+ SpecId="c238ead1-8ba7-4613-ae49-4288833ea80d"
+ Guid="4d38bd33-9247-474a-b879-59a29f033bc4"
+>
 </ReqRef><Comment>If the message received from the RBC is not consistent, immediately report it.</Comment>
 <PreConditions>
 <PreCondition
@@ -2476,7 +2600,11 @@ THERE_IS X IN aMessage.SystemVersion2.MA_WITH_SHIFTED_LOCATION_REFERENCE.Sequenc
  Guid="33c61f80-67f6-4719-879f-bed75f4fc543"
 >SafeRadioConnectionAvailable()</PreCondition><PreCondition
  Guid="5f07e758-dcdf-450a-a2bd-e67102577cea"
->aMessage.SystemVersion2 != EMPTY</PreCondition></PreConditions>
+>aMessage.SystemVersion2 != EMPTY</PreCondition><PreCondition
+ Guid="2bbea2f0-ef99-49c0-b893-ccab2a9d4304"
+>NOT Available ( aMessage.SystemVersion2.RIU_SYSTEM_VERSION )</PreCondition><PreCondition
+ Guid="0d180bfa-256a-49df-9ad8-6955c77918df"
+>NOT Available ( aMessage.SystemVersion2.INITIATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="41e0cd3a-dfcc-4521-8eb5-83fe9de32f4b"
@@ -3189,6 +3317,143 @@ handover with two terminals will initiate the new communication session at once.
 <Action
  Guid="a05dfa06-931f-401a-86d9-29afcc82063a"
 >AcceptingRBCContactOrder &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="120"
+ Y="360"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ Name="HandleRBCRIUSystemVersion"
+ Guid="10dc8bf3-fb79-4fc2-987d-1b29ba45fa25"
+>
+<ReqRef
+ Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="ca11414d-dcc4-4bd5-992b-5a6a7c591964"
+>
+</ReqRef><Comment>When the RBC/RIU system version is received, it is stored on-board and will be used to indicate that the RBC connection is established.</Comment>
+<Parameters>
+<Parameter
+ Type="Messages.MESSAGE.TRACK_TO_TRAIN.RBC.RIU_SYSTEM_VERSION.Message"
+ Name="aMessage"
+ Guid="ae749290-5bd3-4a59-8892-1f02e400373a"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Store the received system version"
+ Guid="fb46a7fe-c199-4921-811e-cdacaa581017"
+>
+<Comment>Stores the received system version.</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Store the received system version"
+ Guid="b5198c94-238e-49b1-ab0f-a07e1f53f92d"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="e17bef78-a2ff-421f-8ab3-bf8d2d0939ac"
+>THIS.SessionManagementData.SystemVersion.Value &lt;- VersionManagement.SystemVersionFromMessageVersion ( aMessageVersion =&gt; aMessage.M_VERSION )</Action><Action
+ Guid="8212c19a-2428-4a44-aa05-ed206845382b"
+>ValidateInformation(THIS.SessionManagementData.SystemVersion)</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="0"
+ Y="0"
+ Name="IncomingMessageGenericHandling"
+ Guid="39cf4b11-dfd1-4d90-931a-95bc985ecebb"
+>
+<Parameters>
+<Parameter
+ Type="Messages.EURORADIO.MessageIn.Message"
+ Name="aMessage"
+ Guid="34cbc165-ac4a-466d-8fe6-68420e77d82d"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ Name="Handle the message"
+ Guid="cef55038-61d6-4627-bd2f-b42ee019a7a7"
+>
+<ReqRef
+ Id="e65c9779-618e-4a55-97c9-4038b3410eaf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="0c67dbf7-3008-46ce-9513-1b702db13423"
+>
+</ReqRef><Comment>Messages from the RBC received after sending of Termination of communication session message will be ignored, with the exception of the acknowledgement of termination.
+</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ Name="Process received message"
+ Guid="02e60da7-c524-4331-8b54-d5d5a095b147"
+>
+<ReqRef
+ Id="e65c9779-618e-4a55-97c9-4038b3410eaf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="5897c00c-9ae3-46ba-8d44-289c1ab8906c"
+>
+</ReqRef><Comment>Messages from RBC received after sending of Termination of communication session message are ignored.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="38becf08-2913-4188-be14-d07a99987553"
+>ConnectionState not in RBCStruct.ConnectionStateSM.Terminating</PreCondition><PreCondition
+ Guid="f097de96-8188-4ba7-99a0-87ceea8546eb"
+>SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="91acdb2a-7506-4ab4-b0fa-8d79adb06344"
+>Messages.ProcessIncomingMessages(aMessage.SystemVersion2)</Action></Actions>
+</RuleCondition><RuleCondition
+ Implemented="TRUE"
+ Name="Handle acknowledgement of termination of a communication session"
+ Guid="4adf40dd-e92d-49d4-9790-f2e066136ffe"
+>
+<ReqRef
+ Id="e094e23a-bd94-4440-8632-705782494f35"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="a5c2f29b-60c2-4b89-b4b4-c9efca81fb01"
+>
+</ReqRef><ReqRef
+ Id="6091731d-92bd-4133-aff2-790f6f482dbf"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="b50a6610-60f2-49a7-b4a2-6bb0d27ab9f5"
+>
+</ReqRef><ReqRef
+ Id="2a8dff3a-71d3-4a6e-9d2b-85f6c568cd25"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="e8fe9ac2-c217-400e-a957-19e4f8dc5528"
+>
+</ReqRef><ReqRef
+ Id="1cc80620-3b71-4701-bf52-e5356ffd6ac3"
+ SpecId="1725280b-f696-4860-94cc-d85f62c35214"
+ Guid="6d2cb622-3201-4dec-9184-e92e1502425d"
+>
+</ReqRef><Comment>Handles reception of termination of a communication session by indicating that the acknowledgement has been received.</Comment>
+<PreConditions>
+<PreCondition
+ Guid="ac1276a1-4304-44b2-9368-d19b44716a29"
+>Available ( aMessage.SystemVersion2.ACKNOWLEDGEMENT_OF_TERMINATION_OF_A_COMMUNICATION_SESSION )</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="3f7ae70c-3d69-484d-b194-079ab0f15040"
+>SessionManagementData.AcknowledgementOfTerminationReceived &lt;- True</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure></Procedures>
@@ -5702,7 +5967,10 @@ NOT SafeRadioConnection.ConnectionIsEstablished</PreCondition></PreConditions>
  SpecId="1725280b-f696-4860-94cc-d85f62c35214"
  Guid="a7c24585-39e3-4a01-9c9a-3fa8956609c4"
 >
-</ReqRef><Comment>Provides the secondary RBCConnection, if any. For use in the handover procedure.</Comment>
+</ReqRef><Comment>Provides the secondary RBCConnection, if any. For use in the handover procedure. 
+Note that if only one terminal is available, this function returns this 
+available terminal.RBCConnection, i.e. it is equivallent to CurrentRBCConnection 
+in case of only one terminal available.</Comment>
 <Cases>
 <Case
  Name="Value"
@@ -6316,55 +6584,6 @@ SessionHasToBeReEstablished(anRBC)</PreCondition></PreConditions>
 >Terminal.RegisterMobileTerminals( aNetworkId =&gt; DMI.MasterDMI().In_RBCContactInformation.NetworkId )</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="120"
- Y="360"
- Width="100"
- Height="50"
- Implemented="TRUE"
- Name="HandleRBCRIUSystemVersion"
- Guid="10dc8bf3-fb79-4fc2-987d-1b29ba45fa25"
->
-<ReqRef
- Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="ca11414d-dcc4-4bd5-992b-5a6a7c591964"
->
-</ReqRef><Comment>When the RBC/RIU system version is received, it is stored on-board and will be used to indicate that the RBC connection is established.</Comment>
-<Parameters>
-<Parameter
- Type="Messages.MESSAGE.TRACK_TO_TRAIN.RBC.RIU_SYSTEM_VERSION.Message"
- Name="aMessage"
- Guid="ae749290-5bd3-4a59-8892-1f02e400373a"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Store the received system version"
- Guid="fb46a7fe-c199-4921-811e-cdacaa581017"
->
-<Comment>Stores the received system version.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Store the received system version"
- Guid="b5198c94-238e-49b1-ab0f-a07e1f53f92d"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="e17bef78-a2ff-421f-8ab3-bf8d2d0939ac"
->RBCConnection.CurrentRBCConnection().SessionManagementData.SystemVersion.Value &lt;- VersionManagement.SystemVersionFromMessageVersion ( aMessageVersion =&gt; aMessage.M_VERSION )</Action><Action
- Guid="8212c19a-2428-4a44-aa05-ed206845382b"
->ValidateInformation(RBCConnection.CurrentRBCConnection().SessionManagementData.SystemVersion)</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

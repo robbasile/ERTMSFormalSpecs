@@ -4149,47 +4149,6 @@ Kernel.MA.MATimers.LOATimerStart &lt;- MessageTypes.TimeResolution( time =&gt; a
 </Rule></SubRules>
 </RuleCondition></Conditions>
 </Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="RBC/RIU system version message available"
- Guid="72ea757d-52ec-42fa-bd6a-154f694dc4ae"
->
-<ReqRef
- Id="02f20f26-3445-49b9-95cf-a6948ab029b8"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="bb6b5b48-be53-43e2-9e0c-154d5613bdd7"
->
-</ReqRef><ReqRef
- Id="71740f57-d219-41b2-93f8-319c302b1afa"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="11c4849e-4311-4b6f-b7eb-f58c203eb04c"
->
-</ReqRef><ReqRef
- Id="2eda81e7-52ac-483d-91c9-169e8718de74"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="b022c87b-4aa3-482c-840a-fcc52d3a0394"
->
-</ReqRef><Comment>Handles reception of RBC/RIU system version.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RBC/RIU system version message available"
- Guid="17ca29cb-fad8-4162-8eb4-95e27de49f9d"
->
-<PreConditions>
-<PreCondition
- Guid="4fa84a57-6d47-40db-a5af-2a05d082f8c1"
->Available ( aMessage.RIU_SYSTEM_VERSION )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="edc7241a-b3a2-422c-bbe6-f815e0c132da"
->RBCConnection.HandleRBCRIUSystemVersion ( aMessage =&gt; aMessage.RIU_SYSTEM_VERSION )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="UpdateINTERNAL"
  X="0"
  Y="0"
