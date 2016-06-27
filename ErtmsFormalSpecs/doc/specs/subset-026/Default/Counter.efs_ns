@@ -1,0 +1,165 @@
+<NameSpace
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Name="Counter"
+ Guid="7e4f3760-1eb1-43fc-a932-89f802907194"
+>
+<Comment>Defines a structure to implement counter with bound.</Comment>
+<NameSpaces>
+</NameSpaces>
+<Structures>
+<Structure
+ Default=""
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="CounterStruct"
+ Guid="51b0bb9a-09d5-4c95-bebb-660228918061"
+>
+<Comment>Container to hold the present value and the bound of the counter.</Comment>
+<StructureElement
+ TypeName="Integer"
+ Default="0"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Value"
+ Guid="2a753f44-eab3-45df-8d40-a8eb2ce09f0b"
+>
+<Comment>The present value of the counter.</Comment>
+</StructureElement><StructureElement
+ TypeName="Integer"
+ Default="1"
+ Mode="Internal"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Bound"
+ Guid="c1a98482-83a4-46e9-a68f-f27670168d7b"
+>
+<Comment>The bound values is meant to be fixed once for all. It should be positive so that unused counter has not reached its bound.</Comment>
+</StructureElement></Structure></Structures>
+<Functions>
+<Function
+ Type="Boolean"
+ Default=""
+ X="140"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="BoundReached"
+ Guid="81719cbd-26c9-4c81-b0b9-fc977c5c098b"
+>
+<Comment>Tells whether the counter has reached its max value.</Comment>
+<Parameters>
+<Parameter
+ Type="CounterStruct"
+ Name="aCounter"
+ Guid="7c0cdc39-086b-45aa-a5ee-322029d7c510"
+>
+</Parameter></Parameters>
+<Cases>
+<Case
+ Name="Value"
+ Guid="ff13e57a-ac1d-45f2-aa79-2d7884224e69"
+>
+<Expression>aCounter.Value &gt;= aCounter.Bound</Expression>
+</Case></Cases>
+</Function></Functions>
+<Procedures>
+<Procedure
+ X="0"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="ResetCounter"
+ Guid="d20a9273-ae42-4896-9b97-1803d0c3f794"
+>
+<Comment>Reset the value of the counter at 0.</Comment>
+<Parameters>
+<Parameter
+ Type="CounterStruct"
+ Name="aCounter"
+ Guid="8117e28c-25d8-4f38-bc30-c5821a5c0249"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset Counter"
+ Guid="310d1610-ef64-4e53-bc82-58160662487e"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset Counter"
+ Guid="a83cac59-f345-47f8-bb87-bd6cf9d1aadf"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="0ca7a06a-31c5-4f7a-8064-8e2423af00ff"
+>aCounter.Value &lt;- 0</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure><Procedure
+ X="140"
+ Y="80"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="IncrementCounter"
+ Guid="69370d60-766f-4c84-94cc-0792df179f87"
+>
+<Comment>Increment the value of the counter.</Comment>
+<Parameters>
+<Parameter
+ Type="CounterStruct"
+ Name="aCounter"
+ Guid="3bf49fd2-3cf5-4043-a6a5-ca69bff6e815"
+>
+</Parameter></Parameters>
+<Rules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Increment Counter"
+ Guid="e3458b92-60f9-4348-909b-227f6f14da81"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Reset Counter"
+ Guid="763ba813-dd2b-45cf-b236-b247dc93a218"
+>
+<PreConditions>
+</PreConditions>
+<Actions>
+<Action
+ Guid="2f08a5d0-571a-484f-abe4-9ee96372e1b1"
+>aCounter.Value &lt;- aCounter.Value + 1</Action></Actions>
+</RuleCondition></Conditions>
+</Rule></Rules>
+</Procedure></Procedures>
+</NameSpace>
