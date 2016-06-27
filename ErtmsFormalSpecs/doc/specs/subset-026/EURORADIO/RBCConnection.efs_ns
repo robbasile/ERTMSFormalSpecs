@@ -5896,14 +5896,21 @@ RBCConnection.SecondaryRBCConnection().SafeRadioConnectionStatus != RBCConnectio
 </ReqRef><Comment>Indicates if all the Euroradio sessions are closed</Comment>
 <Cases>
 <Case
- Name="Value"
+ Name="Train not equipped with EURORADIO"
+ Guid="6dbe1ec9-7778-4010-8d54-5a9b399aa427"
+>
+<PreConditions>
+<PreCondition
+ Guid="81f4790b-c9ff-414f-8a01-b08dbc380dff"
+>NOT Available ( CurrentRBCConnection() ) </PreCondition></PreConditions>
+<Expression>True</Expression>
+</Case><Case
+ Name="Train equipped with EURORADIO"
  Guid="570d8238-c486-4d19-bd40-02645a6b780e"
 >
-<Expression>EURORADIO.RBCConnection.CurrentRBCConnection().ConnectionState in [RBCConnection.RBCStruct.ConnectionStateSM.NoConnection,
-RBCConnection.RBCStruct.ConnectionStateSM.Inactive]
+<Expression>CurrentRBCConnection().ConnectionState in [ RBCStruct.ConnectionStateSM.NoConnection, RBCStruct.ConnectionStateSM.Inactive]
 AND
-EURORADIO.RBCConnection.SecondaryRBCConnection().ConnectionState in [RBCConnection.RBCStruct.ConnectionStateSM.NoConnection,
-RBCConnection.RBCStruct.ConnectionStateSM.Inactive]</Expression>
+SecondaryRBCConnection().ConnectionState in [ RBCStruct.ConnectionStateSM.NoConnection, RBCStruct.ConnectionStateSM.Inactive]</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
