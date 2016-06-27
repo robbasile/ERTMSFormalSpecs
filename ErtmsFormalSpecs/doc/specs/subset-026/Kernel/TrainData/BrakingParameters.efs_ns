@@ -4925,9 +4925,13 @@ INITIAL_VALUE []</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="ReturnActiveArea"
+ Name="Condition location positive"
  Guid="ffab0a7a-2c79-466c-80d9-ace272f50dc3"
 >
+<PreConditions>
+<PreCondition
+ Guid="eda29885-591f-42c3-a7cd-1befd21a6cf6"
+>aCondition.Location &gt;= 0.0</PreCondition></PreConditions>
 <Expression>LET StartLocation &lt;- aCondition.Location - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) 
 IN
 Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
@@ -4935,6 +4939,24 @@ Location =&gt; StartLocation,
 Value =&gt; aCondition.Value,
 Length =&gt; 
     (BaseTypes.DistanceToLength(aCondition.Location) + aCondition.Length + TrainPosition.TrainLength() + TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER)) 
+    - 
+    StartLocation
+}</Expression>
+</Case><Case
+ Name="Condition location negative"
+ Guid="19ba32ea-3146-4c55-aaab-276314558872"
+>
+<PreConditions>
+<PreCondition
+ Guid="2cafadf2-89b8-4e25-aa46-95aac3ae39cb"
+>aCondition.Location &lt; 0.0</PreCondition></PreConditions>
+<Expression>LET StartLocation &lt;- aCondition.Location - BaseTypes.LengthToDistance(TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTUNDER)) 
+IN
+Kernel.TrackDescription.TrackConditions.General.TrackConditionInformationStruct{
+Location =&gt; StartLocation,
+Value =&gt; aCondition.Value,
+Length =&gt; 
+    aCondition.Length + TrainPosition.TrainLength() + TrainPosition.ConfidenceInterval.ConfidenceInterval(ConfidenceIntervalEnum.L_DOUBTOVER) - BaseTypes.DistanceToLength(- aCondition.Location)
     - 
     StartLocation
 }</Expression>
