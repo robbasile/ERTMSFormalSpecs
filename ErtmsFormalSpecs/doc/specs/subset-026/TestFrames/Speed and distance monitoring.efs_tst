@@ -185,9 +185,12 @@ End =&gt; BaseTypes.Distance.Unknown
             Distance =&gt; 40.0,
             TimerStart =&gt; 0.0
         }
+    },
+    Kernel.MA.Sections.SectionStruct{
+        Length =&gt; 1000.0,
+        TimeOut =&gt; EMPTY
     }],
     EndSection =&gt; Kernel.MA.EndSectionStruct{
-        Length =&gt; 1000.0,
         DangerPoint =&gt; Kernel.MA.SvL.DangerPointStruct{
             Distance =&gt; 1000.0,
             ReleaseSpeed =&gt; 40.0
@@ -1284,7 +1287,13 @@ End =&gt; BaseTypes.Distance.Unknown
 >Kernel.MA.MA &lt;- Kernel.MA.MAStruct
 {
     TargetSpeed =&gt; 0.0,
-    Sections =&gt; [],
+    Sections =&gt; [Kernel.MA.Sections.SectionStruct {
+        TimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct {
+            TimeOut =&gt; 800.0,
+            Distance =&gt; 0.0
+        },
+        Length =&gt; 0.0
+    }],
     EndSection =&gt; Kernel.MA.EndSectionStruct
     {
         EndSectionTimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct
@@ -1292,12 +1301,6 @@ End =&gt; BaseTypes.Distance.Unknown
             TimeOut =&gt; 1000.0,
             Distance =&gt; 0.0
         },
-        TimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct
-        {
-            TimeOut =&gt; 800.0,
-            Distance =&gt; 0.0
-        },
-        Length =&gt; 0.0,
         DangerPoint =&gt; Kernel.MA.SvL.DangerPointStruct
         {
             Distance =&gt; 0.0,

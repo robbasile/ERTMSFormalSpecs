@@ -476,27 +476,24 @@ IN Kernel.MA.ModeProfile.Profile</Action><Action
 >Kernel.MA.MA &lt;- Kernel.MA.MAStruct
 {
     TargetSpeed =&gt; 0.0,
-    Sections =&gt; [],
+    Sections =&gt; [Kernel.MA.Sections.SectionStruct{
+        Length =&gt; 1000.0,
+       TimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct {
+            TimeOut =&gt; 10.0,
+            Distance =&gt; 1000.0
+        }
+    }],
     EndSection =&gt;Kernel.MA.EndSectionStruct
 {
-        EndSectionTimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct
-       {
+        EndSectionTimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct {
             TimeOut =&gt; 5.0,
             Distance =&gt; 1000.0
         },
-        TimeOut =&gt; Kernel.MA.MATimers.TimeOutStruct
-        {
-            TimeOut =&gt; 10.0,
-            Distance =&gt; 1000.0
-        },
-        Length =&gt; 1000.0,
-        DangerPoint =&gt; Kernel.MA.SvL.DangerPointStruct
-        {
+        DangerPoint =&gt; Kernel.MA.SvL.DangerPointStruct {
             Distance =&gt;10.0,
             ReleaseSpeed =&gt; 0.0
         },
-        Overlap =&gt; Kernel.MA.SvL.OverlapStruct
-      {
+        Overlap =&gt; Kernel.MA.SvL.OverlapStruct {
             Distance =&gt; 0.0,
             TimerDistance =&gt; 0.0,
             ReleaseSpeed =&gt; 0.0,

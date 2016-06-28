@@ -1368,34 +1368,6 @@ The list is updated in case two LRBGs provide the same MRSP, this should count a
 <Conditions>
 <RuleCondition
  Implemented="TRUE"
- Name="No sections in the MA"
- Guid="74808d55-fe3e-49c0-9639-08778e4cff88"
->
-<Comment>If there are no sections in the MA, the length of the end section must be reduced</Comment>
-<PreConditions>
-<PreCondition
- Guid="5657558a-1a05-418b-a764-acf8a7450bcc"
->Kernel.MA.MA.Sections == []</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="1a79f6be-8cd7-40c6-9975-e855cdded2c5"
->Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength(aDistance)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- Name="There are sections - train is in the end section"
- Guid="d06b3a80-263d-4bb9-b9c8-543ed912a38d"
->
-<Comment>If the train has passed all the sections and is in the end section, the sections must be removed and the length of the end section updated</Comment>
-<PreConditions>
-<PreCondition
- Guid="d424a96a-5c7d-4c07-b419-e3cf71806b66"
->BTM.BGLocationReference.Position.Position - BTM.LRBG.LRBG().Position.Position &gt;= Kernel.MA.EndSectionStart()</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="b9ea2e9d-59d1-4ef8-88df-d51843437f9e"
->Kernel.MA.RelocateMAinEndSection(aDistance)</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
  Name="Train is in one of the sections"
  Guid="e5c30d3b-cb6a-41bd-b0ef-98cafdcd885a"
 >

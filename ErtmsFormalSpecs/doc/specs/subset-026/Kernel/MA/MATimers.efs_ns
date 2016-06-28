@@ -138,27 +138,6 @@ X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; Kernel.DateAndTime.CurrentTime)</P
   AND  
     X.TimeOut.TimerStart + X.TimeOut.TimeOut &lt; Kernel.DateAndTime.CurrentTime )</Expression>
 </Case><Case
- Name="Check the End Section"
- Guid="0cd53d69-33fa-4bd8-838c-2567b54d86e6"
->
-<Comment>Otherwise, check the end section</Comment>
-<PreConditions>
-<PreCondition
- Guid="14bd3d68-2aa0-4ade-9bae-71a888fed915"
->Kernel.MA.MA.EndSection.TimeOut != EMPTY
-  AND  
-(
-    Kernel.MA.MA.EndSection.TimeOut.Distance + BaseTypes.LengthToDistance(Kernel.MA.MA.EndSection.Length) &gt; Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Min)
-      AND  
-    Kernel.MA.MA.EndSection.TimeOut.TimerStart + Kernel.MA.MA.EndSection.TimeOut.TimeOut &lt; Kernel.DateAndTime.CurrentTime
-)</PreCondition><PreCondition
- Guid="eb1eb2c2-ee01-4da8-95fb-684a3c9d0fcd"
->Kernel.Level.Value.Value != LevelEnum.L3</PreCondition></PreConditions>
-<Expression>Sections.SectionStruct{
-    Length =&gt; MA.EndSection.Length,
-    TimeOut =&gt; MA.EndSection.TimeOut
-}</Expression>
-</Case><Case
  Name="Otherwise"
  Guid="0d717df1-5d45-4c7d-8589-9fee946d5cfa"
 >

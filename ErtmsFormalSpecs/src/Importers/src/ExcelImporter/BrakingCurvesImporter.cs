@@ -647,7 +647,7 @@ namespace Importers.ExcelImporter
             double MAdistance = (double) (aRange.Cells[3, 2] as Range).Value2 + 1000.0;
             addAction(aSubStep,
                 String.Format(CultureInfo.InvariantCulture,
-                    "Kernel.MA.MA <- Kernel.MA.MAStruct\n{{\n    TargetSpeed => {0:0.0},\n    Sections => [],\n    EndSection => Kernel.MA.EndSectionStruct\n    {{\n        EndSectionTimeOut => EMPTY,\n        Length => {1:0.0},\n        DangerPoint => Kernel.MA.SvL.DangerPointStruct\n        {{\n            Distance => 0.0,\n            ReleaseSpeed => {2:0.0}\n        }},\n        Overlap => EMPTY\n    }},\n    TargetSpeedTimeOut => 0.0\n}}",
+                    "Kernel.MA.MA <- Kernel.MA.MAStruct\n{{\n    TargetSpeed => {0:0.0},\n    Sections => [Kernel.MA.Sections.SectionStruct{{\n        Length => {1:0.0},\n        TimeOut => EMPTY,\n    }}],\n    EndSection => Kernel.MA.EndSectionStruct\n    {{\n        EndSectionTimeOut => EMPTY,\n        DangerPoint => Kernel.MA.SvL.DangerPointStruct\n        {{\n            Distance => 0.0,\n            ReleaseSpeed => {2:0.0}\n        }},\n        Overlap => EMPTY\n    }},\n    TargetSpeedTimeOut => 0.0\n}}",
                     TargetSpeed, MAdistance, releaseSpeed));
 
 

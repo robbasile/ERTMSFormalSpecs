@@ -207,21 +207,11 @@ Kernel.MA.MATimers.EndSectionTimerStart != BaseTypes.Time.NA
 <Comment>Returns the distance to the end of the End Section of the MA</Comment>
 <Cases>
 <Case
- Name="Sections defined"
+ Name="Value"
  Guid="47b85941-c8fc-4e27-ad29-c46207a82db3"
 >
 <Comment>The MA has sections</Comment>
-<PreConditions>
-<PreCondition
- Guid="fee6d219-56c8-47c9-b840-bc9541b651d5"
->Available(Kernel.MA.MA.Sections)</PreCondition></PreConditions>
-<Expression>BaseTypes.LengthToDistance ( (SUM Kernel.MA.MA.Sections USING X IN X.Length) + Kernel.MA.MA.EndSection.Length )</Expression>
-</Case><Case
- Name="No sections"
- Guid="da7feeb3-3bc8-4b45-a006-7ffe4b49c1af"
->
-<Comment>There is only an End Section</Comment>
-<Expression>BaseTypes.LengthToDistance(Kernel.MA.MA.EndSection.Length)</Expression>
+<Expression>BaseTypes.LengthToDistance ( (SUM Kernel.MA.MA.Sections USING X IN X.Length))</Expression>
 </Case></Cases>
 </Function><Function
  Type="TargetStruct"

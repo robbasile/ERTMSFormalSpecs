@@ -215,51 +215,6 @@
 >
 </ReqRef><Comment>Represents the end section time-out, if any.</Comment>
 </StructureElement><StructureElement
- TypeName="MATimers.TimeOutStruct"
- Default="EMPTY"
- Mode="Internal"
- Implemented="TRUE"
- Verified="TRUE"
- Name="TimeOut"
- Guid="1911d076-bc2c-473f-9996-4e294ed0d76d"
->
-<ReqRef
- Id="9e1096f7-cf79-4ff5-8dcf-ac3a8bc775e6"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="670dacf7-9a0f-41f4-bb25-aca2fcc8be16"
->
-</ReqRef><ReqRef
- Id="b4e8a739-839a-4e55-80ab-4cabb887e47b"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="a0e9d1d7-6924-4bc3-bf87-18ef32c2e0d2"
->
-</ReqRef><ReqRef
- Id="3ea65cb2-f46e-4d0e-885e-8ae8c75b4a06"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="68d25881-5473-4b53-9edf-050bf2a2dd85"
->
-</ReqRef><Comment>Represents the section time-out (if no time-out is available for this section, this field is EMPTY).</Comment>
-</StructureElement><StructureElement
- TypeName="BaseTypes.Length"
- Default=""
- Mode="Internal"
- Implemented="TRUE"
- Verified="TRUE"
- Name="Length"
- Guid="8b7644b8-6eb4-414e-b86d-2135de4bd99c"
->
-<ReqRef
- Id="51578cd7-a50a-46d9-b7a5-11e24eee2f49"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="06ba7762-c23f-43dc-a182-64df5305b09a"
->
-</ReqRef><ReqRef
- Id="6429b85c-2e6f-4225-8997-9701a98eacd4"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="0dfd4ad6-88af-4b29-b13a-777ffc75a9c4"
->
-</ReqRef><Comment>Represents the length of the section.</Comment>
-</StructureElement><StructureElement
  TypeName="SvL.DangerPointStruct"
  Default="EMPTY"
  Mode="Internal"
@@ -1030,9 +985,8 @@ USING X IN
 <PreConditions>
 <PreCondition
  Guid="d56e2714-804f-45b5-a3b2-be9833877d97"
->Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
-<Expression>BaseTypes.LengthToDistance(SUM Kernel.MA.MA.Sections
-  USING X IN X.Length)</Expression>
+>COUNT X IN Kernel.MA.MA.Sections &gt; 0</PreCondition></PreConditions>
+<Expression>AbsoluteDistance( LAST X IN MA.Sections )</Expression>
 </Case><Case
  Name="Only an end section"
  Guid="9c09af30-c90b-4397-82e8-dcfddda6ba1e"
@@ -1882,14 +1836,7 @@ SvL.SvL() != EMPTY</PreCondition></PreConditions>
 <PreConditions>
 </PreConditions>
 <Actions>
-<Action
- Guid="9925cd9d-52d7-44fd-99e6-fb6ca1dd0635"
->Kernel.MA.MA.EndSection.Length &lt;- Sections.EndSectionLengthFromPacket(
-    aEndSectionLength =&gt; MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE ),
-    aDistanceFromRef =&gt; aDistanceFromRef ,
-    aPacketSectionsLength =&gt; MessageTypes.QScaleLength( length =&gt; SUM Packet.Sequence1 USING X IN X.L_SECTION, scale =&gt; Packet.Q_SCALE),
-    aMASectionsLength =&gt; SUM MA.Sections USING X IN X.Length
-)</Action></Actions>
+</Actions>
 <SubRules>
 <Rule
  Priority="Processing"
@@ -2098,11 +2045,19 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="accafb31-0bfe-4626-8086-677db8bffb6e"
->Kernel.MA.MA.EndSection.TimeOut &lt;- MATimers.TimeOutStruct{
-    TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER ),
-    Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SECTIONTIMERSTOPLOC, scale =&gt; Packet.Q_SCALE ),
-    TimerStart =&gt; SectionStartTimer
-}</Action></Actions>
+>INSERT Sections.SectionStruct{
+    Length =&gt; Sections.EndSectionLengthFromPacket(
+        aEndSectionLength =&gt; MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE ),
+        aDistanceFromRef =&gt; aDistanceFromRef ,
+        aPacketSectionsLength =&gt; MessageTypes.QScaleLength( length =&gt; SUM Packet.Sequence1 USING X IN X.L_SECTION, scale =&gt; Packet.Q_SCALE),
+        aMASectionsLength =&gt; SUM MA.Sections USING X IN X.Length
+    ),
+    TimeOut =&gt; MATimers.TimeOutStruct{
+        TimeOut =&gt; BaseTypes.Time ( Packet.T_SECTIONTIMER ),
+        Distance =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_SECTIONTIMERSTOPLOC, scale =&gt; Packet.Q_SCALE ),
+        TimerStart =&gt; SectionStartTimer
+    }
+}  IN MA.MA.Sections</Action></Actions>
 </RuleCondition><RuleCondition
  Implemented="TRUE"
  NeedsRequirement="FALSE"
@@ -2117,7 +2072,15 @@ In this case, the EOA should be moved to the train&apos;s current position with 
 <Actions>
 <Action
  Guid="7fa07d9a-50f7-470e-bcc3-04c84e5ef484"
->Kernel.MA.MA.EndSection.TimeOut &lt;- EMPTY</Action></Actions>
+>INSERT Sections.SectionStruct{
+    Length =&gt; Sections.EndSectionLengthFromPacket(
+        aEndSectionLength =&gt; MessageTypes.QScaleLength ( Packet.L_ENDSECTION, Packet.Q_SCALE ),
+        aDistanceFromRef =&gt; aDistanceFromRef ,
+        aPacketSectionsLength =&gt; MessageTypes.QScaleLength( length =&gt; SUM Packet.Sequence1 USING X IN X.L_SECTION, scale =&gt; Packet.Q_SCALE),
+        aMASectionsLength =&gt; SUM MA.Sections USING X IN X.Length
+    ),
+    TimeOut =&gt; EMPTY
+}  IN MA.MA.Sections</Action></Actions>
 </RuleCondition></Conditions>
 </Rule><Rule
  Priority="UpdateINTERNAL"
@@ -2453,96 +2416,6 @@ SvL.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition></Pre
     scale =&gt; Packet.Q_SCALE
   ) 
 )</Action></Actions>
-</RuleCondition><RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="One section available"
- Guid="6ca58f29-f4a7-4e32-8bd5-772a34ecc1f5"
->
-<Comment>Updates the length of the end section of the MA.</Comment>
-<PreConditions>
-<PreCondition
- Guid="03a63234-cc66-4102-9072-1c51e26cfced"
->Available ( Kernel.MA.MA )</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="0df6d054-934d-4726-ac67-7e715097a479"
->Kernel.MA.MA.EndSection.Length &lt;- BaseTypes.DistanceToLength( 
-  MessageTypes.QScaleLength (
-    length =&gt; Packet.L_SECTION,
-    scale =&gt; Packet.Q_SCALE
-  )
-)</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></Rules>
-</Procedure><Procedure
- X="630"
- Y="380"
- Width="100"
- Height="50"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="RelocateMAinEndSection"
- Guid="8e61013b-1ca2-4f82-96aa-b10e0fd7aecb"
->
-<Comment>Procedure for changing the MA&apos;s reference location when the train is in the end section of an MA that included sections (other cases are handled directly in BTM.HandleNewLRBG).</Comment>
-<Parameters>
-<Parameter
- Type="BaseTypes.Distance"
- Name="Distance"
- Guid="d48bf562-1a9b-4f42-8727-2757f7487fb3"
->
-</Parameter></Parameters>
-<Rules>
-<Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update end section length"
- Guid="831464f9-d18c-4fd0-9345-87b8a8ffa310"
->
-<Comment>The first step is to update the end section length</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Update end section length"
- Guid="040e9133-3abd-4f75-acb6-76467a44bcc7"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="04789b87-d062-4c84-a0db-e72332a49ffb"
->Kernel.MA.MA.EndSection.Length &lt;- Kernel.MA.MA.EndSection.Length - BaseTypes.DistanceToLength(Distance - Kernel.MA.EndSectionStart())</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove previous sections"
- Guid="55842685-15a9-4ae6-9e0a-7c522ad44b46"
->
-<Comment>Then, since they have been passed, delete all the sections in the MA</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Remove previous sections"
- Guid="5f6737a2-57d5-4500-8da3-2f2479b48b6b"
->
-<PreConditions>
-</PreConditions>
-<Actions>
-<Action
- Guid="3a327ab0-2da8-409a-93eb-dccb9bfd2696"
->Kernel.MA.MA.Sections &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure
@@ -2608,59 +2481,6 @@ SvL.SvL().Location &lt; Kernel.MA.ShorteningHandler.Location</PreCondition></Pre
 <Action
  Guid="17d95ffc-9842-42a9-833f-8fa10e789cca"
 >Sections.CutSections( aLocation =&gt; aLocation )</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Compute new end section"
- Guid="edc9bda6-4789-4bd7-af11-4106f57d5b52"
->
-<Comment>Then, the last section is stored as the end section.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Compute new end section"
- Guid="72b670a4-45d7-4684-827c-4e80ff0c944c"
->
-<PreConditions>
-<PreCondition
- Guid="61f4f801-6576-4802-a2d7-bd56e48e72fd"
->Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="a72ac4fa-58db-4b62-93bb-cca801dd9030"
->Kernel.MA.MA.EndSection &lt;- Kernel.MA.EndSectionStruct
-{
-  Length =&gt; (LAST Section IN MA.Sections).Length
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- Name="Remove last section"
- Guid="43e7c687-bea2-4715-82ef-a6465a2f42c0"
->
-<Comment>Finally, the last section is removed.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- Name="Remove last section"
- Guid="7cc16ee1-b345-4a5b-87c5-c46485f40f24"
->
-<PreConditions>
-<PreCondition
- Guid="eee84ccb-acbe-4f79-b4f7-95f5c2159aa2"
->Kernel.MA.MA.Sections != []</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="975cea16-d2a6-4166-a026-7a7f52e2b184"
->REMOVE LAST IN Kernel.MA.MA.Sections</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </Procedure><Procedure

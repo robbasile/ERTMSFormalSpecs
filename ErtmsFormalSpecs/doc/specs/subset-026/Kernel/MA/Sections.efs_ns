@@ -330,15 +330,6 @@
  Guid="86774d2d-b0d2-450c-b5b2-18a8e71de39b"
 >Kernel.MA.MA.Sections != EMPTY</PreCondition></PreConditions>
 <Expression>(FIRST X IN Kernel.MA.MA.Sections).Length</Expression>
-</Case><Case
- Name="EndSection"
- Guid="ad46e6ec-360a-48b9-8b2e-93d340f6a5c5"
->
-<PreConditions>
-<PreCondition
- Guid="e87e2f4b-7885-494e-9e6c-2a02d454fea0"
->Available ( Kernel.MA.MA )</PreCondition></PreConditions>
-<Expression>Kernel.MA.MA.EndSection.Length</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
@@ -793,44 +784,6 @@ MAP Packet.Sequence1 | (DistanceToPacketSectionEnd(aSections =&gt; Packet.Sequen
 </Parameter></Parameters>
 <Rules>
 <Rule
- Priority="Processing"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add end section to the list of sections"
- Guid="f9af134c-8397-4b23-b84b-c1ccaef19ccd"
->
-<Comment>The end section, if non empty, is added to the list of sections: that allows the automatic handling of all the sections.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Add end section to the list of sections"
- Guid="69aefd4b-eae4-47dc-8675-b500ce866345"
->
-<PreConditions>
-<PreCondition
- Guid="a88bffd1-d674-4e7c-b290-12f6021f1d4d"
->Kernel.MA.MA.EndSection.Length &gt; 0.0</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="7fb541c1-0d75-45be-a1ef-915b09be7db9"
->INSERT
-Sections.SectionStruct
-{
-    Length =&gt; MA.EndSection.Length,
-    TimeOut =&gt; MA.EndSection.TimeOut
-}
-IN Kernel.MA.MA.Sections</Action><Action
- Guid="d87b351f-4257-4111-be61-37a790c1dc3b"
->Kernel.MA.MA.EndSection &lt;- Kernel.MA.EndSectionStruct
-{
-  Length =&gt; 0.0
-}</Action></Actions>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Processing"
  X="0"
  Y="0"
