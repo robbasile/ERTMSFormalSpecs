@@ -289,6 +289,26 @@ namespace DataDictionary.RuleCheck
                 }
             }
 
+            //Verifies the distance in each step to raise an error when there is an inconsistent distance of 0
+
+            double previousDistance = 0.0;
+
+            foreach (DataDictionary.Tests.TestCase testCase in subSequence.TestCases)
+            {
+                foreach (DataDictionary.Tests.Step step in testCase.Steps)
+                {
+                    if (step.Distance == 0 && previousDistance > 0 && step.getTranslationRequired() && step.countSubSteps() != 0)
+                    {
+                        step.AddRuleCheckMessage(RuleChecksEnum.Translation05, ElementLog.LevelEnum.Error,
+                        "Step should not have a distance of 0 if it has previously been greater than 0. \nRequires manual translation.");
+                    }
+                    else
+                    {
+                        previousDistance = step.Distance;
+                    }
+                }
+            }
+
             base.visit(obj, visitSubNodes);
         }
 
@@ -308,6 +328,7 @@ namespace DataDictionary.RuleCheck
                 {
                     step.AddRuleCheckMessage(RuleChecksEnum.Translation02, ElementLog.LevelEnum.Warning,
                         "Cannot find translation for this step");
+
                 }
 
                 if (step.getDescription() != null)
