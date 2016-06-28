@@ -599,7 +599,8 @@ namespace DataDictionary.Tests.Translations
                     foreach (KeyValuePair<string, IVariable> pair in structureVal.SubVariables)
                     {
                         string variableName = pair.Key;
-                        if (subStructure.Structure.FullName.Contains(variableName))
+                        string[] ids = subStructure.Structure.FullName.Split('.');
+                        if (ids[ids.Length-2].Equals(variableName))
                         {
                             pair.Value.Value = subStructure;
 
@@ -903,7 +904,8 @@ namespace DataDictionary.Tests.Translations
             // Fill the correct field in Message with the structure.
             foreach (KeyValuePair<string, IVariable> pair in Message.SubVariables)
             {
-                if (msg_id.EndsWith(pair.Key))
+                string[] ids = msg_id.Split('.');
+                if (ids[ids.Length-1].Equals(pair.Key))
                 {
                     pair.Value.Type = structureType;
                     pair.Value.Value = structure;
