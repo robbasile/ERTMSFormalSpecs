@@ -180,7 +180,7 @@ namespace DataDictionary.Tests
         {
             bool retVal = applyTranslation;
 
-            Counter counter = new Counter();
+            Counter counter = new Counter(false);
             counter.visit(this);
             if (counter.Issues[IssueKind.Blocking] != 0)
             {

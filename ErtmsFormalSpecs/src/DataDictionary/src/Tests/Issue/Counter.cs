@@ -134,9 +134,15 @@ namespace DataDictionary.Tests.Issue
         }
 
         /// <summary>
+        /// Indicates whether only the completed sub sequences should be considered in the counting
+        /// </summary>
+        private bool ConsiderCompletedOnly { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        public Counter()
+        /// <param name="considerCompletedOnly">Indicates that only the completed sub sequences should be considered in the counting</param>
+        public Counter(bool considerCompletedOnly)
         {
             SubSequences = 0;
             Actions = 0;
@@ -152,6 +158,7 @@ namespace DataDictionary.Tests.Issue
             CompletedSubSequences = new HashSet<SubSequence>();
             OngoingSubSequences = new HashSet<SubSequence>();
             BlockingSubSequences = new HashSet<SubSequence>();
+            ConsiderCompletedOnly = considerCompletedOnly;
         }
 
         /// <summary>
@@ -216,7 +223,7 @@ namespace DataDictionary.Tests.Issue
             {
                 SubSequence enclosingSubSequence = EnclosingFinder<SubSequence>.find(referencesParagraph,
                     true);
-                if (enclosingSubSequence != null && enclosingSubSequence.getCompleted())
+                if (enclosingSubSequence != null && (!ConsiderCompletedOnly || enclosingSubSequence.getCompleted()))
                 {
                     foreach (ReqRef reqRef in referencesParagraph.Requirements)
                     {

@@ -124,7 +124,7 @@ namespace Reports.Specs.SubSet76
             Report.AddParagraph(
                 "This section presents the sub sequences that have been translated and applied on the Subset-026 model, along with their execution result and the issues found in the test sequence definition.");
 
-            Counter counter = new Counter();
+            Counter counter = new Counter(true);
             counter.visit(Dictionary, true);
 
             Report.AddParagraph("The following table presents summarises the test sequences that have been analysed.");
@@ -210,7 +210,7 @@ namespace Reports.Specs.SubSet76
             {
                 foreach (SubSequence subSequence in frame.SubSequences)
                 {
-                    counter = new Counter();
+                    counter = new Counter(true);
                     counter.visit(subSequence, true);
 
                     string status = "Ongoing";
