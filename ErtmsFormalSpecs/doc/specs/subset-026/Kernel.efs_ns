@@ -10698,16 +10698,34 @@ BTM.Linking.RAMS.RAMSWindowPassed()
 <Comment>Handle a received balise of trackside version 2.0</Comment>
 <PreConditions>
 <PreCondition
- Guid="e77d83c7-e2ac-4e97-a9b6-cf974eefafae"
->Available ( BTM.Message.SystemVersion1) OR Available(BTM.Message.SystemVersion2)</PreCondition><PreCondition
  Guid="a3cd896f-c1dd-4f6c-b119-3337fd5cc404"
 >NOT (Kernel.ActiveFunctions.ProtectAgainstReverseMovement() AND Kernel.UndesirableMovement.ReverseMovementDetected(Kernel.UndesirableMovement.ReverseMovementReferencePosition))</PreCondition></PreConditions>
+<Actions>
+</Actions>
+<SubRules>
+<Rule
+ Priority="Processing"
+ X="0"
+ Y="0"
+ Name="Store received BG"
+ Guid="769f7c80-d7fa-477b-9463-b9e133d5222c"
+>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Name="Store received BG"
+ Guid="07720cbe-13ec-495e-aa00-330231f60c1c"
+>
+<PreConditions>
+<PreCondition
+ Guid="e77d83c7-e2ac-4e97-a9b6-cf974eefafae"
+>Available ( BTM.Message.SystemVersion1) OR Available(BTM.Message.SystemVersion2)</PreCondition></PreConditions>
 <Actions>
 <Action
  Guid="96ddb3ee-57c1-40a0-bc68-2be6f515660e"
 >BTM.StoreBaliseGroupMessage ( BTM.UpdatedReceivedMessage(BTM.Message))</Action></Actions>
-<SubRules>
-<Rule
+</RuleCondition></Conditions>
+</Rule><Rule
  Priority="UpdateINTERNAL"
  X="0"
  Y="0"
