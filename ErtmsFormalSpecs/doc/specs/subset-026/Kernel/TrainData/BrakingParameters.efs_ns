@@ -2165,12 +2165,12 @@ Kernel.TrainData.TrainData.Value.EpBrakeInterface in [BrakeInterfaceStatusEnum.E
 <PreCondition
  Guid="824adb2b-e2ef-4e5f-be90-7f73efad4943"
 >aNoA_est</PreCondition></PreConditions>
-<Expression>BaseTypes.Time ( Kernel.TrainData.TrainData.Value.TractionModel.Coefficient * Kernel.TrainData.BrakingParameters.A_traction ( aEstimatedTrainAcceleration=&gt;0.0, aGradient=&gt;Kernel.TrackDescription.Gradient.A_gradient ( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) ) ) + Kernel.TrainData.TrainData.Value.TractionModel.Constant )</Expression>
+<Expression>BaseTypes.Time ( Kernel.TrainData.TrainData.Value.TractionModel.Coefficient * Kernel.TrainData.BrakingParameters.A_traction ( aEstimatedTrainAcceleration=&gt;0.0, aGradient=&gt;TrackDescription.Gradient.A_gradient ( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) ) ) + Kernel.TrainData.TrainData.Value.TractionModel.Constant )</Expression>
 </Case><Case
  Name="Estimated acceleration is considered"
  Guid="7a0aa919-0a81-41f0-9817-1990ef82106d"
 >
-<Expression>BaseTypes.Time ( Kernel.TrainData.TrainData.Value.TractionModel.Coefficient * Kernel.TrainData.BrakingParameters.A_traction ( aEstimatedTrainAcceleration=&gt;Odometry.TrainAcceleration(), aGradient=&gt;Kernel.TrackDescription.Gradient.A_gradient ( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) ) ) + Kernel.TrainData.TrainData.Value.TractionModel.Constant )</Expression>
+<Expression>BaseTypes.Time ( Kernel.TrainData.TrainData.Value.TractionModel.Coefficient * Kernel.TrainData.BrakingParameters.A_traction ( aEstimatedTrainAcceleration=&gt;Odometry.TrainAcceleration(), aGradient=&gt;TrackDescription.Gradient.A_gradient ( Kernel.TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) ) ) + Kernel.TrainData.TrainData.Value.TractionModel.Constant )</Expression>
 </Case></Cases>
 </Function><Function
  Type="CorrectionFactor"
@@ -3751,7 +3751,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Name="Value"
  Guid="00b90531-3eac-4f03-ba0f-8d2fe2139eb9"
 >
-<Expression>Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ) + Kernel.TrackDescription.Gradient.A_gradient ( d )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ) + TrackDescription.Gradient.A_gradient ( d )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -3841,7 +3841,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreCondition
  Guid="a4a10e3a-2b06-465d-9f6a-e3d37bba5680"
 >Kernel.TrackDescription.AdhesionFactors.SlipperyRailSelectedByDriver</PreCondition></PreConditions>
-<Expression>( MINSURFACE ( Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ), Kernel.NationalValues.A_MAXREDADH () ) + Kernel.TrackDescription.Gradient.A_gradient ( d ) ) (d, V)</Expression>
+<Expression>( MINSURFACE ( Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ), Kernel.NationalValues.A_MAXREDADH () ) + TrackDescription.Gradient.A_gradient ( d ) ) (d, V)</Expression>
 </Case><Case
  Name="Adhesion factor available (trackside)"
  Guid="c20456b4-82b1-4242-b0a4-2f7b6ffee3f2"
@@ -3854,7 +3854,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 >anAdhFactor.Location &lt;= d</PreCondition><PreCondition
  Guid="6285bf83-075f-4352-98a5-815fb30fdede"
 >anAdhFactor.Value == Messages.M_ADHESION.Slippery_rail</PreCondition></PreConditions>
-<Expression>( MINSURFACE ( Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ), Kernel.NationalValues.A_MAXREDADH () ) + Kernel.TrackDescription.Gradient.A_gradient ( d ) ) (d, V)</Expression>
+<Expression>( MINSURFACE ( Kernel.TrainData.BrakingParameters.A_brake_safe ( d =&gt; d, V =&gt; V ), Kernel.NationalValues.A_MAXREDADH () ) + TrackDescription.Gradient.A_gradient ( d ) ) (d, V)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -4122,7 +4122,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreCondition
  Guid="ffe5112d-0373-4a2c-a4e0-26ed18fe88e2"
 >Kernel.TrainData.TrainData.Value.SBModels != EMPTY</PreCondition></PreConditions>
-<Expression>A_brake_service ( d =&gt; d, V =&gt; V ) + Kernel.TrackDescription.Gradient.A_gradient ( d )</Expression>
+<Expression>A_brake_service ( d =&gt; d, V =&gt; V ) + TrackDescription.Gradient.A_gradient ( d )</Expression>
 </Case><Case
  Name="From conversion model"
  Guid="571e65c1-9d5f-4435-9250-56588753907c"
@@ -4131,7 +4131,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
 <PreCondition
  Guid="a6625a6e-4404-4d76-b69b-8cf100fd1a4c"
 >Kernel.TrainData.BrakingParameters.ConversionModel.ConversionModelIsUsed()</PreCondition></PreConditions>
-<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.A_brake_service ( V ) + Kernel.TrackDescription.Gradient.A_gradient ( d )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.ConversionModel.ServiceBrakes.A_brake_service ( V ) + TrackDescription.Gradient.A_gradient ( d )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Time"
@@ -4467,7 +4467,7 @@ Kernel.TrainData.BrakingParameters.A_brake_emergency ( d =&gt; d, V =&gt; V )</E
  Name="Value"
  Guid="e0e1f1ad-3205-481d-8618-312c6ebf8c70"
 >
-<Expression>Kernel.TrainData.BrakingParameters.A_brake_normal_service ( d =&gt; d, V =&gt; V ) + Kernel.TrackDescription.Gradient.A_gradient ( d ) - Kernel.TrackDescription.Gradient.GradientProfile_NonCompensated ( d =&gt; d, V =&gt; V )</Expression>
+<Expression>Kernel.TrainData.BrakingParameters.A_brake_normal_service ( d =&gt; d, V =&gt; V ) + TrackDescription.Gradient.A_gradient ( d ) - TrackDescription.Gradient.GradientProfile_NonCompensated ( d =&gt; d, V =&gt; V )</Expression>
 </Case></Cases>
 </Function><Function
  Type="BrakingModelStruct"

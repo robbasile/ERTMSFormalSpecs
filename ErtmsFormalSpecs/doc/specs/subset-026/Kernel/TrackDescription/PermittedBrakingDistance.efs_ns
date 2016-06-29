@@ -1019,7 +1019,7 @@ INITIAL_VALUE BaseTypes.MaxSpeedFunction ) (Distance)</Expression>
  Name="Value"
  Guid="918992e5-ffd6-4a75-9604-fef457732318"
 >
-<Expression>BaseTypes.Acceleration.g * Kernel.TrackDescription.Gradient.CompensateGradientWithRotatingMass(Gradient)</Expression>
+<Expression>BaseTypes.Acceleration.g * TrackDescription.Gradient.CompensateGradientWithRotatingMass(Gradient)</Expression>
 </Case></Cases>
 </Function><Function
  Type="BaseTypes.Acceleration"
@@ -1896,7 +1896,7 @@ STOP_CONDITION
     Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
     Length =&gt; MessageTypes.QScaleLength ( length =&gt; Packet.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
     PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; Packet.D_PBD, scale =&gt; Packet.Q_SCALE ),
-    Gradient =&gt; Kernel.TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
+    Gradient =&gt; Gradient.CreateGradient ( Q_GDIR =&gt; Packet.Q_GDIR, G_A =&gt; Packet.G_PBDSR ),
     BrakeType =&gt; Packet.Q_PBDSR,
     aDistanceFromRef =&gt; aDistanceFromRef )</Action><Action
  Guid="4acb943c-c5f1-4bae-ac1d-9c276e643663"
@@ -1904,7 +1904,7 @@ STOP_CONDITION
     Kernel.TrackDescription.PermittedBrakingDistance.AddNewSpeedRestriction ( Location =&gt; MessageTypes.QScaleDistance ( distance =&gt; X.D_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 Length =&gt; MessageTypes.QScaleLength ( length =&gt; X.L_PBDSR, scale =&gt; Packet.Q_SCALE ),
                                                 PermittedBrakingDistance =&gt;  MessageTypes.QScaleDistance ( distance =&gt; X.D_PBD, scale =&gt; Packet.Q_SCALE ),
-                                                Gradient =&gt; Kernel.TrackDescription.Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
+                                                Gradient =&gt; Gradient.CreateGradient ( Q_GDIR =&gt; X.Q_GDIR, G_A =&gt;  X.G_PBDSR ),
                                                 BrakeType =&gt; X.Q_PBDSR,
                                                 aDistanceFromRef =&gt; aDistanceFromRef )
 ON
