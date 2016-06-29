@@ -338,10 +338,6 @@ namespace DataDictionary.Tests.Translations
                                 retVal = retVal.Replace("%Step_Messages_" + i, format_message(message));
                             }
                         }
-                        else
-                        {
-                            retVal = retVal.Replace("%Step_Messages_" + i, format_default_message(expression));
-                        }
                     }
                 }
 
@@ -478,26 +474,6 @@ namespace DataDictionary.Tests.Translations
                     retVal = format_euroradio_message(message);
                     break;
             }
-            return retVal;
-        }
-
-
-        public string format_default_message(string expression)
-        {
-            string retVal = "<not a structure type>";
-
-            int index = expression.IndexOf("<-");
-            if (index > 0)
-            {
-                string variableText = expression.Substring(0, index).Trim();
-                Expression expressionTree = new Parser().Expression(Dictionary, variableText);
-                if (expressionTree != null)
-                {
-                    Structure structureType = expressionTree.GetExpressionType() as Structure;
-                    retVal = structureType.DefaultValue.LiteralName;
-                }
-            }
-
             return retVal;
         }
 
