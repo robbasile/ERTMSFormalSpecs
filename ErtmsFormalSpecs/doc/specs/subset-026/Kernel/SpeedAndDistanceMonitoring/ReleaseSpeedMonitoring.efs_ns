@@ -361,7 +361,7 @@ Kernel.MA.MA.TargetSpeed == 0.0</PreCondition></PreConditions>
  Guid="285f2e84-9cb5-4250-a4ba-f84e839b607e"
 >Vrel == BaseTypes.Speed.ComputeReleaseSpeedOnBoard</PreCondition></PreConditions>
 <Expression>REDUCE
-    TARGETS (Kernel.MRSP.SpeedRestrictions) | TargetLimitsReleaseSpeed(X)
+    TARGETS (Kernel.MRSP.SpeedRestrictions) | TargetLimitsReleaseSpeed(X, ComputeReleaseSpeed(aSvLlocation))
 
 USING X IN
     BaseTypes.MinSpeed ( X1 =&gt; X.Speed, X2 =&gt; RESULT )
@@ -721,6 +721,11 @@ USING X IN X</Expression>
  Name="aTarget"
  Guid="63b35e43-3f75-44f5-b8a3-f2d47ccf8c5e"
 >
+</Parameter><Parameter
+ Type="BaseTypes.Speed"
+ Name="aReleaseSpeed"
+ Guid="981fca01-e90e-4dc2-9941-66a0426155cc"
+>
 </Parameter></Parameters>
 <Cases>
 <Case
@@ -730,7 +735,7 @@ USING X IN X</Expression>
 <PreConditions>
 <PreCondition
  Guid="e0243870-ed07-49ea-aafb-5a85d8454e43"
->d_startRSM() &lt;= aTarget.Location</PreCondition><PreCondition
+>d_startRSM(aReleaseSpeed) &lt;= aTarget.Location</PreCondition><PreCondition
  Guid="5b42e11e-37a4-4b89-83ce-f9ceaf501454"
 >aTarget.Location &lt;= SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA()</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -741,7 +746,7 @@ USING X IN X</Expression>
 <PreConditions>
 <PreCondition
  Guid="06a1b8b5-9e3a-463f-9481-b5e1613e399b"
->d_startRSM() &lt;= aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition><PreCondition
+>d_startRSM(aReleaseSpeed) &lt;= aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition><PreCondition
  Guid="69c8c9ac-5f02-4f18-a8c8-6f582662cb4c"
 >aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length ) &lt;= SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA()</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -752,7 +757,7 @@ USING X IN X</Expression>
 <PreConditions>
 <PreCondition
  Guid="4922c95f-019b-4079-aa8d-e644e88346ee"
->aTarget.Location &lt;= d_startRSM()</PreCondition><PreCondition
+>aTarget.Location &lt;= d_startRSM(aReleaseSpeed)</PreCondition><PreCondition
  Guid="3c82b6cc-85f4-4948-ab70-23091c2df7ac"
 >SpeedAndDistanceMonitoring.ReleaseSpeedMonitoring.d_tripEOA() &lt;= aTarget.Location + BaseTypes.LengthToDistance ( aTarget.Length )</PreCondition></PreConditions>
 <Expression>True</Expression>
@@ -779,6 +784,13 @@ USING X IN X</Expression>
  Guid="7d979a7a-1cb5-43c8-9f98-f8970c0223c7"
 >
 </ReqRef><Comment>Provides the start location of the Release Speed Monitoring.</Comment>
+<Parameters>
+<Parameter
+ Type="BaseTypes.Speed"
+ Name="aReleaseSpeed"
+ Guid="e4664d37-1011-4c05-a6f2-96d6aef19a60"
+>
+</Parameter></Parameters>
 <Cases>
 <Case
  Name="SBI1 is most restrictive"
@@ -788,12 +800,12 @@ USING X IN X</Expression>
 <PreCondition
  Guid="d264ced2-7146-41a2-ac12-ae316cd591c7"
 >d_SBI2_MREBDT(ReleaseSpeed) - DecelerationCurves.d_SBI1(
-    aSpeed =&gt; ReleaseSpeed,
+    aSpeed =&gt; aReleaseSpeed,
     aTarget =&gt; MA.EOA.EOA(),
     IsIndication =&gt; False
 ) &gt;= TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) - TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom)</PreCondition></PreConditions>
 <Expression>DecelerationCurves.d_SBI1(
-    aSpeed =&gt; ReleaseSpeed,
+    aSpeed =&gt; aReleaseSpeed,
     aTarget =&gt; MA.EOA.EOA(),
     IsIndication =&gt; False
 )</Expression>
@@ -801,7 +813,7 @@ USING X IN X</Expression>
  Name="SBI2 is most restrictive"
  Guid="70093667-b8cd-4803-8017-b59736523392"
 >
-<Expression>d_SBI2_MREBDT(ReleaseSpeed)</Expression>
+<Expression>d_SBI2_MREBDT(aReleaseSpeed)</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>

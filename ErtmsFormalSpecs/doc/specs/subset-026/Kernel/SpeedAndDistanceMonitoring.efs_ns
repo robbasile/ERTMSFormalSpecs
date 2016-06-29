@@ -996,8 +996,8 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
 <PreConditions>
 <PreCondition
  Guid="a2671150-1a48-4a93-a571-ee7dc6ed43f4"
->ReleaseSpeedMonitoring.d_startRSM() == ReleaseSpeedMonitoring.d_SBI2_MREBDT(ReleaseSpeedMonitoring.ReleaseSpeed)</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; ReleaseSpeedMonitoring.d_startRSM()</Expression>
+>ReleaseSpeedMonitoring.d_startRSM(ReleaseSpeedMonitoring.ReleaseSpeed) == ReleaseSpeedMonitoring.d_SBI2_MREBDT(ReleaseSpeedMonitoring.ReleaseSpeed)</PreCondition></PreConditions>
+<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Max) &gt; ReleaseSpeedMonitoring.d_startRSM(ReleaseSpeedMonitoring.ReleaseSpeed)</Expression>
 </Case><Case
  Name="Estimated front end passed the RSM start location calculated from the SBD"
  Guid="bd2ace5d-961a-4ddb-90e5-69d8d84f685c"
@@ -1005,12 +1005,12 @@ SpeedAndDistanceMonitoring.PreIndicationLocation.d_preindication(aTarget) == Bas
 <PreConditions>
 <PreCondition
  Guid="f8adfacb-74dc-41a8-8697-5e6f221b4abc"
->ReleaseSpeedMonitoring.d_startRSM() == DecelerationCurves.d_SBI1(
+>ReleaseSpeedMonitoring.d_startRSM(ReleaseSpeedMonitoring.ReleaseSpeed) == DecelerationCurves.d_SBI1(
     aSpeed =&gt; ReleaseSpeedMonitoring.ReleaseSpeed,
     aTarget =&gt; MA.EOA.EOA(),
     IsIndication =&gt; False
 )</PreCondition></PreConditions>
-<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; ReleaseSpeedMonitoring.d_startRSM()</Expression>
+<Expression>TrainPosition.FrontEndPosition(DistanceIntervalEnum.Nom) &gt; ReleaseSpeedMonitoring.d_startRSM(ReleaseSpeedMonitoring.ReleaseSpeed)</Expression>
 </Case><Case
  Name="Otherwise"
  Guid="9f14db44-2384-4edc-874b-9d3b1e7e1632"
