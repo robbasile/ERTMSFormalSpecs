@@ -271,6 +271,11 @@ namespace DataDictionary.Values
         {
             return FullName;
         }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
     }
 
     public abstract class BaseValue<TCorrespondingType, TStorageType> : Value

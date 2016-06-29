@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
 using DataDictionary;
 using DataDictionary.Constants;
 using DataDictionary.Functions;
@@ -485,17 +484,21 @@ namespace GUI.ModelDiagram
         private void BuildRuleConditionBoxes(RuleCondition condition, ICollection<IGraphicalDisplay> retVal)
         {
             retVal.Add(condition);
-            foreach (PreCondition preCondition in condition.PreConditions)
+
+            if (condition.Expanded != ExpandableEnum.Collapsed)
             {
-                retVal.Add(preCondition);
-            }
-            foreach (Action action in condition.Actions)
-            {
-                retVal.Add(action);
-            }
-            foreach (Rule subRule in condition.SubRules)
-            {
-                BuildRuleBoxes(subRule, retVal);
+                foreach (PreCondition preCondition in condition.PreConditions)
+                {
+                    retVal.Add(preCondition);
+                }
+                foreach (Action action in condition.Actions)
+                {
+                    retVal.Add(action);
+                }
+                foreach (Rule subRule in condition.SubRules)
+                {
+                    BuildRuleBoxes(subRule, retVal);
+                }
             }
         }
 
@@ -785,14 +788,14 @@ namespace GUI.ModelDiagram
             location = new Point(30, functionControl.Location.Y + functionControl.Size.Height + 10);
             foreach (Case cas in function.Cases)
             {
-                ModelControl caseControl = (ModelControl)GetBoxControl(cas);
+                ModelControl caseControl = (ModelControl) GetBoxControl(cas);
                 location = SetSizeAndLocation(caseControl, location);
 
                 location = new Point(50, location.Y);
                 float vOffset = location.Y;
                 foreach (PreCondition preCondition in cas.PreConditions)
                 {
-                    ModelControl preConditionControl =(ModelControl)GetBoxControl(preCondition);
+                    ModelControl preConditionControl = (ModelControl) GetBoxControl(preCondition);
 
                     location = SetSizeAndLocation(preConditionControl, location);
                     SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font,
@@ -900,35 +903,44 @@ namespace GUI.ModelDiagram
                 location = new Point(location.X + 10, location.Y);
                 location = SetSizeAndLocation(ruleConditionControl, location);
 
-                // Compute the position automatically
-                location = new Point(location.X + 30,
-                    ruleConditionControl.Location.Y + ruleConditionControl.Size.Height + 10);
-                foreach (PreCondition preCondition in ruleCondition.PreConditions)
+                if (ruleConditionControl.Expanded == ExpandableEnum.Expanded)
                 {
-                    ModelControl preConditionControl = (ModelControl)GetBoxControl(preCondition);
-
-                    location = SetSizeAndLocation(preConditionControl, location);
-                    SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font, Color.Transparent);
-                    location = InbedTopDown(ruleConditionControl, preConditionControl, location);
-                }
-
-                location = new Point(location.X - 20, location.Y);
-                foreach (Action action in ruleCondition.Actions)
-                {
-                    ModelControl actionControl = (ModelControl)GetBoxControl(action);
-
-                    location = SetSizeAndLocation(actionControl, location);
-                    SetText(actionControl, action.ExpressionText, actionControl.Font, Color.Transparent);
-                    location = InbedTopDown(ruleConditionControl, actionControl, location);
-                }
-
-                foreach (Rule subRule in ruleCondition.SubRules)
-                {
-                    ModelControl ruleControl = CreateRuleLayout(subRule, location);
-                    if (ruleControl != null)
+                    // Compute the position automatically
+                    location = new Point(location.X + 30,
+                        ruleConditionControl.Location.Y + ruleConditionControl.Size.Height + 10);
+                    foreach (PreCondition preCondition in ruleCondition.PreConditions)
                     {
-                        location = InbedLeftRight(ruleConditionControl, ruleControl, location, false);
+                        ModelControl preConditionControl = (ModelControl) GetBoxControl(preCondition);
+
+                        location = SetSizeAndLocation(preConditionControl, location);
+                        SetText(preConditionControl, preCondition.ExpressionText, preConditionControl.Font,
+                            Color.Transparent);
+                        location = InbedTopDown(ruleConditionControl, preConditionControl, location);
                     }
+
+                    location = new Point(location.X - 20, location.Y);
+                    foreach (Action action in ruleCondition.Actions)
+                    {
+                        ModelControl actionControl = (ModelControl) GetBoxControl(action);
+
+                        location = SetSizeAndLocation(actionControl, location);
+                        SetText(actionControl, action.ExpressionText, actionControl.Font, Color.Transparent);
+                        location = InbedTopDown(ruleConditionControl, actionControl, location);
+                    }
+
+                    foreach (Rule subRule in ruleCondition.SubRules)
+                    {
+                        ModelControl ruleControl = CreateRuleLayout(subRule, location);
+                        if (ruleControl != null)
+                        {
+                            location = InbedLeftRight(ruleConditionControl, ruleControl, location, false);
+                        }
+                    }
+                }
+
+                if (ruleConditionControl.Expanded != ExpandableEnum.NoExpansion)
+                {
+                    ruleConditionControl.Size = new Size(ruleConditionControl.Size.Width + 30, ruleConditionControl.Size.Height);
                 }
 
                 pictureBox.Size = MaxSize(PanelSize, Size);

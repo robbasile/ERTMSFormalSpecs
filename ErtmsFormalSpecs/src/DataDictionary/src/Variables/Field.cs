@@ -255,5 +255,10 @@ namespace DataDictionary.Variables
 
             StructureElement.HandleChange(cacheImpact);
         }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
     }
 }

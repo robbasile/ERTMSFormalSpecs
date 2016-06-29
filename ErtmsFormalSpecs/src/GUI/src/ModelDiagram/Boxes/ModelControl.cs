@@ -15,10 +15,12 @@
 // ------------------------------------------------------------------------------
 
 using System.Drawing;
+using System.Windows.Forms;
 using DataDictionary;
 using GUI.BoxArrowDiagram;
 using GUI.ModelDiagram.Arrows;
 using GUI.ModelDiagram.Boxes.TextProcessing;
+using GUI.Properties;
 using Utils;
 using ModelElement = DataDictionary.ModelElement;
 
@@ -29,7 +31,6 @@ namespace GUI.ModelDiagram.Boxes
     /// </summary>
     public abstract class ModelControl : BoxControl<IModelElement, IGraphicalDisplay, ModelArrow>
     {
-
         /// <summary>
         /// The bold font
         /// </summary>
@@ -44,6 +45,15 @@ namespace GUI.ModelDiagram.Boxes
         /// The text used to be displayed, as sequence of text chunks (text, position, font)
         /// </summary>
         private ProcessedText TokenizedText { get; set; }
+
+        /// <summary>
+        /// Indicates that the box is expanded
+        /// </summary>
+        public ExpandableEnum Expanded
+        {
+            get { return TypedModel.Expanded; }
+            set { TypedModel.Expanded = value; }
+        }
 
         /// <summary>
         ///     Constructor
@@ -162,6 +172,40 @@ namespace GUI.ModelDiagram.Boxes
         /// </summary>
         public abstract string ModelName { get; }
 
+        /// <summary>
+        /// Initialises the control as collapsed
+        /// </summary>
+        protected void SetCollapsed()
+        {
+            if (Expanded == ExpandableEnum.NoExpansion)
+            {
+                Expanded = ExpandableEnum.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// The location of the expand box (if any)
+        /// </summary>
+        public Rectangle ExpandBox
+        {
+            get
+            {
+                Rectangle retVal = Rectangle.Empty;
+
+                if (Expanded != ExpandableEnum.NoExpansion)
+                {
+                    const int size = 13;
+                    retVal = new Rectangle(Location.X + Width - size - 5, Location.Y + 5, size, size);
+                }
+
+                return retVal;
+            }
+        }
+
+        /// <summary>
+        ///     Draws the box within the box-arrow panel
+        /// </summary>
+        /// <param name="g"></param>
         public override void PaintInBoxArrowPanel(Graphics graphics)
         {
             base.PaintInBoxArrowPanel(graphics);
@@ -204,6 +248,49 @@ namespace GUI.ModelDiagram.Boxes
                 // Syntax highlighting
                 // Display the pre computed text at their corresponding locations
                 TokenizedText.Display(graphics, new PointF(Location.X + 5, Location.Y + 5));
+            }
+
+            if (ExpandBox != Rectangle.Empty)
+            {
+                Image image;
+
+                if (Expanded == ExpandableEnum.Collapsed)
+                {
+                    image = Resources.expand;
+                }
+                else
+                {
+                    image = Resources.collapse;
+                }
+
+                graphics.DrawImage(image, ExpandBox);
+            }
+        }
+
+        /// <summary>
+        ///     Handles a mouse click event on a graphical element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="mouseEventArgs"></param>
+        public override void HandleClick(object sender, MouseEventArgs mouseEventArgs)
+        {
+            base.HandleClick(sender, mouseEventArgs);
+
+            if (ExpandBox != Rectangle.Empty)
+            {
+                if (ExpandBox.Contains(mouseEventArgs.Location))
+                {
+                    if (Expanded == ExpandableEnum.Collapsed)
+                    {
+                        Expanded = ExpandableEnum.Expanded;
+                    }
+                    else
+                    {
+                        Expanded = ExpandableEnum.Collapsed;
+                    }
+
+                    Panel.RefreshControl();
+                }
             }
         }
     }

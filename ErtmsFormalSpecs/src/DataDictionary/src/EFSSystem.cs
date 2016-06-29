@@ -1730,5 +1730,11 @@ namespace DataDictionary
 
             return translation;
         }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
+
     }
 }

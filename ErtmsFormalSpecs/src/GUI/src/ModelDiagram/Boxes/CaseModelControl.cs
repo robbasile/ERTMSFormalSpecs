@@ -16,6 +16,7 @@
 
 using System.Drawing;
 using DataDictionary.Functions;
+using Utils;
 
 namespace GUI.ModelDiagram.Boxes
 {

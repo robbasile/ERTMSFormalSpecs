@@ -110,5 +110,11 @@ namespace GUI.NavigationView
         public string GraphicalName { get { return Namable.Name; }}
         public bool Hidden { get; set; }
         public bool Pinned { get; set; }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
+
     }
 }

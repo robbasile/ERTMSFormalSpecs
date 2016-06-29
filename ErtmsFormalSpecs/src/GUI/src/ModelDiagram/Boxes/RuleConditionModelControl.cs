@@ -16,6 +16,7 @@
 
 using System.Drawing;
 using DataDictionary.Rules;
+using Utils;
 
 namespace GUI.ModelDiagram.Boxes
 {
@@ -34,6 +35,7 @@ namespace GUI.ModelDiagram.Boxes
         {
             BoxMode = BoxModeEnum.RoundedCorners;
             NormalColor = Color.LightBlue;
+            SetCollapsed();
         }
 
         /// <summary>

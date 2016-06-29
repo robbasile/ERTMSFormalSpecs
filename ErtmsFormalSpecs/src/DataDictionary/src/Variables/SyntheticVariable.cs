@@ -247,5 +247,11 @@ namespace DataDictionary.Variables
         {
             Type.HandleChange(cacheImpact);
         }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
+
     }
 }

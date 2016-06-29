@@ -172,5 +172,10 @@ namespace DataDictionary.Variables
         {
             // Nothing to do
         }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
     }
 }

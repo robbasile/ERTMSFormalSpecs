@@ -37,6 +37,17 @@ namespace Utils
         Error = 64
     }
 
+    /// <summary>
+    /// Indicates the expand/collapse state of the box
+    /// By default, NoExpansion is used
+    /// </summary>
+    public enum ExpandableEnum
+    {
+        NoExpansion = 0,
+        Expanded = 1, 
+        Collapsed = 2 
+    }
+
     public interface IEnclosed
     {
         /// <summary>
@@ -112,6 +123,11 @@ namespace Utils
         /// Clears the caches of this model element
         /// </summary>
         void ClearCache();
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        ExpandableEnum Expanded { get; set; }
     }
 
     public abstract class ModelElement : XmlBBase, IModelElement
@@ -567,5 +583,10 @@ namespace Utils
 
             return retVal;
         }
+
+        /// <summary>
+        /// Indicates that the model is expanded
+        /// </summary>
+        public ExpandableEnum Expanded { get; set; }
     }
 }
