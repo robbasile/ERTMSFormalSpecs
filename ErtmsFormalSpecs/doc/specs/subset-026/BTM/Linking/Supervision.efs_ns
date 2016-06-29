@@ -769,18 +769,13 @@ ConsiderBGWithLinking(aBaliseGroup)</Expression>
 </Parameter></Parameters>
 <Cases>
 <Case
- Name="No linking with given ID"
- Guid="4c39c265-284d-4da6-a6d9-0a437367933d"
+ Name="Linking is received BG or before it in the list"
+ Guid="4b80fde8-a76a-499f-83f3-dac495aeb156"
 >
 <PreConditions>
 <PreCondition
- Guid="04aa2655-5c9b-4b26-a334-032c7bc5aed3"
->NOT THERE_IS X IN Linkings | X.BaliseGroupIdentifier == ID</PreCondition></PreConditions>
-<Expression>False</Expression>
-</Case><Case
- Name="Value"
- Guid="4b80fde8-a76a-499f-83f3-dac495aeb156"
->
+ Guid="423f3880-0daf-4608-a1ef-402a84e17937"
+>THERE_IS X IN Linkings | X.BaliseGroupIdentifier == ID</PreCondition></PreConditions>
 <Expression>aLinking.BaliseGroupIdentifier == ID
   OR  
 Before(
@@ -788,6 +783,20 @@ Before(
     ExpectedSecond =&gt; GetLinkingFromId( ID ),
     Collection =&gt; Linkings
 )</Expression>
+</Case><Case
+ Name="BG contains repositioning information"
+ Guid="8deebe79-5fdc-4482-96af-15c00c0baa74"
+>
+<PreConditions>
+<PreCondition
+ Guid="eadbf0bc-7804-4462-b41d-204640e9dbf3"
+>CurrentLinking().BaliseGroupIdentifier == Messages.NID_BG.NID_UNKNOWN</PreCondition></PreConditions>
+<Expression>aLinking == CurrentLinking()</Expression>
+</Case><Case
+ Name="Otherwise"
+ Guid="4c39c265-284d-4da6-a6d9-0a437367933d"
+>
+<Expression>False</Expression>
 </Case></Cases>
 </Function></Functions>
 <Procedures>
@@ -1119,9 +1128,8 @@ If the ID is not valid (if there are no linkings with the provided ID), nothing 
 <SubRules></SubRules>
 <Conditions>
 <RuleCondition
- Implemented="TRUE"
- Name="Stop expecting current BG"
- Guid="09f3424d-b8ae-43d8-904d-a185c3e22c58"
+ Name="Stop expecting BGs"
+ Guid="ea56f702-ae0d-4ec1-ae43-6a4b85192bf8"
 >
 <PreConditions>
 </PreConditions>
