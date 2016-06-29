@@ -160,14 +160,6 @@ namespace Reports.Specs.SubSet76
                 "The number of imported test sequences for which analysis is ongoing. No definitive result is provided yet for such test sequences",
                 counter.OngoingSubSequences.Count.ToString(CultureInfo.InvariantCulture),
                 Percent(counter.OngoingSubSequences.Count, counter.SubSequences));
-            Report.lastRow.Cells[0].MergeDown = 1;
-
-            Report.AddRow(
-                "",
-                "A blocking issue has been found while analyzing the sub sequence, but analysis is still ongoing.",
-                counter.OngoingAndBlocking.Count.ToString(CultureInfo.InvariantCulture),
-                Percent(counter.OngoingAndBlocking.Count, counter.OngoingSubSequences.Count));
-
 
             Report.AddParagraph(
                 "The following table categorises the issues found during analysis of the test sequences. ");

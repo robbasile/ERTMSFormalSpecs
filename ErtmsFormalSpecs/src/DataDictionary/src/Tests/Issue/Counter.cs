@@ -15,7 +15,6 @@
 // ------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using Utils;
 
 namespace DataDictionary.Tests.Issue
@@ -132,7 +131,7 @@ namespace DataDictionary.Tests.Issue
         public HashSet<SubSequence> OngoingAndBlocking
         {
             get { return Inter(OngoingSubSequences, BlockingSubSequences); }
-        } 
+        }
 
         /// <summary>
         /// Constructor
@@ -215,26 +214,26 @@ namespace DataDictionary.Tests.Issue
 
             if (referencesParagraph != null)
             {
-                foreach (ReqRef reqRef in referencesParagraph.Requirements)
+                SubSequence enclosingSubSequence = EnclosingFinder<SubSequence>.find(referencesParagraph,
+                    true);
+                if (enclosingSubSequence != null && enclosingSubSequence.getCompleted())
                 {
-                    IssueKind? kind = IssueKindUtil.GetKind(reqRef.Paragraph);
-                    if (kind != null)
+                    foreach (ReqRef reqRef in referencesParagraph.Requirements)
                     {
-                        Issues[(IssueKind) kind] += 1;
-                        if (kind == IssueKind.Blocking)
+                        IssueKind? kind = IssueKindUtil.GetKind(reqRef.Paragraph);
+                        if (kind != null)
                         {
-                            SubSequence enclosingSubSequence = EnclosingFinder<SubSequence>.find(referencesParagraph,
-                                true);
-                            if (enclosingSubSequence != null)
+                            Issues[(IssueKind) kind] += 1;
+                            if (kind == IssueKind.Blocking)
                             {
                                 BlockingSubSequences.Add(enclosingSubSequence);
                             }
                         }
                     }
                 }
-            }
 
-            base.visit(obj, visitSubNodes);
+                base.visit(obj, visitSubNodes);
+            }
         }
     }
 }
