@@ -95,6 +95,28 @@ BTM.StoredBaliseStruct{
  Guid="dccafee7-8c97-4e55-92e7-b52211cda954"
 >BGOrientation(aBaliseGroup) == OrientationEnum.Reverse</PreCondition></PreConditions>
 <Expression>LastReceivedBalise(aBaliseGroup).N_PIG + 1</Expression>
+</Case><Case
+ Name="Two balises in group - seen balise is first"
+ Guid="8c9eb87e-800e-4590-b920-bc42095e74cd"
+>
+<PreConditions>
+<PreCondition
+ Guid="b91e0485-3a8e-4e67-b7a5-5fbef629c59b"
+>LastReceivedBalise(aBaliseGroup).N_TOTAL == 1</PreCondition><PreCondition
+ Guid="53ca4bd1-5edd-4d09-ae49-97409f97490f"
+>LastReceivedBalise(aBaliseGroup).N_PIG == 0</PreCondition></PreConditions>
+<Expression>1</Expression>
+</Case><Case
+ Name="Two balises in group - seen balise is last"
+ Guid="2d3102f9-6b2c-4c5f-bc9b-521092c71ff3"
+>
+<PreConditions>
+<PreCondition
+ Guid="96ccf6de-8c44-4a12-b53e-b10e34c5ce98"
+>LastReceivedBalise(aBaliseGroup).N_TOTAL == 1</PreCondition><PreCondition
+ Guid="85921846-3321-4c0f-b5eb-8d8254bd9d50"
+>LastReceivedBalise(aBaliseGroup).N_PIG == 1</PreCondition></PreConditions>
+<Expression>0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Messages.EUROBALISE.Message"

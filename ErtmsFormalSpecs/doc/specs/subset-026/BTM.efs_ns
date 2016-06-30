@@ -299,39 +299,12 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="682a9ec8-f37d-4d87-8dd6-9a4ca0648099"
->BTM.IsSingleBaliseGroup(aBaliseGroup)</PreCondition><PreCondition
+>(COUNT X IN aBaliseGroup | NOT X.Missed) == 1</PreCondition><PreCondition
  Guid="3f4762dd-f337-493a-927f-479853f08788"
 >BTM.Linking.CurrentLinking().BaliseGroupIdentifier== GetNID_BG( aBaliseGroup )</PreCondition><PreCondition
  Guid="99f3dd17-d0be-4689-b9ec-5dfc9925b30e"
 >Kernel.Mode not in [ModeEnum.SL, ModeEnum.PS, ModeEnum.SH]</PreCondition></PreConditions>
 <Expression>BTM.Linking.CurrentLinking().Orientation</Expression>
-</Case><Case
- Name="Fewer than two balises in the balise group, no valid linking information"
- Guid="02355d09-b3c3-4a71-80ad-92251096056d"
->
-<PreConditions>
-<PreCondition
- Guid="42e647d7-f4ec-404e-822d-0af260c9426c"
->BTM.IsSingleBaliseGroup(aBaliseGroup)</PreCondition></PreConditions>
-<Expression>OrientationEnum.Unknown</Expression>
-</Case><Case
- Name="First balise is last in the group"
- Guid="1b917fc8-846c-477a-b9f8-6b1bbf9a1a07"
->
-<PreConditions>
-<PreCondition
- Guid="99800f60-19c6-48c4-895b-d7aa823ecd0c"
->(FIRST X IN aBaliseGroup).Telegram.N_PIG == (FIRST X IN aBaliseGroup).Telegram.N_TOTAL</PreCondition></PreConditions>
-<Expression>OrientationEnum.Reverse</Expression>
-</Case><Case
- Name="First balise is first in the group"
- Guid="9ce6a19a-a14f-4efa-8a9d-6f7a4101f7ec"
->
-<PreConditions>
-<PreCondition
- Guid="a3515d8d-741c-40a4-8a64-acafbdeb205e"
->(FIRST X IN aBaliseGroup).Telegram.N_PIG == 0</PreCondition></PreConditions>
-<Expression>OrientationEnum.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 lower than N_PIG_2"
  Guid="ae25aa1f-71a4-4d87-9b56-5ec6680f6877"
@@ -340,11 +313,11 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="5c1a408b-2831-4d4c-9008-3db03c567c80"
->(COUNT X IN aBaliseGroup) &gt; 1
+>(COUNT X IN aBaliseGroup | NOT X.Missed) &gt; 1
 
   AND  
 
-(FIRST X IN aBaliseGroup).Telegram.N_PIG &lt; (LAST Balise IN aBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+(FIRST Balise IN aBaliseGroup | NOT Balise.Missed).Telegram.N_PIG &lt; (LAST Balise IN aBaliseGroup | NOT Balise.Missed).Telegram.N_PIG</PreCondition></PreConditions>
 <Expression>OrientationEnum.Nominal</Expression>
 </Case><Case
  Name="Two balises stored, N_PIG_1 higher than N_PIG_2"
@@ -353,11 +326,11 @@ b) is just a placeholder for a missed balise.</Comment>
 <PreConditions>
 <PreCondition
  Guid="20d361f2-70ef-4a67-9c01-5e11cd5cfb34"
->(COUNT X IN aBaliseGroup) &gt; 1
+>(COUNT X IN aBaliseGroup | NOT X.Missed) &gt; 1
 
   AND  
 
-(FIRST Balise IN aBaliseGroup).Telegram.N_PIG &gt; (LAST Balise IN aBaliseGroup).Telegram.N_PIG</PreCondition></PreConditions>
+(FIRST Balise IN aBaliseGroup | NOT Balise.Missed).Telegram.N_PIG &gt; (LAST Balise IN aBaliseGroup | NOT Balise.Missed).Telegram.N_PIG</PreCondition></PreConditions>
 <Expression>OrientationEnum.Reverse</Expression>
 </Case><Case
  Name="Otherwise"
@@ -526,45 +499,6 @@ Packets.DuplicateBalise(
  Guid="d62cbab2-876b-43a9-b9ef-9ab243cac385"
 >
 <Expression>Kernel.TrainPosition.FrontEndPosition ( aPointOfInterest ) - BTM.ActiveAntennaPosition</Expression>
-</Case></Cases>
-</Function><Function
- Type="Boolean"
- Default=""
- X="500"
- Y="140"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- Name="IsSingleBaliseGroup"
- Guid="35c94014-3076-4d7f-9364-9793510f3456"
->
-<ReqRef
- Id="0b39fdf7-d36a-45dc-81ad-4fc52969968f"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="4c4e5e30-e804-410c-93f1-3f35c3684c3c"
->
-</ReqRef><ReqRef
- Id="d3960249-edd7-4e75-8c50-ba27a4b4af49"
- SpecId="1725280b-f696-4860-94cc-d85f62c35214"
- Guid="9cb72f70-6397-4ae2-bad7-c2db450f2398"
->
-</ReqRef><Comment>Returns true if the current balise group consists of only a single balise</Comment>
-<Parameters>
-<Parameter
- Type="BaliseGroupMessagesCol"
- Name="BaliseGroup"
- Guid="f45d0aae-d504-4d9b-a0f9-0a6d112387a1"
->
-</Parameter></Parameters>
-<Cases>
-<Case
- Name="Value"
- Guid="050bdffb-b0a0-4a7c-ad7c-995116a0edc3"
->
-<Expression>(COUNT X IN BaliseGroup) == 1
-  AND  
-(FIRST X IN BaliseGroup).Telegram.N_TOTAL == 0</Expression>
 </Case></Cases>
 </Function><Function
  Type="Boolean"
