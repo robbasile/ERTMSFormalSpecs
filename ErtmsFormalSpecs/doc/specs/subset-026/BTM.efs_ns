@@ -1768,72 +1768,6 @@ TODO: functionnalize this</Comment>
 </Variable></Variables>
 <Rules>
 <Rule
- Priority="CleanUp"
- X="40"
- Y="270"
- Width="100"
- Height="50"
- Pinned="TRUE"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Clean up received balise"
- Guid="027c7622-f051-4f14-b4db-c9cc9b6487ff"
->
-<Comment>After processing the new telegram its content is deleted.</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Clear just received balise telegram"
- Guid="e91bd168-b15b-4d39-9118-f43381b943f2"
->
-<PreConditions>
-<PreCondition
- Guid="4132dda5-2120-4cda-bde2-a390d3213f78"
->Available ( Message.SystemVersion1 )
-  OR  
-Available(Message.SystemVersion2)</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="55b1daa4-5af4-4eac-af28-8e10152fc2c2"
->Message.SystemVersion2 &lt;- EMPTY</Action><Action
- Guid="aa76230d-c79f-456c-95ac-adda5c0403e8"
->Message.SystemVersion1 &lt;- EMPTY</Action></Actions>
-<SubRules>
-<Rule
- Priority="CleanUp"
- X="0"
- Y="0"
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Clear current balises from current balise group"
- Guid="1bbbe851-ae1a-4e5c-9e11-431e590cf623"
->
-<Comment>When the current balises from the current balise group have been processed, clear its data</Comment>
-<SubRules></SubRules>
-<Conditions>
-<RuleCondition
- Implemented="TRUE"
- NeedsRequirement="FALSE"
- Name="Clear current balises from current balise group"
- Guid="9942d5a4-ca09-49f3-8cdd-781b0dc75e3e"
->
-<PreConditions>
-<PreCondition
- Guid="1815d0f4-a07e-4fde-b122-562327b7db22"
-><Comment>This precondition is necessary since in some cases, e.g. during unauthorised reverse movement, balise messages may be refused.</Comment>
-CurrentBaliseGroup != []
-  AND  
-( COUNT X IN BTM.CurrentBaliseGroup ) == MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_TOTAL + 1</PreCondition></PreConditions>
-<Actions>
-<Action
- Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
->BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
-</RuleCondition></Conditions>
-</Rule></SubRules>
-</RuleCondition></Conditions>
-</Rule><Rule
  Priority="Verification"
  X="40"
  Y="210"
@@ -1904,6 +1838,71 @@ CurrentBaliseGroup != []
 >UnreadableBaliseReceived &lt;- Boolean.False</Action><Action
  Guid="782d8ee4-0cee-4d4d-aef6-81e3ef46a8a2"
 >InconsistentBaliseGroupReceived &lt;- Boolean.False</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Clean up just received balise telegram"
+ Guid="ee4e37bd-e7d3-4802-b5b2-6b3e452bada7"
+>
+<Comment>Clear the just received balise telegram</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Clear just received balise telegram"
+ Guid="a8ee6f4c-df86-4dae-bbc4-c11eefa49fe5"
+>
+<PreConditions>
+<PreCondition
+ Guid="4132dda5-2120-4cda-bde2-a390d3213f78"
+>Available ( Message.SystemVersion1 )
+  OR  
+Available(Message.SystemVersion2)</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="aa76230d-c79f-456c-95ac-adda5c0403e8"
+>Message.SystemVersion1 &lt;- EMPTY</Action><Action
+ Guid="55b1daa4-5af4-4eac-af28-8e10152fc2c2"
+>Message.SystemVersion2 &lt;- EMPTY</Action></Actions>
+</RuleCondition></Conditions>
+</Rule><Rule
+ Priority="CleanUp"
+ X="0"
+ Y="0"
+ Width="100"
+ Height="50"
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Clear balises from complete current balise group"
+ Guid="1bbbe851-ae1a-4e5c-9e11-431e590cf623"
+>
+<Comment>When the balises from the current balise group have been processed, clear its data</Comment>
+<SubRules></SubRules>
+<Conditions>
+<RuleCondition
+ Implemented="TRUE"
+ NeedsRequirement="FALSE"
+ Name="Clear current balises from current balise group"
+ Guid="9942d5a4-ca09-49f3-8cdd-781b0dc75e3e"
+>
+<PreConditions>
+<PreCondition
+ Guid="1815d0f4-a07e-4fde-b122-562327b7db22"
+><Comment>This precondition is necessary since in some cases, e.g. during unauthorised reverse movement, balise messages may be refused.</Comment>
+CurrentBaliseGroup != []
+  AND  
+( COUNT X IN BTM.CurrentBaliseGroup ) == MissedBalises.LastReceivedBalise(CurrentBaliseGroup).N_TOTAL + 1</PreCondition></PreConditions>
+<Actions>
+<Action
+ Guid="74d5488e-85d4-48e9-8de8-43a12dd4b955"
+>BTM.CurrentBaliseGroup &lt;- []</Action></Actions>
 </RuleCondition></Conditions>
 </Rule></Rules>
 </NameSpace>
